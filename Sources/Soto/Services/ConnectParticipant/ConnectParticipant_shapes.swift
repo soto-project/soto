@@ -102,10 +102,6 @@ extension ConnectParticipant {
     }
 
     public struct CompleteAttachmentUploadRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionToken", location: .header("X-Amz-Bearer"))
-        ]
-
         /// A list of unique identifiers for the attachments.
         public let attachmentIds: [String]
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
@@ -117,6 +113,14 @@ extension ConnectParticipant {
             self.attachmentIds = attachmentIds
             self.clientToken = clientToken
             self.connectionToken = connectionToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.attachmentIds, forKey: .attachmentIds)
+            try container.encode(self.clientToken, forKey: .clientToken)
+            request.encodeHeader(self.connectionToken, key: "X-Amz-Bearer")
         }
 
         public func validate(name: String) throws {
@@ -160,10 +164,6 @@ extension ConnectParticipant {
     }
 
     public struct CreateParticipantConnectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "participantToken", location: .header("X-Amz-Bearer"))
-        ]
-
         /// Amazon Connect Participant is used to mark the participant as connected for customer participant in message streaming, as well as for agent or manager participant in non-streaming chats.
         public let connectParticipant: Bool?
         /// This is a header parameter. The ParticipantToken as obtained from StartChatContact API response.
@@ -175,6 +175,14 @@ extension ConnectParticipant {
             self.connectParticipant = connectParticipant
             self.participantToken = participantToken
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.connectParticipant, forKey: .connectParticipant)
+            request.encodeHeader(self.participantToken, key: "X-Amz-Bearer")
+            try container.encodeIfPresent(self.type, forKey: .type)
         }
 
         public func validate(name: String) throws {
@@ -207,10 +215,6 @@ extension ConnectParticipant {
     }
 
     public struct DisconnectParticipantRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionToken", location: .header("X-Amz-Bearer"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The authentication token associated with the participant's connection.
@@ -219,6 +223,13 @@ extension ConnectParticipant {
         public init(clientToken: String? = DisconnectParticipantRequest.idempotencyToken(), connectionToken: String) {
             self.clientToken = clientToken
             self.connectionToken = connectionToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodeHeader(self.connectionToken, key: "X-Amz-Bearer")
         }
 
         public func validate(name: String) throws {
@@ -237,10 +248,6 @@ extension ConnectParticipant {
     }
 
     public struct GetAttachmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionToken", location: .header("X-Amz-Bearer"))
-        ]
-
         /// A unique identifier for the attachment.
         public let attachmentId: String
         /// The authentication token associated with the participant's connection.
@@ -249,6 +256,13 @@ extension ConnectParticipant {
         public init(attachmentId: String, connectionToken: String) {
             self.attachmentId = attachmentId
             self.connectionToken = connectionToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.attachmentId, forKey: .attachmentId)
+            request.encodeHeader(self.connectionToken, key: "X-Amz-Bearer")
         }
 
         public func validate(name: String) throws {
@@ -282,10 +296,6 @@ extension ConnectParticipant {
     }
 
     public struct GetTranscriptRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionToken", location: .header("X-Amz-Bearer"))
-        ]
-
         /// The authentication token associated with the participant's connection.
         public let connectionToken: String
         /// The contactId from the current contact chain for which transcript is needed.
@@ -309,6 +319,18 @@ extension ConnectParticipant {
             self.scanDirection = scanDirection
             self.sortOrder = sortOrder
             self.startPosition = startPosition
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.connectionToken, key: "X-Amz-Bearer")
+            try container.encodeIfPresent(self.contactId, forKey: .contactId)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.scanDirection, forKey: .scanDirection)
+            try container.encodeIfPresent(self.sortOrder, forKey: .sortOrder)
+            try container.encodeIfPresent(self.startPosition, forKey: .startPosition)
         }
 
         public func validate(name: String) throws {
@@ -450,10 +472,6 @@ extension ConnectParticipant {
     }
 
     public struct SendEventRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionToken", location: .header("X-Amz-Bearer"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The authentication token associated with the participant's connection.
@@ -468,6 +486,15 @@ extension ConnectParticipant {
             self.connectionToken = connectionToken
             self.content = content
             self.contentType = contentType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodeHeader(self.connectionToken, key: "X-Amz-Bearer")
+            try container.encodeIfPresent(self.content, forKey: .content)
+            try container.encode(self.contentType, forKey: .contentType)
         }
 
         public func validate(name: String) throws {
@@ -505,10 +532,6 @@ extension ConnectParticipant {
     }
 
     public struct SendMessageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionToken", location: .header("X-Amz-Bearer"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The authentication token associated with the connection.
@@ -523,6 +546,15 @@ extension ConnectParticipant {
             self.connectionToken = connectionToken
             self.content = content
             self.contentType = contentType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodeHeader(self.connectionToken, key: "X-Amz-Bearer")
+            try container.encode(self.content, forKey: .content)
+            try container.encode(self.contentType, forKey: .contentType)
         }
 
         public func validate(name: String) throws {
@@ -560,10 +592,6 @@ extension ConnectParticipant {
     }
 
     public struct StartAttachmentUploadRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionToken", location: .header("X-Amz-Bearer"))
-        ]
-
         /// A case-sensitive name of the attachment being uploaded.
         public let attachmentName: String
         /// The size of the attachment in bytes.
@@ -581,6 +609,16 @@ extension ConnectParticipant {
             self.clientToken = clientToken
             self.connectionToken = connectionToken
             self.contentType = contentType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.attachmentName, forKey: .attachmentName)
+            try container.encode(self.attachmentSizeInBytes, forKey: .attachmentSizeInBytes)
+            try container.encode(self.clientToken, forKey: .clientToken)
+            request.encodeHeader(self.connectionToken, key: "X-Amz-Bearer")
+            try container.encode(self.contentType, forKey: .contentType)
         }
 
         public func validate(name: String) throws {

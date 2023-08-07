@@ -707,11 +707,6 @@ extension CodeStarNotifications {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("Arn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the notification rule from which to remove the tags.
         public let arn: String
         /// The key names of the tags to remove.
@@ -720,6 +715,13 @@ extension CodeStarNotifications {
         public init(arn: String, tagKeys: [String]) {
             self.arn = arn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {

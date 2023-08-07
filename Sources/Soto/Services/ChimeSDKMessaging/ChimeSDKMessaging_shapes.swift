@@ -160,11 +160,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct AssociateChannelFlowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
-        ]
-
         /// The ARN of the channel.
         public let channelArn: String
         /// The ARN of the channel flow.
@@ -176,6 +171,14 @@ extension ChimeSDKMessaging {
             self.channelArn = channelArn
             self.channelFlowArn = channelFlowArn
             self.chimeBearer = chimeBearer
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            try container.encode(self.channelFlowArn, forKey: .channelFlowArn)
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
         }
 
         public func validate(name: String) throws {
@@ -246,11 +249,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct BatchCreateChannelMembershipRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
-        ]
-
         /// The ARN of the channel to which you're adding users or bots.
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot  that makes the API call.
@@ -268,6 +266,16 @@ extension ChimeSDKMessaging {
             self.memberArns = memberArns
             self.subChannelId = subChannelId
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            try container.encode(self.memberArns, forKey: .memberArns)
+            try container.encodeIfPresent(self.subChannelId, forKey: .subChannelId)
+            try container.encodeIfPresent(self.type, forKey: .type)
         }
 
         public func validate(name: String) throws {
@@ -467,10 +475,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct ChannelFlowCallbackRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn"))
-        ]
-
         /// The identifier passed to the processor by the service when invoked. Use the identifier to call back the service.
         public let callbackId: String
         /// The ARN of the channel.
@@ -485,6 +489,15 @@ extension ChimeSDKMessaging {
             self.channelArn = channelArn
             self.channelMessage = channelMessage
             self.deleteResource = deleteResource
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.callbackId, forKey: .callbackId)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            try container.encode(self.channelMessage, forKey: .channelMessage)
+            try container.encodeIfPresent(self.deleteResource, forKey: .deleteResource)
         }
 
         public func validate(name: String) throws {
@@ -912,11 +925,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct CreateChannelBanRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
-        ]
-
         /// The ARN of the ban request.
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
@@ -928,6 +936,14 @@ extension ChimeSDKMessaging {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
             self.memberArn = memberArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            try container.encode(self.memberArn, forKey: .memberArn)
         }
 
         public func validate(name: String) throws {
@@ -1029,11 +1045,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct CreateChannelMembershipRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
-        ]
-
         /// The ARN of the channel to which you're adding users.
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot  that makes the API call.
@@ -1051,6 +1062,16 @@ extension ChimeSDKMessaging {
             self.memberArn = memberArn
             self.subChannelId = subChannelId
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            try container.encode(self.memberArn, forKey: .memberArn)
+            try container.encodeIfPresent(self.subChannelId, forKey: .subChannelId)
+            try container.encode(self.type, forKey: .type)
         }
 
         public func validate(name: String) throws {
@@ -1097,11 +1118,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct CreateChannelModeratorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
-        ]
-
         /// The ARN of the channel.
         public let channelArn: String
         /// The AppInstanceUserArn of the moderator.
@@ -1113,6 +1129,14 @@ extension ChimeSDKMessaging {
             self.channelArn = channelArn
             self.channelModeratorArn = channelModeratorArn
             self.chimeBearer = chimeBearer
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            try container.encode(self.channelModeratorArn, forKey: .channelModeratorArn)
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
         }
 
         public func validate(name: String) throws {
@@ -1150,10 +1174,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct CreateChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
-        ]
-
         /// The ARN of the channel request.
         public let appInstanceArn: String
         /// The ID of the channel in the request.
@@ -1195,6 +1215,24 @@ extension ChimeSDKMessaging {
             self.name = name
             self.privacy = privacy
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.appInstanceArn, forKey: .appInstanceArn)
+            try container.encodeIfPresent(self.channelId, forKey: .channelId)
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            try container.encode(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encodeIfPresent(self.elasticChannelConfiguration, forKey: .elasticChannelConfiguration)
+            try container.encodeIfPresent(self.expirationSettings, forKey: .expirationSettings)
+            try container.encodeIfPresent(self.memberArns, forKey: .memberArns)
+            try container.encodeIfPresent(self.metadata, forKey: .metadata)
+            try container.encodeIfPresent(self.mode, forKey: .mode)
+            try container.encodeIfPresent(self.moderatorArns, forKey: .moderatorArns)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.privacy, forKey: .privacy)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1268,12 +1306,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct DeleteChannelBanRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "memberArn", location: .uri("MemberArn"))
-        ]
-
         /// The ARN of the channel from which the AppInstanceUser was banned.
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot that makes the  API call.
@@ -1285,6 +1317,14 @@ extension ChimeSDKMessaging {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
             self.memberArn = memberArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            request.encodePath(self.memberArn, key: "MemberArn")
         }
 
         public func validate(name: String) throws {
@@ -1303,15 +1343,17 @@ extension ChimeSDKMessaging {
     }
 
     public struct DeleteChannelFlowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelFlowArn", location: .uri("ChannelFlowArn"))
-        ]
-
         /// The ARN of the channel flow.
         public let channelFlowArn: String
 
         public init(channelFlowArn: String) {
             self.channelFlowArn = channelFlowArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelFlowArn, key: "ChannelFlowArn")
         }
 
         public func validate(name: String) throws {
@@ -1324,13 +1366,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct DeleteChannelMembershipRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "memberArn", location: .uri("MemberArn")),
-            AWSMemberEncoding(label: "subChannelId", location: .querystring("sub-channel-id"))
-        ]
-
         /// The ARN of the channel from which you want to remove the user.
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot that makes the  API call.
@@ -1345,6 +1380,15 @@ extension ChimeSDKMessaging {
             self.chimeBearer = chimeBearer
             self.memberArn = memberArn
             self.subChannelId = subChannelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            request.encodePath(self.memberArn, key: "MemberArn")
+            request.encodeQuery(self.subChannelId, key: "sub-channel-id")
         }
 
         public func validate(name: String) throws {
@@ -1366,13 +1410,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct DeleteChannelMessageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "messageId", location: .uri("MessageId")),
-            AWSMemberEncoding(label: "subChannelId", location: .querystring("sub-channel-id"))
-        ]
-
         /// The ARN of the channel.
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot that makes the  API call.
@@ -1387,6 +1424,15 @@ extension ChimeSDKMessaging {
             self.chimeBearer = chimeBearer
             self.messageId = messageId
             self.subChannelId = subChannelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            request.encodePath(self.messageId, key: "MessageId")
+            request.encodeQuery(self.subChannelId, key: "sub-channel-id")
         }
 
         public func validate(name: String) throws {
@@ -1408,12 +1454,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct DeleteChannelModeratorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "channelModeratorArn", location: .uri("ChannelModeratorArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
-        ]
-
         /// The ARN of the channel.
         public let channelArn: String
         /// The AppInstanceUserArn of the moderator being deleted.
@@ -1425,6 +1465,14 @@ extension ChimeSDKMessaging {
             self.channelArn = channelArn
             self.channelModeratorArn = channelModeratorArn
             self.chimeBearer = chimeBearer
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodePath(self.channelModeratorArn, key: "ChannelModeratorArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
         }
 
         public func validate(name: String) throws {
@@ -1443,11 +1491,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct DeleteChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
-        ]
-
         /// The ARN of the channel being deleted.
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot  that makes the API call.
@@ -1456,6 +1499,13 @@ extension ChimeSDKMessaging {
         public init(channelArn: String, chimeBearer: String) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
         }
 
         public func validate(name: String) throws {
@@ -1471,15 +1521,17 @@ extension ChimeSDKMessaging {
     }
 
     public struct DeleteMessagingStreamingConfigurationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn"))
-        ]
-
         /// The ARN of the streaming configurations being deleted.
         public let appInstanceArn: String
 
         public init(appInstanceArn: String) {
             self.appInstanceArn = appInstanceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appInstanceArn, key: "AppInstanceArn")
         }
 
         public func validate(name: String) throws {
@@ -1492,12 +1544,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct DescribeChannelBanRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "memberArn", location: .uri("MemberArn"))
-        ]
-
         /// The ARN of the channel from which the user is banned.
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot that makes the  API call.
@@ -1509,6 +1555,14 @@ extension ChimeSDKMessaging {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
             self.memberArn = memberArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            request.encodePath(self.memberArn, key: "MemberArn")
         }
 
         public func validate(name: String) throws {
@@ -1540,15 +1594,17 @@ extension ChimeSDKMessaging {
     }
 
     public struct DescribeChannelFlowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelFlowArn", location: .uri("ChannelFlowArn"))
-        ]
-
         /// The ARN of the channel flow.
         public let channelFlowArn: String
 
         public init(channelFlowArn: String) {
             self.channelFlowArn = channelFlowArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelFlowArn, key: "ChannelFlowArn")
         }
 
         public func validate(name: String) throws {
@@ -1574,12 +1630,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct DescribeChannelMembershipForAppInstanceUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceUserArn", location: .querystring("app-instance-user-arn")),
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
-        ]
-
         /// The ARN of the user or bot in a channel.
         public let appInstanceUserArn: String
         /// The ARN of the channel to which the user belongs.
@@ -1591,6 +1641,14 @@ extension ChimeSDKMessaging {
             self.appInstanceUserArn = appInstanceUserArn
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.appInstanceUserArn, key: "app-instance-user-arn")
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
         }
 
         public func validate(name: String) throws {
@@ -1622,13 +1680,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct DescribeChannelMembershipRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "memberArn", location: .uri("MemberArn")),
-            AWSMemberEncoding(label: "subChannelId", location: .querystring("sub-channel-id"))
-        ]
-
         /// The ARN of the channel.
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot that makes the  API call.
@@ -1643,6 +1694,15 @@ extension ChimeSDKMessaging {
             self.chimeBearer = chimeBearer
             self.memberArn = memberArn
             self.subChannelId = subChannelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            request.encodePath(self.memberArn, key: "MemberArn")
+            request.encodeQuery(self.subChannelId, key: "sub-channel-id")
         }
 
         public func validate(name: String) throws {
@@ -1677,12 +1737,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct DescribeChannelModeratedByAppInstanceUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceUserArn", location: .querystring("app-instance-user-arn")),
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
-        ]
-
         /// The ARN of the user or bot in the moderated channel.
         public let appInstanceUserArn: String
         /// The ARN of the moderated channel.
@@ -1694,6 +1748,14 @@ extension ChimeSDKMessaging {
             self.appInstanceUserArn = appInstanceUserArn
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.appInstanceUserArn, key: "app-instance-user-arn")
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
         }
 
         public func validate(name: String) throws {
@@ -1725,12 +1787,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct DescribeChannelModeratorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "channelModeratorArn", location: .uri("ChannelModeratorArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
-        ]
-
         /// The ARN of the channel.
         public let channelArn: String
         /// The AppInstanceUserArn of the channel moderator.
@@ -1742,6 +1798,14 @@ extension ChimeSDKMessaging {
             self.channelArn = channelArn
             self.channelModeratorArn = channelModeratorArn
             self.chimeBearer = chimeBearer
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodePath(self.channelModeratorArn, key: "ChannelModeratorArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
         }
 
         public func validate(name: String) throws {
@@ -1773,11 +1837,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct DescribeChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
-        ]
-
         /// The ARN of the channel.
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot that makes the  API call.
@@ -1786,6 +1845,13 @@ extension ChimeSDKMessaging {
         public init(channelArn: String, chimeBearer: String) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
         }
 
         public func validate(name: String) throws {
@@ -1814,12 +1880,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct DisassociateChannelFlowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "channelFlowArn", location: .uri("ChannelFlowArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
-        ]
-
         /// The ARN of the channel.
         public let channelArn: String
         /// The ARN of the channel flow.
@@ -1831,6 +1891,14 @@ extension ChimeSDKMessaging {
             self.channelArn = channelArn
             self.channelFlowArn = channelFlowArn
             self.chimeBearer = chimeBearer
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodePath(self.channelFlowArn, key: "ChannelFlowArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
         }
 
         public func validate(name: String) throws {
@@ -1899,12 +1967,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct GetChannelMembershipPreferencesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "memberArn", location: .uri("MemberArn"))
-        ]
-
         /// The ARN of the channel.
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
@@ -1916,6 +1978,14 @@ extension ChimeSDKMessaging {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
             self.memberArn = memberArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            request.encodePath(self.memberArn, key: "MemberArn")
         }
 
         public func validate(name: String) throws {
@@ -1955,13 +2025,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct GetChannelMessageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "messageId", location: .uri("MessageId")),
-            AWSMemberEncoding(label: "subChannelId", location: .querystring("sub-channel-id"))
-        ]
-
         /// The ARN of the channel.
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot  that makes the API call.
@@ -1976,6 +2039,15 @@ extension ChimeSDKMessaging {
             self.chimeBearer = chimeBearer
             self.messageId = messageId
             self.subChannelId = subChannelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            request.encodePath(self.messageId, key: "MessageId")
+            request.encodeQuery(self.subChannelId, key: "sub-channel-id")
         }
 
         public func validate(name: String) throws {
@@ -2010,13 +2082,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct GetChannelMessageStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "messageId", location: .uri("MessageId")),
-            AWSMemberEncoding(label: "subChannelId", location: .querystring("sub-channel-id"))
-        ]
-
         /// The ARN of the channel
         public let channelArn: String
         /// The AppInstanceUserArn of the user making the API call.
@@ -2031,6 +2096,15 @@ extension ChimeSDKMessaging {
             self.chimeBearer = chimeBearer
             self.messageId = messageId
             self.subChannelId = subChannelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            request.encodePath(self.messageId, key: "MessageId")
+            request.encodeQuery(self.subChannelId, key: "sub-channel-id")
         }
 
         public func validate(name: String) throws {
@@ -2082,15 +2156,17 @@ extension ChimeSDKMessaging {
     }
 
     public struct GetMessagingStreamingConfigurationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn"))
-        ]
-
         /// The ARN of the streaming configurations.
         public let appInstanceArn: String
 
         public init(appInstanceArn: String) {
             self.appInstanceArn = appInstanceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appInstanceArn, key: "AppInstanceArn")
         }
 
         public func validate(name: String) throws {
@@ -2156,13 +2232,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct ListChannelBansRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ARN of the channel.
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot  that makes the API call.
@@ -2177,6 +2246,15 @@ extension ChimeSDKMessaging {
             self.chimeBearer = chimeBearer
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -2217,12 +2295,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct ListChannelFlowsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceArn", location: .querystring("app-instance-arn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ARN of the app instance.
         public let appInstanceArn: String
         /// The maximum number of channel flows that you want to return.
@@ -2234,6 +2306,14 @@ extension ChimeSDKMessaging {
             self.appInstanceArn = appInstanceArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.appInstanceArn, key: "app-instance-arn")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -2267,13 +2347,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct ListChannelMembershipsForAppInstanceUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceUserArn", location: .querystring("app-instance-user-arn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ARN of the user or bot.
         public let appInstanceUserArn: String?
         /// The ARN of the AppInstanceUser or AppInstanceBot  that makes the API call.
@@ -2288,6 +2361,15 @@ extension ChimeSDKMessaging {
             self.chimeBearer = chimeBearer
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.appInstanceUserArn, key: "app-instance-user-arn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -2324,15 +2406,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct ListChannelMembershipsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "subChannelId", location: .querystring("sub-channel-id")),
-            AWSMemberEncoding(label: "type", location: .querystring("type"))
-        ]
-
         /// The maximum number of channel memberships that you want returned.
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot  that makes the API call.
@@ -2353,6 +2426,17 @@ extension ChimeSDKMessaging {
             self.nextToken = nextToken
             self.subChannelId = subChannelId
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.subChannelId, key: "sub-channel-id")
+            request.encodeQuery(self.type, key: "type")
         }
 
         public func validate(name: String) throws {
@@ -2396,17 +2480,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct ListChannelMessagesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "notAfter", location: .querystring("not-after")),
-            AWSMemberEncoding(label: "notBefore", location: .querystring("not-before")),
-            AWSMemberEncoding(label: "sortOrder", location: .querystring("sort-order")),
-            AWSMemberEncoding(label: "subChannelId", location: .querystring("sub-channel-id"))
-        ]
-
         /// The ARN of the channel.
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot  that makes the API call.
@@ -2433,6 +2506,19 @@ extension ChimeSDKMessaging {
             self.notBefore = notBefore
             self.sortOrder = sortOrder
             self.subChannelId = subChannelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.notAfter, key: "not-after")
+            request.encodeQuery(self.notBefore, key: "not-before")
+            request.encodeQuery(self.sortOrder, key: "sort-order")
+            request.encodeQuery(self.subChannelId, key: "sub-channel-id")
         }
 
         public func validate(name: String) throws {
@@ -2480,13 +2566,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct ListChannelModeratorsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ARN of the channel.
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot  that makes the API call.
@@ -2501,6 +2580,15 @@ extension ChimeSDKMessaging {
             self.chimeBearer = chimeBearer
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -2541,12 +2629,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct ListChannelsAssociatedWithChannelFlowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelFlowArn", location: .querystring("channel-flow-arn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ARN of the channel flow.
         public let channelFlowArn: String
         /// The maximum number of channels that you want to return.
@@ -2558,6 +2640,14 @@ extension ChimeSDKMessaging {
             self.channelFlowArn = channelFlowArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.channelFlowArn, key: "channel-flow-arn")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -2591,13 +2681,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct ListChannelsModeratedByAppInstanceUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceUserArn", location: .querystring("app-instance-user-arn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ARN of the user or bot in the moderated channel.
         public let appInstanceUserArn: String?
         /// The ARN of the AppInstanceUser or AppInstanceBot  that makes the API call.
@@ -2612,6 +2695,15 @@ extension ChimeSDKMessaging {
             self.chimeBearer = chimeBearer
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.appInstanceUserArn, key: "app-instance-user-arn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -2648,14 +2740,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct ListChannelsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceArn", location: .querystring("app-instance-arn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "privacy", location: .querystring("privacy"))
-        ]
-
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot  that makes the API call.
@@ -2673,6 +2757,16 @@ extension ChimeSDKMessaging {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.privacy = privacy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.appInstanceArn, key: "app-instance-arn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.privacy, key: "privacy")
         }
 
         public func validate(name: String) throws {
@@ -2709,13 +2803,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct ListSubChannelsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ARN of elastic channel.
         public let channelArn: String
         /// The AppInstanceUserArn of the user making the API call.
@@ -2730,6 +2817,15 @@ extension ChimeSDKMessaging {
             self.chimeBearer = chimeBearer
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -2770,15 +2866,17 @@ extension ChimeSDKMessaging {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceARN", location: .querystring("arn"))
-        ]
-
         /// The ARN of the resource.
         public let resourceARN: String
 
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceARN, key: "arn")
         }
 
         public func validate(name: String) throws {
@@ -2941,11 +3039,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct PutChannelExpirationSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
-        ]
-
         /// The ARN of the channel.
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
@@ -2957,6 +3050,14 @@ extension ChimeSDKMessaging {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
             self.expirationSettings = expirationSettings
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            try container.encodeIfPresent(self.expirationSettings, forKey: .expirationSettings)
         }
 
         public func validate(name: String) throws {
@@ -2992,12 +3093,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct PutChannelMembershipPreferencesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "memberArn", location: .uri("MemberArn"))
-        ]
-
         /// The ARN of the channel.
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
@@ -3012,6 +3107,15 @@ extension ChimeSDKMessaging {
             self.chimeBearer = chimeBearer
             self.memberArn = memberArn
             self.preferences = preferences
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            request.encodePath(self.memberArn, key: "MemberArn")
+            try container.encode(self.preferences, forKey: .preferences)
         }
 
         public func validate(name: String) throws {
@@ -3054,10 +3158,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct PutMessagingStreamingConfigurationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn"))
-        ]
-
         /// The ARN of the streaming configuration.
         public let appInstanceArn: String
         /// The streaming configurations.
@@ -3066,6 +3166,13 @@ extension ChimeSDKMessaging {
         public init(appInstanceArn: String, streamingConfigurations: [StreamingConfiguration]) {
             self.appInstanceArn = appInstanceArn
             self.streamingConfigurations = streamingConfigurations
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appInstanceArn, key: "AppInstanceArn")
+            try container.encode(self.streamingConfigurations, forKey: .streamingConfigurations)
         }
 
         public func validate(name: String) throws {
@@ -3098,12 +3205,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct RedactChannelMessageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "messageId", location: .uri("MessageId"))
-        ]
-
         /// The ARN of the channel containing the messages that you want to redact.
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot  that makes the API call.
@@ -3118,6 +3219,15 @@ extension ChimeSDKMessaging {
             self.chimeBearer = chimeBearer
             self.messageId = messageId
             self.subChannelId = subChannelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            request.encodePath(self.messageId, key: "MessageId")
+            try container.encodeIfPresent(self.subChannelId, forKey: .subChannelId)
         }
 
         public func validate(name: String) throws {
@@ -3162,12 +3272,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct SearchChannelsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The AppInstanceUserArn of the user making the API call.
         public let chimeBearer: String?
         /// A list of the Field objects in the channel being searched.
@@ -3182,6 +3286,15 @@ extension ChimeSDKMessaging {
             self.fields = fields
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            try container.encode(self.fields, forKey: .fields)
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -3253,11 +3366,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct SendChannelMessageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
-        ]
-
         /// The ARN of the channel.
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot  that makes the API call.
@@ -3293,6 +3401,22 @@ extension ChimeSDKMessaging {
             self.pushNotification = pushNotification
             self.subChannelId = subChannelId
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            try container.encode(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encode(self.content, forKey: .content)
+            try container.encodeIfPresent(self.contentType, forKey: .contentType)
+            try container.encodeIfPresent(self.messageAttributes, forKey: .messageAttributes)
+            try container.encodeIfPresent(self.metadata, forKey: .metadata)
+            try container.encode(self.persistence, forKey: .persistence)
+            try container.encodeIfPresent(self.pushNotification, forKey: .pushNotification)
+            try container.encodeIfPresent(self.subChannelId, forKey: .subChannelId)
+            try container.encode(self.type, forKey: .type)
         }
 
         public func validate(name: String) throws {
@@ -3483,10 +3607,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct UpdateChannelFlowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelFlowArn", location: .uri("ChannelFlowArn"))
-        ]
-
         /// The ARN of the channel flow.
         public let channelFlowArn: String
         /// The name of the channel flow.
@@ -3498,6 +3618,14 @@ extension ChimeSDKMessaging {
             self.channelFlowArn = channelFlowArn
             self.name = name
             self.processors = processors
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelFlowArn, key: "ChannelFlowArn")
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.processors, forKey: .processors)
         }
 
         public func validate(name: String) throws {
@@ -3534,12 +3662,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct UpdateChannelMessageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "messageId", location: .uri("MessageId"))
-        ]
-
         /// The ARN of the channel.
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot  that makes the API call.
@@ -3563,6 +3685,18 @@ extension ChimeSDKMessaging {
             self.messageId = messageId
             self.metadata = metadata
             self.subChannelId = subChannelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            try container.encode(self.content, forKey: .content)
+            try container.encodeIfPresent(self.contentType, forKey: .contentType)
+            request.encodePath(self.messageId, key: "MessageId")
+            try container.encodeIfPresent(self.metadata, forKey: .metadata)
+            try container.encodeIfPresent(self.subChannelId, forKey: .subChannelId)
         }
 
         public func validate(name: String) throws {
@@ -3620,11 +3754,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct UpdateChannelReadMarkerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
-        ]
-
         /// The ARN of the channel.
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot  that makes the API call.
@@ -3633,6 +3762,13 @@ extension ChimeSDKMessaging {
         public init(channelArn: String, chimeBearer: String) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
         }
 
         public func validate(name: String) throws {
@@ -3661,11 +3797,6 @@ extension ChimeSDKMessaging {
     }
 
     public struct UpdateChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
-        ]
-
         /// The ARN of the channel.
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot  that makes the API call.
@@ -3683,6 +3814,16 @@ extension ChimeSDKMessaging {
             self.metadata = metadata
             self.mode = mode
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodeHeader(self.chimeBearer, key: "x-amz-chime-bearer")
+            try container.encodeIfPresent(self.metadata, forKey: .metadata)
+            try container.encodeIfPresent(self.mode, forKey: .mode)
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {

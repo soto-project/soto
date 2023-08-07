@@ -1339,12 +1339,6 @@ extension AppMesh {
     }
 
     public struct CreateGatewayRouteInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "virtualGatewayName", location: .uri("virtualGatewayName"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
         /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
@@ -1369,6 +1363,18 @@ extension AppMesh {
             self.spec = spec
             self.tags = tags
             self.virtualGatewayName = virtualGatewayName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.gatewayRouteName, forKey: .gatewayRouteName)
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            try container.encode(self.spec, forKey: .spec)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            request.encodePath(self.virtualGatewayName, key: "virtualGatewayName")
         }
 
         public func validate(name: String) throws {
@@ -1404,8 +1410,8 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.gatewayRoute = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.gatewayRoute = try container.decode(GatewayRouteData.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1455,20 +1461,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.mesh = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.mesh = try container.decode(MeshData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateRouteInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "virtualRouterName", location: .uri("virtualRouterName"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
         /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
@@ -1493,6 +1493,18 @@ extension AppMesh {
             self.spec = spec
             self.tags = tags
             self.virtualRouterName = virtualRouterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            try container.encode(self.routeName, forKey: .routeName)
+            try container.encode(self.spec, forKey: .spec)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            request.encodePath(self.virtualRouterName, key: "virtualRouterName")
         }
 
         public func validate(name: String) throws {
@@ -1528,19 +1540,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.route = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.route = try container.decode(RouteData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateVirtualGatewayInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
         /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
@@ -1562,6 +1569,17 @@ extension AppMesh {
             self.spec = spec
             self.tags = tags
             self.virtualGatewayName = virtualGatewayName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            try container.encode(self.spec, forKey: .spec)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.virtualGatewayName, forKey: .virtualGatewayName)
         }
 
         public func validate(name: String) throws {
@@ -1595,19 +1613,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.virtualGateway = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.virtualGateway = try container.decode(VirtualGatewayData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateVirtualNodeInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
         /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
@@ -1629,6 +1642,17 @@ extension AppMesh {
             self.spec = spec
             self.tags = tags
             self.virtualNodeName = virtualNodeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            try container.encode(self.spec, forKey: .spec)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.virtualNodeName, forKey: .virtualNodeName)
         }
 
         public func validate(name: String) throws {
@@ -1662,19 +1686,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.virtualNode = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.virtualNode = try container.decode(VirtualNodeData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateVirtualRouterInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
         /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
@@ -1696,6 +1715,17 @@ extension AppMesh {
             self.spec = spec
             self.tags = tags
             self.virtualRouterName = virtualRouterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            try container.encode(self.spec, forKey: .spec)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.virtualRouterName, forKey: .virtualRouterName)
         }
 
         public func validate(name: String) throws {
@@ -1729,19 +1759,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.virtualRouter = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.virtualRouter = try container.decode(VirtualRouterData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateVirtualServiceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
         /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
@@ -1763,6 +1788,17 @@ extension AppMesh {
             self.spec = spec
             self.tags = tags
             self.virtualServiceName = virtualServiceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            try container.encode(self.spec, forKey: .spec)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.virtualServiceName, forKey: .virtualServiceName)
         }
 
         public func validate(name: String) throws {
@@ -1794,21 +1830,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.virtualService = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.virtualService = try container.decode(VirtualServiceData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteGatewayRouteInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gatewayRouteName", location: .uri("gatewayRouteName")),
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "virtualGatewayName", location: .uri("virtualGatewayName"))
-        ]
-
         /// The name of the gateway route to delete.
         public let gatewayRouteName: String
         /// The name of the service mesh to delete the gateway route from.
@@ -1823,6 +1852,15 @@ extension AppMesh {
             self.meshName = meshName
             self.meshOwner = meshOwner
             self.virtualGatewayName = virtualGatewayName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gatewayRouteName, key: "gatewayRouteName")
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            request.encodePath(self.virtualGatewayName, key: "virtualGatewayName")
         }
 
         public func validate(name: String) throws {
@@ -1848,23 +1886,25 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.gatewayRoute = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.gatewayRoute = try container.decode(GatewayRouteData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteMeshInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName"))
-        ]
-
         /// The name of the service mesh to delete.
         public let meshName: String
 
         public init(meshName: String) {
             self.meshName = meshName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.meshName, key: "meshName")
         }
 
         public func validate(name: String) throws {
@@ -1884,21 +1924,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.mesh = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.mesh = try container.decode(MeshData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteRouteInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "routeName", location: .uri("routeName")),
-            AWSMemberEncoding(label: "virtualRouterName", location: .uri("virtualRouterName"))
-        ]
-
         /// The name of the service mesh to delete the route in.
         public let meshName: String
         /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
@@ -1913,6 +1946,15 @@ extension AppMesh {
             self.meshOwner = meshOwner
             self.routeName = routeName
             self.virtualRouterName = virtualRouterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            request.encodePath(self.routeName, key: "routeName")
+            request.encodePath(self.virtualRouterName, key: "virtualRouterName")
         }
 
         public func validate(name: String) throws {
@@ -1938,20 +1980,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.route = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.route = try container.decode(RouteData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVirtualGatewayInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "virtualGatewayName", location: .uri("virtualGatewayName"))
-        ]
-
         /// The name of the service mesh to delete the virtual gateway from.
         public let meshName: String
         /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
@@ -1963,6 +1999,14 @@ extension AppMesh {
             self.meshName = meshName
             self.meshOwner = meshOwner
             self.virtualGatewayName = virtualGatewayName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            request.encodePath(self.virtualGatewayName, key: "virtualGatewayName")
         }
 
         public func validate(name: String) throws {
@@ -1986,20 +2030,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.virtualGateway = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.virtualGateway = try container.decode(VirtualGatewayData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVirtualNodeInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "virtualNodeName", location: .uri("virtualNodeName"))
-        ]
-
         /// The name of the service mesh to delete the virtual node in.
         public let meshName: String
         /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
@@ -2011,6 +2049,14 @@ extension AppMesh {
             self.meshName = meshName
             self.meshOwner = meshOwner
             self.virtualNodeName = virtualNodeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            request.encodePath(self.virtualNodeName, key: "virtualNodeName")
         }
 
         public func validate(name: String) throws {
@@ -2034,20 +2080,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.virtualNode = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.virtualNode = try container.decode(VirtualNodeData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVirtualRouterInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "virtualRouterName", location: .uri("virtualRouterName"))
-        ]
-
         /// The name of the service mesh to delete the virtual router in.
         public let meshName: String
         /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
@@ -2059,6 +2099,14 @@ extension AppMesh {
             self.meshName = meshName
             self.meshOwner = meshOwner
             self.virtualRouterName = virtualRouterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            request.encodePath(self.virtualRouterName, key: "virtualRouterName")
         }
 
         public func validate(name: String) throws {
@@ -2082,20 +2130,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.virtualRouter = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.virtualRouter = try container.decode(VirtualRouterData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVirtualServiceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "virtualServiceName", location: .uri("virtualServiceName"))
-        ]
-
         /// The name of the service mesh to delete the virtual service in.
         public let meshName: String
         /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
@@ -2107,6 +2149,14 @@ extension AppMesh {
             self.meshName = meshName
             self.meshOwner = meshOwner
             self.virtualServiceName = virtualServiceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            request.encodePath(self.virtualServiceName, key: "virtualServiceName")
         }
 
         public func validate(name: String) throws {
@@ -2128,21 +2178,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.virtualService = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.virtualService = try container.decode(VirtualServiceData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeGatewayRouteInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gatewayRouteName", location: .uri("gatewayRouteName")),
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "virtualGatewayName", location: .uri("virtualGatewayName"))
-        ]
-
         /// The name of the gateway route to describe.
         public let gatewayRouteName: String
         /// The name of the service mesh that the gateway route resides in.
@@ -2157,6 +2200,15 @@ extension AppMesh {
             self.meshName = meshName
             self.meshOwner = meshOwner
             self.virtualGatewayName = virtualGatewayName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gatewayRouteName, key: "gatewayRouteName")
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            request.encodePath(self.virtualGatewayName, key: "virtualGatewayName")
         }
 
         public func validate(name: String) throws {
@@ -2182,19 +2234,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.gatewayRoute = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.gatewayRoute = try container.decode(GatewayRouteData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeMeshInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner"))
-        ]
-
         /// The name of the service mesh to describe.
         public let meshName: String
         /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
@@ -2203,6 +2250,13 @@ extension AppMesh {
         public init(meshName: String, meshOwner: String? = nil) {
             self.meshName = meshName
             self.meshOwner = meshOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
         }
 
         public func validate(name: String) throws {
@@ -2224,21 +2278,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.mesh = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.mesh = try container.decode(MeshData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeRouteInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "routeName", location: .uri("routeName")),
-            AWSMemberEncoding(label: "virtualRouterName", location: .uri("virtualRouterName"))
-        ]
-
         /// The name of the service mesh that the route resides in.
         public let meshName: String
         /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
@@ -2253,6 +2300,15 @@ extension AppMesh {
             self.meshOwner = meshOwner
             self.routeName = routeName
             self.virtualRouterName = virtualRouterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            request.encodePath(self.routeName, key: "routeName")
+            request.encodePath(self.virtualRouterName, key: "virtualRouterName")
         }
 
         public func validate(name: String) throws {
@@ -2278,20 +2334,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.route = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.route = try container.decode(RouteData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeVirtualGatewayInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "virtualGatewayName", location: .uri("virtualGatewayName"))
-        ]
-
         /// The name of the service mesh that the gateway route resides in.
         public let meshName: String
         /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
@@ -2303,6 +2353,14 @@ extension AppMesh {
             self.meshName = meshName
             self.meshOwner = meshOwner
             self.virtualGatewayName = virtualGatewayName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            request.encodePath(self.virtualGatewayName, key: "virtualGatewayName")
         }
 
         public func validate(name: String) throws {
@@ -2326,20 +2384,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.virtualGateway = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.virtualGateway = try container.decode(VirtualGatewayData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeVirtualNodeInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "virtualNodeName", location: .uri("virtualNodeName"))
-        ]
-
         /// The name of the service mesh that the virtual node resides in.
         public let meshName: String
         /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
@@ -2351,6 +2403,14 @@ extension AppMesh {
             self.meshName = meshName
             self.meshOwner = meshOwner
             self.virtualNodeName = virtualNodeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            request.encodePath(self.virtualNodeName, key: "virtualNodeName")
         }
 
         public func validate(name: String) throws {
@@ -2374,20 +2434,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.virtualNode = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.virtualNode = try container.decode(VirtualNodeData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeVirtualRouterInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "virtualRouterName", location: .uri("virtualRouterName"))
-        ]
-
         /// The name of the service mesh that the virtual router resides in.
         public let meshName: String
         /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
@@ -2399,6 +2453,14 @@ extension AppMesh {
             self.meshName = meshName
             self.meshOwner = meshOwner
             self.virtualRouterName = virtualRouterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            request.encodePath(self.virtualRouterName, key: "virtualRouterName")
         }
 
         public func validate(name: String) throws {
@@ -2422,20 +2484,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.virtualRouter = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.virtualRouter = try container.decode(VirtualRouterData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeVirtualServiceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "virtualServiceName", location: .uri("virtualServiceName"))
-        ]
-
         /// The name of the service mesh that the virtual service resides in.
         public let meshName: String
         /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
@@ -2447,6 +2503,14 @@ extension AppMesh {
             self.meshName = meshName
             self.meshOwner = meshOwner
             self.virtualServiceName = virtualServiceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            request.encodePath(self.virtualServiceName, key: "virtualServiceName")
         }
 
         public func validate(name: String) throws {
@@ -2468,8 +2532,8 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.virtualService = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.virtualService = try container.decode(VirtualServiceData.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3550,14 +3614,6 @@ extension AppMesh {
     }
 
     public struct ListGatewayRoutesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "virtualGatewayName", location: .uri("virtualGatewayName"))
-        ]
-
         /// The maximum number of results returned by ListGatewayRoutes in paginated output. When you use this parameter, ListGatewayRoutes returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListGatewayRoutes request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListGatewayRoutes returns up to 100 results and a nextToken value if applicable.
         public let limit: Int?
         /// The name of the service mesh to list gateway routes in.
@@ -3575,6 +3631,16 @@ extension AppMesh {
             self.meshOwner = meshOwner
             self.nextToken = nextToken
             self.virtualGatewayName = virtualGatewayName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.virtualGatewayName, key: "virtualGatewayName")
         }
 
         public func validate(name: String) throws {
@@ -3609,11 +3675,6 @@ extension AppMesh {
     }
 
     public struct ListMeshesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results returned by ListMeshes in paginated output. When you use this parameter, ListMeshes returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListMeshes request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListMeshes returns up to 100 results and a nextToken value if applicable.
         public let limit: Int?
         /// The nextToken value returned from a previous paginated ListMeshes request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
@@ -3622,6 +3683,13 @@ extension AppMesh {
         public init(limit: Int? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3650,14 +3718,6 @@ extension AppMesh {
     }
 
     public struct ListRoutesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "virtualRouterName", location: .uri("virtualRouterName"))
-        ]
-
         /// The maximum number of results returned by ListRoutes in paginated output. When you use this parameter, ListRoutes returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListRoutes request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListRoutes returns up to 100 results and a nextToken value if applicable.
         public let limit: Int?
         /// The name of the service mesh to list routes in.
@@ -3675,6 +3735,16 @@ extension AppMesh {
             self.meshOwner = meshOwner
             self.nextToken = nextToken
             self.virtualRouterName = virtualRouterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.virtualRouterName, key: "virtualRouterName")
         }
 
         public func validate(name: String) throws {
@@ -3709,12 +3779,6 @@ extension AppMesh {
     }
 
     public struct ListTagsForResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The maximum number of tag results returned by ListTagsForResource in paginated output. When this parameter is used, ListTagsForResource returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListTagsForResource request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListTagsForResource returns up to 100 results and a nextToken value if applicable.
         public let limit: Int?
         /// The nextToken value returned from a previous paginated ListTagsForResource request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
@@ -3726,6 +3790,14 @@ extension AppMesh {
             self.limit = limit
             self.nextToken = nextToken
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -3754,13 +3826,6 @@ extension AppMesh {
     }
 
     public struct ListVirtualGatewaysInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results returned by ListVirtualGateways in paginated output. When you use this parameter, ListVirtualGateways returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListVirtualGateways request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListVirtualGateways returns up to 100 results and a nextToken value if applicable.
         public let limit: Int?
         /// The name of the service mesh to list virtual gateways in.
@@ -3775,6 +3840,15 @@ extension AppMesh {
             self.meshName = meshName
             self.meshOwner = meshOwner
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3807,13 +3881,6 @@ extension AppMesh {
     }
 
     public struct ListVirtualNodesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results returned by ListVirtualNodes in paginated output. When you use this parameter, ListVirtualNodes returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListVirtualNodes request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListVirtualNodes returns up to 100 results and a nextToken value if applicable.
         public let limit: Int?
         /// The name of the service mesh to list virtual nodes in.
@@ -3828,6 +3895,15 @@ extension AppMesh {
             self.meshName = meshName
             self.meshOwner = meshOwner
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3860,13 +3936,6 @@ extension AppMesh {
     }
 
     public struct ListVirtualRoutersInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results returned by ListVirtualRouters in paginated output. When you use this parameter, ListVirtualRouters returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListVirtualRouters request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListVirtualRouters returns up to 100 results and a nextToken value if applicable.
         public let limit: Int?
         /// The name of the service mesh to list virtual routers in.
@@ -3881,6 +3950,15 @@ extension AppMesh {
             self.meshName = meshName
             self.meshOwner = meshOwner
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3913,13 +3991,6 @@ extension AppMesh {
     }
 
     public struct ListVirtualServicesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results returned by ListVirtualServices in paginated output. When you use this parameter, ListVirtualServices returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListVirtualServices request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListVirtualServices returns up to 100 results and a nextToken value if applicable.
         public let limit: Int?
         /// The name of the service mesh to list virtual services in.
@@ -3934,6 +4005,15 @@ extension AppMesh {
             self.meshName = meshName
             self.meshOwner = meshOwner
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4538,10 +4618,6 @@ extension AppMesh {
     }
 
     public struct TagResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource to add tags to.
         public let resourceArn: String
         /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
@@ -4550,6 +4626,13 @@ extension AppMesh {
         public init(resourceArn: String, tags: [TagRef]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -4723,10 +4806,6 @@ extension AppMesh {
     }
 
     public struct UntagResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource to delete tags from.
         public let resourceArn: String
         /// The keys of the tags to be removed.
@@ -4735,6 +4814,13 @@ extension AppMesh {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tagKeys, forKey: .tagKeys)
         }
 
         public func validate(name: String) throws {
@@ -4755,13 +4841,6 @@ extension AppMesh {
     }
 
     public struct UpdateGatewayRouteInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gatewayRouteName", location: .uri("gatewayRouteName")),
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "virtualGatewayName", location: .uri("virtualGatewayName"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
         /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
@@ -4783,6 +4862,17 @@ extension AppMesh {
             self.meshOwner = meshOwner
             self.spec = spec
             self.virtualGatewayName = virtualGatewayName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.gatewayRouteName, key: "gatewayRouteName")
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            try container.encode(self.spec, forKey: .spec)
+            request.encodePath(self.virtualGatewayName, key: "virtualGatewayName")
         }
 
         public func validate(name: String) throws {
@@ -4812,18 +4902,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.gatewayRoute = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.gatewayRoute = try container.decode(GatewayRouteData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateMeshInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
         /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
@@ -4836,6 +4922,14 @@ extension AppMesh {
             self.clientToken = clientToken
             self.meshName = meshName
             self.spec = spec
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.meshName, key: "meshName")
+            try container.encodeIfPresent(self.spec, forKey: .spec)
         }
 
         public func validate(name: String) throws {
@@ -4857,21 +4951,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.mesh = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.mesh = try container.decode(MeshData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateRouteInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "routeName", location: .uri("routeName")),
-            AWSMemberEncoding(label: "virtualRouterName", location: .uri("virtualRouterName"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
         /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
@@ -4893,6 +4980,17 @@ extension AppMesh {
             self.routeName = routeName
             self.spec = spec
             self.virtualRouterName = virtualRouterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            request.encodePath(self.routeName, key: "routeName")
+            try container.encode(self.spec, forKey: .spec)
+            request.encodePath(self.virtualRouterName, key: "virtualRouterName")
         }
 
         public func validate(name: String) throws {
@@ -4922,20 +5020,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.route = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.route = try container.decode(RouteData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateVirtualGatewayInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "virtualGatewayName", location: .uri("virtualGatewayName"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
         /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
@@ -4954,6 +5046,16 @@ extension AppMesh {
             self.meshOwner = meshOwner
             self.spec = spec
             self.virtualGatewayName = virtualGatewayName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            try container.encode(self.spec, forKey: .spec)
+            request.encodePath(self.virtualGatewayName, key: "virtualGatewayName")
         }
 
         public func validate(name: String) throws {
@@ -4981,20 +5083,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.virtualGateway = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.virtualGateway = try container.decode(VirtualGatewayData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateVirtualNodeInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "virtualNodeName", location: .uri("virtualNodeName"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
         /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
@@ -5013,6 +5109,16 @@ extension AppMesh {
             self.meshOwner = meshOwner
             self.spec = spec
             self.virtualNodeName = virtualNodeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            try container.encode(self.spec, forKey: .spec)
+            request.encodePath(self.virtualNodeName, key: "virtualNodeName")
         }
 
         public func validate(name: String) throws {
@@ -5040,20 +5146,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.virtualNode = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.virtualNode = try container.decode(VirtualNodeData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateVirtualRouterInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "virtualRouterName", location: .uri("virtualRouterName"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
         /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
@@ -5072,6 +5172,16 @@ extension AppMesh {
             self.meshOwner = meshOwner
             self.spec = spec
             self.virtualRouterName = virtualRouterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            try container.encode(self.spec, forKey: .spec)
+            request.encodePath(self.virtualRouterName, key: "virtualRouterName")
         }
 
         public func validate(name: String) throws {
@@ -5099,20 +5209,14 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.virtualRouter = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.virtualRouter = try container.decode(VirtualRouterData.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateVirtualServiceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
-            AWSMemberEncoding(label: "virtualServiceName", location: .uri("virtualServiceName"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
         /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
@@ -5131,6 +5235,16 @@ extension AppMesh {
             self.meshOwner = meshOwner
             self.spec = spec
             self.virtualServiceName = virtualServiceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.meshName, key: "meshName")
+            request.encodeQuery(self.meshOwner, key: "meshOwner")
+            try container.encode(self.spec, forKey: .spec)
+            request.encodePath(self.virtualServiceName, key: "virtualServiceName")
         }
 
         public func validate(name: String) throws {
@@ -5156,8 +5270,8 @@ extension AppMesh {
         }
 
         public init(from decoder: Decoder) throws {
-            self.virtualService = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.virtualService = try container.decode(VirtualServiceData.self)
         }
 
         private enum CodingKeys: CodingKey {}

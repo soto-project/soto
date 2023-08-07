@@ -244,11 +244,6 @@ extension IoTAnalytics {
     }
 
     public struct CancelPipelineReprocessingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "pipelineName", location: .uri("pipelineName")),
-            AWSMemberEncoding(label: "reprocessingId", location: .uri("reprocessingId"))
-        ]
-
         /// The name of pipeline for which data reprocessing is canceled.
         public let pipelineName: String
         /// The ID of the reprocessing task (returned by StartPipelineReprocessing).
@@ -257,6 +252,13 @@ extension IoTAnalytics {
         public init(pipelineName: String, reprocessingId: String) {
             self.pipelineName = pipelineName
             self.reprocessingId = reprocessingId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.pipelineName, key: "pipelineName")
+            request.encodePath(self.reprocessingId, key: "reprocessingId")
         }
 
         public func validate(name: String) throws {
@@ -573,10 +575,6 @@ extension IoTAnalytics {
     }
 
     public struct CreateDatasetContentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri("datasetName"))
-        ]
-
         /// The name of the dataset.
         public let datasetName: String
         /// The version ID of the dataset content. To specify versionId for a dataset content, the dataset must use a DeltaTimer filter.
@@ -585,6 +583,13 @@ extension IoTAnalytics {
         public init(datasetName: String, versionId: String? = nil) {
             self.datasetName = datasetName
             self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.datasetName, key: "datasetName")
+            try container.encodeIfPresent(self.versionId, forKey: .versionId)
         }
 
         public func validate(name: String) throws {
@@ -1435,15 +1440,17 @@ extension IoTAnalytics {
     }
 
     public struct DeleteChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri("channelName"))
-        ]
-
         /// The name of the channel to delete.
         public let channelName: String
 
         public init(channelName: String) {
             self.channelName = channelName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelName, key: "channelName")
         }
 
         public func validate(name: String) throws {
@@ -1456,11 +1463,6 @@ extension IoTAnalytics {
     }
 
     public struct DeleteDatasetContentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri("datasetName")),
-            AWSMemberEncoding(label: "versionId", location: .querystring("versionId"))
-        ]
-
         /// The name of the dataset whose content is deleted.
         public let datasetName: String
         /// The version of the dataset whose content is deleted. You can also use the strings "$LATEST" or "$LATEST_SUCCEEDED" to delete the latest or latest successfully completed data set. If not specified, "$LATEST_SUCCEEDED" is the default.
@@ -1469,6 +1471,13 @@ extension IoTAnalytics {
         public init(datasetName: String, versionId: String? = nil) {
             self.datasetName = datasetName
             self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.datasetName, key: "datasetName")
+            request.encodeQuery(self.versionId, key: "versionId")
         }
 
         public func validate(name: String) throws {
@@ -1483,15 +1492,17 @@ extension IoTAnalytics {
     }
 
     public struct DeleteDatasetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri("datasetName"))
-        ]
-
         /// The name of the dataset to delete.
         public let datasetName: String
 
         public init(datasetName: String) {
             self.datasetName = datasetName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.datasetName, key: "datasetName")
         }
 
         public func validate(name: String) throws {
@@ -1504,15 +1515,17 @@ extension IoTAnalytics {
     }
 
     public struct DeleteDatastoreRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datastoreName", location: .uri("datastoreName"))
-        ]
-
         /// The name of the data store to delete.
         public let datastoreName: String
 
         public init(datastoreName: String) {
             self.datastoreName = datastoreName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.datastoreName, key: "datastoreName")
         }
 
         public func validate(name: String) throws {
@@ -1525,15 +1538,17 @@ extension IoTAnalytics {
     }
 
     public struct DeletePipelineRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "pipelineName", location: .uri("pipelineName"))
-        ]
-
         /// The name of the pipeline to delete.
         public let pipelineName: String
 
         public init(pipelineName: String) {
             self.pipelineName = pipelineName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.pipelineName, key: "pipelineName")
         }
 
         public func validate(name: String) throws {
@@ -1581,11 +1596,6 @@ extension IoTAnalytics {
     }
 
     public struct DescribeChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri("channelName")),
-            AWSMemberEncoding(label: "includeStatistics", location: .querystring("includeStatistics"))
-        ]
-
         /// The name of the channel whose information is retrieved.
         public let channelName: String
         /// If true, additional statistical information about the channel is included in the response. This feature can't be used with a channel whose S3 storage is customer-managed.
@@ -1594,6 +1604,13 @@ extension IoTAnalytics {
         public init(channelName: String, includeStatistics: Bool? = nil) {
             self.channelName = channelName
             self.includeStatistics = includeStatistics
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelName, key: "channelName")
+            request.encodeQuery(self.includeStatistics, key: "includeStatistics")
         }
 
         public func validate(name: String) throws {
@@ -1623,15 +1640,17 @@ extension IoTAnalytics {
     }
 
     public struct DescribeDatasetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri("datasetName"))
-        ]
-
         /// The name of the dataset whose information is retrieved.
         public let datasetName: String
 
         public init(datasetName: String) {
             self.datasetName = datasetName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.datasetName, key: "datasetName")
         }
 
         public func validate(name: String) throws {
@@ -1657,11 +1676,6 @@ extension IoTAnalytics {
     }
 
     public struct DescribeDatastoreRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datastoreName", location: .uri("datastoreName")),
-            AWSMemberEncoding(label: "includeStatistics", location: .querystring("includeStatistics"))
-        ]
-
         /// The name of the data store
         public let datastoreName: String
         /// If true, additional statistical information about the data store is included in the response. This feature can't be used with a data store whose S3 storage is customer-managed.
@@ -1670,6 +1684,13 @@ extension IoTAnalytics {
         public init(datastoreName: String, includeStatistics: Bool? = nil) {
             self.datastoreName = datastoreName
             self.includeStatistics = includeStatistics
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.datastoreName, key: "datastoreName")
+            request.encodeQuery(self.includeStatistics, key: "includeStatistics")
         }
 
         public func validate(name: String) throws {
@@ -1716,15 +1737,17 @@ extension IoTAnalytics {
     }
 
     public struct DescribePipelineRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "pipelineName", location: .uri("pipelineName"))
-        ]
-
         /// The name of the pipeline whose information is retrieved.
         public let pipelineName: String
 
         public init(pipelineName: String) {
             self.pipelineName = pipelineName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.pipelineName, key: "pipelineName")
         }
 
         public func validate(name: String) throws {
@@ -1902,11 +1925,6 @@ extension IoTAnalytics {
     }
 
     public struct GetDatasetContentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri("datasetName")),
-            AWSMemberEncoding(label: "versionId", location: .querystring("versionId"))
-        ]
-
         /// The name of the dataset whose contents are retrieved.
         public let datasetName: String
         /// The version of the dataset whose contents are retrieved. You can also use the strings "$LATEST" or "$LATEST_SUCCEEDED" to retrieve the contents of the latest or latest successfully completed dataset. If not specified, "$LATEST_SUCCEEDED" is the default.
@@ -1915,6 +1933,13 @@ extension IoTAnalytics {
         public init(datasetName: String, versionId: String? = nil) {
             self.datasetName = datasetName
             self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.datasetName, key: "datasetName")
+            request.encodeQuery(self.versionId, key: "versionId")
         }
 
         public func validate(name: String) throws {
@@ -2126,11 +2151,6 @@ extension IoTAnalytics {
     }
 
     public struct ListChannelsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return in this request. The default value is 100.
         public let maxResults: Int?
         /// The token for the next set of results.
@@ -2139,6 +2159,13 @@ extension IoTAnalytics {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2167,14 +2194,6 @@ extension IoTAnalytics {
     }
 
     public struct ListDatasetContentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri("datasetName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "scheduledBefore", location: .querystring("scheduledBefore")),
-            AWSMemberEncoding(label: "scheduledOnOrAfter", location: .querystring("scheduledOnOrAfter"))
-        ]
-
         /// The name of the dataset whose contents information you want to list.
         public let datasetName: String
         /// The maximum number of results to return in this request.
@@ -2192,6 +2211,16 @@ extension IoTAnalytics {
             self.nextToken = nextToken
             self.scheduledBefore = scheduledBefore
             self.scheduledOnOrAfter = scheduledOnOrAfter
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.datasetName, key: "datasetName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.scheduledBefore, key: "scheduledBefore")
+            request.encodeQuery(self.scheduledOnOrAfter, key: "scheduledOnOrAfter")
         }
 
         public func validate(name: String) throws {
@@ -2223,11 +2252,6 @@ extension IoTAnalytics {
     }
 
     public struct ListDatasetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return in this request. The default value is 100.
         public let maxResults: Int?
         /// The token for the next set of results.
@@ -2236,6 +2260,13 @@ extension IoTAnalytics {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2264,11 +2295,6 @@ extension IoTAnalytics {
     }
 
     public struct ListDatastoresRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return in this request. The default value is 100.
         public let maxResults: Int?
         /// The token for the next set of results.
@@ -2277,6 +2303,13 @@ extension IoTAnalytics {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2305,11 +2338,6 @@ extension IoTAnalytics {
     }
 
     public struct ListPipelinesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return in this request. The default value is 100.
         public let maxResults: Int?
         /// The token for the next set of results.
@@ -2318,6 +2346,13 @@ extension IoTAnalytics {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2346,15 +2381,17 @@ extension IoTAnalytics {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The ARN of the resource whose tags you want to list.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -2842,13 +2879,6 @@ extension IoTAnalytics {
     }
 
     public struct SampleChannelDataRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri("channelName")),
-            AWSMemberEncoding(label: "endTime", location: .querystring("endTime")),
-            AWSMemberEncoding(label: "maxMessages", location: .querystring("maxMessages")),
-            AWSMemberEncoding(label: "startTime", location: .querystring("startTime"))
-        ]
-
         /// The name of the channel whose message samples are retrieved.
         public let channelName: String
         /// The end of the time window from which sample messages are retrieved.
@@ -2863,6 +2893,15 @@ extension IoTAnalytics {
             self.endTime = endTime
             self.maxMessages = maxMessages
             self.startTime = startTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelName, key: "channelName")
+            request.encodeQuery(self.endTime, key: "endTime")
+            request.encodeQuery(self.maxMessages, key: "maxMessages")
+            request.encodeQuery(self.startTime, key: "startTime")
         }
 
         public func validate(name: String) throws {
@@ -2993,10 +3032,6 @@ extension IoTAnalytics {
     }
 
     public struct StartPipelineReprocessingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "pipelineName", location: .uri("pipelineName"))
-        ]
-
         /// Specifies one or more sets of channel messages that you want to reprocess. If you use the channelMessages object, you must not specify a value for startTime and endTime.
         public let channelMessages: ChannelMessages?
         /// The end time (exclusive) of raw message data that is reprocessed. If you specify a value for the endTime parameter, you must not use the channelMessages object.
@@ -3011,6 +3046,15 @@ extension IoTAnalytics {
             self.endTime = endTime
             self.pipelineName = pipelineName
             self.startTime = startTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.channelMessages, forKey: .channelMessages)
+            try container.encodeIfPresent(self.endTime, forKey: .endTime)
+            request.encodePath(self.pipelineName, key: "pipelineName")
+            try container.encodeIfPresent(self.startTime, forKey: .startTime)
         }
 
         public func validate(name: String) throws {
@@ -3065,10 +3109,6 @@ extension IoTAnalytics {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The ARN of the resource whose tags you want to modify.
         public let resourceArn: String
         /// The new or modified tags for the resource.
@@ -3077,6 +3117,13 @@ extension IoTAnalytics {
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -3144,11 +3191,6 @@ extension IoTAnalytics {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The ARN of the resource whose tags you want to remove.
         public let resourceArn: String
         /// The keys of those tags which you want to remove.
@@ -3157,6 +3199,13 @@ extension IoTAnalytics {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -3178,10 +3227,6 @@ extension IoTAnalytics {
     }
 
     public struct UpdateChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri("channelName"))
-        ]
-
         /// The name of the channel to be updated.
         public let channelName: String
         /// Where channel data is stored. You can choose one of serviceManagedS3 or customerManagedS3 storage. If not specified, the default is serviceManagedS3. You can't change this storage option after the channel is created.
@@ -3193,6 +3238,14 @@ extension IoTAnalytics {
             self.channelName = channelName
             self.channelStorage = channelStorage
             self.retentionPeriod = retentionPeriod
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelName, key: "channelName")
+            try container.encodeIfPresent(self.channelStorage, forKey: .channelStorage)
+            try container.encodeIfPresent(self.retentionPeriod, forKey: .retentionPeriod)
         }
 
         public func validate(name: String) throws {
@@ -3210,10 +3263,6 @@ extension IoTAnalytics {
     }
 
     public struct UpdateDatasetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri("datasetName"))
-        ]
-
         /// A list of DatasetAction objects.
         public let actions: [DatasetAction]
         /// When dataset contents are created, they are delivered to destinations specified here.
@@ -3237,6 +3286,18 @@ extension IoTAnalytics {
             self.retentionPeriod = retentionPeriod
             self.triggers = triggers
             self.versioningConfiguration = versioningConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.actions, forKey: .actions)
+            try container.encodeIfPresent(self.contentDeliveryRules, forKey: .contentDeliveryRules)
+            request.encodePath(self.datasetName, key: "datasetName")
+            try container.encodeIfPresent(self.lateDataRules, forKey: .lateDataRules)
+            try container.encodeIfPresent(self.retentionPeriod, forKey: .retentionPeriod)
+            try container.encodeIfPresent(self.triggers, forKey: .triggers)
+            try container.encodeIfPresent(self.versioningConfiguration, forKey: .versioningConfiguration)
         }
 
         public func validate(name: String) throws {
@@ -3276,10 +3337,6 @@ extension IoTAnalytics {
     }
 
     public struct UpdateDatastoreRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datastoreName", location: .uri("datastoreName"))
-        ]
-
         /// The name of the data store to be updated.
         public let datastoreName: String
         /// Where data in a data store is stored.. You can choose serviceManagedS3 storage, customerManagedS3 storage, or iotSiteWiseMultiLayerStorage storage. The default is serviceManagedS3. You can't change the choice of Amazon S3 storage after your data store is created.
@@ -3294,6 +3351,15 @@ extension IoTAnalytics {
             self.datastoreStorage = datastoreStorage
             self.fileFormatConfiguration = fileFormatConfiguration
             self.retentionPeriod = retentionPeriod
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.datastoreName, key: "datastoreName")
+            try container.encodeIfPresent(self.datastoreStorage, forKey: .datastoreStorage)
+            try container.encodeIfPresent(self.fileFormatConfiguration, forKey: .fileFormatConfiguration)
+            try container.encodeIfPresent(self.retentionPeriod, forKey: .retentionPeriod)
         }
 
         public func validate(name: String) throws {
@@ -3313,10 +3379,6 @@ extension IoTAnalytics {
     }
 
     public struct UpdatePipelineRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "pipelineName", location: .uri("pipelineName"))
-        ]
-
         /// A list of PipelineActivity objects. Activities perform transformations on your messages, such as removing, renaming or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data. The list can be 2-25 PipelineActivity objects and must contain both a channel and a datastore activity. Each entry in the list must contain only one activity. For example:  pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... } }, ... ]
         public let pipelineActivities: [PipelineActivity]
         /// The name of the pipeline to update.
@@ -3325,6 +3387,13 @@ extension IoTAnalytics {
         public init(pipelineActivities: [PipelineActivity], pipelineName: String) {
             self.pipelineActivities = pipelineActivities
             self.pipelineName = pipelineName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.pipelineActivities, forKey: .pipelineActivities)
+            request.encodePath(self.pipelineName, key: "pipelineName")
         }
 
         public func validate(name: String) throws {

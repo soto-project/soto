@@ -122,13 +122,6 @@ extension CodeArtifact {
     }
 
     public struct AssociateExternalConnectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "externalConnection", location: .querystring("external-connection")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
-        ]
-
         /// The name of the domain that contains the repository.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -143,6 +136,15 @@ extension CodeArtifact {
             self.domainOwner = domainOwner
             self.externalConnection = externalConnection
             self.repository = repository
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.externalConnection, key: "external-connection")
+            request.encodeQuery(self.repository, key: "repository")
         }
 
         public func validate(name: String) throws {
@@ -177,16 +179,6 @@ extension CodeArtifact {
     }
 
     public struct CopyPackageVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "destinationRepository", location: .querystring("destination-repository")),
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring("format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring("package")),
-            AWSMemberEncoding(label: "sourceRepository", location: .querystring("source-repository"))
-        ]
-
         ///  Set to true to overwrite a package version that already exists in the destination repository. If set to false and the package version already exists in the destination repository, the package version is returned in the failedVersions field of the response with  an ALREADY_EXISTS error code.
         public let allowOverwrite: Bool?
         ///  The name of the repository into which package versions are copied.
@@ -222,6 +214,22 @@ extension CodeArtifact {
             self.sourceRepository = sourceRepository
             self.versionRevisions = versionRevisions
             self.versions = versions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.allowOverwrite, forKey: .allowOverwrite)
+            request.encodeQuery(self.destinationRepository, key: "destination-repository")
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.format, key: "format")
+            try container.encodeIfPresent(self.includeFromUpstream, forKey: .includeFromUpstream)
+            request.encodeQuery(self.namespace, key: "namespace")
+            request.encodeQuery(self.package, key: "package")
+            request.encodeQuery(self.sourceRepository, key: "source-repository")
+            try container.encodeIfPresent(self.versionRevisions, forKey: .versionRevisions)
+            try container.encodeIfPresent(self.versions, forKey: .versions)
         }
 
         public func validate(name: String) throws {
@@ -285,10 +293,6 @@ extension CodeArtifact {
     }
 
     public struct CreateDomainRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain"))
-        ]
-
         ///  The name of the domain to create. All domain names in an Amazon Web Services Region that are in the same Amazon Web Services account must be unique. The domain name is used as the prefix in DNS hostnames. Do not use sensitive information in a domain name because it is publicly discoverable.
         public let domain: String
         ///  The encryption key for the domain. This is used to encrypt content stored in a domain. An encryption key can be a key ID, a key Amazon Resource Name (ARN), a key alias, or a key alias ARN. To specify an encryptionKey, your IAM role must have kms:DescribeKey and kms:CreateGrant permissions on the encryption key that is used. For more information, see DescribeKey in the Key Management Service API Reference and Key Management Service API Permissions Reference in the Key Management Service Developer Guide.   CodeArtifact supports only symmetric CMKs. Do not associate an asymmetric CMK with your domain. For more information, see Using symmetric and asymmetric keys in the Key Management Service Developer Guide.
@@ -300,6 +304,14 @@ extension CodeArtifact {
             self.domain = domain
             self.encryptionKey = encryptionKey
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            try container.encodeIfPresent(self.encryptionKey, forKey: .encryptionKey)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -335,12 +347,6 @@ extension CodeArtifact {
     }
 
     public struct CreateRepositoryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
-        ]
-
         ///  A description of the created repository.
         public let description: String?
         ///  The name of the domain that contains the created repository.
@@ -361,6 +367,17 @@ extension CodeArtifact {
             self.repository = repository
             self.tags = tags
             self.upstreams = upstreams
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.repository, key: "repository")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.upstreams, forKey: .upstreams)
         }
 
         public func validate(name: String) throws {
@@ -405,12 +422,6 @@ extension CodeArtifact {
     }
 
     public struct DeleteDomainPermissionsPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "policyRevision", location: .querystring("policy-revision"))
-        ]
-
         ///  The name of the domain associated with the resource policy to be deleted.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -422,6 +433,14 @@ extension CodeArtifact {
             self.domain = domain
             self.domainOwner = domainOwner
             self.policyRevision = policyRevision
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.policyRevision, key: "policy-revision")
         }
 
         public func validate(name: String) throws {
@@ -453,11 +472,6 @@ extension CodeArtifact {
     }
 
     public struct DeleteDomainRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner"))
-        ]
-
         ///  The name of the domain to delete.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -466,6 +480,13 @@ extension CodeArtifact {
         public init(domain: String, domainOwner: String? = nil) {
             self.domain = domain
             self.domainOwner = domainOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
         }
 
         public func validate(name: String) throws {
@@ -494,15 +515,6 @@ extension CodeArtifact {
     }
 
     public struct DeletePackageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring("format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring("package")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
-        ]
-
         /// The name of the domain that contains the package to delete.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -523,6 +535,17 @@ extension CodeArtifact {
             self.namespace = namespace
             self.package = package
             self.repository = repository
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.format, key: "format")
+            request.encodeQuery(self.namespace, key: "namespace")
+            request.encodeQuery(self.package, key: "package")
+            request.encodeQuery(self.repository, key: "repository")
         }
 
         public func validate(name: String) throws {
@@ -559,15 +582,6 @@ extension CodeArtifact {
     }
 
     public struct DeletePackageVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring("format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring("package")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
-        ]
-
         ///  The name of the domain that contains the package to delete.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -594,6 +608,19 @@ extension CodeArtifact {
             self.package = package
             self.repository = repository
             self.versions = versions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            try container.encodeIfPresent(self.expectedStatus, forKey: .expectedStatus)
+            request.encodeQuery(self.format, key: "format")
+            request.encodeQuery(self.namespace, key: "namespace")
+            request.encodeQuery(self.package, key: "package")
+            request.encodeQuery(self.repository, key: "repository")
+            try container.encode(self.versions, forKey: .versions)
         }
 
         public func validate(name: String) throws {
@@ -644,13 +671,6 @@ extension CodeArtifact {
     }
 
     public struct DeleteRepositoryPermissionsPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "policyRevision", location: .querystring("policy-revision")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
-        ]
-
         ///  The name of the domain that contains the repository associated with the resource policy to be deleted.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -665,6 +685,15 @@ extension CodeArtifact {
             self.domainOwner = domainOwner
             self.policyRevision = policyRevision
             self.repository = repository
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.policyRevision, key: "policy-revision")
+            request.encodeQuery(self.repository, key: "repository")
         }
 
         public func validate(name: String) throws {
@@ -699,12 +728,6 @@ extension CodeArtifact {
     }
 
     public struct DeleteRepositoryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
-        ]
-
         ///  The name of the domain that contains the repository to delete.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -716,6 +739,14 @@ extension CodeArtifact {
             self.domain = domain
             self.domainOwner = domainOwner
             self.repository = repository
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.repository, key: "repository")
         }
 
         public func validate(name: String) throws {
@@ -747,11 +778,6 @@ extension CodeArtifact {
     }
 
     public struct DescribeDomainRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner"))
-        ]
-
         ///  A string that specifies the name of the requested domain.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -760,6 +786,13 @@ extension CodeArtifact {
         public init(domain: String, domainOwner: String? = nil) {
             self.domain = domain
             self.domainOwner = domainOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
         }
 
         public func validate(name: String) throws {
@@ -787,15 +820,6 @@ extension CodeArtifact {
     }
 
     public struct DescribePackageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring("format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring("package")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
-        ]
-
         /// The name of the domain that contains the repository that contains the package.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -816,6 +840,17 @@ extension CodeArtifact {
             self.namespace = namespace
             self.package = package
             self.repository = repository
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.format, key: "format")
+            request.encodeQuery(self.namespace, key: "namespace")
+            request.encodeQuery(self.package, key: "package")
+            request.encodeQuery(self.repository, key: "repository")
         }
 
         public func validate(name: String) throws {
@@ -853,16 +888,6 @@ extension CodeArtifact {
     }
 
     public struct DescribePackageVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring("format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring("package")),
-            AWSMemberEncoding(label: "packageVersion", location: .querystring("version")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
-        ]
-
         ///  The name of the domain that contains the repository that contains the package version.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -886,6 +911,18 @@ extension CodeArtifact {
             self.package = package
             self.packageVersion = packageVersion
             self.repository = repository
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.format, key: "format")
+            request.encodeQuery(self.namespace, key: "namespace")
+            request.encodeQuery(self.package, key: "package")
+            request.encodeQuery(self.packageVersion, key: "version")
+            request.encodeQuery(self.repository, key: "repository")
         }
 
         public func validate(name: String) throws {
@@ -926,12 +963,6 @@ extension CodeArtifact {
     }
 
     public struct DescribeRepositoryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
-        ]
-
         ///  The name of the domain that contains the repository to describe.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -943,6 +974,14 @@ extension CodeArtifact {
             self.domain = domain
             self.domainOwner = domainOwner
             self.repository = repository
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.repository, key: "repository")
         }
 
         public func validate(name: String) throws {
@@ -974,13 +1013,6 @@ extension CodeArtifact {
     }
 
     public struct DisassociateExternalConnectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "externalConnection", location: .querystring("external-connection")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
-        ]
-
         /// The name of the domain that contains the repository from which to remove the external repository.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -995,6 +1027,15 @@ extension CodeArtifact {
             self.domainOwner = domainOwner
             self.externalConnection = externalConnection
             self.repository = repository
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.externalConnection, key: "external-connection")
+            request.encodeQuery(self.repository, key: "repository")
         }
 
         public func validate(name: String) throws {
@@ -1029,15 +1070,6 @@ extension CodeArtifact {
     }
 
     public struct DisposePackageVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring("format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring("package")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
-        ]
-
         ///  The name of the domain that contains the repository you want to dispose.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -1067,6 +1099,20 @@ extension CodeArtifact {
             self.repository = repository
             self.versionRevisions = versionRevisions
             self.versions = versions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            try container.encodeIfPresent(self.expectedStatus, forKey: .expectedStatus)
+            request.encodeQuery(self.format, key: "format")
+            request.encodeQuery(self.namespace, key: "namespace")
+            request.encodeQuery(self.package, key: "package")
+            request.encodeQuery(self.repository, key: "repository")
+            try container.encodeIfPresent(self.versionRevisions, forKey: .versionRevisions)
+            try container.encode(self.versions, forKey: .versions)
         }
 
         public func validate(name: String) throws {
@@ -1221,12 +1267,6 @@ extension CodeArtifact {
     }
 
     public struct GetAuthorizationTokenRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "durationSeconds", location: .querystring("duration"))
-        ]
-
         ///  The name of the domain that is in scope for the generated authorization token.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -1238,6 +1278,14 @@ extension CodeArtifact {
             self.domain = domain
             self.domainOwner = domainOwner
             self.durationSeconds = durationSeconds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.durationSeconds, key: "duration")
         }
 
         public func validate(name: String) throws {
@@ -1272,11 +1320,6 @@ extension CodeArtifact {
     }
 
     public struct GetDomainPermissionsPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner"))
-        ]
-
         ///  The name of the domain to which the resource policy is attached.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -1285,6 +1328,13 @@ extension CodeArtifact {
         public init(domain: String, domainOwner: String? = nil) {
             self.domain = domain
             self.domainOwner = domainOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
         }
 
         public func validate(name: String) throws {
@@ -1313,18 +1363,6 @@ extension CodeArtifact {
     }
 
     public struct GetPackageVersionAssetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "asset", location: .querystring("asset")),
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring("format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring("package")),
-            AWSMemberEncoding(label: "packageVersion", location: .querystring("version")),
-            AWSMemberEncoding(label: "packageVersionRevision", location: .querystring("revision")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
-        ]
-
         ///  The name of the requested asset.
         public let asset: String
         ///  The name of the domain that contains the repository that contains the package version with the requested asset.
@@ -1354,6 +1392,20 @@ extension CodeArtifact {
             self.packageVersion = packageVersion
             self.packageVersionRevision = packageVersionRevision
             self.repository = repository
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.asset, key: "asset")
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.format, key: "format")
+            request.encodeQuery(self.namespace, key: "namespace")
+            request.encodeQuery(self.package, key: "package")
+            request.encodeQuery(self.packageVersion, key: "version")
+            request.encodeQuery(self.packageVersionRevision, key: "revision")
+            request.encodeQuery(self.repository, key: "repository")
         }
 
         public func validate(name: String) throws {
@@ -1406,27 +1458,17 @@ extension CodeArtifact {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.asset = response.decodePayload()
-            self.assetName = try response.decodeIfPresent(String.self, forHeader: "X-AssetName")
-            self.packageVersion = try response.decodeIfPresent(String.self, forHeader: "X-PackageVersion")
-            self.packageVersionRevision = try response.decodeIfPresent(String.self, forHeader: "X-PackageVersionRevision")
-
+            let container = try decoder.singleValueContainer()
+            self.asset = try container.decode(AWSHTTPBody.self)
+            self.assetName = try response.decodeHeaderIfPresent(String.self, key: "X-AssetName")
+            self.packageVersion = try response.decodeHeaderIfPresent(String.self, key: "X-PackageVersion")
+            self.packageVersionRevision = try response.decodeHeaderIfPresent(String.self, key: "X-PackageVersionRevision")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPackageVersionReadmeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring("format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring("package")),
-            AWSMemberEncoding(label: "packageVersion", location: .querystring("version")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
-        ]
-
         ///  The name of the domain that contains the repository that contains the package version with the requested readme file.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -1450,6 +1492,18 @@ extension CodeArtifact {
             self.package = package
             self.packageVersion = packageVersion
             self.repository = repository
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.format, key: "format")
+            request.encodeQuery(self.namespace, key: "namespace")
+            request.encodeQuery(self.package, key: "package")
+            request.encodeQuery(self.packageVersion, key: "version")
+            request.encodeQuery(self.repository, key: "repository")
         }
 
         public func validate(name: String) throws {
@@ -1510,13 +1564,6 @@ extension CodeArtifact {
     }
 
     public struct GetRepositoryEndpointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring("format")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
-        ]
-
         ///  The name of the domain that contains the repository.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain that contains the repository. It does not include  dashes or spaces.
@@ -1531,6 +1578,15 @@ extension CodeArtifact {
             self.domainOwner = domainOwner
             self.format = format
             self.repository = repository
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.format, key: "format")
+            request.encodeQuery(self.repository, key: "repository")
         }
 
         public func validate(name: String) throws {
@@ -1562,12 +1618,6 @@ extension CodeArtifact {
     }
 
     public struct GetRepositoryPermissionsPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
-        ]
-
         ///  The name of the domain containing the repository whose associated resource policy is to be retrieved.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -1579,6 +1629,14 @@ extension CodeArtifact {
             self.domain = domain
             self.domainOwner = domainOwner
             self.repository = repository
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.repository, key: "repository")
         }
 
         public func validate(name: String) throws {
@@ -1669,18 +1727,6 @@ extension CodeArtifact {
     }
 
     public struct ListPackageVersionAssetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring("format")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "package", location: .querystring("package")),
-            AWSMemberEncoding(label: "packageVersion", location: .querystring("version")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
-        ]
-
         ///  The name of the domain that contains the repository associated with the package version assets.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -1710,6 +1756,20 @@ extension CodeArtifact {
             self.package = package
             self.packageVersion = packageVersion
             self.repository = repository
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.format, key: "format")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.namespace, key: "namespace")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.package, key: "package")
+            request.encodeQuery(self.packageVersion, key: "version")
+            request.encodeQuery(self.repository, key: "repository")
         }
 
         public func validate(name: String) throws {
@@ -1779,17 +1839,6 @@ extension CodeArtifact {
     }
 
     public struct ListPackageVersionDependenciesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring("format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "package", location: .querystring("package")),
-            AWSMemberEncoding(label: "packageVersion", location: .querystring("version")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
-        ]
-
         ///  The name of the domain that contains the repository that contains the requested package version dependencies.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -1816,6 +1865,19 @@ extension CodeArtifact {
             self.package = package
             self.packageVersion = packageVersion
             self.repository = repository
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.format, key: "format")
+            request.encodeQuery(self.namespace, key: "namespace")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.package, key: "package")
+            request.encodeQuery(self.packageVersion, key: "version")
+            request.encodeQuery(self.repository, key: "repository")
         }
 
         public func validate(name: String) throws {
@@ -1883,20 +1945,6 @@ extension CodeArtifact {
     }
 
     public struct ListPackageVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring("format")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "originType", location: .querystring("originType")),
-            AWSMemberEncoding(label: "package", location: .querystring("package")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository")),
-            AWSMemberEncoding(label: "sortBy", location: .querystring("sortBy")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         ///  The name of the domain that contains the repository that contains the requested package versions.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -1932,6 +1980,22 @@ extension CodeArtifact {
             self.repository = repository
             self.sortBy = sortBy
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.format, key: "format")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.namespace, key: "namespace")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.originType, key: "originType")
+            request.encodeQuery(self.package, key: "package")
+            request.encodeQuery(self.repository, key: "repository")
+            request.encodeQuery(self.sortBy, key: "sortBy")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -1994,19 +2058,6 @@ extension CodeArtifact {
     }
 
     public struct ListPackagesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring("format")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "packagePrefix", location: .querystring("package-prefix")),
-            AWSMemberEncoding(label: "publish", location: .querystring("publish")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository")),
-            AWSMemberEncoding(label: "upstream", location: .querystring("upstream"))
-        ]
-
         ///  The name of the domain that contains the repository that contains the requested packages.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -2039,6 +2090,21 @@ extension CodeArtifact {
             self.publish = publish
             self.repository = repository
             self.upstream = upstream
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.format, key: "format")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.namespace, key: "namespace")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.packagePrefix, key: "package-prefix")
+            request.encodeQuery(self.publish, key: "publish")
+            request.encodeQuery(self.repository, key: "repository")
+            request.encodeQuery(self.upstream, key: "upstream")
         }
 
         public func validate(name: String) throws {
@@ -2085,15 +2151,6 @@ extension CodeArtifact {
     }
 
     public struct ListRepositoriesInDomainRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "administratorAccount", location: .querystring("administrator-account")),
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "repositoryPrefix", location: .querystring("repository-prefix"))
-        ]
-
         ///  Filter the list of repositories to only include those that are managed by the Amazon Web Services account ID.
         public let administratorAccount: String?
         ///  The name of the domain that contains the returned list of repositories.
@@ -2114,6 +2171,17 @@ extension CodeArtifact {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.repositoryPrefix = repositoryPrefix
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.administratorAccount, key: "administrator-account")
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.repositoryPrefix, key: "repository-prefix")
         }
 
         public func validate(name: String) throws {
@@ -2157,12 +2225,6 @@ extension CodeArtifact {
     }
 
     public struct ListRepositoriesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "repositoryPrefix", location: .querystring("repository-prefix"))
-        ]
-
         ///  The maximum number of results to return per page.
         public let maxResults: Int?
         ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -2174,6 +2236,14 @@ extension CodeArtifact {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.repositoryPrefix = repositoryPrefix
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.repositoryPrefix, key: "repository-prefix")
         }
 
         public func validate(name: String) throws {
@@ -2208,15 +2278,17 @@ extension CodeArtifact {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource to get tags for.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -2466,23 +2538,8 @@ extension CodeArtifact {
         }
     }
 
-    public struct PublishPackageVersionRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "assetContent"
+    public struct PublishPackageVersionRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.allowStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetName", location: .querystring("asset")),
-            AWSMemberEncoding(label: "assetSHA256", location: .header("x-amz-content-sha256")),
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring("format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring("package")),
-            AWSMemberEncoding(label: "packageVersion", location: .querystring("version")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository")),
-            AWSMemberEncoding(label: "unfinished", location: .querystring("unfinished"))
-        ]
-
         /// The content of the asset to publish.
         public let assetContent: AWSHTTPBody
         /// The name of the asset to publish. Asset names can include Unicode letters and numbers, and the following special characters: ~ ! @ ^ & ( ) - ` _ + [ ] { } ; , . `
@@ -2518,6 +2575,22 @@ extension CodeArtifact {
             self.packageVersion = packageVersion
             self.repository = repository
             self.unfinished = unfinished
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.assetContent)
+            request.encodeQuery(self.assetName, key: "asset")
+            request.encodeHeader(self.assetSHA256, key: "x-amz-content-sha256")
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.format, key: "format")
+            request.encodeQuery(self.namespace, key: "namespace")
+            request.encodeQuery(self.package, key: "package")
+            request.encodeQuery(self.packageVersion, key: "version")
+            request.encodeQuery(self.repository, key: "repository")
+            request.encodeQuery(self.unfinished, key: "unfinished")
         }
 
         public func validate(name: String) throws {
@@ -2641,15 +2714,6 @@ extension CodeArtifact {
     }
 
     public struct PutPackageOriginConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring("format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring("package")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
-        ]
-
         /// The name of the domain that contains the repository that contains the package.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -2673,6 +2737,18 @@ extension CodeArtifact {
             self.package = package
             self.repository = repository
             self.restrictions = restrictions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.format, key: "format")
+            request.encodeQuery(self.namespace, key: "namespace")
+            request.encodeQuery(self.package, key: "package")
+            request.encodeQuery(self.repository, key: "repository")
+            try container.encode(self.restrictions, forKey: .restrictions)
         }
 
         public func validate(name: String) throws {
@@ -2712,12 +2788,6 @@ extension CodeArtifact {
     }
 
     public struct PutRepositoryPermissionsPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
-        ]
-
         ///  The name of the domain containing the repository to set the resource policy on.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -2735,6 +2805,16 @@ extension CodeArtifact {
             self.policyDocument = policyDocument
             self.policyRevision = policyRevision
             self.repository = repository
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            try container.encode(self.policyDocument, forKey: .policyDocument)
+            try container.encodeIfPresent(self.policyRevision, forKey: .policyRevision)
+            request.encodeQuery(self.repository, key: "repository")
         }
 
         public func validate(name: String) throws {
@@ -2941,10 +3021,6 @@ extension CodeArtifact {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource that you want to add or update tags for.
         public let resourceArn: String
         /// The tags you want to modify or add to the resource.
@@ -2953,6 +3029,13 @@ extension CodeArtifact {
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2975,10 +3058,6 @@ extension CodeArtifact {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource that you want to remove tags from.
         public let resourceArn: String
         /// The tag key for each tag that you want to remove from the resource.
@@ -2987,6 +3066,13 @@ extension CodeArtifact {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tagKeys, forKey: .tagKeys)
         }
 
         public func validate(name: String) throws {
@@ -3011,15 +3097,6 @@ extension CodeArtifact {
     }
 
     public struct UpdatePackageVersionsStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring("format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring("package")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
-        ]
-
         ///  The name of the domain that contains the repository that contains the package versions with a status to be updated.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
@@ -3052,6 +3129,21 @@ extension CodeArtifact {
             self.targetStatus = targetStatus
             self.versionRevisions = versionRevisions
             self.versions = versions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            try container.encodeIfPresent(self.expectedStatus, forKey: .expectedStatus)
+            request.encodeQuery(self.format, key: "format")
+            request.encodeQuery(self.namespace, key: "namespace")
+            request.encodeQuery(self.package, key: "package")
+            request.encodeQuery(self.repository, key: "repository")
+            try container.encode(self.targetStatus, forKey: .targetStatus)
+            try container.encodeIfPresent(self.versionRevisions, forKey: .versionRevisions)
+            try container.encode(self.versions, forKey: .versions)
         }
 
         public func validate(name: String) throws {
@@ -3112,12 +3204,6 @@ extension CodeArtifact {
     }
 
     public struct UpdateRepositoryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
-        ]
-
         ///  An updated repository description.
         public let description: String?
         ///  The name of the domain associated with the repository to update.
@@ -3135,6 +3221,16 @@ extension CodeArtifact {
             self.domainOwner = domainOwner
             self.repository = repository
             self.upstreams = upstreams
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.repository, key: "repository")
+            try container.encodeIfPresent(self.upstreams, forKey: .upstreams)
         }
 
         public func validate(name: String) throws {

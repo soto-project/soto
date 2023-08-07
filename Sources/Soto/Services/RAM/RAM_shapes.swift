@@ -437,11 +437,6 @@ extension RAM {
     }
 
     public struct DeletePermissionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "permissionArn", location: .querystring("permissionArn"))
-        ]
-
         /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
         public let clientToken: String?
         /// Specifies the Amazon Resource Name (ARN) of the customer managed permission that you want to delete.
@@ -450,6 +445,13 @@ extension RAM {
         public init(clientToken: String? = nil, permissionArn: String) {
             self.clientToken = clientToken
             self.permissionArn = permissionArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodeQuery(self.permissionArn, key: "permissionArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -477,12 +479,6 @@ extension RAM {
     }
 
     public struct DeletePermissionVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "permissionArn", location: .querystring("permissionArn")),
-            AWSMemberEncoding(label: "permissionVersion", location: .querystring("permissionVersion"))
-        ]
-
         /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
         public let clientToken: String?
         /// Specifies the Amazon Resource Name (ARN) of the permission with the version you want to delete.
@@ -494,6 +490,14 @@ extension RAM {
             self.clientToken = clientToken
             self.permissionArn = permissionArn
             self.permissionVersion = permissionVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodeQuery(self.permissionArn, key: "permissionArn")
+            request.encodeQuery(self.permissionVersion, key: "permissionVersion")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -521,11 +525,6 @@ extension RAM {
     }
 
     public struct DeleteResourceShareRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "resourceShareArn", location: .querystring("resourceShareArn"))
-        ]
-
         /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
         public let clientToken: String?
         /// Specifies the Amazon Resource Name (ARN) of the resource share to delete.
@@ -534,6 +533,13 @@ extension RAM {
         public init(clientToken: String? = nil, resourceShareArn: String) {
             self.clientToken = clientToken
             self.resourceShareArn = resourceShareArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodeQuery(self.resourceShareArn, key: "resourceShareArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1425,15 +1431,17 @@ extension RAM {
     }
 
     public struct PromoteResourceShareCreatedFromPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceShareArn", location: .querystring("resourceShareArn"))
-        ]
-
         /// Specifies the Amazon Resource Name (ARN) of the resource share to promote.
         public let resourceShareArn: String
 
         public init(resourceShareArn: String) {
             self.resourceShareArn = resourceShareArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceShareArn, key: "resourceShareArn")
         }
 
         private enum CodingKeys: CodingKey {}

@@ -168,10 +168,6 @@ extension Location {
     }
 
     public struct AssociateTrackerConsumerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
-        ]
-
         /// The Amazon Resource Name (ARN) for the geofence collection to be associated to tracker resource. Used when you need to specify a resource across all Amazon Web Services.   Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollectionConsumer
         public let consumerArn: String
         /// The name of the tracker resource to be associated with a geofence collection.
@@ -180,6 +176,13 @@ extension Location {
         public init(consumerArn: String, trackerName: String) {
             self.consumerArn = consumerArn
             self.trackerName = trackerName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.consumerArn, forKey: .consumerArn)
+            request.encodePath(self.trackerName, key: "TrackerName")
         }
 
         public func validate(name: String) throws {
@@ -216,10 +219,6 @@ extension Location {
     }
 
     public struct BatchDeleteDevicePositionHistoryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
-        ]
-
         /// Devices whose position history you want to delete.   For example, for two devices: “DeviceIds” : [DeviceId1,DeviceId2]
         public let deviceIds: [String]
         /// The name of the tracker resource to delete the device position history from.
@@ -228,6 +227,13 @@ extension Location {
         public init(deviceIds: [String], trackerName: String) {
             self.deviceIds = deviceIds
             self.trackerName = trackerName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.deviceIds, forKey: .deviceIds)
+            request.encodePath(self.trackerName, key: "TrackerName")
         }
 
         public func validate(name: String) throws {
@@ -277,10 +283,6 @@ extension Location {
     }
 
     public struct BatchDeleteGeofenceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "collectionName", location: .uri("CollectionName"))
-        ]
-
         /// The geofence collection storing the geofences to be deleted.
         public let collectionName: String
         /// The batch of geofences to be deleted.
@@ -289,6 +291,13 @@ extension Location {
         public init(collectionName: String, geofenceIds: [String]) {
             self.collectionName = collectionName
             self.geofenceIds = geofenceIds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collectionName, key: "CollectionName")
+            try container.encode(self.geofenceIds, forKey: .geofenceIds)
         }
 
         public func validate(name: String) throws {
@@ -343,10 +352,6 @@ extension Location {
     }
 
     public struct BatchEvaluateGeofencesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "collectionName", location: .uri("CollectionName"))
-        ]
-
         /// The geofence collection used in evaluating the position of devices against its geofences.
         public let collectionName: String
         /// Contains device details for each device to be evaluated against the given geofence collection.
@@ -355,6 +360,13 @@ extension Location {
         public init(collectionName: String, devicePositionUpdates: [DevicePositionUpdate]) {
             self.collectionName = collectionName
             self.devicePositionUpdates = devicePositionUpdates
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collectionName, key: "CollectionName")
+            try container.encode(self.devicePositionUpdates, forKey: .devicePositionUpdates)
         }
 
         public func validate(name: String) throws {
@@ -402,10 +414,6 @@ extension Location {
     }
 
     public struct BatchGetDevicePositionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
-        ]
-
         /// Devices whose position you want to retrieve.   For example, for two devices: device-ids=DeviceId1&amp;device-ids=DeviceId2
         public let deviceIds: [String]
         /// The tracker resource retrieving the device position.
@@ -414,6 +422,13 @@ extension Location {
         public init(deviceIds: [String], trackerName: String) {
             self.deviceIds = deviceIds
             self.trackerName = trackerName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.deviceIds, forKey: .deviceIds)
+            request.encodePath(self.trackerName, key: "TrackerName")
         }
 
         public func validate(name: String) throws {
@@ -484,10 +499,6 @@ extension Location {
     }
 
     public struct BatchPutGeofenceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "collectionName", location: .uri("CollectionName"))
-        ]
-
         /// The geofence collection storing the geofences.
         public let collectionName: String
         /// The batch of geofences to be stored in a geofence collection.
@@ -496,6 +507,13 @@ extension Location {
         public init(collectionName: String, entries: [BatchPutGeofenceRequestEntry]) {
             self.collectionName = collectionName
             self.entries = entries
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collectionName, key: "CollectionName")
+            try container.encode(self.entries, forKey: .entries)
         }
 
         public func validate(name: String) throws {
@@ -599,10 +617,6 @@ extension Location {
     }
 
     public struct BatchUpdateDevicePositionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
-        ]
-
         /// The name of the tracker resource to update.
         public let trackerName: String
         /// Contains the position update details for each device.
@@ -611,6 +625,13 @@ extension Location {
         public init(trackerName: String, updates: [DevicePositionUpdate]) {
             self.trackerName = trackerName
             self.updates = updates
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.trackerName, key: "TrackerName")
+            try container.encode(self.updates, forKey: .updates)
         }
 
         public func validate(name: String) throws {
@@ -658,10 +679,6 @@ extension Location {
     }
 
     public struct CalculateRouteMatrixRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "calculatorName", location: .uri("CalculatorName"))
-        ]
-
         /// The name of the route calculator resource that you want to use to calculate the route matrix.
         public let calculatorName: String
         /// Specifies route preferences when traveling by Car, such as avoiding routes that use ferries or tolls. Requirements: TravelMode must be specified as Car.
@@ -692,6 +709,20 @@ extension Location {
             self.distanceUnit = distanceUnit
             self.travelMode = travelMode
             self.truckModeOptions = truckModeOptions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.calculatorName, key: "CalculatorName")
+            try container.encodeIfPresent(self.carModeOptions, forKey: .carModeOptions)
+            try container.encodeIfPresent(self.departNow, forKey: .departNow)
+            try container.encode(self.departurePositions, forKey: .departurePositions)
+            try container.encodeIfPresent(self.departureTime, forKey: .departureTime)
+            try container.encode(self.destinationPositions, forKey: .destinationPositions)
+            try container.encodeIfPresent(self.distanceUnit, forKey: .distanceUnit)
+            try container.encodeIfPresent(self.travelMode, forKey: .travelMode)
+            try container.encodeIfPresent(self.truckModeOptions, forKey: .truckModeOptions)
         }
 
         public func validate(name: String) throws {
@@ -771,10 +802,6 @@ extension Location {
     }
 
     public struct CalculateRouteRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "calculatorName", location: .uri("CalculatorName"))
-        ]
-
         /// The name of the route calculator resource that you want to use to calculate the route.
         public let calculatorName: String
         /// Specifies route preferences when traveling by Car, such as avoiding routes that use ferries or tolls. Requirements: TravelMode must be specified as Car.
@@ -811,6 +838,22 @@ extension Location {
             self.travelMode = travelMode
             self.truckModeOptions = truckModeOptions
             self.waypointPositions = waypointPositions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.calculatorName, key: "CalculatorName")
+            try container.encodeIfPresent(self.carModeOptions, forKey: .carModeOptions)
+            try container.encodeIfPresent(self.departNow, forKey: .departNow)
+            try container.encode(self.departurePosition, forKey: .departurePosition)
+            try container.encodeIfPresent(self.departureTime, forKey: .departureTime)
+            try container.encode(self.destinationPosition, forKey: .destinationPosition)
+            try container.encodeIfPresent(self.distanceUnit, forKey: .distanceUnit)
+            try container.encodeIfPresent(self.includeLegGeometry, forKey: .includeLegGeometry)
+            try container.encodeIfPresent(self.travelMode, forKey: .travelMode)
+            try container.encodeIfPresent(self.truckModeOptions, forKey: .truckModeOptions)
+            try container.encodeIfPresent(self.waypointPositions, forKey: .waypointPositions)
         }
 
         public func validate(name: String) throws {
@@ -1425,15 +1468,17 @@ extension Location {
     }
 
     public struct DeleteGeofenceCollectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "collectionName", location: .uri("CollectionName"))
-        ]
-
         /// The name of the geofence collection to be deleted.
         public let collectionName: String
 
         public init(collectionName: String) {
             self.collectionName = collectionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collectionName, key: "CollectionName")
         }
 
         public func validate(name: String) throws {
@@ -1450,15 +1495,17 @@ extension Location {
     }
 
     public struct DeleteKeyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "keyName", location: .uri("KeyName"))
-        ]
-
         /// The name of the API key to delete.
         public let keyName: String
 
         public init(keyName: String) {
             self.keyName = keyName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.keyName, key: "KeyName")
         }
 
         public func validate(name: String) throws {
@@ -1475,15 +1522,17 @@ extension Location {
     }
 
     public struct DeleteMapRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "mapName", location: .uri("MapName"))
-        ]
-
         /// The name of the map resource to be deleted.
         public let mapName: String
 
         public init(mapName: String) {
             self.mapName = mapName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.mapName, key: "MapName")
         }
 
         public func validate(name: String) throws {
@@ -1500,15 +1549,17 @@ extension Location {
     }
 
     public struct DeletePlaceIndexRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "indexName", location: .uri("IndexName"))
-        ]
-
         /// The name of the place index resource to be deleted.
         public let indexName: String
 
         public init(indexName: String) {
             self.indexName = indexName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.indexName, key: "IndexName")
         }
 
         public func validate(name: String) throws {
@@ -1525,15 +1576,17 @@ extension Location {
     }
 
     public struct DeleteRouteCalculatorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "calculatorName", location: .uri("CalculatorName"))
-        ]
-
         /// The name of the route calculator resource to be deleted.
         public let calculatorName: String
 
         public init(calculatorName: String) {
             self.calculatorName = calculatorName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.calculatorName, key: "CalculatorName")
         }
 
         public func validate(name: String) throws {
@@ -1550,15 +1603,17 @@ extension Location {
     }
 
     public struct DeleteTrackerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
-        ]
-
         /// The name of the tracker resource to be deleted.
         public let trackerName: String
 
         public init(trackerName: String) {
             self.trackerName = trackerName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.trackerName, key: "TrackerName")
         }
 
         public func validate(name: String) throws {
@@ -1575,15 +1630,17 @@ extension Location {
     }
 
     public struct DescribeGeofenceCollectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "collectionName", location: .uri("CollectionName"))
-        ]
-
         /// The name of the geofence collection.
         public let collectionName: String
 
         public init(collectionName: String) {
             self.collectionName = collectionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collectionName, key: "CollectionName")
         }
 
         public func validate(name: String) throws {
@@ -1656,15 +1713,17 @@ extension Location {
     }
 
     public struct DescribeKeyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "keyName", location: .uri("KeyName"))
-        ]
-
         /// The name of the API key resource.
         public let keyName: String
 
         public init(keyName: String) {
             self.keyName = keyName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.keyName, key: "KeyName")
         }
 
         public func validate(name: String) throws {
@@ -1724,15 +1783,17 @@ extension Location {
     }
 
     public struct DescribeMapRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "mapName", location: .uri("MapName"))
-        ]
-
         /// The name of the map resource.
         public let mapName: String
 
         public init(mapName: String) {
             self.mapName = mapName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.mapName, key: "MapName")
         }
 
         public func validate(name: String) throws {
@@ -1805,15 +1866,17 @@ extension Location {
     }
 
     public struct DescribePlaceIndexRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "indexName", location: .uri("IndexName"))
-        ]
-
         /// The name of the place index resource.
         public let indexName: String
 
         public init(indexName: String) {
             self.indexName = indexName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.indexName, key: "IndexName")
         }
 
         public func validate(name: String) throws {
@@ -1886,15 +1949,17 @@ extension Location {
     }
 
     public struct DescribeRouteCalculatorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "calculatorName", location: .uri("CalculatorName"))
-        ]
-
         /// The name of the route calculator resource.
         public let calculatorName: String
 
         public init(calculatorName: String) {
             self.calculatorName = calculatorName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.calculatorName, key: "CalculatorName")
         }
 
         public func validate(name: String) throws {
@@ -1962,15 +2027,17 @@ extension Location {
     }
 
     public struct DescribeTrackerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
-        ]
-
         /// The name of the tracker resource.
         public let trackerName: String
 
         public init(trackerName: String) {
             self.trackerName = trackerName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.trackerName, key: "TrackerName")
         }
 
         public func validate(name: String) throws {
@@ -2122,11 +2189,6 @@ extension Location {
     }
 
     public struct DisassociateTrackerConsumerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "consumerArn", location: .uri("ConsumerArn")),
-            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
-        ]
-
         /// The Amazon Resource Name (ARN) for the geofence collection to be disassociated from the tracker resource. Used when you need to specify a resource across all Amazon Web Services.    Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollectionConsumer
         public let consumerArn: String
         /// The name of the tracker resource to be dissociated from the consumer.
@@ -2135,6 +2197,13 @@ extension Location {
         public init(consumerArn: String, trackerName: String) {
             self.consumerArn = consumerArn
             self.trackerName = trackerName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.consumerArn, key: "ConsumerArn")
+            request.encodePath(self.trackerName, key: "TrackerName")
         }
 
         public func validate(name: String) throws {
@@ -2178,11 +2247,6 @@ extension Location {
     }
 
     public struct GetDevicePositionHistoryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId")),
-            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
-        ]
-
         /// The device whose position history you want to retrieve.
         public let deviceId: String
         /// Specify the end time for the position history in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ. By default, the value will be the time that the request is made. Requirement:   The time specified for EndTimeExclusive must be after the time for StartTimeInclusive.
@@ -2205,6 +2269,17 @@ extension Location {
             self.nextToken = nextToken
             self.startTimeInclusive = startTimeInclusive
             self.trackerName = trackerName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deviceId, key: "DeviceId")
+            try container.encodeIfPresent(self.endTimeExclusive, forKey: .endTimeExclusive)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.startTimeInclusive, forKey: .startTimeInclusive)
+            request.encodePath(self.trackerName, key: "TrackerName")
         }
 
         public func validate(name: String) throws {
@@ -2244,11 +2319,6 @@ extension Location {
     }
 
     public struct GetDevicePositionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId")),
-            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
-        ]
-
         /// The device whose position you want to retrieve.
         public let deviceId: String
         /// The tracker resource receiving the position update.
@@ -2257,6 +2327,13 @@ extension Location {
         public init(deviceId: String, trackerName: String) {
             self.deviceId = deviceId
             self.trackerName = trackerName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deviceId, key: "DeviceId")
+            request.encodePath(self.trackerName, key: "TrackerName")
         }
 
         public func validate(name: String) throws {
@@ -2307,11 +2384,6 @@ extension Location {
     }
 
     public struct GetGeofenceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "collectionName", location: .uri("CollectionName")),
-            AWSMemberEncoding(label: "geofenceId", location: .uri("GeofenceId"))
-        ]
-
         /// The geofence collection storing the target geofence.
         public let collectionName: String
         /// The geofence you're retrieving details for.
@@ -2320,6 +2392,13 @@ extension Location {
         public init(collectionName: String, geofenceId: String) {
             self.collectionName = collectionName
             self.geofenceId = geofenceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collectionName, key: "CollectionName")
+            request.encodePath(self.geofenceId, key: "GeofenceId")
         }
 
         public func validate(name: String) throws {
@@ -2366,13 +2445,6 @@ extension Location {
     }
 
     public struct GetMapGlyphsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fontStack", location: .uri("FontStack")),
-            AWSMemberEncoding(label: "fontUnicodeRange", location: .uri("FontUnicodeRange")),
-            AWSMemberEncoding(label: "key", location: .querystring("key")),
-            AWSMemberEncoding(label: "mapName", location: .uri("MapName"))
-        ]
-
         /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid fonts stacks for Esri styles:    VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu Regular | Ubuntu Bold    VectorEsriLightGrayCanvas – Ubuntu Italic | Ubuntu Regular | Ubuntu Light | Ubuntu Bold    VectorEsriTopographic – Noto Sans Italic | Noto Sans Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic    VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold    VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold    Valid font stacks for HERE Technologies styles:   VectorHereContrast – Fira  GO Regular | Fira GO Bold    VectorHereExplore, VectorHereExploreTruck, HybridHereExploreSatellite –  Fira GO Italic | Fira GO Map |  Fira GO Map Bold | Noto Sans CJK JP Bold |  Noto Sans CJK JP Light |  Noto Sans CJK JP Regular    Valid font stacks for GrabMaps styles:   VectorGrabStandardLight, VectorGrabStandardDark –  Noto Sans Regular | Noto Sans Medium | Noto Sans Bold    Valid font stacks for Open Data styles:   VectorOpenDataStandardLight, VectorOpenDataStandardDark, VectorOpenDataVisualizationLight, VectorOpenDataVisualizationDark –  Amazon Ember Regular,Noto Sans Regular | Amazon Ember Bold,Noto Sans Bold |  Amazon Ember Medium,Noto Sans Medium | Amazon Ember Regular Italic,Noto Sans Italic |  Amazon Ember Condensed RC Regular,Noto Sans Regular |  Amazon Ember Condensed RC Bold,Noto Sans Bold | Amazon Ember Regular,Noto Sans Regular,Noto Sans Arabic Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold,Noto Sans Arabic  Condensed Bold | Amazon Ember Bold,Noto Sans Bold,Noto Sans Arabic Bold | Amazon Ember Regular Italic,Noto Sans Italic,Noto Sans Arabic  Regular | Amazon Ember Condensed RC Regular,Noto Sans Regular,Noto Sans Arabic  Condensed Regular | Amazon Ember Medium,Noto Sans Medium,Noto Sans Arabic Medium     The fonts used by the Open Data map styles are combined fonts that use Amazon Ember for most glyphs but Noto Sans  for glyphs unsupported by Amazon Ember.
         public let fontStack: String
         /// A Unicode range of characters to download glyphs for. Each response will contain 256 characters. For example, 0–255 includes all characters from range U+0000 to 00FF. Must be aligned to multiples of 256.
@@ -2387,6 +2459,15 @@ extension Location {
             self.fontUnicodeRange = fontUnicodeRange
             self.key = key
             self.mapName = mapName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.fontStack, key: "FontStack")
+            request.encodePath(self.fontUnicodeRange, key: "FontUnicodeRange")
+            request.encodeQuery(self.key, key: "key")
+            request.encodePath(self.mapName, key: "MapName")
         }
 
         public func validate(name: String) throws {
@@ -2416,22 +2497,16 @@ extension Location {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.blob = response.decodePayload()
-            self.cacheControl = try response.decodeIfPresent(String.self, forHeader: "Cache-Control")
-            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
-
+            let container = try decoder.singleValueContainer()
+            self.blob = try container.decode(AWSHTTPBody.self)
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.contentType = try response.decodeHeaderIfPresent(String.self, key: "Content-Type")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetMapSpritesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fileName", location: .uri("FileName")),
-            AWSMemberEncoding(label: "key", location: .querystring("key")),
-            AWSMemberEncoding(label: "mapName", location: .uri("MapName"))
-        ]
-
         /// The name of the sprite ﬁle. Use the following ﬁle names for the sprite sheet:    sprites.png     sprites@2x.png for high pixel density displays   For the JSON document containing image offsets. Use the following ﬁle names:    sprites.json     sprites@2x.json for high pixel density displays
         public let fileName: String
         /// The optional API key to authorize  the request.
@@ -2443,6 +2518,14 @@ extension Location {
             self.fileName = fileName
             self.key = key
             self.mapName = mapName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.fileName, key: "FileName")
+            request.encodeQuery(self.key, key: "key")
+            request.encodePath(self.mapName, key: "MapName")
         }
 
         public func validate(name: String) throws {
@@ -2472,21 +2555,16 @@ extension Location {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.blob = response.decodePayload()
-            self.cacheControl = try response.decodeIfPresent(String.self, forHeader: "Cache-Control")
-            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
-
+            let container = try decoder.singleValueContainer()
+            self.blob = try container.decode(AWSHTTPBody.self)
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.contentType = try response.decodeHeaderIfPresent(String.self, key: "Content-Type")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetMapStyleDescriptorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "key", location: .querystring("key")),
-            AWSMemberEncoding(label: "mapName", location: .uri("MapName"))
-        ]
-
         /// The optional API key to authorize  the request.
         public let key: String?
         /// The map resource to retrieve the style descriptor from.
@@ -2495,6 +2573,13 @@ extension Location {
         public init(key: String? = nil, mapName: String) {
             self.key = key
             self.mapName = mapName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.key, key: "key")
+            request.encodePath(self.mapName, key: "MapName")
         }
 
         public func validate(name: String) throws {
@@ -2524,24 +2609,16 @@ extension Location {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.blob = response.decodePayload()
-            self.cacheControl = try response.decodeIfPresent(String.self, forHeader: "Cache-Control")
-            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
-
+            let container = try decoder.singleValueContainer()
+            self.blob = try container.decode(AWSHTTPBody.self)
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.contentType = try response.decodeHeaderIfPresent(String.self, key: "Content-Type")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetMapTileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "key", location: .querystring("key")),
-            AWSMemberEncoding(label: "mapName", location: .uri("MapName")),
-            AWSMemberEncoding(label: "x", location: .uri("X")),
-            AWSMemberEncoding(label: "y", location: .uri("Y")),
-            AWSMemberEncoding(label: "z", location: .uri("Z"))
-        ]
-
         /// The optional API key to authorize  the request.
         public let key: String?
         /// The map resource to retrieve the map tiles from.
@@ -2559,6 +2636,16 @@ extension Location {
             self.x = x
             self.y = y
             self.z = z
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.key, key: "key")
+            request.encodePath(self.mapName, key: "MapName")
+            request.encodePath(self.x, key: "X")
+            request.encodePath(self.y, key: "Y")
+            request.encodePath(self.z, key: "Z")
         }
 
         public func validate(name: String) throws {
@@ -2588,22 +2675,16 @@ extension Location {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.blob = response.decodePayload()
-            self.cacheControl = try response.decodeIfPresent(String.self, forHeader: "Cache-Control")
-            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
-
+            let container = try decoder.singleValueContainer()
+            self.blob = try container.decode(AWSHTTPBody.self)
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.contentType = try response.decodeHeaderIfPresent(String.self, key: "Content-Type")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPlaceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "indexName", location: .uri("IndexName")),
-            AWSMemberEncoding(label: "language", location: .querystring("language")),
-            AWSMemberEncoding(label: "placeId", location: .uri("PlaceId"))
-        ]
-
         /// The name of the place index resource that you want to use for the search.
         public let indexName: String
         /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for a location around Athens, Greece, with the language parameter set to en. The city in the results will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the city in the results will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
@@ -2615,6 +2696,14 @@ extension Location {
             self.indexName = indexName
             self.language = language
             self.placeId = placeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.indexName, key: "IndexName")
+            request.encodeQuery(self.language, key: "language")
+            request.encodePath(self.placeId, key: "PlaceId")
         }
 
         public func validate(name: String) throws {
@@ -2688,10 +2777,6 @@ extension Location {
     }
 
     public struct ListDevicePositionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
-        ]
-
         /// An optional limit for the number of entries returned in a single call. Default value: 100
         public let maxResults: Int?
         /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page. Default value: null
@@ -2703,6 +2788,14 @@ extension Location {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.trackerName = trackerName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodePath(self.trackerName, key: "TrackerName")
         }
 
         public func validate(name: String) throws {
@@ -2882,10 +2975,6 @@ extension Location {
     }
 
     public struct ListGeofencesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "collectionName", location: .uri("CollectionName"))
-        ]
-
         /// The name of the geofence collection storing the list of geofences.
         public let collectionName: String
         /// An optional limit for the number of geofences returned in a single call.  Default value: 100
@@ -2897,6 +2986,14 @@ extension Location {
             self.collectionName = collectionName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collectionName, key: "CollectionName")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
         }
 
         public func validate(name: String) throws {
@@ -3261,15 +3358,17 @@ extension Location {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve.   Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -3294,10 +3393,6 @@ extension Location {
     }
 
     public struct ListTrackerConsumersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
-        ]
-
         /// An optional limit for the number of resources returned in a single call.  Default value: 100
         public let maxResults: Int?
         /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page.  Default value: null
@@ -3309,6 +3404,14 @@ extension Location {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.trackerName = trackerName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodePath(self.trackerName, key: "TrackerName")
         }
 
         public func validate(name: String) throws {
@@ -3561,11 +3664,6 @@ extension Location {
     }
 
     public struct PutGeofenceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "collectionName", location: .uri("CollectionName")),
-            AWSMemberEncoding(label: "geofenceId", location: .uri("GeofenceId"))
-        ]
-
         /// The geofence collection to store the geofence in.
         public let collectionName: String
         /// An identifier for the geofence. For example, ExampleGeofence-1.
@@ -3577,6 +3675,14 @@ extension Location {
             self.collectionName = collectionName
             self.geofenceId = geofenceId
             self.geometry = geometry
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collectionName, key: "CollectionName")
+            request.encodePath(self.geofenceId, key: "GeofenceId")
+            try container.encode(self.geometry, forKey: .geometry)
         }
 
         public func validate(name: String) throws {
@@ -3719,10 +3825,6 @@ extension Location {
     }
 
     public struct SearchPlaceIndexForPositionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "indexName", location: .uri("IndexName"))
-        ]
-
         /// The name of the place index resource you want to use for the search.
         public let indexName: String
         /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for a location around Athens, Greece, with the language parameter set to en. The city in the results will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the city in the results will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
@@ -3737,6 +3839,15 @@ extension Location {
             self.language = language
             self.maxResults = maxResults
             self.position = position
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.indexName, key: "IndexName")
+            try container.encodeIfPresent(self.language, forKey: .language)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encode(self.position, forKey: .position)
         }
 
         public func validate(name: String) throws {
@@ -3801,10 +3912,6 @@ extension Location {
     }
 
     public struct SearchPlaceIndexForSuggestionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "indexName", location: .uri("IndexName"))
-        ]
-
         /// An optional parameter that indicates a preference for place suggestions that are closer to a specified position. If provided, this parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.   BiasPosition and FilterBBox are mutually exclusive. Specifying both options results in an error.
         public let biasPosition: [Double]?
         /// An optional parameter that limits the search results by returning only suggestions within a specified bounding box. If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error.
@@ -3828,6 +3935,18 @@ extension Location {
             self.language = language
             self.maxResults = maxResults
             self.text = text
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.biasPosition, forKey: .biasPosition)
+            try container.encodeIfPresent(self.filterBBox, forKey: .filterBBox)
+            try container.encodeIfPresent(self.filterCountries, forKey: .filterCountries)
+            request.encodePath(self.indexName, key: "IndexName")
+            try container.encodeIfPresent(self.language, forKey: .language)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encode(self.text, forKey: .text)
         }
 
         public func validate(name: String) throws {
@@ -3912,10 +4031,6 @@ extension Location {
     }
 
     public struct SearchPlaceIndexForTextRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "indexName", location: .uri("IndexName"))
-        ]
-
         /// An optional parameter that indicates a preference for places that are closer to a specified position. If provided, this parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.   BiasPosition and FilterBBox are mutually exclusive. Specifying both options results in an error.
         public let biasPosition: [Double]?
         /// An optional parameter that limits the search results by returning only places that are within the provided bounding box. If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error.
@@ -3939,6 +4054,18 @@ extension Location {
             self.language = language
             self.maxResults = maxResults
             self.text = text
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.biasPosition, forKey: .biasPosition)
+            try container.encodeIfPresent(self.filterBBox, forKey: .filterBBox)
+            try container.encodeIfPresent(self.filterCountries, forKey: .filterCountries)
+            request.encodePath(self.indexName, key: "IndexName")
+            try container.encodeIfPresent(self.language, forKey: .language)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encode(self.text, forKey: .text)
         }
 
         public func validate(name: String) throws {
@@ -4058,10 +4185,6 @@ extension Location {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource whose tags you want to update.   Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource
         public let resourceArn: String
         /// Applies one or more tags to specific resource. A tag is a key-value pair that helps you manage, identify, search, and filter your resources. Format: "key" : "value"  Restrictions:   Maximum 50 tags per resource.   Each tag key must be unique and must have exactly one associated value.   Maximum key length: 128 Unicode characters in UTF-8.   Maximum value length: 256 Unicode characters in UTF-8.   Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @   Cannot use "aws:" as a prefix for a key.
@@ -4070,6 +4193,13 @@ extension Location {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -4154,11 +4284,6 @@ extension Location {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource from which you want to remove tags.   Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource
         public let resourceArn: String
         /// The list of tag keys to remove from the specified resource.
@@ -4167,6 +4292,13 @@ extension Location {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -4184,10 +4316,6 @@ extension Location {
     }
 
     public struct UpdateGeofenceCollectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "collectionName", location: .uri("CollectionName"))
-        ]
-
         /// The name of the geofence collection to update.
         public let collectionName: String
         /// Updates the description for the geofence collection.
@@ -4210,6 +4338,15 @@ extension Location {
             self.description = description
             self.pricingPlan = pricingPlan
             self.pricingPlanDataSource = pricingPlanDataSource
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collectionName, key: "CollectionName")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.pricingPlan, forKey: .pricingPlan)
+            try container.encodeIfPresent(self.pricingPlanDataSource, forKey: .pricingPlanDataSource)
         }
 
         public func validate(name: String) throws {
@@ -4249,10 +4386,6 @@ extension Location {
     }
 
     public struct UpdateKeyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "keyName", location: .uri("KeyName"))
-        ]
-
         /// Updates the description for the API key resource.
         public let description: String?
         /// Updates the timestamp for when the API key resource will expire in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
@@ -4274,6 +4407,17 @@ extension Location {
             self.keyName = keyName
             self.noExpiry = noExpiry
             self.restrictions = restrictions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.expireTime, forKey: .expireTime)
+            try container.encodeIfPresent(self.forceUpdate, forKey: .forceUpdate)
+            request.encodePath(self.keyName, key: "KeyName")
+            try container.encodeIfPresent(self.noExpiry, forKey: .noExpiry)
+            try container.encodeIfPresent(self.restrictions, forKey: .restrictions)
         }
 
         public func validate(name: String) throws {
@@ -4316,10 +4460,6 @@ extension Location {
     }
 
     public struct UpdateMapRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "mapName", location: .uri("MapName"))
-        ]
-
         /// Updates the parts of the map configuration that can be updated, including the political view.
         public let configurationUpdate: MapConfigurationUpdate?
         /// Updates the description for the map resource.
@@ -4342,6 +4482,15 @@ extension Location {
             self.description = description
             self.mapName = mapName
             self.pricingPlan = pricingPlan
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.configurationUpdate, forKey: .configurationUpdate)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.mapName, key: "MapName")
+            try container.encodeIfPresent(self.pricingPlan, forKey: .pricingPlan)
         }
 
         public func validate(name: String) throws {
@@ -4382,10 +4531,6 @@ extension Location {
     }
 
     public struct UpdatePlaceIndexRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "indexName", location: .uri("IndexName"))
-        ]
-
         /// Updates the data storage option for the place index resource.
         public let dataSourceConfiguration: DataSourceConfiguration?
         /// Updates the description for the place index resource.
@@ -4408,6 +4553,15 @@ extension Location {
             self.description = description
             self.indexName = indexName
             self.pricingPlan = pricingPlan
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.dataSourceConfiguration, forKey: .dataSourceConfiguration)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.indexName, key: "IndexName")
+            try container.encodeIfPresent(self.pricingPlan, forKey: .pricingPlan)
         }
 
         public func validate(name: String) throws {
@@ -4447,10 +4601,6 @@ extension Location {
     }
 
     public struct UpdateRouteCalculatorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "calculatorName", location: .uri("CalculatorName"))
-        ]
-
         /// The name of the route calculator resource to update.
         public let calculatorName: String
         /// Updates the description for the route calculator resource.
@@ -4469,6 +4619,14 @@ extension Location {
             self.calculatorName = calculatorName
             self.description = description
             self.pricingPlan = pricingPlan
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.calculatorName, key: "CalculatorName")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.pricingPlan, forKey: .pricingPlan)
         }
 
         public func validate(name: String) throws {
@@ -4507,10 +4665,6 @@ extension Location {
     }
 
     public struct UpdateTrackerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
-        ]
-
         /// Updates the description for the tracker resource.
         public let description: String?
         /// Updates the position filtering for the tracker resource. Valid values:    TimeBased - Location updates are evaluated against linked geofence collections,  but not every location update is stored. If your update frequency is more often than 30 seconds,  only one update per 30 seconds is stored for each unique device ID.     DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are  ignored. Location updates within this distance are neither evaluated against linked geofence collections, nor stored. This helps control costs by reducing the number of geofence evaluations and historical device positions to paginate through. Distance-based filtering can also reduce the effects of GPS noise when displaying device trajectories on a map.     AccuracyBased - If the device has moved less than the measured accuracy, location updates are ignored. For example, if two consecutive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is ignored if the device has moved less than 15 m. Ignored location updates are neither evaluated against linked geofence collections, nor stored. This helps educe the effects of GPS noise  when displaying device trajectories on a map, and can help control costs by reducing the number of geofence evaluations.
@@ -4537,6 +4691,16 @@ extension Location {
             self.pricingPlan = pricingPlan
             self.pricingPlanDataSource = pricingPlanDataSource
             self.trackerName = trackerName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.positionFiltering, forKey: .positionFiltering)
+            try container.encodeIfPresent(self.pricingPlan, forKey: .pricingPlan)
+            try container.encodeIfPresent(self.pricingPlanDataSource, forKey: .pricingPlanDataSource)
+            request.encodePath(self.trackerName, key: "TrackerName")
         }
 
         public func validate(name: String) throws {

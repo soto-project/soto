@@ -341,10 +341,6 @@ extension IoTTwinMaker {
     }
 
     public struct BatchPutPropertyValuesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// An object that maps strings to the property value entries to set. Each string in the mapping must be unique to this object.
         public let entries: [PropertyValueEntry]
         /// The ID of the workspace that contains the properties to set.
@@ -353,6 +349,13 @@ extension IoTTwinMaker {
         public init(entries: [PropertyValueEntry], workspaceId: String) {
             self.entries = entries
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.entries, forKey: .entries)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -641,11 +644,6 @@ extension IoTTwinMaker {
     }
 
     public struct CreateComponentTypeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "componentTypeId", location: .uri("componentTypeId")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The ID of the component type.
         public let componentTypeId: String
         /// A friendly name for the component type.
@@ -677,6 +675,21 @@ extension IoTTwinMaker {
             self.propertyGroups = propertyGroups
             self.tags = tags
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.componentTypeId, key: "componentTypeId")
+            try container.encodeIfPresent(self.componentTypeName, forKey: .componentTypeName)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.extendsFrom, forKey: .extendsFrom)
+            try container.encodeIfPresent(self.functions, forKey: .functions)
+            try container.encodeIfPresent(self.isSingleton, forKey: .isSingleton)
+            try container.encodeIfPresent(self.propertyDefinitions, forKey: .propertyDefinitions)
+            try container.encodeIfPresent(self.propertyGroups, forKey: .propertyGroups)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -758,10 +771,6 @@ extension IoTTwinMaker {
     }
 
     public struct CreateEntityRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// An object that maps strings to the components in the entity. Each string in the mapping must be unique to this object.
         public let components: [String: ComponentRequest]?
         /// The description of the entity.
@@ -785,6 +794,18 @@ extension IoTTwinMaker {
             self.parentEntityId = parentEntityId
             self.tags = tags
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.components, forKey: .components)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.entityId, forKey: .entityId)
+            try container.encode(self.entityName, forKey: .entityName)
+            try container.encodeIfPresent(self.parentEntityId, forKey: .parentEntityId)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -855,10 +876,6 @@ extension IoTTwinMaker {
     }
 
     public struct CreateSceneRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// A list of capabilities that the scene uses to render itself.
         public let capabilities: [String]?
         /// The relative path that specifies the location of the content definition file.
@@ -882,6 +899,18 @@ extension IoTTwinMaker {
             self.sceneMetadata = sceneMetadata
             self.tags = tags
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.capabilities, forKey: .capabilities)
+            try container.encode(self.contentLocation, forKey: .contentLocation)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.sceneId, forKey: .sceneId)
+            try container.encodeIfPresent(self.sceneMetadata, forKey: .sceneMetadata)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -947,11 +976,6 @@ extension IoTTwinMaker {
     }
 
     public struct CreateSyncJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "syncSource", location: .uri("syncSource")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The SyncJob IAM role. This IAM role is used by the SyncJob to read from the syncSource, and create, update, or delete the corresponding resources.
         public let syncRole: String
         /// The sync source.  Currently the only supported syncSoource is SITEWISE .
@@ -966,6 +990,15 @@ extension IoTTwinMaker {
             self.syncSource = syncSource
             self.tags = tags
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.syncRole, forKey: .syncRole)
+            request.encodePath(self.syncSource, key: "syncSource")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -1015,10 +1048,6 @@ extension IoTTwinMaker {
     }
 
     public struct CreateWorkspaceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The description of the workspace.
         public let description: String?
         /// The ARN of the execution role associated with the workspace.
@@ -1036,6 +1065,16 @@ extension IoTTwinMaker {
             self.s3Location = s3Location
             self.tags = tags
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.role, forKey: .role)
+            try container.encode(self.s3Location, forKey: .s3Location)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -1214,11 +1253,6 @@ extension IoTTwinMaker {
     }
 
     public struct DeleteComponentTypeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "componentTypeId", location: .uri("componentTypeId")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The ID of the component type to delete.
         public let componentTypeId: String
         /// The ID of the workspace that contains the component type.
@@ -1227,6 +1261,13 @@ extension IoTTwinMaker {
         public init(componentTypeId: String, workspaceId: String) {
             self.componentTypeId = componentTypeId
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.componentTypeId, key: "componentTypeId")
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -1255,12 +1296,6 @@ extension IoTTwinMaker {
     }
 
     public struct DeleteEntityRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "entityId", location: .uri("entityId")),
-            AWSMemberEncoding(label: "isRecursive", location: .querystring("isRecursive")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The ID of the entity to delete.
         public let entityId: String
         /// A Boolean value that specifies whether the operation deletes child entities.
@@ -1272,6 +1307,14 @@ extension IoTTwinMaker {
             self.entityId = entityId
             self.isRecursive = isRecursive
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.entityId, key: "entityId")
+            request.encodeQuery(self.isRecursive, key: "isRecursive")
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -1300,11 +1343,6 @@ extension IoTTwinMaker {
     }
 
     public struct DeleteSceneRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sceneId", location: .uri("sceneId")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The ID of the scene to delete.
         public let sceneId: String
         /// The ID of the workspace.
@@ -1313,6 +1351,13 @@ extension IoTTwinMaker {
         public init(sceneId: String, workspaceId: String) {
             self.sceneId = sceneId
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.sceneId, key: "sceneId")
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -1332,11 +1377,6 @@ extension IoTTwinMaker {
     }
 
     public struct DeleteSyncJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "syncSource", location: .uri("syncSource")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The sync source.  Currently the only supported syncSource is SITEWISE .
         public let syncSource: String
         /// The workspace ID.
@@ -1345,6 +1385,13 @@ extension IoTTwinMaker {
         public init(syncSource: String, workspaceId: String) {
             self.syncSource = syncSource
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.syncSource, key: "syncSource")
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -1371,15 +1418,17 @@ extension IoTTwinMaker {
     }
 
     public struct DeleteWorkspaceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The ID of the workspace to delete.
         public let workspaceId: String
 
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -1617,11 +1666,6 @@ extension IoTTwinMaker {
     }
 
     public struct GetComponentTypeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "componentTypeId", location: .uri("componentTypeId")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The ID of the component type.
         public let componentTypeId: String
         /// The ID of the workspace that contains the component type.
@@ -1630,6 +1674,13 @@ extension IoTTwinMaker {
         public init(componentTypeId: String, workspaceId: String) {
             self.componentTypeId = componentTypeId
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.componentTypeId, key: "componentTypeId")
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -1718,11 +1769,6 @@ extension IoTTwinMaker {
     }
 
     public struct GetEntityRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "entityId", location: .uri("entityId")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The ID of the entity.
         public let entityId: String
         /// The ID of the workspace.
@@ -1731,6 +1777,13 @@ extension IoTTwinMaker {
         public init(entityId: String, workspaceId: String) {
             self.entityId = entityId
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.entityId, key: "entityId")
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -1824,10 +1877,6 @@ extension IoTTwinMaker {
     }
 
     public struct GetPropertyValueHistoryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The name of the component.
         public let componentName: String?
         /// The ID of the component type.
@@ -1890,6 +1939,25 @@ extension IoTTwinMaker {
             self.startDateTime = startDateTime
             self.startTime = startTime
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.componentName, forKey: .componentName)
+            try container.encodeIfPresent(self.componentTypeId, forKey: .componentTypeId)
+            try container.encodeIfPresent(self.endDateTime, forKey: .endDateTime)
+            try container.encodeIfPresent(self.endTime, forKey: .endTime)
+            try container.encodeIfPresent(self.entityId, forKey: .entityId)
+            try container.encodeIfPresent(self.interpolation, forKey: .interpolation)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.orderByTime, forKey: .orderByTime)
+            try container.encodeIfPresent(self.propertyFilters, forKey: .propertyFilters)
+            try container.encode(self.selectedProperties, forKey: .selectedProperties)
+            try container.encodeIfPresent(self.startDateTime, forKey: .startDateTime)
+            try container.encodeIfPresent(self.startTime, forKey: .startTime)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -1962,10 +2030,6 @@ extension IoTTwinMaker {
     }
 
     public struct GetPropertyValueRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The name of the component whose property values the operation returns.
         public let componentName: String?
         /// The ID of the component type whose property values the operation returns.
@@ -1995,6 +2059,20 @@ extension IoTTwinMaker {
             self.selectedProperties = selectedProperties
             self.tabularConditions = tabularConditions
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.componentName, forKey: .componentName)
+            try container.encodeIfPresent(self.componentTypeId, forKey: .componentTypeId)
+            try container.encodeIfPresent(self.entityId, forKey: .entityId)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.propertyGroupName, forKey: .propertyGroupName)
+            try container.encode(self.selectedProperties, forKey: .selectedProperties)
+            try container.encodeIfPresent(self.tabularConditions, forKey: .tabularConditions)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -2061,11 +2139,6 @@ extension IoTTwinMaker {
     }
 
     public struct GetSceneRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sceneId", location: .uri("sceneId")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The ID of the scene.
         public let sceneId: String
         /// The ID of the workspace that contains the scene.
@@ -2074,6 +2147,13 @@ extension IoTTwinMaker {
         public init(sceneId: String, workspaceId: String) {
             self.sceneId = sceneId
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.sceneId, key: "sceneId")
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -2142,11 +2222,6 @@ extension IoTTwinMaker {
     }
 
     public struct GetSyncJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "syncSource", location: .uri("syncSource")),
-            AWSMemberEncoding(label: "workspaceId", location: .querystring("workspace"))
-        ]
-
         /// The sync source.  Currently the only supported syncSource is SITEWISE .
         public let syncSource: String
         /// The workspace ID.
@@ -2155,6 +2230,13 @@ extension IoTTwinMaker {
         public init(syncSource: String, workspaceId: String? = nil) {
             self.syncSource = syncSource
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.syncSource, key: "syncSource")
+            request.encodeQuery(self.workspaceId, key: "workspace")
         }
 
         public func validate(name: String) throws {
@@ -2205,15 +2287,17 @@ extension IoTTwinMaker {
     }
 
     public struct GetWorkspaceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The ID of the workspace.
         public let workspaceId: String
 
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -2299,10 +2383,6 @@ extension IoTTwinMaker {
     }
 
     public struct ListComponentTypesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// A list of objects that filter the request.
         public let filters: [ListComponentTypesFilter]?
         /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
@@ -2317,6 +2397,15 @@ extension IoTTwinMaker {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -2365,10 +2454,6 @@ extension IoTTwinMaker {
     }
 
     public struct ListEntitiesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// A list of objects that filter the request.  Only one object is accepted as a valid input.
         public let filters: [ListEntitiesFilter]?
         /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
@@ -2383,6 +2468,15 @@ extension IoTTwinMaker {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -2423,10 +2517,6 @@ extension IoTTwinMaker {
     }
 
     public struct ListScenesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// Specifies the maximum number of results to display.
         public let maxResults: Int?
         /// The string that specifies the next page of results.
@@ -2438,6 +2528,14 @@ extension IoTTwinMaker {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -2474,10 +2572,6 @@ extension IoTTwinMaker {
     }
 
     public struct ListSyncJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The maximum number of results to return at one time. The default is 50. Valid Range: Minimum value of 0. Maximum value of 200.
         public let maxResults: Int?
         /// The string that specifies the next page of results.
@@ -2489,6 +2583,14 @@ extension IoTTwinMaker {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -2525,11 +2627,6 @@ extension IoTTwinMaker {
     }
 
     public struct ListSyncResourcesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "syncSource", location: .uri("syncSource")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// A list of objects that filter the request. The following filter combinations are supported:   Filter with state   Filter with ResourceType and ResourceId   Filter with ResourceType and ExternalId
         public let filters: [SyncResourceFilter]?
         /// The maximum number of results to return at one time. The default is 50. Valid Range: Minimum value of 0. Maximum value of 200.
@@ -2547,6 +2644,16 @@ extension IoTTwinMaker {
             self.nextToken = nextToken
             self.syncSource = syncSource
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodePath(self.syncSource, key: "syncSource")
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -3371,11 +3478,6 @@ extension IoTTwinMaker {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceARN", location: .querystring("resourceARN")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The ARN of the resource.
         public let resourceARN: String
         /// A list of tag key names to remove from the resource. You don't specify the value. Both the key and its associated value are removed.
@@ -3384,6 +3486,13 @@ extension IoTTwinMaker {
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceARN, key: "resourceARN")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -3406,11 +3515,6 @@ extension IoTTwinMaker {
     }
 
     public struct UpdateComponentTypeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "componentTypeId", location: .uri("componentTypeId")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The ID of the component type.
         public let componentTypeId: String
         /// The component type name.
@@ -3440,6 +3544,20 @@ extension IoTTwinMaker {
             self.propertyDefinitions = propertyDefinitions
             self.propertyGroups = propertyGroups
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.componentTypeId, key: "componentTypeId")
+            try container.encodeIfPresent(self.componentTypeName, forKey: .componentTypeName)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.extendsFrom, forKey: .extendsFrom)
+            try container.encodeIfPresent(self.functions, forKey: .functions)
+            try container.encodeIfPresent(self.isSingleton, forKey: .isSingleton)
+            try container.encodeIfPresent(self.propertyDefinitions, forKey: .propertyDefinitions)
+            try container.encodeIfPresent(self.propertyGroups, forKey: .propertyGroups)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -3515,11 +3633,6 @@ extension IoTTwinMaker {
     }
 
     public struct UpdateEntityRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "entityId", location: .uri("entityId")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// An object that maps strings to the component updates in the request. Each string in the mapping must be unique to this object.
         public let componentUpdates: [String: ComponentUpdateRequest]?
         /// The description of the entity.
@@ -3540,6 +3653,17 @@ extension IoTTwinMaker {
             self.entityName = entityName
             self.parentEntityUpdate = parentEntityUpdate
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.componentUpdates, forKey: .componentUpdates)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.entityId, key: "entityId")
+            try container.encodeIfPresent(self.entityName, forKey: .entityName)
+            try container.encodeIfPresent(self.parentEntityUpdate, forKey: .parentEntityUpdate)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -3633,11 +3757,6 @@ extension IoTTwinMaker {
     }
 
     public struct UpdateSceneRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sceneId", location: .uri("sceneId")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// A list of capabilities that the scene uses to render.
         public let capabilities: [String]?
         /// The relative path that specifies the location of the content definition file.
@@ -3658,6 +3777,17 @@ extension IoTTwinMaker {
             self.sceneId = sceneId
             self.sceneMetadata = sceneMetadata
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.capabilities, forKey: .capabilities)
+            try container.encodeIfPresent(self.contentLocation, forKey: .contentLocation)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.sceneId, key: "sceneId")
+            try container.encodeIfPresent(self.sceneMetadata, forKey: .sceneMetadata)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -3708,10 +3838,6 @@ extension IoTTwinMaker {
     }
 
     public struct UpdateWorkspaceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The description of the workspace.
         public let description: String?
         /// The ARN of the execution role associated with the workspace.
@@ -3723,6 +3849,14 @@ extension IoTTwinMaker {
             self.description = description
             self.role = role
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.role, forKey: .role)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {

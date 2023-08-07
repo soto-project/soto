@@ -42,15 +42,17 @@ extension ARCZonalShift {
     // MARK: Shapes
 
     public struct CancelZonalShiftRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "zonalShiftId", location: .uri("zonalShiftId"))
-        ]
-
         /// The internally-generated identifier of a zonal shift.
         public let zonalShiftId: String
 
         public init(zonalShiftId: String) {
             self.zonalShiftId = zonalShiftId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.zonalShiftId, key: "zonalShiftId")
         }
 
         public func validate(name: String) throws {
@@ -63,15 +65,17 @@ extension ARCZonalShift {
     }
 
     public struct GetManagedResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("resourceIdentifier"))
-        ]
-
         /// The identifier for the resource to include in a zonal shift. The identifier is the Amazon Resource Name (ARN) for the resource. 	     At this time, you can only start a zonal shift for Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
         public let resourceIdentifier: String
 
         public init(resourceIdentifier: String) {
             self.resourceIdentifier = resourceIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceIdentifier, key: "resourceIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -108,11 +112,6 @@ extension ARCZonalShift {
     }
 
     public struct ListManagedResourcesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The number of objects that you want to return with this call.
         public let maxResults: Int?
         /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the  		previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous  		call's NextToken response to request the next page of results.
@@ -121,6 +120,13 @@ extension ARCZonalShift {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -149,12 +155,6 @@ extension ARCZonalShift {
     }
 
     public struct ListZonalShiftsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         /// The number of objects that you want to return with this call.
         public let maxResults: Int?
         /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the  		previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous  		call's NextToken response to request the next page of results.
@@ -166,6 +166,14 @@ extension ARCZonalShift {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -250,10 +258,6 @@ extension ARCZonalShift {
     }
 
     public struct UpdateZonalShiftRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "zonalShiftId", location: .uri("zonalShiftId"))
-        ]
-
         /// A comment that you enter about the zonal shift. Only the latest comment is retained; no comment 		history is maintained. A new comment overwrites any existing comment string.
         public let comment: String?
         /// The length of time that you want a zonal shift to be active, which Route 53 ARC converts to an expiry time (expiration time). 		Zonal shifts are temporary. You can set a zonal shift to be active initially for up to three days (72 hours). 	     If you want to still keep traffic away from an Availability Zone, you can update the  		zonal shift and set a new expiration. You can also cancel a zonal shift, before it expires, for example, if you're ready to  		restore traffic to the Availability Zone. 	     To set a length of time for a zonal shift to be active, specify a whole number, and then one of the following, with no space: 	        A lowercase letter m: To specify that the value is in minutes.    A lowercase letter h: To specify that the value is in hours.   	     For example: 20h means the zonal shift expires in 20 hours. 120m means the zonal shift expires in 120 minutes (2 hours).
@@ -265,6 +269,14 @@ extension ARCZonalShift {
             self.comment = comment
             self.expiresIn = expiresIn
             self.zonalShiftId = zonalShiftId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.comment, forKey: .comment)
+            try container.encodeIfPresent(self.expiresIn, forKey: .expiresIn)
+            request.encodePath(self.zonalShiftId, key: "zonalShiftId")
         }
 
         public func validate(name: String) throws {

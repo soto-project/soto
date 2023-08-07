@@ -317,10 +317,6 @@ extension GuardDuty {
     // MARK: Shapes
 
     public struct AcceptAdministratorInvitationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The account ID of the GuardDuty administrator account whose invitation you're accepting.
         public let administratorId: String
         /// The unique ID of the detector of the GuardDuty member account.
@@ -332,6 +328,14 @@ extension GuardDuty {
             self.administratorId = administratorId
             self.detectorId = detectorId
             self.invitationId = invitationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.administratorId, forKey: .administratorId)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encode(self.invitationId, forKey: .invitationId)
         }
 
         public func validate(name: String) throws {
@@ -350,10 +354,6 @@ extension GuardDuty {
     }
 
     public struct AcceptInvitationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The unique ID of the detector of the GuardDuty member account.
         public let detectorId: String
         /// The value that is used to validate the administrator account to the member account.
@@ -365,6 +365,14 @@ extension GuardDuty {
             self.detectorId = detectorId
             self.invitationId = invitationId
             self.masterId = masterId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encode(self.invitationId, forKey: .invitationId)
+            try container.encode(self.masterId, forKey: .masterId)
         }
 
         public func validate(name: String) throws {
@@ -586,10 +594,6 @@ extension GuardDuty {
     }
 
     public struct ArchiveFindingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The ID of the detector that specifies the GuardDuty service whose findings you want to archive.
         public let detectorId: String
         /// The IDs of the findings that you want to archive.
@@ -598,6 +602,13 @@ extension GuardDuty {
         public init(detectorId: String, findingIds: [String]) {
             self.detectorId = detectorId
             self.findingIds = findingIds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encode(self.findingIds, forKey: .findingIds)
         }
 
         public func validate(name: String) throws {
@@ -1117,10 +1128,6 @@ extension GuardDuty {
     }
 
     public struct CreateFilterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// Specifies the action that is to be applied to the findings that match the filter.
         public let action: FilterAction?
         /// The idempotency token for the create request.
@@ -1147,6 +1154,19 @@ extension GuardDuty {
             self.name = name
             self.rank = rank
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.action, forKey: .action)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encode(self.findingCriteria, forKey: .findingCriteria)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.rank, forKey: .rank)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1193,10 +1213,6 @@ extension GuardDuty {
     }
 
     public struct CreateIPSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// A Boolean value that indicates whether GuardDuty is to start using the uploaded IPSet.
         public let activate: Bool
         /// The idempotency token for the create request.
@@ -1220,6 +1236,18 @@ extension GuardDuty {
             self.location = location
             self.name = name
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.activate, forKey: .activate)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encode(self.format, forKey: .format)
+            try container.encode(self.location, forKey: .location)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1264,10 +1292,6 @@ extension GuardDuty {
     }
 
     public struct CreateMembersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// A list of account ID and email address pairs of the accounts that you want to associate with the GuardDuty administrator account.
         public let accountDetails: [AccountDetail]
         /// The unique ID of the detector of the GuardDuty account that you want to associate member accounts with.
@@ -1276,6 +1300,13 @@ extension GuardDuty {
         public init(accountDetails: [AccountDetail], detectorId: String) {
             self.accountDetails = accountDetails
             self.detectorId = detectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.accountDetails, forKey: .accountDetails)
+            request.encodePath(self.detectorId, key: "detectorId")
         }
 
         public func validate(name: String) throws {
@@ -1307,10 +1338,6 @@ extension GuardDuty {
     }
 
     public struct CreatePublishingDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The idempotency token for the request.
         public let clientToken: String?
         /// The properties of the publishing destination, including the ARNs for the destination and the KMS key used for encryption.
@@ -1325,6 +1352,15 @@ extension GuardDuty {
             self.destinationProperties = destinationProperties
             self.destinationType = destinationType
             self.detectorId = detectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.destinationProperties, forKey: .destinationProperties)
+            try container.encode(self.destinationType, forKey: .destinationType)
+            request.encodePath(self.detectorId, key: "detectorId")
         }
 
         public func validate(name: String) throws {
@@ -1354,10 +1390,6 @@ extension GuardDuty {
     }
 
     public struct CreateSampleFindingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The ID of the detector to create sample findings for.
         public let detectorId: String
         /// The types of sample findings to generate.
@@ -1366,6 +1398,13 @@ extension GuardDuty {
         public init(detectorId: String, findingTypes: [String]? = nil) {
             self.detectorId = detectorId
             self.findingTypes = findingTypes
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encodeIfPresent(self.findingTypes, forKey: .findingTypes)
         }
 
         public func validate(name: String) throws {
@@ -1388,10 +1427,6 @@ extension GuardDuty {
     }
 
     public struct CreateThreatIntelSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// A Boolean value that indicates whether GuardDuty is to start using the uploaded ThreatIntelSet.
         public let activate: Bool
         /// The idempotency token for the create request.
@@ -1415,6 +1450,18 @@ extension GuardDuty {
             self.location = location
             self.name = name
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.activate, forKey: .activate)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encode(self.format, forKey: .format)
+            try container.encode(self.location, forKey: .location)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1624,15 +1671,17 @@ extension GuardDuty {
     }
 
     public struct DeleteDetectorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The unique ID of the detector that you want to delete.
         public let detectorId: String
 
         public init(detectorId: String) {
             self.detectorId = detectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
         }
 
         public func validate(name: String) throws {
@@ -1648,11 +1697,6 @@ extension GuardDuty {
     }
 
     public struct DeleteFilterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
-            AWSMemberEncoding(label: "filterName", location: .uri("filterName"))
-        ]
-
         /// The unique ID of the detector that the filter is associated with.
         public let detectorId: String
         /// The name of the filter that you want to delete.
@@ -1661,6 +1705,13 @@ extension GuardDuty {
         public init(detectorId: String, filterName: String) {
             self.detectorId = detectorId
             self.filterName = filterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.filterName, key: "filterName")
         }
 
         public func validate(name: String) throws {
@@ -1676,11 +1727,6 @@ extension GuardDuty {
     }
 
     public struct DeleteIPSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
-            AWSMemberEncoding(label: "ipSetId", location: .uri("ipSetId"))
-        ]
-
         /// The unique ID of the detector associated with the IPSet.
         public let detectorId: String
         /// The unique ID of the IPSet to delete.
@@ -1689,6 +1735,13 @@ extension GuardDuty {
         public init(detectorId: String, ipSetId: String) {
             self.detectorId = detectorId
             self.ipSetId = ipSetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.ipSetId, key: "ipSetId")
         }
 
         public func validate(name: String) throws {
@@ -1739,10 +1792,6 @@ extension GuardDuty {
     }
 
     public struct DeleteMembersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// A list of account IDs of the GuardDuty member accounts that you want to delete.
         public let accountIds: [String]
         /// The unique ID of the detector of the GuardDuty account whose members you want to delete.
@@ -1751,6 +1800,13 @@ extension GuardDuty {
         public init(accountIds: [String], detectorId: String) {
             self.accountIds = accountIds
             self.detectorId = detectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.accountIds, forKey: .accountIds)
+            request.encodePath(self.detectorId, key: "detectorId")
         }
 
         public func validate(name: String) throws {
@@ -1783,11 +1839,6 @@ extension GuardDuty {
     }
 
     public struct DeletePublishingDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "destinationId", location: .uri("destinationId")),
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The ID of the publishing destination to delete.
         public let destinationId: String
         /// The unique ID of the detector associated with the publishing destination to delete.
@@ -1796,6 +1847,13 @@ extension GuardDuty {
         public init(destinationId: String, detectorId: String) {
             self.destinationId = destinationId
             self.detectorId = detectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.destinationId, key: "destinationId")
+            request.encodePath(self.detectorId, key: "detectorId")
         }
 
         public func validate(name: String) throws {
@@ -1811,11 +1869,6 @@ extension GuardDuty {
     }
 
     public struct DeleteThreatIntelSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
-            AWSMemberEncoding(label: "threatIntelSetId", location: .uri("threatIntelSetId"))
-        ]
-
         /// The unique ID of the detector that the threatIntelSet is associated with.
         public let detectorId: String
         /// The unique ID of the threatIntelSet that you want to delete.
@@ -1824,6 +1877,13 @@ extension GuardDuty {
         public init(detectorId: String, threatIntelSetId: String) {
             self.detectorId = detectorId
             self.threatIntelSetId = threatIntelSetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.threatIntelSetId, key: "threatIntelSetId")
         }
 
         public func validate(name: String) throws {
@@ -1839,10 +1899,6 @@ extension GuardDuty {
     }
 
     public struct DescribeMalwareScansRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The unique ID of the detector that the request is associated with.
         public let detectorId: String
         /// Represents the criteria to be used in the filter for describing scan entries.
@@ -1860,6 +1916,16 @@ extension GuardDuty {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sortCriteria = sortCriteria
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encodeIfPresent(self.filterCriteria, forKey: .filterCriteria)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.sortCriteria, forKey: .sortCriteria)
         }
 
         public func validate(name: String) throws {
@@ -1896,12 +1962,6 @@ extension GuardDuty {
     }
 
     public struct DescribeOrganizationConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The ID of the detector to retrieve information about the delegated administrator from.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items that you want in the response.
@@ -1913,6 +1973,14 @@ extension GuardDuty {
             self.detectorId = detectorId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1969,11 +2037,6 @@ extension GuardDuty {
     }
 
     public struct DescribePublishingDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "destinationId", location: .uri("destinationId")),
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The ID of the publishing destination to retrieve.
         public let destinationId: String
         /// The unique ID of the detector associated with the publishing destination to retrieve.
@@ -1982,6 +2045,13 @@ extension GuardDuty {
         public init(destinationId: String, detectorId: String) {
             self.destinationId = destinationId
             self.detectorId = detectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.destinationId, key: "destinationId")
+            request.encodePath(self.detectorId, key: "detectorId")
         }
 
         public func validate(name: String) throws {
@@ -2161,15 +2231,17 @@ extension GuardDuty {
     }
 
     public struct DisassociateFromAdministratorAccountRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The unique ID of the detector of the GuardDuty member account.
         public let detectorId: String
 
         public init(detectorId: String) {
             self.detectorId = detectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
         }
 
         public func validate(name: String) throws {
@@ -2185,15 +2257,17 @@ extension GuardDuty {
     }
 
     public struct DisassociateFromMasterAccountRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The unique ID of the detector of the GuardDuty member account.
         public let detectorId: String
 
         public init(detectorId: String) {
             self.detectorId = detectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
         }
 
         public func validate(name: String) throws {
@@ -2209,10 +2283,6 @@ extension GuardDuty {
     }
 
     public struct DisassociateMembersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// A list of account IDs of the GuardDuty member accounts that you want to disassociate from the administrator account.
         public let accountIds: [String]
         /// The unique ID of the detector of the GuardDuty account whose members you want to disassociate from the administrator account.
@@ -2221,6 +2291,13 @@ extension GuardDuty {
         public init(accountIds: [String], detectorId: String) {
             self.accountIds = accountIds
             self.detectorId = detectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.accountIds, forKey: .accountIds)
+            request.encodePath(self.detectorId, key: "detectorId")
         }
 
         public func validate(name: String) throws {
@@ -2718,15 +2795,17 @@ extension GuardDuty {
     }
 
     public struct GetAdministratorAccountRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The unique ID of the detector of the GuardDuty member account.
         public let detectorId: String
 
         public init(detectorId: String) {
             self.detectorId = detectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
         }
 
         public func validate(name: String) throws {
@@ -2751,10 +2830,6 @@ extension GuardDuty {
     }
 
     public struct GetCoverageStatisticsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The unique ID of the GuardDuty detector associated to the coverage statistics.
         public let detectorId: String
         /// Represents the criteria used to filter the coverage statistics
@@ -2766,6 +2841,14 @@ extension GuardDuty {
             self.detectorId = detectorId
             self.filterCriteria = filterCriteria
             self.statisticsType = statisticsType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encodeIfPresent(self.filterCriteria, forKey: .filterCriteria)
+            try container.encode(self.statisticsType, forKey: .statisticsType)
         }
 
         public func validate(name: String) throws {
@@ -2794,15 +2877,17 @@ extension GuardDuty {
     }
 
     public struct GetDetectorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The unique ID of the detector that you want to get.
         public let detectorId: String
 
         public init(detectorId: String) {
             self.detectorId = detectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
         }
 
         public func validate(name: String) throws {
@@ -2867,11 +2952,6 @@ extension GuardDuty {
     }
 
     public struct GetFilterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
-            AWSMemberEncoding(label: "filterName", location: .uri("filterName"))
-        ]
-
         /// The unique ID of the detector that the filter is associated with.
         public let detectorId: String
         /// The name of the filter you want to get.
@@ -2880,6 +2960,13 @@ extension GuardDuty {
         public init(detectorId: String, filterName: String) {
             self.detectorId = detectorId
             self.filterName = filterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.filterName, key: "filterName")
         }
 
         public func validate(name: String) throws {
@@ -2924,10 +3011,6 @@ extension GuardDuty {
     }
 
     public struct GetFindingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The ID of the detector that specifies the GuardDuty service whose findings you want to retrieve.
         public let detectorId: String
         /// The IDs of the findings that you want to retrieve.
@@ -2939,6 +3022,14 @@ extension GuardDuty {
             self.detectorId = detectorId
             self.findingIds = findingIds
             self.sortCriteria = sortCriteria
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encode(self.findingIds, forKey: .findingIds)
+            try container.encodeIfPresent(self.sortCriteria, forKey: .sortCriteria)
         }
 
         public func validate(name: String) throws {
@@ -2971,10 +3062,6 @@ extension GuardDuty {
     }
 
     public struct GetFindingsStatisticsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The ID of the detector that specifies the GuardDuty service whose findings' statistics you want to retrieve.
         public let detectorId: String
         /// Represents the criteria that is used for querying findings.
@@ -2986,6 +3073,14 @@ extension GuardDuty {
             self.detectorId = detectorId
             self.findingCriteria = findingCriteria
             self.findingStatisticTypes = findingStatisticTypes
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encodeIfPresent(self.findingCriteria, forKey: .findingCriteria)
+            try container.encode(self.findingStatisticTypes, forKey: .findingStatisticTypes)
         }
 
         public func validate(name: String) throws {
@@ -3014,11 +3109,6 @@ extension GuardDuty {
     }
 
     public struct GetIPSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
-            AWSMemberEncoding(label: "ipSetId", location: .uri("ipSetId"))
-        ]
-
         /// The unique ID of the detector that the IPSet is associated with.
         public let detectorId: String
         /// The unique ID of the IPSet to retrieve.
@@ -3027,6 +3117,13 @@ extension GuardDuty {
         public init(detectorId: String, ipSetId: String) {
             self.detectorId = detectorId
             self.ipSetId = ipSetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.ipSetId, key: "ipSetId")
         }
 
         public func validate(name: String) throws {
@@ -3084,15 +3181,17 @@ extension GuardDuty {
     }
 
     public struct GetMalwareScanSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The unique ID of the detector that the scan setting is associated with.
         public let detectorId: String
 
         public init(detectorId: String) {
             self.detectorId = detectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
         }
 
         public func validate(name: String) throws {
@@ -3121,15 +3220,17 @@ extension GuardDuty {
     }
 
     public struct GetMasterAccountRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The unique ID of the detector of the GuardDuty member account.
         public let detectorId: String
 
         public init(detectorId: String) {
             self.detectorId = detectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
         }
 
         public func validate(name: String) throws {
@@ -3154,10 +3255,6 @@ extension GuardDuty {
     }
 
     public struct GetMemberDetectorsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The account ID of the member account.
         public let accountIds: [String]
         /// The detector ID for the administrator account.
@@ -3166,6 +3263,13 @@ extension GuardDuty {
         public init(accountIds: [String], detectorId: String) {
             self.accountIds = accountIds
             self.detectorId = detectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.accountIds, forKey: .accountIds)
+            request.encodePath(self.detectorId, key: "detectorId")
         }
 
         public func validate(name: String) throws {
@@ -3202,10 +3306,6 @@ extension GuardDuty {
     }
 
     public struct GetMembersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// A list of account IDs of the GuardDuty member accounts that you want to describe.
         public let accountIds: [String]
         /// The unique ID of the detector of the GuardDuty account whose members you want to retrieve.
@@ -3214,6 +3314,13 @@ extension GuardDuty {
         public init(accountIds: [String], detectorId: String) {
             self.accountIds = accountIds
             self.detectorId = detectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.accountIds, forKey: .accountIds)
+            request.encodePath(self.detectorId, key: "detectorId")
         }
 
         public func validate(name: String) throws {
@@ -3250,10 +3357,6 @@ extension GuardDuty {
     }
 
     public struct GetRemainingFreeTrialDaysRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// A list of account identifiers of the GuardDuty member account.
         public let accountIds: [String]?
         /// The unique ID of the detector of the GuardDuty member account.
@@ -3262,6 +3365,13 @@ extension GuardDuty {
         public init(accountIds: [String]? = nil, detectorId: String) {
             self.accountIds = accountIds
             self.detectorId = detectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.accountIds, forKey: .accountIds)
+            request.encodePath(self.detectorId, key: "detectorId")
         }
 
         public func validate(name: String) throws {
@@ -3298,11 +3408,6 @@ extension GuardDuty {
     }
 
     public struct GetThreatIntelSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
-            AWSMemberEncoding(label: "threatIntelSetId", location: .uri("threatIntelSetId"))
-        ]
-
         /// The unique ID of the detector that the threatIntelSet is associated with.
         public let detectorId: String
         /// The unique ID of the threatIntelSet that you want to get.
@@ -3311,6 +3416,13 @@ extension GuardDuty {
         public init(detectorId: String, threatIntelSetId: String) {
             self.detectorId = detectorId
             self.threatIntelSetId = threatIntelSetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.threatIntelSetId, key: "threatIntelSetId")
         }
 
         public func validate(name: String) throws {
@@ -3351,10 +3463,6 @@ extension GuardDuty {
     }
 
     public struct GetUsageStatisticsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The ID of the detector that specifies the GuardDuty service whose usage statistics you want to retrieve.
         public let detectorId: String
         /// The maximum number of results to return in the response.
@@ -3375,6 +3483,17 @@ extension GuardDuty {
             self.unit = unit
             self.usageCriteria = usageCriteria
             self.usageStatisticType = usageStatisticType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.unit, forKey: .unit)
+            try container.encode(self.usageCriteria, forKey: .usageCriteria)
+            try container.encode(self.usageStatisticType, forKey: .usageStatisticType)
         }
 
         public func validate(name: String) throws {
@@ -3549,10 +3668,6 @@ extension GuardDuty {
     }
 
     public struct InviteMembersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// A list of account IDs of the accounts that you want to invite to GuardDuty as members.
         public let accountIds: [String]
         /// The unique ID of the detector of the GuardDuty account that you want to invite members with.
@@ -3567,6 +3682,15 @@ extension GuardDuty {
             self.detectorId = detectorId
             self.disableEmailNotification = disableEmailNotification
             self.message = message
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.accountIds, forKey: .accountIds)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encodeIfPresent(self.disableEmailNotification, forKey: .disableEmailNotification)
+            try container.encodeIfPresent(self.message, forKey: .message)
         }
 
         public func validate(name: String) throws {
@@ -3867,10 +3991,6 @@ extension GuardDuty {
     }
 
     public struct ListCoverageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The unique ID of the detector whose coverage details you want to retrieve.
         public let detectorId: String
         /// Represents the criteria used to filter the coverage details.
@@ -3888,6 +4008,16 @@ extension GuardDuty {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sortCriteria = sortCriteria
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encodeIfPresent(self.filterCriteria, forKey: .filterCriteria)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.sortCriteria, forKey: .sortCriteria)
         }
 
         public func validate(name: String) throws {
@@ -3924,11 +4054,6 @@ extension GuardDuty {
     }
 
     public struct ListDetectorsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
@@ -3937,6 +4062,13 @@ extension GuardDuty {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3965,12 +4097,6 @@ extension GuardDuty {
     }
 
     public struct ListFiltersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique ID of the detector that the filter is associated with.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
@@ -3982,6 +4108,14 @@ extension GuardDuty {
             self.detectorId = detectorId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4012,10 +4146,6 @@ extension GuardDuty {
     }
 
     public struct ListFindingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The ID of the detector that specifies the GuardDuty service whose findings you want to list.
         public let detectorId: String
         /// Represents the criteria used for querying findings. Valid values include:   JSON field name   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to 'true', only archived findings are listed. When it's set to 'false', only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.resourceRole   severity   type   updatedAt Type: Timestamp in Unix Epoch millisecond format: 1486685375000
@@ -4033,6 +4163,16 @@ extension GuardDuty {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sortCriteria = sortCriteria
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encodeIfPresent(self.findingCriteria, forKey: .findingCriteria)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.sortCriteria, forKey: .sortCriteria)
         }
 
         public func validate(name: String) throws {
@@ -4068,12 +4208,6 @@ extension GuardDuty {
     }
 
     public struct ListIPSetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique ID of the detector that the IPSet is associated with.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
@@ -4085,6 +4219,14 @@ extension GuardDuty {
             self.detectorId = detectorId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4115,11 +4257,6 @@ extension GuardDuty {
     }
 
     public struct ListInvitationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
@@ -4128,6 +4265,13 @@ extension GuardDuty {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4156,13 +4300,6 @@ extension GuardDuty {
     }
 
     public struct ListMembersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "onlyAssociated", location: .querystring("onlyAssociated"))
-        ]
-
         /// The unique ID of the detector the member is associated with.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
@@ -4177,6 +4314,15 @@ extension GuardDuty {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.onlyAssociated = onlyAssociated
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.onlyAssociated, key: "onlyAssociated")
         }
 
         public func validate(name: String) throws {
@@ -4207,11 +4353,6 @@ extension GuardDuty {
     }
 
     public struct ListOrganizationAdminAccountsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return in the response.
         public let maxResults: Int?
         /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
@@ -4220,6 +4361,13 @@ extension GuardDuty {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4248,12 +4396,6 @@ extension GuardDuty {
     }
 
     public struct ListPublishingDestinationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The ID of the detector to retrieve publishing destinations for.
         public let detectorId: String
         /// The maximum number of results to return in the response.
@@ -4265,6 +4407,14 @@ extension GuardDuty {
             self.detectorId = detectorId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4295,15 +4445,17 @@ extension GuardDuty {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) for the given GuardDuty resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -4327,12 +4479,6 @@ extension GuardDuty {
     }
 
     public struct ListThreatIntelSetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique ID of the detector that the threatIntelSet is associated with.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
@@ -4344,6 +4490,14 @@ extension GuardDuty {
             self.detectorId = detectorId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -6030,10 +6184,6 @@ extension GuardDuty {
     }
 
     public struct StartMonitoringMembersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// A list of account IDs of the GuardDuty member accounts to start monitoring.
         public let accountIds: [String]
         /// The unique ID of the detector of the GuardDuty administrator account associated with the member accounts to monitor.
@@ -6042,6 +6192,13 @@ extension GuardDuty {
         public init(accountIds: [String], detectorId: String) {
             self.accountIds = accountIds
             self.detectorId = detectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.accountIds, forKey: .accountIds)
+            request.encodePath(self.detectorId, key: "detectorId")
         }
 
         public func validate(name: String) throws {
@@ -6074,10 +6231,6 @@ extension GuardDuty {
     }
 
     public struct StopMonitoringMembersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// A list of account IDs for the member accounts to stop monitoring.
         public let accountIds: [String]
         /// The unique ID of the detector associated with the GuardDuty administrator account that is monitoring member accounts.
@@ -6086,6 +6239,13 @@ extension GuardDuty {
         public init(accountIds: [String], detectorId: String) {
             self.accountIds = accountIds
             self.detectorId = detectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.accountIds, forKey: .accountIds)
+            request.encodePath(self.detectorId, key: "detectorId")
         }
 
         public func validate(name: String) throws {
@@ -6135,10 +6295,6 @@ extension GuardDuty {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) for the GuardDuty resource to apply a tag to.
         public let resourceArn: String
         /// The tags to be added to a resource.
@@ -6147,6 +6303,13 @@ extension GuardDuty {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -6260,10 +6423,6 @@ extension GuardDuty {
     }
 
     public struct UnarchiveFindingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The ID of the detector associated with the findings to unarchive.
         public let detectorId: String
         /// The IDs of the findings to unarchive.
@@ -6272,6 +6431,13 @@ extension GuardDuty {
         public init(detectorId: String, findingIds: [String]) {
             self.detectorId = detectorId
             self.findingIds = findingIds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encode(self.findingIds, forKey: .findingIds)
         }
 
         public func validate(name: String) throws {
@@ -6323,11 +6489,6 @@ extension GuardDuty {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) for the resource to remove tags from.
         public let resourceArn: String
         /// The tag keys to remove from the resource.
@@ -6336,6 +6497,13 @@ extension GuardDuty {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -6357,10 +6525,6 @@ extension GuardDuty {
     }
 
     public struct UpdateDetectorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// Describes which data sources will be updated. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
         public let dataSources: DataSourceConfigurations?
         /// The unique ID of the detector to update.
@@ -6389,6 +6553,16 @@ extension GuardDuty {
             self.findingPublishingFrequency = findingPublishingFrequency
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.dataSources, forKey: .dataSources)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encodeIfPresent(self.enable, forKey: .enable)
+            try container.encodeIfPresent(self.features, forKey: .features)
+            try container.encodeIfPresent(self.findingPublishingFrequency, forKey: .findingPublishingFrequency)
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
@@ -6407,11 +6581,6 @@ extension GuardDuty {
     }
 
     public struct UpdateFilterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
-            AWSMemberEncoding(label: "filterName", location: .uri("filterName"))
-        ]
-
         /// Specifies the action that is to be applied to the findings that match the filter.
         public let action: FilterAction?
         /// The description of the filter. Valid characters include alphanumeric characters, and special characters such as hyphen, period, colon, underscore, parentheses ({ }, [ ], and ( )), forward slash, horizontal tab, vertical tab, newline, form feed, return, and whitespace.
@@ -6432,6 +6601,17 @@ extension GuardDuty {
             self.filterName = filterName
             self.findingCriteria = findingCriteria
             self.rank = rank
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.action, forKey: .action)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.filterName, key: "filterName")
+            try container.encodeIfPresent(self.findingCriteria, forKey: .findingCriteria)
+            try container.encodeIfPresent(self.rank, forKey: .rank)
         }
 
         public func validate(name: String) throws {
@@ -6464,10 +6644,6 @@ extension GuardDuty {
     }
 
     public struct UpdateFindingsFeedbackRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// Additional feedback about the GuardDuty findings.
         public let comments: String?
         /// The ID of the detector associated with the findings to update feedback for.
@@ -6482,6 +6658,15 @@ extension GuardDuty {
             self.detectorId = detectorId
             self.feedback = feedback
             self.findingIds = findingIds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.comments, forKey: .comments)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encode(self.feedback, forKey: .feedback)
+            try container.encode(self.findingIds, forKey: .findingIds)
         }
 
         public func validate(name: String) throws {
@@ -6506,11 +6691,6 @@ extension GuardDuty {
     }
 
     public struct UpdateIPSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
-            AWSMemberEncoding(label: "ipSetId", location: .uri("ipSetId"))
-        ]
-
         /// The updated Boolean value that specifies whether the IPSet is active or not.
         public let activate: Bool?
         /// The detectorID that specifies the GuardDuty service whose IPSet you want to update.
@@ -6528,6 +6708,16 @@ extension GuardDuty {
             self.ipSetId = ipSetId
             self.location = location
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.activate, forKey: .activate)
+            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.ipSetId, key: "ipSetId")
+            try container.encodeIfPresent(self.location, forKey: .location)
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -6551,10 +6741,6 @@ extension GuardDuty {
     }
 
     public struct UpdateMalwareScanSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The unique ID of the detector that specifies the GuardDuty service where you want to update scan settings.
         public let detectorId: String
         /// An enum value representing possible snapshot preservation settings.
@@ -6566,6 +6752,14 @@ extension GuardDuty {
             self.detectorId = detectorId
             self.ebsSnapshotPreservation = ebsSnapshotPreservation
             self.scanResourceCriteria = scanResourceCriteria
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encodeIfPresent(self.ebsSnapshotPreservation, forKey: .ebsSnapshotPreservation)
+            try container.encodeIfPresent(self.scanResourceCriteria, forKey: .scanResourceCriteria)
         }
 
         public func validate(name: String) throws {
@@ -6585,10 +6779,6 @@ extension GuardDuty {
     }
 
     public struct UpdateMemberDetectorsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// A list of member account IDs to be updated.
         public let accountIds: [String]
         /// Describes which data sources will be updated.
@@ -6611,6 +6801,15 @@ extension GuardDuty {
             self.dataSources = dataSources
             self.detectorId = detectorId
             self.features = features
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.accountIds, forKey: .accountIds)
+            try container.encodeIfPresent(self.dataSources, forKey: .dataSources)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encodeIfPresent(self.features, forKey: .features)
         }
 
         public func validate(name: String) throws {
@@ -6645,10 +6844,6 @@ extension GuardDuty {
     }
 
     public struct UpdateOrganizationConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// Indicates whether to automatically enable member accounts in the organization. Even though this is still supported, we recommend using AutoEnableOrganizationMembers to achieve the similar results.
         public let autoEnable: Bool?
         /// Indicates the auto-enablement configuration of GuardDuty for the member accounts in the organization.     NEW: Indicates that when a new account joins the organization, they will have GuardDuty enabled automatically.     ALL: Indicates that all accounts in the Amazon Web Services Organization have GuardDuty enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty.    NONE: Indicates that GuardDuty will not be automatically enabled for any accounts in the organization. GuardDuty must be managed for each account individually by the administrator.
@@ -6677,6 +6872,16 @@ extension GuardDuty {
             self.features = features
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.autoEnable, forKey: .autoEnable)
+            try container.encodeIfPresent(self.autoEnableOrganizationMembers, forKey: .autoEnableOrganizationMembers)
+            try container.encodeIfPresent(self.dataSources, forKey: .dataSources)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encodeIfPresent(self.features, forKey: .features)
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
@@ -6695,11 +6900,6 @@ extension GuardDuty {
     }
 
     public struct UpdatePublishingDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "destinationId", location: .uri("destinationId")),
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
-        ]
-
         /// The ID of the publishing destination to update.
         public let destinationId: String
         /// A DestinationProperties object that includes the DestinationArn and KmsKeyArn of the publishing destination.
@@ -6711,6 +6911,14 @@ extension GuardDuty {
             self.destinationId = destinationId
             self.destinationProperties = destinationProperties
             self.detectorId = detectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.destinationId, key: "destinationId")
+            try container.encodeIfPresent(self.destinationProperties, forKey: .destinationProperties)
+            request.encodePath(self.detectorId, key: "detectorId")
         }
 
         public func validate(name: String) throws {
@@ -6728,11 +6936,6 @@ extension GuardDuty {
     }
 
     public struct UpdateThreatIntelSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
-            AWSMemberEncoding(label: "threatIntelSetId", location: .uri("threatIntelSetId"))
-        ]
-
         /// The updated Boolean value that specifies whether the ThreateIntelSet is active or not.
         public let activate: Bool?
         /// The detectorID that specifies the GuardDuty service whose ThreatIntelSet you want to update.
@@ -6750,6 +6953,16 @@ extension GuardDuty {
             self.location = location
             self.name = name
             self.threatIntelSetId = threatIntelSetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.activate, forKey: .activate)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encodeIfPresent(self.location, forKey: .location)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.threatIntelSetId, key: "threatIntelSetId")
         }
 
         public func validate(name: String) throws {

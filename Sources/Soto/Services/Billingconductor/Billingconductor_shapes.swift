@@ -427,10 +427,6 @@ extension Billingconductor {
     }
 
     public struct CreateBillingGroupInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token"))
-        ]
-
         ///  The set of accounts that will be under the billing group. The set of accounts resemble the linked accounts in a consolidated family.
         public let accountGrouping: AccountGrouping
         ///  The token that is needed to support idempotency. Idempotency isn't currently supported, but will be implemented in a future update.
@@ -454,6 +450,18 @@ extension Billingconductor {
             self.name = name
             self.primaryAccountId = primaryAccountId
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.accountGrouping, forKey: .accountGrouping)
+            request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
+            try container.encode(self.computationPreference, forKey: .computationPreference)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.primaryAccountId, forKey: .primaryAccountId)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -500,10 +508,6 @@ extension Billingconductor {
     }
 
     public struct CreateCustomLineItemInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token"))
-        ]
-
         ///  The Amazon Resource Name (ARN) that references the billing group where the custom line item applies to.
         public let billingGroupArn: String
         ///  A time range for which the custom line item is effective.
@@ -527,6 +531,18 @@ extension Billingconductor {
             self.description = description
             self.name = name
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.billingGroupArn, forKey: .billingGroupArn)
+            try container.encodeIfPresent(self.billingPeriodRange, forKey: .billingPeriodRange)
+            try container.encode(self.chargeDetails, forKey: .chargeDetails)
+            request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
+            try container.encode(self.description, forKey: .description)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -587,10 +603,6 @@ extension Billingconductor {
     }
 
     public struct CreatePricingPlanInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token"))
-        ]
-
         ///  The token that is needed to support idempotency. Idempotency isn't currently supported, but will be implemented in a future update.
         public let clientToken: String?
         /// The description of the pricing plan.
@@ -608,6 +620,16 @@ extension Billingconductor {
             self.name = name
             self.pricingRuleArns = pricingRuleArns
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.pricingRuleArns, forKey: .pricingRuleArns)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -653,10 +675,6 @@ extension Billingconductor {
     }
 
     public struct CreatePricingRuleInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token"))
-        ]
-
         ///  The seller of services provided by Amazon Web Services, their affiliates, or third-party providers selling services via Amazon Web Services Marketplace.
         public let billingEntity: String?
         ///  The token that's needed to support idempotency. Idempotency isn't currently supported, but will be implemented in a future update.
@@ -695,6 +713,23 @@ extension Billingconductor {
             self.tiering = tiering
             self.type = type
             self.usageType = usageType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.billingEntity, forKey: .billingEntity)
+            request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.modifierPercentage, forKey: .modifierPercentage)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.operation, forKey: .operation)
+            try container.encode(self.scope, forKey: .scope)
+            try container.encodeIfPresent(self.service, forKey: .service)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.tiering, forKey: .tiering)
+            try container.encode(self.type, forKey: .type)
+            try container.encodeIfPresent(self.usageType, forKey: .usageType)
         }
 
         public func validate(name: String) throws {
@@ -2003,15 +2038,17 @@ extension Billingconductor {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         ///  The Amazon Resource Name (ARN) that identifies the resource to list the tags.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -2134,10 +2171,6 @@ extension Billingconductor {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         ///  The Amazon Resource Name (ARN) of the resource to which to add tags.
         public let resourceArn: String
         ///  The tags to add to the resource as a list of key-value pairs.
@@ -2146,6 +2179,13 @@ extension Billingconductor {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2183,11 +2223,6 @@ extension Billingconductor {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         ///  The Amazon Resource Name (ARN) of the resource to which to delete tags.
         public let resourceArn: String
         ///  The tags to delete from the resource as a list of key-value pairs.
@@ -2196,6 +2231,13 @@ extension Billingconductor {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {

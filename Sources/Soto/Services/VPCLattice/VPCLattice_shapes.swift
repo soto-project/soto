@@ -377,11 +377,6 @@ extension VPCLattice {
     }
 
     public struct BatchUpdateRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "listenerIdentifier", location: .uri("listenerIdentifier")),
-            AWSMemberEncoding(label: "serviceIdentifier", location: .uri("serviceIdentifier"))
-        ]
-
         /// The ID or Amazon Resource Name (ARN) of the listener.
         public let listenerIdentifier: String
         /// The rules for the specified listener.
@@ -393,6 +388,14 @@ extension VPCLattice {
             self.listenerIdentifier = listenerIdentifier
             self.rules = rules
             self.serviceIdentifier = serviceIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.listenerIdentifier, key: "listenerIdentifier")
+            try container.encode(self.rules, forKey: .rules)
+            request.encodePath(self.serviceIdentifier, key: "serviceIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -504,10 +507,6 @@ extension VPCLattice {
     }
 
     public struct CreateListenerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serviceIdentifier", location: .uri("serviceIdentifier"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
         public let clientToken: String?
         /// The action for the default rule. Each listener has a default rule. Each rule consists of a priority, one or more actions, and one or more conditions. The default rule is the rule that's used if no other rules match. Each rule must include exactly one of the following types of actions: forward or fixed-response, and it must be the last action to be performed.
@@ -531,6 +530,18 @@ extension VPCLattice {
             self.`protocol` = `protocol`
             self.serviceIdentifier = serviceIdentifier
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.defaultAction, forKey: .defaultAction)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.port, forKey: .port)
+            try container.encode(self.`protocol`, forKey: .`protocol`)
+            request.encodePath(self.serviceIdentifier, key: "serviceIdentifier")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -606,11 +617,6 @@ extension VPCLattice {
     }
 
     public struct CreateRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "listenerIdentifier", location: .uri("listenerIdentifier")),
-            AWSMemberEncoding(label: "serviceIdentifier", location: .uri("serviceIdentifier"))
-        ]
-
         /// The action for the default rule.
         public let action: RuleAction
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
@@ -637,6 +643,19 @@ extension VPCLattice {
             self.priority = priority
             self.serviceIdentifier = serviceIdentifier
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.action, forKey: .action)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.listenerIdentifier, key: "listenerIdentifier")
+            try container.encode(self.match, forKey: .match)
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.priority, forKey: .priority)
+            request.encodePath(self.serviceIdentifier, key: "serviceIdentifier")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1101,15 +1120,17 @@ extension VPCLattice {
     }
 
     public struct DeleteAccessLogSubscriptionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessLogSubscriptionIdentifier", location: .uri("accessLogSubscriptionIdentifier"))
-        ]
-
         /// The ID or Amazon Resource Name (ARN) of the access log subscription.
         public let accessLogSubscriptionIdentifier: String
 
         public init(accessLogSubscriptionIdentifier: String) {
             self.accessLogSubscriptionIdentifier = accessLogSubscriptionIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accessLogSubscriptionIdentifier, key: "accessLogSubscriptionIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1126,15 +1147,17 @@ extension VPCLattice {
     }
 
     public struct DeleteAuthPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("resourceIdentifier"))
-        ]
-
         /// The ID or Amazon Resource Name (ARN) of the resource.
         public let resourceIdentifier: String
 
         public init(resourceIdentifier: String) {
             self.resourceIdentifier = resourceIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceIdentifier, key: "resourceIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1151,11 +1174,6 @@ extension VPCLattice {
     }
 
     public struct DeleteListenerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "listenerIdentifier", location: .uri("listenerIdentifier")),
-            AWSMemberEncoding(label: "serviceIdentifier", location: .uri("serviceIdentifier"))
-        ]
-
         /// The ID or Amazon Resource Name (ARN) of the listener.
         public let listenerIdentifier: String
         /// The ID or Amazon Resource Name (ARN) of the service.
@@ -1164,6 +1182,13 @@ extension VPCLattice {
         public init(listenerIdentifier: String, serviceIdentifier: String) {
             self.listenerIdentifier = listenerIdentifier
             self.serviceIdentifier = serviceIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.listenerIdentifier, key: "listenerIdentifier")
+            request.encodePath(self.serviceIdentifier, key: "serviceIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1183,15 +1208,17 @@ extension VPCLattice {
     }
 
     public struct DeleteResourcePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1208,12 +1235,6 @@ extension VPCLattice {
     }
 
     public struct DeleteRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "listenerIdentifier", location: .uri("listenerIdentifier")),
-            AWSMemberEncoding(label: "ruleIdentifier", location: .uri("ruleIdentifier")),
-            AWSMemberEncoding(label: "serviceIdentifier", location: .uri("serviceIdentifier"))
-        ]
-
         /// The ID or Amazon Resource Name (ARN) of the listener.
         public let listenerIdentifier: String
         /// The ID or Amazon Resource Name (ARN) of the rule.
@@ -1225,6 +1246,14 @@ extension VPCLattice {
             self.listenerIdentifier = listenerIdentifier
             self.ruleIdentifier = ruleIdentifier
             self.serviceIdentifier = serviceIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.listenerIdentifier, key: "listenerIdentifier")
+            request.encodePath(self.ruleIdentifier, key: "ruleIdentifier")
+            request.encodePath(self.serviceIdentifier, key: "serviceIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1247,15 +1276,17 @@ extension VPCLattice {
     }
 
     public struct DeleteServiceNetworkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serviceNetworkIdentifier", location: .uri("serviceNetworkIdentifier"))
-        ]
-
         /// The Amazon Resource Name (ARN) or ID of the service network.
         public let serviceNetworkIdentifier: String
 
         public init(serviceNetworkIdentifier: String) {
             self.serviceNetworkIdentifier = serviceNetworkIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.serviceNetworkIdentifier, key: "serviceNetworkIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1272,15 +1303,17 @@ extension VPCLattice {
     }
 
     public struct DeleteServiceNetworkServiceAssociationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serviceNetworkServiceAssociationIdentifier", location: .uri("serviceNetworkServiceAssociationIdentifier"))
-        ]
-
         /// The ID or Amazon Resource Name (ARN) of the association.
         public let serviceNetworkServiceAssociationIdentifier: String
 
         public init(serviceNetworkServiceAssociationIdentifier: String) {
             self.serviceNetworkServiceAssociationIdentifier = serviceNetworkServiceAssociationIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.serviceNetworkServiceAssociationIdentifier, key: "serviceNetworkServiceAssociationIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1314,15 +1347,17 @@ extension VPCLattice {
     }
 
     public struct DeleteServiceNetworkVpcAssociationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serviceNetworkVpcAssociationIdentifier", location: .uri("serviceNetworkVpcAssociationIdentifier"))
-        ]
-
         /// The ID or Amazon Resource Name (ARN) of the association.
         public let serviceNetworkVpcAssociationIdentifier: String
 
         public init(serviceNetworkVpcAssociationIdentifier: String) {
             self.serviceNetworkVpcAssociationIdentifier = serviceNetworkVpcAssociationIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.serviceNetworkVpcAssociationIdentifier, key: "serviceNetworkVpcAssociationIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1356,15 +1391,17 @@ extension VPCLattice {
     }
 
     public struct DeleteServiceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serviceIdentifier", location: .uri("serviceIdentifier"))
-        ]
-
         /// The ID or Amazon Resource Name (ARN) of the service.
         public let serviceIdentifier: String
 
         public init(serviceIdentifier: String) {
             self.serviceIdentifier = serviceIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.serviceIdentifier, key: "serviceIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1402,15 +1439,17 @@ extension VPCLattice {
     }
 
     public struct DeleteTargetGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "targetGroupIdentifier", location: .uri("targetGroupIdentifier"))
-        ]
-
         /// The ID or Amazon Resource Name (ARN) of the target group.
         public let targetGroupIdentifier: String
 
         public init(targetGroupIdentifier: String) {
             self.targetGroupIdentifier = targetGroupIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.targetGroupIdentifier, key: "targetGroupIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1444,10 +1483,6 @@ extension VPCLattice {
     }
 
     public struct DeregisterTargetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "targetGroupIdentifier", location: .uri("targetGroupIdentifier"))
-        ]
-
         /// The ID or Amazon Resource Name (ARN) of the target group.
         public let targetGroupIdentifier: String
         /// The targets to deregister.
@@ -1456,6 +1491,13 @@ extension VPCLattice {
         public init(targetGroupIdentifier: String, targets: [Target]) {
             self.targetGroupIdentifier = targetGroupIdentifier
             self.targets = targets
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.targetGroupIdentifier, key: "targetGroupIdentifier")
+            try container.encode(self.targets, forKey: .targets)
         }
 
         public func validate(name: String) throws {
@@ -1546,15 +1588,17 @@ extension VPCLattice {
     }
 
     public struct GetAccessLogSubscriptionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessLogSubscriptionIdentifier", location: .uri("accessLogSubscriptionIdentifier"))
-        ]
-
         /// The ID or Amazon Resource Name (ARN) of the access log subscription.
         public let accessLogSubscriptionIdentifier: String
 
         public init(accessLogSubscriptionIdentifier: String) {
             self.accessLogSubscriptionIdentifier = accessLogSubscriptionIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accessLogSubscriptionIdentifier, key: "accessLogSubscriptionIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1606,15 +1650,17 @@ extension VPCLattice {
     }
 
     public struct GetAuthPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("resourceIdentifier"))
-        ]
-
         /// The ID or Amazon Resource Name (ARN) of the service network or service.
         public let resourceIdentifier: String
 
         public init(resourceIdentifier: String) {
             self.resourceIdentifier = resourceIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceIdentifier, key: "resourceIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1654,11 +1700,6 @@ extension VPCLattice {
     }
 
     public struct GetListenerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "listenerIdentifier", location: .uri("listenerIdentifier")),
-            AWSMemberEncoding(label: "serviceIdentifier", location: .uri("serviceIdentifier"))
-        ]
-
         /// The ID or Amazon Resource Name (ARN) of the listener.
         public let listenerIdentifier: String
         /// The ID or Amazon Resource Name (ARN) of the service.
@@ -1667,6 +1708,13 @@ extension VPCLattice {
         public init(listenerIdentifier: String, serviceIdentifier: String) {
             self.listenerIdentifier = listenerIdentifier
             self.serviceIdentifier = serviceIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.listenerIdentifier, key: "listenerIdentifier")
+            request.encodePath(self.serviceIdentifier, key: "serviceIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1733,15 +1781,17 @@ extension VPCLattice {
     }
 
     public struct GetResourcePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the service network or service.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1767,12 +1817,6 @@ extension VPCLattice {
     }
 
     public struct GetRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "listenerIdentifier", location: .uri("listenerIdentifier")),
-            AWSMemberEncoding(label: "ruleIdentifier", location: .uri("ruleIdentifier")),
-            AWSMemberEncoding(label: "serviceIdentifier", location: .uri("serviceIdentifier"))
-        ]
-
         /// The ID or Amazon Resource Name (ARN) of the listener.
         public let listenerIdentifier: String
         /// The ID or Amazon Resource Name (ARN) of the listener rule.
@@ -1784,6 +1828,14 @@ extension VPCLattice {
             self.listenerIdentifier = listenerIdentifier
             self.ruleIdentifier = ruleIdentifier
             self.serviceIdentifier = serviceIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.listenerIdentifier, key: "listenerIdentifier")
+            request.encodePath(self.ruleIdentifier, key: "ruleIdentifier")
+            request.encodePath(self.serviceIdentifier, key: "serviceIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1849,15 +1901,17 @@ extension VPCLattice {
     }
 
     public struct GetServiceNetworkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serviceNetworkIdentifier", location: .uri("serviceNetworkIdentifier"))
-        ]
-
         /// The ID or Amazon Resource Name (ARN) of the service network.
         public let serviceNetworkIdentifier: String
 
         public init(serviceNetworkIdentifier: String) {
             self.serviceNetworkIdentifier = serviceNetworkIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.serviceNetworkIdentifier, key: "serviceNetworkIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1913,15 +1967,17 @@ extension VPCLattice {
     }
 
     public struct GetServiceNetworkServiceAssociationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serviceNetworkServiceAssociationIdentifier", location: .uri("serviceNetworkServiceAssociationIdentifier"))
-        ]
-
         /// The ID or Amazon Resource Name (ARN) of the association.
         public let serviceNetworkServiceAssociationIdentifier: String
 
         public init(serviceNetworkServiceAssociationIdentifier: String) {
             self.serviceNetworkServiceAssociationIdentifier = serviceNetworkServiceAssociationIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.serviceNetworkServiceAssociationIdentifier, key: "serviceNetworkServiceAssociationIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -2004,15 +2060,17 @@ extension VPCLattice {
     }
 
     public struct GetServiceNetworkVpcAssociationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serviceNetworkVpcAssociationIdentifier", location: .uri("serviceNetworkVpcAssociationIdentifier"))
-        ]
-
         /// The ID or Amazon Resource Name (ARN) of the association.
         public let serviceNetworkVpcAssociationIdentifier: String
 
         public init(serviceNetworkVpcAssociationIdentifier: String) {
             self.serviceNetworkVpcAssociationIdentifier = serviceNetworkVpcAssociationIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.serviceNetworkVpcAssociationIdentifier, key: "serviceNetworkVpcAssociationIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -2088,15 +2146,17 @@ extension VPCLattice {
     }
 
     public struct GetServiceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serviceIdentifier", location: .uri("serviceIdentifier"))
-        ]
-
         /// The ID or Amazon Resource Name (ARN) of the service.
         public let serviceIdentifier: String
 
         public init(serviceIdentifier: String) {
             self.serviceIdentifier = serviceIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.serviceIdentifier, key: "serviceIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -2168,15 +2228,17 @@ extension VPCLattice {
     }
 
     public struct GetTargetGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "targetGroupIdentifier", location: .uri("targetGroupIdentifier"))
-        ]
-
         /// The ID or Amazon Resource Name (ARN) of the target group.
         public let targetGroupIdentifier: String
 
         public init(targetGroupIdentifier: String) {
             self.targetGroupIdentifier = targetGroupIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.targetGroupIdentifier, key: "targetGroupIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -2367,12 +2429,6 @@ extension VPCLattice {
     }
 
     public struct ListAccessLogSubscriptionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "resourceIdentifier", location: .querystring("resourceIdentifier"))
-        ]
-
         /// The maximum number of results to return.
         public let maxResults: Int?
         /// A pagination token for the next page of results.
@@ -2384,6 +2440,14 @@ extension VPCLattice {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceIdentifier = resourceIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.resourceIdentifier, key: "resourceIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -2417,12 +2481,6 @@ extension VPCLattice {
     }
 
     public struct ListListenersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "serviceIdentifier", location: .uri("serviceIdentifier"))
-        ]
-
         /// The maximum number of results to return.
         public let maxResults: Int?
         /// A pagination token for the next page of results.
@@ -2434,6 +2492,14 @@ extension VPCLattice {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.serviceIdentifier = serviceIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.serviceIdentifier, key: "serviceIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -2467,13 +2533,6 @@ extension VPCLattice {
     }
 
     public struct ListRulesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "listenerIdentifier", location: .uri("listenerIdentifier")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "serviceIdentifier", location: .uri("serviceIdentifier"))
-        ]
-
         /// The ID or Amazon Resource Name (ARN) of the listener.
         public let listenerIdentifier: String
         /// The maximum number of results to return.
@@ -2488,6 +2547,15 @@ extension VPCLattice {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.serviceIdentifier = serviceIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.listenerIdentifier, key: "listenerIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.serviceIdentifier, key: "serviceIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -2524,13 +2592,6 @@ extension VPCLattice {
     }
 
     public struct ListServiceNetworkServiceAssociationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "serviceIdentifier", location: .querystring("serviceIdentifier")),
-            AWSMemberEncoding(label: "serviceNetworkIdentifier", location: .querystring("serviceNetworkIdentifier"))
-        ]
-
         /// The maximum number of results to return.
         public let maxResults: Int?
         /// A pagination token for the next page of results.
@@ -2545,6 +2606,15 @@ extension VPCLattice {
             self.nextToken = nextToken
             self.serviceIdentifier = serviceIdentifier
             self.serviceNetworkIdentifier = serviceNetworkIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.serviceIdentifier, key: "serviceIdentifier")
+            request.encodeQuery(self.serviceNetworkIdentifier, key: "serviceNetworkIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -2581,13 +2651,6 @@ extension VPCLattice {
     }
 
     public struct ListServiceNetworkVpcAssociationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "serviceNetworkIdentifier", location: .querystring("serviceNetworkIdentifier")),
-            AWSMemberEncoding(label: "vpcIdentifier", location: .querystring("vpcIdentifier"))
-        ]
-
         /// The maximum number of results to return.
         public let maxResults: Int?
         /// A pagination token for the next page of results.
@@ -2602,6 +2665,15 @@ extension VPCLattice {
             self.nextToken = nextToken
             self.serviceNetworkIdentifier = serviceNetworkIdentifier
             self.vpcIdentifier = vpcIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.serviceNetworkIdentifier, key: "serviceNetworkIdentifier")
+            request.encodeQuery(self.vpcIdentifier, key: "vpcIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -2638,11 +2710,6 @@ extension VPCLattice {
     }
 
     public struct ListServiceNetworksRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return.
         public let maxResults: Int?
         /// A pagination token for the next page of results.
@@ -2651,6 +2718,13 @@ extension VPCLattice {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2681,11 +2755,6 @@ extension VPCLattice {
     }
 
     public struct ListServicesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return.
         public let maxResults: Int?
         /// A pagination token for the next page of results.
@@ -2694,6 +2763,13 @@ extension VPCLattice {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2724,15 +2800,17 @@ extension VPCLattice {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -2757,13 +2835,6 @@ extension VPCLattice {
     }
 
     public struct ListTargetGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "targetGroupType", location: .querystring("targetGroupType")),
-            AWSMemberEncoding(label: "vpcIdentifier", location: .querystring("vpcIdentifier"))
-        ]
-
         /// The maximum number of results to return.
         public let maxResults: Int?
         /// A pagination token for the next page of results.
@@ -2778,6 +2849,15 @@ extension VPCLattice {
             self.nextToken = nextToken
             self.targetGroupType = targetGroupType
             self.vpcIdentifier = vpcIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.targetGroupType, key: "targetGroupType")
+            request.encodeQuery(self.vpcIdentifier, key: "vpcIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -2811,12 +2891,6 @@ extension VPCLattice {
     }
 
     public struct ListTargetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "targetGroupIdentifier", location: .uri("targetGroupIdentifier"))
-        ]
-
         /// The maximum number of results to return.
         public let maxResults: Int?
         /// A pagination token for the next page of results.
@@ -2831,6 +2905,15 @@ extension VPCLattice {
             self.nextToken = nextToken
             self.targetGroupIdentifier = targetGroupIdentifier
             self.targets = targets
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.targetGroupIdentifier, key: "targetGroupIdentifier")
+            try container.encodeIfPresent(self.targets, forKey: .targets)
         }
 
         public func validate(name: String) throws {
@@ -2929,10 +3012,6 @@ extension VPCLattice {
     }
 
     public struct PutAuthPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("resourceIdentifier"))
-        ]
-
         /// The auth policy. The policy string in JSON must not contain newlines or blank lines.
         public let policy: String
         /// The ID or Amazon Resource Name (ARN) of the service network or service for which the policy is created.
@@ -2941,6 +3020,13 @@ extension VPCLattice {
         public init(policy: String, resourceIdentifier: String) {
             self.policy = policy
             self.resourceIdentifier = resourceIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.policy, forKey: .policy)
+            request.encodePath(self.resourceIdentifier, key: "resourceIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -2974,10 +3060,6 @@ extension VPCLattice {
     }
 
     public struct PutResourcePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// An IAM policy. The policy string in JSON must not contain newlines or blank lines.
         public let policy: String
         /// The ID or Amazon Resource Name (ARN) of the service network or service for which the policy is created.
@@ -2986,6 +3068,13 @@ extension VPCLattice {
         public init(policy: String, resourceArn: String) {
             self.policy = policy
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.policy, forKey: .policy)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -3007,10 +3096,6 @@ extension VPCLattice {
     }
 
     public struct RegisterTargetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "targetGroupIdentifier", location: .uri("targetGroupIdentifier"))
-        ]
-
         /// The ID or Amazon Resource Name (ARN) of the target group.
         public let targetGroupIdentifier: String
         /// The targets.
@@ -3019,6 +3104,13 @@ extension VPCLattice {
         public init(targetGroupIdentifier: String, targets: [Target]) {
             self.targetGroupIdentifier = targetGroupIdentifier
             self.targets = targets
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.targetGroupIdentifier, key: "targetGroupIdentifier")
+            try container.encode(self.targets, forKey: .targets)
         }
 
         public func validate(name: String) throws {
@@ -3380,10 +3472,6 @@ extension VPCLattice {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tags for the resource.
@@ -3392,6 +3480,13 @@ extension VPCLattice {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -3588,11 +3683,6 @@ extension VPCLattice {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tag keys of the tags to remove.
@@ -3601,6 +3691,13 @@ extension VPCLattice {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -3621,10 +3718,6 @@ extension VPCLattice {
     }
 
     public struct UpdateAccessLogSubscriptionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessLogSubscriptionIdentifier", location: .uri("accessLogSubscriptionIdentifier"))
-        ]
-
         /// The ID or Amazon Resource Name (ARN) of the access log subscription.
         public let accessLogSubscriptionIdentifier: String
         /// The Amazon Resource Name (ARN) of the access log destination.
@@ -3633,6 +3726,13 @@ extension VPCLattice {
         public init(accessLogSubscriptionIdentifier: String, destinationArn: String) {
             self.accessLogSubscriptionIdentifier = accessLogSubscriptionIdentifier
             self.destinationArn = destinationArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accessLogSubscriptionIdentifier, key: "accessLogSubscriptionIdentifier")
+            try container.encode(self.destinationArn, forKey: .destinationArn)
         }
 
         public func validate(name: String) throws {
@@ -3679,11 +3779,6 @@ extension VPCLattice {
     }
 
     public struct UpdateListenerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "listenerIdentifier", location: .uri("listenerIdentifier")),
-            AWSMemberEncoding(label: "serviceIdentifier", location: .uri("serviceIdentifier"))
-        ]
-
         /// The action for the default rule.
         public let defaultAction: RuleAction
         /// The ID or Amazon Resource Name (ARN) of the listener.
@@ -3695,6 +3790,14 @@ extension VPCLattice {
             self.defaultAction = defaultAction
             self.listenerIdentifier = listenerIdentifier
             self.serviceIdentifier = serviceIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.defaultAction, forKey: .defaultAction)
+            request.encodePath(self.listenerIdentifier, key: "listenerIdentifier")
+            request.encodePath(self.serviceIdentifier, key: "serviceIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -3754,12 +3857,6 @@ extension VPCLattice {
     }
 
     public struct UpdateRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "listenerIdentifier", location: .uri("listenerIdentifier")),
-            AWSMemberEncoding(label: "ruleIdentifier", location: .uri("ruleIdentifier")),
-            AWSMemberEncoding(label: "serviceIdentifier", location: .uri("serviceIdentifier"))
-        ]
-
         /// Information about the action for the specified listener rule.
         public let action: RuleAction?
         /// The ID or Amazon Resource Name (ARN) of the listener.
@@ -3780,6 +3877,17 @@ extension VPCLattice {
             self.priority = priority
             self.ruleIdentifier = ruleIdentifier
             self.serviceIdentifier = serviceIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.action, forKey: .action)
+            request.encodePath(self.listenerIdentifier, key: "listenerIdentifier")
+            try container.encodeIfPresent(self.match, forKey: .match)
+            try container.encodeIfPresent(self.priority, forKey: .priority)
+            request.encodePath(self.ruleIdentifier, key: "ruleIdentifier")
+            request.encodePath(self.serviceIdentifier, key: "serviceIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -3843,10 +3951,6 @@ extension VPCLattice {
     }
 
     public struct UpdateServiceNetworkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serviceNetworkIdentifier", location: .uri("serviceNetworkIdentifier"))
-        ]
-
         /// The type of IAM policy.    NONE: The resource does not use an IAM policy. This is the default.    AWS_IAM: The resource uses an IAM policy. When this type is used, auth is enabled and an auth policy is required.
         public let authType: AuthType
         /// The ID or Amazon Resource Name (ARN) of the service network.
@@ -3855,6 +3959,13 @@ extension VPCLattice {
         public init(authType: AuthType, serviceNetworkIdentifier: String) {
             self.authType = authType
             self.serviceNetworkIdentifier = serviceNetworkIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.authType, forKey: .authType)
+            request.encodePath(self.serviceNetworkIdentifier, key: "serviceNetworkIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -3894,10 +4005,6 @@ extension VPCLattice {
     }
 
     public struct UpdateServiceNetworkVpcAssociationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serviceNetworkVpcAssociationIdentifier", location: .uri("serviceNetworkVpcAssociationIdentifier"))
-        ]
-
         /// The IDs of the security groups.
         public let securityGroupIds: [String]
         /// The ID or Amazon Resource Name (ARN) of the association.
@@ -3906,6 +4013,13 @@ extension VPCLattice {
         public init(securityGroupIds: [String], serviceNetworkVpcAssociationIdentifier: String) {
             self.securityGroupIds = securityGroupIds
             self.serviceNetworkVpcAssociationIdentifier = serviceNetworkVpcAssociationIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.securityGroupIds, forKey: .securityGroupIds)
+            request.encodePath(self.serviceNetworkVpcAssociationIdentifier, key: "serviceNetworkVpcAssociationIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -3954,10 +4068,6 @@ extension VPCLattice {
     }
 
     public struct UpdateServiceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serviceIdentifier", location: .uri("serviceIdentifier"))
-        ]
-
         /// The type of IAM policy.    NONE: The resource does not use an IAM policy. This is the default.    AWS_IAM: The resource uses an IAM policy. When this type is used, auth is enabled and an auth policy is required.
         public let authType: AuthType?
         /// The Amazon Resource Name (ARN) of the certificate.
@@ -3969,6 +4079,14 @@ extension VPCLattice {
             self.authType = authType
             self.certificateArn = certificateArn
             self.serviceIdentifier = serviceIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.authType, forKey: .authType)
+            try container.encodeIfPresent(self.certificateArn, forKey: .certificateArn)
+            request.encodePath(self.serviceIdentifier, key: "serviceIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -4019,10 +4137,6 @@ extension VPCLattice {
     }
 
     public struct UpdateTargetGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "targetGroupIdentifier", location: .uri("targetGroupIdentifier"))
-        ]
-
         /// The health check configuration.
         public let healthCheck: HealthCheckConfig
         /// The ID or Amazon Resource Name (ARN) of the target group.
@@ -4031,6 +4145,13 @@ extension VPCLattice {
         public init(healthCheck: HealthCheckConfig, targetGroupIdentifier: String) {
             self.healthCheck = healthCheck
             self.targetGroupIdentifier = targetGroupIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.healthCheck, forKey: .healthCheck)
+            request.encodePath(self.targetGroupIdentifier, key: "targetGroupIdentifier")
         }
 
         public func validate(name: String) throws {

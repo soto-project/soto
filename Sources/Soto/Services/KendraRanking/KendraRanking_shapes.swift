@@ -117,15 +117,17 @@ extension KendraRanking {
     }
 
     public struct DeleteRescoreExecutionPlanRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identifier of the rescore execution plan that you  want to delete.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -138,15 +140,17 @@ extension KendraRanking {
     }
 
     public struct DescribeRescoreExecutionPlanRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identifier of the rescore execution plan that you want  to get information on.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -265,11 +269,6 @@ extension KendraRanking {
     }
 
     public struct ListRescoreExecutionPlansRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of rescore execution plans to return.
         public let maxResults: Int?
         /// If the response is truncated, Amazon Kendra Intelligent  Ranking returns a pagination token in the response. You can use  this pagination token to retrieve the next set of rescore  execution plans.
@@ -278,6 +277,13 @@ extension KendraRanking {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -369,10 +375,6 @@ extension KendraRanking {
     }
 
     public struct RescoreRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "rescoreExecutionPlanId", location: .uri("RescoreExecutionPlanId"))
-        ]
-
         /// The list of documents for Amazon Kendra Intelligent  Ranking to rescore or rank on.
         public let documents: [Document]
         /// The identifier of the rescore execution plan. A rescore  execution plan is an Amazon Kendra Intelligent Ranking  resource used for provisioning the Rescore API.
@@ -384,6 +386,14 @@ extension KendraRanking {
             self.documents = documents
             self.rescoreExecutionPlanId = rescoreExecutionPlanId
             self.searchQuery = searchQuery
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.documents, forKey: .documents)
+            request.encodePath(self.rescoreExecutionPlanId, key: "RescoreExecutionPlanId")
+            try container.encode(self.searchQuery, forKey: .searchQuery)
         }
 
         public func validate(name: String) throws {
@@ -523,10 +533,6 @@ extension KendraRanking {
     }
 
     public struct UpdateRescoreExecutionPlanRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// You can set additional capacity units to meet the needs  of your rescore execution plan. You are given a single capacity  unit by default. If you want to use the default capacity, you  don't set additional capacity units. For more information on the default capacity and additional capacity units, see  Adjusting capacity.
         public let capacityUnits: CapacityUnitsConfiguration?
         /// A new description for the rescore execution plan.
@@ -541,6 +547,15 @@ extension KendraRanking {
             self.description = description
             self.id = id
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.capacityUnits, forKey: .capacityUnits)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.id, key: "Id")
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {

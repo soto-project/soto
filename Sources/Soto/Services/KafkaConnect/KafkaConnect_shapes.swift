@@ -722,11 +722,6 @@ extension KafkaConnect {
     }
 
     public struct DeleteConnectorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectorArn", location: .uri("connectorArn")),
-            AWSMemberEncoding(label: "currentVersion", location: .querystring("currentVersion"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the connector that you want to delete.
         public let connectorArn: String
         /// The current version of the connector that you want to delete.
@@ -735,6 +730,13 @@ extension KafkaConnect {
         public init(connectorArn: String, currentVersion: String? = nil) {
             self.connectorArn = connectorArn
             self.currentVersion = currentVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectorArn, key: "connectorArn")
+            request.encodeQuery(self.currentVersion, key: "currentVersion")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -758,15 +760,17 @@ extension KafkaConnect {
     }
 
     public struct DeleteCustomPluginRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "customPluginArn", location: .uri("customPluginArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the custom plugin that you want to delete.
         public let customPluginArn: String
 
         public init(customPluginArn: String) {
             self.customPluginArn = customPluginArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.customPluginArn, key: "customPluginArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -790,15 +794,17 @@ extension KafkaConnect {
     }
 
     public struct DescribeConnectorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectorArn", location: .uri("connectorArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the connector that you want to describe.
         public let connectorArn: String
 
         public init(connectorArn: String) {
             self.connectorArn = connectorArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectorArn, key: "connectorArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -883,15 +889,17 @@ extension KafkaConnect {
     }
 
     public struct DescribeCustomPluginRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "customPluginArn", location: .uri("customPluginArn"))
-        ]
-
         /// Returns information about a custom plugin.
         public let customPluginArn: String
 
         public init(customPluginArn: String) {
             self.customPluginArn = customPluginArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.customPluginArn, key: "customPluginArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -936,15 +944,17 @@ extension KafkaConnect {
     }
 
     public struct DescribeWorkerConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workerConfigurationArn", location: .uri("workerConfigurationArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the worker configuration that you want to get information about.
         public let workerConfigurationArn: String
 
         public init(workerConfigurationArn: String) {
             self.workerConfigurationArn = workerConfigurationArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.workerConfigurationArn, key: "workerConfigurationArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1093,12 +1103,6 @@ extension KafkaConnect {
     }
 
     public struct ListConnectorsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectorNamePrefix", location: .querystring("connectorNamePrefix")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name prefix that you want to use to search for and list connectors.
         public let connectorNamePrefix: String?
         /// The maximum number of connectors to list in one response.
@@ -1110,6 +1114,14 @@ extension KafkaConnect {
             self.connectorNamePrefix = connectorNamePrefix
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.connectorNamePrefix, key: "connectorNamePrefix")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1138,11 +1150,6 @@ extension KafkaConnect {
     }
 
     public struct ListCustomPluginsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of custom plugins to list in one response.
         public let maxResults: Int?
         /// If the response of a ListCustomPlugins operation is truncated, it will include a NextToken. Send this NextToken in a subsequent request to continue listing from where the previous operation left off.
@@ -1151,6 +1158,13 @@ extension KafkaConnect {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1179,11 +1193,6 @@ extension KafkaConnect {
     }
 
     public struct ListWorkerConfigurationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of worker configurations to list in one response.
         public let maxResults: Int?
         /// If the response of a ListWorkerConfigurations operation is truncated, it will include a NextToken. Send this NextToken in a subsequent request to continue listing from where the previous operation left off.
@@ -1192,6 +1201,13 @@ extension KafkaConnect {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1540,11 +1556,6 @@ extension KafkaConnect {
     }
 
     public struct UpdateConnectorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectorArn", location: .uri("connectorArn")),
-            AWSMemberEncoding(label: "currentVersion", location: .querystring("currentVersion"))
-        ]
-
         /// The target capacity.
         public let capacity: CapacityUpdate
         /// The Amazon Resource Name (ARN) of the connector that you want to update.
@@ -1556,6 +1567,14 @@ extension KafkaConnect {
             self.capacity = capacity
             self.connectorArn = connectorArn
             self.currentVersion = currentVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.capacity, forKey: .capacity)
+            request.encodePath(self.connectorArn, key: "connectorArn")
+            request.encodeQuery(self.currentVersion, key: "currentVersion")
         }
 
         public func validate(name: String) throws {

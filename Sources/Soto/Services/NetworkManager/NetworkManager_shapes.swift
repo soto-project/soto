@@ -291,15 +291,17 @@ extension NetworkManager {
     }
 
     public struct AcceptAttachmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attachmentId", location: .uri("AttachmentId"))
-        ]
-
         /// The ID of the attachment.
         public let attachmentId: String
 
         public init(attachmentId: String) {
             self.attachmentId = attachmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attachmentId, key: "AttachmentId")
         }
 
         public func validate(name: String) throws {
@@ -341,10 +343,6 @@ extension NetworkManager {
     }
 
     public struct AssociateConnectPeerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
-        ]
-
         /// The ID of the Connect peer.
         public let connectPeerId: String
         /// The ID of the device.
@@ -359,6 +357,15 @@ extension NetworkManager {
             self.deviceId = deviceId
             self.globalNetworkId = globalNetworkId
             self.linkId = linkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.connectPeerId, forKey: .connectPeerId)
+            try container.encode(self.deviceId, forKey: .deviceId)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            try container.encodeIfPresent(self.linkId, forKey: .linkId)
         }
 
         public func validate(name: String) throws {
@@ -393,10 +400,6 @@ extension NetworkManager {
     }
 
     public struct AssociateCustomerGatewayRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the customer gateway.
         public let customerGatewayArn: String
         /// The ID of the device.
@@ -411,6 +414,15 @@ extension NetworkManager {
             self.deviceId = deviceId
             self.globalNetworkId = globalNetworkId
             self.linkId = linkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.customerGatewayArn, forKey: .customerGatewayArn)
+            try container.encode(self.deviceId, forKey: .deviceId)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            try container.encodeIfPresent(self.linkId, forKey: .linkId)
         }
 
         public func validate(name: String) throws {
@@ -445,10 +457,6 @@ extension NetworkManager {
     }
 
     public struct AssociateLinkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
-        ]
-
         /// The ID of the device.
         public let deviceId: String
         /// The ID of the global network.
@@ -460,6 +468,14 @@ extension NetworkManager {
             self.deviceId = deviceId
             self.globalNetworkId = globalNetworkId
             self.linkId = linkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.deviceId, forKey: .deviceId)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            try container.encode(self.linkId, forKey: .linkId)
         }
 
         public func validate(name: String) throws {
@@ -491,10 +507,6 @@ extension NetworkManager {
     }
 
     public struct AssociateTransitGatewayConnectPeerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
-        ]
-
         /// The ID of the device.
         public let deviceId: String
         /// The ID of the global network.
@@ -509,6 +521,15 @@ extension NetworkManager {
             self.globalNetworkId = globalNetworkId
             self.linkId = linkId
             self.transitGatewayConnectPeerArn = transitGatewayConnectPeerArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.deviceId, forKey: .deviceId)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            try container.encodeIfPresent(self.linkId, forKey: .linkId)
+            try container.encode(self.transitGatewayConnectPeerArn, forKey: .transitGatewayConnectPeerArn)
         }
 
         public func validate(name: String) throws {
@@ -1416,10 +1437,6 @@ extension NetworkManager {
     }
 
     public struct CreateConnectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
-        ]
-
         /// The ID of the second device in the connection.
         public let connectedDeviceId: String
         /// The ID of the link for the second device.
@@ -1443,6 +1460,18 @@ extension NetworkManager {
             self.globalNetworkId = globalNetworkId
             self.linkId = linkId
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.connectedDeviceId, forKey: .connectedDeviceId)
+            try container.encodeIfPresent(self.connectedLinkId, forKey: .connectedLinkId)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.deviceId, forKey: .deviceId)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            try container.encodeIfPresent(self.linkId, forKey: .linkId)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1543,10 +1572,6 @@ extension NetworkManager {
     }
 
     public struct CreateDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
-        ]
-
         /// The Amazon Web Services location of the device, if applicable. For an on-premises device, you can omit this parameter.
         public let awsLocation: AWSLocation?
         /// A description of the device. Constraints: Maximum length of 256 characters.
@@ -1579,6 +1604,21 @@ extension NetworkManager {
             self.tags = tags
             self.type = type
             self.vendor = vendor
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.awsLocation, forKey: .awsLocation)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            try container.encodeIfPresent(self.location, forKey: .location)
+            try container.encodeIfPresent(self.model, forKey: .model)
+            try container.encodeIfPresent(self.serialNumber, forKey: .serialNumber)
+            try container.encodeIfPresent(self.siteId, forKey: .siteId)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.type, forKey: .type)
+            try container.encodeIfPresent(self.vendor, forKey: .vendor)
         }
 
         public func validate(name: String) throws {
@@ -1668,10 +1708,6 @@ extension NetworkManager {
     }
 
     public struct CreateLinkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
-        ]
-
         ///  The upload speed and download speed in Mbps.
         public let bandwidth: Bandwidth
         /// A description of the link. Constraints: Maximum length of 256 characters.
@@ -1695,6 +1731,18 @@ extension NetworkManager {
             self.siteId = siteId
             self.tags = tags
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.bandwidth, forKey: .bandwidth)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            try container.encodeIfPresent(self.provider, forKey: .provider)
+            try container.encode(self.siteId, forKey: .siteId)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.type, forKey: .type)
         }
 
         public func validate(name: String) throws {
@@ -1737,10 +1785,6 @@ extension NetworkManager {
     }
 
     public struct CreateSiteRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
-        ]
-
         /// A description of your site. Constraints: Maximum length of 256 characters.
         public let description: String?
         /// The ID of the global network.
@@ -1755,6 +1799,15 @@ extension NetworkManager {
             self.globalNetworkId = globalNetworkId
             self.location = location
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            try container.encodeIfPresent(self.location, forKey: .location)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2030,15 +2083,17 @@ extension NetworkManager {
     }
 
     public struct DeleteAttachmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attachmentId", location: .uri("AttachmentId"))
-        ]
-
         /// The ID of the attachment to delete.
         public let attachmentId: String
 
         public init(attachmentId: String) {
             self.attachmentId = attachmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attachmentId, key: "AttachmentId")
         }
 
         public func validate(name: String) throws {
@@ -2063,15 +2118,17 @@ extension NetworkManager {
     }
 
     public struct DeleteConnectPeerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectPeerId", location: .uri("ConnectPeerId"))
-        ]
-
         /// The ID of the deleted Connect peer.
         public let connectPeerId: String
 
         public init(connectPeerId: String) {
             self.connectPeerId = connectPeerId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectPeerId, key: "ConnectPeerId")
         }
 
         public func validate(name: String) throws {
@@ -2096,11 +2153,6 @@ extension NetworkManager {
     }
 
     public struct DeleteConnectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionId", location: .uri("ConnectionId")),
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
-        ]
-
         /// The ID of the connection.
         public let connectionId: String
         /// The ID of the global network.
@@ -2109,6 +2161,13 @@ extension NetworkManager {
         public init(connectionId: String, globalNetworkId: String) {
             self.connectionId = connectionId
             self.globalNetworkId = globalNetworkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectionId, key: "ConnectionId")
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
         }
 
         public func validate(name: String) throws {
@@ -2135,11 +2194,6 @@ extension NetworkManager {
     }
 
     public struct DeleteCoreNetworkPolicyVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coreNetworkId", location: .uri("CoreNetworkId")),
-            AWSMemberEncoding(label: "policyVersionId", location: .uri("PolicyVersionId"))
-        ]
-
         /// The ID of a core network for the deleted policy.
         public let coreNetworkId: String
         /// The version ID of the deleted policy.
@@ -2148,6 +2202,13 @@ extension NetworkManager {
         public init(coreNetworkId: String, policyVersionId: Int) {
             self.coreNetworkId = coreNetworkId
             self.policyVersionId = policyVersionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.coreNetworkId, key: "CoreNetworkId")
+            request.encodePath(self.policyVersionId, key: "PolicyVersionId")
         }
 
         public func validate(name: String) throws {
@@ -2172,15 +2233,17 @@ extension NetworkManager {
     }
 
     public struct DeleteCoreNetworkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coreNetworkId", location: .uri("CoreNetworkId"))
-        ]
-
         /// The network ID of the deleted core network.
         public let coreNetworkId: String
 
         public init(coreNetworkId: String) {
             self.coreNetworkId = coreNetworkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.coreNetworkId, key: "CoreNetworkId")
         }
 
         public func validate(name: String) throws {
@@ -2205,11 +2268,6 @@ extension NetworkManager {
     }
 
     public struct DeleteDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId")),
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
-        ]
-
         /// The ID of the device.
         public let deviceId: String
         /// The ID of the global network.
@@ -2218,6 +2276,13 @@ extension NetworkManager {
         public init(deviceId: String, globalNetworkId: String) {
             self.deviceId = deviceId
             self.globalNetworkId = globalNetworkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deviceId, key: "DeviceId")
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
         }
 
         public func validate(name: String) throws {
@@ -2244,15 +2309,17 @@ extension NetworkManager {
     }
 
     public struct DeleteGlobalNetworkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
-        ]
-
         /// The ID of the global network.
         public let globalNetworkId: String
 
         public init(globalNetworkId: String) {
             self.globalNetworkId = globalNetworkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
         }
 
         public func validate(name: String) throws {
@@ -2277,11 +2344,6 @@ extension NetworkManager {
     }
 
     public struct DeleteLinkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
-            AWSMemberEncoding(label: "linkId", location: .uri("LinkId"))
-        ]
-
         /// The ID of the global network.
         public let globalNetworkId: String
         /// The ID of the link.
@@ -2290,6 +2352,13 @@ extension NetworkManager {
         public init(globalNetworkId: String, linkId: String) {
             self.globalNetworkId = globalNetworkId
             self.linkId = linkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            request.encodePath(self.linkId, key: "LinkId")
         }
 
         public func validate(name: String) throws {
@@ -2316,15 +2385,17 @@ extension NetworkManager {
     }
 
     public struct DeletePeeringRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "peeringId", location: .uri("PeeringId"))
-        ]
-
         /// The ID of the peering connection to delete.
         public let peeringId: String
 
         public init(peeringId: String) {
             self.peeringId = peeringId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.peeringId, key: "PeeringId")
         }
 
         public func validate(name: String) throws {
@@ -2349,15 +2420,17 @@ extension NetworkManager {
     }
 
     public struct DeleteResourcePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The ARN of the policy to delete.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -2373,11 +2446,6 @@ extension NetworkManager {
     }
 
     public struct DeleteSiteRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
-            AWSMemberEncoding(label: "siteId", location: .uri("SiteId"))
-        ]
-
         /// The ID of the global network.
         public let globalNetworkId: String
         /// The ID of the site.
@@ -2386,6 +2454,13 @@ extension NetworkManager {
         public init(globalNetworkId: String, siteId: String) {
             self.globalNetworkId = globalNetworkId
             self.siteId = siteId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            request.encodePath(self.siteId, key: "SiteId")
         }
 
         public func validate(name: String) throws {
@@ -2412,11 +2487,6 @@ extension NetworkManager {
     }
 
     public struct DeregisterTransitGatewayRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
-            AWSMemberEncoding(label: "transitGatewayArn", location: .uri("TransitGatewayArn"))
-        ]
-
         /// The ID of the global network.
         public let globalNetworkId: String
         /// The Amazon Resource Name (ARN) of the transit gateway.
@@ -2425,6 +2495,13 @@ extension NetworkManager {
         public init(globalNetworkId: String, transitGatewayArn: String) {
             self.globalNetworkId = globalNetworkId
             self.transitGatewayArn = transitGatewayArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            request.encodePath(self.transitGatewayArn, key: "TransitGatewayArn")
         }
 
         public func validate(name: String) throws {
@@ -2451,12 +2528,6 @@ extension NetworkManager {
     }
 
     public struct DescribeGlobalNetworksRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkIds", location: .querystring("globalNetworkIds")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The IDs of one or more global networks. The maximum is 10.
         public let globalNetworkIds: [String]?
         /// The maximum number of results to return.
@@ -2468,6 +2539,14 @@ extension NetworkManager {
             self.globalNetworkIds = globalNetworkIds
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.globalNetworkIds, key: "globalNetworkIds")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2567,11 +2646,6 @@ extension NetworkManager {
     }
 
     public struct DisassociateConnectPeerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectPeerId", location: .uri("ConnectPeerId")),
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
-        ]
-
         /// The ID of the Connect peer to disassociate from a device.
         public let connectPeerId: String
         /// The ID of the global network.
@@ -2580,6 +2654,13 @@ extension NetworkManager {
         public init(connectPeerId: String, globalNetworkId: String) {
             self.connectPeerId = connectPeerId
             self.globalNetworkId = globalNetworkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectPeerId, key: "ConnectPeerId")
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
         }
 
         public func validate(name: String) throws {
@@ -2606,11 +2687,6 @@ extension NetworkManager {
     }
 
     public struct DisassociateCustomerGatewayRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "customerGatewayArn", location: .uri("CustomerGatewayArn")),
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the customer gateway.
         public let customerGatewayArn: String
         /// The ID of the global network.
@@ -2619,6 +2695,13 @@ extension NetworkManager {
         public init(customerGatewayArn: String, globalNetworkId: String) {
             self.customerGatewayArn = customerGatewayArn
             self.globalNetworkId = globalNetworkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.customerGatewayArn, key: "CustomerGatewayArn")
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
         }
 
         public func validate(name: String) throws {
@@ -2645,12 +2728,6 @@ extension NetworkManager {
     }
 
     public struct DisassociateLinkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .querystring("deviceId")),
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
-            AWSMemberEncoding(label: "linkId", location: .querystring("linkId"))
-        ]
-
         /// The ID of the device.
         public let deviceId: String
         /// The ID of the global network.
@@ -2662,6 +2739,14 @@ extension NetworkManager {
             self.deviceId = deviceId
             self.globalNetworkId = globalNetworkId
             self.linkId = linkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.deviceId, key: "deviceId")
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            request.encodeQuery(self.linkId, key: "linkId")
         }
 
         public func validate(name: String) throws {
@@ -2690,11 +2775,6 @@ extension NetworkManager {
     }
 
     public struct DisassociateTransitGatewayConnectPeerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
-            AWSMemberEncoding(label: "transitGatewayConnectPeerArn", location: .uri("TransitGatewayConnectPeerArn"))
-        ]
-
         /// The ID of the global network.
         public let globalNetworkId: String
         /// The Amazon Resource Name (ARN) of the transit gateway Connect peer.
@@ -2703,6 +2783,13 @@ extension NetworkManager {
         public init(globalNetworkId: String, transitGatewayConnectPeerArn: String) {
             self.globalNetworkId = globalNetworkId
             self.transitGatewayConnectPeerArn = transitGatewayConnectPeerArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            request.encodePath(self.transitGatewayConnectPeerArn, key: "TransitGatewayConnectPeerArn")
         }
 
         public func validate(name: String) throws {
@@ -2729,11 +2816,6 @@ extension NetworkManager {
     }
 
     public struct ExecuteCoreNetworkChangeSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coreNetworkId", location: .uri("CoreNetworkId")),
-            AWSMemberEncoding(label: "policyVersionId", location: .uri("PolicyVersionId"))
-        ]
-
         /// The ID of a core network.
         public let coreNetworkId: String
         /// The ID of the policy version.
@@ -2742,6 +2824,13 @@ extension NetworkManager {
         public init(coreNetworkId: String, policyVersionId: Int) {
             self.coreNetworkId = coreNetworkId
             self.policyVersionId = policyVersionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.coreNetworkId, key: "CoreNetworkId")
+            request.encodePath(self.policyVersionId, key: "PolicyVersionId")
         }
 
         public func validate(name: String) throws {
@@ -2757,15 +2846,17 @@ extension NetworkManager {
     }
 
     public struct GetConnectAttachmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attachmentId", location: .uri("AttachmentId"))
-        ]
-
         /// The ID of the attachment.
         public let attachmentId: String
 
         public init(attachmentId: String) {
             self.attachmentId = attachmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attachmentId, key: "AttachmentId")
         }
 
         public func validate(name: String) throws {
@@ -2790,13 +2881,6 @@ extension NetworkManager {
     }
 
     public struct GetConnectPeerAssociationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectPeerIds", location: .querystring("connectPeerIds")),
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The IDs of the Connect peers.
         public let connectPeerIds: [String]?
         /// The ID of the global network.
@@ -2811,6 +2895,15 @@ extension NetworkManager {
             self.globalNetworkId = globalNetworkId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.connectPeerIds, key: "connectPeerIds")
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2847,15 +2940,17 @@ extension NetworkManager {
     }
 
     public struct GetConnectPeerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectPeerId", location: .uri("ConnectPeerId"))
-        ]
-
         /// The ID of the Connect peer.
         public let connectPeerId: String
 
         public init(connectPeerId: String) {
             self.connectPeerId = connectPeerId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectPeerId, key: "ConnectPeerId")
         }
 
         public func validate(name: String) throws {
@@ -2880,14 +2975,6 @@ extension NetworkManager {
     }
 
     public struct GetConnectionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionIds", location: .querystring("connectionIds")),
-            AWSMemberEncoding(label: "deviceId", location: .querystring("deviceId")),
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// One or more connection IDs.
         public let connectionIds: [String]?
         /// The ID of the device.
@@ -2905,6 +2992,16 @@ extension NetworkManager {
             self.globalNetworkId = globalNetworkId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.connectionIds, key: "connectionIds")
+            request.encodeQuery(self.deviceId, key: "deviceId")
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2943,13 +3040,6 @@ extension NetworkManager {
     }
 
     public struct GetCoreNetworkChangeEventsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coreNetworkId", location: .uri("CoreNetworkId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "policyVersionId", location: .uri("PolicyVersionId"))
-        ]
-
         /// The ID of a core network.
         public let coreNetworkId: String
         /// The maximum number of results to return.
@@ -2964,6 +3054,15 @@ extension NetworkManager {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.policyVersionId = policyVersionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.coreNetworkId, key: "CoreNetworkId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.policyVersionId, key: "PolicyVersionId")
         }
 
         public func validate(name: String) throws {
@@ -2996,13 +3095,6 @@ extension NetworkManager {
     }
 
     public struct GetCoreNetworkChangeSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coreNetworkId", location: .uri("CoreNetworkId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "policyVersionId", location: .uri("PolicyVersionId"))
-        ]
-
         /// The ID of a core network.
         public let coreNetworkId: String
         /// The maximum number of results to return.
@@ -3017,6 +3109,15 @@ extension NetworkManager {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.policyVersionId = policyVersionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.coreNetworkId, key: "CoreNetworkId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.policyVersionId, key: "PolicyVersionId")
         }
 
         public func validate(name: String) throws {
@@ -3049,12 +3150,6 @@ extension NetworkManager {
     }
 
     public struct GetCoreNetworkPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "alias", location: .querystring("alias")),
-            AWSMemberEncoding(label: "coreNetworkId", location: .uri("CoreNetworkId")),
-            AWSMemberEncoding(label: "policyVersionId", location: .querystring("policyVersionId"))
-        ]
-
         /// The alias of a core network policy
         public let alias: CoreNetworkPolicyAlias?
         /// The ID of a core network.
@@ -3066,6 +3161,14 @@ extension NetworkManager {
             self.alias = alias
             self.coreNetworkId = coreNetworkId
             self.policyVersionId = policyVersionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.alias, key: "alias")
+            request.encodePath(self.coreNetworkId, key: "CoreNetworkId")
+            request.encodeQuery(self.policyVersionId, key: "policyVersionId")
         }
 
         public func validate(name: String) throws {
@@ -3090,15 +3193,17 @@ extension NetworkManager {
     }
 
     public struct GetCoreNetworkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coreNetworkId", location: .uri("CoreNetworkId"))
-        ]
-
         /// The ID of a core network.
         public let coreNetworkId: String
 
         public init(coreNetworkId: String) {
             self.coreNetworkId = coreNetworkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.coreNetworkId, key: "CoreNetworkId")
         }
 
         public func validate(name: String) throws {
@@ -3123,13 +3228,6 @@ extension NetworkManager {
     }
 
     public struct GetCustomerGatewayAssociationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "customerGatewayArns", location: .querystring("customerGatewayArns")),
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// One or more customer gateway Amazon Resource Names (ARNs). The maximum is 10.
         public let customerGatewayArns: [String]?
         /// The ID of the global network.
@@ -3144,6 +3242,15 @@ extension NetworkManager {
             self.globalNetworkId = globalNetworkId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.customerGatewayArns, key: "customerGatewayArns")
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3180,14 +3287,6 @@ extension NetworkManager {
     }
 
     public struct GetDevicesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceIds", location: .querystring("deviceIds")),
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "siteId", location: .querystring("siteId"))
-        ]
-
         /// One or more device IDs. The maximum is 10.
         public let deviceIds: [String]?
         /// The ID of the global network.
@@ -3205,6 +3304,16 @@ extension NetworkManager {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.siteId = siteId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.deviceIds, key: "deviceIds")
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.siteId, key: "siteId")
         }
 
         public func validate(name: String) throws {
@@ -3243,14 +3352,6 @@ extension NetworkManager {
     }
 
     public struct GetLinkAssociationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .querystring("deviceId")),
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
-            AWSMemberEncoding(label: "linkId", location: .querystring("linkId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The ID of the device.
         public let deviceId: String?
         /// The ID of the global network.
@@ -3268,6 +3369,16 @@ extension NetworkManager {
             self.linkId = linkId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.deviceId, key: "deviceId")
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            request.encodeQuery(self.linkId, key: "linkId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3304,16 +3415,6 @@ extension NetworkManager {
     }
 
     public struct GetLinksRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
-            AWSMemberEncoding(label: "linkIds", location: .querystring("linkIds")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "provider", location: .querystring("provider")),
-            AWSMemberEncoding(label: "siteId", location: .querystring("siteId")),
-            AWSMemberEncoding(label: "type", location: .querystring("type"))
-        ]
-
         /// The ID of the global network.
         public let globalNetworkId: String
         /// One or more link IDs. The maximum is 10.
@@ -3337,6 +3438,18 @@ extension NetworkManager {
             self.provider = provider
             self.siteId = siteId
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            request.encodeQuery(self.linkIds, key: "linkIds")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.provider, key: "provider")
+            request.encodeQuery(self.siteId, key: "siteId")
+            request.encodeQuery(self.type, key: "type")
         }
 
         public func validate(name: String) throws {
@@ -3379,13 +3492,6 @@ extension NetworkManager {
     }
 
     public struct GetNetworkResourceCountsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
-        ]
-
         /// The ID of the global network.
         public let globalNetworkId: String
         /// The maximum number of results to return.
@@ -3400,6 +3506,15 @@ extension NetworkManager {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.resourceType, key: "resourceType")
         }
 
         public func validate(name: String) throws {
@@ -3434,18 +3549,6 @@ extension NetworkManager {
     }
 
     public struct GetNetworkResourceRelationshipsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .querystring("accountId")),
-            AWSMemberEncoding(label: "awsRegion", location: .querystring("awsRegion")),
-            AWSMemberEncoding(label: "coreNetworkId", location: .querystring("coreNetworkId")),
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "registeredGatewayArn", location: .querystring("registeredGatewayArn")),
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let accountId: String?
         /// The Amazon Web Services Region.
@@ -3475,6 +3578,20 @@ extension NetworkManager {
             self.registeredGatewayArn = registeredGatewayArn
             self.resourceArn = resourceArn
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.accountId, key: "accountId")
+            request.encodeQuery(self.awsRegion, key: "awsRegion")
+            request.encodeQuery(self.coreNetworkId, key: "coreNetworkId")
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.registeredGatewayArn, key: "registeredGatewayArn")
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.resourceType, key: "resourceType")
         }
 
         public func validate(name: String) throws {
@@ -3521,18 +3638,6 @@ extension NetworkManager {
     }
 
     public struct GetNetworkResourcesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .querystring("accountId")),
-            AWSMemberEncoding(label: "awsRegion", location: .querystring("awsRegion")),
-            AWSMemberEncoding(label: "coreNetworkId", location: .querystring("coreNetworkId")),
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "registeredGatewayArn", location: .querystring("registeredGatewayArn")),
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let accountId: String?
         /// The Amazon Web Services Region.
@@ -3562,6 +3667,20 @@ extension NetworkManager {
             self.registeredGatewayArn = registeredGatewayArn
             self.resourceArn = resourceArn
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.accountId, key: "accountId")
+            request.encodeQuery(self.awsRegion, key: "awsRegion")
+            request.encodeQuery(self.coreNetworkId, key: "coreNetworkId")
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.registeredGatewayArn, key: "registeredGatewayArn")
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.resourceType, key: "resourceType")
         }
 
         public func validate(name: String) throws {
@@ -3608,10 +3727,6 @@ extension NetworkManager {
     }
 
     public struct GetNetworkRoutesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
-        ]
-
         /// Filter by route table destination. Possible Values: TRANSIT_GATEWAY_ATTACHMENT_ID, RESOURCE_ID, or RESOURCE_TYPE.
         public let destinationFilters: [String: [String]]?
         /// An exact CIDR block.
@@ -3644,6 +3759,21 @@ extension NetworkManager {
             self.subnetOfMatches = subnetOfMatches
             self.supernetOfMatches = supernetOfMatches
             self.types = types
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.destinationFilters, forKey: .destinationFilters)
+            try container.encodeIfPresent(self.exactCidrMatches, forKey: .exactCidrMatches)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            try container.encodeIfPresent(self.longestPrefixMatches, forKey: .longestPrefixMatches)
+            try container.encodeIfPresent(self.prefixListIds, forKey: .prefixListIds)
+            try container.encode(self.routeTableIdentifier, forKey: .routeTableIdentifier)
+            try container.encodeIfPresent(self.states, forKey: .states)
+            try container.encodeIfPresent(self.subnetOfMatches, forKey: .subnetOfMatches)
+            try container.encodeIfPresent(self.supernetOfMatches, forKey: .supernetOfMatches)
+            try container.encodeIfPresent(self.types, forKey: .types)
         }
 
         public func validate(name: String) throws {
@@ -3719,18 +3849,6 @@ extension NetworkManager {
     }
 
     public struct GetNetworkTelemetryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .querystring("accountId")),
-            AWSMemberEncoding(label: "awsRegion", location: .querystring("awsRegion")),
-            AWSMemberEncoding(label: "coreNetworkId", location: .querystring("coreNetworkId")),
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "registeredGatewayArn", location: .querystring("registeredGatewayArn")),
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let accountId: String?
         /// The Amazon Web Services Region.
@@ -3760,6 +3878,20 @@ extension NetworkManager {
             self.registeredGatewayArn = registeredGatewayArn
             self.resourceArn = resourceArn
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.accountId, key: "accountId")
+            request.encodeQuery(self.awsRegion, key: "awsRegion")
+            request.encodeQuery(self.coreNetworkId, key: "coreNetworkId")
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.registeredGatewayArn, key: "registeredGatewayArn")
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.resourceType, key: "resourceType")
         }
 
         public func validate(name: String) throws {
@@ -3806,15 +3938,17 @@ extension NetworkManager {
     }
 
     public struct GetResourcePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The ARN of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -3839,11 +3973,6 @@ extension NetworkManager {
     }
 
     public struct GetRouteAnalysisRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
-            AWSMemberEncoding(label: "routeAnalysisId", location: .uri("RouteAnalysisId"))
-        ]
-
         /// The ID of the global network.
         public let globalNetworkId: String
         /// The ID of the route analysis.
@@ -3852,6 +3981,13 @@ extension NetworkManager {
         public init(globalNetworkId: String, routeAnalysisId: String) {
             self.globalNetworkId = globalNetworkId
             self.routeAnalysisId = routeAnalysisId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            request.encodePath(self.routeAnalysisId, key: "RouteAnalysisId")
         }
 
         public func validate(name: String) throws {
@@ -3878,15 +4014,17 @@ extension NetworkManager {
     }
 
     public struct GetSiteToSiteVpnAttachmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attachmentId", location: .uri("AttachmentId"))
-        ]
-
         /// The ID of the attachment.
         public let attachmentId: String
 
         public init(attachmentId: String) {
             self.attachmentId = attachmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attachmentId, key: "AttachmentId")
         }
 
         public func validate(name: String) throws {
@@ -3911,13 +4049,6 @@ extension NetworkManager {
     }
 
     public struct GetSitesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "siteIds", location: .querystring("siteIds"))
-        ]
-
         /// The ID of the global network.
         public let globalNetworkId: String
         /// The maximum number of results to return.
@@ -3932,6 +4063,15 @@ extension NetworkManager {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.siteIds = siteIds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.siteIds, key: "siteIds")
         }
 
         public func validate(name: String) throws {
@@ -3968,13 +4108,6 @@ extension NetworkManager {
     }
 
     public struct GetTransitGatewayConnectPeerAssociationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "transitGatewayConnectPeerArns", location: .querystring("transitGatewayConnectPeerArns"))
-        ]
-
         /// The ID of the global network.
         public let globalNetworkId: String
         /// The maximum number of results to return.
@@ -3989,6 +4122,15 @@ extension NetworkManager {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.transitGatewayConnectPeerArns = transitGatewayConnectPeerArns
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.transitGatewayConnectPeerArns, key: "transitGatewayConnectPeerArns")
         }
 
         public func validate(name: String) throws {
@@ -4025,15 +4167,17 @@ extension NetworkManager {
     }
 
     public struct GetTransitGatewayPeeringRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "peeringId", location: .uri("PeeringId"))
-        ]
-
         /// The ID of the peering request.
         public let peeringId: String
 
         public init(peeringId: String) {
             self.peeringId = peeringId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.peeringId, key: "PeeringId")
         }
 
         public func validate(name: String) throws {
@@ -4058,13 +4202,6 @@ extension NetworkManager {
     }
 
     public struct GetTransitGatewayRegistrationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "transitGatewayArns", location: .querystring("transitGatewayArns"))
-        ]
-
         /// The ID of the global network.
         public let globalNetworkId: String
         /// The maximum number of results to return.
@@ -4079,6 +4216,15 @@ extension NetworkManager {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.transitGatewayArns = transitGatewayArns
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.transitGatewayArns, key: "transitGatewayArns")
         }
 
         public func validate(name: String) throws {
@@ -4115,15 +4261,17 @@ extension NetworkManager {
     }
 
     public struct GetTransitGatewayRouteTableAttachmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attachmentId", location: .uri("AttachmentId"))
-        ]
-
         /// The ID of the transit gateway route table attachment.
         public let attachmentId: String
 
         public init(attachmentId: String) {
             self.attachmentId = attachmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attachmentId, key: "AttachmentId")
         }
 
         public func validate(name: String) throws {
@@ -4148,15 +4296,17 @@ extension NetworkManager {
     }
 
     public struct GetVpcAttachmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attachmentId", location: .uri("AttachmentId"))
-        ]
-
         /// The ID of the attachment.
         public let attachmentId: String
 
         public init(attachmentId: String) {
             self.attachmentId = attachmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attachmentId, key: "AttachmentId")
         }
 
         public func validate(name: String) throws {
@@ -4292,15 +4442,6 @@ extension NetworkManager {
     }
 
     public struct ListAttachmentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attachmentType", location: .querystring("attachmentType")),
-            AWSMemberEncoding(label: "coreNetworkId", location: .querystring("coreNetworkId")),
-            AWSMemberEncoding(label: "edgeLocation", location: .querystring("edgeLocation")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "state", location: .querystring("state"))
-        ]
-
         /// The type of attachment.
         public let attachmentType: AttachmentType?
         /// The ID of a core network.
@@ -4321,6 +4462,17 @@ extension NetworkManager {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.state = state
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.attachmentType, key: "attachmentType")
+            request.encodeQuery(self.coreNetworkId, key: "coreNetworkId")
+            request.encodeQuery(self.edgeLocation, key: "edgeLocation")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.state, key: "state")
         }
 
         public func validate(name: String) throws {
@@ -4356,13 +4508,6 @@ extension NetworkManager {
     }
 
     public struct ListConnectPeersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectAttachmentId", location: .querystring("connectAttachmentId")),
-            AWSMemberEncoding(label: "coreNetworkId", location: .querystring("coreNetworkId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The ID of the attachment.
         public let connectAttachmentId: String?
         /// The ID of a core network.
@@ -4377,6 +4522,15 @@ extension NetworkManager {
             self.coreNetworkId = coreNetworkId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.connectAttachmentId, key: "connectAttachmentId")
+            request.encodeQuery(self.coreNetworkId, key: "coreNetworkId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4411,12 +4565,6 @@ extension NetworkManager {
     }
 
     public struct ListCoreNetworkPolicyVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coreNetworkId", location: .uri("CoreNetworkId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The ID of a core network.
         public let coreNetworkId: String
         /// The maximum number of results to return.
@@ -4428,6 +4576,14 @@ extension NetworkManager {
             self.coreNetworkId = coreNetworkId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.coreNetworkId, key: "CoreNetworkId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4460,11 +4616,6 @@ extension NetworkManager {
     }
 
     public struct ListCoreNetworksRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return.
         public let maxResults: Int?
         /// The token for the next page of results.
@@ -4473,6 +4624,13 @@ extension NetworkManager {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4503,11 +4661,6 @@ extension NetworkManager {
     }
 
     public struct ListOrganizationServiceAccessStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return.
         public let maxResults: Int?
         /// The token for the next page of results.
@@ -4516,6 +4669,13 @@ extension NetworkManager {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4546,15 +4706,6 @@ extension NetworkManager {
     }
 
     public struct ListPeeringsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coreNetworkId", location: .querystring("coreNetworkId")),
-            AWSMemberEncoding(label: "edgeLocation", location: .querystring("edgeLocation")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "peeringType", location: .querystring("peeringType")),
-            AWSMemberEncoding(label: "state", location: .querystring("state"))
-        ]
-
         /// The ID of a core network.
         public let coreNetworkId: String?
         /// Returns a list edge locations for the
@@ -4575,6 +4726,17 @@ extension NetworkManager {
             self.nextToken = nextToken
             self.peeringType = peeringType
             self.state = state
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.coreNetworkId, key: "coreNetworkId")
+            request.encodeQuery(self.edgeLocation, key: "edgeLocation")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.peeringType, key: "peeringType")
+            request.encodeQuery(self.state, key: "state")
         }
 
         public func validate(name: String) throws {
@@ -4610,15 +4772,17 @@ extension NetworkManager {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -4999,10 +5163,6 @@ extension NetworkManager {
     }
 
     public struct PutCoreNetworkPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coreNetworkId", location: .uri("CoreNetworkId"))
-        ]
-
         /// The client token associated with the request.
         public let clientToken: String?
         /// The ID of a core network.
@@ -5020,6 +5180,16 @@ extension NetworkManager {
             self.description = description
             self.latestVersionId = latestVersionId
             self.policyDocument = policyDocument
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.coreNetworkId, key: "CoreNetworkId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.latestVersionId, forKey: .latestVersionId)
+            try container.encode(self.policyDocument, forKey: .policyDocument)
         }
 
         public func validate(name: String) throws {
@@ -5055,10 +5225,6 @@ extension NetworkManager {
     }
 
     public struct PutResourcePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The JSON resource policy document.
         public let policyDocument: String
         /// The ARN of the resource policy.
@@ -5067,6 +5233,13 @@ extension NetworkManager {
         public init(policyDocument: String, resourceArn: String) {
             self.policyDocument = policyDocument
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.policyDocument, forKey: .policyDocument)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -5086,10 +5259,6 @@ extension NetworkManager {
     }
 
     public struct RegisterTransitGatewayRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
-        ]
-
         /// The ID of the global network.
         public let globalNetworkId: String
         /// The Amazon Resource Name (ARN) of the transit gateway.
@@ -5098,6 +5267,13 @@ extension NetworkManager {
         public init(globalNetworkId: String, transitGatewayArn: String) {
             self.globalNetworkId = globalNetworkId
             self.transitGatewayArn = transitGatewayArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            try container.encode(self.transitGatewayArn, forKey: .transitGatewayArn)
         }
 
         public func validate(name: String) throws {
@@ -5126,15 +5302,17 @@ extension NetworkManager {
     }
 
     public struct RejectAttachmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attachmentId", location: .uri("AttachmentId"))
-        ]
-
         /// The ID of the attachment.
         public let attachmentId: String
 
         public init(attachmentId: String) {
             self.attachmentId = attachmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attachmentId, key: "AttachmentId")
         }
 
         public func validate(name: String) throws {
@@ -5176,11 +5354,6 @@ extension NetworkManager {
     }
 
     public struct RestoreCoreNetworkPolicyVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coreNetworkId", location: .uri("CoreNetworkId")),
-            AWSMemberEncoding(label: "policyVersionId", location: .uri("PolicyVersionId"))
-        ]
-
         /// The ID of a core network.
         public let coreNetworkId: String
         /// The ID of the policy version to restore.
@@ -5189,6 +5362,13 @@ extension NetworkManager {
         public init(coreNetworkId: String, policyVersionId: Int) {
             self.coreNetworkId = coreNetworkId
             self.policyVersionId = policyVersionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.coreNetworkId, key: "CoreNetworkId")
+            request.encodePath(self.policyVersionId, key: "PolicyVersionId")
         }
 
         public func validate(name: String) throws {
@@ -5461,10 +5641,6 @@ extension NetworkManager {
     }
 
     public struct StartRouteAnalysisRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
-        ]
-
         /// The destination.
         public let destination: RouteAnalysisEndpointOptionsSpecification
         /// The ID of the global network.
@@ -5482,6 +5658,16 @@ extension NetworkManager {
             self.includeReturnPath = includeReturnPath
             self.source = source
             self.useMiddleboxes = useMiddleboxes
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.destination, forKey: .destination)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            try container.encodeIfPresent(self.includeReturnPath, forKey: .includeReturnPath)
+            try container.encode(self.source, forKey: .source)
+            try container.encodeIfPresent(self.useMiddleboxes, forKey: .useMiddleboxes)
         }
 
         public func validate(name: String) throws {
@@ -5537,10 +5723,6 @@ extension NetworkManager {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tags to apply to the specified resource.
@@ -5549,6 +5731,13 @@ extension NetworkManager {
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -5677,11 +5866,6 @@ extension NetworkManager {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tag keys to remove from the specified resource.
@@ -5690,6 +5874,13 @@ extension NetworkManager {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -5709,11 +5900,6 @@ extension NetworkManager {
     }
 
     public struct UpdateConnectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionId", location: .uri("ConnectionId")),
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
-        ]
-
         /// The ID of the link for the second device in the connection.
         public let connectedLinkId: String?
         /// The ID of the connection.
@@ -5731,6 +5917,16 @@ extension NetworkManager {
             self.description = description
             self.globalNetworkId = globalNetworkId
             self.linkId = linkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.connectedLinkId, forKey: .connectedLinkId)
+            request.encodePath(self.connectionId, key: "ConnectionId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            try container.encodeIfPresent(self.linkId, forKey: .linkId)
         }
 
         public func validate(name: String) throws {
@@ -5767,10 +5963,6 @@ extension NetworkManager {
     }
 
     public struct UpdateCoreNetworkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coreNetworkId", location: .uri("CoreNetworkId"))
-        ]
-
         /// The ID of a core network.
         public let coreNetworkId: String
         /// The description of the update.
@@ -5779,6 +5971,13 @@ extension NetworkManager {
         public init(coreNetworkId: String, description: String? = nil) {
             self.coreNetworkId = coreNetworkId
             self.description = description
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.coreNetworkId, key: "CoreNetworkId")
+            try container.encodeIfPresent(self.description, forKey: .description)
         }
 
         public func validate(name: String) throws {
@@ -5807,11 +6006,6 @@ extension NetworkManager {
     }
 
     public struct UpdateDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId")),
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
-        ]
-
         /// The Amazon Web Services location of the device, if applicable. For an on-premises device, you can omit this parameter.
         public let awsLocation: AWSLocation?
         /// A description of the device. Constraints: Maximum length of 256 characters.
@@ -5843,6 +6037,21 @@ extension NetworkManager {
             self.siteId = siteId
             self.type = type
             self.vendor = vendor
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.awsLocation, forKey: .awsLocation)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.deviceId, key: "DeviceId")
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            try container.encodeIfPresent(self.location, forKey: .location)
+            try container.encodeIfPresent(self.model, forKey: .model)
+            try container.encodeIfPresent(self.serialNumber, forKey: .serialNumber)
+            try container.encodeIfPresent(self.siteId, forKey: .siteId)
+            try container.encodeIfPresent(self.type, forKey: .type)
+            try container.encodeIfPresent(self.vendor, forKey: .vendor)
         }
 
         public func validate(name: String) throws {
@@ -5892,10 +6101,6 @@ extension NetworkManager {
     }
 
     public struct UpdateGlobalNetworkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
-        ]
-
         /// A description of the global network. Constraints: Maximum length of 256 characters.
         public let description: String?
         /// The ID of your global network.
@@ -5904,6 +6109,13 @@ extension NetworkManager {
         public init(description: String? = nil, globalNetworkId: String) {
             self.description = description
             self.globalNetworkId = globalNetworkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
         }
 
         public func validate(name: String) throws {
@@ -5932,11 +6144,6 @@ extension NetworkManager {
     }
 
     public struct UpdateLinkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
-            AWSMemberEncoding(label: "linkId", location: .uri("LinkId"))
-        ]
-
         /// The upload and download speed in Mbps.
         public let bandwidth: Bandwidth?
         /// A description of the link. Constraints: Maximum length of 256 characters.
@@ -5957,6 +6164,17 @@ extension NetworkManager {
             self.linkId = linkId
             self.provider = provider
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.bandwidth, forKey: .bandwidth)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            request.encodePath(self.linkId, key: "LinkId")
+            try container.encodeIfPresent(self.provider, forKey: .provider)
+            try container.encodeIfPresent(self.type, forKey: .type)
         }
 
         public func validate(name: String) throws {
@@ -5994,11 +6212,6 @@ extension NetworkManager {
     }
 
     public struct UpdateNetworkResourceMetadataRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The ID of the global network.
         public let globalNetworkId: String
         /// The resource metadata.
@@ -6010,6 +6223,14 @@ extension NetworkManager {
             self.globalNetworkId = globalNetworkId
             self.metadata = metadata
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            try container.encode(self.metadata, forKey: .metadata)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -6048,11 +6269,6 @@ extension NetworkManager {
     }
 
     public struct UpdateSiteRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
-            AWSMemberEncoding(label: "siteId", location: .uri("SiteId"))
-        ]
-
         /// A description of your site. Constraints: Maximum length of 256 characters.
         public let description: String?
         /// The ID of the global network.
@@ -6067,6 +6283,15 @@ extension NetworkManager {
             self.globalNetworkId = globalNetworkId
             self.location = location
             self.siteId = siteId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
+            try container.encodeIfPresent(self.location, forKey: .location)
+            request.encodePath(self.siteId, key: "SiteId")
         }
 
         public func validate(name: String) throws {
@@ -6099,10 +6324,6 @@ extension NetworkManager {
     }
 
     public struct UpdateVpcAttachmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attachmentId", location: .uri("AttachmentId"))
-        ]
-
         /// Adds a subnet ARN to the VPC attachment.
         public let addSubnetArns: [String]?
         /// The ID of the attachment.
@@ -6117,6 +6338,15 @@ extension NetworkManager {
             self.attachmentId = attachmentId
             self.options = options
             self.removeSubnetArns = removeSubnetArns
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.addSubnetArns, forKey: .addSubnetArns)
+            request.encodePath(self.attachmentId, key: "AttachmentId")
+            try container.encodeIfPresent(self.options, forKey: .options)
+            try container.encodeIfPresent(self.removeSubnetArns, forKey: .removeSubnetArns)
         }
 
         public func validate(name: String) throws {

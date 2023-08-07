@@ -158,10 +158,6 @@ extension MediaPackageV2 {
     }
 
     public struct CreateChannelGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("x-amzn-client-token"))
-        ]
-
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region. You can't use spaces in the name. You can't change the name after you create the channel group.
         public let channelGroupName: String
         /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
@@ -176,6 +172,15 @@ extension MediaPackageV2 {
             self.clientToken = clientToken
             self.description = description
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.channelGroupName, forKey: .channelGroupName)
+            request.encodeHeader(self.clientToken, key: "x-amzn-client-token")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -233,11 +238,6 @@ extension MediaPackageV2 {
     }
 
     public struct CreateChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelGroupName", location: .uri("ChannelGroupName")),
-            AWSMemberEncoding(label: "clientToken", location: .header("x-amzn-client-token"))
-        ]
-
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group. You can't change the name after you create the channel.
@@ -255,6 +255,16 @@ extension MediaPackageV2 {
             self.clientToken = clientToken
             self.description = description
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
+            try container.encode(self.channelName, forKey: .channelName)
+            request.encodeHeader(self.clientToken, key: "x-amzn-client-token")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -392,12 +402,6 @@ extension MediaPackageV2 {
     }
 
     public struct CreateOriginEndpointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelGroupName", location: .uri("ChannelGroupName")),
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName")),
-            AWSMemberEncoding(label: "clientToken", location: .header("x-amzn-client-token"))
-        ]
-
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
@@ -433,6 +437,22 @@ extension MediaPackageV2 {
             self.segment = segment
             self.startoverWindowSeconds = startoverWindowSeconds
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
+            request.encodePath(self.channelName, key: "ChannelName")
+            request.encodeHeader(self.clientToken, key: "x-amzn-client-token")
+            try container.encode(self.containerType, forKey: .containerType)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.hlsManifests, forKey: .hlsManifests)
+            try container.encodeIfPresent(self.lowLatencyHlsManifests, forKey: .lowLatencyHlsManifests)
+            try container.encode(self.originEndpointName, forKey: .originEndpointName)
+            try container.encodeIfPresent(self.segment, forKey: .segment)
+            try container.encodeIfPresent(self.startoverWindowSeconds, forKey: .startoverWindowSeconds)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -532,15 +552,17 @@ extension MediaPackageV2 {
     }
 
     public struct DeleteChannelGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelGroupName", location: .uri("ChannelGroupName"))
-        ]
-
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
 
         public init(channelGroupName: String) {
             self.channelGroupName = channelGroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
         }
 
         public func validate(name: String) throws {
@@ -557,11 +579,6 @@ extension MediaPackageV2 {
     }
 
     public struct DeleteChannelPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelGroupName", location: .uri("ChannelGroupName")),
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
-        ]
-
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
@@ -570,6 +587,13 @@ extension MediaPackageV2 {
         public init(channelGroupName: String, channelName: String) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
+            request.encodePath(self.channelName, key: "ChannelName")
         }
 
         public func validate(name: String) throws {
@@ -589,11 +613,6 @@ extension MediaPackageV2 {
     }
 
     public struct DeleteChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelGroupName", location: .uri("ChannelGroupName")),
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
-        ]
-
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
@@ -602,6 +621,13 @@ extension MediaPackageV2 {
         public init(channelGroupName: String, channelName: String) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
+            request.encodePath(self.channelName, key: "ChannelName")
         }
 
         public func validate(name: String) throws {
@@ -621,12 +647,6 @@ extension MediaPackageV2 {
     }
 
     public struct DeleteOriginEndpointPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelGroupName", location: .uri("ChannelGroupName")),
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName")),
-            AWSMemberEncoding(label: "originEndpointName", location: .uri("OriginEndpointName"))
-        ]
-
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
@@ -638,6 +658,14 @@ extension MediaPackageV2 {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.originEndpointName = originEndpointName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
+            request.encodePath(self.channelName, key: "ChannelName")
+            request.encodePath(self.originEndpointName, key: "OriginEndpointName")
         }
 
         public func validate(name: String) throws {
@@ -660,12 +688,6 @@ extension MediaPackageV2 {
     }
 
     public struct DeleteOriginEndpointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelGroupName", location: .uri("ChannelGroupName")),
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName")),
-            AWSMemberEncoding(label: "originEndpointName", location: .uri("OriginEndpointName"))
-        ]
-
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
@@ -677,6 +699,14 @@ extension MediaPackageV2 {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.originEndpointName = originEndpointName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
+            request.encodePath(self.channelName, key: "ChannelName")
+            request.encodePath(self.originEndpointName, key: "OriginEndpointName")
         }
 
         public func validate(name: String) throws {
@@ -758,15 +788,17 @@ extension MediaPackageV2 {
     }
 
     public struct GetChannelGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelGroupName", location: .uri("ChannelGroupName"))
-        ]
-
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
 
         public init(channelGroupName: String) {
             self.channelGroupName = channelGroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
         }
 
         public func validate(name: String) throws {
@@ -816,11 +848,6 @@ extension MediaPackageV2 {
     }
 
     public struct GetChannelPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelGroupName", location: .uri("ChannelGroupName")),
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
-        ]
-
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
@@ -829,6 +856,13 @@ extension MediaPackageV2 {
         public init(channelGroupName: String, channelName: String) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
+            request.encodePath(self.channelName, key: "ChannelName")
         }
 
         public func validate(name: String) throws {
@@ -865,11 +899,6 @@ extension MediaPackageV2 {
     }
 
     public struct GetChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelGroupName", location: .uri("ChannelGroupName")),
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
-        ]
-
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
@@ -878,6 +907,13 @@ extension MediaPackageV2 {
         public init(channelGroupName: String, channelName: String) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
+            request.encodePath(self.channelName, key: "ChannelName")
         }
 
         public func validate(name: String) throws {
@@ -997,12 +1033,6 @@ extension MediaPackageV2 {
     }
 
     public struct GetOriginEndpointPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelGroupName", location: .uri("ChannelGroupName")),
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName")),
-            AWSMemberEncoding(label: "originEndpointName", location: .uri("OriginEndpointName"))
-        ]
-
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
@@ -1014,6 +1044,14 @@ extension MediaPackageV2 {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.originEndpointName = originEndpointName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
+            request.encodePath(self.channelName, key: "ChannelName")
+            request.encodePath(self.originEndpointName, key: "OriginEndpointName")
         }
 
         public func validate(name: String) throws {
@@ -1057,12 +1095,6 @@ extension MediaPackageV2 {
     }
 
     public struct GetOriginEndpointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelGroupName", location: .uri("ChannelGroupName")),
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName")),
-            AWSMemberEncoding(label: "originEndpointName", location: .uri("OriginEndpointName"))
-        ]
-
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
@@ -1074,6 +1106,14 @@ extension MediaPackageV2 {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.originEndpointName = originEndpointName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
+            request.encodePath(self.channelName, key: "ChannelName")
+            request.encodePath(self.originEndpointName, key: "OriginEndpointName")
         }
 
         public func validate(name: String) throws {
@@ -1169,11 +1209,6 @@ extension MediaPackageV2 {
     }
 
     public struct ListChannelGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return in the response.
         public let maxResults: Int?
         /// The pagination token from the GET list request. Use the token to fetch the next page of results.
@@ -1182,6 +1217,13 @@ extension MediaPackageV2 {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1210,12 +1252,6 @@ extension MediaPackageV2 {
     }
 
     public struct ListChannelsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelGroupName", location: .uri("ChannelGroupName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
         /// The maximum number of results to return in the response.
@@ -1227,6 +1263,14 @@ extension MediaPackageV2 {
             self.channelGroupName = channelGroupName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1300,13 +1344,6 @@ extension MediaPackageV2 {
     }
 
     public struct ListOriginEndpointsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelGroupName", location: .uri("ChannelGroupName")),
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
@@ -1321,6 +1358,15 @@ extension MediaPackageV2 {
             self.channelName = channelName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
+            request.encodePath(self.channelName, key: "ChannelName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1355,15 +1401,17 @@ extension MediaPackageV2 {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The ARN of the CloudWatch resource that you want to view tags for.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1432,11 +1480,6 @@ extension MediaPackageV2 {
     }
 
     public struct PutChannelPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelGroupName", location: .uri("ChannelGroupName")),
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
-        ]
-
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
@@ -1448,6 +1491,14 @@ extension MediaPackageV2 {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.policy = policy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
+            request.encodePath(self.channelName, key: "ChannelName")
+            try container.encode(self.policy, forKey: .policy)
         }
 
         public func validate(name: String) throws {
@@ -1470,12 +1521,6 @@ extension MediaPackageV2 {
     }
 
     public struct PutOriginEndpointPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelGroupName", location: .uri("ChannelGroupName")),
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName")),
-            AWSMemberEncoding(label: "originEndpointName", location: .uri("OriginEndpointName"))
-        ]
-
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
@@ -1490,6 +1535,15 @@ extension MediaPackageV2 {
             self.channelName = channelName
             self.originEndpointName = originEndpointName
             self.policy = policy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
+            request.encodePath(self.channelName, key: "ChannelName")
+            request.encodePath(self.originEndpointName, key: "OriginEndpointName")
+            try container.encode(self.policy, forKey: .policy)
         }
 
         public func validate(name: String) throws {
@@ -1614,10 +1668,6 @@ extension MediaPackageV2 {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The ARN of the MediaPackage resource that you're adding tags to.
         public let resourceArn: String
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the resource.
@@ -1628,17 +1678,19 @@ extension MediaPackageV2 {
             self.tags = tags
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
         }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The ARN of the MediaPackage resource that you're removing tags from.
         public let resourceArn: String
         /// The list of tag keys to remove from the resource.
@@ -1649,14 +1701,17 @@ extension MediaPackageV2 {
             self.tagKeys = tagKeys
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateChannelGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelGroupName", location: .uri("ChannelGroupName"))
-        ]
-
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
         /// Any descriptive information that you want to add to the channel group for future identification purposes.
@@ -1665,6 +1720,13 @@ extension MediaPackageV2 {
         public init(channelGroupName: String, description: String? = nil) {
             self.channelGroupName = channelGroupName
             self.description = description
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
+            try container.encodeIfPresent(self.description, forKey: .description)
         }
 
         public func validate(name: String) throws {
@@ -1717,11 +1779,6 @@ extension MediaPackageV2 {
     }
 
     public struct UpdateChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelGroupName", location: .uri("ChannelGroupName")),
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
-        ]
-
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
@@ -1733,6 +1790,14 @@ extension MediaPackageV2 {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.description = description
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
+            request.encodePath(self.channelName, key: "ChannelName")
+            try container.encodeIfPresent(self.description, forKey: .description)
         }
 
         public func validate(name: String) throws {
@@ -1791,12 +1856,6 @@ extension MediaPackageV2 {
     }
 
     public struct UpdateOriginEndpointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelGroupName", location: .uri("ChannelGroupName")),
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName")),
-            AWSMemberEncoding(label: "originEndpointName", location: .uri("OriginEndpointName"))
-        ]
-
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
@@ -1826,6 +1885,20 @@ extension MediaPackageV2 {
             self.originEndpointName = originEndpointName
             self.segment = segment
             self.startoverWindowSeconds = startoverWindowSeconds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
+            request.encodePath(self.channelName, key: "ChannelName")
+            try container.encode(self.containerType, forKey: .containerType)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.hlsManifests, forKey: .hlsManifests)
+            try container.encodeIfPresent(self.lowLatencyHlsManifests, forKey: .lowLatencyHlsManifests)
+            request.encodePath(self.originEndpointName, key: "OriginEndpointName")
+            try container.encodeIfPresent(self.segment, forKey: .segment)
+            try container.encodeIfPresent(self.startoverWindowSeconds, forKey: .startoverWindowSeconds)
         }
 
         public func validate(name: String) throws {

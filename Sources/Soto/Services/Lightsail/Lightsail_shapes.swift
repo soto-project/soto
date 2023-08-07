@@ -2601,10 +2601,6 @@ extension Lightsail {
     }
 
     public struct CreateContainerServiceDeploymentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serviceName", location: .uri("serviceName"))
-        ]
-
         /// An object that describes the settings of the containers that will be launched on the container service.
         public let containers: [String: Container]?
         /// An object that describes the settings of the public endpoint for the container service.
@@ -2616,6 +2612,14 @@ extension Lightsail {
             self.containers = containers
             self.publicEndpoint = publicEndpoint
             self.serviceName = serviceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.containers, forKey: .containers)
+            try container.encodeIfPresent(self.publicEndpoint, forKey: .publicEndpoint)
+            request.encodePath(self.serviceName, key: "serviceName")
         }
 
         public func validate(name: String) throws {
@@ -3792,11 +3796,6 @@ extension Lightsail {
     }
 
     public struct DeleteContainerImageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "image", location: .uri("image")),
-            AWSMemberEncoding(label: "serviceName", location: .uri("serviceName"))
-        ]
-
         /// The name of the container image to delete from the container service. Use the GetContainerImages action to get the name of the container images that are registered to a container service.  Container images sourced from your Lightsail container service, that are registered and stored on your service, start with a colon (:). For example, :container-service-1.mystaticwebsite.1. Container images sourced from a public registry like Docker Hub don't start with a colon. For example, nginx:latest or nginx.
         public let image: String
         /// The name of the container service for which to delete a registered container image.
@@ -3805,6 +3804,13 @@ extension Lightsail {
         public init(image: String, serviceName: String) {
             self.image = image
             self.serviceName = serviceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.image, key: "image")
+            request.encodePath(self.serviceName, key: "serviceName")
         }
 
         public func validate(name: String) throws {
@@ -3821,15 +3827,17 @@ extension Lightsail {
     }
 
     public struct DeleteContainerServiceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serviceName", location: .uri("serviceName"))
-        ]
-
         /// The name of the container service to delete.
         public let serviceName: String
 
         public init(serviceName: String) {
             self.serviceName = serviceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.serviceName, key: "serviceName")
         }
 
         public func validate(name: String) throws {
@@ -5523,15 +5531,17 @@ extension Lightsail {
     }
 
     public struct GetContainerImagesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serviceName", location: .uri("serviceName"))
-        ]
-
         /// The name of the container service for which to return registered container images.
         public let serviceName: String
 
         public init(serviceName: String) {
             self.serviceName = serviceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.serviceName, key: "serviceName")
         }
 
         public func validate(name: String) throws {
@@ -5557,15 +5567,6 @@ extension Lightsail {
     }
 
     public struct GetContainerLogRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "containerName", location: .uri("containerName")),
-            AWSMemberEncoding(label: "endTime", location: .querystring("endTime")),
-            AWSMemberEncoding(label: "filterPattern", location: .querystring("filterPattern")),
-            AWSMemberEncoding(label: "pageToken", location: .querystring("pageToken")),
-            AWSMemberEncoding(label: "serviceName", location: .uri("serviceName")),
-            AWSMemberEncoding(label: "startTime", location: .querystring("startTime"))
-        ]
-
         /// The name of the container that is either running or previously ran on the container service for which to return a log.
         public let containerName: String
         /// The end of the time interval for which to get log data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
@@ -5586,6 +5587,17 @@ extension Lightsail {
             self.pageToken = pageToken
             self.serviceName = serviceName
             self.startTime = startTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.containerName, key: "containerName")
+            request.encodeQuery(self.endTime, key: "endTime")
+            request.encodeQuery(self.filterPattern, key: "filterPattern")
+            request.encodeQuery(self.pageToken, key: "pageToken")
+            request.encodePath(self.serviceName, key: "serviceName")
+            request.encodeQuery(self.startTime, key: "startTime")
         }
 
         public func validate(name: String) throws {
@@ -5615,15 +5627,17 @@ extension Lightsail {
     }
 
     public struct GetContainerServiceDeploymentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serviceName", location: .uri("serviceName"))
-        ]
-
         /// The name of the container service for which to return deployments.
         public let serviceName: String
 
         public init(serviceName: String) {
             self.serviceName = serviceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.serviceName, key: "serviceName")
         }
 
         public func validate(name: String) throws {
@@ -5649,15 +5663,6 @@ extension Lightsail {
     }
 
     public struct GetContainerServiceMetricDataRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "endTime", location: .querystring("endTime")),
-            AWSMemberEncoding(label: "metricName", location: .querystring("metricName")),
-            AWSMemberEncoding(label: "period", location: .querystring("period")),
-            AWSMemberEncoding(label: "serviceName", location: .uri("serviceName")),
-            AWSMemberEncoding(label: "startTime", location: .querystring("startTime")),
-            AWSMemberEncoding(label: "statistics", location: .querystring("statistics"))
-        ]
-
         /// The end time of the time period.
         public let endTime: Date
         /// The metric for which you want to return information. Valid container service metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.    CPUUtilization - The average percentage of compute units that are currently in use across all nodes of the container service. This metric identifies the processing power required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average. Unit: The published unit is Percent.    MemoryUtilization - The average percentage of available memory that is currently in use across all nodes of the container service. This metric identifies the memory required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average. Unit: The published unit is Percent.
@@ -5678,6 +5683,17 @@ extension Lightsail {
             self.serviceName = serviceName
             self.startTime = startTime
             self.statistics = statistics
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.endTime, key: "endTime")
+            request.encodeQuery(self.metricName, key: "metricName")
+            request.encodeQuery(self.period, key: "period")
+            request.encodePath(self.serviceName, key: "serviceName")
+            request.encodeQuery(self.startTime, key: "startTime")
+            request.encodeQuery(self.statistics, key: "statistics")
         }
 
         public func validate(name: String) throws {
@@ -5726,15 +5742,17 @@ extension Lightsail {
     }
 
     public struct GetContainerServicesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serviceName", location: .querystring("serviceName"))
-        ]
-
         /// The name of the container service for which to return information. When omitted, the response includes all of your container services in the Amazon Web Services Region where the request is made.
         public let serviceName: String?
 
         public init(serviceName: String? = nil) {
             self.serviceName = serviceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.serviceName, key: "serviceName")
         }
 
         public func validate(name: String) throws {
@@ -8955,10 +8973,6 @@ extension Lightsail {
     }
 
     public struct RegisterContainerImageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serviceName", location: .uri("serviceName"))
-        ]
-
         /// The digest of the container image to be registered.
         public let digest: String
         /// The label for the container image when it's registered to the container service. Use a descriptive label that you can use to track the different versions of your registered container images. Use the GetContainerImages action to return the container images registered to a Lightsail container service. The label is the  portion of the following image name example:    :container-service-1..1    If the name of your container service is mycontainerservice, and the label that you specify is mystaticwebsite, then the name of the registered container image will be :mycontainerservice.mystaticwebsite.1. The number at the end of these image name examples represents the version of the registered container image. If you push and register another container image to the same Lightsail container service, with the same label, then the version number for the new registered container image will be 2. If you push and register another container image, the version number will be 3, and so on.
@@ -8970,6 +8984,14 @@ extension Lightsail {
             self.digest = digest
             self.label = label
             self.serviceName = serviceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.digest, forKey: .digest)
+            try container.encode(self.label, forKey: .label)
+            request.encodePath(self.serviceName, key: "serviceName")
         }
 
         public func validate(name: String) throws {
@@ -10194,10 +10216,6 @@ extension Lightsail {
     }
 
     public struct UpdateContainerServiceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serviceName", location: .uri("serviceName"))
-        ]
-
         /// A Boolean value to indicate whether the container service is disabled.
         public let isDisabled: Bool?
         /// The power for the container service. The power specifies the amount of memory, vCPUs, and base monthly cost of each node of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service. Use the GetContainerServicePowers action to view the specifications of each power option.
@@ -10218,6 +10236,17 @@ extension Lightsail {
             self.publicDomainNames = publicDomainNames
             self.scale = scale
             self.serviceName = serviceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.isDisabled, forKey: .isDisabled)
+            try container.encodeIfPresent(self.power, forKey: .power)
+            try container.encodeIfPresent(self.privateRegistryAccess, forKey: .privateRegistryAccess)
+            try container.encodeIfPresent(self.publicDomainNames, forKey: .publicDomainNames)
+            try container.encodeIfPresent(self.scale, forKey: .scale)
+            request.encodePath(self.serviceName, key: "serviceName")
         }
 
         public func validate(name: String) throws {

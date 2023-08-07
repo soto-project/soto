@@ -1713,15 +1713,17 @@ extension Imagebuilder {
     }
 
     public struct DeleteComponentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "componentBuildVersionArn", location: .querystring("componentBuildVersionArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the component build version to delete.
         public let componentBuildVersionArn: String
 
         public init(componentBuildVersionArn: String) {
             self.componentBuildVersionArn = componentBuildVersionArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.componentBuildVersionArn, key: "componentBuildVersionArn")
         }
 
         public func validate(name: String) throws {
@@ -1749,15 +1751,17 @@ extension Imagebuilder {
     }
 
     public struct DeleteContainerRecipeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "containerRecipeArn", location: .querystring("containerRecipeArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the container recipe to delete.
         public let containerRecipeArn: String
 
         public init(containerRecipeArn: String) {
             self.containerRecipeArn = containerRecipeArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.containerRecipeArn, key: "containerRecipeArn")
         }
 
         public func validate(name: String) throws {
@@ -1785,15 +1789,17 @@ extension Imagebuilder {
     }
 
     public struct DeleteDistributionConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distributionConfigurationArn", location: .querystring("distributionConfigurationArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the distribution configuration to delete.
         public let distributionConfigurationArn: String
 
         public init(distributionConfigurationArn: String) {
             self.distributionConfigurationArn = distributionConfigurationArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.distributionConfigurationArn, key: "distributionConfigurationArn")
         }
 
         public func validate(name: String) throws {
@@ -1822,15 +1828,17 @@ extension Imagebuilder {
     }
 
     public struct DeleteImagePipelineRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "imagePipelineArn", location: .querystring("imagePipelineArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the image pipeline to delete.
         public let imagePipelineArn: String
 
         public init(imagePipelineArn: String) {
             self.imagePipelineArn = imagePipelineArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.imagePipelineArn, key: "imagePipelineArn")
         }
 
         public func validate(name: String) throws {
@@ -1858,15 +1866,17 @@ extension Imagebuilder {
     }
 
     public struct DeleteImageRecipeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "imageRecipeArn", location: .querystring("imageRecipeArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the image recipe to delete.
         public let imageRecipeArn: String
 
         public init(imageRecipeArn: String) {
             self.imageRecipeArn = imageRecipeArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.imageRecipeArn, key: "imageRecipeArn")
         }
 
         public func validate(name: String) throws {
@@ -1894,15 +1904,17 @@ extension Imagebuilder {
     }
 
     public struct DeleteImageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "imageBuildVersionArn", location: .querystring("imageBuildVersionArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the Image Builder image resource to delete.
         public let imageBuildVersionArn: String
 
         public init(imageBuildVersionArn: String) {
             self.imageBuildVersionArn = imageBuildVersionArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.imageBuildVersionArn, key: "imageBuildVersionArn")
         }
 
         public func validate(name: String) throws {
@@ -1930,15 +1942,17 @@ extension Imagebuilder {
     }
 
     public struct DeleteInfrastructureConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "infrastructureConfigurationArn", location: .querystring("infrastructureConfigurationArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the infrastructure configuration to delete.
         public let infrastructureConfigurationArn: String
 
         public init(infrastructureConfigurationArn: String) {
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.infrastructureConfigurationArn, key: "infrastructureConfigurationArn")
         }
 
         public func validate(name: String) throws {
@@ -2313,16 +2327,18 @@ extension Imagebuilder {
     }
 
     public struct GetComponentPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "componentArn", location: .querystring("componentArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the component whose policy you want to
         /// 			retrieve.
         public let componentArn: String
 
         public init(componentArn: String) {
             self.componentArn = componentArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.componentArn, key: "componentArn")
         }
 
         public func validate(name: String) throws {
@@ -2350,16 +2366,18 @@ extension Imagebuilder {
     }
 
     public struct GetComponentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "componentBuildVersionArn", location: .querystring("componentBuildVersionArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the component that you want to get. Regex requires
         /// 			the suffix /\d+$.
         public let componentBuildVersionArn: String
 
         public init(componentBuildVersionArn: String) {
             self.componentBuildVersionArn = componentBuildVersionArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.componentBuildVersionArn, key: "componentBuildVersionArn")
         }
 
         public func validate(name: String) throws {
@@ -2387,16 +2405,18 @@ extension Imagebuilder {
     }
 
     public struct GetContainerRecipePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "containerRecipeArn", location: .querystring("containerRecipeArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the container recipe for the policy being
         /// 			requested.
         public let containerRecipeArn: String
 
         public init(containerRecipeArn: String) {
             self.containerRecipeArn = containerRecipeArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.containerRecipeArn, key: "containerRecipeArn")
         }
 
         public func validate(name: String) throws {
@@ -2424,15 +2444,17 @@ extension Imagebuilder {
     }
 
     public struct GetContainerRecipeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "containerRecipeArn", location: .querystring("containerRecipeArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the container recipe to retrieve.
         public let containerRecipeArn: String
 
         public init(containerRecipeArn: String) {
             self.containerRecipeArn = containerRecipeArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.containerRecipeArn, key: "containerRecipeArn")
         }
 
         public func validate(name: String) throws {
@@ -2460,16 +2482,18 @@ extension Imagebuilder {
     }
 
     public struct GetDistributionConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distributionConfigurationArn", location: .querystring("distributionConfigurationArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the distribution configuration that you want to
         /// 			retrieve.
         public let distributionConfigurationArn: String
 
         public init(distributionConfigurationArn: String) {
             self.distributionConfigurationArn = distributionConfigurationArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.distributionConfigurationArn, key: "distributionConfigurationArn")
         }
 
         public func validate(name: String) throws {
@@ -2497,15 +2521,17 @@ extension Imagebuilder {
     }
 
     public struct GetImagePipelineRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "imagePipelineArn", location: .querystring("imagePipelineArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the image pipeline that you want to retrieve.
         public let imagePipelineArn: String
 
         public init(imagePipelineArn: String) {
             self.imagePipelineArn = imagePipelineArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.imagePipelineArn, key: "imagePipelineArn")
         }
 
         public func validate(name: String) throws {
@@ -2533,15 +2559,17 @@ extension Imagebuilder {
     }
 
     public struct GetImagePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "imageArn", location: .querystring("imageArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the image whose policy you want to retrieve.
         public let imageArn: String
 
         public init(imageArn: String) {
             self.imageArn = imageArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.imageArn, key: "imageArn")
         }
 
         public func validate(name: String) throws {
@@ -2569,16 +2597,18 @@ extension Imagebuilder {
     }
 
     public struct GetImageRecipePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "imageRecipeArn", location: .querystring("imageRecipeArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the image recipe whose policy you want to
         /// 			retrieve.
         public let imageRecipeArn: String
 
         public init(imageRecipeArn: String) {
             self.imageRecipeArn = imageRecipeArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.imageRecipeArn, key: "imageRecipeArn")
         }
 
         public func validate(name: String) throws {
@@ -2606,15 +2636,17 @@ extension Imagebuilder {
     }
 
     public struct GetImageRecipeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "imageRecipeArn", location: .querystring("imageRecipeArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the image recipe that you want to retrieve.
         public let imageRecipeArn: String
 
         public init(imageRecipeArn: String) {
             self.imageRecipeArn = imageRecipeArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.imageRecipeArn, key: "imageRecipeArn")
         }
 
         public func validate(name: String) throws {
@@ -2642,15 +2674,17 @@ extension Imagebuilder {
     }
 
     public struct GetImageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "imageBuildVersionArn", location: .querystring("imageBuildVersionArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the image that you want to get.
         public let imageBuildVersionArn: String
 
         public init(imageBuildVersionArn: String) {
             self.imageBuildVersionArn = imageBuildVersionArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.imageBuildVersionArn, key: "imageBuildVersionArn")
         }
 
         public func validate(name: String) throws {
@@ -2678,16 +2712,18 @@ extension Imagebuilder {
     }
 
     public struct GetInfrastructureConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "infrastructureConfigurationArn", location: .querystring("infrastructureConfigurationArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the infrastructure configuration that you want to
         /// 			retrieve.
         public let infrastructureConfigurationArn: String
 
         public init(infrastructureConfigurationArn: String) {
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.infrastructureConfigurationArn, key: "infrastructureConfigurationArn")
         }
 
         public func validate(name: String) throws {
@@ -2715,16 +2751,18 @@ extension Imagebuilder {
     }
 
     public struct GetWorkflowExecutionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workflowExecutionId", location: .querystring("workflowExecutionId"))
-        ]
-
         /// Use the unique identifier for a runtime instance of the workflow to get
         /// 			runtime details.
         public let workflowExecutionId: String
 
         public init(workflowExecutionId: String) {
             self.workflowExecutionId = workflowExecutionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.workflowExecutionId, key: "workflowExecutionId")
         }
 
         public func validate(name: String) throws {
@@ -2804,16 +2842,18 @@ extension Imagebuilder {
     }
 
     public struct GetWorkflowStepExecutionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "stepExecutionId", location: .querystring("stepExecutionId"))
-        ]
-
         /// Use the unique identifier for a specific runtime instance of the workflow step to
         /// 			get runtime details for that step.
         public let stepExecutionId: String
 
         public init(stepExecutionId: String) {
             self.stepExecutionId = stepExecutionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.stepExecutionId, key: "stepExecutionId")
         }
 
         public func validate(name: String) throws {
@@ -4902,15 +4942,17 @@ extension Imagebuilder {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -5547,10 +5589,6 @@ extension Imagebuilder {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource that you want to tag.
         public let resourceArn: String
         /// The tags to apply to the resource.
@@ -5559,6 +5597,13 @@ extension Imagebuilder {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -5606,11 +5651,6 @@ extension Imagebuilder {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource that you want to untag.
         public let resourceArn: String
         /// The tag keys to remove from the resource.
@@ -5619,6 +5659,13 @@ extension Imagebuilder {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {

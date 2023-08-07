@@ -458,10 +458,6 @@ extension Pipes {
     }
 
     public struct CreatePipeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// A description of the pipe.
         public let description: String?
         /// The state the pipe should be in.
@@ -497,6 +493,22 @@ extension Pipes {
             self.tags = tags
             self.target = target
             self.targetParameters = targetParameters
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.desiredState, forKey: .desiredState)
+            try container.encodeIfPresent(self.enrichment, forKey: .enrichment)
+            try container.encodeIfPresent(self.enrichmentParameters, forKey: .enrichmentParameters)
+            request.encodePath(self.name, key: "Name")
+            try container.encode(self.roleArn, forKey: .roleArn)
+            try container.encode(self.source, forKey: .source)
+            try container.encodeIfPresent(self.sourceParameters, forKey: .sourceParameters)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.target, forKey: .target)
+            try container.encodeIfPresent(self.targetParameters, forKey: .targetParameters)
         }
 
         public func validate(name: String) throws {
@@ -595,15 +607,17 @@ extension Pipes {
     }
 
     public struct DeletePipeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the pipe.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -649,15 +663,17 @@ extension Pipes {
     }
 
     public struct DescribePipeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the pipe.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -954,16 +970,6 @@ extension Pipes {
     }
 
     public struct ListPipesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "currentState", location: .querystring("CurrentState")),
-            AWSMemberEncoding(label: "desiredState", location: .querystring("DesiredState")),
-            AWSMemberEncoding(label: "limit", location: .querystring("Limit")),
-            AWSMemberEncoding(label: "namePrefix", location: .querystring("NamePrefix")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "sourcePrefix", location: .querystring("SourcePrefix")),
-            AWSMemberEncoding(label: "targetPrefix", location: .querystring("TargetPrefix"))
-        ]
-
         /// The state the pipe is in.
         public let currentState: PipeState?
         /// The state the pipe should be in.
@@ -987,6 +993,18 @@ extension Pipes {
             self.nextToken = nextToken
             self.sourcePrefix = sourcePrefix
             self.targetPrefix = targetPrefix
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.currentState, key: "CurrentState")
+            request.encodeQuery(self.desiredState, key: "DesiredState")
+            request.encodeQuery(self.limit, key: "Limit")
+            request.encodeQuery(self.namePrefix, key: "NamePrefix")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.sourcePrefix, key: "SourcePrefix")
+            request.encodeQuery(self.targetPrefix, key: "TargetPrefix")
         }
 
         public func validate(name: String) throws {
@@ -1024,15 +1042,17 @@ extension Pipes {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The ARN of the pipe for which you want to view tags.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -2131,15 +2151,17 @@ extension Pipes {
     }
 
     public struct StartPipeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the pipe.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -2185,15 +2207,17 @@ extension Pipes {
     }
 
     public struct StopPipeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the pipe.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -2262,10 +2286,6 @@ extension Pipes {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The ARN of the pipe.
         public let resourceArn: String
         /// The list of key-value pairs associated with the pipe.
@@ -2274,6 +2294,13 @@ extension Pipes {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2299,11 +2326,6 @@ extension Pipes {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The ARN of the pipe.
         public let resourceArn: String
         /// The list of tag keys to remove from the pipe.
@@ -2312,6 +2334,13 @@ extension Pipes {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -2333,10 +2362,6 @@ extension Pipes {
     }
 
     public struct UpdatePipeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// A description of the pipe.
         public let description: String?
         /// The state the pipe should be in.
@@ -2366,6 +2391,20 @@ extension Pipes {
             self.sourceParameters = sourceParameters
             self.target = target
             self.targetParameters = targetParameters
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.desiredState, forKey: .desiredState)
+            try container.encodeIfPresent(self.enrichment, forKey: .enrichment)
+            try container.encodeIfPresent(self.enrichmentParameters, forKey: .enrichmentParameters)
+            request.encodePath(self.name, key: "Name")
+            try container.encode(self.roleArn, forKey: .roleArn)
+            try container.encodeIfPresent(self.sourceParameters, forKey: .sourceParameters)
+            try container.encodeIfPresent(self.target, forKey: .target)
+            try container.encodeIfPresent(self.targetParameters, forKey: .targetParameters)
         }
 
         public func validate(name: String) throws {

@@ -559,10 +559,6 @@ extension Transcribe {
     }
 
     public struct CreateCallAnalyticsCategoryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "categoryName", location: .uri("CategoryName"))
-        ]
-
         /// A unique name, chosen by you, for your Call Analytics category. It's helpful to use a detailed naming system that will make sense to you in the future. For example, it's better to use sentiment-positive-last30seconds for a category over a generic name like test-category. Category names are case sensitive.
         public let categoryName: String
         /// Choose whether you want to create a real-time or a post-call category for your Call  Analytics transcription. Specifying POST_CALL assigns your category to post-call transcriptions;  categories with this input type cannot be applied to streaming (real-time)  transcriptions. Specifying REAL_TIME assigns your category to streaming transcriptions;  categories with this input type cannot be applied to post-call transcriptions. If you do not include InputType, your category is created as a post-call  category by default.
@@ -574,6 +570,14 @@ extension Transcribe {
             self.categoryName = categoryName
             self.inputType = inputType
             self.rules = rules
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.categoryName, key: "CategoryName")
+            try container.encodeIfPresent(self.inputType, forKey: .inputType)
+            try container.encode(self.rules, forKey: .rules)
         }
 
         public func validate(name: String) throws {
@@ -607,10 +611,6 @@ extension Transcribe {
     }
 
     public struct CreateLanguageModelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "modelName", location: .uri("ModelName"))
-        ]
-
         /// The Amazon Transcribe standard language model, or base model, used to create your custom language model. Amazon Transcribe offers two options for base models: Wideband and Narrowband. If the audio you want to transcribe has a sample rate of 16,000 Hz or greater, choose WideBand. To transcribe audio with a sample rate less than 16,000 Hz, choose NarrowBand.
         public let baseModelName: BaseModelName
         /// Contains the Amazon S3 location of the training data you want to use to create a new custom language model, and permissions to access this location. When using InputDataConfig, you must include these sub-parameters: S3Uri, which is the Amazon S3 location of your training data, and DataAccessRoleArn, which is the Amazon Resource Name (ARN) of the role that has permission to access your specified Amazon S3 location. You can optionally include TuningDataS3Uri, which is the Amazon S3 location of your tuning data. If you specify different Amazon S3 locations for training and tuning data, the ARN you use must have permissions to access both locations.
@@ -628,6 +628,16 @@ extension Transcribe {
             self.languageCode = languageCode
             self.modelName = modelName
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.baseModelName, forKey: .baseModelName)
+            try container.encode(self.inputDataConfig, forKey: .inputDataConfig)
+            try container.encode(self.languageCode, forKey: .languageCode)
+            request.encodePath(self.modelName, key: "ModelName")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -680,10 +690,6 @@ extension Transcribe {
     }
 
     public struct CreateMedicalVocabularyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
-        ]
-
         /// The language code that represents the language of the entries in your custom vocabulary. US English (en-US) is the only language supported with Amazon Transcribe Medical.
         public let languageCode: LanguageCode
         /// Adds one or more custom tags, each in the form of a key:value pair, to a new custom medical vocabulary at the time you create this new custom vocabulary. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
@@ -698,6 +704,15 @@ extension Transcribe {
             self.tags = tags
             self.vocabularyFileUri = vocabularyFileUri
             self.vocabularyName = vocabularyName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.languageCode, forKey: .languageCode)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.vocabularyFileUri, forKey: .vocabularyFileUri)
+            request.encodePath(self.vocabularyName, key: "VocabularyName")
         }
 
         public func validate(name: String) throws {
@@ -751,10 +766,6 @@ extension Transcribe {
     }
 
     public struct CreateVocabularyFilterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyFilterName", location: .uri("VocabularyFilterName"))
-        ]
-
         /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary filter). If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
         public let dataAccessRoleArn: String?
         /// The language code that represents the language of the entries in your vocabulary filter. Each custom vocabulary filter must contain terms in only one language. A custom vocabulary filter can only be used to transcribe files in the same language as the filter. For example, if you create a custom vocabulary filter using US English (en-US), you can only apply this filter to files that contain English audio. For a list of supported languages and their associated language codes, refer to the Supported languages table.
@@ -775,6 +786,17 @@ extension Transcribe {
             self.vocabularyFilterFileUri = vocabularyFilterFileUri
             self.vocabularyFilterName = vocabularyFilterName
             self.words = words
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.dataAccessRoleArn, forKey: .dataAccessRoleArn)
+            try container.encode(self.languageCode, forKey: .languageCode)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.vocabularyFilterFileUri, forKey: .vocabularyFilterFileUri)
+            request.encodePath(self.vocabularyFilterName, key: "VocabularyFilterName")
+            try container.encodeIfPresent(self.words, forKey: .words)
         }
 
         public func validate(name: String) throws {
@@ -830,10 +852,6 @@ extension Transcribe {
     }
 
     public struct CreateVocabularyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
-        ]
-
         /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary). If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
         public let dataAccessRoleArn: String?
         /// The language code that represents the language of the entries in your custom vocabulary. Each custom vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the custom vocabulary. For example, if you create a custom vocabulary using US English (en-US), you can only apply this custom vocabulary to files that contain English audio. For a list of supported languages and their associated language codes, refer to the Supported languages table.
@@ -854,6 +872,17 @@ extension Transcribe {
             self.tags = tags
             self.vocabularyFileUri = vocabularyFileUri
             self.vocabularyName = vocabularyName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.dataAccessRoleArn, forKey: .dataAccessRoleArn)
+            try container.encode(self.languageCode, forKey: .languageCode)
+            try container.encodeIfPresent(self.phrases, forKey: .phrases)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.vocabularyFileUri, forKey: .vocabularyFileUri)
+            request.encodePath(self.vocabularyName, key: "VocabularyName")
         }
 
         public func validate(name: String) throws {
@@ -916,15 +945,17 @@ extension Transcribe {
     }
 
     public struct DeleteCallAnalyticsCategoryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "categoryName", location: .uri("CategoryName"))
-        ]
-
         /// The name of the Call Analytics category you want to delete. Category names are case sensitive.
         public let categoryName: String
 
         public init(categoryName: String) {
             self.categoryName = categoryName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.categoryName, key: "CategoryName")
         }
 
         public func validate(name: String) throws {
@@ -941,15 +972,17 @@ extension Transcribe {
     }
 
     public struct DeleteCallAnalyticsJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "callAnalyticsJobName", location: .uri("CallAnalyticsJobName"))
-        ]
-
         /// The name of the Call Analytics job you want to delete. Job names are case sensitive.
         public let callAnalyticsJobName: String
 
         public init(callAnalyticsJobName: String) {
             self.callAnalyticsJobName = callAnalyticsJobName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.callAnalyticsJobName, key: "CallAnalyticsJobName")
         }
 
         public func validate(name: String) throws {
@@ -966,15 +999,17 @@ extension Transcribe {
     }
 
     public struct DeleteLanguageModelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "modelName", location: .uri("ModelName"))
-        ]
-
         /// The name of the custom language model you want to delete. Model names are case sensitive.
         public let modelName: String
 
         public init(modelName: String) {
             self.modelName = modelName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.modelName, key: "ModelName")
         }
 
         public func validate(name: String) throws {
@@ -987,15 +1022,17 @@ extension Transcribe {
     }
 
     public struct DeleteMedicalTranscriptionJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "medicalTranscriptionJobName", location: .uri("MedicalTranscriptionJobName"))
-        ]
-
         /// The name of the medical transcription job you want to delete. Job names are case sensitive.
         public let medicalTranscriptionJobName: String
 
         public init(medicalTranscriptionJobName: String) {
             self.medicalTranscriptionJobName = medicalTranscriptionJobName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.medicalTranscriptionJobName, key: "MedicalTranscriptionJobName")
         }
 
         public func validate(name: String) throws {
@@ -1008,15 +1045,17 @@ extension Transcribe {
     }
 
     public struct DeleteMedicalVocabularyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
-        ]
-
         /// The name of the custom medical vocabulary you want to delete. Custom medical vocabulary names are case sensitive.
         public let vocabularyName: String
 
         public init(vocabularyName: String) {
             self.vocabularyName = vocabularyName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.vocabularyName, key: "VocabularyName")
         }
 
         public func validate(name: String) throws {
@@ -1029,15 +1068,17 @@ extension Transcribe {
     }
 
     public struct DeleteTranscriptionJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "transcriptionJobName", location: .uri("TranscriptionJobName"))
-        ]
-
         /// The name of the transcription job you want to delete. Job names are case sensitive.
         public let transcriptionJobName: String
 
         public init(transcriptionJobName: String) {
             self.transcriptionJobName = transcriptionJobName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.transcriptionJobName, key: "TranscriptionJobName")
         }
 
         public func validate(name: String) throws {
@@ -1050,15 +1091,17 @@ extension Transcribe {
     }
 
     public struct DeleteVocabularyFilterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyFilterName", location: .uri("VocabularyFilterName"))
-        ]
-
         /// The name of the custom vocabulary filter you want to delete. Custom vocabulary filter names are case sensitive.
         public let vocabularyFilterName: String
 
         public init(vocabularyFilterName: String) {
             self.vocabularyFilterName = vocabularyFilterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.vocabularyFilterName, key: "VocabularyFilterName")
         }
 
         public func validate(name: String) throws {
@@ -1071,15 +1114,17 @@ extension Transcribe {
     }
 
     public struct DeleteVocabularyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
-        ]
-
         /// The name of the custom vocabulary you want to delete. Custom vocabulary names are case sensitive.
         public let vocabularyName: String
 
         public init(vocabularyName: String) {
             self.vocabularyName = vocabularyName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.vocabularyName, key: "VocabularyName")
         }
 
         public func validate(name: String) throws {
@@ -1092,15 +1137,17 @@ extension Transcribe {
     }
 
     public struct DescribeLanguageModelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "modelName", location: .uri("ModelName"))
-        ]
-
         /// The name of the custom language model you want information about. Model names are case sensitive.
         public let modelName: String
 
         public init(modelName: String) {
             self.modelName = modelName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.modelName, key: "ModelName")
         }
 
         public func validate(name: String) throws {
@@ -1126,15 +1173,17 @@ extension Transcribe {
     }
 
     public struct GetCallAnalyticsCategoryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "categoryName", location: .uri("CategoryName"))
-        ]
-
         /// The name of the Call Analytics category you want information about. Category names are case sensitive.
         public let categoryName: String
 
         public init(categoryName: String) {
             self.categoryName = categoryName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.categoryName, key: "CategoryName")
         }
 
         public func validate(name: String) throws {
@@ -1160,15 +1209,17 @@ extension Transcribe {
     }
 
     public struct GetCallAnalyticsJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "callAnalyticsJobName", location: .uri("CallAnalyticsJobName"))
-        ]
-
         /// The name of the Call Analytics job you want information about. Job names are case sensitive.
         public let callAnalyticsJobName: String
 
         public init(callAnalyticsJobName: String) {
             self.callAnalyticsJobName = callAnalyticsJobName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.callAnalyticsJobName, key: "CallAnalyticsJobName")
         }
 
         public func validate(name: String) throws {
@@ -1194,15 +1245,17 @@ extension Transcribe {
     }
 
     public struct GetMedicalTranscriptionJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "medicalTranscriptionJobName", location: .uri("MedicalTranscriptionJobName"))
-        ]
-
         /// The name of the medical transcription job you want information about. Job names are case sensitive.
         public let medicalTranscriptionJobName: String
 
         public init(medicalTranscriptionJobName: String) {
             self.medicalTranscriptionJobName = medicalTranscriptionJobName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.medicalTranscriptionJobName, key: "MedicalTranscriptionJobName")
         }
 
         public func validate(name: String) throws {
@@ -1228,15 +1281,17 @@ extension Transcribe {
     }
 
     public struct GetMedicalVocabularyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
-        ]
-
         /// The name of the custom medical vocabulary you want information about. Custom medical vocabulary names are case sensitive.
         public let vocabularyName: String
 
         public init(vocabularyName: String) {
             self.vocabularyName = vocabularyName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.vocabularyName, key: "VocabularyName")
         }
 
         public func validate(name: String) throws {
@@ -1282,15 +1337,17 @@ extension Transcribe {
     }
 
     public struct GetTranscriptionJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "transcriptionJobName", location: .uri("TranscriptionJobName"))
-        ]
-
         /// The name of the transcription job you want information about. Job names are case sensitive.
         public let transcriptionJobName: String
 
         public init(transcriptionJobName: String) {
             self.transcriptionJobName = transcriptionJobName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.transcriptionJobName, key: "TranscriptionJobName")
         }
 
         public func validate(name: String) throws {
@@ -1316,15 +1373,17 @@ extension Transcribe {
     }
 
     public struct GetVocabularyFilterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyFilterName", location: .uri("VocabularyFilterName"))
-        ]
-
         /// The name of the custom vocabulary filter you want information about. Custom vocabulary filter names are case sensitive.
         public let vocabularyFilterName: String
 
         public init(vocabularyFilterName: String) {
             self.vocabularyFilterName = vocabularyFilterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.vocabularyFilterName, key: "VocabularyFilterName")
         }
 
         public func validate(name: String) throws {
@@ -1362,15 +1421,17 @@ extension Transcribe {
     }
 
     public struct GetVocabularyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
-        ]
-
         /// The name of the custom vocabulary you want information about. Custom vocabulary names are case sensitive.
         public let vocabularyName: String
 
         public init(vocabularyName: String) {
             self.vocabularyName = vocabularyName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.vocabularyName, key: "VocabularyName")
         }
 
         public func validate(name: String) throws {
@@ -1603,11 +1664,6 @@ extension Transcribe {
     }
 
     public struct ListCallAnalyticsCategoriesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The maximum number of Call Analytics categories to return in each page of results. If there are fewer results than the value that you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
         public let maxResults: Int?
         /// If your ListCallAnalyticsCategories request returns more results than can be displayed, NextToken is displayed in the response with an associated string. To get the next page of results, copy this string and repeat your request, including NextToken with the value of the copied string. Repeat as needed to view all your results.
@@ -1616,6 +1672,13 @@ extension Transcribe {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -1646,13 +1709,6 @@ extension Transcribe {
     }
 
     public struct ListCallAnalyticsJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobNameContains", location: .querystring("JobNameContains")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring("Status"))
-        ]
-
         /// Returns only the Call Analytics jobs that contain the specified string. The search is not case sensitive.
         public let jobNameContains: String?
         /// The maximum number of Call Analytics jobs to return in each page of results. If there are fewer results than the value that you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
@@ -1667,6 +1723,15 @@ extension Transcribe {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.jobNameContains, key: "JobNameContains")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.status, key: "Status")
         }
 
         public func validate(name: String) throws {
@@ -1704,13 +1769,6 @@ extension Transcribe {
     }
 
     public struct ListLanguageModelsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nameContains", location: .querystring("NameContains")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "statusEquals", location: .querystring("         StatusEquals"))
-        ]
-
         /// The maximum number of custom language models to return in each page of results. If there are fewer results than the value that you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
         public let maxResults: Int?
         /// Returns only the custom language models that contain the specified string. The search is not case sensitive.
@@ -1725,6 +1783,15 @@ extension Transcribe {
             self.nameContains = nameContains
             self.nextToken = nextToken
             self.statusEquals = statusEquals
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nameContains, key: "NameContains")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.statusEquals, key: "         StatusEquals")
         }
 
         public func validate(name: String) throws {
@@ -1758,13 +1825,6 @@ extension Transcribe {
     }
 
     public struct ListMedicalTranscriptionJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobNameContains", location: .querystring("JobNameContains")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring("Status"))
-        ]
-
         /// Returns only the medical transcription jobs that contain the specified string. The search is not case sensitive.
         public let jobNameContains: String?
         /// The maximum number of medical transcription jobs to return in each page of results. If there are fewer results than the value that you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
@@ -1779,6 +1839,15 @@ extension Transcribe {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.jobNameContains, key: "JobNameContains")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.status, key: "Status")
         }
 
         public func validate(name: String) throws {
@@ -1816,13 +1885,6 @@ extension Transcribe {
     }
 
     public struct ListMedicalVocabulariesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nameContains", location: .querystring("NameContains")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "stateEquals", location: .querystring("StateEquals"))
-        ]
-
         /// The maximum number of custom medical vocabularies to return in each page of results. If there are fewer results than the value that you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
         public let maxResults: Int?
         /// Returns only the custom medical vocabularies that contain the specified string. The search is not case sensitive.
@@ -1837,6 +1899,15 @@ extension Transcribe {
             self.nameContains = nameContains
             self.nextToken = nextToken
             self.stateEquals = stateEquals
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nameContains, key: "NameContains")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.stateEquals, key: "StateEquals")
         }
 
         public func validate(name: String) throws {
@@ -1874,15 +1945,17 @@ extension Transcribe {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// Returns a list of all tags associated with the specified Amazon Resource Name (ARN). ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id. For example, arn:aws:transcribe:us-west-2:111122223333:transcription-job/transcription-job-name. Valid values for resource-type are: transcription-job, medical-transcription-job, vocabulary, medical-vocabulary, vocabulary-filter, and language-model.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1912,13 +1985,6 @@ extension Transcribe {
     }
 
     public struct ListTranscriptionJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobNameContains", location: .querystring("JobNameContains")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring("Status"))
-        ]
-
         /// Returns only the transcription jobs that contain the specified string. The search is not case sensitive.
         public let jobNameContains: String?
         /// The maximum number of transcription jobs to return in each page of results. If there are fewer results than the value that you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
@@ -1933,6 +1999,15 @@ extension Transcribe {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.jobNameContains, key: "JobNameContains")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.status, key: "Status")
         }
 
         public func validate(name: String) throws {
@@ -1970,13 +2045,6 @@ extension Transcribe {
     }
 
     public struct ListVocabulariesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nameContains", location: .querystring("NameContains")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "stateEquals", location: .querystring("StateEquals"))
-        ]
-
         /// The maximum number of custom vocabularies to return in each page of results. If there are fewer results than the value that you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
         public let maxResults: Int?
         /// Returns only the custom vocabularies that contain the specified string. The search is not case sensitive.
@@ -1991,6 +2059,15 @@ extension Transcribe {
             self.nameContains = nameContains
             self.nextToken = nextToken
             self.stateEquals = stateEquals
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nameContains, key: "NameContains")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.stateEquals, key: "StateEquals")
         }
 
         public func validate(name: String) throws {
@@ -2028,12 +2105,6 @@ extension Transcribe {
     }
 
     public struct ListVocabularyFiltersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nameContains", location: .querystring("NameContains")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The maximum number of custom vocabulary filters to return in each page of results. If there are fewer results than the value that you specify, only the actual results are returned. If you don't specify a value, a default of 5 is used.
         public let maxResults: Int?
         /// Returns only the custom vocabulary filters that contain the specified string. The search is not case sensitive.
@@ -2045,6 +2116,14 @@ extension Transcribe {
             self.maxResults = maxResults
             self.nameContains = nameContains
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nameContains, key: "NameContains")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -2462,10 +2541,6 @@ extension Transcribe {
     }
 
     public struct StartCallAnalyticsJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "callAnalyticsJobName", location: .uri("CallAnalyticsJobName"))
-        ]
-
         /// A unique name, chosen by you, for your Call Analytics job. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new job with the same name as an existing job, you get a ConflictException error.
         public let callAnalyticsJobName: String
         /// Makes it possible to specify which speaker is on which channel. For example, if your agent is the first participant to speak, you would set ChannelId to 0 (to indicate the first channel) and ParticipantRole to AGENT (to indicate that it's the agent speaking).
@@ -2489,6 +2564,18 @@ extension Transcribe {
             self.outputEncryptionKMSKeyId = outputEncryptionKMSKeyId
             self.outputLocation = outputLocation
             self.settings = settings
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.callAnalyticsJobName, key: "CallAnalyticsJobName")
+            try container.encodeIfPresent(self.channelDefinitions, forKey: .channelDefinitions)
+            try container.encodeIfPresent(self.dataAccessRoleArn, forKey: .dataAccessRoleArn)
+            try container.encode(self.media, forKey: .media)
+            try container.encodeIfPresent(self.outputEncryptionKMSKeyId, forKey: .outputEncryptionKMSKeyId)
+            try container.encodeIfPresent(self.outputLocation, forKey: .outputLocation)
+            try container.encodeIfPresent(self.settings, forKey: .settings)
         }
 
         public func validate(name: String) throws {
@@ -2537,10 +2624,6 @@ extension Transcribe {
     }
 
     public struct StartMedicalTranscriptionJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "medicalTranscriptionJobName", location: .uri("MedicalTranscriptionJobName"))
-        ]
-
         /// Labels all personal health information (PHI) identified in your transcript. For more information, see Identifying personal health information (PHI) in a transcription.
         public let contentIdentificationType: MedicalContentIdentificationType?
         /// A map of plain text, non-secret key:value pairs, known as encryption context pairs, that provide an added layer of security for your data. For more information, see KMS encryption context and Asymmetric keys in KMS.
@@ -2584,6 +2667,25 @@ extension Transcribe {
             self.specialty = specialty
             self.tags = tags
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.contentIdentificationType, forKey: .contentIdentificationType)
+            try container.encodeIfPresent(self.kmsEncryptionContext, forKey: .kmsEncryptionContext)
+            try container.encode(self.languageCode, forKey: .languageCode)
+            try container.encode(self.media, forKey: .media)
+            try container.encodeIfPresent(self.mediaFormat, forKey: .mediaFormat)
+            try container.encodeIfPresent(self.mediaSampleRateHertz, forKey: .mediaSampleRateHertz)
+            request.encodePath(self.medicalTranscriptionJobName, key: "MedicalTranscriptionJobName")
+            try container.encode(self.outputBucketName, forKey: .outputBucketName)
+            try container.encodeIfPresent(self.outputEncryptionKMSKeyId, forKey: .outputEncryptionKMSKeyId)
+            try container.encodeIfPresent(self.outputKey, forKey: .outputKey)
+            try container.encodeIfPresent(self.settings, forKey: .settings)
+            try container.encode(self.specialty, forKey: .specialty)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.type, forKey: .type)
         }
 
         public func validate(name: String) throws {
@@ -2650,10 +2752,6 @@ extension Transcribe {
     }
 
     public struct StartTranscriptionJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "transcriptionJobName", location: .uri("TranscriptionJobName"))
-        ]
-
         /// Makes it possible to redact or flag specified personally identifiable information (PII) in your transcript. If you use ContentRedaction, you must also include the sub-parameters: PiiEntityTypes, RedactionOutput, and RedactionType.
         public let contentRedaction: ContentRedaction?
         /// Enables automatic language identification in your transcription job request. Use this parameter if your media file contains only one language. If your media contains multiple languages, use IdentifyMultipleLanguages instead. If you include IdentifyLanguage, you can optionally include a list of language codes, using LanguageOptions, that you think may be present in your media file. Including LanguageOptions restricts IdentifyLanguage to only the language options that you specify, which can improve transcription accuracy. If you want to apply a custom language model, a custom vocabulary, or a custom vocabulary filter to your automatic language identification request, include LanguageIdSettings with the relevant sub-parameters (VocabularyName, LanguageModelName, and VocabularyFilterName). If you include LanguageIdSettings, also include LanguageOptions. Note that you must include one of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails.
@@ -2713,6 +2811,30 @@ extension Transcribe {
             self.subtitles = subtitles
             self.tags = tags
             self.transcriptionJobName = transcriptionJobName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.contentRedaction, forKey: .contentRedaction)
+            try container.encodeIfPresent(self.identifyLanguage, forKey: .identifyLanguage)
+            try container.encodeIfPresent(self.identifyMultipleLanguages, forKey: .identifyMultipleLanguages)
+            try container.encodeIfPresent(self.jobExecutionSettings, forKey: .jobExecutionSettings)
+            try container.encodeIfPresent(self.kmsEncryptionContext, forKey: .kmsEncryptionContext)
+            try container.encodeIfPresent(self.languageCode, forKey: .languageCode)
+            try container.encodeIfPresent(self.languageIdSettings, forKey: .languageIdSettings)
+            try container.encodeIfPresent(self.languageOptions, forKey: .languageOptions)
+            try container.encode(self.media, forKey: .media)
+            try container.encodeIfPresent(self.mediaFormat, forKey: .mediaFormat)
+            try container.encodeIfPresent(self.mediaSampleRateHertz, forKey: .mediaSampleRateHertz)
+            try container.encodeIfPresent(self.modelSettings, forKey: .modelSettings)
+            try container.encodeIfPresent(self.outputBucketName, forKey: .outputBucketName)
+            try container.encodeIfPresent(self.outputEncryptionKMSKeyId, forKey: .outputEncryptionKMSKeyId)
+            try container.encodeIfPresent(self.outputKey, forKey: .outputKey)
+            try container.encodeIfPresent(self.settings, forKey: .settings)
+            try container.encodeIfPresent(self.subtitles, forKey: .subtitles)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            request.encodePath(self.transcriptionJobName, key: "TranscriptionJobName")
         }
 
         public func validate(name: String) throws {
@@ -2860,10 +2982,6 @@ extension Transcribe {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource you want to tag. ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id. For example, arn:aws:transcribe:us-west-2:111122223333:transcription-job/transcription-job-name. Valid values for resource-type are: transcription-job, medical-transcription-job, vocabulary, medical-vocabulary, vocabulary-filter, and language-model.
         public let resourceArn: String
         /// Adds one or more custom tags, each in the form of a key:value pair, to the specified resource. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
@@ -2872,6 +2990,13 @@ extension Transcribe {
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -3121,10 +3246,6 @@ extension Transcribe {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want to remove tags from. ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id. For example, arn:aws:transcribe:us-west-2:111122223333:transcription-job/transcription-job-name. Valid values for resource-type are: transcription-job, medical-transcription-job, vocabulary, medical-vocabulary, vocabulary-filter, and language-model.
         public let resourceArn: String
         /// Removes the specified tag keys from the specified Amazon Transcribe resource.
@@ -3133,6 +3254,13 @@ extension Transcribe {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tagKeys, forKey: .tagKeys)
         }
 
         public func validate(name: String) throws {
@@ -3157,10 +3285,6 @@ extension Transcribe {
     }
 
     public struct UpdateCallAnalyticsCategoryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "categoryName", location: .uri("CategoryName"))
-        ]
-
         /// The name of the Call Analytics category you want to update. Category names are case sensitive.
         public let categoryName: String
         /// Choose whether you want to update a real-time or a post-call category. The  input type you specify must match the input type specified when the category was created. For example, if you created a category with the POST_CALL input type, you must use POST_CALL as the input type when updating this category.
@@ -3172,6 +3296,14 @@ extension Transcribe {
             self.categoryName = categoryName
             self.inputType = inputType
             self.rules = rules
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.categoryName, key: "CategoryName")
+            try container.encodeIfPresent(self.inputType, forKey: .inputType)
+            try container.encode(self.rules, forKey: .rules)
         }
 
         public func validate(name: String) throws {
@@ -3205,10 +3337,6 @@ extension Transcribe {
     }
 
     public struct UpdateMedicalVocabularyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
-        ]
-
         /// The language code that represents the language of the entries in the custom vocabulary you want to update. US English (en-US) is the only language supported with Amazon Transcribe Medical.
         public let languageCode: LanguageCode
         /// The Amazon S3 location of the text file that contains your custom medical vocabulary. The URI must be located in the same Amazon Web Services Region as the resource you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-file.txt
@@ -3220,6 +3348,14 @@ extension Transcribe {
             self.languageCode = languageCode
             self.vocabularyFileUri = vocabularyFileUri
             self.vocabularyName = vocabularyName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.languageCode, forKey: .languageCode)
+            try container.encode(self.vocabularyFileUri, forKey: .vocabularyFileUri)
+            request.encodePath(self.vocabularyName, key: "VocabularyName")
         }
 
         public func validate(name: String) throws {
@@ -3263,10 +3399,6 @@ extension Transcribe {
     }
 
     public struct UpdateVocabularyFilterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyFilterName", location: .uri("VocabularyFilterName"))
-        ]
-
         /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary filter). If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
         public let dataAccessRoleArn: String?
         /// The Amazon S3 location of the text file that contains your custom vocabulary filter terms. The URI must be located in the same Amazon Web Services Region as the resource you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-filter-file.txt  Note that if you include VocabularyFilterFileUri in your request, you cannot use Words; you must choose one or the other.
@@ -3281,6 +3413,15 @@ extension Transcribe {
             self.vocabularyFilterFileUri = vocabularyFilterFileUri
             self.vocabularyFilterName = vocabularyFilterName
             self.words = words
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.dataAccessRoleArn, forKey: .dataAccessRoleArn)
+            try container.encodeIfPresent(self.vocabularyFilterFileUri, forKey: .vocabularyFilterFileUri)
+            request.encodePath(self.vocabularyFilterName, key: "VocabularyFilterName")
+            try container.encodeIfPresent(self.words, forKey: .words)
         }
 
         public func validate(name: String) throws {
@@ -3329,10 +3470,6 @@ extension Transcribe {
     }
 
     public struct UpdateVocabularyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
-        ]
-
         /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary). If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
         public let dataAccessRoleArn: String?
         /// The language code that represents the language of the entries in the custom vocabulary you want to update. Each custom vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the custom vocabulary. For example, if you create a custom vocabulary using US English (en-US), you can only apply this custom vocabulary to files that contain English audio. For a list of supported languages and their associated language codes, refer to the Supported languages table.
@@ -3350,6 +3487,16 @@ extension Transcribe {
             self.phrases = phrases
             self.vocabularyFileUri = vocabularyFileUri
             self.vocabularyName = vocabularyName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.dataAccessRoleArn, forKey: .dataAccessRoleArn)
+            try container.encode(self.languageCode, forKey: .languageCode)
+            try container.encodeIfPresent(self.phrases, forKey: .phrases)
+            try container.encodeIfPresent(self.vocabularyFileUri, forKey: .vocabularyFileUri)
+            request.encodePath(self.vocabularyName, key: "VocabularyName")
         }
 
         public func validate(name: String) throws {

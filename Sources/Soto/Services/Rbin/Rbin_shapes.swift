@@ -149,15 +149,17 @@ extension Rbin {
     }
 
     public struct DeleteRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
-        ]
-
         /// The unique ID of the retention rule.
         public let identifier: String
 
         public init(identifier: String) {
             self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
         }
 
         public func validate(name: String) throws {
@@ -172,15 +174,17 @@ extension Rbin {
     }
 
     public struct GetRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
-        ]
-
         /// The unique ID of the retention rule.
         public let identifier: String
 
         public init(identifier: String) {
             self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
         }
 
         public func validate(name: String) throws {
@@ -293,15 +297,17 @@ extension Rbin {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the retention rule.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -343,10 +349,6 @@ extension Rbin {
     }
 
     public struct LockRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
-        ]
-
         /// The unique ID of the retention rule.
         public let identifier: String
         /// Information about the retention rule lock configuration.
@@ -355,6 +357,13 @@ extension Rbin {
         public init(identifier: String, lockConfiguration: LockConfiguration) {
             self.identifier = identifier
             self.lockConfiguration = lockConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+            try container.encode(self.lockConfiguration, forKey: .lockConfiguration)
         }
 
         public func validate(name: String) throws {
@@ -502,10 +511,6 @@ extension Rbin {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the retention rule.
         public let resourceArn: String
         /// Information about the tags to assign to the retention rule.
@@ -514,6 +519,13 @@ extension Rbin {
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -557,15 +569,17 @@ extension Rbin {
     }
 
     public struct UnlockRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
-        ]
-
         /// The unique ID of the retention rule.
         public let identifier: String
 
         public init(identifier: String) {
             self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
         }
 
         public func validate(name: String) throws {
@@ -620,11 +634,6 @@ extension Rbin {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the retention rule.
         public let resourceArn: String
         /// The tag keys of the tags to unassign. All tags that have the specified tag key are unassigned.
@@ -633,6 +642,13 @@ extension Rbin {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -654,10 +670,6 @@ extension Rbin {
     }
 
     public struct UpdateRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
-        ]
-
         /// The retention rule description.
         public let description: String?
         /// The unique ID of the retention rule.
@@ -675,6 +687,16 @@ extension Rbin {
             self.resourceTags = resourceTags
             self.resourceType = resourceType
             self.retentionPeriod = retentionPeriod
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.identifier, key: "Identifier")
+            try container.encodeIfPresent(self.resourceTags, forKey: .resourceTags)
+            try container.encodeIfPresent(self.resourceType, forKey: .resourceType)
+            try container.encodeIfPresent(self.retentionPeriod, forKey: .retentionPeriod)
         }
 
         public func validate(name: String) throws {

@@ -84,14 +84,6 @@ extension EBS {
     }
 
     public struct CompleteSnapshotRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "changedBlocksCount", location: .header("x-amz-ChangedBlocksCount")),
-            AWSMemberEncoding(label: "checksum", location: .header("x-amz-Checksum")),
-            AWSMemberEncoding(label: "checksumAggregationMethod", location: .header("x-amz-Checksum-Aggregation-Method")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-Checksum-Algorithm")),
-            AWSMemberEncoding(label: "snapshotId", location: .uri("SnapshotId"))
-        ]
-
         /// The number of blocks that were written to the snapshot.
         public let changedBlocksCount: Int
         /// An aggregated Base-64 SHA256 checksum based on the checksums of each written block. To generate the aggregated checksum using the linear aggregation method, arrange the checksums for each written block in ascending order of their block index, concatenate them to form a single string, and then generate the checksum on the entire string using the SHA256 algorithm.
@@ -109,6 +101,16 @@ extension EBS {
             self.checksumAggregationMethod = checksumAggregationMethod
             self.checksumAlgorithm = checksumAlgorithm
             self.snapshotId = snapshotId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.changedBlocksCount, key: "x-amz-ChangedBlocksCount")
+            request.encodeHeader(self.checksum, key: "x-amz-Checksum")
+            request.encodeHeader(self.checksumAggregationMethod, key: "x-amz-Checksum-Aggregation-Method")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-Checksum-Algorithm")
+            request.encodePath(self.snapshotId, key: "SnapshotId")
         }
 
         public func validate(name: String) throws {
@@ -137,12 +139,6 @@ extension EBS {
     }
 
     public struct GetSnapshotBlockRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blockIndex", location: .uri("BlockIndex")),
-            AWSMemberEncoding(label: "blockToken", location: .querystring("blockToken")),
-            AWSMemberEncoding(label: "snapshotId", location: .uri("SnapshotId"))
-        ]
-
         /// The block index of the block in which to read the data. A block index is a logical  index in units of 512 KiB blocks. To identify the block index, divide  the logical offset of the data in the logical volume by the block size (logical offset  of data/524288). The logical offset of the data must be 512  KiB aligned.
         public let blockIndex: Int
         /// The block token of the block from which to get data. You can obtain the BlockToken  by running the ListChangedBlocks or ListSnapshotBlocks operations.
@@ -154,6 +150,14 @@ extension EBS {
             self.blockIndex = blockIndex
             self.blockToken = blockToken
             self.snapshotId = snapshotId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.blockIndex, key: "BlockIndex")
+            request.encodeQuery(self.blockToken, key: "blockToken")
+            request.encodePath(self.snapshotId, key: "SnapshotId")
         }
 
         public func validate(name: String) throws {
@@ -188,25 +192,17 @@ extension EBS {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.blockData = response.decodePayload()
-            self.checksum = try response.decodeIfPresent(String.self, forHeader: "x-amz-Checksum")
-            self.checksumAlgorithm = try response.decodeIfPresent(ChecksumAlgorithm.self, forHeader: "x-amz-Checksum-Algorithm")
-            self.dataLength = try response.decodeIfPresent(Int.self, forHeader: "x-amz-Data-Length")
-
+            let container = try decoder.singleValueContainer()
+            self.blockData = try container.decode(AWSHTTPBody.self)
+            self.checksum = try response.decodeHeaderIfPresent(String.self, key: "x-amz-Checksum")
+            self.checksumAlgorithm = try response.decodeHeaderIfPresent(ChecksumAlgorithm.self, key: "x-amz-Checksum-Algorithm")
+            self.dataLength = try response.decodeHeaderIfPresent(Int.self, key: "x-amz-Data-Length")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListChangedBlocksRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "firstSnapshotId", location: .querystring("firstSnapshotId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("pageToken")),
-            AWSMemberEncoding(label: "secondSnapshotId", location: .uri("SecondSnapshotId")),
-            AWSMemberEncoding(label: "startingBlockIndex", location: .querystring("startingBlockIndex"))
-        ]
-
         /// The ID of the first snapshot to use for the comparison.  The FirstSnapshotID parameter must be specified with a SecondSnapshotId parameter; otherwise, an error occurs.
         public let firstSnapshotId: String?
         /// The maximum number of blocks to be returned by the request. Even if additional blocks can be retrieved from the snapshot, the request can  return less blocks than MaxResults or an empty  array of blocks. To retrieve the next set of blocks from the snapshot, make another request with  the returned NextToken value. The value of  NextToken is null when there are no  more blocks to return.
@@ -224,6 +220,16 @@ extension EBS {
             self.nextToken = nextToken
             self.secondSnapshotId = secondSnapshotId
             self.startingBlockIndex = startingBlockIndex
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.firstSnapshotId, key: "firstSnapshotId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "pageToken")
+            request.encodePath(self.secondSnapshotId, key: "SecondSnapshotId")
+            request.encodeQuery(self.startingBlockIndex, key: "startingBlockIndex")
         }
 
         public func validate(name: String) throws {
@@ -273,13 +279,6 @@ extension EBS {
     }
 
     public struct ListSnapshotBlocksRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("pageToken")),
-            AWSMemberEncoding(label: "snapshotId", location: .uri("SnapshotId")),
-            AWSMemberEncoding(label: "startingBlockIndex", location: .querystring("startingBlockIndex"))
-        ]
-
         /// The maximum number of blocks to be returned by the request. Even if additional blocks can be retrieved from the snapshot, the request can  return less blocks than MaxResults or an empty  array of blocks. To retrieve the next set of blocks from the snapshot, make another request with  the returned NextToken value. The value of  NextToken is null when there are no  more blocks to return.
         public let maxResults: Int?
         /// The token to request the next page of results. If you specify NextToken, then  StartingBlockIndex is ignored.
@@ -294,6 +293,15 @@ extension EBS {
             self.nextToken = nextToken
             self.snapshotId = snapshotId
             self.startingBlockIndex = startingBlockIndex
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "pageToken")
+            request.encodePath(self.snapshotId, key: "SnapshotId")
+            request.encodeQuery(self.startingBlockIndex, key: "startingBlockIndex")
         }
 
         public func validate(name: String) throws {
@@ -339,19 +347,8 @@ extension EBS {
         }
     }
 
-    public struct PutSnapshotBlockRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "blockData"
+    public struct PutSnapshotBlockRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.allowStreaming, .allowChunkedStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blockIndex", location: .uri("BlockIndex")),
-            AWSMemberEncoding(label: "checksum", location: .header("x-amz-Checksum")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-Checksum-Algorithm")),
-            AWSMemberEncoding(label: "dataLength", location: .header("x-amz-Data-Length")),
-            AWSMemberEncoding(label: "progress", location: .header("x-amz-Progress")),
-            AWSMemberEncoding(label: "snapshotId", location: .uri("SnapshotId"))
-        ]
-
         /// The data to write to the block. The block data is not signed as part of the Signature Version 4 signing process. As a result, you must generate and provide a Base64-encoded SHA256 checksum for the block data using the x-amz-Checksum header. Also, you  	must specify the checksum algorithm using the x-amz-Checksum-Algorithm  	header. The checksum that you provide is part of the Signature Version 4 signing process.  	It is validated against a checksum generated by Amazon EBS to ensure the validity and authenticity  	of the data. If the checksums do not correspond, the request fails. For more information,  	see  Using checksums with the EBS direct APIs in the Amazon Elastic Compute Cloud User Guide.
         public let blockData: AWSHTTPBody
         /// The block index of the block in which to write the data. A block index is a logical  	index in units of 512 KiB blocks. To identify the block index, divide  	the logical offset of the data in the logical volume by the block size (logical offset of  	data/524288). The logical offset of the data must be 512  	KiB aligned.
@@ -375,6 +372,18 @@ extension EBS {
             self.dataLength = dataLength
             self.progress = progress
             self.snapshotId = snapshotId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.blockData)
+            request.encodePath(self.blockIndex, key: "BlockIndex")
+            request.encodeHeader(self.checksum, key: "x-amz-Checksum")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-Checksum-Algorithm")
+            request.encodeHeader(self.dataLength, key: "x-amz-Data-Length")
+            request.encodeHeader(self.progress, key: "x-amz-Progress")
+            request.encodePath(self.snapshotId, key: "SnapshotId")
         }
 
         public func validate(name: String) throws {
@@ -404,9 +413,8 @@ extension EBS {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.checksum = try response.decodeIfPresent(String.self, forHeader: "x-amz-Checksum")
-            self.checksumAlgorithm = try response.decodeIfPresent(ChecksumAlgorithm.self, forHeader: "x-amz-Checksum-Algorithm")
-
+            self.checksum = try response.decodeHeaderIfPresent(String.self, key: "x-amz-Checksum")
+            self.checksumAlgorithm = try response.decodeHeaderIfPresent(ChecksumAlgorithm.self, key: "x-amz-Checksum-Algorithm")
         }
 
         private enum CodingKeys: CodingKey {}

@@ -29,15 +29,17 @@ extension AppConfigData {
     // MARK: Shapes
 
     public struct GetLatestConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationToken", location: .querystring("configuration_token"))
-        ]
-
         /// Token describing the current state of the configuration session. To obtain a token, first call the StartConfigurationSession API. Note that every call to GetLatestConfiguration will return a new ConfigurationToken (NextPollConfigurationToken in the response) and must be provided to subsequent GetLatestConfiguration API calls.  This token should only be used once. To support long poll use cases, the token is valid for up to 24 hours. If a GetLatestConfiguration call uses an expired token, the system returns BadRequestException.
         public let configurationToken: String
 
         public init(configurationToken: String) {
             self.configurationToken = configurationToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.configurationToken, key: "configuration_token")
         }
 
         public func validate(name: String) throws {
@@ -70,12 +72,12 @@ extension AppConfigData {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.configuration = response.decodePayload()
-            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
-            self.nextPollConfigurationToken = try response.decodeIfPresent(String.self, forHeader: "Next-Poll-Configuration-Token")
-            self.nextPollIntervalInSeconds = try response.decodeIfPresent(Int.self, forHeader: "Next-Poll-Interval-In-Seconds")
-            self.versionLabel = try response.decodeIfPresent(String.self, forHeader: "Version-Label")
-
+            let container = try decoder.singleValueContainer()
+            self.configuration = try container.decode(AWSHTTPBody.self)
+            self.contentType = try response.decodeHeaderIfPresent(String.self, key: "Content-Type")
+            self.nextPollConfigurationToken = try response.decodeHeaderIfPresent(String.self, key: "Next-Poll-Configuration-Token")
+            self.nextPollIntervalInSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Next-Poll-Interval-In-Seconds")
+            self.versionLabel = try response.decodeHeaderIfPresent(String.self, key: "Version-Label")
         }
 
         private enum CodingKeys: CodingKey {}

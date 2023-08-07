@@ -133,10 +133,6 @@ extension Amp {
     }
 
     public struct CreateAlertManagerDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
         public let clientToken: String?
         /// The alert manager definition data.
@@ -148,6 +144,14 @@ extension Amp {
             self.clientToken = clientToken
             self.data = data
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.data, forKey: .data)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -179,10 +183,6 @@ extension Amp {
     }
 
     public struct CreateLoggingConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
         public let clientToken: String?
         /// The ARN of the CW log group to which the vended log data will be published.
@@ -194,6 +194,14 @@ extension Amp {
             self.clientToken = clientToken
             self.logGroupArn = logGroupArn
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.logGroupArn, forKey: .logGroupArn)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -226,10 +234,6 @@ extension Amp {
     }
 
     public struct CreateRuleGroupsNamespaceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
         public let clientToken: String?
         /// The namespace data that define the rule groups.
@@ -247,6 +251,16 @@ extension Amp {
             self.name = name
             self.tags = tags
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.data, forKey: .data)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -365,11 +379,6 @@ extension Amp {
     }
 
     public struct DeleteAlertManagerDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
         public let clientToken: String?
         /// The ID of the workspace in which to delete the alert manager definition.
@@ -378,6 +387,13 @@ extension Amp {
         public init(clientToken: String? = DeleteAlertManagerDefinitionRequest.idempotencyToken(), workspaceId: String) {
             self.clientToken = clientToken
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -393,11 +409,6 @@ extension Amp {
     }
 
     public struct DeleteLoggingConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
         public let clientToken: String?
         /// The ID of the workspace to vend logs to.
@@ -406,6 +417,13 @@ extension Amp {
         public init(clientToken: String? = DeleteLoggingConfigurationRequest.idempotencyToken(), workspaceId: String) {
             self.clientToken = clientToken
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -421,12 +439,6 @@ extension Amp {
     }
 
     public struct DeleteRuleGroupsNamespaceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "name", location: .uri("name")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
         public let clientToken: String?
         /// The rule groups namespace name.
@@ -438,6 +450,14 @@ extension Amp {
             self.clientToken = clientToken
             self.name = name
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.name, key: "name")
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -456,11 +476,6 @@ extension Amp {
     }
 
     public struct DeleteWorkspaceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
         public let clientToken: String?
         /// The ID of the workspace to delete.
@@ -469,6 +484,13 @@ extension Amp {
         public init(clientToken: String? = DeleteWorkspaceRequest.idempotencyToken(), workspaceId: String) {
             self.clientToken = clientToken
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -484,15 +506,17 @@ extension Amp {
     }
 
     public struct DescribeAlertManagerDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The ID of the workspace to describe.
         public let workspaceId: String
 
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -518,15 +542,17 @@ extension Amp {
     }
 
     public struct DescribeLoggingConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The ID of the workspace to vend logs to.
         public let workspaceId: String
 
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -552,11 +578,6 @@ extension Amp {
     }
 
     public struct DescribeRuleGroupsNamespaceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The rule groups namespace.
         public let name: String
         /// The ID of the workspace to describe.
@@ -565,6 +586,13 @@ extension Amp {
         public init(name: String, workspaceId: String) {
             self.name = name
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -593,15 +621,17 @@ extension Amp {
     }
 
     public struct DescribeWorkspaceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The ID of the workspace to describe.
         public let workspaceId: String
 
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -627,13 +657,6 @@ extension Amp {
     }
 
     public struct ListRuleGroupsNamespacesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "name", location: .querystring("name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// Maximum results to return in response (default=100, maximum=1000).
         public let maxResults: Int?
         /// Optional filter for rule groups namespace name. Only the rule groups namespace that begin with this value will be returned.
@@ -648,6 +671,15 @@ extension Amp {
             self.name = name
             self.nextToken = nextToken
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.name, key: "name")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -680,15 +712,17 @@ extension Amp {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The ARN of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -707,12 +741,6 @@ extension Amp {
     }
 
     public struct ListWorkspacesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "alias", location: .querystring("alias")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// Optional filter for workspace alias. Only the workspaces with aliases that begin with this value will be returned.
         public let alias: String?
         /// Maximum results to return in response (default=100, maximum=1000).
@@ -724,6 +752,14 @@ extension Amp {
             self.alias = alias
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.alias, key: "alias")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -798,10 +834,6 @@ extension Amp {
     }
 
     public struct PutAlertManagerDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
         public let clientToken: String?
         /// The alert manager definition data.
@@ -813,6 +845,14 @@ extension Amp {
             self.clientToken = clientToken
             self.data = data
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.data, forKey: .data)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -844,11 +884,6 @@ extension Amp {
     }
 
     public struct PutRuleGroupsNamespaceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
         public let clientToken: String?
         /// The namespace data that define the rule groups.
@@ -863,6 +898,15 @@ extension Amp {
             self.data = data
             self.name = name
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.data, forKey: .data)
+            request.encodePath(self.name, key: "name")
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -996,10 +1040,6 @@ extension Amp {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The ARN of the resource.
         public let resourceArn: String
         public let tags: [String: String]
@@ -1007,6 +1047,13 @@ extension Amp {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1030,11 +1077,6 @@ extension Amp {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The ARN of the resource.
         public let resourceArn: String
         /// One or more tag keys
@@ -1043,6 +1085,13 @@ extension Amp {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -1061,10 +1110,6 @@ extension Amp {
     }
 
     public struct UpdateLoggingConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
         public let clientToken: String?
         /// The ARN of the CW log group to which the vended log data will be published.
@@ -1076,6 +1121,14 @@ extension Amp {
             self.clientToken = clientToken
             self.logGroupArn = logGroupArn
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.logGroupArn, forKey: .logGroupArn)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -1108,10 +1161,6 @@ extension Amp {
     }
 
     public struct UpdateWorkspaceAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The new alias of the workspace.
         public let alias: String?
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
@@ -1123,6 +1172,14 @@ extension Amp {
             self.alias = alias
             self.clientToken = clientToken
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.alias, forKey: .alias)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {

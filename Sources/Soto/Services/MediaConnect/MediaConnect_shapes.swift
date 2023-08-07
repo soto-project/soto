@@ -342,10 +342,6 @@ extension MediaConnect {
     }
 
     public struct AddBridgeOutputsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bridgeArn", location: .uri("BridgeArn"))
-        ]
-
         /// The ARN of the bridge that you want to update.
         public let bridgeArn: String
         /// The outputs that you want to add to this bridge.
@@ -354,6 +350,13 @@ extension MediaConnect {
         public init(bridgeArn: String, outputs: [AddBridgeOutputRequest]) {
             self.bridgeArn = bridgeArn
             self.outputs = outputs
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bridgeArn, key: "BridgeArn")
+            try container.encode(self.outputs, forKey: .outputs)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -394,10 +397,6 @@ extension MediaConnect {
     }
 
     public struct AddBridgeSourcesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bridgeArn", location: .uri("BridgeArn"))
-        ]
-
         /// The ARN of the bridge that you want to update.
         public let bridgeArn: String
         /// The sources that you want to add to this bridge.
@@ -406,6 +405,13 @@ extension MediaConnect {
         public init(bridgeArn: String, sources: [AddBridgeSourceRequest]) {
             self.bridgeArn = bridgeArn
             self.sources = sources
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bridgeArn, key: "BridgeArn")
+            try container.encode(self.sources, forKey: .sources)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -444,10 +450,6 @@ extension MediaConnect {
     }
 
     public struct AddFlowMediaStreamsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the flow.
         public let flowArn: String
         /// The media streams that you want to add to the flow.
@@ -456,6 +458,13 @@ extension MediaConnect {
         public init(flowArn: String, mediaStreams: [AddMediaStreamRequest]) {
             self.flowArn = flowArn
             self.mediaStreams = mediaStreams
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.flowArn, key: "FlowArn")
+            try container.encode(self.mediaStreams, forKey: .mediaStreams)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -481,10 +490,6 @@ extension MediaConnect {
     }
 
     public struct AddFlowOutputsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
-        ]
-
         /// The flow that you want to add outputs to.
         public let flowArn: String
         /// A list of outputs that you want to add.
@@ -493,6 +498,13 @@ extension MediaConnect {
         public init(flowArn: String, outputs: [AddOutputRequest]) {
             self.flowArn = flowArn
             self.outputs = outputs
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.flowArn, key: "FlowArn")
+            try container.encode(self.outputs, forKey: .outputs)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -518,10 +530,6 @@ extension MediaConnect {
     }
 
     public struct AddFlowSourcesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
-        ]
-
         /// The flow that you want to mutate.
         public let flowArn: String
         /// A list of sources that you want to add.
@@ -530,6 +538,13 @@ extension MediaConnect {
         public init(flowArn: String, sources: [SetSourceRequest]) {
             self.flowArn = flowArn
             self.sources = sources
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.flowArn, key: "FlowArn")
+            try container.encode(self.sources, forKey: .sources)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -555,10 +570,6 @@ extension MediaConnect {
     }
 
     public struct AddFlowVpcInterfacesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
-        ]
-
         /// The flow that you want to mutate.
         public let flowArn: String
         /// A list of VPC interfaces that you want to add.
@@ -567,6 +578,13 @@ extension MediaConnect {
         public init(flowArn: String, vpcInterfaces: [VpcInterfaceRequest]) {
             self.flowArn = flowArn
             self.vpcInterfaces = vpcInterfaces
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.flowArn, key: "FlowArn")
+            try container.encode(self.vpcInterfaces, forKey: .vpcInterfaces)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1053,15 +1071,17 @@ extension MediaConnect {
     }
 
     public struct DeleteBridgeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bridgeArn", location: .uri("BridgeArn"))
-        ]
-
         /// The ARN of the bridge that you want to delete.
         public let bridgeArn: String
 
         public init(bridgeArn: String) {
             self.bridgeArn = bridgeArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bridgeArn, key: "BridgeArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1081,15 +1101,17 @@ extension MediaConnect {
     }
 
     public struct DeleteFlowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
-        ]
-
         /// The ARN of the flow that you want to delete.
         public let flowArn: String
 
         public init(flowArn: String) {
             self.flowArn = flowArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.flowArn, key: "FlowArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1113,15 +1135,17 @@ extension MediaConnect {
     }
 
     public struct DeleteGatewayRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gatewayArn", location: .uri("GatewayArn"))
-        ]
-
         /// The ARN of the gateway that you want to delete.
         public let gatewayArn: String
 
         public init(gatewayArn: String) {
             self.gatewayArn = gatewayArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gatewayArn, key: "GatewayArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1141,11 +1165,6 @@ extension MediaConnect {
     }
 
     public struct DeregisterGatewayInstanceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "force", location: .querystring("force")),
-            AWSMemberEncoding(label: "gatewayInstanceArn", location: .uri("GatewayInstanceArn"))
-        ]
-
         /// Force the deregistration of an instance. Force will deregister an instance, even if there are bridges running on it.
         public let force: Bool?
         /// The Amazon Resource Name (ARN) of the gateway that contains the instance that you want to deregister.
@@ -1154,6 +1173,13 @@ extension MediaConnect {
         public init(force: Bool? = nil, gatewayInstanceArn: String) {
             self.force = force
             self.gatewayInstanceArn = gatewayInstanceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.force, key: "force")
+            request.encodePath(self.gatewayInstanceArn, key: "GatewayInstanceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1177,15 +1203,17 @@ extension MediaConnect {
     }
 
     public struct DescribeBridgeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bridgeArn", location: .uri("BridgeArn"))
-        ]
-
         /// The ARN of the bridge that you want to describe.
         public let bridgeArn: String
 
         public init(bridgeArn: String) {
             self.bridgeArn = bridgeArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bridgeArn, key: "BridgeArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1204,15 +1232,17 @@ extension MediaConnect {
     }
 
     public struct DescribeFlowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
-        ]
-
         /// The ARN of the flow that you want to describe.
         public let flowArn: String
 
         public init(flowArn: String) {
             self.flowArn = flowArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.flowArn, key: "FlowArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1234,15 +1264,17 @@ extension MediaConnect {
     }
 
     public struct DescribeGatewayInstanceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gatewayInstanceArn", location: .uri("GatewayInstanceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the gateway instance that you want to describe.
         public let gatewayInstanceArn: String
 
         public init(gatewayInstanceArn: String) {
             self.gatewayInstanceArn = gatewayInstanceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gatewayInstanceArn, key: "GatewayInstanceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1261,15 +1293,17 @@ extension MediaConnect {
     }
 
     public struct DescribeGatewayRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gatewayArn", location: .uri("GatewayArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the gateway that you want to describe.
         public let gatewayArn: String
 
         public init(gatewayArn: String) {
             self.gatewayArn = gatewayArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gatewayArn, key: "GatewayArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1288,15 +1322,17 @@ extension MediaConnect {
     }
 
     public struct DescribeOfferingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "offeringArn", location: .uri("OfferingArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the offering.
         public let offeringArn: String
 
         public init(offeringArn: String) {
             self.offeringArn = offeringArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.offeringArn, key: "OfferingArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1315,15 +1351,17 @@ extension MediaConnect {
     }
 
     public struct DescribeReservationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reservationArn", location: .uri("ReservationArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the reservation.
         public let reservationArn: String
 
         public init(reservationArn: String) {
             self.reservationArn = reservationArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.reservationArn, key: "ReservationArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1819,10 +1857,6 @@ extension MediaConnect {
     }
 
     public struct GrantFlowEntitlementsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
-        ]
-
         /// The list of entitlements that you want to grant.
         public let entitlements: [GrantEntitlementRequest]
         /// The flow that you want to grant entitlements on.
@@ -1831,6 +1865,13 @@ extension MediaConnect {
         public init(entitlements: [GrantEntitlementRequest], flowArn: String) {
             self.entitlements = entitlements
             self.flowArn = flowArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.entitlements, forKey: .entitlements)
+            request.encodePath(self.flowArn, key: "FlowArn")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1941,12 +1982,6 @@ extension MediaConnect {
     }
 
     public struct ListBridgesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filterArn", location: .querystring("filterArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// Filter the list results to display only the bridges associated with the selected Amazon Resource Name (ARN).
         public let filterArn: String?
         /// The maximum number of results to return per API request. For example, you submit a ListBridges request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
@@ -1958,6 +1993,14 @@ extension MediaConnect {
             self.filterArn = filterArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.filterArn, key: "filterArn")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1986,11 +2029,6 @@ extension MediaConnect {
     }
 
     public struct ListEntitlementsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return per API request. For example, you submit a ListEntitlements request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 20 results per page.
         public let maxResults: Int?
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListEntitlements request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListEntitlements request a second time and specify the NextToken value.
@@ -1999,6 +2037,13 @@ extension MediaConnect {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2027,11 +2072,6 @@ extension MediaConnect {
     }
 
     public struct ListFlowsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return per API request. For example, you submit a ListFlows request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
         public let maxResults: Int?
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListFlows request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListFlows request a second time and specify the NextToken value.
@@ -2040,6 +2080,13 @@ extension MediaConnect {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2068,12 +2115,6 @@ extension MediaConnect {
     }
 
     public struct ListGatewayInstancesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filterArn", location: .querystring("filterArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// Filter the list results to display only the instances associated with the selected Gateway Amazon Resource Name (ARN).
         public let filterArn: String?
         /// The maximum number of results to return per API request. For example, you submit a ListInstances request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
@@ -2085,6 +2126,14 @@ extension MediaConnect {
             self.filterArn = filterArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.filterArn, key: "filterArn")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2113,11 +2162,6 @@ extension MediaConnect {
     }
 
     public struct ListGatewaysRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return per API request. For example, you submit a ListGateways request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
         public let maxResults: Int?
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListGateways request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListGateways request a second time and specify the NextToken value.
@@ -2126,6 +2170,13 @@ extension MediaConnect {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2154,11 +2205,6 @@ extension MediaConnect {
     }
 
     public struct ListOfferingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return per API request. For example, you submit a ListOfferings request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
         public let maxResults: Int?
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListOfferings request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
@@ -2167,6 +2213,13 @@ extension MediaConnect {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2195,11 +2248,6 @@ extension MediaConnect {
     }
 
     public struct ListReservationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return per API request. For example, you submit a ListReservations request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
         public let maxResults: Int?
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListReservations request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
@@ -2208,6 +2256,13 @@ extension MediaConnect {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2236,15 +2291,17 @@ extension MediaConnect {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) that identifies the AWS Elemental MediaConnect resource for which to list the tags.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2730,10 +2787,6 @@ extension MediaConnect {
     }
 
     public struct PurchaseOfferingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "offeringArn", location: .uri("OfferingArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the offering.
         public let offeringArn: String
         /// The name that you want to use for the reservation.
@@ -2745,6 +2798,14 @@ extension MediaConnect {
             self.offeringArn = offeringArn
             self.reservationName = reservationName
             self.start = start
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.offeringArn, key: "OfferingArn")
+            try container.encode(self.reservationName, forKey: .reservationName)
+            try container.encode(self.start, forKey: .start)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2766,11 +2827,6 @@ extension MediaConnect {
     }
 
     public struct RemoveBridgeOutputRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bridgeArn", location: .uri("BridgeArn")),
-            AWSMemberEncoding(label: "outputName", location: .uri("OutputName"))
-        ]
-
         /// The ARN of the bridge that you want to update.
         public let bridgeArn: String
         /// The name of the bridge output that you want to remove.
@@ -2779,6 +2835,13 @@ extension MediaConnect {
         public init(bridgeArn: String, outputName: String) {
             self.bridgeArn = bridgeArn
             self.outputName = outputName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bridgeArn, key: "BridgeArn")
+            request.encodePath(self.outputName, key: "OutputName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2800,11 +2863,6 @@ extension MediaConnect {
     }
 
     public struct RemoveBridgeSourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bridgeArn", location: .uri("BridgeArn")),
-            AWSMemberEncoding(label: "sourceName", location: .uri("SourceName"))
-        ]
-
         /// The ARN of the bridge that you want to update.
         public let bridgeArn: String
         /// The name of the bridge source that you want to remove.
@@ -2813,6 +2871,13 @@ extension MediaConnect {
         public init(bridgeArn: String, sourceName: String) {
             self.bridgeArn = bridgeArn
             self.sourceName = sourceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bridgeArn, key: "BridgeArn")
+            request.encodePath(self.sourceName, key: "SourceName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2834,11 +2899,6 @@ extension MediaConnect {
     }
 
     public struct RemoveFlowMediaStreamRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn")),
-            AWSMemberEncoding(label: "mediaStreamName", location: .uri("MediaStreamName"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the flow.
         public let flowArn: String
         /// The name of the media stream that you want to remove.
@@ -2847,6 +2907,13 @@ extension MediaConnect {
         public init(flowArn: String, mediaStreamName: String) {
             self.flowArn = flowArn
             self.mediaStreamName = mediaStreamName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.flowArn, key: "FlowArn")
+            request.encodePath(self.mediaStreamName, key: "MediaStreamName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2870,11 +2937,6 @@ extension MediaConnect {
     }
 
     public struct RemoveFlowOutputRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn")),
-            AWSMemberEncoding(label: "outputArn", location: .uri("OutputArn"))
-        ]
-
         /// The flow that you want to remove an output from.
         public let flowArn: String
         /// The ARN of the output that you want to remove.
@@ -2883,6 +2945,13 @@ extension MediaConnect {
         public init(flowArn: String, outputArn: String) {
             self.flowArn = flowArn
             self.outputArn = outputArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.flowArn, key: "FlowArn")
+            request.encodePath(self.outputArn, key: "OutputArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2906,11 +2975,6 @@ extension MediaConnect {
     }
 
     public struct RemoveFlowSourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn")),
-            AWSMemberEncoding(label: "sourceArn", location: .uri("SourceArn"))
-        ]
-
         /// The flow that you want to remove a source from.
         public let flowArn: String
         /// The ARN of the source that you want to remove.
@@ -2919,6 +2983,13 @@ extension MediaConnect {
         public init(flowArn: String, sourceArn: String) {
             self.flowArn = flowArn
             self.sourceArn = sourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.flowArn, key: "FlowArn")
+            request.encodePath(self.sourceArn, key: "SourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2942,11 +3013,6 @@ extension MediaConnect {
     }
 
     public struct RemoveFlowVpcInterfaceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn")),
-            AWSMemberEncoding(label: "vpcInterfaceName", location: .uri("VpcInterfaceName"))
-        ]
-
         /// The flow that you want to remove a VPC interface from.
         public let flowArn: String
         /// The name of the VPC interface that you want to remove.
@@ -2955,6 +3021,13 @@ extension MediaConnect {
         public init(flowArn: String, vpcInterfaceName: String) {
             self.flowArn = flowArn
             self.vpcInterfaceName = vpcInterfaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.flowArn, key: "FlowArn")
+            request.encodePath(self.vpcInterfaceName, key: "VpcInterfaceName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3060,11 +3133,6 @@ extension MediaConnect {
     }
 
     public struct RevokeFlowEntitlementRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "entitlementArn", location: .uri("EntitlementArn")),
-            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
-        ]
-
         /// The ARN of the entitlement that you want to revoke.
         public let entitlementArn: String
         /// The flow that you want to revoke an entitlement from.
@@ -3073,6 +3141,13 @@ extension MediaConnect {
         public init(entitlementArn: String, flowArn: String) {
             self.entitlementArn = entitlementArn
             self.flowArn = flowArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.entitlementArn, key: "EntitlementArn")
+            request.encodePath(self.flowArn, key: "FlowArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3280,15 +3355,17 @@ extension MediaConnect {
     }
 
     public struct StartFlowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
-        ]
-
         /// The ARN of the flow that you want to start.
         public let flowArn: String
 
         public init(flowArn: String) {
             self.flowArn = flowArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.flowArn, key: "FlowArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3312,15 +3389,17 @@ extension MediaConnect {
     }
 
     public struct StopFlowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
-        ]
-
         /// The ARN of the flow that you want to stop.
         public let flowArn: String
 
         public init(flowArn: String) {
             self.flowArn = flowArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.flowArn, key: "FlowArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3344,10 +3423,6 @@ extension MediaConnect {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) that identifies the AWS Elemental MediaConnect resource to which to add tags.
         public let resourceArn: String
         /// A map from tag keys to values. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
@@ -3356,6 +3431,13 @@ extension MediaConnect {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3425,11 +3507,6 @@ extension MediaConnect {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) that identifies the AWS Elemental MediaConnect resource from which to delete tags.
         public let resourceArn: String
         /// The keys of the tags to be removed.
@@ -3438,6 +3515,13 @@ extension MediaConnect {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3515,11 +3599,6 @@ extension MediaConnect {
     }
 
     public struct UpdateBridgeOutputRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bridgeArn", location: .uri("BridgeArn")),
-            AWSMemberEncoding(label: "outputName", location: .uri("OutputName"))
-        ]
-
         /// The ARN of the bridge that you want to update.
         public let bridgeArn: String
         public let networkOutput: UpdateBridgeNetworkOutputRequest?
@@ -3530,6 +3609,14 @@ extension MediaConnect {
             self.bridgeArn = bridgeArn
             self.networkOutput = networkOutput
             self.outputName = outputName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bridgeArn, key: "BridgeArn")
+            try container.encodeIfPresent(self.networkOutput, forKey: .networkOutput)
+            request.encodePath(self.outputName, key: "OutputName")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3555,10 +3642,6 @@ extension MediaConnect {
     }
 
     public struct UpdateBridgeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bridgeArn", location: .uri("BridgeArn"))
-        ]
-
         /// The Amazon Resource Number (ARN) of the bridge that you want to update.
         public let bridgeArn: String
         public let egressGatewayBridge: UpdateEgressGatewayBridgeRequest?
@@ -3570,6 +3653,15 @@ extension MediaConnect {
             self.egressGatewayBridge = egressGatewayBridge
             self.ingressGatewayBridge = ingressGatewayBridge
             self.sourceFailoverConfig = sourceFailoverConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bridgeArn, key: "BridgeArn")
+            try container.encodeIfPresent(self.egressGatewayBridge, forKey: .egressGatewayBridge)
+            try container.encodeIfPresent(self.ingressGatewayBridge, forKey: .ingressGatewayBridge)
+            try container.encodeIfPresent(self.sourceFailoverConfig, forKey: .sourceFailoverConfig)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3592,11 +3684,6 @@ extension MediaConnect {
     }
 
     public struct UpdateBridgeSourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bridgeArn", location: .uri("BridgeArn")),
-            AWSMemberEncoding(label: "sourceName", location: .uri("SourceName"))
-        ]
-
         /// The ARN of the bridge that you want to update.
         public let bridgeArn: String
         public let flowSource: UpdateBridgeFlowSourceRequest?
@@ -3609,6 +3696,15 @@ extension MediaConnect {
             self.flowSource = flowSource
             self.networkSource = networkSource
             self.sourceName = sourceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bridgeArn, key: "BridgeArn")
+            try container.encodeIfPresent(self.flowSource, forKey: .flowSource)
+            try container.encodeIfPresent(self.networkSource, forKey: .networkSource)
+            request.encodePath(self.sourceName, key: "SourceName")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3634,10 +3730,6 @@ extension MediaConnect {
     }
 
     public struct UpdateBridgeStateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bridgeArn", location: .uri("BridgeArn"))
-        ]
-
         /// The ARN of the bridge that you want to update.
         public let bridgeArn: String
         public let desiredState: DesiredState
@@ -3645,6 +3737,13 @@ extension MediaConnect {
         public init(bridgeArn: String, desiredState: DesiredState) {
             self.bridgeArn = bridgeArn
             self.desiredState = desiredState
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bridgeArn, key: "BridgeArn")
+            try container.encode(self.desiredState, forKey: .desiredState)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3752,11 +3851,6 @@ extension MediaConnect {
     }
 
     public struct UpdateFlowEntitlementRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "entitlementArn", location: .uri("EntitlementArn")),
-            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
-        ]
-
         /// A description of the entitlement. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
         public let description: String?
         /// The type of encryption that will be used on the output associated with this entitlement. Allowable encryption types: static-key, speke.
@@ -3777,6 +3871,17 @@ extension MediaConnect {
             self.entitlementStatus = entitlementStatus
             self.flowArn = flowArn
             self.subscribers = subscribers
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.encryption, forKey: .encryption)
+            request.encodePath(self.entitlementArn, key: "EntitlementArn")
+            try container.encodeIfPresent(self.entitlementStatus, forKey: .entitlementStatus)
+            request.encodePath(self.flowArn, key: "FlowArn")
+            try container.encodeIfPresent(self.subscribers, forKey: .subscribers)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3805,11 +3910,6 @@ extension MediaConnect {
     }
 
     public struct UpdateFlowMediaStreamRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn")),
-            AWSMemberEncoding(label: "mediaStreamName", location: .uri("MediaStreamName"))
-        ]
-
         /// The attributes that you want to assign to the media stream.
         public let attributes: MediaStreamAttributesRequest?
         /// The sample rate (in Hz) for the stream. If the media stream type is video or ancillary data, set this value to 90000. If the media stream type is audio, set this value to either 48000 or 96000.
@@ -3833,6 +3933,18 @@ extension MediaConnect {
             self.mediaStreamName = mediaStreamName
             self.mediaStreamType = mediaStreamType
             self.videoFormat = videoFormat
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.attributes, forKey: .attributes)
+            try container.encodeIfPresent(self.clockRate, forKey: .clockRate)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.flowArn, key: "FlowArn")
+            request.encodePath(self.mediaStreamName, key: "MediaStreamName")
+            try container.encodeIfPresent(self.mediaStreamType, forKey: .mediaStreamType)
+            try container.encodeIfPresent(self.videoFormat, forKey: .videoFormat)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3862,11 +3974,6 @@ extension MediaConnect {
     }
 
     public struct UpdateFlowOutputRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn")),
-            AWSMemberEncoding(label: "outputArn", location: .uri("OutputArn"))
-        ]
-
         /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let cidrAllowList: [String]?
         /// A description of the output. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the end user.
@@ -3922,6 +4029,28 @@ extension MediaConnect {
             self.vpcInterfaceAttachment = vpcInterfaceAttachment
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.cidrAllowList, forKey: .cidrAllowList)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.destination, forKey: .destination)
+            try container.encodeIfPresent(self.encryption, forKey: .encryption)
+            request.encodePath(self.flowArn, key: "FlowArn")
+            try container.encodeIfPresent(self.maxLatency, forKey: .maxLatency)
+            try container.encodeIfPresent(self.mediaStreamOutputConfigurations, forKey: .mediaStreamOutputConfigurations)
+            try container.encodeIfPresent(self.minLatency, forKey: .minLatency)
+            request.encodePath(self.outputArn, key: "OutputArn")
+            try container.encodeIfPresent(self.port, forKey: .port)
+            try container.encodeIfPresent(self.`protocol`, forKey: .`protocol`)
+            try container.encodeIfPresent(self.remoteId, forKey: .remoteId)
+            try container.encodeIfPresent(self.senderControlPort, forKey: .senderControlPort)
+            try container.encodeIfPresent(self.senderIpAddress, forKey: .senderIpAddress)
+            try container.encodeIfPresent(self.smoothingLatency, forKey: .smoothingLatency)
+            try container.encodeIfPresent(self.streamId, forKey: .streamId)
+            try container.encodeIfPresent(self.vpcInterfaceAttachment, forKey: .vpcInterfaceAttachment)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case cidrAllowList = "cidrAllowList"
             case description = "description"
@@ -3959,10 +4088,6 @@ extension MediaConnect {
     }
 
     public struct UpdateFlowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
-        ]
-
         /// The flow that you want to update.
         public let flowArn: String
         public let maintenance: UpdateMaintenance?
@@ -3972,6 +4097,14 @@ extension MediaConnect {
             self.flowArn = flowArn
             self.maintenance = maintenance
             self.sourceFailoverConfig = sourceFailoverConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.flowArn, key: "FlowArn")
+            try container.encodeIfPresent(self.maintenance, forKey: .maintenance)
+            try container.encodeIfPresent(self.sourceFailoverConfig, forKey: .sourceFailoverConfig)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3993,11 +4126,6 @@ extension MediaConnect {
     }
 
     public struct UpdateFlowSourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn")),
-            AWSMemberEncoding(label: "sourceArn", location: .uri("SourceArn"))
-        ]
-
         /// The type of encryption used on the content ingested from this source. Allowable encryption types: static-key.
         public let decryption: UpdateEncryption?
         /// A description for the source. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
@@ -4062,6 +4190,31 @@ extension MediaConnect {
             self.whitelistCidr = whitelistCidr
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.decryption, forKey: .decryption)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.entitlementArn, forKey: .entitlementArn)
+            request.encodePath(self.flowArn, key: "FlowArn")
+            try container.encodeIfPresent(self.gatewayBridgeSource, forKey: .gatewayBridgeSource)
+            try container.encodeIfPresent(self.ingestPort, forKey: .ingestPort)
+            try container.encodeIfPresent(self.maxBitrate, forKey: .maxBitrate)
+            try container.encodeIfPresent(self.maxLatency, forKey: .maxLatency)
+            try container.encodeIfPresent(self.maxSyncBuffer, forKey: .maxSyncBuffer)
+            try container.encodeIfPresent(self.mediaStreamSourceConfigurations, forKey: .mediaStreamSourceConfigurations)
+            try container.encodeIfPresent(self.minLatency, forKey: .minLatency)
+            try container.encodeIfPresent(self.`protocol`, forKey: .`protocol`)
+            try container.encodeIfPresent(self.senderControlPort, forKey: .senderControlPort)
+            try container.encodeIfPresent(self.senderIpAddress, forKey: .senderIpAddress)
+            request.encodePath(self.sourceArn, key: "SourceArn")
+            try container.encodeIfPresent(self.sourceListenerAddress, forKey: .sourceListenerAddress)
+            try container.encodeIfPresent(self.sourceListenerPort, forKey: .sourceListenerPort)
+            try container.encodeIfPresent(self.streamId, forKey: .streamId)
+            try container.encodeIfPresent(self.vpcInterfaceName, forKey: .vpcInterfaceName)
+            try container.encodeIfPresent(self.whitelistCidr, forKey: .whitelistCidr)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case decryption = "decryption"
             case description = "description"
@@ -4119,10 +4272,6 @@ extension MediaConnect {
     }
 
     public struct UpdateGatewayInstanceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gatewayInstanceArn", location: .uri("GatewayInstanceArn"))
-        ]
-
         /// The availability of the instance to host new bridges. The bridgePlacement property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can be deployed to this instance. If it is AVAILABLE, new bridges can be added to this instance.
         public let bridgePlacement: BridgePlacement?
         /// The Amazon Resource Name (ARN) of the instance that you want to update.
@@ -4131,6 +4280,13 @@ extension MediaConnect {
         public init(bridgePlacement: BridgePlacement? = nil, gatewayInstanceArn: String) {
             self.bridgePlacement = bridgePlacement
             self.gatewayInstanceArn = gatewayInstanceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.bridgePlacement, forKey: .bridgePlacement)
+            request.encodePath(self.gatewayInstanceArn, key: "GatewayInstanceArn")
         }
 
         private enum CodingKeys: String, CodingKey {

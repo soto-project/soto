@@ -411,10 +411,6 @@ extension SecurityLake {
     }
 
     public struct CreateSubscriberNotificationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subscriberId", location: .uri("subscriberId"))
-        ]
-
         /// Specify the configuration using which you want to create the subscriber notification.
         public let configuration: NotificationConfiguration
         /// The subscriber ID for the notification subscription.
@@ -423,6 +419,13 @@ extension SecurityLake {
         public init(configuration: NotificationConfiguration, subscriberId: String) {
             self.configuration = configuration
             self.subscriberId = subscriberId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.configuration, forKey: .configuration)
+            request.encodePath(self.subscriberId, key: "subscriberId")
         }
 
         public func validate(name: String) throws {
@@ -947,11 +950,6 @@ extension SecurityLake {
     }
 
     public struct DeleteCustomLogSourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sourceName", location: .uri("sourceName")),
-            AWSMemberEncoding(label: "sourceVersion", location: .querystring("sourceVersion"))
-        ]
-
         /// The source name of custom log source that you want to delete.
         public let sourceName: String
         /// The source version for the third-party custom source. You can limit the custom source removal to the specified source version.
@@ -960,6 +958,13 @@ extension SecurityLake {
         public init(sourceName: String, sourceVersion: String? = nil) {
             self.sourceName = sourceName
             self.sourceVersion = sourceVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.sourceName, key: "sourceName")
+            request.encodeQuery(self.sourceVersion, key: "sourceVersion")
         }
 
         public func validate(name: String) throws {
@@ -1033,15 +1038,17 @@ extension SecurityLake {
     }
 
     public struct DeleteSubscriberNotificationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subscriberId", location: .uri("subscriberId"))
-        ]
-
         /// The ID of the Security Lake subscriber account.
         public let subscriberId: String
 
         public init(subscriberId: String) {
             self.subscriberId = subscriberId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.subscriberId, key: "subscriberId")
         }
 
         public func validate(name: String) throws {
@@ -1056,15 +1063,17 @@ extension SecurityLake {
     }
 
     public struct DeleteSubscriberRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subscriberId", location: .uri("subscriberId"))
-        ]
-
         /// A value created by Security Lake that uniquely identifies your DeleteSubscriber API request.
         public let subscriberId: String
 
         public init(subscriberId: String) {
             self.subscriberId = subscriberId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.subscriberId, key: "subscriberId")
         }
 
         public func validate(name: String) throws {
@@ -1182,15 +1191,17 @@ extension SecurityLake {
     }
 
     public struct GetSubscriberRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subscriberId", location: .uri("subscriberId"))
-        ]
-
         /// A value created by Amazon Security Lake that uniquely identifies your GetSubscriber API request.
         public let subscriberId: String
 
         public init(subscriberId: String) {
             self.subscriberId = subscriberId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.subscriberId, key: "subscriberId")
         }
 
         public func validate(name: String) throws {
@@ -1294,15 +1305,17 @@ extension SecurityLake {
     }
 
     public struct ListDataLakesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "regions", location: .querystring("regions"))
-        ]
-
         /// The list of regions where Security Lake is enabled.
         public let regions: [String]?
 
         public init(regions: [String]? = nil) {
             self.regions = regions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.regions, key: "regions")
         }
 
         public func validate(name: String) throws {
@@ -1391,11 +1404,6 @@ extension SecurityLake {
     }
 
     public struct ListSubscribersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of accounts for which the configuration is displayed.
         public let maxResults: Int?
         /// If nextToken is returned, there are more results available. You can repeat the call using the returned token to retrieve the next page.
@@ -1404,6 +1412,13 @@ extension SecurityLake {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1610,10 +1625,6 @@ extension SecurityLake {
     }
 
     public struct UpdateSubscriberNotificationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subscriberId", location: .uri("subscriberId"))
-        ]
-
         /// The configuration for subscriber notification.
         public let configuration: NotificationConfiguration
         /// The subscription ID for which the subscription notification is specified.
@@ -1622,6 +1633,13 @@ extension SecurityLake {
         public init(configuration: NotificationConfiguration, subscriberId: String) {
             self.configuration = configuration
             self.subscriberId = subscriberId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.configuration, forKey: .configuration)
+            request.encodePath(self.subscriberId, key: "subscriberId")
         }
 
         public func validate(name: String) throws {
@@ -1648,10 +1666,6 @@ extension SecurityLake {
     }
 
     public struct UpdateSubscriberRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subscriberId", location: .uri("subscriberId"))
-        ]
-
         /// The supported Amazon Web Services from which logs and events are collected. For the list of supported Amazon Web Services, see the Amazon Security Lake User Guide.
         public let sources: [LogSourceResource]?
         /// The description of the Security Lake account subscriber.
@@ -1669,6 +1683,16 @@ extension SecurityLake {
             self.subscriberId = subscriberId
             self.subscriberIdentity = subscriberIdentity
             self.subscriberName = subscriberName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.sources, forKey: .sources)
+            try container.encodeIfPresent(self.subscriberDescription, forKey: .subscriberDescription)
+            request.encodePath(self.subscriberId, key: "subscriberId")
+            try container.encodeIfPresent(self.subscriberIdentity, forKey: .subscriberIdentity)
+            try container.encodeIfPresent(self.subscriberName, forKey: .subscriberName)
         }
 
         public func validate(name: String) throws {

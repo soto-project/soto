@@ -35,11 +35,6 @@ extension IoTDataPlane {
     // MARK: Shapes
 
     public struct DeleteThingShadowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "shadowName", location: .querystring("name")),
-            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
-        ]
-
         /// The name of the shadow.
         public let shadowName: String?
         /// The name of the thing.
@@ -48,6 +43,13 @@ extension IoTDataPlane {
         public init(shadowName: String? = nil, thingName: String) {
             self.shadowName = shadowName
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.shadowName, key: "name")
+            request.encodePath(self.thingName, key: "thingName")
         }
 
         public func validate(name: String) throws {
@@ -72,24 +74,25 @@ extension IoTDataPlane {
         }
 
         public init(from decoder: Decoder) throws {
-            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.payload = response.decodePayload()
-
+            let container = try decoder.singleValueContainer()
+            self.payload = try container.decode(AWSHTTPBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetRetainedMessageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "topic", location: .uri("topic"))
-        ]
-
         /// The topic name of the retained message to retrieve.
         public let topic: String
 
         public init(topic: String) {
             self.topic = topic
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.topic, key: "topic")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -125,11 +128,6 @@ extension IoTDataPlane {
     }
 
     public struct GetThingShadowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "shadowName", location: .querystring("name")),
-            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
-        ]
-
         /// The name of the shadow.
         public let shadowName: String?
         /// The name of the thing.
@@ -138,6 +136,13 @@ extension IoTDataPlane {
         public init(shadowName: String? = nil, thingName: String) {
             self.shadowName = shadowName
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.shadowName, key: "name")
+            request.encodePath(self.thingName, key: "thingName")
         }
 
         public func validate(name: String) throws {
@@ -162,21 +167,14 @@ extension IoTDataPlane {
         }
 
         public init(from decoder: Decoder) throws {
-            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.payload = response.decodePayload()
-
+            let container = try decoder.singleValueContainer()
+            self.payload = try container.decode(AWSHTTPBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListNamedShadowsForThingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize")),
-            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
-        ]
-
         /// The token to retrieve the next set of results.
         public let nextToken: String?
         /// The result page size.
@@ -188,6 +186,14 @@ extension IoTDataPlane {
             self.nextToken = nextToken
             self.pageSize = pageSize
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.pageSize, key: "pageSize")
+            request.encodePath(self.thingName, key: "thingName")
         }
 
         public func validate(name: String) throws {
@@ -223,11 +229,6 @@ extension IoTDataPlane {
     }
 
     public struct ListRetainedMessagesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
@@ -236,6 +237,13 @@ extension IoTDataPlane {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -263,21 +271,7 @@ extension IoTDataPlane {
         }
     }
 
-    public struct PublishRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "payload"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .querystring("contentType")),
-            AWSMemberEncoding(label: "correlationData", location: .header("x-amz-mqtt5-correlation-data")),
-            AWSMemberEncoding(label: "messageExpiry", location: .querystring("messageExpiry")),
-            AWSMemberEncoding(label: "payloadFormatIndicator", location: .header("x-amz-mqtt5-payload-format-indicator")),
-            AWSMemberEncoding(label: "qos", location: .querystring("qos")),
-            AWSMemberEncoding(label: "responseTopic", location: .querystring("responseTopic")),
-            AWSMemberEncoding(label: "retain", location: .querystring("retain")),
-            AWSMemberEncoding(label: "topic", location: .uri("topic")),
-            AWSMemberEncoding(label: "userProperties", location: .header("x-amz-mqtt5-user-properties"))
-        ]
-
+    public struct PublishRequest: AWSEncodableShape {
         /// A UTF-8 encoded string that describes the content of the publishing message.
         public let contentType: String?
         /// The base64-encoded binary data used by the sender of the request message to identify which request the response message is for when it's received. correlationData is an HTTP header value in the API.
@@ -310,6 +304,21 @@ extension IoTDataPlane {
             self.retain = retain
             self.topic = topic
             self.userProperties = userProperties
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeQuery(self.contentType, key: "contentType")
+            request.encodeHeader(self.correlationData, key: "x-amz-mqtt5-correlation-data")
+            request.encodeQuery(self.messageExpiry, key: "messageExpiry")
+            try container.encode(self.payload)
+            request.encodeHeader(self.payloadFormatIndicator, key: "x-amz-mqtt5-payload-format-indicator")
+            request.encodeQuery(self.qos, key: "qos")
+            request.encodeQuery(self.responseTopic, key: "responseTopic")
+            request.encodeQuery(self.retain, key: "retain")
+            request.encodePath(self.topic, key: "topic")
+            request.encodeHeader(self.userProperties, key: "x-amz-mqtt5-user-properties")
         }
 
         public func validate(name: String) throws {
@@ -345,14 +354,7 @@ extension IoTDataPlane {
         }
     }
 
-    public struct UpdateThingShadowRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "payload"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "shadowName", location: .querystring("name")),
-            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
-        ]
-
+    public struct UpdateThingShadowRequest: AWSEncodableShape {
         /// The state information, in JSON format.
         public let payload: AWSHTTPBody
         /// The name of the shadow.
@@ -364,6 +366,14 @@ extension IoTDataPlane {
             self.payload = payload
             self.shadowName = shadowName
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.payload)
+            request.encodeQuery(self.shadowName, key: "name")
+            request.encodePath(self.thingName, key: "thingName")
         }
 
         public func validate(name: String) throws {
@@ -388,9 +398,8 @@ extension IoTDataPlane {
         }
 
         public init(from decoder: Decoder) throws {
-            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.payload = response.decodePayload()
-
+            let container = try decoder.singleValueContainer()
+            self.payload = try container.decode(AWSHTTPBody.self)
         }
 
         private enum CodingKeys: CodingKey {}

@@ -29,12 +29,6 @@ extension IoT1ClickProjects {
     // MARK: Shapes
 
     public struct AssociateDeviceWithPlacementRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceTemplateName", location: .uri("deviceTemplateName")),
-            AWSMemberEncoding(label: "placementName", location: .uri("placementName")),
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName"))
-        ]
-
         /// The ID of the physical device to be associated with the given placement in the project. Note that a mandatory 4 character prefix is required for all deviceId values.
         public let deviceId: String
         /// The device template name to associate with the device ID.
@@ -49,6 +43,15 @@ extension IoT1ClickProjects {
             self.deviceTemplateName = deviceTemplateName
             self.placementName = placementName
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.deviceId, forKey: .deviceId)
+            request.encodePath(self.deviceTemplateName, key: "deviceTemplateName")
+            request.encodePath(self.placementName, key: "placementName")
+            request.encodePath(self.projectName, key: "projectName")
         }
 
         public func validate(name: String) throws {
@@ -75,10 +78,6 @@ extension IoT1ClickProjects {
     }
 
     public struct CreatePlacementRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName"))
-        ]
-
         /// Optional user-defined key/value pairs providing contextual data (such as location or function) for the placement.
         public let attributes: [String: String]?
         /// The name of the placement to be created.
@@ -90,6 +89,14 @@ extension IoT1ClickProjects {
             self.attributes = attributes
             self.placementName = placementName
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.attributes, forKey: .attributes)
+            try container.encode(self.placementName, forKey: .placementName)
+            request.encodePath(self.projectName, key: "projectName")
         }
 
         public func validate(name: String) throws {
@@ -162,11 +169,6 @@ extension IoT1ClickProjects {
     }
 
     public struct DeletePlacementRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "placementName", location: .uri("placementName")),
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName"))
-        ]
-
         /// The name of the empty placement to delete.
         public let placementName: String
         /// The project containing the empty placement to delete.
@@ -175,6 +177,13 @@ extension IoT1ClickProjects {
         public init(placementName: String, projectName: String) {
             self.placementName = placementName
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.placementName, key: "placementName")
+            request.encodePath(self.projectName, key: "projectName")
         }
 
         public func validate(name: String) throws {
@@ -194,15 +203,17 @@ extension IoT1ClickProjects {
     }
 
     public struct DeleteProjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName"))
-        ]
-
         /// The name of the empty project to delete.
         public let projectName: String
 
         public init(projectName: String) {
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.projectName, key: "projectName")
         }
 
         public func validate(name: String) throws {
@@ -219,11 +230,6 @@ extension IoT1ClickProjects {
     }
 
     public struct DescribePlacementRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "placementName", location: .uri("placementName")),
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName"))
-        ]
-
         /// The name of the placement within a project.
         public let placementName: String
         /// The project containing the placement to be described.
@@ -232,6 +238,13 @@ extension IoT1ClickProjects {
         public init(placementName: String, projectName: String) {
             self.placementName = placementName
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.placementName, key: "placementName")
+            request.encodePath(self.projectName, key: "projectName")
         }
 
         public func validate(name: String) throws {
@@ -260,15 +273,17 @@ extension IoT1ClickProjects {
     }
 
     public struct DescribeProjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName"))
-        ]
-
         /// The name of the project to be described.
         public let projectName: String
 
         public init(projectName: String) {
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.projectName, key: "projectName")
         }
 
         public func validate(name: String) throws {
@@ -320,12 +335,6 @@ extension IoT1ClickProjects {
     }
 
     public struct DisassociateDeviceFromPlacementRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceTemplateName", location: .uri("deviceTemplateName")),
-            AWSMemberEncoding(label: "placementName", location: .uri("placementName")),
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName"))
-        ]
-
         /// The device ID that should be removed from the placement.
         public let deviceTemplateName: String
         /// The name of the placement that the device should be removed from.
@@ -337,6 +346,14 @@ extension IoT1ClickProjects {
             self.deviceTemplateName = deviceTemplateName
             self.placementName = placementName
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deviceTemplateName, key: "deviceTemplateName")
+            request.encodePath(self.placementName, key: "placementName")
+            request.encodePath(self.projectName, key: "projectName")
         }
 
         public func validate(name: String) throws {
@@ -359,11 +376,6 @@ extension IoT1ClickProjects {
     }
 
     public struct GetDevicesInPlacementRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "placementName", location: .uri("placementName")),
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName"))
-        ]
-
         /// The name of the placement to get the devices from.
         public let placementName: String
         /// The name of the project containing the placement.
@@ -372,6 +384,13 @@ extension IoT1ClickProjects {
         public init(placementName: String, projectName: String) {
             self.placementName = placementName
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.placementName, key: "placementName")
+            request.encodePath(self.projectName, key: "projectName")
         }
 
         public func validate(name: String) throws {
@@ -400,12 +419,6 @@ extension IoT1ClickProjects {
     }
 
     public struct ListPlacementsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName"))
-        ]
-
         /// The maximum number of results to return per request. If not set, a default value of 100 is used.
         public let maxResults: Int?
         /// The token to retrieve the next set of results.
@@ -417,6 +430,14 @@ extension IoT1ClickProjects {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.projectName, key: "projectName")
         }
 
         public func validate(name: String) throws {
@@ -450,11 +471,6 @@ extension IoT1ClickProjects {
     }
 
     public struct ListProjectsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return per request. If not set, a default value of 100 is used.
         public let maxResults: Int?
         /// The token to retrieve the next set of results.
@@ -463,6 +479,13 @@ extension IoT1ClickProjects {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -493,15 +516,17 @@ extension IoT1ClickProjects {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The ARN of the resource whose tags you want to list.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -676,10 +701,6 @@ extension IoT1ClickProjects {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The ARN of the resouce for which tag(s) should be added or modified.
         public let resourceArn: String
         /// The new or modifying tag(s) for the resource. See AWS IoT 1-Click Service Limits for the maximum number of tags allowed per resource.
@@ -688,6 +709,13 @@ extension IoT1ClickProjects {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -712,11 +740,6 @@ extension IoT1ClickProjects {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The ARN of the resource whose tag you want to remove.
         public let resourceArn: String
         /// The keys of those tags which you want to remove.
@@ -725,6 +748,13 @@ extension IoT1ClickProjects {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -746,11 +776,6 @@ extension IoT1ClickProjects {
     }
 
     public struct UpdatePlacementRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "placementName", location: .uri("placementName")),
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName"))
-        ]
-
         /// The user-defined object of attributes used to update the placement. The maximum number of key/value pairs is 50.
         public let attributes: [String: String]?
         /// The name of the placement to update.
@@ -762,6 +787,14 @@ extension IoT1ClickProjects {
             self.attributes = attributes
             self.placementName = placementName
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.attributes, forKey: .attributes)
+            request.encodePath(self.placementName, key: "placementName")
+            request.encodePath(self.projectName, key: "projectName")
         }
 
         public func validate(name: String) throws {
@@ -788,10 +821,6 @@ extension IoT1ClickProjects {
     }
 
     public struct UpdateProjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName"))
-        ]
-
         /// An optional user-defined description for the project.
         public let description: String?
         /// An object defining the project update. Once a project has been created, you cannot add device template names to the project. However, for a given placementTemplate, you can update the associated callbackOverrides for the device definition using this API.
@@ -803,6 +832,14 @@ extension IoT1ClickProjects {
             self.description = description
             self.placementTemplate = placementTemplate
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.placementTemplate, forKey: .placementTemplate)
+            request.encodePath(self.projectName, key: "projectName")
         }
 
         public func validate(name: String) throws {

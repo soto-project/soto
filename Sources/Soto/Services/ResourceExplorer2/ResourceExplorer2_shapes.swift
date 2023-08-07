@@ -462,15 +462,17 @@ extension ResourceExplorer2 {
     }
 
     public struct ListTagsForResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon resource name (ARN) of the view or index that you want to attach tags to.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -683,10 +685,6 @@ extension ResourceExplorer2 {
     }
 
     public struct TagResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the view or index that you want to attach tags to.
         public let resourceArn: String
         /// A list of tag key and value pairs that you want to attach to the specified view or index.
@@ -695,6 +693,13 @@ extension ResourceExplorer2 {
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -707,11 +712,6 @@ extension ResourceExplorer2 {
     }
 
     public struct UntagResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the view or index that you want to remove tags from.
         public let resourceArn: String
         /// A list of the keys for the tags that you want to remove from the specified view or index.
@@ -720,6 +720,13 @@ extension ResourceExplorer2 {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         private enum CodingKeys: CodingKey {}

@@ -74,10 +74,6 @@ extension Signer {
     // MARK: Shapes
 
     public struct AddProfilePermissionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "profileName", location: .uri("profileName"))
-        ]
-
         /// The AWS Signer action permitted as part of cross-account permissions.
         public let action: String
         /// The AWS principal receiving cross-account permissions. This may be an IAM role or
@@ -99,6 +95,17 @@ extension Signer {
             self.profileVersion = profileVersion
             self.revisionId = revisionId
             self.statementId = statementId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.action, forKey: .action)
+            try container.encode(self.principal, forKey: .principal)
+            request.encodePath(self.profileName, key: "profileName")
+            try container.encodeIfPresent(self.profileVersion, forKey: .profileVersion)
+            try container.encodeIfPresent(self.revisionId, forKey: .revisionId)
+            try container.encode(self.statementId, forKey: .statementId)
         }
 
         public func validate(name: String) throws {
@@ -133,15 +140,17 @@ extension Signer {
     }
 
     public struct CancelSigningProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "profileName", location: .uri("profileName"))
-        ]
-
         /// The name of the signing profile to be canceled.
         public let profileName: String
 
         public init(profileName: String) {
             self.profileName = profileName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.profileName, key: "profileName")
         }
 
         public func validate(name: String) throws {
@@ -154,15 +163,17 @@ extension Signer {
     }
 
     public struct DescribeSigningJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
-        ]
-
         /// The ID of the signing job on input.
         public let jobId: String
 
         public init(jobId: String) {
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "jobId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -287,14 +298,6 @@ extension Signer {
     }
 
     public struct GetRevocationStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "certificateHashes", location: .querystring("certificateHashes")),
-            AWSMemberEncoding(label: "jobArn", location: .querystring("jobArn")),
-            AWSMemberEncoding(label: "platformId", location: .querystring("platformId")),
-            AWSMemberEncoding(label: "profileVersionArn", location: .querystring("profileVersionArn")),
-            AWSMemberEncoding(label: "signatureTimestamp", location: .querystring("signatureTimestamp"))
-        ]
-
         /// A list of composite signed hashes that identify certificates.
         /// 		       A certificate identifier consists of a subject certificate TBS hash (signed by the
         /// 			parent CA) combined with a parent CA TBS hash (signed by the parent CA’s CA). Root
@@ -315,6 +318,16 @@ extension Signer {
             self.platformId = platformId
             self.profileVersionArn = profileVersionArn
             self.signatureTimestamp = signatureTimestamp
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.certificateHashes, key: "certificateHashes")
+            request.encodeQuery(self.jobArn, key: "jobArn")
+            request.encodeQuery(self.platformId, key: "platformId")
+            request.encodeQuery(self.profileVersionArn, key: "profileVersionArn")
+            request.encodeQuery(self.signatureTimestamp, key: "signatureTimestamp")
         }
 
         public func validate(name: String) throws {
@@ -342,15 +355,17 @@ extension Signer {
     }
 
     public struct GetSigningPlatformRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "platformId", location: .uri("platformId"))
-        ]
-
         /// The ID of the target signing platform.
         public let platformId: String
 
         public init(platformId: String) {
             self.platformId = platformId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.platformId, key: "platformId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -404,11 +419,6 @@ extension Signer {
     }
 
     public struct GetSigningProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "profileName", location: .uri("profileName")),
-            AWSMemberEncoding(label: "profileOwner", location: .querystring("profileOwner"))
-        ]
-
         /// The name of the target signing profile.
         public let profileName: String
         /// The AWS account ID of the profile owner.
@@ -417,6 +427,13 @@ extension Signer {
         public init(profileName: String, profileOwner: String? = nil) {
             self.profileName = profileName
             self.profileOwner = profileOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.profileName, key: "profileName")
+            request.encodeQuery(self.profileOwner, key: "profileOwner")
         }
 
         public func validate(name: String) throws {
@@ -515,11 +532,6 @@ extension Signer {
     }
 
     public struct ListProfilePermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "profileName", location: .uri("profileName"))
-        ]
-
         /// String for specifying the next set of paginated results.
         public let nextToken: String?
         /// Name of the signing profile containing the cross-account permissions.
@@ -528,6 +540,13 @@ extension Signer {
         public init(nextToken: String? = nil, profileName: String) {
             self.nextToken = nextToken
             self.profileName = profileName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.profileName, key: "profileName")
         }
 
         public func validate(name: String) throws {
@@ -565,18 +584,6 @@ extension Signer {
     }
 
     public struct ListSigningJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "isRevoked", location: .querystring("isRevoked")),
-            AWSMemberEncoding(label: "jobInvoker", location: .querystring("jobInvoker")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "platformId", location: .querystring("platformId")),
-            AWSMemberEncoding(label: "requestedBy", location: .querystring("requestedBy")),
-            AWSMemberEncoding(label: "signatureExpiresAfter", location: .querystring("signatureExpiresAfter")),
-            AWSMemberEncoding(label: "signatureExpiresBefore", location: .querystring("signatureExpiresBefore")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         /// Filters results to return only signing jobs with revoked signatures.
         public let isRevoked: Bool?
         /// Filters results to return only signing jobs initiated by a specified IAM
@@ -618,6 +625,20 @@ extension Signer {
             self.status = status
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.isRevoked, key: "isRevoked")
+            request.encodeQuery(self.jobInvoker, key: "jobInvoker")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.platformId, key: "platformId")
+            request.encodeQuery(self.requestedBy, key: "requestedBy")
+            request.encodeQuery(self.signatureExpiresAfter, key: "signatureExpiresAfter")
+            request.encodeQuery(self.signatureExpiresBefore, key: "signatureExpiresBefore")
+            request.encodeQuery(self.status, key: "status")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.jobInvoker, name: "jobInvoker", parent: name, max: 12)
             try self.validate(self.jobInvoker, name: "jobInvoker", parent: name, min: 12)
@@ -647,14 +668,6 @@ extension Signer {
     }
 
     public struct ListSigningPlatformsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "category", location: .querystring("category")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "partner", location: .querystring("partner")),
-            AWSMemberEncoding(label: "target", location: .querystring("target"))
-        ]
-
         /// The category type of a signing platform.
         public let category: String?
         /// The maximum number of results to be returned by this operation.
@@ -674,6 +687,16 @@ extension Signer {
             self.nextToken = nextToken
             self.partner = partner
             self.target = target
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.category, key: "category")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.partner, key: "partner")
+            request.encodeQuery(self.target, key: "target")
         }
 
         public func validate(name: String) throws {
@@ -702,14 +725,6 @@ extension Signer {
     }
 
     public struct ListSigningProfilesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "includeCanceled", location: .querystring("includeCanceled")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "platformId", location: .querystring("platformId")),
-            AWSMemberEncoding(label: "statuses", location: .querystring("statuses"))
-        ]
-
         /// Designates whether to include profiles with the status of
         /// 			CANCELED.
         public let includeCanceled: Bool?
@@ -732,6 +747,16 @@ extension Signer {
             self.nextToken = nextToken
             self.platformId = platformId
             self.statuses = statuses
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.includeCanceled, key: "includeCanceled")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.platformId, key: "platformId")
+            request.encodeQuery(self.statuses, key: "statuses")
         }
 
         public func validate(name: String) throws {
@@ -762,15 +787,17 @@ extension Signer {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) for the signing profile.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -815,10 +842,6 @@ extension Signer {
     }
 
     public struct PutSigningProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "profileName", location: .uri("profileName"))
-        ]
-
         /// A subfield of platform. This specifies any different configuration
         /// 			options that you want to apply to the chosen platform (such as a different
         /// 				hash-algorithm or signing-algorithm).
@@ -847,6 +870,18 @@ extension Signer {
             self.signingMaterial = signingMaterial
             self.signingParameters = signingParameters
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.overrides, forKey: .overrides)
+            try container.encode(self.platformId, forKey: .platformId)
+            request.encodePath(self.profileName, key: "profileName")
+            try container.encodeIfPresent(self.signatureValidityPeriod, forKey: .signatureValidityPeriod)
+            try container.encodeIfPresent(self.signingMaterial, forKey: .signingMaterial)
+            try container.encodeIfPresent(self.signingParameters, forKey: .signingParameters)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -895,12 +930,6 @@ extension Signer {
     }
 
     public struct RemoveProfilePermissionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "profileName", location: .uri("profileName")),
-            AWSMemberEncoding(label: "revisionId", location: .querystring("revisionId")),
-            AWSMemberEncoding(label: "statementId", location: .uri("statementId"))
-        ]
-
         /// A human-readable name for the signing profile with permissions to be removed.
         public let profileName: String
         /// An identifier for the current revision of the signing profile permissions.
@@ -912,6 +941,14 @@ extension Signer {
             self.profileName = profileName
             self.revisionId = revisionId
             self.statementId = statementId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.profileName, key: "profileName")
+            request.encodeQuery(self.revisionId, key: "revisionId")
+            request.encodePath(self.statementId, key: "statementId")
         }
 
         public func validate(name: String) throws {
@@ -937,10 +974,6 @@ extension Signer {
     }
 
     public struct RevokeSignatureRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
-        ]
-
         /// ID of the signing job to be revoked.
         public let jobId: String
         /// AWS account ID of the job owner.
@@ -952,6 +985,14 @@ extension Signer {
             self.jobId = jobId
             self.jobOwner = jobOwner
             self.reason = reason
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "jobId")
+            try container.encodeIfPresent(self.jobOwner, forKey: .jobOwner)
+            try container.encode(self.reason, forKey: .reason)
         }
 
         public func validate(name: String) throws {
@@ -969,10 +1010,6 @@ extension Signer {
     }
 
     public struct RevokeSigningProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "profileName", location: .uri("profileName"))
-        ]
-
         /// A timestamp for when revocation of a Signing Profile should become effective.
         /// 			Signatures generated using the signing profile after this timestamp are not
         /// 			trusted.
@@ -989,6 +1026,15 @@ extension Signer {
             self.profileName = profileName
             self.profileVersion = profileVersion
             self.reason = reason
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.effectiveTime, forKey: .effectiveTime)
+            request.encodePath(self.profileName, key: "profileName")
+            try container.encode(self.profileVersion, forKey: .profileVersion)
+            try container.encode(self.reason, forKey: .reason)
         }
 
         public func validate(name: String) throws {
@@ -1528,10 +1574,6 @@ extension Signer {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) for the signing profile.
         public let resourceArn: String
         /// One or more tags to be associated with the signing profile.
@@ -1540,6 +1582,13 @@ extension Signer {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1563,11 +1612,6 @@ extension Signer {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) for the signing profile.
         public let resourceArn: String
         /// A list of tag keys to be removed from the signing profile.
@@ -1576,6 +1620,13 @@ extension Signer {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {

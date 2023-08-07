@@ -168,14 +168,6 @@ extension SageMakerFeatureStoreRuntime {
     }
 
     public struct DeleteRecordRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deletionMode", location: .querystring("DeletionMode")),
-            AWSMemberEncoding(label: "eventTime", location: .querystring("EventTime")),
-            AWSMemberEncoding(label: "featureGroupName", location: .uri("FeatureGroupName")),
-            AWSMemberEncoding(label: "recordIdentifierValueAsString", location: .querystring("RecordIdentifierValueAsString")),
-            AWSMemberEncoding(label: "targetStores", location: .querystring("TargetStores"))
-        ]
-
         /// The name of the deletion mode for deleting the record. By default, the deletion mode is set to SoftDelete.
         public let deletionMode: DeletionMode?
         /// Timestamp indicating when the deletion event occurred. EventTime can be used to query data at a certain point in time.
@@ -193,6 +185,16 @@ extension SageMakerFeatureStoreRuntime {
             self.featureGroupName = featureGroupName
             self.recordIdentifierValueAsString = recordIdentifierValueAsString
             self.targetStores = targetStores
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.deletionMode, key: "DeletionMode")
+            request.encodeQuery(self.eventTime, key: "EventTime")
+            request.encodePath(self.featureGroupName, key: "FeatureGroupName")
+            request.encodeQuery(self.recordIdentifierValueAsString, key: "RecordIdentifierValueAsString")
+            request.encodeQuery(self.targetStores, key: "TargetStores")
         }
 
         public func validate(name: String) throws {
@@ -236,12 +238,6 @@ extension SageMakerFeatureStoreRuntime {
     }
 
     public struct GetRecordRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "featureGroupName", location: .uri("FeatureGroupName")),
-            AWSMemberEncoding(label: "featureNames", location: .querystring("FeatureName")),
-            AWSMemberEncoding(label: "recordIdentifierValueAsString", location: .querystring("RecordIdentifierValueAsString"))
-        ]
-
         /// The name of the feature group from which you want to retrieve a record.
         public let featureGroupName: String
         /// List of names of Features to be retrieved. If not specified, the latest value for all the Features are returned.
@@ -253,6 +249,14 @@ extension SageMakerFeatureStoreRuntime {
             self.featureGroupName = featureGroupName
             self.featureNames = featureNames
             self.recordIdentifierValueAsString = recordIdentifierValueAsString
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.featureGroupName, key: "FeatureGroupName")
+            request.encodeQuery(self.featureNames, key: "FeatureName")
+            request.encodeQuery(self.recordIdentifierValueAsString, key: "RecordIdentifierValueAsString")
         }
 
         public func validate(name: String) throws {
@@ -286,10 +290,6 @@ extension SageMakerFeatureStoreRuntime {
     }
 
     public struct PutRecordRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "featureGroupName", location: .uri("FeatureGroupName"))
-        ]
-
         /// The name of the feature group that you want to insert the record into.
         public let featureGroupName: String
         /// List of FeatureValues to be inserted. This will be a full over-write. If you only want to update few of the feature values, do the following:   Use GetRecord to retrieve the latest record.   Update the record returned from GetRecord.    Use PutRecord to update feature values.
@@ -301,6 +301,14 @@ extension SageMakerFeatureStoreRuntime {
             self.featureGroupName = featureGroupName
             self.record = record
             self.targetStores = targetStores
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.featureGroupName, key: "FeatureGroupName")
+            try container.encode(self.record, forKey: .record)
+            try container.encodeIfPresent(self.targetStores, forKey: .targetStores)
         }
 
         public func validate(name: String) throws {

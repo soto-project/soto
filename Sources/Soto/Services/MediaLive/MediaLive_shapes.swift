@@ -1958,15 +1958,17 @@ extension MediaLive {
     }
 
     public struct AcceptInputDeviceTransferRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "inputDeviceId", location: .uri("InputDeviceId"))
-        ]
-
         /// The unique ID of the input device to accept. For example, hd-123456789abcdef.
         public let inputDeviceId: String
 
         public init(inputDeviceId: String) {
             self.inputDeviceId = inputDeviceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.inputDeviceId, key: "InputDeviceId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2785,10 +2787,6 @@ extension MediaLive {
     }
 
     public struct BatchUpdateScheduleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelId", location: .uri("ChannelId"))
-        ]
-
         /// Id of the channel whose schedule is being updated.
         public let channelId: String
         /// Schedule actions to create in the schedule.
@@ -2800,6 +2798,14 @@ extension MediaLive {
             self.channelId = channelId
             self.creates = creates
             self.deletes = deletes
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelId, key: "ChannelId")
+            try container.encodeIfPresent(self.creates, forKey: .creates)
+            try container.encodeIfPresent(self.deletes, forKey: .deletes)
         }
 
         public func validate(name: String) throws {
@@ -2959,15 +2965,17 @@ extension MediaLive {
     }
 
     public struct CancelInputDeviceTransferRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "inputDeviceId", location: .uri("InputDeviceId"))
-        ]
-
         /// The unique ID of the input device to cancel. For example, hd-123456789abcdef.
         public let inputDeviceId: String
 
         public init(inputDeviceId: String) {
             self.inputDeviceId = inputDeviceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.inputDeviceId, key: "InputDeviceId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3600,10 +3608,6 @@ extension MediaLive {
     }
 
     public struct CreateMultiplexProgramRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "multiplexId", location: .uri("MultiplexId"))
-        ]
-
         /// ID of the multiplex where the program is to be created.
         public let multiplexId: String
         /// The settings for this multiplex program.
@@ -3619,6 +3623,15 @@ extension MediaLive {
             self.multiplexProgramSettings = multiplexProgramSettings
             self.programName = programName
             self.requestId = requestId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.multiplexId, key: "MultiplexId")
+            try container.encode(self.multiplexProgramSettings, forKey: .multiplexProgramSettings)
+            try container.encode(self.programName, forKey: .programName)
+            try container.encode(self.requestId, forKey: .requestId)
         }
 
         public func validate(name: String) throws {
@@ -3693,10 +3706,6 @@ extension MediaLive {
     }
 
     public struct CreatePartnerInputRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "inputId", location: .uri("InputId"))
-        ]
-
         /// Unique ID of the input.
         public let inputId: String
         /// Unique identifier of the request to ensure the request is handled
@@ -3709,6 +3718,14 @@ extension MediaLive {
             self.inputId = inputId
             self.requestId = requestId
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.inputId, key: "InputId")
+            try container.encodeIfPresent(self.requestId, forKey: .requestId)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3730,10 +3747,6 @@ extension MediaLive {
     }
 
     public struct CreateTagsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         public let resourceArn: String
         public let tags: [String: String]?
 
@@ -3742,21 +3755,30 @@ extension MediaLive {
             self.tags = tags
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
         }
     }
 
     public struct DeleteChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelId", location: .uri("ChannelId"))
-        ]
-
         /// Unique ID of the channel.
         public let channelId: String
 
         public init(channelId: String) {
             self.channelId = channelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelId, key: "ChannelId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3844,15 +3866,17 @@ extension MediaLive {
     }
 
     public struct DeleteInputRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "inputId", location: .uri("InputId"))
-        ]
-
         /// Unique ID of the input
         public let inputId: String
 
         public init(inputId: String) {
             self.inputId = inputId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.inputId, key: "InputId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3863,15 +3887,17 @@ extension MediaLive {
     }
 
     public struct DeleteInputSecurityGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "inputSecurityGroupId", location: .uri("InputSecurityGroupId"))
-        ]
-
         /// The Input Security Group to delete
         public let inputSecurityGroupId: String
 
         public init(inputSecurityGroupId: String) {
             self.inputSecurityGroupId = inputSecurityGroupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.inputSecurityGroupId, key: "InputSecurityGroupId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3882,11 +3908,6 @@ extension MediaLive {
     }
 
     public struct DeleteMultiplexProgramRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "multiplexId", location: .uri("MultiplexId")),
-            AWSMemberEncoding(label: "programName", location: .uri("ProgramName"))
-        ]
-
         /// The ID of the multiplex that the program belongs to.
         public let multiplexId: String
         /// The multiplex program name.
@@ -3895,6 +3916,13 @@ extension MediaLive {
         public init(multiplexId: String, programName: String) {
             self.multiplexId = multiplexId
             self.programName = programName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.multiplexId, key: "MultiplexId")
+            request.encodePath(self.programName, key: "ProgramName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3930,15 +3958,17 @@ extension MediaLive {
     }
 
     public struct DeleteMultiplexRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "multiplexId", location: .uri("MultiplexId"))
-        ]
-
         /// The ID of the multiplex.
         public let multiplexId: String
 
         public init(multiplexId: String) {
             self.multiplexId = multiplexId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.multiplexId, key: "MultiplexId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3994,15 +4024,17 @@ extension MediaLive {
     }
 
     public struct DeleteReservationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reservationId", location: .uri("ReservationId"))
-        ]
-
         /// Unique reservation ID, e.g. '1234567'
         public let reservationId: String
 
         public init(reservationId: String) {
             self.reservationId = reservationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.reservationId, key: "ReservationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4094,15 +4126,17 @@ extension MediaLive {
     }
 
     public struct DeleteScheduleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelId", location: .uri("ChannelId"))
-        ]
-
         /// Id of the channel whose schedule is being deleted.
         public let channelId: String
 
         public init(channelId: String) {
             self.channelId = channelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelId, key: "ChannelId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4113,11 +4147,6 @@ extension MediaLive {
     }
 
     public struct DeleteTagsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         public let resourceArn: String
         /// An array of tag keys to delete
         public let tagKeys: [String]
@@ -4127,19 +4156,28 @@ extension MediaLive {
             self.tagKeys = tagKeys
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelId", location: .uri("ChannelId"))
-        ]
-
         /// channel ID
         public let channelId: String
 
         public init(channelId: String) {
             self.channelId = channelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelId, key: "ChannelId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4227,15 +4265,17 @@ extension MediaLive {
     }
 
     public struct DescribeInputDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "inputDeviceId", location: .uri("InputDeviceId"))
-        ]
-
         /// The unique ID of this input device. For example, hd-123456789abcdef.
         public let inputDeviceId: String
 
         public init(inputDeviceId: String) {
             self.inputDeviceId = inputDeviceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.inputDeviceId, key: "InputDeviceId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4303,11 +4343,6 @@ extension MediaLive {
     }
 
     public struct DescribeInputDeviceThumbnailRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accept", location: .header("accept")),
-            AWSMemberEncoding(label: "inputDeviceId", location: .uri("InputDeviceId"))
-        ]
-
         /// The HTTP Accept header. Indicates the requested type for the thumbnail.
         public let accept: AcceptHeader
         /// The unique ID of this input device. For example, hd-123456789abcdef.
@@ -4316,6 +4351,13 @@ extension MediaLive {
         public init(accept: AcceptHeader, inputDeviceId: String) {
             self.accept = accept
             self.inputDeviceId = inputDeviceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accept, key: "accept")
+            request.encodePath(self.inputDeviceId, key: "InputDeviceId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4345,27 +4387,29 @@ extension MediaLive {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.body = response.decodePayload()
-            self.contentLength = try response.decodeIfPresent(Int64.self, forHeader: "Content-Length")
-            self.contentType = try response.decodeIfPresent(ContentType.self, forHeader: "Content-Type")
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.lastModified = try response.decodeIfPresent(Date.self, forHeader: "Last-Modified")
-
+            let container = try decoder.singleValueContainer()
+            self.body = try container.decode(AWSHTTPBody.self)
+            self.contentLength = try response.decodeHeaderIfPresent(Int64.self, key: "Content-Length")
+            self.contentType = try response.decodeHeaderIfPresent(ContentType.self, key: "Content-Type")
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.lastModified = try response.decodeHeaderIfPresent(Date.self, key: "Last-Modified")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeInputRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "inputId", location: .uri("InputId"))
-        ]
-
         /// Unique ID of the input
         public let inputId: String
 
         public init(inputId: String) {
             self.inputId = inputId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.inputId, key: "InputId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4445,15 +4489,17 @@ extension MediaLive {
     }
 
     public struct DescribeInputSecurityGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "inputSecurityGroupId", location: .uri("InputSecurityGroupId"))
-        ]
-
         /// The id of the Input Security Group to describe
         public let inputSecurityGroupId: String
 
         public init(inputSecurityGroupId: String) {
             self.inputSecurityGroupId = inputSecurityGroupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.inputSecurityGroupId, key: "InputSecurityGroupId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4493,11 +4539,6 @@ extension MediaLive {
     }
 
     public struct DescribeMultiplexProgramRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "multiplexId", location: .uri("MultiplexId")),
-            AWSMemberEncoding(label: "programName", location: .uri("ProgramName"))
-        ]
-
         /// The ID of the multiplex that the program belongs to.
         public let multiplexId: String
         /// The name of the program.
@@ -4506,6 +4547,13 @@ extension MediaLive {
         public init(multiplexId: String, programName: String) {
             self.multiplexId = multiplexId
             self.programName = programName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.multiplexId, key: "MultiplexId")
+            request.encodePath(self.programName, key: "ProgramName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4541,15 +4589,17 @@ extension MediaLive {
     }
 
     public struct DescribeMultiplexRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "multiplexId", location: .uri("MultiplexId"))
-        ]
-
         /// The ID of the multiplex.
         public let multiplexId: String
 
         public init(multiplexId: String) {
             self.multiplexId = multiplexId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.multiplexId, key: "MultiplexId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4605,15 +4655,17 @@ extension MediaLive {
     }
 
     public struct DescribeOfferingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "offeringId", location: .uri("OfferingId"))
-        ]
-
         /// Unique offering ID, e.g. '87654321'
         public let offeringId: String
 
         public init(offeringId: String) {
             self.offeringId = offeringId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.offeringId, key: "OfferingId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4673,15 +4725,17 @@ extension MediaLive {
     }
 
     public struct DescribeReservationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reservationId", location: .uri("ReservationId"))
-        ]
-
         /// Unique reservation ID, e.g. '1234567'
         public let reservationId: String
 
         public init(reservationId: String) {
             self.reservationId = reservationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.reservationId, key: "ReservationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4773,12 +4827,6 @@ extension MediaLive {
     }
 
     public struct DescribeScheduleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelId", location: .uri("ChannelId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// Id of the channel whose schedule is being updated.
         public let channelId: String
         public let maxResults: Int?
@@ -4788,6 +4836,14 @@ extension MediaLive {
             self.channelId = channelId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelId, key: "ChannelId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -7441,17 +7497,19 @@ extension MediaLive {
     }
 
     public struct ListChannelsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         public let maxResults: Int?
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -7478,12 +7536,6 @@ extension MediaLive {
     }
 
     public struct ListInputDeviceTransfersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "transferType", location: .querystring("transferType"))
-        ]
-
         public let maxResults: Int?
         public let nextToken: String?
         public let transferType: String
@@ -7492,6 +7544,14 @@ extension MediaLive {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.transferType = transferType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.transferType, key: "transferType")
         }
 
         public func validate(name: String) throws {
@@ -7520,17 +7580,19 @@ extension MediaLive {
     }
 
     public struct ListInputDevicesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         public let maxResults: Int?
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -7559,17 +7621,19 @@ extension MediaLive {
     }
 
     public struct ListInputSecurityGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         public let maxResults: Int?
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -7597,17 +7661,19 @@ extension MediaLive {
     }
 
     public struct ListInputsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         public let maxResults: Int?
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -7634,12 +7700,6 @@ extension MediaLive {
     }
 
     public struct ListMultiplexProgramsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "multiplexId", location: .uri("MultiplexId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of items to return.
         public let maxResults: Int?
         /// The ID of the multiplex that the programs belong to.
@@ -7651,6 +7711,14 @@ extension MediaLive {
             self.maxResults = maxResults
             self.multiplexId = multiplexId
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.multiplexId, key: "MultiplexId")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -7679,11 +7747,6 @@ extension MediaLive {
     }
 
     public struct ListMultiplexesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of items to return.
         public let maxResults: Int?
         /// The token to retrieve the next page of results.
@@ -7692,6 +7755,13 @@ extension MediaLive {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -7720,21 +7790,6 @@ extension MediaLive {
     }
 
     public struct ListOfferingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelClass", location: .querystring("channelClass")),
-            AWSMemberEncoding(label: "channelConfiguration", location: .querystring("channelConfiguration")),
-            AWSMemberEncoding(label: "codec", location: .querystring("codec")),
-            AWSMemberEncoding(label: "duration", location: .querystring("duration")),
-            AWSMemberEncoding(label: "maximumBitrate", location: .querystring("maximumBitrate")),
-            AWSMemberEncoding(label: "maximumFramerate", location: .querystring("maximumFramerate")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "resolution", location: .querystring("resolution")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType")),
-            AWSMemberEncoding(label: "specialFeature", location: .querystring("specialFeature")),
-            AWSMemberEncoding(label: "videoQuality", location: .querystring("videoQuality"))
-        ]
-
         /// Filter by channel class, 'STANDARD' or 'SINGLE_PIPELINE'
         public let channelClass: String?
         /// Filter to offerings that match the configuration of an existing channel, e.g. '2345678' (a channel ID)
@@ -7773,6 +7828,23 @@ extension MediaLive {
             self.videoQuality = videoQuality
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.channelClass, key: "channelClass")
+            request.encodeQuery(self.channelConfiguration, key: "channelConfiguration")
+            request.encodeQuery(self.codec, key: "codec")
+            request.encodeQuery(self.duration, key: "duration")
+            request.encodeQuery(self.maximumBitrate, key: "maximumBitrate")
+            request.encodeQuery(self.maximumFramerate, key: "maximumFramerate")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.resolution, key: "resolution")
+            request.encodeQuery(self.resourceType, key: "resourceType")
+            request.encodeQuery(self.specialFeature, key: "specialFeature")
+            request.encodeQuery(self.videoQuality, key: "videoQuality")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -7799,19 +7871,6 @@ extension MediaLive {
     }
 
     public struct ListReservationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelClass", location: .querystring("channelClass")),
-            AWSMemberEncoding(label: "codec", location: .querystring("codec")),
-            AWSMemberEncoding(label: "maximumBitrate", location: .querystring("maximumBitrate")),
-            AWSMemberEncoding(label: "maximumFramerate", location: .querystring("maximumFramerate")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "resolution", location: .querystring("resolution")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType")),
-            AWSMemberEncoding(label: "specialFeature", location: .querystring("specialFeature")),
-            AWSMemberEncoding(label: "videoQuality", location: .querystring("videoQuality"))
-        ]
-
         /// Filter by channel class, 'STANDARD' or 'SINGLE_PIPELINE'
         public let channelClass: String?
         /// Filter by codec, 'AVC', 'HEVC', 'MPEG2', 'AUDIO', or 'LINK'
@@ -7844,6 +7903,21 @@ extension MediaLive {
             self.videoQuality = videoQuality
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.channelClass, key: "channelClass")
+            request.encodeQuery(self.codec, key: "codec")
+            request.encodeQuery(self.maximumBitrate, key: "maximumBitrate")
+            request.encodeQuery(self.maximumFramerate, key: "maximumFramerate")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.resolution, key: "resolution")
+            request.encodeQuery(self.resourceType, key: "resourceType")
+            request.encodeQuery(self.specialFeature, key: "specialFeature")
+            request.encodeQuery(self.videoQuality, key: "videoQuality")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -7870,14 +7944,16 @@ extension MediaLive {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9532,10 +9608,6 @@ extension MediaLive {
     }
 
     public struct PurchaseOfferingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "offeringId", location: .uri("OfferingId"))
-        ]
-
         /// Number of resources
         public let count: Int
         /// Name for the new reservation
@@ -9559,6 +9631,18 @@ extension MediaLive {
             self.requestId = requestId
             self.start = start
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.count, forKey: .count)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.offeringId, key: "OfferingId")
+            try container.encodeIfPresent(self.renewalSettings, forKey: .renewalSettings)
+            try container.encodeIfPresent(self.requestId, forKey: .requestId)
+            try container.encodeIfPresent(self.start, forKey: .start)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -9593,10 +9677,6 @@ extension MediaLive {
     }
 
     public struct RebootInputDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "inputDeviceId", location: .uri("InputDeviceId"))
-        ]
-
         /// Force a reboot of an input device. If the device is streaming, it will stop streaming and begin rebooting within a few seconds of sending the command. If the device was streaming prior to the reboot, the device will resume streaming when the reboot completes.
         public let force: RebootInputDeviceForce?
         /// The unique ID of the input device to reboot. For example, hd-123456789abcdef.
@@ -9605,6 +9685,13 @@ extension MediaLive {
         public init(force: RebootInputDeviceForce? = nil, inputDeviceId: String) {
             self.force = force
             self.inputDeviceId = inputDeviceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.force, forKey: .force)
+            request.encodePath(self.inputDeviceId, key: "InputDeviceId")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9625,15 +9712,17 @@ extension MediaLive {
     }
 
     public struct RejectInputDeviceTransferRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "inputDeviceId", location: .uri("InputDeviceId"))
-        ]
-
         /// The unique ID of the input device to reject. For example, hd-123456789abcdef.
         public let inputDeviceId: String
 
         public init(inputDeviceId: String) {
             self.inputDeviceId = inputDeviceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.inputDeviceId, key: "InputDeviceId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -10354,15 +10443,17 @@ extension MediaLive {
     }
 
     public struct StartChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelId", location: .uri("ChannelId"))
-        ]
-
         /// A request to start a channel
         public let channelId: String
 
         public init(channelId: String) {
             self.channelId = channelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelId, key: "ChannelId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -10450,15 +10541,17 @@ extension MediaLive {
     }
 
     public struct StartInputDeviceMaintenanceWindowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "inputDeviceId", location: .uri("InputDeviceId"))
-        ]
-
         /// The unique ID of the input device to start a maintenance window for. For example, hd-123456789abcdef.
         public let inputDeviceId: String
 
         public init(inputDeviceId: String) {
             self.inputDeviceId = inputDeviceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.inputDeviceId, key: "InputDeviceId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -10469,15 +10562,17 @@ extension MediaLive {
     }
 
     public struct StartMultiplexRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "multiplexId", location: .uri("MultiplexId"))
-        ]
-
         /// The ID of the multiplex.
         public let multiplexId: String
 
         public init(multiplexId: String) {
             self.multiplexId = multiplexId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.multiplexId, key: "MultiplexId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -10656,15 +10751,17 @@ extension MediaLive {
     }
 
     public struct StopChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelId", location: .uri("ChannelId"))
-        ]
-
         /// A request to stop a running channel
         public let channelId: String
 
         public init(channelId: String) {
             self.channelId = channelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelId, key: "ChannelId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -10752,15 +10849,17 @@ extension MediaLive {
     }
 
     public struct StopMultiplexRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "multiplexId", location: .uri("MultiplexId"))
-        ]
-
         /// The ID of the multiplex.
         public let multiplexId: String
 
         public init(multiplexId: String) {
             self.multiplexId = multiplexId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.multiplexId, key: "MultiplexId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -10923,10 +11022,6 @@ extension MediaLive {
     }
 
     public struct TransferInputDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "inputDeviceId", location: .uri("InputDeviceId"))
-        ]
-
         /// The unique ID of this input device. For example, hd-123456789abcdef.
         public let inputDeviceId: String
         /// The AWS account ID (12 digits) for the recipient of the device transfer.
@@ -10941,6 +11036,15 @@ extension MediaLive {
             self.targetCustomerId = targetCustomerId
             self.targetRegion = targetRegion
             self.transferMessage = transferMessage
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.inputDeviceId, key: "InputDeviceId")
+            try container.encodeIfPresent(self.targetCustomerId, forKey: .targetCustomerId)
+            try container.encodeIfPresent(self.targetRegion, forKey: .targetRegion)
+            try container.encodeIfPresent(self.transferMessage, forKey: .transferMessage)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11065,10 +11169,6 @@ extension MediaLive {
     }
 
     public struct UpdateChannelClassRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelId", location: .uri("ChannelId"))
-        ]
-
         /// The channel class that you wish to update this channel to use.
         public let channelClass: ChannelClass
         /// Channel Id of the channel whose class should be updated.
@@ -11080,6 +11180,14 @@ extension MediaLive {
             self.channelClass = channelClass
             self.channelId = channelId
             self.destinations = destinations
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.channelClass, forKey: .channelClass)
+            request.encodePath(self.channelId, key: "ChannelId")
+            try container.encodeIfPresent(self.destinations, forKey: .destinations)
         }
 
         public func validate(name: String) throws {
@@ -11107,10 +11215,6 @@ extension MediaLive {
     }
 
     public struct UpdateChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelId", location: .uri("ChannelId"))
-        ]
-
         /// Specification of CDI inputs for this channel
         public let cdiInputSpecification: CdiInputSpecification?
         /// channel ID
@@ -11142,6 +11246,21 @@ extension MediaLive {
             self.maintenance = maintenance
             self.name = name
             self.roleArn = roleArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.cdiInputSpecification, forKey: .cdiInputSpecification)
+            request.encodePath(self.channelId, key: "ChannelId")
+            try container.encodeIfPresent(self.destinations, forKey: .destinations)
+            try container.encodeIfPresent(self.encoderSettings, forKey: .encoderSettings)
+            try container.encodeIfPresent(self.inputAttachments, forKey: .inputAttachments)
+            try container.encodeIfPresent(self.inputSpecification, forKey: .inputSpecification)
+            try container.encodeIfPresent(self.logLevel, forKey: .logLevel)
+            try container.encodeIfPresent(self.maintenance, forKey: .maintenance)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
         }
 
         public func validate(name: String) throws {
@@ -11181,10 +11300,6 @@ extension MediaLive {
     }
 
     public struct UpdateInputDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "inputDeviceId", location: .uri("InputDeviceId"))
-        ]
-
         /// The settings that you want to apply to the HD input device.
         public let hdDeviceSettings: InputDeviceConfigurableSettings?
         /// The unique ID of the input device. For example, hd-123456789abcdef.
@@ -11199,6 +11314,15 @@ extension MediaLive {
             self.inputDeviceId = inputDeviceId
             self.name = name
             self.uhdDeviceSettings = uhdDeviceSettings
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.hdDeviceSettings, forKey: .hdDeviceSettings)
+            request.encodePath(self.inputDeviceId, key: "InputDeviceId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.uhdDeviceSettings, forKey: .uhdDeviceSettings)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11270,10 +11394,6 @@ extension MediaLive {
     }
 
     public struct UpdateInputRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "inputId", location: .uri("InputId"))
-        ]
-
         /// Destination settings for PUSH type inputs.
         public let destinations: [InputDestinationRequest]?
         /// Settings for the devices.
@@ -11306,6 +11426,19 @@ extension MediaLive {
             self.sources = sources
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.destinations, forKey: .destinations)
+            try container.encodeIfPresent(self.inputDevices, forKey: .inputDevices)
+            request.encodePath(self.inputId, key: "InputId")
+            try container.encodeIfPresent(self.inputSecurityGroups, forKey: .inputSecurityGroups)
+            try container.encodeIfPresent(self.mediaConnectFlows, forKey: .mediaConnectFlows)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
+            try container.encodeIfPresent(self.sources, forKey: .sources)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case destinations = "destinations"
             case inputDevices = "inputDevices"
@@ -11330,10 +11463,6 @@ extension MediaLive {
     }
 
     public struct UpdateInputSecurityGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "inputSecurityGroupId", location: .uri("InputSecurityGroupId"))
-        ]
-
         /// The id of the Input Security Group to update.
         public let inputSecurityGroupId: String
         /// A collection of key-value pairs.
@@ -11345,6 +11474,14 @@ extension MediaLive {
             self.inputSecurityGroupId = inputSecurityGroupId
             self.tags = tags
             self.whitelistRules = whitelistRules
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.inputSecurityGroupId, key: "InputSecurityGroupId")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.whitelistRules, forKey: .whitelistRules)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11366,11 +11503,6 @@ extension MediaLive {
     }
 
     public struct UpdateMultiplexProgramRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "multiplexId", location: .uri("MultiplexId")),
-            AWSMemberEncoding(label: "programName", location: .uri("ProgramName"))
-        ]
-
         /// The ID of the multiplex of the program to update.
         public let multiplexId: String
         /// The new settings for a multiplex program.
@@ -11382,6 +11514,14 @@ extension MediaLive {
             self.multiplexId = multiplexId
             self.multiplexProgramSettings = multiplexProgramSettings
             self.programName = programName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.multiplexId, key: "MultiplexId")
+            try container.encodeIfPresent(self.multiplexProgramSettings, forKey: .multiplexProgramSettings)
+            request.encodePath(self.programName, key: "ProgramName")
         }
 
         public func validate(name: String) throws {
@@ -11407,10 +11547,6 @@ extension MediaLive {
     }
 
     public struct UpdateMultiplexRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "multiplexId", location: .uri("MultiplexId"))
-        ]
-
         /// ID of the multiplex to update.
         public let multiplexId: String
         /// The new settings for a multiplex.
@@ -11422,6 +11558,14 @@ extension MediaLive {
             self.multiplexId = multiplexId
             self.multiplexSettings = multiplexSettings
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.multiplexId, key: "MultiplexId")
+            try container.encodeIfPresent(self.multiplexSettings, forKey: .multiplexSettings)
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -11448,10 +11592,6 @@ extension MediaLive {
     }
 
     public struct UpdateReservationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reservationId", location: .uri("ReservationId"))
-        ]
-
         /// Name of the reservation
         public let name: String?
         /// Renewal settings for the reservation
@@ -11463,6 +11603,14 @@ extension MediaLive {
             self.name = name
             self.renewalSettings = renewalSettings
             self.reservationId = reservationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.renewalSettings, forKey: .renewalSettings)
+            request.encodePath(self.reservationId, key: "ReservationId")
         }
 
         public func validate(name: String) throws {

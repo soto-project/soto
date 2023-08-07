@@ -48,11 +48,6 @@ extension IoTSecureTunneling {
     // MARK: Shapes
 
     public struct CloseTunnelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "delete", location: .querystring("delete")),
-            AWSMemberEncoding(label: "tunnelId", location: .uri("tunnelId"))
-        ]
-
         /// When set to true, IoT Secure Tunneling deletes the tunnel data
         /// 			immediately.
         public let delete: Bool?
@@ -62,6 +57,13 @@ extension IoTSecureTunneling {
         public init(delete: Bool? = nil, tunnelId: String) {
             self.delete = delete
             self.tunnelId = tunnelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.delete, key: "delete")
+            request.encodePath(self.tunnelId, key: "tunnelId")
         }
 
         public func validate(name: String) throws {
@@ -94,15 +96,17 @@ extension IoTSecureTunneling {
     }
 
     public struct DescribeTunnelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tunnelId", location: .uri("tunnelId"))
-        ]
-
         /// The tunnel to describe.
         public let tunnelId: String
 
         public init(tunnelId: String) {
             self.tunnelId = tunnelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.tunnelId, key: "tunnelId")
         }
 
         public func validate(name: String) throws {
@@ -158,15 +162,17 @@ extension IoTSecureTunneling {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The resource ARN.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -191,12 +197,6 @@ extension IoTSecureTunneling {
     }
 
     public struct ListTunnelsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "thingName", location: .querystring("thingName"))
-        ]
-
         /// The maximum number of results to return at once.
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken value from a previous response;
@@ -209,6 +209,14 @@ extension IoTSecureTunneling {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.thingName, key: "thingName")
         }
 
         public func validate(name: String) throws {
@@ -305,10 +313,6 @@ extension IoTSecureTunneling {
     }
 
     public struct RotateTunnelAccessTokenRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tunnelId", location: .uri("tunnelId"))
-        ]
-
         /// The mode of the client that will use the client token, which can be either the source
         /// 			or destination, or both source and destination.
         public let clientMode: ClientMode
@@ -320,6 +324,14 @@ extension IoTSecureTunneling {
             self.clientMode = clientMode
             self.destinationConfig = destinationConfig
             self.tunnelId = tunnelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.clientMode, forKey: .clientMode)
+            try container.encodeIfPresent(self.destinationConfig, forKey: .destinationConfig)
+            request.encodePath(self.tunnelId, key: "tunnelId")
         }
 
         public func validate(name: String) throws {

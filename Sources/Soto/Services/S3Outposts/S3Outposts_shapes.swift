@@ -93,11 +93,6 @@ extension S3Outposts {
     }
 
     public struct DeleteEndpointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "endpointId", location: .querystring("endpointId")),
-            AWSMemberEncoding(label: "outpostId", location: .querystring("outpostId"))
-        ]
-
         /// The ID of the endpoint.
         public let endpointId: String
         /// The ID of the Outposts.
@@ -106,6 +101,13 @@ extension S3Outposts {
         public init(endpointId: String, outpostId: String) {
             self.endpointId = endpointId
             self.outpostId = outpostId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.endpointId, key: "endpointId")
+            request.encodeQuery(self.outpostId, key: "outpostId")
         }
 
         public func validate(name: String) throws {
@@ -191,11 +193,6 @@ extension S3Outposts {
     }
 
     public struct ListEndpointsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of endpoints that will be returned in the response.
         public let maxResults: Int?
         /// If a previous response from this operation included a NextToken value,  provide that value here to retrieve the next page of results.
@@ -204,6 +201,13 @@ extension S3Outposts {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -235,11 +239,6 @@ extension S3Outposts {
     }
 
     public struct ListOutpostsWithS3Request: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of Outposts to return. The limit is 100.
         public let maxResults: Int?
         /// When you can get additional results from the ListOutpostsWithS3 call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional Outposts.
@@ -248,6 +247,13 @@ extension S3Outposts {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -279,12 +285,6 @@ extension S3Outposts {
     }
 
     public struct ListSharedEndpointsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "outpostId", location: .querystring("outpostId"))
-        ]
-
         /// The maximum number of endpoints that will be returned in the response.
         public let maxResults: Int?
         /// If a previous response from this operation included a NextToken value, you can provide that value here to retrieve the next page of results.
@@ -296,6 +296,14 @@ extension S3Outposts {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.outpostId = outpostId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.outpostId, key: "outpostId")
         }
 
         public func validate(name: String) throws {

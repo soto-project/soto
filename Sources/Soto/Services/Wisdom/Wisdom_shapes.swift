@@ -440,10 +440,6 @@ extension Wisdom {
     }
 
     public struct CreateAssistantAssociationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId"))
-        ]
-
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let assistantId: String
         /// The identifier of the associated resource.
@@ -461,6 +457,16 @@ extension Wisdom {
             self.associationType = associationType
             self.clientToken = clientToken
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assistantId, key: "assistantId")
+            try container.encode(self.association, forKey: .association)
+            try container.encode(self.associationType, forKey: .associationType)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -564,10 +570,6 @@ extension Wisdom {
     }
 
     public struct CreateContentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -595,6 +597,19 @@ extension Wisdom {
             self.tags = tags
             self.title = title
             self.uploadId = uploadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+            try container.encodeIfPresent(self.metadata, forKey: .metadata)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.overrideLinkOutUri, forKey: .overrideLinkOutUri)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.title, forKey: .title)
+            try container.encode(self.uploadId, forKey: .uploadId)
         }
 
         public func validate(name: String) throws {
@@ -726,10 +741,6 @@ extension Wisdom {
     }
 
     public struct CreateSessionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId"))
-        ]
-
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let assistantId: String
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
@@ -747,6 +758,16 @@ extension Wisdom {
             self.description = description
             self.name = name
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assistantId, key: "assistantId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -790,11 +811,6 @@ extension Wisdom {
     }
 
     public struct DeleteAssistantAssociationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assistantAssociationId", location: .uri("assistantAssociationId")),
-            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId"))
-        ]
-
         /// The identifier of the assistant association. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let assistantAssociationId: String
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -803,6 +819,13 @@ extension Wisdom {
         public init(assistantAssociationId: String, assistantId: String) {
             self.assistantAssociationId = assistantAssociationId
             self.assistantId = assistantId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assistantAssociationId, key: "assistantAssociationId")
+            request.encodePath(self.assistantId, key: "assistantId")
         }
 
         public func validate(name: String) throws {
@@ -818,15 +841,17 @@ extension Wisdom {
     }
 
     public struct DeleteAssistantRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId"))
-        ]
-
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let assistantId: String
 
         public init(assistantId: String) {
             self.assistantId = assistantId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assistantId, key: "assistantId")
         }
 
         public func validate(name: String) throws {
@@ -841,11 +866,6 @@ extension Wisdom {
     }
 
     public struct DeleteContentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contentId", location: .uri("contentId")),
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
-        ]
-
         /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let contentId: String
         /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -854,6 +874,13 @@ extension Wisdom {
         public init(contentId: String, knowledgeBaseId: String) {
             self.contentId = contentId
             self.knowledgeBaseId = knowledgeBaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contentId, key: "contentId")
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
         }
 
         public func validate(name: String) throws {
@@ -869,15 +896,17 @@ extension Wisdom {
     }
 
     public struct DeleteKnowledgeBaseRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
-        ]
-
         /// The knowledge base to delete content from. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
 
         public init(knowledgeBaseId: String) {
             self.knowledgeBaseId = knowledgeBaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
         }
 
         public func validate(name: String) throws {
@@ -956,11 +985,6 @@ extension Wisdom {
     }
 
     public struct GetAssistantAssociationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assistantAssociationId", location: .uri("assistantAssociationId")),
-            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId"))
-        ]
-
         /// The identifier of the assistant association. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let assistantAssociationId: String
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -969,6 +993,13 @@ extension Wisdom {
         public init(assistantAssociationId: String, assistantId: String) {
             self.assistantAssociationId = assistantAssociationId
             self.assistantId = assistantId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assistantAssociationId, key: "assistantAssociationId")
+            request.encodePath(self.assistantId, key: "assistantId")
         }
 
         public func validate(name: String) throws {
@@ -993,15 +1024,17 @@ extension Wisdom {
     }
 
     public struct GetAssistantRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId"))
-        ]
-
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let assistantId: String
 
         public init(assistantId: String) {
             self.assistantId = assistantId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assistantId, key: "assistantId")
         }
 
         public func validate(name: String) throws {
@@ -1025,11 +1058,6 @@ extension Wisdom {
     }
 
     public struct GetContentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contentId", location: .uri("contentId")),
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
-        ]
-
         /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let contentId: String
         /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -1038,6 +1066,13 @@ extension Wisdom {
         public init(contentId: String, knowledgeBaseId: String) {
             self.contentId = contentId
             self.knowledgeBaseId = knowledgeBaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contentId, key: "contentId")
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
         }
 
         public func validate(name: String) throws {
@@ -1062,11 +1097,6 @@ extension Wisdom {
     }
 
     public struct GetContentSummaryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contentId", location: .uri("contentId")),
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
-        ]
-
         /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let contentId: String
         /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -1075,6 +1105,13 @@ extension Wisdom {
         public init(contentId: String, knowledgeBaseId: String) {
             self.contentId = contentId
             self.knowledgeBaseId = knowledgeBaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contentId, key: "contentId")
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
         }
 
         public func validate(name: String) throws {
@@ -1099,15 +1136,17 @@ extension Wisdom {
     }
 
     public struct GetKnowledgeBaseRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
-        ]
-
         /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
 
         public init(knowledgeBaseId: String) {
             self.knowledgeBaseId = knowledgeBaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
         }
 
         public func validate(name: String) throws {
@@ -1131,13 +1170,6 @@ extension Wisdom {
     }
 
     public struct GetRecommendationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId")),
-            AWSMemberEncoding(label: "waitTimeSeconds", location: .querystring("waitTimeSeconds"))
-        ]
-
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let assistantId: String
         /// The maximum number of results to return per page.
@@ -1152,6 +1184,15 @@ extension Wisdom {
             self.maxResults = maxResults
             self.sessionId = sessionId
             self.waitTimeSeconds = waitTimeSeconds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assistantId, key: "assistantId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.sessionId, key: "sessionId")
+            request.encodeQuery(self.waitTimeSeconds, key: "waitTimeSeconds")
         }
 
         public func validate(name: String) throws {
@@ -1184,11 +1225,6 @@ extension Wisdom {
     }
 
     public struct GetSessionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId")),
-            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId"))
-        ]
-
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let assistantId: String
         /// The identifier of the session. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -1197,6 +1233,13 @@ extension Wisdom {
         public init(assistantId: String, sessionId: String) {
             self.assistantId = assistantId
             self.sessionId = sessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assistantId, key: "assistantId")
+            request.encodePath(self.sessionId, key: "sessionId")
         }
 
         public func validate(name: String) throws {
@@ -1357,12 +1400,6 @@ extension Wisdom {
     }
 
     public struct ListAssistantAssociationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let assistantId: String
         /// The maximum number of results to return per page.
@@ -1375,6 +1412,14 @@ extension Wisdom {
             self.assistantId = assistantId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assistantId, key: "assistantId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1406,11 +1451,6 @@ extension Wisdom {
     }
 
     public struct ListAssistantsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous
@@ -1420,6 +1460,13 @@ extension Wisdom {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1450,12 +1497,6 @@ extension Wisdom {
     }
 
     public struct ListContentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
         /// The maximum number of results to return per page.
@@ -1468,6 +1509,14 @@ extension Wisdom {
             self.knowledgeBaseId = knowledgeBaseId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1499,11 +1548,6 @@ extension Wisdom {
     }
 
     public struct ListKnowledgeBasesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous
@@ -1513,6 +1557,13 @@ extension Wisdom {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1543,15 +1594,17 @@ extension Wisdom {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1592,11 +1645,6 @@ extension Wisdom {
     }
 
     public struct NotifyRecommendationsReceivedRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId")),
-            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId"))
-        ]
-
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let assistantId: String
         /// The identifiers of the recommendations.
@@ -1608,6 +1656,14 @@ extension Wisdom {
             self.assistantId = assistantId
             self.recommendationIds = recommendationIds
             self.sessionId = sessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assistantId, key: "assistantId")
+            try container.encode(self.recommendationIds, forKey: .recommendationIds)
+            request.encodePath(self.sessionId, key: "sessionId")
         }
 
         public func validate(name: String) throws {
@@ -1638,10 +1694,6 @@ extension Wisdom {
     }
 
     public struct QueryAssistantRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId"))
-        ]
-
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let assistantId: String
         /// The maximum number of results to return per page.
@@ -1657,6 +1709,15 @@ extension Wisdom {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.queryText = queryText
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assistantId, key: "assistantId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encode(self.queryText, forKey: .queryText)
         }
 
         public func validate(name: String) throws {
@@ -1763,15 +1824,17 @@ extension Wisdom {
     }
 
     public struct RemoveKnowledgeBaseTemplateUriRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
-        ]
-
         /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
 
         public init(knowledgeBaseId: String) {
             self.knowledgeBaseId = knowledgeBaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
         }
 
         public func validate(name: String) throws {
@@ -1825,12 +1888,6 @@ extension Wisdom {
     }
 
     public struct SearchContentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
         /// The maximum number of results to return per page.
@@ -1846,6 +1903,15 @@ extension Wisdom {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.searchExpression = searchExpression
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encode(self.searchExpression, forKey: .searchExpression)
         }
 
         public func validate(name: String) throws {
@@ -1899,12 +1965,6 @@ extension Wisdom {
     }
 
     public struct SearchSessionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let assistantId: String
         /// The maximum number of results to return per page.
@@ -1920,6 +1980,15 @@ extension Wisdom {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.searchExpression = searchExpression
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assistantId, key: "assistantId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encode(self.searchExpression, forKey: .searchExpression)
         }
 
         public func validate(name: String) throws {
@@ -2026,10 +2095,6 @@ extension Wisdom {
     }
 
     public struct StartContentUploadRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
-        ]
-
         /// The type of content to upload.
         public let contentType: String
         /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -2038,6 +2103,13 @@ extension Wisdom {
         public init(contentType: String, knowledgeBaseId: String) {
             self.contentType = contentType
             self.knowledgeBaseId = knowledgeBaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.contentType, forKey: .contentType)
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
         }
 
         public func validate(name: String) throws {
@@ -2076,10 +2148,6 @@ extension Wisdom {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tags used to organize, track, or control access for this resource.
@@ -2088,6 +2156,13 @@ extension Wisdom {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2111,11 +2186,6 @@ extension Wisdom {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tag keys.
@@ -2124,6 +2194,13 @@ extension Wisdom {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -2145,11 +2222,6 @@ extension Wisdom {
     }
 
     public struct UpdateContentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contentId", location: .uri("contentId")),
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
-        ]
-
         /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let contentId: String
         /// The identifier of the knowledge base. Can be either the ID or the ARN
@@ -2176,6 +2248,19 @@ extension Wisdom {
             self.revisionId = revisionId
             self.title = title
             self.uploadId = uploadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contentId, key: "contentId")
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+            try container.encodeIfPresent(self.metadata, forKey: .metadata)
+            try container.encodeIfPresent(self.overrideLinkOutUri, forKey: .overrideLinkOutUri)
+            try container.encodeIfPresent(self.removeOverrideLinkOutUri, forKey: .removeOverrideLinkOutUri)
+            try container.encodeIfPresent(self.revisionId, forKey: .revisionId)
+            try container.encodeIfPresent(self.title, forKey: .title)
+            try container.encodeIfPresent(self.uploadId, forKey: .uploadId)
         }
 
         public func validate(name: String) throws {
@@ -2222,10 +2307,6 @@ extension Wisdom {
     }
 
     public struct UpdateKnowledgeBaseTemplateUriRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
-        ]
-
         /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
         /// The template URI to update.
@@ -2234,6 +2315,13 @@ extension Wisdom {
         public init(knowledgeBaseId: String, templateUri: String) {
             self.knowledgeBaseId = knowledgeBaseId
             self.templateUri = templateUri
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+            try container.encode(self.templateUri, forKey: .templateUri)
         }
 
         public func validate(name: String) throws {

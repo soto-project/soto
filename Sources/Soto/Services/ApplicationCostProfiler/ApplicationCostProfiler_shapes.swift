@@ -50,15 +50,17 @@ extension ApplicationCostProfiler {
     // MARK: Shapes
 
     public struct DeleteReportDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reportId", location: .uri("reportId"))
-        ]
-
         /// Required. ID of the report to delete.
         public let reportId: String
 
         public init(reportId: String) {
             self.reportId = reportId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.reportId, key: "reportId")
         }
 
         public func validate(name: String) throws {
@@ -84,15 +86,17 @@ extension ApplicationCostProfiler {
     }
 
     public struct GetReportDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reportId", location: .uri("reportId"))
-        ]
-
         /// ID of the report to retrieve.
         public let reportId: String
 
         public init(reportId: String) {
             self.reportId = reportId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.reportId, key: "reportId")
         }
 
         public func validate(name: String) throws {
@@ -172,11 +176,6 @@ extension ApplicationCostProfiler {
     }
 
     public struct ListReportDefinitionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return.
         public let maxResults: Int?
         /// The token value from a previous call to access the next page of results.
@@ -185,6 +184,13 @@ extension ApplicationCostProfiler {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -361,10 +367,6 @@ extension ApplicationCostProfiler {
     }
 
     public struct UpdateReportDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reportId", location: .uri("reportId"))
-        ]
-
         /// Required. Amazon Simple Storage Service (Amazon S3) location where Application Cost Profiler uploads the report.
         public let destinationS3Location: S3Location
         /// Required. The format to use for the generated report.
@@ -382,6 +384,16 @@ extension ApplicationCostProfiler {
             self.reportDescription = reportDescription
             self.reportFrequency = reportFrequency
             self.reportId = reportId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.destinationS3Location, forKey: .destinationS3Location)
+            try container.encode(self.format, forKey: .format)
+            try container.encode(self.reportDescription, forKey: .reportDescription)
+            try container.encode(self.reportFrequency, forKey: .reportFrequency)
+            request.encodePath(self.reportId, key: "reportId")
         }
 
         public func validate(name: String) throws {

@@ -388,15 +388,17 @@ extension FIS {
     }
 
     public struct DeleteExperimentTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The ID of the experiment template.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -996,15 +998,17 @@ extension FIS {
     }
 
     public struct GetActionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The ID of the action.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -1029,15 +1033,17 @@ extension FIS {
     }
 
     public struct GetExperimentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The ID of the experiment.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -1062,15 +1068,17 @@ extension FIS {
     }
 
     public struct GetExperimentTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The ID of the experiment template.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -1095,15 +1103,17 @@ extension FIS {
     }
 
     public struct GetTargetResourceTypeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceType", location: .uri("resourceType"))
-        ]
-
         /// The resource type.
         public let resourceType: String
 
         public init(resourceType: String) {
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceType, key: "resourceType")
         }
 
         public func validate(name: String) throws {
@@ -1128,11 +1138,6 @@ extension FIS {
     }
 
     public struct ListActionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
         /// The token for the next page of results.
@@ -1141,6 +1146,13 @@ extension FIS {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1172,11 +1184,6 @@ extension FIS {
     }
 
     public struct ListExperimentTemplatesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
         /// The token for the next page of results.
@@ -1185,6 +1192,13 @@ extension FIS {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1216,11 +1230,6 @@ extension FIS {
     }
 
     public struct ListExperimentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
         /// The token for the next page of results.
@@ -1229,6 +1238,13 @@ extension FIS {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1260,15 +1276,17 @@ extension FIS {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1294,11 +1312,6 @@ extension FIS {
     }
 
     public struct ListTargetResourceTypesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
         /// The token for the next page of results.
@@ -1307,6 +1320,13 @@ extension FIS {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1387,15 +1407,17 @@ extension FIS {
     }
 
     public struct StopExperimentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The ID of the experiment.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -1420,10 +1442,6 @@ extension FIS {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tags for the resource.
@@ -1432,6 +1450,13 @@ extension FIS {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1512,11 +1537,6 @@ extension FIS {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tag keys to remove.
@@ -1525,6 +1545,13 @@ extension FIS {
         public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -1623,10 +1650,6 @@ extension FIS {
     }
 
     public struct UpdateExperimentTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The actions for the experiment.
         public let actions: [String: UpdateExperimentTemplateActionInputItem]?
         /// A description for the template.
@@ -1650,6 +1673,18 @@ extension FIS {
             self.roleArn = roleArn
             self.stopConditions = stopConditions
             self.targets = targets
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.actions, forKey: .actions)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.id, key: "id")
+            try container.encodeIfPresent(self.logConfiguration, forKey: .logConfiguration)
+            try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
+            try container.encodeIfPresent(self.stopConditions, forKey: .stopConditions)
+            try container.encodeIfPresent(self.targets, forKey: .targets)
         }
 
         public func validate(name: String) throws {

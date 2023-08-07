@@ -73,11 +73,6 @@ extension CloudTrailData {
     }
 
     public struct PutAuditEventsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .querystring("channelArn")),
-            AWSMemberEncoding(label: "externalId", location: .querystring("externalId"))
-        ]
-
         /// The JSON payload of events that you want to ingest. You can also point to the JSON event payload in a file.
         public let auditEvents: [AuditEvent]
         /// The ARN or ID (the ARN suffix) of a channel.
@@ -89,6 +84,14 @@ extension CloudTrailData {
             self.auditEvents = auditEvents
             self.channelArn = channelArn
             self.externalId = externalId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.auditEvents, forKey: .auditEvents)
+            request.encodeQuery(self.channelArn, key: "channelArn")
+            request.encodeQuery(self.externalId, key: "externalId")
         }
 
         public func validate(name: String) throws {

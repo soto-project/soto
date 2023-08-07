@@ -286,10 +286,6 @@ extension MediaPackage {
     }
 
     public struct ConfigureLogsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         public let egressAccessLogs: EgressAccessLogs?
         /// The ID of the channel to log subscription.
         public let id: String
@@ -299,6 +295,14 @@ extension MediaPackage {
             self.egressAccessLogs = egressAccessLogs
             self.id = id
             self.ingressAccessLogs = ingressAccessLogs
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.egressAccessLogs, forKey: .egressAccessLogs)
+            request.encodePath(self.id, key: "Id")
+            try container.encodeIfPresent(self.ingressAccessLogs, forKey: .ingressAccessLogs)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -710,15 +714,17 @@ extension MediaPackage {
     }
 
     public struct DeleteChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the Channel to delete.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -729,15 +735,17 @@ extension MediaPackage {
     }
 
     public struct DeleteOriginEndpointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the OriginEndpoint to delete.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -748,15 +756,17 @@ extension MediaPackage {
     }
 
     public struct DescribeChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of a Channel.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -800,15 +810,17 @@ extension MediaPackage {
     }
 
     public struct DescribeHarvestJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the HarvestJob.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -863,15 +875,17 @@ extension MediaPackage {
     }
 
     public struct DescribeOriginEndpointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the OriginEndpoint.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1309,11 +1323,6 @@ extension MediaPackage {
     }
 
     public struct ListChannelsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// Upper bound on number of records to return.
         public let maxResults: Int?
         /// A token used to resume pagination from the end of a previous request.
@@ -1322,6 +1331,13 @@ extension MediaPackage {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1350,13 +1366,6 @@ extension MediaPackage {
     }
 
     public struct ListHarvestJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "includeChannelId", location: .querystring("includeChannelId")),
-            AWSMemberEncoding(label: "includeStatus", location: .querystring("includeStatus")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// When specified, the request will return only HarvestJobs associated with the given Channel ID.
         public let includeChannelId: String?
         /// When specified, the request will return only HarvestJobs in the given status.
@@ -1371,6 +1380,15 @@ extension MediaPackage {
             self.includeStatus = includeStatus
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.includeChannelId, key: "includeChannelId")
+            request.encodeQuery(self.includeStatus, key: "includeStatus")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1399,12 +1417,6 @@ extension MediaPackage {
     }
 
     public struct ListOriginEndpointsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelId", location: .querystring("channelId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// When specified, the request will return only OriginEndpoints associated with the given Channel ID.
         public let channelId: String?
         /// The upper bound on the number of records to return.
@@ -1416,6 +1428,14 @@ extension MediaPackage {
             self.channelId = channelId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.channelId, key: "channelId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1444,14 +1464,16 @@ extension MediaPackage {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1580,15 +1602,17 @@ extension MediaPackage {
     }
 
     public struct RotateChannelCredentialsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the channel to update.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1632,11 +1656,6 @@ extension MediaPackage {
     }
 
     public struct RotateIngestEndpointCredentialsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ingestEndpointId", location: .uri("IngestEndpointId"))
-        ]
-
         /// The ID of the channel the IngestEndpoint is on.
         public let id: String
         /// The id of the IngestEndpoint whose credentials should be rotated
@@ -1645,6 +1664,13 @@ extension MediaPackage {
         public init(id: String, ingestEndpointId: String) {
             self.id = id
             self.ingestEndpointId = ingestEndpointId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodePath(self.ingestEndpointId, key: "IngestEndpointId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1765,10 +1791,6 @@ extension MediaPackage {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         public let resourceArn: String
         public let tags: [String: String]
 
@@ -1777,17 +1799,19 @@ extension MediaPackage {
             self.tags = tags
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
         }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         public let resourceArn: String
         /// The key(s) of tag to be deleted
         public let tagKeys: [String]
@@ -1797,14 +1821,17 @@ extension MediaPackage {
             self.tagKeys = tagKeys
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// A short text description of the Channel.
         public let description: String?
         /// The ID of the Channel to update.
@@ -1813,6 +1840,13 @@ extension MediaPackage {
         public init(description: String? = nil, id: String) {
             self.description = description
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1858,10 +1892,6 @@ extension MediaPackage {
     }
 
     public struct UpdateOriginEndpointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         public let authorization: Authorization?
         public let cmafPackage: CmafPackageCreateOrUpdateParameters?
         public let dashPackage: DashPackage?
@@ -1899,6 +1929,23 @@ extension MediaPackage {
             self.startoverWindowSeconds = startoverWindowSeconds
             self.timeDelaySeconds = timeDelaySeconds
             self.whitelist = whitelist
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.authorization, forKey: .authorization)
+            try container.encodeIfPresent(self.cmafPackage, forKey: .cmafPackage)
+            try container.encodeIfPresent(self.dashPackage, forKey: .dashPackage)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.hlsPackage, forKey: .hlsPackage)
+            request.encodePath(self.id, key: "Id")
+            try container.encodeIfPresent(self.manifestName, forKey: .manifestName)
+            try container.encodeIfPresent(self.mssPackage, forKey: .mssPackage)
+            try container.encodeIfPresent(self.origination, forKey: .origination)
+            try container.encodeIfPresent(self.startoverWindowSeconds, forKey: .startoverWindowSeconds)
+            try container.encodeIfPresent(self.timeDelaySeconds, forKey: .timeDelaySeconds)
+            try container.encodeIfPresent(self.whitelist, forKey: .whitelist)
         }
 
         private enum CodingKeys: String, CodingKey {

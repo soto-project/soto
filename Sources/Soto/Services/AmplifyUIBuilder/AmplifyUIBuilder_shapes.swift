@@ -693,15 +693,7 @@ extension AmplifyUIBuilder {
         }
     }
 
-    public struct CreateComponentRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "componentToCreate"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName"))
-        ]
-
+    public struct CreateComponentRequest: AWSEncodableShape {
         /// The unique ID of the Amplify app to associate with the component.
         public let appId: String
         /// The unique client token.
@@ -716,6 +708,15 @@ extension AmplifyUIBuilder {
             self.clientToken = clientToken
             self.componentToCreate = componentToCreate
             self.environmentName = environmentName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.appId, key: "appId")
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            try container.encode(self.componentToCreate)
+            request.encodePath(self.environmentName, key: "environmentName")
         }
 
         public func validate(name: String) throws {
@@ -734,8 +735,8 @@ extension AmplifyUIBuilder {
         }
 
         public init(from decoder: Decoder) throws {
-            self.entity = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.entity = try container.decode(Component.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -802,15 +803,7 @@ extension AmplifyUIBuilder {
         }
     }
 
-    public struct CreateFormRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "formToCreate"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName"))
-        ]
-
+    public struct CreateFormRequest: AWSEncodableShape {
         /// The unique ID of the Amplify app to associate with the form.
         public let appId: String
         /// The unique client token.
@@ -825,6 +818,15 @@ extension AmplifyUIBuilder {
             self.clientToken = clientToken
             self.environmentName = environmentName
             self.formToCreate = formToCreate
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.appId, key: "appId")
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.environmentName, key: "environmentName")
+            try container.encode(self.formToCreate)
         }
 
         public func validate(name: String) throws {
@@ -843,8 +845,8 @@ extension AmplifyUIBuilder {
         }
 
         public init(from decoder: Decoder) throws {
-            self.entity = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.entity = try container.decode(Form.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -887,15 +889,7 @@ extension AmplifyUIBuilder {
         }
     }
 
-    public struct CreateThemeRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "themeToCreate"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName"))
-        ]
-
+    public struct CreateThemeRequest: AWSEncodableShape {
         /// The unique ID of the Amplify app associated with the theme.
         public let appId: String
         /// The unique client token.
@@ -910,6 +904,15 @@ extension AmplifyUIBuilder {
             self.clientToken = clientToken
             self.environmentName = environmentName
             self.themeToCreate = themeToCreate
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.appId, key: "appId")
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.environmentName, key: "environmentName")
+            try container.encode(self.themeToCreate)
         }
 
         public func validate(name: String) throws {
@@ -928,20 +931,14 @@ extension AmplifyUIBuilder {
         }
 
         public init(from decoder: Decoder) throws {
-            self.entity = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.entity = try container.decode(Theme.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteComponentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The unique ID of the Amplify app associated with the component to delete.
         public let appId: String
         /// The name of the backend environment that is a part of the Amplify app.
@@ -955,16 +952,18 @@ extension AmplifyUIBuilder {
             self.id = id
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.environmentName, key: "environmentName")
+            request.encodePath(self.id, key: "id")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteFormRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The unique ID of the Amplify app associated with the form to delete.
         public let appId: String
         /// The name of the backend environment that is a part of the Amplify app.
@@ -978,16 +977,18 @@ extension AmplifyUIBuilder {
             self.id = id
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.environmentName, key: "environmentName")
+            request.encodePath(self.id, key: "id")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteThemeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The unique ID of the Amplify app associated with the theme to delete.
         public let appId: String
         /// The name of the backend environment that is a part of the Amplify app.
@@ -1001,16 +1002,18 @@ extension AmplifyUIBuilder {
             self.id = id
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.environmentName, key: "environmentName")
+            request.encodePath(self.id, key: "id")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ExchangeCodeForTokenRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "request"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "provider", location: .uri("provider"))
-        ]
-
+    public struct ExchangeCodeForTokenRequest: AWSEncodableShape {
         /// The third-party provider for the token. The only valid value is figma.
         public let provider: TokenProviders
         /// Describes the configuration of the request.
@@ -1019,6 +1022,13 @@ extension AmplifyUIBuilder {
         public init(provider: TokenProviders, request: ExchangeCodeForTokenRequestBody) {
             self.provider = provider
             self.request = request
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.provider, key: "provider")
+            try container.encode(self.request)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1067,12 +1077,6 @@ extension AmplifyUIBuilder {
     }
 
     public struct ExportComponentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique ID of the Amplify app to export components to.
         public let appId: String
         /// The name of the backend environment that is a part of the Amplify app.
@@ -1084,6 +1088,14 @@ extension AmplifyUIBuilder {
             self.appId = appId
             self.environmentName = environmentName
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.environmentName, key: "environmentName")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1107,12 +1119,6 @@ extension AmplifyUIBuilder {
     }
 
     public struct ExportFormsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique ID of the Amplify app to export forms to.
         public let appId: String
         /// The name of the backend environment that is a part of the Amplify app.
@@ -1124,6 +1130,14 @@ extension AmplifyUIBuilder {
             self.appId = appId
             self.environmentName = environmentName
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.environmentName, key: "environmentName")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1147,12 +1161,6 @@ extension AmplifyUIBuilder {
     }
 
     public struct ExportThemesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique ID of the Amplify app to export the themes to.
         public let appId: String
         /// The name of the backend environment that is part of the Amplify app.
@@ -1164,6 +1172,14 @@ extension AmplifyUIBuilder {
             self.appId = appId
             self.environmentName = environmentName
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.environmentName, key: "environmentName")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1610,12 +1626,6 @@ extension AmplifyUIBuilder {
     }
 
     public struct GetComponentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The unique ID of the Amplify app.
         public let appId: String
         /// The name of the backend environment that is part of the Amplify app.
@@ -1627,6 +1637,14 @@ extension AmplifyUIBuilder {
             self.appId = appId
             self.environmentName = environmentName
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.environmentName, key: "environmentName")
+            request.encodePath(self.id, key: "id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1641,20 +1659,14 @@ extension AmplifyUIBuilder {
         }
 
         public init(from decoder: Decoder) throws {
-            self.component = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.component = try container.decode(Component.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFormRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The unique ID of the Amplify app.
         public let appId: String
         /// The name of the backend environment that is part of the Amplify app.
@@ -1666,6 +1678,14 @@ extension AmplifyUIBuilder {
             self.appId = appId
             self.environmentName = environmentName
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.environmentName, key: "environmentName")
+            request.encodePath(self.id, key: "id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1680,19 +1700,14 @@ extension AmplifyUIBuilder {
         }
 
         public init(from decoder: Decoder) throws {
-            self.form = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.form = try container.decode(Form.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetMetadataRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName"))
-        ]
-
         /// The unique ID of the Amplify app.
         public let appId: String
         /// The name of the backend environment that is part of the Amplify app.
@@ -1701,6 +1716,13 @@ extension AmplifyUIBuilder {
         public init(appId: String, environmentName: String) {
             self.appId = appId
             self.environmentName = environmentName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.environmentName, key: "environmentName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1720,12 +1742,6 @@ extension AmplifyUIBuilder {
     }
 
     public struct GetThemeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The unique ID of the Amplify app.
         public let appId: String
         /// The name of the backend environment that is part of the Amplify app.
@@ -1737,6 +1753,14 @@ extension AmplifyUIBuilder {
             self.appId = appId
             self.environmentName = environmentName
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.environmentName, key: "environmentName")
+            request.encodePath(self.id, key: "id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1751,21 +1775,14 @@ extension AmplifyUIBuilder {
         }
 
         public init(from decoder: Decoder) throws {
-            self.theme = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.theme = try container.decode(Theme.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListComponentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique ID for the Amplify app.
         public let appId: String
         /// The name of the backend environment that is a part of the Amplify app.
@@ -1780,6 +1797,15 @@ extension AmplifyUIBuilder {
             self.environmentName = environmentName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.environmentName, key: "environmentName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1808,13 +1834,6 @@ extension AmplifyUIBuilder {
     }
 
     public struct ListFormsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique ID for the Amplify app.
         public let appId: String
         /// The name of the backend environment that is a part of the Amplify app.
@@ -1829,6 +1848,15 @@ extension AmplifyUIBuilder {
             self.environmentName = environmentName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.environmentName, key: "environmentName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1857,13 +1885,6 @@ extension AmplifyUIBuilder {
     }
 
     public struct ListThemesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique ID for the Amplify app.
         public let appId: String
         /// The name of the backend environment that is a part of the Amplify app.
@@ -1878,6 +1899,15 @@ extension AmplifyUIBuilder {
             self.environmentName = environmentName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.environmentName, key: "environmentName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1982,15 +2012,7 @@ extension AmplifyUIBuilder {
         }
     }
 
-    public struct PutMetadataFlagRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "body"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
-            AWSMemberEncoding(label: "featureName", location: .uri("featureName"))
-        ]
-
+    public struct PutMetadataFlagRequest: AWSEncodableShape {
         /// The unique ID for the Amplify app.
         public let appId: String
         /// The metadata information to store.
@@ -2007,16 +2029,19 @@ extension AmplifyUIBuilder {
             self.featureName = featureName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.appId, key: "appId")
+            try container.encode(self.body)
+            request.encodePath(self.environmentName, key: "environmentName")
+            request.encodePath(self.featureName, key: "featureName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct RefreshTokenRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "refreshTokenBody"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "provider", location: .uri("provider"))
-        ]
-
+    public struct RefreshTokenRequest: AWSEncodableShape {
         /// The third-party provider for the token. The only valid value is figma.
         public let provider: TokenProviders
         /// Information about the refresh token request.
@@ -2025,6 +2050,13 @@ extension AmplifyUIBuilder {
         public init(provider: TokenProviders, refreshTokenBody: RefreshTokenRequestBody) {
             self.provider = provider
             self.refreshTokenBody = refreshTokenBody
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.provider, key: "provider")
+            try container.encode(self.refreshTokenBody)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2288,16 +2320,7 @@ extension AmplifyUIBuilder {
         }
     }
 
-    public struct UpdateComponentRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "updatedComponent"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
+    public struct UpdateComponentRequest: AWSEncodableShape {
         /// The unique ID for the Amplify app.
         public let appId: String
         /// The unique client token.
@@ -2317,6 +2340,16 @@ extension AmplifyUIBuilder {
             self.updatedComponent = updatedComponent
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.appId, key: "appId")
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.environmentName, key: "environmentName")
+            request.encodePath(self.id, key: "id")
+            try container.encode(self.updatedComponent)
+        }
+
         public func validate(name: String) throws {
             try self.updatedComponent.validate(name: "\(name).updatedComponent")
         }
@@ -2333,8 +2366,8 @@ extension AmplifyUIBuilder {
         }
 
         public init(from decoder: Decoder) throws {
-            self.entity = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.entity = try container.decode(Component.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2390,16 +2423,7 @@ extension AmplifyUIBuilder {
         }
     }
 
-    public struct UpdateFormRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "updatedForm"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
+    public struct UpdateFormRequest: AWSEncodableShape {
         /// The unique ID for the Amplify app.
         public let appId: String
         /// The unique client token.
@@ -2419,6 +2443,16 @@ extension AmplifyUIBuilder {
             self.updatedForm = updatedForm
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.appId, key: "appId")
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.environmentName, key: "environmentName")
+            request.encodePath(self.id, key: "id")
+            try container.encode(self.updatedForm)
+        }
+
         public func validate(name: String) throws {
             try self.updatedForm.validate(name: "\(name).updatedForm")
         }
@@ -2435,8 +2469,8 @@ extension AmplifyUIBuilder {
         }
 
         public init(from decoder: Decoder) throws {
-            self.entity = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.entity = try container.decode(Form.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2472,16 +2506,7 @@ extension AmplifyUIBuilder {
         }
     }
 
-    public struct UpdateThemeRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "updatedTheme"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
+    public struct UpdateThemeRequest: AWSEncodableShape {
         /// The unique ID for the Amplify app.
         public let appId: String
         /// The unique client token.
@@ -2501,6 +2526,16 @@ extension AmplifyUIBuilder {
             self.updatedTheme = updatedTheme
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.appId, key: "appId")
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.environmentName, key: "environmentName")
+            request.encodePath(self.id, key: "id")
+            try container.encode(self.updatedTheme)
+        }
+
         public func validate(name: String) throws {
             try self.updatedTheme.validate(name: "\(name).updatedTheme")
         }
@@ -2517,8 +2552,8 @@ extension AmplifyUIBuilder {
         }
 
         public init(from decoder: Decoder) throws {
-            self.entity = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.entity = try container.decode(Theme.self)
         }
 
         private enum CodingKeys: CodingKey {}

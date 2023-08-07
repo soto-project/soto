@@ -96,15 +96,17 @@ extension MWAA {
     // MARK: Shapes
 
     public struct CreateCliTokenRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -134,10 +136,6 @@ extension MWAA {
     }
 
     public struct CreateEnvironmentInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see Apache Airflow configuration options.
         public let airflowConfigurationOptions: [String: String]?
         /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, and 2.5.1. For more information, see Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (MWAA).
@@ -206,6 +204,33 @@ extension MWAA {
             self.tags = tags
             self.webserverAccessMode = webserverAccessMode
             self.weeklyMaintenanceWindowStart = weeklyMaintenanceWindowStart
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.airflowConfigurationOptions, forKey: .airflowConfigurationOptions)
+            try container.encodeIfPresent(self.airflowVersion, forKey: .airflowVersion)
+            try container.encode(self.dagS3Path, forKey: .dagS3Path)
+            try container.encodeIfPresent(self.environmentClass, forKey: .environmentClass)
+            try container.encode(self.executionRoleArn, forKey: .executionRoleArn)
+            try container.encodeIfPresent(self.kmsKey, forKey: .kmsKey)
+            try container.encodeIfPresent(self.loggingConfiguration, forKey: .loggingConfiguration)
+            try container.encodeIfPresent(self.maxWorkers, forKey: .maxWorkers)
+            try container.encodeIfPresent(self.minWorkers, forKey: .minWorkers)
+            request.encodePath(self.name, key: "Name")
+            try container.encode(self.networkConfiguration, forKey: .networkConfiguration)
+            try container.encodeIfPresent(self.pluginsS3ObjectVersion, forKey: .pluginsS3ObjectVersion)
+            try container.encodeIfPresent(self.pluginsS3Path, forKey: .pluginsS3Path)
+            try container.encodeIfPresent(self.requirementsS3ObjectVersion, forKey: .requirementsS3ObjectVersion)
+            try container.encodeIfPresent(self.requirementsS3Path, forKey: .requirementsS3Path)
+            try container.encodeIfPresent(self.schedulers, forKey: .schedulers)
+            try container.encode(self.sourceBucketArn, forKey: .sourceBucketArn)
+            try container.encodeIfPresent(self.startupScriptS3ObjectVersion, forKey: .startupScriptS3ObjectVersion)
+            try container.encodeIfPresent(self.startupScriptS3Path, forKey: .startupScriptS3Path)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.webserverAccessMode, forKey: .webserverAccessMode)
+            try container.encodeIfPresent(self.weeklyMaintenanceWindowStart, forKey: .weeklyMaintenanceWindowStart)
         }
 
         public func validate(name: String) throws {
@@ -310,15 +335,17 @@ extension MWAA {
     }
 
     public struct CreateWebLoginTokenRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -348,15 +375,17 @@ extension MWAA {
     }
 
     public struct DeleteEnvironmentInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -511,15 +540,17 @@ extension MWAA {
     }
 
     public struct GetEnvironmentInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -570,11 +601,6 @@ extension MWAA {
     }
 
     public struct ListEnvironmentsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The maximum number of results to retrieve per page. For example, 5 environments per page.
         public let maxResults: Int?
         /// Retrieves the next page of the results.
@@ -583,6 +609,13 @@ extension MWAA {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -610,15 +643,17 @@ extension MWAA {
     }
 
     public struct ListTagsForResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the Amazon MWAA environment. For example, arn:aws:airflow:us-east-1:123456789012:environment/MyMWAAEnvironment.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -807,10 +842,6 @@ extension MWAA {
     }
 
     public struct PublishMetricsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentName", location: .uri("EnvironmentName"))
-        ]
-
         ///  Internal only. The name of the environment.
         public let environmentName: String
         ///  Internal only. Publishes metrics to Amazon CloudWatch. To learn more about the metrics published to Amazon CloudWatch, see Amazon MWAA performance metrics in Amazon CloudWatch.
@@ -819,6 +850,13 @@ extension MWAA {
         public init(environmentName: String, metricData: [MetricDatum]) {
             self.environmentName = environmentName
             self.metricData = metricData
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.environmentName, key: "EnvironmentName")
+            try container.encode(self.metricData, forKey: .metricData)
         }
 
         public func validate(name: String) throws {
@@ -862,10 +900,6 @@ extension MWAA {
     }
 
     public struct TagResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the Amazon MWAA environment. For example, arn:aws:airflow:us-east-1:123456789012:environment/MyMWAAEnvironment.
         public let resourceArn: String
         /// The key-value tag pairs you want to associate to your environment. For example, "Environment": "Staging". For more information, see Tagging Amazon Web Services resources.
@@ -874,6 +908,13 @@ extension MWAA {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -902,11 +943,6 @@ extension MWAA {
     }
 
     public struct UntagResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the Amazon MWAA environment. For example, arn:aws:airflow:us-east-1:123456789012:environment/MyMWAAEnvironment.
         public let resourceArn: String
         /// The key-value tag pair you want to remove. For example, "Environment": "Staging".
@@ -915,6 +951,13 @@ extension MWAA {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -937,10 +980,6 @@ extension MWAA {
     }
 
     public struct UpdateEnvironmentInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see Apache Airflow configuration options.
         public let airflowConfigurationOptions: [String: String]?
         /// The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see Upgrading an Amazon MWAA environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, and 2.5.1.
@@ -1003,6 +1042,31 @@ extension MWAA {
             self.startupScriptS3Path = startupScriptS3Path
             self.webserverAccessMode = webserverAccessMode
             self.weeklyMaintenanceWindowStart = weeklyMaintenanceWindowStart
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.airflowConfigurationOptions, forKey: .airflowConfigurationOptions)
+            try container.encodeIfPresent(self.airflowVersion, forKey: .airflowVersion)
+            try container.encodeIfPresent(self.dagS3Path, forKey: .dagS3Path)
+            try container.encodeIfPresent(self.environmentClass, forKey: .environmentClass)
+            try container.encodeIfPresent(self.executionRoleArn, forKey: .executionRoleArn)
+            try container.encodeIfPresent(self.loggingConfiguration, forKey: .loggingConfiguration)
+            try container.encodeIfPresent(self.maxWorkers, forKey: .maxWorkers)
+            try container.encodeIfPresent(self.minWorkers, forKey: .minWorkers)
+            request.encodePath(self.name, key: "Name")
+            try container.encodeIfPresent(self.networkConfiguration, forKey: .networkConfiguration)
+            try container.encodeIfPresent(self.pluginsS3ObjectVersion, forKey: .pluginsS3ObjectVersion)
+            try container.encodeIfPresent(self.pluginsS3Path, forKey: .pluginsS3Path)
+            try container.encodeIfPresent(self.requirementsS3ObjectVersion, forKey: .requirementsS3ObjectVersion)
+            try container.encodeIfPresent(self.requirementsS3Path, forKey: .requirementsS3Path)
+            try container.encodeIfPresent(self.schedulers, forKey: .schedulers)
+            try container.encodeIfPresent(self.sourceBucketArn, forKey: .sourceBucketArn)
+            try container.encodeIfPresent(self.startupScriptS3ObjectVersion, forKey: .startupScriptS3ObjectVersion)
+            try container.encodeIfPresent(self.startupScriptS3Path, forKey: .startupScriptS3Path)
+            try container.encodeIfPresent(self.webserverAccessMode, forKey: .webserverAccessMode)
+            try container.encodeIfPresent(self.weeklyMaintenanceWindowStart, forKey: .weeklyMaintenanceWindowStart)
         }
 
         public func validate(name: String) throws {

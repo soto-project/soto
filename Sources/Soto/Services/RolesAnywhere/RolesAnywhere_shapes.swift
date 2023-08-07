@@ -370,11 +370,6 @@ extension RolesAnywhere {
     }
 
     public struct ListRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize"))
-        ]
-
         /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
         public let nextToken: String?
         /// The number of resources in the paginated list.
@@ -383,6 +378,13 @@ extension RolesAnywhere {
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.pageSize, key: "pageSize")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -406,15 +408,17 @@ extension RolesAnywhere {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The ARN of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -669,15 +673,17 @@ extension RolesAnywhere {
     }
 
     public struct ScalarCrlRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "crlId", location: .uri("crlId"))
-        ]
-
         /// The unique identifier of the certificate revocation list (CRL).
         public let crlId: String
 
         public init(crlId: String) {
             self.crlId = crlId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.crlId, key: "crlId")
         }
 
         public func validate(name: String) throws {
@@ -690,15 +696,17 @@ extension RolesAnywhere {
     }
 
     public struct ScalarProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "profileId", location: .uri("profileId"))
-        ]
-
         /// The unique identifier of the profile.
         public let profileId: String
 
         public init(profileId: String) {
             self.profileId = profileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.profileId, key: "profileId")
         }
 
         public func validate(name: String) throws {
@@ -711,15 +719,17 @@ extension RolesAnywhere {
     }
 
     public struct ScalarSubjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subjectId", location: .uri("subjectId"))
-        ]
-
         /// The unique identifier of the subject.
         public let subjectId: String
 
         public init(subjectId: String) {
             self.subjectId = subjectId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.subjectId, key: "subjectId")
         }
 
         public func validate(name: String) throws {
@@ -732,15 +742,17 @@ extension RolesAnywhere {
     }
 
     public struct ScalarTrustAnchorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trustAnchorId", location: .uri("trustAnchorId"))
-        ]
-
         /// The unique identifier of the trust anchor.
         public let trustAnchorId: String
 
         public init(trustAnchorId: String) {
             self.trustAnchorId = trustAnchorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.trustAnchorId, key: "trustAnchorId")
         }
 
         public func validate(name: String) throws {
@@ -1006,10 +1018,6 @@ extension RolesAnywhere {
     }
 
     public struct UpdateCrlRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "crlId", location: .uri("crlId"))
-        ]
-
         /// The x509 v3 specified certificate revocation list (CRL).
         public let crlData: AWSBase64Data?
         /// The unique identifier of the certificate revocation list (CRL).
@@ -1021,6 +1029,14 @@ extension RolesAnywhere {
             self.crlData = crlData
             self.crlId = crlId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.crlData, forKey: .crlData)
+            request.encodePath(self.crlId, key: "crlId")
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -1039,10 +1055,6 @@ extension RolesAnywhere {
     }
 
     public struct UpdateProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "profileId", location: .uri("profileId"))
-        ]
-
         ///  The number of seconds the vended session credentials are valid for.
         public let durationSeconds: Int?
         /// A list of managed policy ARNs that apply to the vended session credentials.
@@ -1063,6 +1075,17 @@ extension RolesAnywhere {
             self.profileId = profileId
             self.roleArns = roleArns
             self.sessionPolicy = sessionPolicy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.durationSeconds, forKey: .durationSeconds)
+            try container.encodeIfPresent(self.managedPolicyArns, forKey: .managedPolicyArns)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.profileId, key: "profileId")
+            try container.encodeIfPresent(self.roleArns, forKey: .roleArns)
+            try container.encodeIfPresent(self.sessionPolicy, forKey: .sessionPolicy)
         }
 
         public func validate(name: String) throws {
@@ -1091,10 +1114,6 @@ extension RolesAnywhere {
     }
 
     public struct UpdateTrustAnchorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trustAnchorId", location: .uri("trustAnchorId"))
-        ]
-
         /// The name of the trust anchor.
         public let name: String?
         /// The trust anchor type and its related certificate data.
@@ -1106,6 +1125,14 @@ extension RolesAnywhere {
             self.name = name
             self.source = source
             self.trustAnchorId = trustAnchorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.source, forKey: .source)
+            request.encodePath(self.trustAnchorId, key: "trustAnchorId")
         }
 
         public func validate(name: String) throws {

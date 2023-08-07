@@ -153,11 +153,6 @@ extension CodeCatalyst {
     }
 
     public struct CreateDevEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName")),
-            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
-        ]
-
         /// The user-defined alias for a Dev Environment.
         public let alias: String?
         /// A user-specified idempotency token.  Idempotency ensures that an API request completes only once.  With an idempotent request, if the original request completes successfully, the subsequent retries return the result from the original successful request and have no additional effect.
@@ -187,6 +182,20 @@ extension CodeCatalyst {
             self.projectName = projectName
             self.repositories = repositories
             self.spaceName = spaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.alias, forKey: .alias)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.ides, forKey: .ides)
+            try container.encodeIfPresent(self.inactivityTimeoutMinutes, forKey: .inactivityTimeoutMinutes)
+            try container.encode(self.instanceType, forKey: .instanceType)
+            try container.encode(self.persistentStorage, forKey: .persistentStorage)
+            request.encodePath(self.projectName, key: "projectName")
+            try container.encodeIfPresent(self.repositories, forKey: .repositories)
+            request.encodePath(self.spaceName, key: "spaceName")
         }
 
         public func validate(name: String) throws {
@@ -239,10 +248,6 @@ extension CodeCatalyst {
     }
 
     public struct CreateProjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
-        ]
-
         /// The description of the project. This description will be displayed to all users of the project. We recommend providing a brief description of the project and its intended purpose.
         public let description: String?
         /// The friendly name of the project that will be displayed to users.
@@ -254,6 +259,14 @@ extension CodeCatalyst {
             self.description = description
             self.displayName = displayName
             self.spaceName = spaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.displayName, forKey: .displayName)
+            request.encodePath(self.spaceName, key: "spaceName")
         }
 
         public func validate(name: String) throws {
@@ -299,13 +312,6 @@ extension CodeCatalyst {
     }
 
     public struct CreateSourceRepositoryBranchRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name")),
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName")),
-            AWSMemberEncoding(label: "sourceRepositoryName", location: .uri("sourceRepositoryName")),
-            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
-        ]
-
         /// The commit ID in an existing branch from which you want to create the new branch.
         public let headCommitId: String?
         /// The name for the branch you're creating.
@@ -323,6 +329,16 @@ extension CodeCatalyst {
             self.projectName = projectName
             self.sourceRepositoryName = sourceRepositoryName
             self.spaceName = spaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.headCommitId, forKey: .headCommitId)
+            request.encodePath(self.name, key: "name")
+            request.encodePath(self.projectName, key: "projectName")
+            request.encodePath(self.sourceRepositoryName, key: "sourceRepositoryName")
+            request.encodePath(self.spaceName, key: "spaceName")
         }
 
         public func validate(name: String) throws {
@@ -371,15 +387,17 @@ extension CodeCatalyst {
     }
 
     public struct DeleteAccessTokenRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The ID of the personal access token to delete. You can find the IDs of all PATs associated with your Amazon Web Services Builder ID in a space by calling ListAccessTokens.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -395,12 +413,6 @@ extension CodeCatalyst {
     }
 
     public struct DeleteDevEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName")),
-            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
-        ]
-
         /// The system-generated unique ID of the Dev Environment you want to delete. To retrieve a list of Dev Environment IDs, use ListDevEnvironments.
         public let id: String
         /// The name of the project in the space.
@@ -412,6 +424,14 @@ extension CodeCatalyst {
             self.id = id
             self.projectName = projectName
             self.spaceName = spaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.projectName, key: "projectName")
+            request.encodePath(self.spaceName, key: "spaceName")
         }
 
         public func validate(name: String) throws {
@@ -730,12 +750,6 @@ extension CodeCatalyst {
     }
 
     public struct GetDevEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName")),
-            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
-        ]
-
         /// The system-generated unique ID of the Dev Environment for which you want to view information. To retrieve a list of Dev Environment IDs, use ListDevEnvironments.
         public let id: String
         /// The name of the project in the space.
@@ -747,6 +761,14 @@ extension CodeCatalyst {
             self.id = id
             self.projectName = projectName
             self.spaceName = spaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.projectName, key: "projectName")
+            request.encodePath(self.spaceName, key: "spaceName")
         }
 
         public func validate(name: String) throws {
@@ -825,11 +847,6 @@ extension CodeCatalyst {
     }
 
     public struct GetProjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name")),
-            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
-        ]
-
         /// The name of the project in the space.
         public let name: String
         /// The name of the space.
@@ -838,6 +855,13 @@ extension CodeCatalyst {
         public init(name: String, spaceName: String) {
             self.name = name
             self.spaceName = spaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
+            request.encodePath(self.spaceName, key: "spaceName")
         }
 
         public func validate(name: String) throws {
@@ -878,12 +902,6 @@ extension CodeCatalyst {
     }
 
     public struct GetSourceRepositoryCloneUrlsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName")),
-            AWSMemberEncoding(label: "sourceRepositoryName", location: .uri("sourceRepositoryName")),
-            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
-        ]
-
         /// The name of the project in the space.
         public let projectName: String
         /// The name of the source repository.
@@ -895,6 +913,14 @@ extension CodeCatalyst {
             self.projectName = projectName
             self.sourceRepositoryName = sourceRepositoryName
             self.spaceName = spaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.projectName, key: "projectName")
+            request.encodePath(self.sourceRepositoryName, key: "sourceRepositoryName")
+            request.encodePath(self.spaceName, key: "spaceName")
         }
 
         public func validate(name: String) throws {
@@ -926,15 +952,17 @@ extension CodeCatalyst {
     }
 
     public struct GetSpaceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// The name of the space.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -972,15 +1000,17 @@ extension CodeCatalyst {
     }
 
     public struct GetSubscriptionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
-        ]
-
         /// The name of the space.
         public let spaceName: String
 
         public init(spaceName: String) {
             self.spaceName = spaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.spaceName, key: "spaceName")
         }
 
         public func validate(name: String) throws {
@@ -1010,11 +1040,6 @@ extension CodeCatalyst {
     }
 
     public struct GetUserDetailsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .querystring("id")),
-            AWSMemberEncoding(label: "userName", location: .querystring("userName"))
-        ]
-
         /// The system-generated unique ID of the user.
         public let id: String?
         /// The name of the user as displayed in Amazon CodeCatalyst.
@@ -1023,6 +1048,13 @@ extension CodeCatalyst {
         public init(id: String? = nil, userName: String? = nil) {
             self.id = id
             self.userName = userName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.id, key: "id")
+            request.encodeQuery(self.userName, key: "userName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1125,12 +1157,6 @@ extension CodeCatalyst {
     }
 
     public struct ListDevEnvironmentSessionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "devEnvironmentId", location: .uri("devEnvironmentId")),
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName")),
-            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
-        ]
-
         /// The system-generated unique ID of the Dev Environment.
         public let devEnvironmentId: String
         /// The maximum number of results to show in a single call to this API. If the number of results is larger than the number you specified, the response will include a NextToken element, which you can use to obtain additional results.
@@ -1148,6 +1174,16 @@ extension CodeCatalyst {
             self.nextToken = nextToken
             self.projectName = projectName
             self.spaceName = spaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.devEnvironmentId, key: "devEnvironmentId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodePath(self.projectName, key: "projectName")
+            request.encodePath(self.spaceName, key: "spaceName")
         }
 
         public func validate(name: String) throws {
@@ -1184,11 +1220,6 @@ extension CodeCatalyst {
     }
 
     public struct ListDevEnvironmentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName")),
-            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
-        ]
-
         /// Information about filters to apply to narrow the results returned in the list.
         public let filters: [Filter]?
         /// The maximum number of results to show in a single call to this API. If the number of results is larger than the number you specified, the response will include a NextToken element, which you can use to obtain additional results.
@@ -1206,6 +1237,16 @@ extension CodeCatalyst {
             self.nextToken = nextToken
             self.projectName = projectName
             self.spaceName = spaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodePath(self.projectName, key: "projectName")
+            request.encodePath(self.spaceName, key: "spaceName")
         }
 
         public func validate(name: String) throws {
@@ -1242,10 +1283,6 @@ extension CodeCatalyst {
     }
 
     public struct ListEventLogsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
-        ]
-
         /// The time after which you do not want any events retrieved, in coordinated universal time (UTC) timestamp format as specified in RFC 3339.
         @CustomCoding<ISO8601DateCoder>
         public var endTime: Date
@@ -1268,6 +1305,17 @@ extension CodeCatalyst {
             self.nextToken = nextToken
             self.spaceName = spaceName
             self.startTime = startTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.endTime, forKey: .endTime)
+            try container.encodeIfPresent(self.eventName, forKey: .eventName)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodePath(self.spaceName, key: "spaceName")
+            try container.encode(self.startTime, forKey: .startTime)
         }
 
         public func validate(name: String) throws {
@@ -1303,10 +1351,6 @@ extension CodeCatalyst {
     }
 
     public struct ListProjectsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
-        ]
-
         /// Information about filters to apply to narrow the results returned in the list.
         public let filters: [ProjectListFilter]?
         /// The maximum number of results to show in a single call to this API. If the number of results is larger than the number you specified, the response will include a NextToken element, which you can use to obtain additional results.
@@ -1321,6 +1365,15 @@ extension CodeCatalyst {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.spaceName = spaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodePath(self.spaceName, key: "spaceName")
         }
 
         public func validate(name: String) throws {
@@ -1385,11 +1438,6 @@ extension CodeCatalyst {
     }
 
     public struct ListSourceRepositoriesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName")),
-            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
-        ]
-
         /// The maximum number of results to show in a single call to this API. If the number of results is larger than the number you specified, the response will include a NextToken element, which you can use to obtain additional results.
         public let maxResults: Int?
         /// A token returned from a call to this API to indicate the next batch of results to return, if any.
@@ -1404,6 +1452,15 @@ extension CodeCatalyst {
             self.nextToken = nextToken
             self.projectName = projectName
             self.spaceName = spaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodePath(self.projectName, key: "projectName")
+            request.encodePath(self.spaceName, key: "spaceName")
         }
 
         public func validate(name: String) throws {
@@ -1465,12 +1522,6 @@ extension CodeCatalyst {
     }
 
     public struct ListSourceRepositoryBranchesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName")),
-            AWSMemberEncoding(label: "sourceRepositoryName", location: .uri("sourceRepositoryName")),
-            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
-        ]
-
         /// The maximum number of results to show in a single call to this API. If the number of results is larger than the number you specified, the response will include a NextToken element, which you can use to obtain additional results.
         public let maxResults: Int?
         /// A token returned from a call to this API to indicate the next batch of results to return, if any.
@@ -1488,6 +1539,16 @@ extension CodeCatalyst {
             self.projectName = projectName
             self.sourceRepositoryName = sourceRepositoryName
             self.spaceName = spaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodePath(self.projectName, key: "projectName")
+            request.encodePath(self.sourceRepositoryName, key: "sourceRepositoryName")
+            request.encodePath(self.spaceName, key: "spaceName")
         }
 
         public func validate(name: String) throws {
@@ -1691,12 +1752,6 @@ extension CodeCatalyst {
     }
 
     public struct StartDevEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName")),
-            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
-        ]
-
         /// The system-generated unique ID of the Dev Environment.
         public let id: String
         /// Information about the integrated development environment (IDE) configured for a Dev Environment.
@@ -1717,6 +1772,17 @@ extension CodeCatalyst {
             self.instanceType = instanceType
             self.projectName = projectName
             self.spaceName = spaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            try container.encodeIfPresent(self.ides, forKey: .ides)
+            try container.encodeIfPresent(self.inactivityTimeoutMinutes, forKey: .inactivityTimeoutMinutes)
+            try container.encodeIfPresent(self.instanceType, forKey: .instanceType)
+            request.encodePath(self.projectName, key: "projectName")
+            request.encodePath(self.spaceName, key: "spaceName")
         }
 
         public func validate(name: String) throws {
@@ -1765,12 +1831,6 @@ extension CodeCatalyst {
     }
 
     public struct StartDevEnvironmentSessionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName")),
-            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
-        ]
-
         /// The system-generated unique ID of the Dev Environment.
         public let id: String
         /// The name of the project in the space.
@@ -1784,6 +1844,15 @@ extension CodeCatalyst {
             self.projectName = projectName
             self.sessionConfiguration = sessionConfiguration
             self.spaceName = spaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.projectName, key: "projectName")
+            try container.encode(self.sessionConfiguration, forKey: .sessionConfiguration)
+            request.encodePath(self.spaceName, key: "spaceName")
         }
 
         public func validate(name: String) throws {
@@ -1830,12 +1899,6 @@ extension CodeCatalyst {
     }
 
     public struct StopDevEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName")),
-            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
-        ]
-
         /// The system-generated unique ID of the Dev Environment.
         public let id: String
         /// The name of the project in the space.
@@ -1847,6 +1910,14 @@ extension CodeCatalyst {
             self.id = id
             self.projectName = projectName
             self.spaceName = spaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.projectName, key: "projectName")
+            request.encodePath(self.spaceName, key: "spaceName")
         }
 
         public func validate(name: String) throws {
@@ -1888,13 +1959,6 @@ extension CodeCatalyst {
     }
 
     public struct StopDevEnvironmentSessionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName")),
-            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId")),
-            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
-        ]
-
         /// The system-generated unique ID of the Dev Environment. To obtain this ID, use ListDevEnvironments.
         public let id: String
         /// The name of the project in the space.
@@ -1909,6 +1973,15 @@ extension CodeCatalyst {
             self.projectName = projectName
             self.sessionId = sessionId
             self.spaceName = spaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.projectName, key: "projectName")
+            request.encodePath(self.sessionId, key: "sessionId")
+            request.encodePath(self.spaceName, key: "spaceName")
         }
 
         public func validate(name: String) throws {
@@ -1950,12 +2023,6 @@ extension CodeCatalyst {
     }
 
     public struct UpdateDevEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "projectName", location: .uri("projectName")),
-            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
-        ]
-
         /// The user-specified alias for the Dev Environment. Changing this value will not cause a restart.
         public let alias: String?
         /// A user-specified idempotency token.  Idempotency ensures that an API request completes only once.  With an idempotent request, if the original request completes successfully, the subsequent retries return the result from the original successful request and have no additional effect.
@@ -1982,6 +2049,19 @@ extension CodeCatalyst {
             self.instanceType = instanceType
             self.projectName = projectName
             self.spaceName = spaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.alias, forKey: .alias)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.id, key: "id")
+            try container.encodeIfPresent(self.ides, forKey: .ides)
+            try container.encodeIfPresent(self.inactivityTimeoutMinutes, forKey: .inactivityTimeoutMinutes)
+            try container.encodeIfPresent(self.instanceType, forKey: .instanceType)
+            request.encodePath(self.projectName, key: "projectName")
+            request.encodePath(self.spaceName, key: "spaceName")
         }
 
         public func validate(name: String) throws {

@@ -663,12 +663,6 @@ extension S3Control {
     }
 
     public struct CreateAccessPointForObjectLambdaRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The Amazon Web Services account ID for owner of the specified Object Lambda Access Point.
         public let accountId: String
         /// Object Lambda Access Point configuration as a JSON document.
@@ -680,6 +674,15 @@ extension S3Control {
             self.accountId = accountId
             self.configuration = configuration
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            try container.encode(self.configuration, forKey: .configuration)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -714,12 +717,6 @@ extension S3Control {
     }
 
     public struct CreateAccessPointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The Amazon Web Services account ID for the account that owns the specified access point.
         public let accountId: String
         /// The name of the bucket that you want to associate this access point with. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
@@ -740,6 +737,18 @@ extension S3Control {
             self.name = name
             self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
             self.vpcConfiguration = vpcConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            try container.encode(self.bucket, forKey: .bucket)
+            try container.encodeIfPresent(self.bucketAccountId, forKey: .bucketAccountId)
+            request.encodePath(self.name, key: "Name")
+            try container.encodeIfPresent(self.publicAccessBlockConfiguration, forKey: .publicAccessBlockConfiguration)
+            try container.encodeIfPresent(self.vpcConfiguration, forKey: .vpcConfiguration)
         }
 
         public func validate(name: String) throws {
@@ -792,23 +801,9 @@ extension S3Control {
         }
     }
 
-    public struct CreateBucketRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "createBucketConfiguration"
+    public struct CreateBucketRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "acl", location: .header("x-amz-acl")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "createBucketConfiguration", location: .body("CreateBucketConfiguration")),
-            AWSMemberEncoding(label: "grantFullControl", location: .header("x-amz-grant-full-control")),
-            AWSMemberEncoding(label: "grantRead", location: .header("x-amz-grant-read")),
-            AWSMemberEncoding(label: "grantReadACP", location: .header("x-amz-grant-read-acp")),
-            AWSMemberEncoding(label: "grantWrite", location: .header("x-amz-grant-write")),
-            AWSMemberEncoding(label: "grantWriteACP", location: .header("x-amz-grant-write-acp")),
-            AWSMemberEncoding(label: "objectLockEnabledForBucket", location: .header("x-amz-bucket-object-lock-enabled")),
-            AWSMemberEncoding(label: "outpostId", location: .header("x-amz-outpost-id"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "CreateBucketConfiguration"
         /// The canned ACL to apply to the bucket.  This is not supported by Amazon S3 on Outposts buckets.
         public let acl: BucketCannedACL?
         /// The name of the bucket.
@@ -843,6 +838,21 @@ extension S3Control {
             self.outpostId = outpostId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeHeader(self.acl, key: "x-amz-acl")
+            request.encodePath(self.bucket, key: "Bucket")
+            try container.encode(self.createBucketConfiguration)
+            request.encodeHeader(self.grantFullControl, key: "x-amz-grant-full-control")
+            request.encodeHeader(self.grantRead, key: "x-amz-grant-read")
+            request.encodeHeader(self.grantReadACP, key: "x-amz-grant-read-acp")
+            request.encodeHeader(self.grantWrite, key: "x-amz-grant-write")
+            request.encodeHeader(self.grantWriteACP, key: "x-amz-grant-write-acp")
+            request.encodeHeader(self.objectLockEnabledForBucket, key: "x-amz-bucket-object-lock-enabled")
+            request.encodeHeader(self.outpostId, key: "x-amz-outpost-id")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
@@ -868,8 +878,7 @@ extension S3Control {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.bucketArn = try container.decodeIfPresent(String.self, forKey: .bucketArn)
-            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
-
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -878,11 +887,6 @@ extension S3Control {
     }
 
     public struct CreateJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId"))
-        ]
-
         /// The Amazon Web Services account ID that creates the job.
         public let accountId: String
         /// An idempotency token to ensure that you don't accidentally submit the same request twice. You can use any string up to the maximum length.
@@ -919,6 +923,23 @@ extension S3Control {
             self.report = report
             self.roleArn = roleArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            try container.encode(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encodeIfPresent(self.confirmationRequired, forKey: .confirmationRequired)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.manifest, forKey: .manifest)
+            try container.encodeIfPresent(self.manifestGenerator, forKey: .manifestGenerator)
+            try container.encode(self.operation, forKey: .operation)
+            try container.encode(self.priority, forKey: .priority)
+            try container.encode(self.report, forKey: .report)
+            try container.encode(self.roleArn, forKey: .roleArn)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1002,11 +1023,6 @@ extension S3Control {
 
     public struct CreateMultiRegionAccessPointRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId"))
-        ]
-
         /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point. The owner of the Multi-Region Access Point also must own the underlying buckets.
         public let accountId: String
         /// An idempotency token used to identify the request and guarantee that requests are unique.
@@ -1018,6 +1034,15 @@ extension S3Control {
             self.accountId = accountId
             self.clientToken = clientToken
             self.details = details
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            try container.encode(self.clientToken, forKey: .clientToken)
+            try container.encode(self.details, forKey: .details)
         }
 
         public func validate(name: String) throws {
@@ -1048,12 +1073,6 @@ extension S3Control {
     }
 
     public struct DeleteAccessPointForObjectLambdaRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The account ID for the account that owns the specified Object Lambda Access Point.
         public let accountId: String
         /// The name of the access point you want to delete.
@@ -1062,6 +1081,14 @@ extension S3Control {
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1076,12 +1103,6 @@ extension S3Control {
     }
 
     public struct DeleteAccessPointPolicyForObjectLambdaRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The account ID for the account that owns the specified Object Lambda Access Point.
         public let accountId: String
         /// The name of the Object Lambda Access Point you want to delete the policy for.
@@ -1090,6 +1111,14 @@ extension S3Control {
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1104,12 +1133,6 @@ extension S3Control {
     }
 
     public struct DeleteAccessPointPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The account ID for the account that owns the specified access point.
         public let accountId: String
         /// The name of the access point whose policy you want to delete. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
@@ -1118,6 +1141,14 @@ extension S3Control {
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1131,12 +1162,6 @@ extension S3Control {
     }
 
     public struct DeleteAccessPointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The Amazon Web Services account ID for the account that owns the specified access point.
         public let accountId: String
         /// The name of the access point you want to delete. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
@@ -1145,6 +1170,14 @@ extension S3Control {
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1158,12 +1191,6 @@ extension S3Control {
     }
 
     public struct DeleteBucketLifecycleConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket"))
-        ]
-
         /// The account ID of the lifecycle configuration to delete.
         public let accountId: String
         /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
@@ -1172,6 +1199,14 @@ extension S3Control {
         public init(accountId: String, bucket: String) {
             self.accountId = accountId
             self.bucket = bucket
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.bucket, key: "Bucket")
         }
 
         public func validate(name: String) throws {
@@ -1185,12 +1220,6 @@ extension S3Control {
     }
 
     public struct DeleteBucketPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket"))
-        ]
-
         /// The account ID of the Outposts bucket.
         public let accountId: String
         /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
@@ -1199,6 +1228,14 @@ extension S3Control {
         public init(accountId: String, bucket: String) {
             self.accountId = accountId
             self.bucket = bucket
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.bucket, key: "Bucket")
         }
 
         public func validate(name: String) throws {
@@ -1212,12 +1249,6 @@ extension S3Control {
     }
 
     public struct DeleteBucketReplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket"))
-        ]
-
         /// The Amazon Web Services account ID of the Outposts bucket to delete the replication configuration for.
         public let accountId: String
         /// Specifies the S3 on Outposts bucket to delete the replication configuration for. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
@@ -1226,6 +1257,14 @@ extension S3Control {
         public init(accountId: String, bucket: String) {
             self.accountId = accountId
             self.bucket = bucket
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.bucket, key: "Bucket")
         }
 
         public func validate(name: String) throws {
@@ -1239,12 +1278,6 @@ extension S3Control {
     }
 
     public struct DeleteBucketRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket"))
-        ]
-
         /// The account ID that owns the Outposts bucket.
         public let accountId: String
         /// Specifies the bucket being deleted. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
@@ -1253,6 +1286,14 @@ extension S3Control {
         public init(accountId: String, bucket: String) {
             self.accountId = accountId
             self.bucket = bucket
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.bucket, key: "Bucket")
         }
 
         public func validate(name: String) throws {
@@ -1266,12 +1307,6 @@ extension S3Control {
     }
 
     public struct DeleteBucketTaggingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket"))
-        ]
-
         /// The Amazon Web Services account ID of the Outposts bucket tag set to be removed.
         public let accountId: String
         /// The bucket ARN that has the tag set to be removed. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
@@ -1280,6 +1315,14 @@ extension S3Control {
         public init(accountId: String, bucket: String) {
             self.accountId = accountId
             self.bucket = bucket
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.bucket, key: "Bucket")
         }
 
         public func validate(name: String) throws {
@@ -1293,12 +1336,6 @@ extension S3Control {
     }
 
     public struct DeleteJobTaggingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
-        ]
-
         /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
         public let accountId: String
         /// The ID for the S3 Batch Operations job whose tags you want to delete.
@@ -1307,6 +1344,14 @@ extension S3Control {
         public init(accountId: String, jobId: String) {
             self.accountId = accountId
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.jobId, key: "JobId")
         }
 
         public func validate(name: String) throws {
@@ -1357,11 +1402,6 @@ extension S3Control {
 
     public struct DeleteMultiRegionAccessPointRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId"))
-        ]
-
         /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
         public let accountId: String
         /// An idempotency token used to identify the request and guarantee that requests are unique.
@@ -1373,6 +1413,15 @@ extension S3Control {
             self.accountId = accountId
             self.clientToken = clientToken
             self.details = details
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            try container.encode(self.clientToken, forKey: .clientToken)
+            try container.encode(self.details, forKey: .details)
         }
 
         public func validate(name: String) throws {
@@ -1403,16 +1452,18 @@ extension S3Control {
     }
 
     public struct DeletePublicAccessBlockRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId"))
-        ]
-
         /// The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to remove.
         public let accountId: String
 
         public init(accountId: String) {
             self.accountId = accountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
         }
 
         public func validate(name: String) throws {
@@ -1424,12 +1475,6 @@ extension S3Control {
     }
 
     public struct DeleteStorageLensConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "configId", location: .uri("ConfigId"))
-        ]
-
         /// The account ID of the requester.
         public let accountId: String
         /// The ID of the S3 Storage Lens configuration.
@@ -1438,6 +1483,14 @@ extension S3Control {
         public init(accountId: String, configId: String) {
             self.accountId = accountId
             self.configId = configId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.configId, key: "ConfigId")
         }
 
         public func validate(name: String) throws {
@@ -1452,12 +1505,6 @@ extension S3Control {
     }
 
     public struct DeleteStorageLensConfigurationTaggingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "configId", location: .uri("ConfigId"))
-        ]
-
         /// The account ID of the requester.
         public let accountId: String
         /// The ID of the S3 Storage Lens configuration.
@@ -1466,6 +1513,14 @@ extension S3Control {
         public init(accountId: String, configId: String) {
             self.accountId = accountId
             self.configId = configId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.configId, key: "ConfigId")
         }
 
         public func validate(name: String) throws {
@@ -1484,12 +1539,6 @@ extension S3Control {
     }
 
     public struct DescribeJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
-        ]
-
         /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
         public let accountId: String
         /// The ID for the job whose information you want to retrieve.
@@ -1498,6 +1547,14 @@ extension S3Control {
         public init(accountId: String, jobId: String) {
             self.accountId = accountId
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.jobId, key: "JobId")
         }
 
         public func validate(name: String) throws {
@@ -1526,12 +1583,6 @@ extension S3Control {
 
     public struct DescribeMultiRegionAccessPointOperationRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "requestTokenARN", location: .uri("RequestTokenARN"))
-        ]
-
         /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
         public let accountId: String
         /// The request token associated with the request you want to know about. This request token is returned as part of the response when you make an asynchronous request. You provide this token to query about the status of the asynchronous action.
@@ -1540,6 +1591,14 @@ extension S3Control {
         public init(accountId: String, requestTokenARN: String) {
             self.accountId = accountId
             self.requestTokenARN = requestTokenARN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.requestTokenARN, key: "RequestTokenARN")
         }
 
         public func validate(name: String) throws {
@@ -1717,12 +1776,6 @@ extension S3Control {
     }
 
     public struct GetAccessPointConfigurationForObjectLambdaRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The account ID for the account that owns the specified Object Lambda Access Point.
         public let accountId: String
         /// The name of the Object Lambda Access Point you want to return the configuration for.
@@ -1731,6 +1784,14 @@ extension S3Control {
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1758,12 +1819,6 @@ extension S3Control {
     }
 
     public struct GetAccessPointForObjectLambdaRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The account ID for the account that owns the specified Object Lambda Access Point.
         public let accountId: String
         /// The name of the Object Lambda Access Point.
@@ -1772,6 +1827,14 @@ extension S3Control {
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1811,12 +1874,6 @@ extension S3Control {
     }
 
     public struct GetAccessPointPolicyForObjectLambdaRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The account ID for the account that owns the specified Object Lambda Access Point.
         public let accountId: String
         /// The name of the Object Lambda Access Point.
@@ -1825,6 +1882,14 @@ extension S3Control {
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1852,12 +1917,6 @@ extension S3Control {
     }
 
     public struct GetAccessPointPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The account ID for the account that owns the specified access point.
         public let accountId: String
         /// The name of the access point whose policy you want to retrieve. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
@@ -1866,6 +1925,14 @@ extension S3Control {
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1892,12 +1959,6 @@ extension S3Control {
     }
 
     public struct GetAccessPointPolicyStatusForObjectLambdaRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The account ID for the account that owns the specified Object Lambda Access Point.
         public let accountId: String
         /// The name of the Object Lambda Access Point.
@@ -1906,6 +1967,14 @@ extension S3Control {
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1932,12 +2001,6 @@ extension S3Control {
     }
 
     public struct GetAccessPointPolicyStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The account ID for the account that owns the specified access point.
         public let accountId: String
         /// The name of the access point whose policy status you want to retrieve.
@@ -1946,6 +2009,14 @@ extension S3Control {
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1972,12 +2043,6 @@ extension S3Control {
     }
 
     public struct GetAccessPointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The Amazon Web Services account ID for the account that owns the specified access point.
         public let accountId: String
         /// The name of the access point whose configuration information you want to retrieve. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
@@ -1986,6 +2051,14 @@ extension S3Control {
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -2048,12 +2121,6 @@ extension S3Control {
     }
 
     public struct GetBucketLifecycleConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket"))
-        ]
-
         /// The Amazon Web Services account ID of the Outposts bucket.
         public let accountId: String
         /// The Amazon Resource Name (ARN) of the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
@@ -2062,6 +2129,14 @@ extension S3Control {
         public init(accountId: String, bucket: String) {
             self.accountId = accountId
             self.bucket = bucket
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.bucket, key: "Bucket")
         }
 
         public func validate(name: String) throws {
@@ -2091,12 +2166,6 @@ extension S3Control {
     }
 
     public struct GetBucketPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket"))
-        ]
-
         /// The Amazon Web Services account ID of the Outposts bucket.
         public let accountId: String
         /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
@@ -2105,6 +2174,14 @@ extension S3Control {
         public init(accountId: String, bucket: String) {
             self.accountId = accountId
             self.bucket = bucket
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.bucket, key: "Bucket")
         }
 
         public func validate(name: String) throws {
@@ -2131,12 +2208,6 @@ extension S3Control {
     }
 
     public struct GetBucketReplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket"))
-        ]
-
         /// The Amazon Web Services account ID of the Outposts bucket.
         public let accountId: String
         /// Specifies the bucket to get the replication information for. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
@@ -2145,6 +2216,14 @@ extension S3Control {
         public init(accountId: String, bucket: String) {
             self.accountId = accountId
             self.bucket = bucket
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.bucket, key: "Bucket")
         }
 
         public func validate(name: String) throws {
@@ -2171,12 +2250,6 @@ extension S3Control {
     }
 
     public struct GetBucketRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket"))
-        ]
-
         /// The Amazon Web Services account ID of the Outposts bucket.
         public let accountId: String
         /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
@@ -2185,6 +2258,14 @@ extension S3Control {
         public init(accountId: String, bucket: String) {
             self.accountId = accountId
             self.bucket = bucket
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.bucket, key: "Bucket")
         }
 
         public func validate(name: String) throws {
@@ -2218,12 +2299,6 @@ extension S3Control {
     }
 
     public struct GetBucketTaggingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket"))
-        ]
-
         /// The Amazon Web Services account ID of the Outposts bucket.
         public let accountId: String
         /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
@@ -2232,6 +2307,14 @@ extension S3Control {
         public init(accountId: String, bucket: String) {
             self.accountId = accountId
             self.bucket = bucket
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.bucket, key: "Bucket")
         }
 
         public func validate(name: String) throws {
@@ -2259,12 +2342,6 @@ extension S3Control {
     }
 
     public struct GetBucketVersioningRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket"))
-        ]
-
         /// The Amazon Web Services account ID of the S3 on Outposts bucket.
         public let accountId: String
         /// The S3 on Outposts bucket to return the versioning state for.
@@ -2273,6 +2350,14 @@ extension S3Control {
         public init(accountId: String, bucket: String) {
             self.accountId = accountId
             self.bucket = bucket
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.bucket, key: "Bucket")
         }
 
         public func validate(name: String) throws {
@@ -2303,12 +2388,6 @@ extension S3Control {
     }
 
     public struct GetJobTaggingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
-        ]
-
         /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
         public let accountId: String
         /// The ID for the S3 Batch Operations job whose tags you want to retrieve.
@@ -2317,6 +2396,14 @@ extension S3Control {
         public init(accountId: String, jobId: String) {
             self.accountId = accountId
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.jobId, key: "JobId")
         }
 
         public func validate(name: String) throws {
@@ -2346,12 +2433,6 @@ extension S3Control {
 
     public struct GetMultiRegionAccessPointPolicyRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
         public let accountId: String
         /// Specifies the Multi-Region Access Point. The name of the Multi-Region Access Point is different from the alias. For more information about the distinction between the name and the alias of an Multi-Region Access Point, see Managing Multi-Region Access Points in the Amazon S3 User Guide.
@@ -2360,6 +2441,14 @@ extension S3Control {
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -2387,12 +2476,6 @@ extension S3Control {
 
     public struct GetMultiRegionAccessPointPolicyStatusRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
         public let accountId: String
         /// Specifies the Multi-Region Access Point. The name of the Multi-Region Access Point is different from the alias. For more information about the distinction between the name and the alias of an Multi-Region Access Point, see Managing Multi-Region Access Points in the Amazon S3 User Guide.
@@ -2401,6 +2484,14 @@ extension S3Control {
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -2427,12 +2518,6 @@ extension S3Control {
 
     public struct GetMultiRegionAccessPointRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
         public let accountId: String
         /// The name of the Multi-Region Access Point whose configuration information you want to receive. The name of the Multi-Region Access Point is different from the alias. For more information about the distinction between the name and the alias of an Multi-Region Access Point, see Managing Multi-Region Access Points in the Amazon S3 User Guide.
@@ -2441,6 +2526,14 @@ extension S3Control {
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -2468,12 +2561,6 @@ extension S3Control {
 
     public struct GetMultiRegionAccessPointRoutesRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "mrap", location: .uri("Mrap"))
-        ]
-
         /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
         public let accountId: String
         /// The Multi-Region Access Point ARN.
@@ -2482,6 +2569,14 @@ extension S3Control {
         public init(accountId: String, mrap: String) {
             self.accountId = accountId
             self.mrap = mrap
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.mrap, key: "Mrap")
         }
 
         public func validate(name: String) throws {
@@ -2523,24 +2618,26 @@ extension S3Control {
         }
 
         public init(from decoder: Decoder) throws {
-            self.publicAccessBlockConfiguration = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.publicAccessBlockConfiguration = try container.decode(PublicAccessBlockConfiguration.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPublicAccessBlockRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId"))
-        ]
-
         /// The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to retrieve.
         public let accountId: String
 
         public init(accountId: String) {
             self.accountId = accountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
         }
 
         public func validate(name: String) throws {
@@ -2552,12 +2649,6 @@ extension S3Control {
     }
 
     public struct GetStorageLensConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "configId", location: .uri("ConfigId"))
-        ]
-
         /// The account ID of the requester.
         public let accountId: String
         /// The ID of the Amazon S3 Storage Lens configuration.
@@ -2566,6 +2657,14 @@ extension S3Control {
         public init(accountId: String, configId: String) {
             self.accountId = accountId
             self.configId = configId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.configId, key: "ConfigId")
         }
 
         public func validate(name: String) throws {
@@ -2588,20 +2687,14 @@ extension S3Control {
         }
 
         public init(from decoder: Decoder) throws {
-            self.storageLensConfiguration = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.storageLensConfiguration = try container.decode(StorageLensConfiguration.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetStorageLensConfigurationTaggingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "configId", location: .uri("ConfigId"))
-        ]
-
         /// The account ID of the requester.
         public let accountId: String
         /// The ID of the Amazon S3 Storage Lens configuration.
@@ -2610,6 +2703,14 @@ extension S3Control {
         public init(accountId: String, configId: String) {
             self.accountId = accountId
             self.configId = configId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.configId, key: "ConfigId")
         }
 
         public func validate(name: String) throws {
@@ -3219,13 +3320,6 @@ extension S3Control {
     }
 
     public struct ListAccessPointsForObjectLambdaRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The account ID for the account that owns the specified Object Lambda Access Point.
         public let accountId: String
         /// The maximum number of access points that you want to include in the list. The response may contain fewer access points but will never contain more. If there are more than this number of access points, then the response will include a continuation token in the NextToken field that you can use to retrieve the next page of access points.
@@ -3237,6 +3331,15 @@ extension S3Control {
             self.accountId = accountId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3272,14 +3375,6 @@ extension S3Control {
     }
 
     public struct ListAccessPointsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .querystring("bucket")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The Amazon Web Services account ID for the account that owns the specified access points.
         public let accountId: String
         /// The name of the bucket whose associated access points you want to list. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
@@ -3294,6 +3389,16 @@ extension S3Control {
             self.bucket = bucket
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodeQuery(self.bucket, key: "bucket")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3331,14 +3436,6 @@ extension S3Control {
     }
 
     public struct ListJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "jobStatuses", location: .querystring("jobStatuses")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
         public let accountId: String
         /// The List Jobs request returns jobs that match the statuses listed in this element.
@@ -3353,6 +3450,16 @@ extension S3Control {
             self.jobStatuses = jobStatuses
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodeQuery(self.jobStatuses, key: "jobStatuses")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3388,13 +3495,6 @@ extension S3Control {
 
     public struct ListMultiRegionAccessPointsRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
         public let accountId: String
         /// Not currently used. Do not use this parameter.
@@ -3406,6 +3506,15 @@ extension S3Control {
             self.accountId = accountId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3441,14 +3550,6 @@ extension S3Control {
     }
 
     public struct ListRegionalBucketsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "outpostId", location: .header("x-amz-outpost-id"))
-        ]
-
         /// The Amazon Web Services account ID of the Outposts bucket.
         public let accountId: String
         public let maxResults: Int?
@@ -3461,6 +3562,16 @@ extension S3Control {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.outpostId = outpostId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeHeader(self.outpostId, key: "x-amz-outpost-id")
         }
 
         public func validate(name: String) throws {
@@ -3522,12 +3633,6 @@ extension S3Control {
     }
 
     public struct ListStorageLensConfigurationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The account ID of the requester.
         public let accountId: String
         /// A pagination token to request the next page of results.
@@ -3536,6 +3641,14 @@ extension S3Control {
         public init(accountId: String, nextToken: String? = nil) {
             self.accountId = accountId
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3918,12 +4031,6 @@ extension S3Control {
     }
 
     public struct PutAccessPointConfigurationForObjectLambdaRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The account ID for the account that owns the specified Object Lambda Access Point.
         public let accountId: String
         /// Object Lambda Access Point configuration document.
@@ -3935,6 +4042,15 @@ extension S3Control {
             self.accountId = accountId
             self.configuration = configuration
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            try container.encode(self.configuration, forKey: .configuration)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -3952,12 +4068,6 @@ extension S3Control {
     }
 
     public struct PutAccessPointPolicyForObjectLambdaRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The account ID for the account that owns the specified Object Lambda Access Point.
         public let accountId: String
         /// The name of the Object Lambda Access Point.
@@ -3969,6 +4079,15 @@ extension S3Control {
             self.accountId = accountId
             self.name = name
             self.policy = policy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.name, key: "Name")
+            try container.encode(self.policy, forKey: .policy)
         }
 
         public func validate(name: String) throws {
@@ -3985,12 +4104,6 @@ extension S3Control {
     }
 
     public struct PutAccessPointPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The Amazon Web Services account ID for owner of the bucket associated with the specified access point.
         public let accountId: String
         /// The name of the access point that you want to associate with the specified policy. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
@@ -4002,6 +4115,15 @@ extension S3Control {
             self.accountId = accountId
             self.name = name
             self.policy = policy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.name, key: "Name")
+            try container.encode(self.policy, forKey: .policy)
         }
 
         public func validate(name: String) throws {
@@ -4016,17 +4138,9 @@ extension S3Control {
         }
     }
 
-    public struct PutBucketLifecycleConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "lifecycleConfiguration"
+    public struct PutBucketLifecycleConfigurationRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "lifecycleConfiguration", location: .body("LifecycleConfiguration"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "LifecycleConfiguration"
         /// The Amazon Web Services account ID of the Outposts bucket.
         public let accountId: String
         /// The name of the bucket for which to set the configuration.
@@ -4038,6 +4152,15 @@ extension S3Control {
             self.accountId = accountId
             self.bucket = bucket
             self.lifecycleConfiguration = lifecycleConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.bucket, key: "Bucket")
+            try container.encode(self.lifecycleConfiguration)
         }
 
         public func validate(name: String) throws {
@@ -4053,13 +4176,6 @@ extension S3Control {
 
     public struct PutBucketPolicyRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "confirmRemoveSelfBucketAccess", location: .header("x-amz-confirm-remove-self-bucket-access"))
-        ]
-
         /// The Amazon Web Services account ID of the Outposts bucket.
         public let accountId: String
         /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
@@ -4076,6 +4192,16 @@ extension S3Control {
             self.policy = policy
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.confirmRemoveSelfBucketAccess, key: "x-amz-confirm-remove-self-bucket-access")
+            try container.encode(self.policy, forKey: .policy)
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
@@ -4088,17 +4214,9 @@ extension S3Control {
         }
     }
 
-    public struct PutBucketReplicationRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "replicationConfiguration"
+    public struct PutBucketReplicationRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "replicationConfiguration", location: .body("ReplicationConfiguration"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "ReplicationConfiguration"
         /// The Amazon Web Services account ID of the Outposts bucket.
         public let accountId: String
         /// Specifies the S3 on Outposts bucket to set the configuration for. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
@@ -4109,6 +4227,15 @@ extension S3Control {
             self.accountId = accountId
             self.bucket = bucket
             self.replicationConfiguration = replicationConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.bucket, key: "Bucket")
+            try container.encode(self.replicationConfiguration)
         }
 
         public func validate(name: String) throws {
@@ -4122,17 +4249,9 @@ extension S3Control {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutBucketTaggingRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "tagging"
+    public struct PutBucketTaggingRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "tagging", location: .body("Tagging"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "Tagging"
         /// The Amazon Web Services account ID of the Outposts bucket.
         public let accountId: String
         /// The Amazon Resource Name (ARN) of the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
@@ -4143,6 +4262,15 @@ extension S3Control {
             self.accountId = accountId
             self.bucket = bucket
             self.tagging = tagging
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.bucket, key: "Bucket")
+            try container.encode(self.tagging)
         }
 
         public func validate(name: String) throws {
@@ -4156,18 +4284,9 @@ extension S3Control {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutBucketVersioningRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "versioningConfiguration"
+    public struct PutBucketVersioningRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "mfa", location: .header("x-amz-mfa")),
-            AWSMemberEncoding(label: "versioningConfiguration", location: .body("VersioningConfiguration"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "VersioningConfiguration"
         /// The Amazon Web Services account ID of the S3 on Outposts bucket.
         public let accountId: String
         /// The S3 on Outposts bucket to set the versioning state for.
@@ -4184,6 +4303,16 @@ extension S3Control {
             self.versioningConfiguration = versioningConfiguration
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.mfa, key: "x-amz-mfa")
+            try container.encode(self.versioningConfiguration)
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
@@ -4195,12 +4324,6 @@ extension S3Control {
     }
 
     public struct PutJobTaggingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
-        ]
-
         /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
         public let accountId: String
         /// The ID for the S3 Batch Operations job whose tags you want to replace.
@@ -4213,6 +4336,15 @@ extension S3Control {
             self.accountId = accountId
             self.jobId = jobId
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.jobId, key: "JobId")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -4259,11 +4391,6 @@ extension S3Control {
 
     public struct PutMultiRegionAccessPointPolicyRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId"))
-        ]
-
         /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
         public let accountId: String
         /// An idempotency token used to identify the request and guarantee that requests are unique.
@@ -4275,6 +4402,15 @@ extension S3Control {
             self.accountId = accountId
             self.clientToken = clientToken
             self.details = details
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            try container.encode(self.clientToken, forKey: .clientToken)
+            try container.encode(self.details, forKey: .details)
         }
 
         public func validate(name: String) throws {
@@ -4304,15 +4440,8 @@ extension S3Control {
         }
     }
 
-    public struct PutPublicAccessBlockRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "publicAccessBlockConfiguration"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "publicAccessBlockConfiguration", location: .body("PublicAccessBlockConfiguration"))
-        ]
-
+    public struct PutPublicAccessBlockRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "PublicAccessBlockConfiguration"
         /// The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to set.
         public let accountId: String
         /// The PublicAccessBlock configuration that you want to apply to the specified Amazon Web Services account.
@@ -4321,6 +4450,14 @@ extension S3Control {
         public init(accountId: String, publicAccessBlockConfiguration: PublicAccessBlockConfiguration) {
             self.accountId = accountId
             self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            try container.encode(self.publicAccessBlockConfiguration)
         }
 
         public func validate(name: String) throws {
@@ -4332,12 +4469,6 @@ extension S3Control {
     }
 
     public struct PutStorageLensConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "configId", location: .uri("ConfigId"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The account ID of the requester.
@@ -4355,6 +4486,16 @@ extension S3Control {
             self.configId = configId
             self.storageLensConfiguration = storageLensConfiguration
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.configId, key: "ConfigId")
+            try container.encode(self.storageLensConfiguration, forKey: .storageLensConfiguration)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -4376,12 +4517,6 @@ extension S3Control {
     }
 
     public struct PutStorageLensConfigurationTaggingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "configId", location: .uri("ConfigId"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The account ID of the requester.
@@ -4396,6 +4531,15 @@ extension S3Control {
             self.accountId = accountId
             self.configId = configId
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.configId, key: "ConfigId")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -5462,12 +5606,6 @@ extension S3Control {
 
     public struct SubmitMultiRegionAccessPointRoutesRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "mrap", location: .uri("Mrap"))
-        ]
-
         public struct _RouteUpdatesEncoding: ArrayCoderProperties { public static let member = "Route" }
 
         /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
@@ -5482,6 +5620,15 @@ extension S3Control {
             self.accountId = accountId
             self.mrap = mrap
             self.routeUpdates = routeUpdates
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.mrap, key: "Mrap")
+            try container.encode(self.routeUpdates, forKey: .routeUpdates)
         }
 
         public func validate(name: String) throws {
@@ -5545,13 +5692,6 @@ extension S3Control {
     }
 
     public struct UpdateJobPriorityRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "jobId", location: .uri("JobId")),
-            AWSMemberEncoding(label: "priority", location: .querystring("priority"))
-        ]
-
         /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
         public let accountId: String
         /// The ID for the job whose priority you want to update.
@@ -5563,6 +5703,15 @@ extension S3Control {
             self.accountId = accountId
             self.jobId = jobId
             self.priority = priority
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.jobId, key: "JobId")
+            request.encodeQuery(self.priority, key: "priority")
         }
 
         public func validate(name: String) throws {
@@ -5596,14 +5745,6 @@ extension S3Control {
     }
 
     public struct UpdateJobStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
-            AWSMemberEncoding(label: "jobId", location: .uri("JobId")),
-            AWSMemberEncoding(label: "requestedJobStatus", location: .querystring("requestedJobStatus")),
-            AWSMemberEncoding(label: "statusUpdateReason", location: .querystring("statusUpdateReason"))
-        ]
-
         /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
         public let accountId: String
         /// The ID of the job whose status you want to update.
@@ -5618,6 +5759,16 @@ extension S3Control {
             self.jobId = jobId
             self.requestedJobStatus = requestedJobStatus
             self.statusUpdateReason = statusUpdateReason
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.jobId, key: "JobId")
+            request.encodeQuery(self.requestedJobStatus, key: "requestedJobStatus")
+            request.encodeQuery(self.statusUpdateReason, key: "statusUpdateReason")
         }
 
         public func validate(name: String) throws {

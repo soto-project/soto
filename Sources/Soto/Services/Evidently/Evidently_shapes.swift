@@ -197,10 +197,6 @@ extension Evidently {
     // MARK: Shapes
 
     public struct BatchEvaluateFeatureRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// The name or ARN of the project that contains the feature being evaluated.
         public let project: String
         /// An array of structures, where each structure assigns a feature variation to one user session.
@@ -209,6 +205,13 @@ extension Evidently {
         public init(project: String, requests: [EvaluationRequest]) {
             self.project = project
             self.requests = requests
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.project, key: "project")
+            try container.encode(self.requests, forKey: .requests)
         }
 
         public func validate(name: String) throws {
@@ -272,10 +275,6 @@ extension Evidently {
     }
 
     public struct CreateExperimentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// An optional description of the experiment.
         public let description: String?
         /// An array of structures that defines the metrics used for the experiment, and whether a higher or lower value for each metric is the goal.
@@ -308,6 +307,21 @@ extension Evidently {
             self.segment = segment
             self.tags = tags
             self.treatments = treatments
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.metricGoals, forKey: .metricGoals)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.onlineAbConfig, forKey: .onlineAbConfig)
+            request.encodePath(self.project, key: "project")
+            try container.encodeIfPresent(self.randomizationSalt, forKey: .randomizationSalt)
+            try container.encodeIfPresent(self.samplingRate, forKey: .samplingRate)
+            try container.encodeIfPresent(self.segment, forKey: .segment)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.treatments, forKey: .treatments)
         }
 
         public func validate(name: String) throws {
@@ -369,10 +383,6 @@ extension Evidently {
     }
 
     public struct CreateFeatureRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// The name of the variation to use as the default variation. The default variation is served to users who are not allocated to any ongoing launches or experiments of this feature. This variation must also be listed in the variations structure. If you omit defaultVariation, the first variation listed in the variations structure is used as the default variation.
         public let defaultVariation: String?
         /// An optional description of the feature.
@@ -399,6 +409,19 @@ extension Evidently {
             self.project = project
             self.tags = tags
             self.variations = variations
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.defaultVariation, forKey: .defaultVariation)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.entityOverrides, forKey: .entityOverrides)
+            try container.encodeIfPresent(self.evaluationStrategy, forKey: .evaluationStrategy)
+            try container.encode(self.name, forKey: .name)
+            request.encodePath(self.project, key: "project")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.variations, forKey: .variations)
         }
 
         public func validate(name: String) throws {
@@ -459,10 +482,6 @@ extension Evidently {
     }
 
     public struct CreateLaunchRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// An optional description for the launch.
         public let description: String?
         /// An array of structures that contains the feature and variations that are to be used for the launch.
@@ -489,6 +508,19 @@ extension Evidently {
             self.randomizationSalt = randomizationSalt
             self.scheduledSplitsConfig = scheduledSplitsConfig
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.groups, forKey: .groups)
+            try container.encodeIfPresent(self.metricMonitors, forKey: .metricMonitors)
+            try container.encode(self.name, forKey: .name)
+            request.encodePath(self.project, key: "project")
+            try container.encodeIfPresent(self.randomizationSalt, forKey: .randomizationSalt)
+            try container.encodeIfPresent(self.scheduledSplitsConfig, forKey: .scheduledSplitsConfig)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -656,11 +688,6 @@ extension Evidently {
     }
 
     public struct DeleteExperimentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "experiment", location: .uri("experiment")),
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// The name of the experiment to delete.
         public let experiment: String
         /// The name or ARN of the project that contains the experiment to delete.
@@ -669,6 +696,13 @@ extension Evidently {
         public init(experiment: String, project: String) {
             self.experiment = experiment
             self.project = project
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.experiment, key: "experiment")
+            request.encodePath(self.project, key: "project")
         }
 
         public func validate(name: String) throws {
@@ -687,11 +721,6 @@ extension Evidently {
     }
 
     public struct DeleteFeatureRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "feature", location: .uri("feature")),
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// The name of the feature to delete.
         public let feature: String
         /// The name or ARN of the project that contains the feature to delete.
@@ -700,6 +729,13 @@ extension Evidently {
         public init(feature: String, project: String) {
             self.feature = feature
             self.project = project
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.feature, key: "feature")
+            request.encodePath(self.project, key: "project")
         }
 
         public func validate(name: String) throws {
@@ -718,11 +754,6 @@ extension Evidently {
     }
 
     public struct DeleteLaunchRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "launch", location: .uri("launch")),
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// The name of the launch to delete.
         public let launch: String
         /// The name or ARN of the project that contains the launch to delete.
@@ -731,6 +762,13 @@ extension Evidently {
         public init(launch: String, project: String) {
             self.launch = launch
             self.project = project
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.launch, key: "launch")
+            request.encodePath(self.project, key: "project")
         }
 
         public func validate(name: String) throws {
@@ -749,15 +787,17 @@ extension Evidently {
     }
 
     public struct DeleteProjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// The name or ARN of the project to delete.
         public let project: String
 
         public init(project: String) {
             self.project = project
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.project, key: "project")
         }
 
         public func validate(name: String) throws {
@@ -773,15 +813,17 @@ extension Evidently {
     }
 
     public struct DeleteSegmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "segment", location: .uri("segment"))
-        ]
-
         /// Specifies the segment to delete.
         public let segment: String
 
         public init(segment: String) {
             self.segment = segment
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.segment, key: "segment")
         }
 
         public func validate(name: String) throws {
@@ -797,11 +839,6 @@ extension Evidently {
     }
 
     public struct EvaluateFeatureRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "feature", location: .uri("feature")),
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// An internal ID that represents a unique user of the application. This entityID is checked against any override rules assigned for this feature.
         public let entityId: String
         /// A JSON object of attributes that you can optionally pass in as part of the evaluation event sent to Evidently from the user session. Evidently can use  this value to match user sessions with defined audience segments. For more information, see Use segments to focus your  audience. If you include this parameter, the value must be a JSON object. A JSON array is not supported.
@@ -816,6 +853,15 @@ extension Evidently {
             self.evaluationContext = evaluationContext
             self.feature = feature
             self.project = project
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.entityId, forKey: .entityId)
+            try container.encodeIfPresent(self.evaluationContext, forKey: .evaluationContext)
+            request.encodePath(self.feature, key: "feature")
+            request.encodePath(self.project, key: "project")
         }
 
         public func validate(name: String) throws {
@@ -1241,11 +1287,6 @@ extension Evidently {
     }
 
     public struct GetExperimentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "experiment", location: .uri("experiment")),
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// The name of the experiment that you want to see the details of.
         public let experiment: String
         /// The name or ARN of the project that contains the experiment.
@@ -1254,6 +1295,13 @@ extension Evidently {
         public init(experiment: String, project: String) {
             self.experiment = experiment
             self.project = project
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.experiment, key: "experiment")
+            request.encodePath(self.project, key: "project")
         }
 
         public func validate(name: String) throws {
@@ -1281,11 +1329,6 @@ extension Evidently {
     }
 
     public struct GetExperimentResultsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "experiment", location: .uri("experiment")),
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// The statistic used to calculate experiment results. Currently the only valid value is mean,  which uses the mean of the collected values as the statistic.
         public let baseStat: ExperimentBaseStat?
         /// The date and time that the experiment ended, if it is completed. This must be no longer than 30 days  after the experiment start time.
@@ -1318,6 +1361,21 @@ extension Evidently {
             self.resultStats = resultStats
             self.startTime = startTime
             self.treatmentNames = treatmentNames
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.baseStat, forKey: .baseStat)
+            try container.encodeIfPresent(self.endTime, forKey: .endTime)
+            request.encodePath(self.experiment, key: "experiment")
+            try container.encode(self.metricNames, forKey: .metricNames)
+            try container.encodeIfPresent(self.period, forKey: .period)
+            request.encodePath(self.project, key: "project")
+            try container.encodeIfPresent(self.reportNames, forKey: .reportNames)
+            try container.encodeIfPresent(self.resultStats, forKey: .resultStats)
+            try container.encodeIfPresent(self.startTime, forKey: .startTime)
+            try container.encode(self.treatmentNames, forKey: .treatmentNames)
         }
 
         public func validate(name: String) throws {
@@ -1384,11 +1442,6 @@ extension Evidently {
     }
 
     public struct GetFeatureRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "feature", location: .uri("feature")),
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// The name of the feature that you want to retrieve information for.
         public let feature: String
         /// The name or ARN of the project that contains the feature.
@@ -1397,6 +1450,13 @@ extension Evidently {
         public init(feature: String, project: String) {
             self.feature = feature
             self.project = project
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.feature, key: "feature")
+            request.encodePath(self.project, key: "project")
         }
 
         public func validate(name: String) throws {
@@ -1424,11 +1484,6 @@ extension Evidently {
     }
 
     public struct GetLaunchRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "launch", location: .uri("launch")),
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// The name of the launch that you want to see the details of.
         public let launch: String
         /// The name or ARN of the project that contains the launch.
@@ -1437,6 +1492,13 @@ extension Evidently {
         public init(launch: String, project: String) {
             self.launch = launch
             self.project = project
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.launch, key: "launch")
+            request.encodePath(self.project, key: "project")
         }
 
         public func validate(name: String) throws {
@@ -1464,15 +1526,17 @@ extension Evidently {
     }
 
     public struct GetProjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// The name or ARN of the project that you want to see the details of.
         public let project: String
 
         public init(project: String) {
             self.project = project
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.project, key: "project")
         }
 
         public func validate(name: String) throws {
@@ -1497,15 +1561,17 @@ extension Evidently {
     }
 
     public struct GetSegmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "segment", location: .uri("segment"))
-        ]
-
         /// The ARN of the segment to return information for.
         public let segment: String
 
         public init(segment: String) {
             self.segment = segment
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.segment, key: "segment")
         }
 
         public func validate(name: String) throws {
@@ -1676,13 +1742,6 @@ extension Evidently {
     }
 
     public struct ListExperimentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "project", location: .uri("project")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         /// The maximum number of results to include in the response.
         public let maxResults: Int?
         /// The token to use when requesting the next set of results. You received this token from a previous  ListExperiments operation.
@@ -1697,6 +1756,15 @@ extension Evidently {
             self.nextToken = nextToken
             self.project = project
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.project, key: "project")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -1730,12 +1798,6 @@ extension Evidently {
     }
 
     public struct ListFeaturesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// The maximum number of results to include in the response.
         public let maxResults: Int?
         /// The token to use when requesting the next set of results. You received this token from a previous  ListFeatures operation.
@@ -1747,6 +1809,14 @@ extension Evidently {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.project = project
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.project, key: "project")
         }
 
         public func validate(name: String) throws {
@@ -1780,13 +1850,6 @@ extension Evidently {
     }
 
     public struct ListLaunchesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "project", location: .uri("project")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         /// The maximum number of results to include in the response.
         public let maxResults: Int?
         /// The token to use when requesting the next set of results. You received this token from a previous  ListLaunches operation.
@@ -1801,6 +1864,15 @@ extension Evidently {
             self.nextToken = nextToken
             self.project = project
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.project, key: "project")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -1834,11 +1906,6 @@ extension Evidently {
     }
 
     public struct ListProjectsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to include in the response.
         public let maxResults: Int?
         /// The token to use when requesting the next set of results. You received this token from a previous  ListProjects operation.
@@ -1847,6 +1914,13 @@ extension Evidently {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1878,13 +1952,6 @@ extension Evidently {
     }
 
     public struct ListSegmentReferencesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "segment", location: .uri("segment")),
-            AWSMemberEncoding(label: "type", location: .querystring("type"))
-        ]
-
         /// The maximum number of results to include in the response. If you omit this, the default of 50 is used.
         public let maxResults: Int?
         /// The token to use when requesting the next set of results. You received this token from a previous  ListSegmentReferences operation.
@@ -1899,6 +1966,15 @@ extension Evidently {
             self.nextToken = nextToken
             self.segment = segment
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.segment, key: "segment")
+            request.encodeQuery(self.type, key: "type")
         }
 
         public func validate(name: String) throws {
@@ -1932,11 +2008,6 @@ extension Evidently {
     }
 
     public struct ListSegmentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to include in the response. If you omit this, the default of 50 is used.
         public let maxResults: Int?
         /// The token to use when requesting the next set of results. You received this token from a previous  ListSegments operation.
@@ -1945,6 +2016,13 @@ extension Evidently {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1976,15 +2054,17 @@ extension Evidently {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The ARN of the resource that you want to see the tags of.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -2401,10 +2481,6 @@ extension Evidently {
     }
 
     public struct PutProjectEventsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// An array of event structures that contain the performance data that is being sent to Evidently.
         public let events: [Event]
         /// The name or ARN of the project to write the events to.
@@ -2413,6 +2489,13 @@ extension Evidently {
         public init(events: [Event], project: String) {
             self.events = events
             self.project = project
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.events, forKey: .events)
+            request.encodePath(self.project, key: "project")
         }
 
         public func validate(name: String) throws {
@@ -2715,11 +2798,6 @@ extension Evidently {
     }
 
     public struct StartExperimentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "experiment", location: .uri("experiment")),
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// The date and time to end the experiment. This must be no more than 30 days after the experiment starts.
         public let analysisCompleteTime: Date
         /// The name of the experiment to start.
@@ -2731,6 +2809,14 @@ extension Evidently {
             self.analysisCompleteTime = analysisCompleteTime
             self.experiment = experiment
             self.project = project
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.analysisCompleteTime, forKey: .analysisCompleteTime)
+            request.encodePath(self.experiment, key: "experiment")
+            request.encodePath(self.project, key: "project")
         }
 
         public func validate(name: String) throws {
@@ -2760,11 +2846,6 @@ extension Evidently {
     }
 
     public struct StartLaunchRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "launch", location: .uri("launch")),
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// The name of the launch to start.
         public let launch: String
         /// The name or ARN of the project that contains the launch to start.
@@ -2773,6 +2854,13 @@ extension Evidently {
         public init(launch: String, project: String) {
             self.launch = launch
             self.project = project
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.launch, key: "launch")
+            request.encodePath(self.project, key: "project")
         }
 
         public func validate(name: String) throws {
@@ -2800,11 +2888,6 @@ extension Evidently {
     }
 
     public struct StopExperimentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "experiment", location: .uri("experiment")),
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// Specify whether the experiment is to be considered COMPLETED or  CANCELLED after it stops.
         public let desiredState: ExperimentStopDesiredState?
         /// The name of the experiment to stop.
@@ -2819,6 +2902,15 @@ extension Evidently {
             self.experiment = experiment
             self.project = project
             self.reason = reason
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.desiredState, forKey: .desiredState)
+            request.encodePath(self.experiment, key: "experiment")
+            request.encodePath(self.project, key: "project")
+            try container.encodeIfPresent(self.reason, forKey: .reason)
         }
 
         public func validate(name: String) throws {
@@ -2851,11 +2943,6 @@ extension Evidently {
     }
 
     public struct StopLaunchRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "launch", location: .uri("launch")),
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// Specify whether to consider the launch as COMPLETED or CANCELLED after it stops.
         public let desiredState: LaunchStopDesiredState?
         /// The name of the launch to stop.
@@ -2870,6 +2957,15 @@ extension Evidently {
             self.launch = launch
             self.project = project
             self.reason = reason
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.desiredState, forKey: .desiredState)
+            request.encodePath(self.launch, key: "launch")
+            request.encodePath(self.project, key: "project")
+            try container.encodeIfPresent(self.reason, forKey: .reason)
         }
 
         public func validate(name: String) throws {
@@ -2902,10 +2998,6 @@ extension Evidently {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The ARN of the CloudWatch Evidently resource that you're adding tags to.
         public let resourceArn: String
         /// The list of key-value pairs to associate with the resource.
@@ -2914,6 +3006,13 @@ extension Evidently {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -3032,11 +3131,6 @@ extension Evidently {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The ARN of the CloudWatch Evidently resource that you're removing tags from.
         public let resourceArn: String
         /// The list of tag keys to remove from the resource.
@@ -3045,6 +3139,13 @@ extension Evidently {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -3066,11 +3167,6 @@ extension Evidently {
     }
 
     public struct UpdateExperimentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "experiment", location: .uri("experiment")),
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// An optional description of the experiment.
         public let description: String?
         /// The name of the experiment to update.
@@ -3103,6 +3199,21 @@ extension Evidently {
             self.samplingRate = samplingRate
             self.segment = segment
             self.treatments = treatments
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.experiment, key: "experiment")
+            try container.encodeIfPresent(self.metricGoals, forKey: .metricGoals)
+            try container.encodeIfPresent(self.onlineAbConfig, forKey: .onlineAbConfig)
+            request.encodePath(self.project, key: "project")
+            try container.encodeIfPresent(self.randomizationSalt, forKey: .randomizationSalt)
+            try container.encodeIfPresent(self.removeSegment, forKey: .removeSegment)
+            try container.encodeIfPresent(self.samplingRate, forKey: .samplingRate)
+            try container.encodeIfPresent(self.segment, forKey: .segment)
+            try container.encodeIfPresent(self.treatments, forKey: .treatments)
         }
 
         public func validate(name: String) throws {
@@ -3157,11 +3268,6 @@ extension Evidently {
     }
 
     public struct UpdateFeatureRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "feature", location: .uri("feature")),
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// To update variation configurations for this feature, or add new ones, specify this structure. In this array, include any variations that you want to add or update. If the array includes a variation name that already exists for this feature, it is updated. If it includes a new variation name, it is added as a new variation.
         public let addOrUpdateVariations: [VariationConfig]?
         /// The name of the variation to use as the default variation. The default variation is served to users who are not allocated to any ongoing launches or experiments of this feature.
@@ -3188,6 +3294,19 @@ extension Evidently {
             self.feature = feature
             self.project = project
             self.removeVariations = removeVariations
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.addOrUpdateVariations, forKey: .addOrUpdateVariations)
+            try container.encodeIfPresent(self.defaultVariation, forKey: .defaultVariation)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.entityOverrides, forKey: .entityOverrides)
+            try container.encodeIfPresent(self.evaluationStrategy, forKey: .evaluationStrategy)
+            request.encodePath(self.feature, key: "feature")
+            request.encodePath(self.project, key: "project")
+            try container.encodeIfPresent(self.removeVariations, forKey: .removeVariations)
         }
 
         public func validate(name: String) throws {
@@ -3247,11 +3366,6 @@ extension Evidently {
     }
 
     public struct UpdateLaunchRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "launch", location: .uri("launch")),
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// An optional description for the launch.
         public let description: String?
         /// An array of structures that contains the feature and variations that are to be used for the launch.
@@ -3275,6 +3389,18 @@ extension Evidently {
             self.project = project
             self.randomizationSalt = randomizationSalt
             self.scheduledSplitsConfig = scheduledSplitsConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.groups, forKey: .groups)
+            request.encodePath(self.launch, key: "launch")
+            try container.encodeIfPresent(self.metricMonitors, forKey: .metricMonitors)
+            request.encodePath(self.project, key: "project")
+            try container.encodeIfPresent(self.randomizationSalt, forKey: .randomizationSalt)
+            try container.encodeIfPresent(self.scheduledSplitsConfig, forKey: .scheduledSplitsConfig)
         }
 
         public func validate(name: String) throws {
@@ -3322,10 +3448,6 @@ extension Evidently {
     }
 
     public struct UpdateProjectDataDeliveryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// A structure containing the CloudWatch Logs log group where you want to store evaluation events.
         public let cloudWatchLogs: CloudWatchLogsDestinationConfig?
         /// The name or ARN of the project that you want to modify the data storage options for.
@@ -3337,6 +3459,14 @@ extension Evidently {
             self.cloudWatchLogs = cloudWatchLogs
             self.project = project
             self.s3Destination = s3Destination
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.cloudWatchLogs, forKey: .cloudWatchLogs)
+            request.encodePath(self.project, key: "project")
+            try container.encodeIfPresent(self.s3Destination, forKey: .s3Destination)
         }
 
         public func validate(name: String) throws {
@@ -3366,10 +3496,6 @@ extension Evidently {
     }
 
     public struct UpdateProjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "project", location: .uri("project"))
-        ]
-
         /// Use this parameter if the project will use client-side evaluation powered by AppConfig. Client-side evaluation allows your application to assign variations to user sessions locally instead of by calling the EvaluateFeature operation. This  mitigates the latency and availability risks that come with an API call. allows you to This parameter is a structure that contains information about the AppConfig application that will be used for client-side evaluation.
         public let appConfigResource: ProjectAppConfigResourceConfig?
         /// An optional description of the project.
@@ -3381,6 +3507,14 @@ extension Evidently {
             self.appConfigResource = appConfigResource
             self.description = description
             self.project = project
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.appConfigResource, forKey: .appConfigResource)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.project, key: "project")
         }
 
         public func validate(name: String) throws {

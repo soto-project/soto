@@ -117,10 +117,6 @@ extension CodeGuruProfiler {
     // MARK: Shapes
 
     public struct AddNotificationChannelsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName"))
-        ]
-
         /// One or 2 channels to report to when anomalies are detected.
         public let channels: [Channel]
         /// The name of the profiling group that we are setting up notifications for.
@@ -129,6 +125,13 @@ extension CodeGuruProfiler {
         public init(channels: [Channel], profilingGroupName: String) {
             self.channels = channels
             self.profilingGroupName = profilingGroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.channels, forKey: .channels)
+            request.encodePath(self.profilingGroupName, key: "profilingGroupName")
         }
 
         public func validate(name: String) throws {
@@ -261,14 +264,6 @@ extension CodeGuruProfiler {
     }
 
     public struct BatchGetFrameMetricDataRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "_endTime", location: .querystring("endTime")),
-            AWSMemberEncoding(label: "period", location: .querystring("period")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName")),
-            AWSMemberEncoding(label: "_startTime", location: .querystring("startTime")),
-            AWSMemberEncoding(label: "targetResolution", location: .querystring("targetResolution"))
-        ]
-
         ///  The end time of the time period for the returned time series values.  This is specified  using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1  millisecond past June 1, 2020 1:15:02 PM UTC.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var endTime: Date?
@@ -291,6 +286,17 @@ extension CodeGuruProfiler {
             self.profilingGroupName = profilingGroupName
             self.startTime = startTime
             self.targetResolution = targetResolution
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self._endTime, key: "endTime")
+            try container.encodeIfPresent(self.frameMetrics, forKey: .frameMetrics)
+            request.encodeQuery(self.period, key: "period")
+            request.encodePath(self.profilingGroupName, key: "profilingGroupName")
+            request.encodeQuery(self._startTime, key: "startTime")
+            request.encodeQuery(self.targetResolution, key: "targetResolution")
         }
 
         public func validate(name: String) throws {
@@ -369,10 +375,6 @@ extension CodeGuruProfiler {
     }
 
     public struct ConfigureAgentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName"))
-        ]
-
         ///  A universally unique identifier (UUID) for a profiling instance. For example, if the profiling instance is an Amazon EC2 instance, it is the instance ID. If it is an AWS Fargate container, it is the container's task ID.
         public let fleetInstanceId: String?
         ///  Metadata captured about the compute platform the agent is running on. It includes information about sampling and reporting. The valid fields are:    COMPUTE_PLATFORM - The compute platform on which the agent is running     AGENT_ID - The ID for an agent instance.     AWS_REQUEST_ID - The AWS request ID of a Lambda invocation.     EXECUTION_ENVIRONMENT - The execution environment a Lambda function is running on.     LAMBDA_FUNCTION_ARN - The Amazon Resource Name (ARN) that is used to invoke a Lambda function.     LAMBDA_MEMORY_LIMIT_IN_MB - The memory allocated to a Lambda function.     LAMBDA_REMAINING_TIME_IN_MILLISECONDS - The time in milliseconds before execution of a Lambda function times out.     LAMBDA_TIME_GAP_BETWEEN_INVOKES_IN_MILLISECONDS - The time in milliseconds between two invocations of a Lambda function.     LAMBDA_PREVIOUS_EXECUTION_TIME_IN_MILLISECONDS - The time in milliseconds for the previous Lambda invocation.
@@ -384,6 +386,14 @@ extension CodeGuruProfiler {
             self.fleetInstanceId = fleetInstanceId
             self.metadata = metadata
             self.profilingGroupName = profilingGroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.fleetInstanceId, forKey: .fleetInstanceId)
+            try container.encodeIfPresent(self.metadata, forKey: .metadata)
+            request.encodePath(self.profilingGroupName, key: "profilingGroupName")
         }
 
         public func validate(name: String) throws {
@@ -409,18 +419,14 @@ extension CodeGuruProfiler {
         }
 
         public init(from decoder: Decoder) throws {
-            self.configuration = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.configuration = try container.decode(AgentConfiguration.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateProfilingGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken"))
-        ]
-
         ///  Specifies whether profiling is enabled or disabled for the created profiling group.
         public let agentOrchestrationConfig: AgentOrchestrationConfig?
         ///  Amazon CodeGuru Profiler uses this universally unique identifier (UUID) to prevent the accidental creation of duplicate profiling groups if there are failures and retries.
@@ -438,6 +444,16 @@ extension CodeGuruProfiler {
             self.computePlatform = computePlatform
             self.profilingGroupName = profilingGroupName
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.agentOrchestrationConfig, forKey: .agentOrchestrationConfig)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            try container.encodeIfPresent(self.computePlatform, forKey: .computePlatform)
+            try container.encode(self.profilingGroupName, forKey: .profilingGroupName)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -466,23 +482,25 @@ extension CodeGuruProfiler {
         }
 
         public init(from decoder: Decoder) throws {
-            self.profilingGroup = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.profilingGroup = try container.decode(ProfilingGroupDescription.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteProfilingGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName"))
-        ]
-
         /// The name of the profiling group to delete.
         public let profilingGroupName: String
 
         public init(profilingGroupName: String) {
             self.profilingGroupName = profilingGroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.profilingGroupName, key: "profilingGroupName")
         }
 
         public func validate(name: String) throws {
@@ -499,15 +517,17 @@ extension CodeGuruProfiler {
     }
 
     public struct DescribeProfilingGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName"))
-        ]
-
         ///  The name of the profiling group to get information about.
         public let profilingGroupName: String
 
         public init(profilingGroupName: String) {
             self.profilingGroupName = profilingGroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.profilingGroupName, key: "profilingGroupName")
         }
 
         public func validate(name: String) throws {
@@ -528,8 +548,8 @@ extension CodeGuruProfiler {
         }
 
         public init(from decoder: Decoder) throws {
-            self.profilingGroup = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.profilingGroup = try container.decode(ProfilingGroupDescription.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -604,12 +624,6 @@ extension CodeGuruProfiler {
     }
 
     public struct GetFindingsReportAccountSummaryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dailyReportsOnly", location: .querystring("dailyReportsOnly")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// A Boolean value indicating whether to only return reports from daily profiles. If set  to True, only analysis data from daily profiles is returned. If set to False,  analysis data is returned from smaller time windows (for example, one hour).
         public let dailyReportsOnly: Bool?
         /// The maximum number of results returned by  GetFindingsReportAccountSummary in paginated output.  When this parameter is used, GetFindingsReportAccountSummary only returns maxResults  results in a single page along with a nextToken response element. The remaining results of the initial  request can be seen by sending another GetFindingsReportAccountSummary request with the returned  nextToken value.
@@ -621,6 +635,14 @@ extension CodeGuruProfiler {
             self.dailyReportsOnly = dailyReportsOnly
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.dailyReportsOnly, key: "dailyReportsOnly")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -652,15 +674,17 @@ extension CodeGuruProfiler {
     }
 
     public struct GetNotificationConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName"))
-        ]
-
         /// The name of the profiling group we want to get the notification configuration for.
         public let profilingGroupName: String
 
         public init(profilingGroupName: String) {
             self.profilingGroupName = profilingGroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.profilingGroupName, key: "profilingGroupName")
         }
 
         public func validate(name: String) throws {
@@ -686,15 +710,17 @@ extension CodeGuruProfiler {
     }
 
     public struct GetPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName"))
-        ]
-
         /// The name of the profiling group.
         public let profilingGroupName: String
 
         public init(profilingGroupName: String) {
             self.profilingGroupName = profilingGroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.profilingGroupName, key: "profilingGroupName")
         }
 
         public func validate(name: String) throws {
@@ -724,15 +750,6 @@ extension CodeGuruProfiler {
     }
 
     public struct GetProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accept", location: .header("Accept")),
-            AWSMemberEncoding(label: "_endTime", location: .querystring("endTime")),
-            AWSMemberEncoding(label: "maxDepth", location: .querystring("maxDepth")),
-            AWSMemberEncoding(label: "period", location: .querystring("period")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName")),
-            AWSMemberEncoding(label: "_startTime", location: .querystring("startTime"))
-        ]
-
         ///  The format of the returned profiling data. The format maps to the  Accept and Content-Type headers of the  HTTP request. You can specify one of the following:  or the default .      application/json — standard JSON format      application/x-amzn-ion — the Amazon Ion data format. For more information,  see Amazon Ion.
         public let accept: String?
         ///  The end time of the requested profile. Specify using  the ISO 8601 format. For example,  2020-06-01T13:15:02.001Z  represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.   If you specify endTime, then you must also specify period  or startTime, but not both.
@@ -755,6 +772,17 @@ extension CodeGuruProfiler {
             self.period = period
             self.profilingGroupName = profilingGroupName
             self.startTime = startTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accept, key: "Accept")
+            request.encodeQuery(self._endTime, key: "endTime")
+            request.encodeQuery(self.maxDepth, key: "maxDepth")
+            request.encodeQuery(self.period, key: "period")
+            request.encodePath(self.profilingGroupName, key: "profilingGroupName")
+            request.encodeQuery(self._startTime, key: "startTime")
         }
 
         public func validate(name: String) throws {
@@ -787,23 +815,16 @@ extension CodeGuruProfiler {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.contentEncoding = try response.decodeIfPresent(String.self, forHeader: "Content-Encoding")
-            self.contentType = try response.decode(String.self, forHeader: "Content-Type")
-            self.profile = response.decodePayload()
-
+            let container = try decoder.singleValueContainer()
+            self.contentEncoding = try response.decodeHeaderIfPresent(String.self, key: "Content-Encoding")
+            self.contentType = try response.decodeHeader(String.self, key: "Content-Type")
+            self.profile = try container.decode(AWSHTTPBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetRecommendationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "_endTime", location: .querystring("endTime")),
-            AWSMemberEncoding(label: "locale", location: .querystring("locale")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName")),
-            AWSMemberEncoding(label: "_startTime", location: .querystring("startTime"))
-        ]
-
         ///  The start time of the profile to get analysis data about. You must specify startTime and endTime.  This is specified  using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1  millisecond past June 1, 2020 1:15:02 PM UTC.
         @CustomCoding<ISO8601DateCoder>
         public var endTime: Date
@@ -820,6 +841,15 @@ extension CodeGuruProfiler {
             self.locale = locale
             self.profilingGroupName = profilingGroupName
             self.startTime = startTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self._endTime, key: "endTime")
+            request.encodeQuery(self.locale, key: "locale")
+            request.encodePath(self.profilingGroupName, key: "profilingGroupName")
+            request.encodeQuery(self._startTime, key: "startTime")
         }
 
         public func validate(name: String) throws {
@@ -863,15 +893,6 @@ extension CodeGuruProfiler {
     }
 
     public struct ListFindingsReportsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dailyReportsOnly", location: .querystring("dailyReportsOnly")),
-            AWSMemberEncoding(label: "_endTime", location: .querystring("endTime")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName")),
-            AWSMemberEncoding(label: "_startTime", location: .querystring("startTime"))
-        ]
-
         /// A Boolean value indicating whether to only return reports from daily profiles. If set  to True, only analysis data from daily profiles is returned. If set to False,  analysis data is returned from smaller time windows (for example, one hour).
         public let dailyReportsOnly: Bool?
         ///  The end time of the profile to get analysis data about. You must specify startTime and endTime.  This is specified  using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1  millisecond past June 1, 2020 1:15:02 PM UTC.
@@ -894,6 +915,17 @@ extension CodeGuruProfiler {
             self.nextToken = nextToken
             self.profilingGroupName = profilingGroupName
             self.startTime = startTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.dailyReportsOnly, key: "dailyReportsOnly")
+            request.encodeQuery(self._endTime, key: "endTime")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.profilingGroupName, key: "profilingGroupName")
+            request.encodeQuery(self._startTime, key: "startTime")
         }
 
         public func validate(name: String) throws {
@@ -928,16 +960,6 @@ extension CodeGuruProfiler {
     }
 
     public struct ListProfileTimesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "_endTime", location: .querystring("endTime")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "orderBy", location: .querystring("orderBy")),
-            AWSMemberEncoding(label: "period", location: .querystring("period")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName")),
-            AWSMemberEncoding(label: "_startTime", location: .querystring("startTime"))
-        ]
-
         /// The end time of the time range from which to list the profiles.
         @CustomCoding<ISO8601DateCoder>
         public var endTime: Date
@@ -963,6 +985,18 @@ extension CodeGuruProfiler {
             self.period = period
             self.profilingGroupName = profilingGroupName
             self.startTime = startTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self._endTime, key: "endTime")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.orderBy, key: "orderBy")
+            request.encodeQuery(self.period, key: "period")
+            request.encodePath(self.profilingGroupName, key: "profilingGroupName")
+            request.encodeQuery(self._startTime, key: "startTime")
         }
 
         public func validate(name: String) throws {
@@ -997,12 +1031,6 @@ extension CodeGuruProfiler {
     }
 
     public struct ListProfilingGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "includeDescription", location: .querystring("includeDescription")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// A Boolean value indicating whether to include a description. If true,  then a list of   ProfilingGroupDescription objects  that contain detailed information about profiling groups is returned. If false, then  a list of profiling group names is returned.
         public let includeDescription: Bool?
         /// The maximum number of profiling groups results returned by ListProfilingGroups  in paginated output. When this parameter is used, ListProfilingGroups only returns  maxResults results in a single page along with a nextToken response  element. The remaining results of the initial request  can be seen by sending another ListProfilingGroups request with the returned  nextToken value.
@@ -1014,6 +1042,14 @@ extension CodeGuruProfiler {
             self.includeDescription = includeDescription
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.includeDescription, key: "includeDescription")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1049,15 +1085,17 @@ extension CodeGuruProfiler {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         ///  The Amazon Resource Name (ARN) of the resource that contains the tags to return.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1168,15 +1206,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct PostAgentProfileRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "agentProfile"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "profileToken", location: .querystring("profileToken")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName"))
-        ]
-
+    public struct PostAgentProfileRequest: AWSEncodableShape {
         ///  The submitted profiling data.
         public let agentProfile: AWSHTTPBody
         ///  The format of the submitted profiling data. The format maps to the  Accept and Content-Type headers of the  HTTP request. You can specify one of the following:  or the default .      application/json — standard JSON format      application/x-amzn-ion — the Amazon Ion data format. For more information,  see Amazon Ion.
@@ -1191,6 +1221,15 @@ extension CodeGuruProfiler {
             self.contentType = contentType
             self.profileToken = profileToken
             self.profilingGroupName = profilingGroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.agentProfile)
+            request.encodeHeader(self.contentType, key: "Content-Type")
+            request.encodeQuery(self.profileToken, key: "profileToken")
+            request.encodePath(self.profilingGroupName, key: "profilingGroupName")
         }
 
         public func validate(name: String) throws {
@@ -1290,11 +1329,6 @@ extension CodeGuruProfiler {
     }
 
     public struct PutPermissionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "actionGroup", location: .uri("actionGroup")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName"))
-        ]
-
         ///  Specifies an action group that contains permissions to add to  a profiling group resource. One action group is supported, agentPermissions, which  grants permission to perform actions required by the profiling agent, ConfigureAgent  and PostAgentProfile permissions.
         public let actionGroup: ActionGroup
         ///  A list ARNs for the roles and users you want to grant access to the profiling group.  Wildcards are not are supported in the ARNs.
@@ -1309,6 +1343,15 @@ extension CodeGuruProfiler {
             self.principals = principals
             self.profilingGroupName = profilingGroupName
             self.revisionId = revisionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.actionGroup, key: "actionGroup")
+            try container.encode(self.principals, forKey: .principals)
+            request.encodePath(self.profilingGroupName, key: "profilingGroupName")
+            try container.encodeIfPresent(self.revisionId, forKey: .revisionId)
         }
 
         public func validate(name: String) throws {
@@ -1379,11 +1422,6 @@ extension CodeGuruProfiler {
     }
 
     public struct RemoveNotificationChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelId", location: .uri("channelId")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName"))
-        ]
-
         /// The id of the channel that we want to stop receiving notifications.
         public let channelId: String
         /// The name of the profiling group we want to change notification configuration for.
@@ -1392,6 +1430,13 @@ extension CodeGuruProfiler {
         public init(channelId: String, profilingGroupName: String) {
             self.channelId = channelId
             self.profilingGroupName = profilingGroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelId, key: "channelId")
+            request.encodePath(self.profilingGroupName, key: "profilingGroupName")
         }
 
         public func validate(name: String) throws {
@@ -1418,12 +1463,6 @@ extension CodeGuruProfiler {
     }
 
     public struct RemovePermissionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "actionGroup", location: .uri("actionGroup")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName")),
-            AWSMemberEncoding(label: "revisionId", location: .querystring("revisionId"))
-        ]
-
         ///  Specifies an action group that contains the permissions to remove from  a profiling group's resource-based policy. One action group is supported, agentPermissions, which  grants ConfigureAgent and PostAgentProfile permissions.
         public let actionGroup: ActionGroup
         /// The name of the profiling group.
@@ -1435,6 +1474,14 @@ extension CodeGuruProfiler {
             self.actionGroup = actionGroup
             self.profilingGroupName = profilingGroupName
             self.revisionId = revisionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.actionGroup, key: "actionGroup")
+            request.encodePath(self.profilingGroupName, key: "profilingGroupName")
+            request.encodeQuery(self.revisionId, key: "revisionId")
         }
 
         public func validate(name: String) throws {
@@ -1465,11 +1512,6 @@ extension CodeGuruProfiler {
     }
 
     public struct SubmitFeedbackRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "anomalyInstanceId", location: .uri("anomalyInstanceId")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName"))
-        ]
-
         /// The universally unique identifier (UUID) of the   AnomalyInstance object  that is included in the analysis data.
         public let anomalyInstanceId: String
         /// Optional feedback about this anomaly.
@@ -1484,6 +1526,15 @@ extension CodeGuruProfiler {
             self.comment = comment
             self.profilingGroupName = profilingGroupName
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.anomalyInstanceId, key: "anomalyInstanceId")
+            try container.encodeIfPresent(self.comment, forKey: .comment)
+            request.encodePath(self.profilingGroupName, key: "profilingGroupName")
+            try container.encode(self.type, forKey: .type)
         }
 
         public func validate(name: String) throws {
@@ -1504,10 +1555,6 @@ extension CodeGuruProfiler {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         ///  The Amazon Resource Name (ARN) of the resource that the tags are added to.
         public let resourceArn: String
         ///  The list of tags that are added to the specified resource.
@@ -1516,6 +1563,13 @@ extension CodeGuruProfiler {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1542,11 +1596,6 @@ extension CodeGuruProfiler {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         ///  The Amazon Resource Name (ARN) of the resource that contains the tags to remove.
         public let resourceArn: String
         ///  A list of tag keys. Existing tags of resources with keys in this list are removed from  the specified resource.
@@ -1557,6 +1606,13 @@ extension CodeGuruProfiler {
             self.tagKeys = tagKeys
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -1565,10 +1621,6 @@ extension CodeGuruProfiler {
     }
 
     public struct UpdateProfilingGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName"))
-        ]
-
         ///  Specifies whether profiling is enabled or disabled for a profiling group.
         public let agentOrchestrationConfig: AgentOrchestrationConfig
         /// The name of the profiling group to update.
@@ -1577,6 +1629,13 @@ extension CodeGuruProfiler {
         public init(agentOrchestrationConfig: AgentOrchestrationConfig, profilingGroupName: String) {
             self.agentOrchestrationConfig = agentOrchestrationConfig
             self.profilingGroupName = profilingGroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.agentOrchestrationConfig, forKey: .agentOrchestrationConfig)
+            request.encodePath(self.profilingGroupName, key: "profilingGroupName")
         }
 
         public func validate(name: String) throws {
@@ -1599,8 +1658,8 @@ extension CodeGuruProfiler {
         }
 
         public init(from decoder: Decoder) throws {
-            self.profilingGroup = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.profilingGroup = try container.decode(ProfilingGroupDescription.self)
         }
 
         private enum CodingKeys: CodingKey {}

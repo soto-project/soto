@@ -357,11 +357,6 @@ extension Omics {
     // MARK: Shapes
 
     public struct AbortMultipartReadSetUploadRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sequenceStoreId", location: .uri("sequenceStoreId")),
-            AWSMemberEncoding(label: "uploadId", location: .uri("uploadId"))
-        ]
-
         ///  The sequence store ID for the store involved in the multipart upload.
         public let sequenceStoreId: String
         ///  The ID for the multipart upload.
@@ -370,6 +365,13 @@ extension Omics {
         public init(sequenceStoreId: String, uploadId: String) {
             self.sequenceStoreId = sequenceStoreId
             self.uploadId = uploadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.sequenceStoreId, key: "sequenceStoreId")
+            request.encodePath(self.uploadId, key: "uploadId")
         }
 
         public func validate(name: String) throws {
@@ -601,10 +603,6 @@ extension Omics {
     }
 
     public struct BatchDeleteReadSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sequenceStoreId", location: .uri("sequenceStoreId"))
-        ]
-
         /// The read sets' IDs.
         public let ids: [String]
         /// The read sets' sequence store ID.
@@ -613,6 +611,13 @@ extension Omics {
         public init(ids: [String], sequenceStoreId: String) {
             self.ids = ids
             self.sequenceStoreId = sequenceStoreId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.ids, forKey: .ids)
+            request.encodePath(self.sequenceStoreId, key: "sequenceStoreId")
         }
 
         public func validate(name: String) throws {
@@ -647,15 +652,17 @@ extension Omics {
     }
 
     public struct CancelAnnotationImportRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
-        ]
-
         /// The job's ID.
         public let jobId: String
 
         public init(jobId: String) {
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "jobId")
         }
 
         public func validate(name: String) throws {
@@ -670,15 +677,17 @@ extension Omics {
     }
 
     public struct CancelRunRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The run's ID.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -691,15 +700,17 @@ extension Omics {
     }
 
     public struct CancelVariantImportRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
-        ]
-
         /// The job's ID.
         public let jobId: String
 
         public init(jobId: String) {
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "jobId")
         }
 
         public func validate(name: String) throws {
@@ -714,11 +725,6 @@ extension Omics {
     }
 
     public struct CompleteMultipartReadSetUploadRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sequenceStoreId", location: .uri("sequenceStoreId")),
-            AWSMemberEncoding(label: "uploadId", location: .uri("uploadId"))
-        ]
-
         ///  The individual uploads or parts of a multipart upload.
         public let parts: [CompleteReadSetUploadPartListItem]
         ///  The sequence store ID for the store involved in the multipart upload.
@@ -730,6 +736,14 @@ extension Omics {
             self.parts = parts
             self.sequenceStoreId = sequenceStoreId
             self.uploadId = uploadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.parts, forKey: .parts)
+            request.encodePath(self.sequenceStoreId, key: "sequenceStoreId")
+            request.encodePath(self.uploadId, key: "uploadId")
         }
 
         public func validate(name: String) throws {
@@ -867,10 +881,6 @@ extension Omics {
     }
 
     public struct CreateMultipartReadSetUploadRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sequenceStoreId", location: .uri("sequenceStoreId"))
-        ]
-
         ///  An idempotency token that can be used to avoid triggering multiple multipart uploads.
         public let clientToken: String?
         ///  The description of the read set.
@@ -903,6 +913,21 @@ extension Omics {
             self.sourceFileType = sourceFileType
             self.subjectId = subjectId
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.generatedFrom, forKey: .generatedFrom)
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.referenceArn, forKey: .referenceArn)
+            try container.encode(self.sampleId, forKey: .sampleId)
+            request.encodePath(self.sequenceStoreId, key: "sequenceStoreId")
+            try container.encode(self.sourceFileType, forKey: .sourceFileType)
+            try container.encode(self.subjectId, forKey: .subjectId)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1421,11 +1446,6 @@ extension Omics {
     }
 
     public struct DeleteAnnotationStoreRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "force", location: .querystring("force")),
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// Whether to force deletion.
         public let force: Bool?
         /// The store's name.
@@ -1434,6 +1454,13 @@ extension Omics {
         public init(force: Bool? = nil, name: String) {
             self.force = force
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.force, key: "force")
+            request.encodePath(self.name, key: "name")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1453,11 +1480,6 @@ extension Omics {
     }
 
     public struct DeleteReferenceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "referenceStoreId", location: .uri("referenceStoreId"))
-        ]
-
         /// The reference's ID.
         public let id: String
         /// The reference's store ID.
@@ -1466,6 +1488,13 @@ extension Omics {
         public init(id: String, referenceStoreId: String) {
             self.id = id
             self.referenceStoreId = referenceStoreId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.referenceStoreId, key: "referenceStoreId")
         }
 
         public func validate(name: String) throws {
@@ -1485,15 +1514,17 @@ extension Omics {
     }
 
     public struct DeleteReferenceStoreRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The store's ID.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -1510,15 +1541,17 @@ extension Omics {
     }
 
     public struct DeleteRunGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The run group's ID.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -1531,15 +1564,17 @@ extension Omics {
     }
 
     public struct DeleteRunRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The run's ID.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -1552,15 +1587,17 @@ extension Omics {
     }
 
     public struct DeleteSequenceStoreRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The sequence store's ID.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -1577,11 +1614,6 @@ extension Omics {
     }
 
     public struct DeleteVariantStoreRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "force", location: .querystring("force")),
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// Whether to force deletion.
         public let force: Bool?
         /// The store's name.
@@ -1590,6 +1622,13 @@ extension Omics {
         public init(force: Bool? = nil, name: String) {
             self.force = force
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.force, key: "force")
+            request.encodePath(self.name, key: "name")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1609,15 +1648,17 @@ extension Omics {
     }
 
     public struct DeleteWorkflowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The workflow's ID.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -1745,15 +1786,17 @@ extension Omics {
     }
 
     public struct GetAnnotationImportRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
-        ]
-
         /// The job's ID.
         public let jobId: String
 
         public init(jobId: String) {
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "jobId")
         }
 
         public func validate(name: String) throws {
@@ -1823,15 +1866,17 @@ extension Omics {
     }
 
     public struct GetAnnotationStoreRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// The store's name.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1905,11 +1950,6 @@ extension Omics {
     }
 
     public struct GetReadSetActivationJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "sequenceStoreId", location: .uri("sequenceStoreId"))
-        ]
-
         /// The job's ID.
         public let id: String
         /// The job's sequence store ID.
@@ -1918,6 +1958,13 @@ extension Omics {
         public init(id: String, sequenceStoreId: String) {
             self.id = id
             self.sequenceStoreId = sequenceStoreId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.sequenceStoreId, key: "sequenceStoreId")
         }
 
         public func validate(name: String) throws {
@@ -1970,11 +2017,6 @@ extension Omics {
     }
 
     public struct GetReadSetExportJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "sequenceStoreId", location: .uri("sequenceStoreId"))
-        ]
-
         /// The job's ID.
         public let id: String
         /// The job's sequence store ID.
@@ -1983,6 +2025,13 @@ extension Omics {
         public init(id: String, sequenceStoreId: String) {
             self.id = id
             self.sequenceStoreId = sequenceStoreId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.sequenceStoreId, key: "sequenceStoreId")
         }
 
         public func validate(name: String) throws {
@@ -2039,11 +2088,6 @@ extension Omics {
     }
 
     public struct GetReadSetImportJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "sequenceStoreId", location: .uri("sequenceStoreId"))
-        ]
-
         /// The job's ID.
         public let id: String
         /// The job's sequence store ID.
@@ -2052,6 +2096,13 @@ extension Omics {
         public init(id: String, sequenceStoreId: String) {
             self.id = id
             self.sequenceStoreId = sequenceStoreId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.sequenceStoreId, key: "sequenceStoreId")
         }
 
         public func validate(name: String) throws {
@@ -2108,11 +2159,6 @@ extension Omics {
     }
 
     public struct GetReadSetMetadataRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "sequenceStoreId", location: .uri("sequenceStoreId"))
-        ]
-
         /// The read set's ID.
         public let id: String
         /// The read set's sequence store ID.
@@ -2121,6 +2167,13 @@ extension Omics {
         public init(id: String, sequenceStoreId: String) {
             self.id = id
             self.sequenceStoreId = sequenceStoreId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.sequenceStoreId, key: "sequenceStoreId")
         }
 
         public func validate(name: String) throws {
@@ -2201,13 +2254,6 @@ extension Omics {
     }
 
     public struct GetReadSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "file", location: .querystring("file")),
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "partNumber", location: .querystring("partNumber")),
-            AWSMemberEncoding(label: "sequenceStoreId", location: .uri("sequenceStoreId"))
-        ]
-
         /// The file to retrieve.
         public let file: ReadSetFile?
         /// The read set's ID.
@@ -2222,6 +2268,15 @@ extension Omics {
             self.id = id
             self.partNumber = partNumber
             self.sequenceStoreId = sequenceStoreId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.file, key: "file")
+            request.encodePath(self.id, key: "id")
+            request.encodeQuery(self.partNumber, key: "partNumber")
+            request.encodePath(self.sequenceStoreId, key: "sequenceStoreId")
         }
 
         public func validate(name: String) throws {
@@ -2246,20 +2301,14 @@ extension Omics {
         }
 
         public init(from decoder: Decoder) throws {
-            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.payload = response.decodePayload()
-
+            let container = try decoder.singleValueContainer()
+            self.payload = try container.decode(AWSHTTPBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetReferenceImportJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "referenceStoreId", location: .uri("referenceStoreId"))
-        ]
-
         /// The job's ID.
         public let id: String
         /// The job's reference store ID.
@@ -2268,6 +2317,13 @@ extension Omics {
         public init(id: String, referenceStoreId: String) {
             self.id = id
             self.referenceStoreId = referenceStoreId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.referenceStoreId, key: "referenceStoreId")
         }
 
         public func validate(name: String) throws {
@@ -2324,11 +2380,6 @@ extension Omics {
     }
 
     public struct GetReferenceMetadataRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "referenceStoreId", location: .uri("referenceStoreId"))
-        ]
-
         /// The reference's ID.
         public let id: String
         /// The reference's reference store ID.
@@ -2337,6 +2388,13 @@ extension Omics {
         public init(id: String, referenceStoreId: String) {
             self.id = id
             self.referenceStoreId = referenceStoreId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.referenceStoreId, key: "referenceStoreId")
         }
 
         public func validate(name: String) throws {
@@ -2401,14 +2459,6 @@ extension Omics {
     }
 
     public struct GetReferenceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "file", location: .querystring("file")),
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "partNumber", location: .querystring("partNumber")),
-            AWSMemberEncoding(label: "range", location: .header("Range")),
-            AWSMemberEncoding(label: "referenceStoreId", location: .uri("referenceStoreId"))
-        ]
-
         /// The file to retrieve.
         public let file: ReferenceFile?
         /// The reference's ID.
@@ -2426,6 +2476,16 @@ extension Omics {
             self.partNumber = partNumber
             self.range = range
             self.referenceStoreId = referenceStoreId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.file, key: "file")
+            request.encodePath(self.id, key: "id")
+            request.encodeQuery(self.partNumber, key: "partNumber")
+            request.encodeHeader(self.range, key: "Range")
+            request.encodePath(self.referenceStoreId, key: "referenceStoreId")
         }
 
         public func validate(name: String) throws {
@@ -2453,24 +2513,25 @@ extension Omics {
         }
 
         public init(from decoder: Decoder) throws {
-            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.payload = response.decodePayload()
-
+            let container = try decoder.singleValueContainer()
+            self.payload = try container.decode(AWSHTTPBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetReferenceStoreRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The store's ID.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -2516,15 +2577,17 @@ extension Omics {
     }
 
     public struct GetRunGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The group's ID.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -2583,11 +2646,6 @@ extension Omics {
     }
 
     public struct GetRunRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "export", location: .querystring("export")),
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The run's export format.
         public let export: [RunExport]?
         /// The run's ID.
@@ -2596,6 +2654,13 @@ extension Omics {
         public init(export: [RunExport]? = nil, id: String) {
             self.export = export
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.export, key: "export")
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -2717,11 +2782,6 @@ extension Omics {
     }
 
     public struct GetRunTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
-        ]
-
         /// The task's ID.
         public let id: String
         /// The task's ID.
@@ -2730,6 +2790,13 @@ extension Omics {
         public init(id: String, taskId: String) {
             self.id = id
             self.taskId = taskId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.taskId, key: "taskId")
         }
 
         public func validate(name: String) throws {
@@ -2801,15 +2868,17 @@ extension Omics {
     }
 
     public struct GetSequenceStoreRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The store's ID.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -2859,15 +2928,17 @@ extension Omics {
     }
 
     public struct GetVariantImportRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
-        ]
-
         /// The job's ID.
         public let jobId: String
 
         public init(jobId: String) {
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "jobId")
         }
 
         public func validate(name: String) throws {
@@ -2934,15 +3005,17 @@ extension Omics {
     }
 
     public struct GetVariantStoreRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// The store's name.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3008,12 +3081,6 @@ extension Omics {
     }
 
     public struct GetWorkflowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "export", location: .querystring("export")),
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "type", location: .querystring("type"))
-        ]
-
         /// The export format for the workflow.
         public let export: [WorkflowExport]?
         /// The workflow's ID.
@@ -3025,6 +3092,14 @@ extension Omics {
             self.export = export
             self.id = id
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.export, key: "export")
+            request.encodePath(self.id, key: "id")
+            request.encodeQuery(self.type, key: "type")
         }
 
         public func validate(name: String) throws {
@@ -3327,11 +3402,6 @@ extension Omics {
     }
 
     public struct ListAnnotationImportJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// A filter to apply to the list.
         public let filter: ListAnnotationImportJobsFilter?
         /// IDs of annotation import jobs to retrieve.
@@ -3346,6 +3416,15 @@ extension Omics {
             self.ids = ids
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filter, forKey: .filter)
+            try container.encodeIfPresent(self.ids, forKey: .ids)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3392,11 +3471,6 @@ extension Omics {
     }
 
     public struct ListAnnotationStoresRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// A filter to apply to the list.
         public let filter: ListAnnotationStoresFilter?
         /// IDs of stores to list.
@@ -3411,6 +3485,15 @@ extension Omics {
             self.ids = ids
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filter, forKey: .filter)
+            try container.encodeIfPresent(self.ids, forKey: .ids)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3444,12 +3527,6 @@ extension Omics {
     }
 
     public struct ListMultipartReadSetUploadsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "sequenceStoreId", location: .uri("sequenceStoreId"))
-        ]
-
         ///  The maximum number of multipart uploads returned in a page.
         public let maxResults: Int?
         ///  Next token returned in the response of a previous ListMultipartReadSetUploads call. Used to get the next page of results.
@@ -3461,6 +3538,14 @@ extension Omics {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sequenceStoreId = sequenceStoreId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.sequenceStoreId, key: "sequenceStoreId")
         }
 
         public func validate(name: String) throws {
@@ -3493,12 +3578,6 @@ extension Omics {
     }
 
     public struct ListReadSetActivationJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "sequenceStoreId", location: .uri("sequenceStoreId"))
-        ]
-
         /// A filter to apply to the list.
         public let filter: ActivateReadSetFilter?
         /// The maximum number of read set activation jobs to return in one page of results.
@@ -3513,6 +3592,15 @@ extension Omics {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sequenceStoreId = sequenceStoreId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filter, forKey: .filter)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.sequenceStoreId, key: "sequenceStoreId")
         }
 
         public func validate(name: String) throws {
@@ -3547,12 +3635,6 @@ extension Omics {
     }
 
     public struct ListReadSetExportJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "sequenceStoreId", location: .uri("sequenceStoreId"))
-        ]
-
         /// A filter to apply to the list.
         public let filter: ExportReadSetFilter?
         /// The maximum number of jobs to return in one page of results.
@@ -3567,6 +3649,15 @@ extension Omics {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sequenceStoreId = sequenceStoreId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filter, forKey: .filter)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.sequenceStoreId, key: "sequenceStoreId")
         }
 
         public func validate(name: String) throws {
@@ -3601,12 +3692,6 @@ extension Omics {
     }
 
     public struct ListReadSetImportJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "sequenceStoreId", location: .uri("sequenceStoreId"))
-        ]
-
         /// A filter to apply to the list.
         public let filter: ImportReadSetFilter?
         /// The maximum number of jobs to return in one page of results.
@@ -3621,6 +3706,15 @@ extension Omics {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sequenceStoreId = sequenceStoreId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filter, forKey: .filter)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.sequenceStoreId, key: "sequenceStoreId")
         }
 
         public func validate(name: String) throws {
@@ -3655,13 +3749,6 @@ extension Omics {
     }
 
     public struct ListReadSetUploadPartsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "sequenceStoreId", location: .uri("sequenceStoreId")),
-            AWSMemberEncoding(label: "uploadId", location: .uri("uploadId"))
-        ]
-
         ///  Attributes used to filter for a specific subset of read set part uploads.
         public let filter: ReadSetUploadPartListFilter?
         ///  The maximum number of read set upload parts returned in a page.
@@ -3682,6 +3769,17 @@ extension Omics {
             self.partSource = partSource
             self.sequenceStoreId = sequenceStoreId
             self.uploadId = uploadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filter, forKey: .filter)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encode(self.partSource, forKey: .partSource)
+            request.encodePath(self.sequenceStoreId, key: "sequenceStoreId")
+            request.encodePath(self.uploadId, key: "uploadId")
         }
 
         public func validate(name: String) throws {
@@ -3720,12 +3818,6 @@ extension Omics {
     }
 
     public struct ListReadSetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "sequenceStoreId", location: .uri("sequenceStoreId"))
-        ]
-
         /// A filter to apply to the list.
         public let filter: ReadSetFilter?
         /// The maximum number of read sets to return in one page of results.
@@ -3740,6 +3832,15 @@ extension Omics {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sequenceStoreId = sequenceStoreId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filter, forKey: .filter)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.sequenceStoreId, key: "sequenceStoreId")
         }
 
         public func validate(name: String) throws {
@@ -3775,12 +3876,6 @@ extension Omics {
     }
 
     public struct ListReferenceImportJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "referenceStoreId", location: .uri("referenceStoreId"))
-        ]
-
         /// A filter to apply to the list.
         public let filter: ImportReferenceFilter?
         /// The maximum number of jobs to return in one page of results.
@@ -3795,6 +3890,15 @@ extension Omics {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.referenceStoreId = referenceStoreId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filter, forKey: .filter)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.referenceStoreId, key: "referenceStoreId")
         }
 
         public func validate(name: String) throws {
@@ -3829,11 +3933,6 @@ extension Omics {
     }
 
     public struct ListReferenceStoresRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// A filter to apply to the list.
         public let filter: ReferenceStoreFilter?
         /// The maximum number of stores to return in one page of results.
@@ -3845,6 +3944,14 @@ extension Omics {
             self.filter = filter
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filter, forKey: .filter)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3877,12 +3984,6 @@ extension Omics {
     }
 
     public struct ListReferencesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "referenceStoreId", location: .uri("referenceStoreId"))
-        ]
-
         /// A filter to apply to the list.
         public let filter: ReferenceFilter?
         /// The maximum number of references to return in one page of results.
@@ -3897,6 +3998,15 @@ extension Omics {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.referenceStoreId = referenceStoreId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filter, forKey: .filter)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.referenceStoreId, key: "referenceStoreId")
         }
 
         public func validate(name: String) throws {
@@ -3932,12 +4042,6 @@ extension Omics {
     }
 
     public struct ListRunGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "name", location: .querystring("name")),
-            AWSMemberEncoding(label: "startingToken", location: .querystring("startingToken"))
-        ]
-
         /// The maximum number of run groups to return in one page of results.
         public let maxResults: Int?
         /// The run groups' name.
@@ -3949,6 +4053,14 @@ extension Omics {
             self.maxResults = maxResults
             self.name = name
             self.startingToken = startingToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.name, key: "name")
+            request.encodeQuery(self.startingToken, key: "startingToken")
         }
 
         public func validate(name: String) throws {
@@ -3981,13 +4093,6 @@ extension Omics {
     }
 
     public struct ListRunTasksRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "startingToken", location: .querystring("startingToken")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         /// The run's ID.
         public let id: String
         /// The maximum number of run tasks to return in one page of results.
@@ -4002,6 +4107,15 @@ extension Omics {
             self.maxResults = maxResults
             self.startingToken = startingToken
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.startingToken, key: "startingToken")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -4034,14 +4148,6 @@ extension Omics {
     }
 
     public struct ListRunsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "name", location: .querystring("name")),
-            AWSMemberEncoding(label: "runGroupId", location: .querystring("runGroupId")),
-            AWSMemberEncoding(label: "startingToken", location: .querystring("startingToken")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         /// The maximum number of runs to return in one page of results.
         public let maxResults: Int?
         /// Filter the list by run name.
@@ -4059,6 +4165,16 @@ extension Omics {
             self.runGroupId = runGroupId
             self.startingToken = startingToken
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.name, key: "name")
+            request.encodeQuery(self.runGroupId, key: "runGroupId")
+            request.encodeQuery(self.startingToken, key: "startingToken")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -4094,11 +4210,6 @@ extension Omics {
     }
 
     public struct ListSequenceStoresRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// A filter to apply to the list.
         public let filter: SequenceStoreFilter?
         /// The maximum number of stores to return in one page of results.
@@ -4110,6 +4221,14 @@ extension Omics {
             self.filter = filter
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filter, forKey: .filter)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4142,15 +4261,17 @@ extension Omics {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The resource's ARN.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -4193,11 +4314,6 @@ extension Omics {
     }
 
     public struct ListVariantImportJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// A filter to apply to the list.
         public let filter: ListVariantImportJobsFilter?
         /// A list of job IDs.
@@ -4212,6 +4328,15 @@ extension Omics {
             self.ids = ids
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filter, forKey: .filter)
+            try container.encodeIfPresent(self.ids, forKey: .ids)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4258,11 +4383,6 @@ extension Omics {
     }
 
     public struct ListVariantStoresRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// A filter to apply to the list.
         public let filter: ListVariantStoresFilter?
         /// A list of store IDs.
@@ -4277,6 +4397,15 @@ extension Omics {
             self.ids = ids
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filter, forKey: .filter)
+            try container.encodeIfPresent(self.ids, forKey: .ids)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4310,13 +4439,6 @@ extension Omics {
     }
 
     public struct ListWorkflowsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "name", location: .querystring("name")),
-            AWSMemberEncoding(label: "startingToken", location: .querystring("startingToken")),
-            AWSMemberEncoding(label: "type", location: .querystring("type"))
-        ]
-
         /// The maximum number of workflows to return in one page of results.
         public let maxResults: Int?
         /// The workflows' name.
@@ -4331,6 +4453,15 @@ extension Omics {
             self.name = name
             self.startingToken = startingToken
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.name, key: "name")
+            request.encodeQuery(self.startingToken, key: "startingToken")
+            request.encodeQuery(self.type, key: "type")
         }
 
         public func validate(name: String) throws {
@@ -5125,10 +5256,6 @@ extension Omics {
     }
 
     public struct StartReadSetActivationJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sequenceStoreId", location: .uri("sequenceStoreId"))
-        ]
-
         /// To ensure that jobs don't run multiple times, specify a unique token for each job.
         public let clientToken: String?
         /// The read set's sequence store ID.
@@ -5140,6 +5267,14 @@ extension Omics {
             self.clientToken = clientToken
             self.sequenceStoreId = sequenceStoreId
             self.sources = sources
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.sequenceStoreId, key: "sequenceStoreId")
+            try container.encode(self.sources, forKey: .sources)
         }
 
         public func validate(name: String) throws {
@@ -5205,10 +5340,6 @@ extension Omics {
     }
 
     public struct StartReadSetExportJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sequenceStoreId", location: .uri("sequenceStoreId"))
-        ]
-
         /// To ensure that jobs don't run multiple times, specify a unique token for each job.
         public let clientToken: String?
         /// A location for exported files in Amazon S3.
@@ -5226,6 +5357,16 @@ extension Omics {
             self.roleArn = roleArn
             self.sequenceStoreId = sequenceStoreId
             self.sources = sources
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.destination, forKey: .destination)
+            try container.encode(self.roleArn, forKey: .roleArn)
+            request.encodePath(self.sequenceStoreId, key: "sequenceStoreId")
+            try container.encode(self.sources, forKey: .sources)
         }
 
         public func validate(name: String) throws {
@@ -5282,10 +5423,6 @@ extension Omics {
     }
 
     public struct StartReadSetImportJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sequenceStoreId", location: .uri("sequenceStoreId"))
-        ]
-
         /// To ensure that jobs don't run multiple times, specify a unique token for each job.
         public let clientToken: String?
         /// A service role for the job.
@@ -5300,6 +5437,15 @@ extension Omics {
             self.roleArn = roleArn
             self.sequenceStoreId = sequenceStoreId
             self.sources = sources
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.roleArn, forKey: .roleArn)
+            request.encodePath(self.sequenceStoreId, key: "sequenceStoreId")
+            try container.encode(self.sources, forKey: .sources)
         }
 
         public func validate(name: String) throws {
@@ -5426,10 +5572,6 @@ extension Omics {
     }
 
     public struct StartReferenceImportJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "referenceStoreId", location: .uri("referenceStoreId"))
-        ]
-
         /// To ensure that jobs don't run multiple times, specify a unique token for each job.
         public let clientToken: String?
         /// The job's reference store ID.
@@ -5444,6 +5586,15 @@ extension Omics {
             self.referenceStoreId = referenceStoreId
             self.roleArn = roleArn
             self.sources = sources
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.referenceStoreId, key: "referenceStoreId")
+            try container.encode(self.roleArn, forKey: .roleArn)
+            try container.encode(self.sources, forKey: .sources)
         }
 
         public func validate(name: String) throws {
@@ -5708,10 +5859,6 @@ extension Omics {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The resource's ARN.
         public let resourceArn: String
         /// Tags for the resource.
@@ -5720,6 +5867,13 @@ extension Omics {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -5836,11 +5990,6 @@ extension Omics {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The resource's ARN.
         public let resourceArn: String
         /// Keys of tags to remove.
@@ -5849,6 +5998,13 @@ extension Omics {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -5870,10 +6026,6 @@ extension Omics {
     }
 
     public struct UpdateAnnotationStoreRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// A description for the store.
         public let description: String?
         /// A name for the store.
@@ -5882,6 +6034,13 @@ extension Omics {
         public init(description: String? = nil, name: String) {
             self.description = description
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -5941,10 +6100,6 @@ extension Omics {
     }
 
     public struct UpdateRunGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The group's ID.
         public let id: String
         /// The maximum number of CPUs to use.
@@ -5967,6 +6122,17 @@ extension Omics {
             self.name = name
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            try container.encodeIfPresent(self.maxCpus, forKey: .maxCpus)
+            try container.encodeIfPresent(self.maxDuration, forKey: .maxDuration)
+            try container.encodeIfPresent(self.maxGpus, forKey: .maxGpus)
+            try container.encodeIfPresent(self.maxRuns, forKey: .maxRuns)
+            try container.encodeIfPresent(self.name, forKey: .name)
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.id, name: "id", parent: name, max: 18)
             try self.validate(self.id, name: "id", parent: name, min: 1)
@@ -5986,10 +6152,6 @@ extension Omics {
     }
 
     public struct UpdateVariantStoreRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// A description for the store.
         public let description: String?
         /// A name for the store.
@@ -5998,6 +6160,13 @@ extension Omics {
         public init(description: String? = nil, name: String) {
             self.description = description
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -6049,10 +6218,6 @@ extension Omics {
     }
 
     public struct UpdateWorkflowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// A description for the workflow.
         public let description: String?
         /// The workflow's ID.
@@ -6064,6 +6229,14 @@ extension Omics {
             self.description = description
             self.id = id
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.id, key: "id")
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -6084,17 +6257,8 @@ extension Omics {
         }
     }
 
-    public struct UploadReadSetPartRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "payload"
+    public struct UploadReadSetPartRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.allowStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "partNumber", location: .querystring("partNumber")),
-            AWSMemberEncoding(label: "partSource", location: .querystring("partSource")),
-            AWSMemberEncoding(label: "sequenceStoreId", location: .uri("sequenceStoreId")),
-            AWSMemberEncoding(label: "uploadId", location: .uri("uploadId"))
-        ]
-
         ///  The number of the part being uploaded.
         public let partNumber: Int
         ///  The source file for an upload part.
@@ -6112,6 +6276,16 @@ extension Omics {
             self.payload = payload
             self.sequenceStoreId = sequenceStoreId
             self.uploadId = uploadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeQuery(self.partNumber, key: "partNumber")
+            request.encodeQuery(self.partSource, key: "partSource")
+            try container.encode(self.payload)
+            request.encodePath(self.sequenceStoreId, key: "sequenceStoreId")
+            request.encodePath(self.uploadId, key: "uploadId")
         }
 
         public func validate(name: String) throws {

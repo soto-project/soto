@@ -142,11 +142,6 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct AssociateAttributeGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "application", location: .uri("application")),
-            AWSMemberEncoding(label: "attributeGroup", location: .uri("attributeGroup"))
-        ]
-
         ///  The name, ID, or ARN  of the application.
         public let application: String
         ///  The name, ID, or ARN  of the attribute group  that holds the attributes  to describe the application.
@@ -155,6 +150,13 @@ extension ServiceCatalogAppRegistry {
         public init(application: String, attributeGroup: String) {
             self.application = application
             self.attributeGroup = attributeGroup
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.application, key: "application")
+            request.encodePath(self.attributeGroup, key: "attributeGroup")
         }
 
         public func validate(name: String) throws {
@@ -187,12 +189,6 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct AssociateResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "application", location: .uri("application")),
-            AWSMemberEncoding(label: "resource", location: .uri("resource")),
-            AWSMemberEncoding(label: "resourceType", location: .uri("resourceType"))
-        ]
-
         ///  The name, ID, or ARN  of the application.
         public let application: String
         /// The name or ID of the resource of which the application will be associated.
@@ -204,6 +200,14 @@ extension ServiceCatalogAppRegistry {
             self.application = application
             self.resource = resource
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.application, key: "application")
+            request.encodePath(self.resource, key: "resource")
+            request.encodePath(self.resourceType, key: "resourceType")
         }
 
         public func validate(name: String) throws {
@@ -466,15 +470,17 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct DeleteApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "application", location: .uri("application"))
-        ]
-
         ///  The name, ID, or ARN  of the application.
         public let application: String
 
         public init(application: String) {
             self.application = application
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.application, key: "application")
         }
 
         public func validate(name: String) throws {
@@ -500,15 +506,17 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct DeleteAttributeGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributeGroup", location: .uri("attributeGroup"))
-        ]
-
         ///  The name, ID, or ARN  of the attribute group  that holds the attributes  to describe the application.
         public let attributeGroup: String
 
         public init(attributeGroup: String) {
             self.attributeGroup = attributeGroup
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attributeGroup, key: "attributeGroup")
         }
 
         public func validate(name: String) throws {
@@ -534,11 +542,6 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct DisassociateAttributeGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "application", location: .uri("application")),
-            AWSMemberEncoding(label: "attributeGroup", location: .uri("attributeGroup"))
-        ]
-
         ///  The name, ID, or ARN  of the application.
         public let application: String
         ///  The name, ID, or ARN  of the attribute group  that holds the attributes  to describe the application.
@@ -547,6 +550,13 @@ extension ServiceCatalogAppRegistry {
         public init(application: String, attributeGroup: String) {
             self.application = application
             self.attributeGroup = attributeGroup
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.application, key: "application")
+            request.encodePath(self.attributeGroup, key: "attributeGroup")
         }
 
         public func validate(name: String) throws {
@@ -579,12 +589,6 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct DisassociateResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "application", location: .uri("application")),
-            AWSMemberEncoding(label: "resource", location: .uri("resource")),
-            AWSMemberEncoding(label: "resourceType", location: .uri("resourceType"))
-        ]
-
         /// The name or ID of the application.
         public let application: String
         /// The name or ID of the resource.
@@ -596,6 +600,14 @@ extension ServiceCatalogAppRegistry {
             self.application = application
             self.resource = resource
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.application, key: "application")
+            request.encodePath(self.resource, key: "resource")
+            request.encodePath(self.resourceType, key: "resourceType")
         }
 
         public func validate(name: String) throws {
@@ -628,15 +640,17 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct GetApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "application", location: .uri("application"))
-        ]
-
         ///  The name, ID, or ARN  of the application.
         public let application: String
 
         public init(application: String) {
             self.application = application
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.application, key: "application")
         }
 
         public func validate(name: String) throws {
@@ -696,12 +710,6 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct GetAssociatedResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "application", location: .uri("application")),
-            AWSMemberEncoding(label: "resource", location: .uri("resource")),
-            AWSMemberEncoding(label: "resourceType", location: .uri("resourceType"))
-        ]
-
         ///  The name, ID, or ARN  of the application.
         public let application: String
         /// The name or ID of the resource associated with the application.
@@ -713,6 +721,14 @@ extension ServiceCatalogAppRegistry {
             self.application = application
             self.resource = resource
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.application, key: "application")
+            request.encodePath(self.resource, key: "resource")
+            request.encodePath(self.resourceType, key: "resourceType")
         }
 
         public func validate(name: String) throws {
@@ -741,15 +757,17 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct GetAttributeGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributeGroup", location: .uri("attributeGroup"))
-        ]
-
         ///  The name, ID, or ARN  of the attribute group  that holds the attributes  to describe the application.
         public let attributeGroup: String
 
         public init(attributeGroup: String) {
             self.attributeGroup = attributeGroup
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attributeGroup, key: "attributeGroup")
         }
 
         public func validate(name: String) throws {
@@ -835,11 +853,6 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct ListApplicationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The upper bound of the number of results to return (cannot exceed 25). If this parameter is omitted, it defaults to 25. This value is optional.
         public let maxResults: Int?
         /// The token to use to get the next page of results after a previous API call.
@@ -848,6 +861,13 @@ extension ServiceCatalogAppRegistry {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -879,12 +899,6 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct ListAssociatedAttributeGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "application", location: .uri("application")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name or ID of the application.
         public let application: String
         /// The upper bound of the number of results to return (cannot exceed 25). If this parameter is omitted, it defaults to 25. This value is optional.
@@ -896,6 +910,14 @@ extension ServiceCatalogAppRegistry {
             self.application = application
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.application, key: "application")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -930,12 +952,6 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct ListAssociatedResourcesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "application", location: .uri("application")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The name, ID, or ARN  of the application.
         public let application: String
         /// The upper bound of the number of results to return (cannot exceed 25). If this parameter is omitted, it defaults to 25. This value is optional.
@@ -947,6 +963,14 @@ extension ServiceCatalogAppRegistry {
             self.application = application
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.application, key: "application")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -981,12 +1005,6 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct ListAttributeGroupsForApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "application", location: .uri("application")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name or ID of the application.
         public let application: String
         /// The upper bound of the number of results to return. The value cannot exceed 25. If you omit this parameter, it defaults to 25. This value is optional.
@@ -998,6 +1016,14 @@ extension ServiceCatalogAppRegistry {
             self.application = application
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.application, key: "application")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1032,11 +1058,6 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct ListAttributeGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The upper bound of the number of results to return (cannot exceed 25). If this parameter is omitted, it defaults to 25. This value is optional.
         public let maxResults: Int?
         /// The token to use to get the next page of results after a previous API call.
@@ -1045,6 +1066,13 @@ extension ServiceCatalogAppRegistry {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1076,15 +1104,17 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon resource name (ARN) that specifies the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1225,11 +1255,6 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct SyncResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resource", location: .uri("resource")),
-            AWSMemberEncoding(label: "resourceType", location: .uri("resourceType"))
-        ]
-
         /// An entity you can work with and specify with a name or ID. Examples include an Amazon EC2 instance, an Amazon Web Services CloudFormation stack, or an Amazon S3 bucket.
         public let resource: String
         /// The type of resource of which the application will be associated.
@@ -1238,6 +1263,13 @@ extension ServiceCatalogAppRegistry {
         public init(resource: String, resourceType: ResourceType) {
             self.resource = resource
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resource, key: "resource")
+            request.encodePath(self.resourceType, key: "resourceType")
         }
 
         public func validate(name: String) throws {
@@ -1289,10 +1321,6 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon resource name (ARN) that specifies the resource.
         public let resourceArn: String
         /// The new or modified tags for the resource.
@@ -1301,6 +1329,13 @@ extension ServiceCatalogAppRegistry {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1327,11 +1362,6 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon resource name (ARN) that specifies the resource.
         public let resourceArn: String
         /// A list of the tag keys to remove from the specified resource.
@@ -1340,6 +1370,13 @@ extension ServiceCatalogAppRegistry {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -1362,10 +1399,6 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct UpdateApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "application", location: .uri("application"))
-        ]
-
         ///  The name, ID, or ARN  of the application  that will be updated.
         public let application: String
         /// The new description of the application.
@@ -1384,6 +1417,14 @@ extension ServiceCatalogAppRegistry {
             self.application = application
             self.description = description
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.application, key: "application")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -1416,10 +1457,6 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct UpdateAttributeGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributeGroup", location: .uri("attributeGroup"))
-        ]
-
         ///  The name, ID, or ARN  of the attribute group  that holds the attributes  to describe the application.
         public let attributeGroup: String
         /// A JSON string in the form of nested key-value pairs that represent the attributes in the group and describes an application and its components.
@@ -1442,6 +1479,15 @@ extension ServiceCatalogAppRegistry {
             self.attributes = attributes
             self.description = description
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attributeGroup, key: "attributeGroup")
+            try container.encodeIfPresent(self.attributes, forKey: .attributes)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {

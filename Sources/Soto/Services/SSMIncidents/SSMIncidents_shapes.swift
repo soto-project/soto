@@ -666,15 +666,17 @@ extension SSMIncidents {
     }
 
     public struct DeleteReplicationSetInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .querystring("arn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the replication set you're deleting.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.arn, key: "arn")
         }
 
         public func validate(name: String) throws {
@@ -824,15 +826,17 @@ extension SSMIncidents {
     }
 
     public struct GetIncidentRecordInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .querystring("arn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the incident record.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.arn, key: "arn")
         }
 
         public func validate(name: String) throws {
@@ -857,15 +861,17 @@ extension SSMIncidents {
     }
 
     public struct GetReplicationSetInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .querystring("arn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the replication set you want to retrieve.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.arn, key: "arn")
         }
 
         public func validate(name: String) throws {
@@ -890,10 +896,6 @@ extension SSMIncidents {
     }
 
     public struct GetResourcePoliciesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The maximum number of resource policies to display for each page of results.
         public let maxResults: Int?
         /// The pagination token to continue to the next page of results.
@@ -905,6 +907,14 @@ extension SSMIncidents {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -939,15 +949,17 @@ extension SSMIncidents {
     }
 
     public struct GetResponsePlanInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .querystring("arn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the response plan.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.arn, key: "arn")
         }
 
         public func validate(name: String) throws {
@@ -1000,11 +1012,6 @@ extension SSMIncidents {
     }
 
     public struct GetTimelineEventInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventId", location: .querystring("eventId")),
-            AWSMemberEncoding(label: "incidentRecordArn", location: .querystring("incidentRecordArn"))
-        ]
-
         /// The ID of the event. You can get an event's ID when you create it, or by using ListTimelineEvents.
         public let eventId: String
         /// The Amazon Resource Name (ARN) of the incident that includes the timeline event.
@@ -1013,6 +1020,13 @@ extension SSMIncidents {
         public init(eventId: String, incidentRecordArn: String) {
             self.eventId = eventId
             self.incidentRecordArn = incidentRecordArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.eventId, key: "eventId")
+            request.encodeQuery(self.incidentRecordArn, key: "incidentRecordArn")
         }
 
         public func validate(name: String) throws {
@@ -1414,15 +1428,17 @@ extension SSMIncidents {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the response plan.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1852,10 +1868,6 @@ extension SSMIncidents {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the response plan you're adding the tags to.
         public let resourceArn: String
         /// A list of tags to add to the response plan.
@@ -1864,6 +1876,13 @@ extension SSMIncidents {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1957,11 +1976,6 @@ extension SSMIncidents {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the response plan you're removing a tag from.
         public let resourceArn: String
         /// The name of the tag to remove from the response plan.
@@ -1970,6 +1984,13 @@ extension SSMIncidents {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {

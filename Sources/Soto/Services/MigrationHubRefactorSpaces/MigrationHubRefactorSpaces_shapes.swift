@@ -311,10 +311,6 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct CreateApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentIdentifier", location: .uri("EnvironmentIdentifier"))
-        ]
-
         /// A wrapper object holding the API Gateway endpoint type and stage name for the proxy.
         public let apiGatewayProxy: ApiGatewayProxyInput?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -338,6 +334,18 @@ extension MigrationHubRefactorSpaces {
             self.proxyType = proxyType
             self.tags = tags
             self.vpcId = vpcId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.apiGatewayProxy, forKey: .apiGatewayProxy)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.environmentIdentifier, key: "EnvironmentIdentifier")
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.proxyType, forKey: .proxyType)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.vpcId, forKey: .vpcId)
         }
 
         public func validate(name: String) throws {
@@ -522,11 +530,6 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct CreateRouteRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationIdentifier", location: .uri("ApplicationIdentifier")),
-            AWSMemberEncoding(label: "environmentIdentifier", location: .uri("EnvironmentIdentifier"))
-        ]
-
         /// The ID of the application within which the route is being created.
         public let applicationIdentifier: String
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -553,6 +556,19 @@ extension MigrationHubRefactorSpaces {
             self.serviceIdentifier = serviceIdentifier
             self.tags = tags
             self.uriPathRoute = uriPathRoute
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationIdentifier, key: "ApplicationIdentifier")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.defaultRoute, forKey: .defaultRoute)
+            request.encodePath(self.environmentIdentifier, key: "EnvironmentIdentifier")
+            try container.encode(self.routeType, forKey: .routeType)
+            try container.encode(self.serviceIdentifier, forKey: .serviceIdentifier)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.uriPathRoute, forKey: .uriPathRoute)
         }
 
         public func validate(name: String) throws {
@@ -642,11 +658,6 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct CreateServiceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationIdentifier", location: .uri("ApplicationIdentifier")),
-            AWSMemberEncoding(label: "environmentIdentifier", location: .uri("EnvironmentIdentifier"))
-        ]
-
         /// The ID of the application which the service is created.
         public let applicationIdentifier: String
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -679,6 +690,21 @@ extension MigrationHubRefactorSpaces {
             self.tags = tags
             self.urlEndpoint = urlEndpoint
             self.vpcId = vpcId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationIdentifier, key: "ApplicationIdentifier")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.endpointType, forKey: .endpointType)
+            request.encodePath(self.environmentIdentifier, key: "EnvironmentIdentifier")
+            try container.encodeIfPresent(self.lambdaEndpoint, forKey: .lambdaEndpoint)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.urlEndpoint, forKey: .urlEndpoint)
+            try container.encodeIfPresent(self.vpcId, forKey: .vpcId)
         }
 
         public func validate(name: String) throws {
@@ -804,11 +830,6 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct DeleteApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationIdentifier", location: .uri("ApplicationIdentifier")),
-            AWSMemberEncoding(label: "environmentIdentifier", location: .uri("EnvironmentIdentifier"))
-        ]
-
         /// The ID of the application.
         public let applicationIdentifier: String
         /// The ID of the environment.
@@ -817,6 +838,13 @@ extension MigrationHubRefactorSpaces {
         public init(applicationIdentifier: String, environmentIdentifier: String) {
             self.applicationIdentifier = applicationIdentifier
             self.environmentIdentifier = environmentIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationIdentifier, key: "ApplicationIdentifier")
+            request.encodePath(self.environmentIdentifier, key: "EnvironmentIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -865,15 +893,17 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct DeleteEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentIdentifier", location: .uri("EnvironmentIdentifier"))
-        ]
-
         /// The ID of the environment.
         public let environmentIdentifier: String
 
         public init(environmentIdentifier: String) {
             self.environmentIdentifier = environmentIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.environmentIdentifier, key: "EnvironmentIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -915,15 +945,17 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct DeleteResourcePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
-        ]
-
         /// Amazon Resource Name (ARN) of the resource associated with the policy.
         public let identifier: String
 
         public init(identifier: String) {
             self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
         }
 
         public func validate(name: String) throws {
@@ -940,12 +972,6 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct DeleteRouteRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationIdentifier", location: .uri("ApplicationIdentifier")),
-            AWSMemberEncoding(label: "environmentIdentifier", location: .uri("EnvironmentIdentifier")),
-            AWSMemberEncoding(label: "routeIdentifier", location: .uri("RouteIdentifier"))
-        ]
-
         /// The ID of the application to delete the route from.
         public let applicationIdentifier: String
         /// The ID of the environment to delete the route from.
@@ -957,6 +983,14 @@ extension MigrationHubRefactorSpaces {
             self.applicationIdentifier = applicationIdentifier
             self.environmentIdentifier = environmentIdentifier
             self.routeIdentifier = routeIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationIdentifier, key: "ApplicationIdentifier")
+            request.encodePath(self.environmentIdentifier, key: "EnvironmentIdentifier")
+            request.encodePath(self.routeIdentifier, key: "RouteIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1008,12 +1042,6 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct DeleteServiceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationIdentifier", location: .uri("ApplicationIdentifier")),
-            AWSMemberEncoding(label: "environmentIdentifier", location: .uri("EnvironmentIdentifier")),
-            AWSMemberEncoding(label: "serviceIdentifier", location: .uri("ServiceIdentifier"))
-        ]
-
         /// Deletes a Refactor Spaces service.  The RefactorSpacesSecurityGroup security group must be removed from all Amazon Web Services resources in the virtual private cloud (VPC) prior to deleting a service with a URL endpoint in a VPC.
         public let applicationIdentifier: String
         /// The ID of the environment that the service is in.
@@ -1025,6 +1053,14 @@ extension MigrationHubRefactorSpaces {
             self.applicationIdentifier = applicationIdentifier
             self.environmentIdentifier = environmentIdentifier
             self.serviceIdentifier = serviceIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationIdentifier, key: "ApplicationIdentifier")
+            request.encodePath(self.environmentIdentifier, key: "EnvironmentIdentifier")
+            request.encodePath(self.serviceIdentifier, key: "ServiceIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1207,11 +1243,6 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct GetApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationIdentifier", location: .uri("ApplicationIdentifier")),
-            AWSMemberEncoding(label: "environmentIdentifier", location: .uri("EnvironmentIdentifier"))
-        ]
-
         /// The ID of the application.
         public let applicationIdentifier: String
         /// The ID of the environment.
@@ -1220,6 +1251,13 @@ extension MigrationHubRefactorSpaces {
         public init(applicationIdentifier: String, environmentIdentifier: String) {
             self.applicationIdentifier = applicationIdentifier
             self.environmentIdentifier = environmentIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationIdentifier, key: "ApplicationIdentifier")
+            request.encodePath(self.environmentIdentifier, key: "EnvironmentIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1300,15 +1338,17 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct GetEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentIdentifier", location: .uri("EnvironmentIdentifier"))
-        ]
-
         /// The ID of the environment.
         public let environmentIdentifier: String
 
         public init(environmentIdentifier: String) {
             self.environmentIdentifier = environmentIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.environmentIdentifier, key: "EnvironmentIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1378,15 +1418,17 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct GetResourcePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource associated with the policy.
         public let identifier: String
 
         public init(identifier: String) {
             self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
         }
 
         public func validate(name: String) throws {
@@ -1412,12 +1454,6 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct GetRouteRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationIdentifier", location: .uri("ApplicationIdentifier")),
-            AWSMemberEncoding(label: "environmentIdentifier", location: .uri("EnvironmentIdentifier")),
-            AWSMemberEncoding(label: "routeIdentifier", location: .uri("RouteIdentifier"))
-        ]
-
         /// The ID of the application.
         public let applicationIdentifier: String
         /// The ID of the environment.
@@ -1429,6 +1465,14 @@ extension MigrationHubRefactorSpaces {
             self.applicationIdentifier = applicationIdentifier
             self.environmentIdentifier = environmentIdentifier
             self.routeIdentifier = routeIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationIdentifier, key: "ApplicationIdentifier")
+            request.encodePath(self.environmentIdentifier, key: "EnvironmentIdentifier")
+            request.encodePath(self.routeIdentifier, key: "RouteIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1528,12 +1572,6 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct GetServiceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationIdentifier", location: .uri("ApplicationIdentifier")),
-            AWSMemberEncoding(label: "environmentIdentifier", location: .uri("EnvironmentIdentifier")),
-            AWSMemberEncoding(label: "serviceIdentifier", location: .uri("ServiceIdentifier"))
-        ]
-
         /// The ID of the application.
         public let applicationIdentifier: String
         /// The ID of the environment.
@@ -1545,6 +1583,14 @@ extension MigrationHubRefactorSpaces {
             self.applicationIdentifier = applicationIdentifier
             self.environmentIdentifier = environmentIdentifier
             self.serviceIdentifier = serviceIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationIdentifier, key: "ApplicationIdentifier")
+            request.encodePath(self.environmentIdentifier, key: "EnvironmentIdentifier")
+            request.encodePath(self.serviceIdentifier, key: "ServiceIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1685,12 +1731,6 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct ListApplicationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentIdentifier", location: .uri("EnvironmentIdentifier")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The ID of the environment.
         public let environmentIdentifier: String
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -1702,6 +1742,14 @@ extension MigrationHubRefactorSpaces {
             self.environmentIdentifier = environmentIdentifier
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.environmentIdentifier, key: "EnvironmentIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1736,12 +1784,6 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct ListEnvironmentVpcsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentIdentifier", location: .uri("EnvironmentIdentifier")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The ID of the environment.
         public let environmentIdentifier: String
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -1753,6 +1795,14 @@ extension MigrationHubRefactorSpaces {
             self.environmentIdentifier = environmentIdentifier
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.environmentIdentifier, key: "EnvironmentIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1787,11 +1837,6 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct ListEnvironmentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
         /// The token for the next page of results.
@@ -1800,6 +1845,13 @@ extension MigrationHubRefactorSpaces {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1831,13 +1883,6 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct ListRoutesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationIdentifier", location: .uri("ApplicationIdentifier")),
-            AWSMemberEncoding(label: "environmentIdentifier", location: .uri("EnvironmentIdentifier")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The ID of the application.
         public let applicationIdentifier: String
         /// The ID of the environment.
@@ -1852,6 +1897,15 @@ extension MigrationHubRefactorSpaces {
             self.environmentIdentifier = environmentIdentifier
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationIdentifier, key: "ApplicationIdentifier")
+            request.encodePath(self.environmentIdentifier, key: "EnvironmentIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1889,13 +1943,6 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct ListServicesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationIdentifier", location: .uri("ApplicationIdentifier")),
-            AWSMemberEncoding(label: "environmentIdentifier", location: .uri("EnvironmentIdentifier")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The ID of the application.
         public let applicationIdentifier: String
         /// The ID of the environment.
@@ -1910,6 +1957,15 @@ extension MigrationHubRefactorSpaces {
             self.environmentIdentifier = environmentIdentifier
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationIdentifier, key: "ApplicationIdentifier")
+            request.encodePath(self.environmentIdentifier, key: "EnvironmentIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1947,15 +2003,17 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2163,10 +2221,6 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The new or modified tags for the resource.
@@ -2175,6 +2229,13 @@ extension MigrationHubRefactorSpaces {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2191,11 +2252,6 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The list of keys of the tags to be removed from the resource.
@@ -2206,6 +2262,13 @@ extension MigrationHubRefactorSpaces {
             self.tagKeys = tagKeys
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -2214,12 +2277,6 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct UpdateRouteRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationIdentifier", location: .uri("ApplicationIdentifier")),
-            AWSMemberEncoding(label: "environmentIdentifier", location: .uri("EnvironmentIdentifier")),
-            AWSMemberEncoding(label: "routeIdentifier", location: .uri("RouteIdentifier"))
-        ]
-
         ///  If set to ACTIVE, traffic is forwarded to this route’s service after the route is updated.
         public let activationState: RouteActivationState
         ///  The ID of the application within which the route is being updated.
@@ -2234,6 +2291,15 @@ extension MigrationHubRefactorSpaces {
             self.applicationIdentifier = applicationIdentifier
             self.environmentIdentifier = environmentIdentifier
             self.routeIdentifier = routeIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.activationState, forKey: .activationState)
+            request.encodePath(self.applicationIdentifier, key: "ApplicationIdentifier")
+            request.encodePath(self.environmentIdentifier, key: "EnvironmentIdentifier")
+            request.encodePath(self.routeIdentifier, key: "RouteIdentifier")
         }
 
         public func validate(name: String) throws {

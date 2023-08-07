@@ -176,15 +176,17 @@ extension Braket {
     }
 
     public struct CancelJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobArn", location: .uri("jobArn"))
-        ]
-
         /// The ARN of the Amazon Braket job to cancel.
         public let jobArn: String
 
         public init(jobArn: String) {
             self.jobArn = jobArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobArn, key: "jobArn")
         }
 
         public func validate(name: String) throws {
@@ -212,10 +214,6 @@ extension Braket {
     }
 
     public struct CancelQuantumTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "quantumTaskArn", location: .uri("quantumTaskArn"))
-        ]
-
         /// The client token associated with the request.
         public let clientToken: String
         /// The ARN of the task to cancel.
@@ -224,6 +222,13 @@ extension Braket {
         public init(clientToken: String = CancelQuantumTaskRequest.idempotencyToken(), quantumTaskArn: String) {
             self.clientToken = clientToken
             self.quantumTaskArn = quantumTaskArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.quantumTaskArn, key: "quantumTaskArn")
         }
 
         public func validate(name: String) throws {
@@ -494,15 +499,17 @@ extension Braket {
     }
 
     public struct GetDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceArn", location: .uri("deviceArn"))
-        ]
-
         /// The ARN of the device to retrieve.
         public let deviceArn: String
 
         public init(deviceArn: String) {
             self.deviceArn = deviceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deviceArn, key: "deviceArn")
         }
 
         public func validate(name: String) throws {
@@ -547,15 +554,17 @@ extension Braket {
     }
 
     public struct GetJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobArn", location: .uri("jobArn"))
-        ]
-
         /// The ARN of the job to retrieve.
         public let jobArn: String
 
         public init(jobArn: String) {
             self.jobArn = jobArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobArn, key: "jobArn")
         }
 
         public func validate(name: String) throws {
@@ -651,15 +660,17 @@ extension Braket {
     }
 
     public struct GetQuantumTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "quantumTaskArn", location: .uri("quantumTaskArn"))
-        ]
-
         /// the ARN of the task to retrieve.
         public let quantumTaskArn: String
 
         public init(quantumTaskArn: String) {
             self.quantumTaskArn = quantumTaskArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.quantumTaskArn, key: "quantumTaskArn")
         }
 
         public func validate(name: String) throws {
@@ -901,15 +912,17 @@ extension Braket {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// Specify the resourceArn for the resource whose tags to display.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1234,10 +1247,6 @@ extension Braket {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// Specify the resourceArn of the resource to which a tag will be added.
         public let resourceArn: String
         /// Specify the tags to add to the resource.
@@ -1246,6 +1255,13 @@ extension Braket {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1258,11 +1274,6 @@ extension Braket {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// Specify the resourceArn for the resource from which to remove the tags.
         public let resourceArn: String
         /// Specify the keys for the tags to remove from the resource.
@@ -1271,6 +1282,13 @@ extension Braket {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         private enum CodingKeys: CodingKey {}

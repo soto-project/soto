@@ -246,10 +246,10 @@ extension AppConfig {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.configurationVersion = try response.decodeIfPresent(String.self, forHeader: "Configuration-Version")
-            self.content = response.decodePayload()
-            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
-
+            let container = try decoder.singleValueContainer()
+            self.configurationVersion = try response.decodeHeaderIfPresent(String.self, key: "Configuration-Version")
+            self.content = try container.decode(AWSHTTPBody.self)
+            self.contentType = try response.decodeHeaderIfPresent(String.self, key: "Content-Type")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -380,10 +380,6 @@ extension AppConfig {
     }
 
     public struct CreateConfigurationProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The application ID.
         public let applicationId: String
         /// A description of the configuration profile.
@@ -410,6 +406,19 @@ extension AppConfig {
             self.tags = tags
             self.type = type
             self.validators = validators
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.locationUri, forKey: .locationUri)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.retrievalRoleArn, forKey: .retrievalRoleArn)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.type, forKey: .type)
+            try container.encodeIfPresent(self.validators, forKey: .validators)
         }
 
         public func validate(name: String) throws {
@@ -506,10 +515,6 @@ extension AppConfig {
     }
 
     public struct CreateEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The application ID.
         public let applicationId: String
         /// A description of the environment.
@@ -527,6 +532,16 @@ extension AppConfig {
             self.monitors = monitors
             self.name = name
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.monitors, forKey: .monitors)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -604,10 +619,6 @@ extension AppConfig {
     }
 
     public struct CreateExtensionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "latestVersionNumber", location: .header("Latest-Version-Number"))
-        ]
-
         /// The actions defined in the extension.
         public let actions: [ActionPoint: [Action]]
         /// Information about the extension.
@@ -628,6 +639,17 @@ extension AppConfig {
             self.name = name
             self.parameters = parameters
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.actions, forKey: .actions)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodeHeader(self.latestVersionNumber, key: "Latest-Version-Number")
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.parameters, forKey: .parameters)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -664,18 +686,7 @@ extension AppConfig {
         }
     }
 
-    public struct CreateHostedConfigurationVersionRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "content"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "configurationProfileId", location: .uri("ConfigurationProfileId")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "description", location: .header("Description")),
-            AWSMemberEncoding(label: "latestVersionNumber", location: .header("Latest-Version-Number")),
-            AWSMemberEncoding(label: "versionLabel", location: .header("VersionLabel"))
-        ]
-
+    public struct CreateHostedConfigurationVersionRequest: AWSEncodableShape {
         /// The application ID.
         public let applicationId: String
         /// The configuration profile ID.
@@ -701,6 +712,18 @@ extension AppConfig {
             self.versionLabel = versionLabel
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.configurationProfileId, key: "ConfigurationProfileId")
+            try container.encode(self.content)
+            request.encodeHeader(self.contentType, key: "Content-Type")
+            request.encodeHeader(self.description, key: "Description")
+            request.encodeHeader(self.latestVersionNumber, key: "Latest-Version-Number")
+            request.encodeHeader(self.versionLabel, key: "VersionLabel")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
             try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, pattern: "^[a-z0-9]{4,7}$")
@@ -716,15 +739,17 @@ extension AppConfig {
     }
 
     public struct DeleteApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The ID of the application to delete.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         public func validate(name: String) throws {
@@ -735,11 +760,6 @@ extension AppConfig {
     }
 
     public struct DeleteConfigurationProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "configurationProfileId", location: .uri("ConfigurationProfileId"))
-        ]
-
         /// The application ID that includes the configuration profile you want to delete.
         public let applicationId: String
         /// The ID of the configuration profile you want to delete.
@@ -748,6 +768,13 @@ extension AppConfig {
         public init(applicationId: String, configurationProfileId: String) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.configurationProfileId, key: "ConfigurationProfileId")
         }
 
         public func validate(name: String) throws {
@@ -759,15 +786,17 @@ extension AppConfig {
     }
 
     public struct DeleteDeploymentStrategyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deploymentStrategyId", location: .uri("DeploymentStrategyId"))
-        ]
-
         /// The ID of the deployment strategy you want to delete.
         public let deploymentStrategyId: String
 
         public init(deploymentStrategyId: String) {
             self.deploymentStrategyId = deploymentStrategyId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deploymentStrategyId, key: "DeploymentStrategyId")
         }
 
         public func validate(name: String) throws {
@@ -778,11 +807,6 @@ extension AppConfig {
     }
 
     public struct DeleteEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "environmentId", location: .uri("EnvironmentId"))
-        ]
-
         /// The application ID that includes the environment that you want to delete.
         public let applicationId: String
         /// The ID of the environment that you want to delete.
@@ -791,6 +815,13 @@ extension AppConfig {
         public init(applicationId: String, environmentId: String) {
             self.applicationId = applicationId
             self.environmentId = environmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.environmentId, key: "EnvironmentId")
         }
 
         public func validate(name: String) throws {
@@ -802,15 +833,17 @@ extension AppConfig {
     }
 
     public struct DeleteExtensionAssociationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "extensionAssociationId", location: .uri("ExtensionAssociationId"))
-        ]
-
         /// The ID of the extension association to delete.
         public let extensionAssociationId: String
 
         public init(extensionAssociationId: String) {
             self.extensionAssociationId = extensionAssociationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.extensionAssociationId, key: "ExtensionAssociationId")
         }
 
         public func validate(name: String) throws {
@@ -821,11 +854,6 @@ extension AppConfig {
     }
 
     public struct DeleteExtensionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "extensionIdentifier", location: .uri("ExtensionIdentifier")),
-            AWSMemberEncoding(label: "versionNumber", location: .querystring("version"))
-        ]
-
         /// The name, ID, or Amazon Resource Name (ARN) of the extension you want to delete.
         public let extensionIdentifier: String
         /// A specific version of an extension to delete. If omitted, the highest version is deleted.
@@ -834,6 +862,13 @@ extension AppConfig {
         public init(extensionIdentifier: String, versionNumber: Int? = nil) {
             self.extensionIdentifier = extensionIdentifier
             self.versionNumber = versionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.extensionIdentifier, key: "ExtensionIdentifier")
+            request.encodeQuery(self.versionNumber, key: "version")
         }
 
         public func validate(name: String) throws {
@@ -845,12 +880,6 @@ extension AppConfig {
     }
 
     public struct DeleteHostedConfigurationVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "configurationProfileId", location: .uri("ConfigurationProfileId")),
-            AWSMemberEncoding(label: "versionNumber", location: .uri("VersionNumber"))
-        ]
-
         /// The application ID.
         public let applicationId: String
         /// The configuration profile ID.
@@ -862,6 +891,14 @@ extension AppConfig {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
             self.versionNumber = versionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.configurationProfileId, key: "ConfigurationProfileId")
+            request.encodePath(self.versionNumber, key: "VersionNumber")
         }
 
         public func validate(name: String) throws {
@@ -1332,15 +1369,17 @@ extension AppConfig {
     }
 
     public struct GetApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The ID of the application you want to get.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         public func validate(name: String) throws {
@@ -1351,11 +1390,6 @@ extension AppConfig {
     }
 
     public struct GetConfigurationProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "configurationProfileId", location: .uri("ConfigurationProfileId"))
-        ]
-
         /// The ID of the application that includes the configuration profile you want to get.
         public let applicationId: String
         /// The ID of the configuration profile that you want to get.
@@ -1364,6 +1398,13 @@ extension AppConfig {
         public init(applicationId: String, configurationProfileId: String) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.configurationProfileId, key: "ConfigurationProfileId")
         }
 
         public func validate(name: String) throws {
@@ -1375,14 +1416,6 @@ extension AppConfig {
     }
 
     public struct GetConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "application", location: .uri("Application")),
-            AWSMemberEncoding(label: "clientConfigurationVersion", location: .querystring("client_configuration_version")),
-            AWSMemberEncoding(label: "clientId", location: .querystring("client_id")),
-            AWSMemberEncoding(label: "configuration", location: .uri("Configuration")),
-            AWSMemberEncoding(label: "environment", location: .uri("Environment"))
-        ]
-
         /// The application to get. Specify either the application name or the application ID.
         public let application: String
         /// The configuration version returned in the most recent GetConfiguration response.  AppConfig uses the value of the ClientConfigurationVersion parameter to identify the configuration version on your clients. If you don’t send ClientConfigurationVersion with each call to GetConfiguration, your clients receive the current configuration. You are charged each time your clients receive a configuration. To avoid excess charges, we recommend you use the StartConfigurationSession and GetLatestConfiguration APIs, which track the client configuration version on your behalf. If you choose to continue using GetConfiguration, we recommend that you include the ClientConfigurationVersion value with every call to GetConfiguration. The value to use for ClientConfigurationVersion comes from the ConfigurationVersion attribute returned by GetConfiguration when there is new or updated data, and should be saved for subsequent calls to GetConfiguration.  For more information about working with configurations, see Retrieving the Configuration in the AppConfig User Guide.
@@ -1402,6 +1435,16 @@ extension AppConfig {
             self.environment = environment
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.application, key: "Application")
+            request.encodeQuery(self.clientConfigurationVersion, key: "client_configuration_version")
+            request.encodeQuery(self.clientId, key: "client_id")
+            request.encodePath(self.configuration, key: "Configuration")
+            request.encodePath(self.environment, key: "Environment")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.application, name: "application", parent: name, max: 64)
             try self.validate(self.application, name: "application", parent: name, min: 1)
@@ -1419,12 +1462,6 @@ extension AppConfig {
     }
 
     public struct GetDeploymentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "deploymentNumber", location: .uri("DeploymentNumber")),
-            AWSMemberEncoding(label: "environmentId", location: .uri("EnvironmentId"))
-        ]
-
         /// The ID of the application that includes the deployment you want to get.
         public let applicationId: String
         /// The sequence number of the deployment.
@@ -1438,6 +1475,14 @@ extension AppConfig {
             self.environmentId = environmentId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.deploymentNumber, key: "DeploymentNumber")
+            request.encodePath(self.environmentId, key: "EnvironmentId")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-z0-9]{4,7}$")
@@ -1447,15 +1492,17 @@ extension AppConfig {
     }
 
     public struct GetDeploymentStrategyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deploymentStrategyId", location: .uri("DeploymentStrategyId"))
-        ]
-
         /// The ID of the deployment strategy to get.
         public let deploymentStrategyId: String
 
         public init(deploymentStrategyId: String) {
             self.deploymentStrategyId = deploymentStrategyId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deploymentStrategyId, key: "DeploymentStrategyId")
         }
 
         public func validate(name: String) throws {
@@ -1466,11 +1513,6 @@ extension AppConfig {
     }
 
     public struct GetEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "environmentId", location: .uri("EnvironmentId"))
-        ]
-
         /// The ID of the application that includes the environment you want to get.
         public let applicationId: String
         /// The ID of the environment that you want to get.
@@ -1479,6 +1521,13 @@ extension AppConfig {
         public init(applicationId: String, environmentId: String) {
             self.applicationId = applicationId
             self.environmentId = environmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.environmentId, key: "EnvironmentId")
         }
 
         public func validate(name: String) throws {
@@ -1490,15 +1539,17 @@ extension AppConfig {
     }
 
     public struct GetExtensionAssociationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "extensionAssociationId", location: .uri("ExtensionAssociationId"))
-        ]
-
         /// The extension association ID to get.
         public let extensionAssociationId: String
 
         public init(extensionAssociationId: String) {
             self.extensionAssociationId = extensionAssociationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.extensionAssociationId, key: "ExtensionAssociationId")
         }
 
         public func validate(name: String) throws {
@@ -1509,11 +1560,6 @@ extension AppConfig {
     }
 
     public struct GetExtensionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "extensionIdentifier", location: .uri("ExtensionIdentifier")),
-            AWSMemberEncoding(label: "versionNumber", location: .querystring("version_number"))
-        ]
-
         /// The name, the ID, or the Amazon Resource Name (ARN) of the extension.
         public let extensionIdentifier: String
         /// The extension version number. If no version number was defined, AppConfig uses the highest version.
@@ -1522,6 +1568,13 @@ extension AppConfig {
         public init(extensionIdentifier: String, versionNumber: Int? = nil) {
             self.extensionIdentifier = extensionIdentifier
             self.versionNumber = versionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.extensionIdentifier, key: "ExtensionIdentifier")
+            request.encodeQuery(self.versionNumber, key: "version_number")
         }
 
         public func validate(name: String) throws {
@@ -1533,12 +1586,6 @@ extension AppConfig {
     }
 
     public struct GetHostedConfigurationVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "configurationProfileId", location: .uri("ConfigurationProfileId")),
-            AWSMemberEncoding(label: "versionNumber", location: .uri("VersionNumber"))
-        ]
-
         /// The application ID.
         public let applicationId: String
         /// The configuration profile ID.
@@ -1550,6 +1597,14 @@ extension AppConfig {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
             self.versionNumber = versionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.configurationProfileId, key: "ConfigurationProfileId")
+            request.encodePath(self.versionNumber, key: "VersionNumber")
         }
 
         public func validate(name: String) throws {
@@ -1589,14 +1644,14 @@ extension AppConfig {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.applicationId = try response.decodeIfPresent(String.self, forHeader: "Application-Id")
-            self.configurationProfileId = try response.decodeIfPresent(String.self, forHeader: "Configuration-Profile-Id")
-            self.content = response.decodePayload()
-            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
-            self.description = try response.decodeIfPresent(String.self, forHeader: "Description")
-            self.versionLabel = try response.decodeIfPresent(String.self, forHeader: "VersionLabel")
-            self.versionNumber = try response.decodeIfPresent(Int.self, forHeader: "Version-Number")
-
+            let container = try decoder.singleValueContainer()
+            self.applicationId = try response.decodeHeaderIfPresent(String.self, key: "Application-Id")
+            self.configurationProfileId = try response.decodeHeaderIfPresent(String.self, key: "Configuration-Profile-Id")
+            self.content = try container.decode(AWSHTTPBody.self)
+            self.contentType = try response.decodeHeaderIfPresent(String.self, key: "Content-Type")
+            self.description = try response.decodeHeaderIfPresent(String.self, key: "Description")
+            self.versionLabel = try response.decodeHeaderIfPresent(String.self, key: "VersionLabel")
+            self.versionNumber = try response.decodeHeaderIfPresent(Int.self, key: "Version-Number")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1653,11 +1708,6 @@ extension AppConfig {
     }
 
     public struct ListApplicationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token"))
-        ]
-
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
         /// A token to start the list. Next token is a pagination token generated by AppConfig to describe what page the previous List call ended on. For the first List request, the nextToken should not be set. On subsequent calls, the nextToken parameter should be set to the previous responses nextToken value. Use this token to get the next set of results.
@@ -1666,6 +1716,13 @@ extension AppConfig {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max_results")
+            request.encodeQuery(self.nextToken, key: "next_token")
         }
 
         public func validate(name: String) throws {
@@ -1679,13 +1736,6 @@ extension AppConfig {
     }
 
     public struct ListConfigurationProfilesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token")),
-            AWSMemberEncoding(label: "type", location: .querystring("type"))
-        ]
-
         /// The application ID.
         public let applicationId: String
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -1702,6 +1752,15 @@ extension AppConfig {
             self.type = type
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodeQuery(self.maxResults, key: "max_results")
+            request.encodeQuery(self.nextToken, key: "next_token")
+            request.encodeQuery(self.type, key: "type")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
@@ -1715,11 +1774,6 @@ extension AppConfig {
     }
 
     public struct ListDeploymentStrategiesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token"))
-        ]
-
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results.
@@ -1728,6 +1782,13 @@ extension AppConfig {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max_results")
+            request.encodeQuery(self.nextToken, key: "next_token")
         }
 
         public func validate(name: String) throws {
@@ -1741,13 +1802,6 @@ extension AppConfig {
     }
 
     public struct ListDeploymentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "environmentId", location: .uri("EnvironmentId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token"))
-        ]
-
         /// The application ID.
         public let applicationId: String
         /// The environment ID.
@@ -1764,6 +1818,15 @@ extension AppConfig {
             self.nextToken = nextToken
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.environmentId, key: "EnvironmentId")
+            request.encodeQuery(self.maxResults, key: "max_results")
+            request.encodeQuery(self.nextToken, key: "next_token")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-z0-9]{4,7}$")
@@ -1777,12 +1840,6 @@ extension AppConfig {
     }
 
     public struct ListEnvironmentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token"))
-        ]
-
         /// The application ID.
         public let applicationId: String
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -1794,6 +1851,14 @@ extension AppConfig {
             self.applicationId = applicationId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodeQuery(self.maxResults, key: "max_results")
+            request.encodeQuery(self.nextToken, key: "next_token")
         }
 
         public func validate(name: String) throws {
@@ -1808,14 +1873,6 @@ extension AppConfig {
     }
 
     public struct ListExtensionAssociationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "extensionIdentifier", location: .querystring("extension_identifier")),
-            AWSMemberEncoding(label: "extensionVersionNumber", location: .querystring("extension_version_number")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token")),
-            AWSMemberEncoding(label: "resourceIdentifier", location: .querystring("resource_identifier"))
-        ]
-
         /// The name, the ID, or the Amazon Resource Name (ARN) of the extension.
         public let extensionIdentifier: String?
         /// The version number for the extension defined in the association.
@@ -1835,6 +1892,16 @@ extension AppConfig {
             self.resourceIdentifier = resourceIdentifier
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.extensionIdentifier, key: "extension_identifier")
+            request.encodeQuery(self.extensionVersionNumber, key: "extension_version_number")
+            request.encodeQuery(self.maxResults, key: "max_results")
+            request.encodeQuery(self.nextToken, key: "next_token")
+            request.encodeQuery(self.resourceIdentifier, key: "resource_identifier")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.extensionIdentifier, name: "extensionIdentifier", parent: name, max: 2048)
             try self.validate(self.extensionIdentifier, name: "extensionIdentifier", parent: name, min: 1)
@@ -1851,12 +1918,6 @@ extension AppConfig {
     }
 
     public struct ListExtensionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
-            AWSMemberEncoding(label: "name", location: .querystring("name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token"))
-        ]
-
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
         /// The extension name.
@@ -1868,6 +1929,14 @@ extension AppConfig {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max_results")
+            request.encodeQuery(self.name, key: "name")
+            request.encodeQuery(self.nextToken, key: "next_token")
         }
 
         public func validate(name: String) throws {
@@ -1883,14 +1952,6 @@ extension AppConfig {
     }
 
     public struct ListHostedConfigurationVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "configurationProfileId", location: .uri("ConfigurationProfileId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token")),
-            AWSMemberEncoding(label: "versionLabel", location: .querystring("version_label"))
-        ]
-
         /// The application ID.
         public let applicationId: String
         /// The configuration profile ID.
@@ -1910,6 +1971,16 @@ extension AppConfig {
             self.versionLabel = versionLabel
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.configurationProfileId, key: "ConfigurationProfileId")
+            request.encodeQuery(self.maxResults, key: "max_results")
+            request.encodeQuery(self.nextToken, key: "next_token")
+            request.encodeQuery(self.versionLabel, key: "version_label")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
             try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, pattern: "^[a-z0-9]{4,7}$")
@@ -1925,15 +1996,17 @@ extension AppConfig {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The resource ARN.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -2005,11 +2078,6 @@ extension AppConfig {
     }
 
     public struct StartDeploymentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "environmentId", location: .uri("EnvironmentId"))
-        ]
-
         /// The application ID.
         public let applicationId: String
         /// The configuration profile ID.
@@ -2036,6 +2104,19 @@ extension AppConfig {
             self.environmentId = environmentId
             self.kmsKeyIdentifier = kmsKeyIdentifier
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encode(self.configurationProfileId, forKey: .configurationProfileId)
+            try container.encode(self.configurationVersion, forKey: .configurationVersion)
+            try container.encode(self.deploymentStrategyId, forKey: .deploymentStrategyId)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.environmentId, key: "EnvironmentId")
+            try container.encodeIfPresent(self.kmsKeyIdentifier, forKey: .kmsKeyIdentifier)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2067,12 +2148,6 @@ extension AppConfig {
     }
 
     public struct StopDeploymentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "deploymentNumber", location: .uri("DeploymentNumber")),
-            AWSMemberEncoding(label: "environmentId", location: .uri("EnvironmentId"))
-        ]
-
         /// The application ID.
         public let applicationId: String
         /// The sequence number of the deployment.
@@ -2086,6 +2161,14 @@ extension AppConfig {
             self.environmentId = environmentId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.deploymentNumber, key: "DeploymentNumber")
+            request.encodePath(self.environmentId, key: "EnvironmentId")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-z0-9]{4,7}$")
@@ -2095,10 +2178,6 @@ extension AppConfig {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The ARN of the resource for which to retrieve tags.
         public let resourceArn: String
         /// The key-value string map. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
@@ -2107,6 +2186,13 @@ extension AppConfig {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2127,11 +2213,6 @@ extension AppConfig {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The ARN of the resource for which to remove tags.
         public let resourceArn: String
         /// The tag keys to delete.
@@ -2140,6 +2221,13 @@ extension AppConfig {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -2157,10 +2245,6 @@ extension AppConfig {
     }
 
     public struct UpdateApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The application ID.
         public let applicationId: String
         /// A description of the application.
@@ -2172,6 +2256,14 @@ extension AppConfig {
             self.applicationId = applicationId
             self.description = description
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -2188,11 +2280,6 @@ extension AppConfig {
     }
 
     public struct UpdateConfigurationProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "configurationProfileId", location: .uri("ConfigurationProfileId"))
-        ]
-
         /// The application ID.
         public let applicationId: String
         /// The ID of the configuration profile.
@@ -2213,6 +2300,17 @@ extension AppConfig {
             self.name = name
             self.retrievalRoleArn = retrievalRoleArn
             self.validators = validators
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.configurationProfileId, key: "ConfigurationProfileId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.retrievalRoleArn, forKey: .retrievalRoleArn)
+            try container.encodeIfPresent(self.validators, forKey: .validators)
         }
 
         public func validate(name: String) throws {
@@ -2239,10 +2337,6 @@ extension AppConfig {
     }
 
     public struct UpdateDeploymentStrategyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deploymentStrategyId", location: .uri("DeploymentStrategyId"))
-        ]
-
         /// Total amount of time for a deployment to last.
         public let deploymentDurationInMinutes: Int?
         /// The deployment strategy ID.
@@ -2263,6 +2357,17 @@ extension AppConfig {
             self.finalBakeTimeInMinutes = finalBakeTimeInMinutes
             self.growthFactor = growthFactor
             self.growthType = growthType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.deploymentDurationInMinutes, forKey: .deploymentDurationInMinutes)
+            request.encodePath(self.deploymentStrategyId, key: "DeploymentStrategyId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.finalBakeTimeInMinutes, forKey: .finalBakeTimeInMinutes)
+            try container.encodeIfPresent(self.growthFactor, forKey: .growthFactor)
+            try container.encodeIfPresent(self.growthType, forKey: .growthType)
         }
 
         public func validate(name: String) throws {
@@ -2286,11 +2391,6 @@ extension AppConfig {
     }
 
     public struct UpdateEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "environmentId", location: .uri("EnvironmentId"))
-        ]
-
         /// The application ID.
         public let applicationId: String
         /// A description of the environment.
@@ -2308,6 +2408,16 @@ extension AppConfig {
             self.environmentId = environmentId
             self.monitors = monitors
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.environmentId, key: "EnvironmentId")
+            try container.encodeIfPresent(self.monitors, forKey: .monitors)
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -2330,10 +2440,6 @@ extension AppConfig {
     }
 
     public struct UpdateExtensionAssociationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "extensionAssociationId", location: .uri("ExtensionAssociationId"))
-        ]
-
         /// The system-generated ID for the association.
         public let extensionAssociationId: String
         /// The parameter names and values defined in the extension.
@@ -2342,6 +2448,13 @@ extension AppConfig {
         public init(extensionAssociationId: String, parameters: [String: String]? = nil) {
             self.extensionAssociationId = extensionAssociationId
             self.parameters = parameters
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.extensionAssociationId, key: "ExtensionAssociationId")
+            try container.encodeIfPresent(self.parameters, forKey: .parameters)
         }
 
         public func validate(name: String) throws {
@@ -2361,10 +2474,6 @@ extension AppConfig {
     }
 
     public struct UpdateExtensionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "extensionIdentifier", location: .uri("ExtensionIdentifier"))
-        ]
-
         /// The actions defined in the extension.
         public let actions: [ActionPoint: [Action]]?
         /// Information about the extension.
@@ -2382,6 +2491,16 @@ extension AppConfig {
             self.extensionIdentifier = extensionIdentifier
             self.parameters = parameters
             self.versionNumber = versionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.actions, forKey: .actions)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.extensionIdentifier, key: "ExtensionIdentifier")
+            try container.encodeIfPresent(self.parameters, forKey: .parameters)
+            try container.encodeIfPresent(self.versionNumber, forKey: .versionNumber)
         }
 
         public func validate(name: String) throws {
@@ -2412,12 +2531,6 @@ extension AppConfig {
     }
 
     public struct ValidateConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "configurationProfileId", location: .uri("ConfigurationProfileId")),
-            AWSMemberEncoding(label: "configurationVersion", location: .querystring("configuration_version"))
-        ]
-
         /// The application ID.
         public let applicationId: String
         /// The configuration profile ID.
@@ -2429,6 +2542,14 @@ extension AppConfig {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
             self.configurationVersion = configurationVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.configurationProfileId, key: "ConfigurationProfileId")
+            request.encodeQuery(self.configurationVersion, key: "configuration_version")
         }
 
         public func validate(name: String) throws {

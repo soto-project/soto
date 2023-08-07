@@ -3991,15 +3991,17 @@ extension MediaConvert {
     }
 
     public struct CancelJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The Job ID of the job to be cancelled.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5186,15 +5188,17 @@ extension MediaConvert {
     }
 
     public struct DeleteJobTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the job template to be deleted.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5213,15 +5217,17 @@ extension MediaConvert {
     }
 
     public struct DeletePresetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the preset to be deleted.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5232,15 +5238,17 @@ extension MediaConvert {
     }
 
     public struct DeleteQueueRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the queue that you want to delete.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5306,15 +5314,17 @@ extension MediaConvert {
     }
 
     public struct DisassociateCertificateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
-        ]
-
         /// The ARN of the ACM certificate that you want to disassociate from your MediaConvert resource.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6103,15 +6113,17 @@ extension MediaConvert {
     }
 
     public struct GetJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// the job ID of the job.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6131,15 +6143,17 @@ extension MediaConvert {
     }
 
     public struct GetJobTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the job template.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6176,15 +6190,17 @@ extension MediaConvert {
     }
 
     public struct GetPresetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the preset.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6204,15 +6220,17 @@ extension MediaConvert {
     }
 
     public struct GetQueueRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the queue that you want information about.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8112,14 +8130,6 @@ extension MediaConvert {
     }
 
     public struct ListJobTemplatesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "category", location: .querystring("category")),
-            AWSMemberEncoding(label: "listBy", location: .querystring("listBy")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "order", location: .querystring("order"))
-        ]
-
         /// Optionally, specify a job template category to limit responses to only job templates from that category.
         public let category: String?
         /// Optional. When you request a list of job templates, you can choose to list them alphabetically by NAME or chronologically by CREATION_DATE. If you don't specify, the service will list them by name.
@@ -8137,6 +8147,16 @@ extension MediaConvert {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.order = order
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.category, key: "category")
+            request.encodeQuery(self.listBy, key: "listBy")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.order, key: "order")
         }
 
         public func validate(name: String) throws {
@@ -8165,14 +8185,6 @@ extension MediaConvert {
     }
 
     public struct ListJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "order", location: .querystring("order")),
-            AWSMemberEncoding(label: "queue", location: .querystring("queue")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         /// Optional. Number of jobs, up to twenty, that will be returned at one time.
         public let maxResults: Int?
         /// Optional. Use this string, provided with the response to a previous request, to request the next batch of jobs.
@@ -8190,6 +8202,16 @@ extension MediaConvert {
             self.order = order
             self.queue = queue
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.order, key: "order")
+            request.encodeQuery(self.queue, key: "queue")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -8218,14 +8240,6 @@ extension MediaConvert {
     }
 
     public struct ListPresetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "category", location: .querystring("category")),
-            AWSMemberEncoding(label: "listBy", location: .querystring("listBy")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "order", location: .querystring("order"))
-        ]
-
         /// Optionally, specify a preset category to limit responses to only presets from that category.
         public let category: String?
         /// Optional. When you request a list of presets, you can choose to list them alphabetically by NAME or chronologically by CREATION_DATE. If you don't specify, the service will list them by name.
@@ -8243,6 +8257,16 @@ extension MediaConvert {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.order = order
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.category, key: "category")
+            request.encodeQuery(self.listBy, key: "listBy")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.order, key: "order")
         }
 
         public func validate(name: String) throws {
@@ -8271,13 +8295,6 @@ extension MediaConvert {
     }
 
     public struct ListQueuesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "listBy", location: .querystring("listBy")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "order", location: .querystring("order"))
-        ]
-
         /// Optional. When you request a list of queues, you can choose to list them alphabetically by NAME or chronologically by CREATION_DATE. If you don't specify, the service will list them by creation date.
         public let listBy: QueueListBy?
         /// Optional. Number of queues, up to twenty, that will be returned at one time.
@@ -8292,6 +8309,15 @@ extension MediaConvert {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.order = order
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.listBy, key: "listBy")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.order, key: "order")
         }
 
         public func validate(name: String) throws {
@@ -8320,15 +8346,17 @@ extension MediaConvert {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource that you want to list tags for. To get the ARN, send a GET request with the resource name.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -10628,10 +10656,6 @@ extension MediaConvert {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource that you want to remove tags from. To get the ARN, send a GET request with the resource name.
         public let arn: String
         /// The keys of the tags that you want to remove from the resource.
@@ -10640,6 +10664,13 @@ extension MediaConvert {
         public init(arn: String, tagKeys: [String]? = nil) {
             self.arn = arn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
+            try container.encodeIfPresent(self.tagKeys, forKey: .tagKeys)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10652,10 +10683,6 @@ extension MediaConvert {
     }
 
     public struct UpdateJobTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// Accelerated transcoding can significantly speed up jobs with long, visually complex content. Outputs that use this feature incur pro-tier pricing. For information about feature limitations, see the AWS Elemental MediaConvert User Guide.
         public let accelerationSettings: AccelerationSettings?
         /// The new category for the job template, if you are changing it.
@@ -10685,6 +10712,20 @@ extension MediaConvert {
             self.queue = queue
             self.settings = settings
             self.statusUpdateInterval = statusUpdateInterval
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.accelerationSettings, forKey: .accelerationSettings)
+            try container.encodeIfPresent(self.category, forKey: .category)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.hopDestinations, forKey: .hopDestinations)
+            request.encodePath(self.name, key: "Name")
+            try container.encodeIfPresent(self.priority, forKey: .priority)
+            try container.encodeIfPresent(self.queue, forKey: .queue)
+            try container.encodeIfPresent(self.settings, forKey: .settings)
+            try container.encodeIfPresent(self.statusUpdateInterval, forKey: .statusUpdateInterval)
         }
 
         public func validate(name: String) throws {
@@ -10722,10 +10763,6 @@ extension MediaConvert {
     }
 
     public struct UpdatePresetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The new category for the preset, if you are changing it.
         public let category: String?
         /// The new description for the preset, if you are changing it.
@@ -10740,6 +10777,15 @@ extension MediaConvert {
             self.description = description
             self.name = name
             self.settings = settings
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.category, forKey: .category)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.name, key: "Name")
+            try container.encodeIfPresent(self.settings, forKey: .settings)
         }
 
         public func validate(name: String) throws {
@@ -10767,10 +10813,6 @@ extension MediaConvert {
     }
 
     public struct UpdateQueueRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The new description for the queue, if you are changing it.
         public let description: String?
         /// The name of the queue that you are modifying.
@@ -10785,6 +10827,15 @@ extension MediaConvert {
             self.name = name
             self.reservationPlanSettings = reservationPlanSettings
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.name, key: "Name")
+            try container.encodeIfPresent(self.reservationPlanSettings, forKey: .reservationPlanSettings)
+            try container.encodeIfPresent(self.status, forKey: .status)
         }
 
         private enum CodingKeys: String, CodingKey {

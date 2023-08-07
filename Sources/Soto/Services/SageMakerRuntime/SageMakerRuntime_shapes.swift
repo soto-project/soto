@@ -29,17 +29,6 @@ extension SageMakerRuntime {
     // MARK: Shapes
 
     public struct InvokeEndpointAsyncInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accept", location: .header("X-Amzn-SageMaker-Accept")),
-            AWSMemberEncoding(label: "contentType", location: .header("X-Amzn-SageMaker-Content-Type")),
-            AWSMemberEncoding(label: "customAttributes", location: .header("X-Amzn-SageMaker-Custom-Attributes")),
-            AWSMemberEncoding(label: "endpointName", location: .uri("EndpointName")),
-            AWSMemberEncoding(label: "inferenceId", location: .header("X-Amzn-SageMaker-Inference-Id")),
-            AWSMemberEncoding(label: "inputLocation", location: .header("X-Amzn-SageMaker-InputLocation")),
-            AWSMemberEncoding(label: "invocationTimeoutSeconds", location: .header("X-Amzn-SageMaker-InvocationTimeoutSeconds")),
-            AWSMemberEncoding(label: "requestTTLSeconds", location: .header("X-Amzn-SageMaker-RequestTTLSeconds"))
-        ]
-
         /// The desired MIME type of the inference in the response.
         public let accept: String?
         /// The MIME type of the input data in the request body.
@@ -66,6 +55,19 @@ extension SageMakerRuntime {
             self.inputLocation = inputLocation
             self.invocationTimeoutSeconds = invocationTimeoutSeconds
             self.requestTTLSeconds = requestTTLSeconds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accept, key: "X-Amzn-SageMaker-Accept")
+            request.encodeHeader(self.contentType, key: "X-Amzn-SageMaker-Content-Type")
+            request.encodeHeader(self.customAttributes, key: "X-Amzn-SageMaker-Custom-Attributes")
+            request.encodePath(self.endpointName, key: "EndpointName")
+            request.encodeHeader(self.inferenceId, key: "X-Amzn-SageMaker-Inference-Id")
+            request.encodeHeader(self.inputLocation, key: "X-Amzn-SageMaker-InputLocation")
+            request.encodeHeader(self.invocationTimeoutSeconds, key: "X-Amzn-SageMaker-InvocationTimeoutSeconds")
+            request.encodeHeader(self.requestTTLSeconds, key: "X-Amzn-SageMaker-RequestTTLSeconds")
         }
 
         public func validate(name: String) throws {
@@ -109,10 +111,9 @@ extension SageMakerRuntime {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.failureLocation = try response.decodeIfPresent(String.self, forHeader: "X-Amzn-SageMaker-FailureLocation")
+            self.failureLocation = try response.decodeHeaderIfPresent(String.self, key: "X-Amzn-SageMaker-FailureLocation")
             self.inferenceId = try container.decodeIfPresent(String.self, forKey: .inferenceId)
-            self.outputLocation = try response.decodeIfPresent(String.self, forHeader: "X-Amzn-SageMaker-OutputLocation")
-
+            self.outputLocation = try response.decodeHeaderIfPresent(String.self, key: "X-Amzn-SageMaker-OutputLocation")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -120,21 +121,7 @@ extension SageMakerRuntime {
         }
     }
 
-    public struct InvokeEndpointInput: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "body"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accept", location: .header("Accept")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "customAttributes", location: .header("X-Amzn-SageMaker-Custom-Attributes")),
-            AWSMemberEncoding(label: "enableExplanations", location: .header("X-Amzn-SageMaker-Enable-Explanations")),
-            AWSMemberEncoding(label: "endpointName", location: .uri("EndpointName")),
-            AWSMemberEncoding(label: "inferenceId", location: .header("X-Amzn-SageMaker-Inference-Id")),
-            AWSMemberEncoding(label: "targetContainerHostname", location: .header("X-Amzn-SageMaker-Target-Container-Hostname")),
-            AWSMemberEncoding(label: "targetModel", location: .header("X-Amzn-SageMaker-Target-Model")),
-            AWSMemberEncoding(label: "targetVariant", location: .header("X-Amzn-SageMaker-Target-Variant"))
-        ]
-
+    public struct InvokeEndpointInput: AWSEncodableShape {
         /// The desired MIME type of the inference in the response.
         public let accept: String?
         /// Provides input data, in the format specified in the ContentType request header. Amazon SageMaker passes all of the data in the body to the model.  For information about the format of the request body, see Common Data Formats-Inference.
@@ -167,6 +154,21 @@ extension SageMakerRuntime {
             self.targetContainerHostname = targetContainerHostname
             self.targetModel = targetModel
             self.targetVariant = targetVariant
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeHeader(self.accept, key: "Accept")
+            try container.encode(self.body)
+            request.encodeHeader(self.contentType, key: "Content-Type")
+            request.encodeHeader(self.customAttributes, key: "X-Amzn-SageMaker-Custom-Attributes")
+            request.encodeHeader(self.enableExplanations, key: "X-Amzn-SageMaker-Enable-Explanations")
+            request.encodePath(self.endpointName, key: "EndpointName")
+            request.encodeHeader(self.inferenceId, key: "X-Amzn-SageMaker-Inference-Id")
+            request.encodeHeader(self.targetContainerHostname, key: "X-Amzn-SageMaker-Target-Container-Hostname")
+            request.encodeHeader(self.targetModel, key: "X-Amzn-SageMaker-Target-Model")
+            request.encodeHeader(self.targetVariant, key: "X-Amzn-SageMaker-Target-Variant")
         }
 
         public func validate(name: String) throws {
@@ -217,11 +219,11 @@ extension SageMakerRuntime {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.body = response.decodePayload()
-            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
-            self.customAttributes = try response.decodeIfPresent(String.self, forHeader: "X-Amzn-SageMaker-Custom-Attributes")
-            self.invokedProductionVariant = try response.decodeIfPresent(String.self, forHeader: "x-Amzn-Invoked-Production-Variant")
-
+            let container = try decoder.singleValueContainer()
+            self.body = try container.decode(AWSHTTPBody.self)
+            self.contentType = try response.decodeHeaderIfPresent(String.self, key: "Content-Type")
+            self.customAttributes = try response.decodeHeaderIfPresent(String.self, key: "X-Amzn-SageMaker-Custom-Attributes")
+            self.invokedProductionVariant = try response.decodeHeaderIfPresent(String.self, key: "x-Amzn-Invoked-Production-Variant")
         }
 
         private enum CodingKeys: CodingKey {}

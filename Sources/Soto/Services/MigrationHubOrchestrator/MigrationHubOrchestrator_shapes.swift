@@ -549,15 +549,17 @@ extension MigrationHubOrchestrator {
     }
 
     public struct DeleteMigrationWorkflowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The ID of the migration workflow you want to delete.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -591,11 +593,6 @@ extension MigrationHubOrchestrator {
     }
 
     public struct DeleteWorkflowStepGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "workflowId", location: .querystring("workflowId"))
-        ]
-
         /// The ID of the step group you want to delete.
         public let id: String
         /// The ID of the migration workflow.
@@ -604,6 +601,13 @@ extension MigrationHubOrchestrator {
         public init(id: String, workflowId: String) {
             self.id = id
             self.workflowId = workflowId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodeQuery(self.workflowId, key: "workflowId")
         }
 
         public func validate(name: String) throws {
@@ -623,12 +627,6 @@ extension MigrationHubOrchestrator {
     }
 
     public struct DeleteWorkflowStepRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "stepGroupId", location: .querystring("stepGroupId")),
-            AWSMemberEncoding(label: "workflowId", location: .querystring("workflowId"))
-        ]
-
         /// The ID of the step you want to delete.
         public let id: String
         /// The ID of the step group that contains the step you want to delete.
@@ -640,6 +638,14 @@ extension MigrationHubOrchestrator {
             self.id = id
             self.stepGroupId = stepGroupId
             self.workflowId = workflowId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodeQuery(self.stepGroupId, key: "stepGroupId")
+            request.encodeQuery(self.workflowId, key: "workflowId")
         }
 
         public func validate(name: String) throws {
@@ -662,15 +668,17 @@ extension MigrationHubOrchestrator {
     }
 
     public struct GetMigrationWorkflowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The ID of the migration workflow.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -772,15 +780,17 @@ extension MigrationHubOrchestrator {
     }
 
     public struct GetMigrationWorkflowTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The ID of the template.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -830,11 +840,6 @@ extension MigrationHubOrchestrator {
     }
 
     public struct GetTemplateStepGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "templateId", location: .uri("templateId"))
-        ]
-
         /// The ID of the step group.
         public let id: String
         /// The ID of the template.
@@ -843,6 +848,13 @@ extension MigrationHubOrchestrator {
         public init(id: String, templateId: String) {
             self.id = id
             self.templateId = templateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.templateId, key: "templateId")
         }
 
         public func validate(name: String) throws {
@@ -907,12 +919,6 @@ extension MigrationHubOrchestrator {
     }
 
     public struct GetTemplateStepRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "stepGroupId", location: .querystring("stepGroupId")),
-            AWSMemberEncoding(label: "templateId", location: .querystring("templateId"))
-        ]
-
         /// The ID of the step.
         public let id: String
         /// The ID of the step group.
@@ -924,6 +930,14 @@ extension MigrationHubOrchestrator {
             self.id = id
             self.stepGroupId = stepGroupId
             self.templateId = templateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodeQuery(self.stepGroupId, key: "stepGroupId")
+            request.encodeQuery(self.templateId, key: "templateId")
         }
 
         public func validate(name: String) throws {
@@ -995,11 +1009,6 @@ extension MigrationHubOrchestrator {
     }
 
     public struct GetWorkflowStepGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "workflowId", location: .querystring("workflowId"))
-        ]
-
         /// The ID of the step group.
         public let id: String
         /// The ID of the migration workflow.
@@ -1008,6 +1017,13 @@ extension MigrationHubOrchestrator {
         public init(id: String, workflowId: String) {
             self.id = id
             self.workflowId = workflowId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodeQuery(self.workflowId, key: "workflowId")
         }
 
         public func validate(name: String) throws {
@@ -1080,12 +1096,6 @@ extension MigrationHubOrchestrator {
     }
 
     public struct GetWorkflowStepRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "stepGroupId", location: .querystring("stepGroupId")),
-            AWSMemberEncoding(label: "workflowId", location: .querystring("workflowId"))
-        ]
-
         /// The ID of the step.
         public let id: String
         /// desThe ID of the step group.
@@ -1097,6 +1107,14 @@ extension MigrationHubOrchestrator {
             self.id = id
             self.stepGroupId = stepGroupId
             self.workflowId = workflowId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodeQuery(self.stepGroupId, key: "stepGroupId")
+            request.encodeQuery(self.workflowId, key: "workflowId")
         }
 
         public func validate(name: String) throws {
@@ -1208,12 +1226,6 @@ extension MigrationHubOrchestrator {
     }
 
     public struct ListMigrationWorkflowTemplatesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "name", location: .querystring("name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results that can be returned.
         public let maxResults: Int?
         /// The name of the template.
@@ -1225,6 +1237,14 @@ extension MigrationHubOrchestrator {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.name, key: "name")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1258,15 +1278,6 @@ extension MigrationHubOrchestrator {
     }
 
     public struct ListMigrationWorkflowsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "adsApplicationConfigurationName", location: .querystring("adsApplicationConfigurationName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "name", location: .querystring("name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring("status")),
-            AWSMemberEncoding(label: "templateId", location: .querystring("templateId"))
-        ]
-
         /// The name of the application configured in Application Discovery Service.
         public let adsApplicationConfigurationName: String?
         /// The maximum number of results that can be returned.
@@ -1287,6 +1298,17 @@ extension MigrationHubOrchestrator {
             self.nextToken = nextToken
             self.status = status
             self.templateId = templateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.adsApplicationConfigurationName, key: "adsApplicationConfigurationName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.name, key: "name")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
+            request.encodeQuery(self.templateId, key: "templateId")
         }
 
         public func validate(name: String) throws {
@@ -1323,11 +1345,6 @@ extension MigrationHubOrchestrator {
     }
 
     public struct ListPluginsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of plugins that can be returned.
         public let maxResults: Int?
         /// The pagination token.
@@ -1336,6 +1353,13 @@ extension MigrationHubOrchestrator {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1366,15 +1390,17 @@ extension MigrationHubOrchestrator {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1398,12 +1424,6 @@ extension MigrationHubOrchestrator {
     }
 
     public struct ListTemplateStepGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "templateId", location: .uri("templateId"))
-        ]
-
         /// The maximum number of results that can be returned.
         public let maxResults: Int?
         /// The pagination token.
@@ -1415,6 +1435,14 @@ extension MigrationHubOrchestrator {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.templateId = templateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.templateId, key: "templateId")
         }
 
         public func validate(name: String) throws {
@@ -1448,13 +1476,6 @@ extension MigrationHubOrchestrator {
     }
 
     public struct ListTemplateStepsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "stepGroupId", location: .querystring("stepGroupId")),
-            AWSMemberEncoding(label: "templateId", location: .querystring("templateId"))
-        ]
-
         /// The maximum number of results that can be returned.
         public let maxResults: Int?
         /// The pagination token.
@@ -1469,6 +1490,15 @@ extension MigrationHubOrchestrator {
             self.nextToken = nextToken
             self.stepGroupId = stepGroupId
             self.templateId = templateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.stepGroupId, key: "stepGroupId")
+            request.encodeQuery(self.templateId, key: "templateId")
         }
 
         public func validate(name: String) throws {
@@ -1505,12 +1535,6 @@ extension MigrationHubOrchestrator {
     }
 
     public struct ListWorkflowStepGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "workflowId", location: .querystring("workflowId"))
-        ]
-
         /// The maximum number of results that can be returned.
         public let maxResults: Int?
         /// The pagination token.
@@ -1522,6 +1546,14 @@ extension MigrationHubOrchestrator {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.workflowId = workflowId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.workflowId, key: "workflowId")
         }
 
         public func validate(name: String) throws {
@@ -1555,13 +1587,6 @@ extension MigrationHubOrchestrator {
     }
 
     public struct ListWorkflowStepsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "stepGroupId", location: .uri("stepGroupId")),
-            AWSMemberEncoding(label: "workflowId", location: .uri("workflowId"))
-        ]
-
         /// The maximum number of results that can be returned.
         public let maxResults: Int?
         /// The pagination token.
@@ -1576,6 +1601,15 @@ extension MigrationHubOrchestrator {
             self.nextToken = nextToken
             self.stepGroupId = stepGroupId
             self.workflowId = workflowId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.stepGroupId, key: "stepGroupId")
+            request.encodePath(self.workflowId, key: "workflowId")
         }
 
         public func validate(name: String) throws {
@@ -1733,12 +1767,6 @@ extension MigrationHubOrchestrator {
     }
 
     public struct RetryWorkflowStepRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "stepGroupId", location: .querystring("stepGroupId")),
-            AWSMemberEncoding(label: "workflowId", location: .querystring("workflowId"))
-        ]
-
         /// The ID of the step.
         public let id: String
         /// The ID of the step group.
@@ -1750,6 +1778,14 @@ extension MigrationHubOrchestrator {
             self.id = id
             self.stepGroupId = stepGroupId
             self.workflowId = workflowId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodeQuery(self.stepGroupId, key: "stepGroupId")
+            request.encodeQuery(self.workflowId, key: "workflowId")
         }
 
         public func validate(name: String) throws {
@@ -1793,15 +1829,17 @@ extension MigrationHubOrchestrator {
     }
 
     public struct StartMigrationWorkflowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The ID of the migration workflow.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -1893,15 +1931,17 @@ extension MigrationHubOrchestrator {
     }
 
     public struct StopMigrationWorkflowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The ID of the migration workflow.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -1943,10 +1983,6 @@ extension MigrationHubOrchestrator {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource to which you want to add tags.
         public let resourceArn: String
         /// A collection of labels, in the form of key:value pairs, that apply to this resource.
@@ -1955,6 +1991,13 @@ extension MigrationHubOrchestrator {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2110,11 +2153,6 @@ extension MigrationHubOrchestrator {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource from which you want to remove tags.
         public let resourceArn: String
         /// One or more tag keys. Specify only the tag keys, not the tag values.
@@ -2123,6 +2161,13 @@ extension MigrationHubOrchestrator {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -2143,10 +2188,6 @@ extension MigrationHubOrchestrator {
     }
 
     public struct UpdateMigrationWorkflowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The description of the migration workflow.
         public let description: String?
         /// The ID of the migration workflow.
@@ -2164,6 +2205,16 @@ extension MigrationHubOrchestrator {
             self.inputParameters = inputParameters
             self.name = name
             self.stepTargets = stepTargets
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.id, key: "id")
+            try container.encodeIfPresent(self.inputParameters, forKey: .inputParameters)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.stepTargets, forKey: .stepTargets)
         }
 
         public func validate(name: String) throws {
@@ -2247,11 +2298,6 @@ extension MigrationHubOrchestrator {
     }
 
     public struct UpdateWorkflowStepGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "workflowId", location: .querystring("workflowId"))
-        ]
-
         /// The description of the step group.
         public let description: String?
         /// The ID of the step group.
@@ -2272,6 +2318,17 @@ extension MigrationHubOrchestrator {
             self.next = next
             self.previous = previous
             self.workflowId = workflowId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.id, key: "id")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.next, forKey: .next)
+            try container.encodeIfPresent(self.previous, forKey: .previous)
+            request.encodeQuery(self.workflowId, key: "workflowId")
         }
 
         public func validate(name: String) throws {
@@ -2344,10 +2401,6 @@ extension MigrationHubOrchestrator {
     }
 
     public struct UpdateWorkflowStepRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The description of the step.
         public let description: String?
         /// The ID of the step.
@@ -2386,6 +2439,23 @@ extension MigrationHubOrchestrator {
             self.stepTarget = stepTarget
             self.workflowId = workflowId
             self.workflowStepAutomationConfiguration = workflowStepAutomationConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.id, key: "id")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.next, forKey: .next)
+            try container.encodeIfPresent(self.outputs, forKey: .outputs)
+            try container.encodeIfPresent(self.previous, forKey: .previous)
+            try container.encodeIfPresent(self.status, forKey: .status)
+            try container.encodeIfPresent(self.stepActionType, forKey: .stepActionType)
+            try container.encode(self.stepGroupId, forKey: .stepGroupId)
+            try container.encodeIfPresent(self.stepTarget, forKey: .stepTarget)
+            try container.encode(self.workflowId, forKey: .workflowId)
+            try container.encodeIfPresent(self.workflowStepAutomationConfiguration, forKey: .workflowStepAutomationConfiguration)
         }
 
         public func validate(name: String) throws {

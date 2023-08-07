@@ -267,10 +267,6 @@ extension ManagedBlockchain {
     }
 
     public struct CreateMemberInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the CLI.
         public let clientRequestToken: String
         /// The unique identifier of the invitation that is sent to the member to join the network.
@@ -285,6 +281,15 @@ extension ManagedBlockchain {
             self.invitationId = invitationId
             self.memberConfiguration = memberConfiguration
             self.networkId = networkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encode(self.invitationId, forKey: .invitationId)
+            try container.encode(self.memberConfiguration, forKey: .memberConfiguration)
+            request.encodePath(self.networkId, key: "NetworkId")
         }
 
         public func validate(name: String) throws {
@@ -399,10 +404,6 @@ extension ManagedBlockchain {
     }
 
     public struct CreateNodeInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the CLI.
         public let clientRequestToken: String
         /// The unique identifier of the member that owns this node. Applies only to Hyperledger Fabric.
@@ -420,6 +421,16 @@ extension ManagedBlockchain {
             self.networkId = networkId
             self.nodeConfiguration = nodeConfiguration
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encodeIfPresent(self.memberId, forKey: .memberId)
+            request.encodePath(self.networkId, key: "NetworkId")
+            try container.encode(self.nodeConfiguration, forKey: .nodeConfiguration)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -459,10 +470,6 @@ extension ManagedBlockchain {
     }
 
     public struct CreateProposalInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId"))
-        ]
-
         /// The type of actions proposed, such as inviting a member or removing a member. The types of Actions in a proposal are mutually exclusive. For example, a proposal with Invitations actions cannot also contain Removals actions.
         public let actions: ProposalActions
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the CLI.
@@ -483,6 +490,17 @@ extension ManagedBlockchain {
             self.memberId = memberId
             self.networkId = networkId
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.actions, forKey: .actions)
+            try container.encode(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.memberId, forKey: .memberId)
+            request.encodePath(self.networkId, key: "NetworkId")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -525,15 +543,17 @@ extension ManagedBlockchain {
     }
 
     public struct DeleteAccessorInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessorId", location: .uri("AccessorId"))
-        ]
-
         /// The unique identifier of the accessor.
         public let accessorId: String
 
         public init(accessorId: String) {
             self.accessorId = accessorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accessorId, key: "AccessorId")
         }
 
         public func validate(name: String) throws {
@@ -549,11 +569,6 @@ extension ManagedBlockchain {
     }
 
     public struct DeleteMemberInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "memberId", location: .uri("MemberId")),
-            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId"))
-        ]
-
         /// The unique identifier of the member to remove.
         public let memberId: String
         /// The unique identifier of the network from which the member is removed.
@@ -562,6 +577,13 @@ extension ManagedBlockchain {
         public init(memberId: String, networkId: String) {
             self.memberId = memberId
             self.networkId = networkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.memberId, key: "MemberId")
+            request.encodePath(self.networkId, key: "NetworkId")
         }
 
         public func validate(name: String) throws {
@@ -579,12 +601,6 @@ extension ManagedBlockchain {
     }
 
     public struct DeleteNodeInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "memberId", location: .querystring("memberId")),
-            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId")),
-            AWSMemberEncoding(label: "nodeId", location: .uri("NodeId"))
-        ]
-
         /// The unique identifier of the member that owns this node. Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
         public let memberId: String?
         /// The unique identifier of the network that the node is on. Ethereum public networks have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-goerli     n-ethereum-rinkeby
@@ -596,6 +612,14 @@ extension ManagedBlockchain {
             self.memberId = memberId
             self.networkId = networkId
             self.nodeId = nodeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.memberId, key: "memberId")
+            request.encodePath(self.networkId, key: "NetworkId")
+            request.encodePath(self.nodeId, key: "NodeId")
         }
 
         public func validate(name: String) throws {
@@ -615,15 +639,17 @@ extension ManagedBlockchain {
     }
 
     public struct GetAccessorInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessorId", location: .uri("AccessorId"))
-        ]
-
         /// The unique identifier of the accessor.
         public let accessorId: String
 
         public init(accessorId: String) {
             self.accessorId = accessorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accessorId, key: "AccessorId")
         }
 
         public func validate(name: String) throws {
@@ -648,11 +674,6 @@ extension ManagedBlockchain {
     }
 
     public struct GetMemberInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "memberId", location: .uri("MemberId")),
-            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId"))
-        ]
-
         /// The unique identifier of the member.
         public let memberId: String
         /// The unique identifier of the network to which the member belongs.
@@ -661,6 +682,13 @@ extension ManagedBlockchain {
         public init(memberId: String, networkId: String) {
             self.memberId = memberId
             self.networkId = networkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.memberId, key: "MemberId")
+            request.encodePath(self.networkId, key: "NetworkId")
         }
 
         public func validate(name: String) throws {
@@ -687,15 +715,17 @@ extension ManagedBlockchain {
     }
 
     public struct GetNetworkInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId"))
-        ]
-
         /// The unique identifier of the network to get information about.
         public let networkId: String
 
         public init(networkId: String) {
             self.networkId = networkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.networkId, key: "NetworkId")
         }
 
         public func validate(name: String) throws {
@@ -720,12 +750,6 @@ extension ManagedBlockchain {
     }
 
     public struct GetNodeInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "memberId", location: .querystring("memberId")),
-            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId")),
-            AWSMemberEncoding(label: "nodeId", location: .uri("NodeId"))
-        ]
-
         /// The unique identifier of the member that owns the node. Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
         public let memberId: String?
         /// The unique identifier of the network that the node is on.
@@ -737,6 +761,14 @@ extension ManagedBlockchain {
             self.memberId = memberId
             self.networkId = networkId
             self.nodeId = nodeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.memberId, key: "memberId")
+            request.encodePath(self.networkId, key: "NetworkId")
+            request.encodePath(self.nodeId, key: "NodeId")
         }
 
         public func validate(name: String) throws {
@@ -765,11 +797,6 @@ extension ManagedBlockchain {
     }
 
     public struct GetProposalInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId")),
-            AWSMemberEncoding(label: "proposalId", location: .uri("ProposalId"))
-        ]
-
         /// The unique identifier of the network for which the proposal is made.
         public let networkId: String
         /// The unique identifier of the proposal.
@@ -778,6 +805,13 @@ extension ManagedBlockchain {
         public init(networkId: String, proposalId: String) {
             self.networkId = networkId
             self.proposalId = proposalId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.networkId, key: "NetworkId")
+            request.encodePath(self.proposalId, key: "ProposalId")
         }
 
         public func validate(name: String) throws {
@@ -851,11 +885,6 @@ extension ManagedBlockchain {
     }
 
     public struct ListAccessorsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The maximum number of accessors to list.
         public let maxResults: Int?
         ///  The pagination token that indicates the next set of results to retrieve.
@@ -864,6 +893,13 @@ extension ManagedBlockchain {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -893,11 +929,6 @@ extension ManagedBlockchain {
     }
 
     public struct ListInvitationsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of invitations to return.
         public let maxResults: Int?
         /// The pagination token that indicates the next set of results to retrieve.
@@ -906,6 +937,13 @@ extension ManagedBlockchain {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -935,15 +973,6 @@ extension ManagedBlockchain {
     }
 
     public struct ListMembersInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "isOwned", location: .querystring("isOwned")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "name", location: .querystring("name")),
-            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         /// An optional Boolean value. If provided, the request is limited either to members that the current Amazon Web Services account owns (true) or that other Amazon Web Services accountsn own (false). If omitted, all members are listed.
         public let isOwned: Bool?
         /// The maximum number of members to return in the request.
@@ -964,6 +993,17 @@ extension ManagedBlockchain {
             self.networkId = networkId
             self.nextToken = nextToken
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.isOwned, key: "isOwned")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.name, key: "name")
+            request.encodePath(self.networkId, key: "NetworkId")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -995,14 +1035,6 @@ extension ManagedBlockchain {
     }
 
     public struct ListNetworksInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "framework", location: .querystring("framework")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "name", location: .querystring("name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         /// An optional framework specifier. If provided, only networks of this framework type are listed.
         public let framework: Framework?
         /// The maximum number of networks to list.
@@ -1020,6 +1052,16 @@ extension ManagedBlockchain {
             self.name = name
             self.nextToken = nextToken
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.framework, key: "framework")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.name, key: "name")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -1049,14 +1091,6 @@ extension ManagedBlockchain {
     }
 
     public struct ListNodesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "memberId", location: .querystring("memberId")),
-            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         /// The maximum number of nodes to list.
         public let maxResults: Int?
         /// The unique identifier of the member who owns the nodes to list. Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
@@ -1074,6 +1108,16 @@ extension ManagedBlockchain {
             self.networkId = networkId
             self.nextToken = nextToken
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.memberId, key: "memberId")
+            request.encodePath(self.networkId, key: "NetworkId")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -1107,13 +1151,6 @@ extension ManagedBlockchain {
     }
 
     public struct ListProposalVotesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "proposalId", location: .uri("ProposalId"))
-        ]
-
         ///  The maximum number of votes to return.
         public let maxResults: Int?
         ///  The unique identifier of the network.
@@ -1128,6 +1165,15 @@ extension ManagedBlockchain {
             self.networkId = networkId
             self.nextToken = nextToken
             self.proposalId = proposalId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.networkId, key: "NetworkId")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.proposalId, key: "ProposalId")
         }
 
         public func validate(name: String) throws {
@@ -1161,12 +1207,6 @@ extension ManagedBlockchain {
     }
 
     public struct ListProposalsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The maximum number of proposals to return.
         public let maxResults: Int?
         ///  The unique identifier of the network.
@@ -1178,6 +1218,14 @@ extension ManagedBlockchain {
             self.maxResults = maxResults
             self.networkId = networkId
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.networkId, key: "NetworkId")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1209,15 +1257,17 @@ extension ManagedBlockchain {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -2018,15 +2068,17 @@ extension ManagedBlockchain {
     }
 
     public struct RejectInvitationInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "invitationId", location: .uri("InvitationId"))
-        ]
-
         /// The unique identifier of the invitation to reject.
         public let invitationId: String
 
         public init(invitationId: String) {
             self.invitationId = invitationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.invitationId, key: "InvitationId")
         }
 
         public func validate(name: String) throws {
@@ -2060,10 +2112,6 @@ extension ManagedBlockchain {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let resourceArn: String
         /// The tags to assign to the specified resource. Tag values can be empty, for example, "MyTagKey" : "". You can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource.
@@ -2072,6 +2120,13 @@ extension ManagedBlockchain {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2096,11 +2151,6 @@ extension ManagedBlockchain {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let resourceArn: String
         /// The tag keys.
@@ -2109,6 +2159,13 @@ extension ManagedBlockchain {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -2130,11 +2187,6 @@ extension ManagedBlockchain {
     }
 
     public struct UpdateMemberInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "memberId", location: .uri("MemberId")),
-            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId"))
-        ]
-
         /// Configuration properties for publishing to Amazon CloudWatch Logs.
         public let logPublishingConfiguration: MemberLogPublishingConfiguration?
         /// The unique identifier of the member.
@@ -2146,6 +2198,14 @@ extension ManagedBlockchain {
             self.logPublishingConfiguration = logPublishingConfiguration
             self.memberId = memberId
             self.networkId = networkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.logPublishingConfiguration, forKey: .logPublishingConfiguration)
+            request.encodePath(self.memberId, key: "MemberId")
+            request.encodePath(self.networkId, key: "NetworkId")
         }
 
         public func validate(name: String) throws {
@@ -2165,11 +2225,6 @@ extension ManagedBlockchain {
     }
 
     public struct UpdateNodeInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId")),
-            AWSMemberEncoding(label: "nodeId", location: .uri("NodeId"))
-        ]
-
         /// Configuration properties for publishing to Amazon CloudWatch Logs.
         public let logPublishingConfiguration: NodeLogPublishingConfiguration?
         /// The unique identifier of the member that owns the node. Applies only to Hyperledger Fabric.
@@ -2184,6 +2239,15 @@ extension ManagedBlockchain {
             self.memberId = memberId
             self.networkId = networkId
             self.nodeId = nodeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.logPublishingConfiguration, forKey: .logPublishingConfiguration)
+            try container.encodeIfPresent(self.memberId, forKey: .memberId)
+            request.encodePath(self.networkId, key: "NetworkId")
+            request.encodePath(self.nodeId, key: "NodeId")
         }
 
         public func validate(name: String) throws {
@@ -2206,11 +2270,6 @@ extension ManagedBlockchain {
     }
 
     public struct VoteOnProposalInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId")),
-            AWSMemberEncoding(label: "proposalId", location: .uri("ProposalId"))
-        ]
-
         ///  The unique identifier of the network.
         public let networkId: String
         ///  The unique identifier of the proposal.
@@ -2225,6 +2284,15 @@ extension ManagedBlockchain {
             self.proposalId = proposalId
             self.vote = vote
             self.voterMemberId = voterMemberId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.networkId, key: "NetworkId")
+            request.encodePath(self.proposalId, key: "ProposalId")
+            try container.encode(self.vote, forKey: .vote)
+            try container.encode(self.voterMemberId, forKey: .voterMemberId)
         }
 
         public func validate(name: String) throws {

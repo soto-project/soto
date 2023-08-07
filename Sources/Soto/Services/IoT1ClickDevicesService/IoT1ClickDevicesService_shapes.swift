@@ -33,15 +33,17 @@ extension IoT1ClickDevicesService {
     }
 
     public struct ClaimDevicesByClaimCodeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "claimCode", location: .uri("ClaimCode"))
-        ]
-
         /// The claim code, starting with "C-", as provided by the device manufacturer.
         public let claimCode: String
 
         public init(claimCode: String) {
             self.claimCode = claimCode
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.claimCode, key: "ClaimCode")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -65,15 +67,17 @@ extension IoT1ClickDevicesService {
     }
 
     public struct DescribeDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId"))
-        ]
-
         /// The unique identifier of the device.
         public let deviceId: String
 
         public init(deviceId: String) {
             self.deviceId = deviceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deviceId, key: "DeviceId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -185,10 +189,6 @@ extension IoT1ClickDevicesService {
     }
 
     public struct FinalizeDeviceClaimRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId"))
-        ]
-
         /// The unique identifier of the device.
         public let deviceId: String
         /// A collection of key/value pairs defining the resource tags. For example, { "tags": {"key1": "value1", "key2": "value2"} }. For more information, see AWS Tagging Strategies.
@@ -197,6 +197,13 @@ extension IoT1ClickDevicesService {
         public init(deviceId: String, tags: [String: String]? = nil) {
             self.deviceId = deviceId
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deviceId, key: "DeviceId")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -218,15 +225,17 @@ extension IoT1ClickDevicesService {
     }
 
     public struct GetDeviceMethodsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId"))
-        ]
-
         /// The unique identifier of the device.
         public let deviceId: String
 
         public init(deviceId: String) {
             self.deviceId = deviceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deviceId, key: "DeviceId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -246,15 +255,17 @@ extension IoT1ClickDevicesService {
     }
 
     public struct InitiateDeviceClaimRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId"))
-        ]
-
         /// The unique identifier of the device.
         public let deviceId: String
 
         public init(deviceId: String) {
             self.deviceId = deviceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deviceId, key: "DeviceId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -274,10 +285,6 @@ extension IoT1ClickDevicesService {
     }
 
     public struct InvokeDeviceMethodRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId"))
-        ]
-
         /// The unique identifier of the device.
         public let deviceId: String
         /// The device method to invoke.
@@ -289,6 +296,14 @@ extension IoT1ClickDevicesService {
             self.deviceId = deviceId
             self.deviceMethod = deviceMethod
             self.deviceMethodParameters = deviceMethodParameters
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deviceId, key: "DeviceId")
+            try container.encodeIfPresent(self.deviceMethod, forKey: .deviceMethod)
+            try container.encodeIfPresent(self.deviceMethodParameters, forKey: .deviceMethodParameters)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -311,14 +326,6 @@ extension IoT1ClickDevicesService {
     }
 
     public struct ListDeviceEventsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId")),
-            AWSMemberEncoding(label: "_fromTimeStamp", location: .querystring("fromTimeStamp")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "_toTimeStamp", location: .querystring("toTimeStamp"))
-        ]
-
         /// The unique identifier of the device.
         public let deviceId: String
         /// The start date for the device event query, in ISO8061 format. For example, 2018-03-28T15:45:12.880Z
@@ -338,6 +345,16 @@ extension IoT1ClickDevicesService {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.toTimeStamp = toTimeStamp
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deviceId, key: "DeviceId")
+            request.encodeQuery(self._fromTimeStamp, key: "fromTimeStamp")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self._toTimeStamp, key: "toTimeStamp")
         }
 
         public func validate(name: String) throws {
@@ -366,12 +383,6 @@ extension IoT1ClickDevicesService {
     }
 
     public struct ListDevicesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceType", location: .querystring("deviceType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The type of the device, such as "button".
         public let deviceType: String?
         /// The maximum number of results to return per request. If not set, a default value of 100 is used.
@@ -383,6 +394,14 @@ extension IoT1ClickDevicesService {
             self.deviceType = deviceType
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.deviceType, key: "deviceType")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -411,15 +430,17 @@ extension IoT1ClickDevicesService {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The ARN of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -439,10 +460,6 @@ extension IoT1ClickDevicesService {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The ARN of the resource.
         public let resourceArn: String
         /// A collection of key/value pairs defining the resource tags. For example, { "tags": {"key1": "value1", "key2": "value2"} }. For more information, see AWS Tagging Strategies.
@@ -453,21 +470,30 @@ extension IoT1ClickDevicesService {
             self.tags = tags
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
         }
     }
 
     public struct UnclaimDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId"))
-        ]
-
         /// The unique identifier of the device.
         public let deviceId: String
 
         public init(deviceId: String) {
             self.deviceId = deviceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deviceId, key: "DeviceId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -487,11 +513,6 @@ extension IoT1ClickDevicesService {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The ARN of the resource.
         public let resourceArn: String
         /// A collections of tag keys. For example, {"key1","key2"}
@@ -502,14 +523,17 @@ extension IoT1ClickDevicesService {
             self.tagKeys = tagKeys
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateDeviceStateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId"))
-        ]
-
         /// The unique identifier of the device.
         public let deviceId: String
         /// If true, the device is enabled. If false, the device is disabled.
@@ -518,6 +542,13 @@ extension IoT1ClickDevicesService {
         public init(deviceId: String, enabled: Bool? = nil) {
             self.deviceId = deviceId
             self.enabled = enabled
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deviceId, key: "DeviceId")
+            try container.encodeIfPresent(self.enabled, forKey: .enabled)
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -929,11 +929,6 @@ extension RedshiftServerless {
     }
 
     public struct ListEndpointAccessRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
         public let maxResults: Int?
         /// If your initial ListEndpointAccess operation returns a nextToken, you can include the returned nextToken in following ListEndpointAccess operations, which returns results in the next page.
@@ -948,6 +943,15 @@ extension RedshiftServerless {
             self.nextToken = nextToken
             self.vpcId = vpcId
             self.workgroupName = workgroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encodeIfPresent(self.vpcId, forKey: .vpcId)
+            try container.encodeIfPresent(self.workgroupName, forKey: .workgroupName)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -974,11 +978,6 @@ extension RedshiftServerless {
     }
 
     public struct ListNamespacesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
         public let maxResults: Int?
         /// If your initial ListNamespaces operation returns a nextToken, you can include the returned nextToken in following ListNamespaces operations, which returns results in the next page.
@@ -987,6 +986,13 @@ extension RedshiftServerless {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1010,11 +1016,6 @@ extension RedshiftServerless {
     }
 
     public struct ListRecoveryPointsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The time when creation of the recovery point finished.
         public let endTime: Date?
         /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
@@ -1035,6 +1036,17 @@ extension RedshiftServerless {
             self.namespaceName = namespaceName
             self.nextToken = nextToken
             self.startTime = startTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.endTime, forKey: .endTime)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            try container.encodeIfPresent(self.namespaceArn, forKey: .namespaceArn)
+            try container.encodeIfPresent(self.namespaceName, forKey: .namespaceName)
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encodeIfPresent(self.startTime, forKey: .startTime)
         }
 
         public func validate(name: String) throws {
@@ -1069,11 +1081,6 @@ extension RedshiftServerless {
     }
 
     public struct ListSnapshotsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The timestamp showing when the snapshot creation finished.
         public let endTime: Date?
         /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
@@ -1097,6 +1104,18 @@ extension RedshiftServerless {
             self.nextToken = nextToken
             self.ownerAccount = ownerAccount
             self.startTime = startTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.endTime, forKey: .endTime)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            try container.encodeIfPresent(self.namespaceArn, forKey: .namespaceArn)
+            try container.encodeIfPresent(self.namespaceName, forKey: .namespaceName)
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encodeIfPresent(self.ownerAccount, forKey: .ownerAccount)
+            try container.encodeIfPresent(self.startTime, forKey: .startTime)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1126,11 +1145,6 @@ extension RedshiftServerless {
     }
 
     public struct ListTableRestoreStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// An optional parameter that specifies the maximum number of results to  return. You can use nextToken to display the next page of results.
         public let maxResults: Int?
         /// The namespace from which to list all of the statuses of RestoreTableFromSnapshot operations .
@@ -1145,6 +1159,15 @@ extension RedshiftServerless {
             self.namespaceName = namespaceName
             self.nextToken = nextToken
             self.workgroupName = workgroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            try container.encodeIfPresent(self.namespaceName, forKey: .namespaceName)
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encodeIfPresent(self.workgroupName, forKey: .workgroupName)
         }
 
         public func validate(name: String) throws {
@@ -1207,11 +1230,6 @@ extension RedshiftServerless {
     }
 
     public struct ListUsageLimitsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. The default is 100.
         public let maxResults: Int?
         /// If your initial ListUsageLimits operation returns a nextToken, you can include the returned nextToken in following ListUsageLimits operations, which returns results in the next page.
@@ -1226,6 +1244,15 @@ extension RedshiftServerless {
             self.nextToken = nextToken
             self.resourceArn = resourceArn
             self.usageType = usageType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encodeIfPresent(self.resourceArn, forKey: .resourceArn)
+            try container.encodeIfPresent(self.usageType, forKey: .usageType)
         }
 
         public func validate(name: String) throws {
@@ -1257,11 +1284,6 @@ extension RedshiftServerless {
     }
 
     public struct ListWorkgroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
         public let maxResults: Int?
         /// If your initial ListWorkgroups operation returns a nextToken, you can include the returned nextToken in following ListNamespaces operations, which returns results in the next page.
@@ -1270,6 +1292,13 @@ extension RedshiftServerless {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}

@@ -544,11 +544,6 @@ extension PrivateNetworks {
     }
 
     public struct DeleteNetworkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "networkArn", location: .uri("networkArn"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the network.
@@ -557,6 +552,13 @@ extension PrivateNetworks {
         public init(clientToken: String? = nil, networkArn: String) {
             self.clientToken = clientToken
             self.networkArn = networkArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.networkArn, key: "networkArn")
         }
 
         public func validate(name: String) throws {
@@ -582,11 +584,6 @@ extension PrivateNetworks {
     }
 
     public struct DeleteNetworkSiteRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "networkSiteArn", location: .uri("networkSiteArn"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the network site.
@@ -595,6 +592,13 @@ extension PrivateNetworks {
         public init(clientToken: String? = nil, networkSiteArn: String) {
             self.clientToken = clientToken
             self.networkSiteArn = networkSiteArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.networkSiteArn, key: "networkSiteArn")
         }
 
         public func validate(name: String) throws {
@@ -666,15 +670,17 @@ extension PrivateNetworks {
     }
 
     public struct GetDeviceIdentifierRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceIdentifierArn", location: .uri("deviceIdentifierArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the device identifier.
         public let deviceIdentifierArn: String
 
         public init(deviceIdentifierArn: String) {
             self.deviceIdentifierArn = deviceIdentifierArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deviceIdentifierArn, key: "deviceIdentifierArn")
         }
 
         public func validate(name: String) throws {
@@ -702,15 +708,17 @@ extension PrivateNetworks {
     }
 
     public struct GetNetworkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "networkArn", location: .uri("networkArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the network.
         public let networkArn: String
 
         public init(networkArn: String) {
             self.networkArn = networkArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.networkArn, key: "networkArn")
         }
 
         public func validate(name: String) throws {
@@ -721,15 +729,17 @@ extension PrivateNetworks {
     }
 
     public struct GetNetworkResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "networkResourceArn", location: .uri("networkResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the network resource.
         public let networkResourceArn: String
 
         public init(networkResourceArn: String) {
             self.networkResourceArn = networkResourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.networkResourceArn, key: "networkResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -774,15 +784,17 @@ extension PrivateNetworks {
     }
 
     public struct GetNetworkSiteRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "networkSiteArn", location: .uri("networkSiteArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the network site.
         public let networkSiteArn: String
 
         public init(networkSiteArn: String) {
             self.networkSiteArn = networkSiteArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.networkSiteArn, key: "networkSiteArn")
         }
 
         public func validate(name: String) throws {
@@ -810,15 +822,17 @@ extension PrivateNetworks {
     }
 
     public struct GetOrderRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "orderArn", location: .uri("orderArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the order.
         public let orderArn: String
 
         public init(orderArn: String) {
             self.orderArn = orderArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.orderArn, key: "orderArn")
         }
 
         public func validate(name: String) throws {
@@ -1068,15 +1082,17 @@ extension PrivateNetworks {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1465,10 +1481,6 @@ extension PrivateNetworks {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         ///  The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tags to add to the resource.
@@ -1477,6 +1489,13 @@ extension PrivateNetworks {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1515,11 +1534,6 @@ extension PrivateNetworks {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tag keys.
@@ -1528,6 +1542,13 @@ extension PrivateNetworks {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {

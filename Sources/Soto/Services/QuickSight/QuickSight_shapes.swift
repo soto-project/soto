@@ -4253,12 +4253,6 @@ extension QuickSight {
     }
 
     public struct CancelIngestionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
-            AWSMemberEncoding(label: "ingestionId", location: .uri("IngestionId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID of the dataset used in the ingestion.
@@ -4270,6 +4264,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
             self.ingestionId = ingestionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dataSetId, key: "DataSetId")
+            request.encodePath(self.ingestionId, key: "IngestionId")
         }
 
         public func validate(name: String) throws {
@@ -4308,7 +4310,6 @@ extension QuickSight {
             self.ingestionId = try container.decodeIfPresent(String.self, forKey: .ingestionId)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5497,11 +5498,6 @@ extension QuickSight {
     }
 
     public struct CreateAccountCustomizationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "namespace", location: .querystring("namespace"))
-        ]
-
         /// The Amazon QuickSight customizations you're adding in the current Amazon Web Services Region. You can add these to an Amazon Web Services account and a QuickSight namespace.  For example, you can add a default theme by setting AccountCustomization to the midnight theme: "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" }. Or, you can add a custom theme by specifying "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" }.
         public let accountCustomization: AccountCustomization
         /// The ID for the Amazon Web Services account that you want to customize Amazon QuickSight for.
@@ -5516,6 +5512,15 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.namespace = namespace
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.accountCustomization, forKey: .accountCustomization)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.namespace, key: "namespace")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -5569,7 +5574,6 @@ extension QuickSight {
             self.namespace = try container.decodeIfPresent(String.self, forKey: .namespace)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5582,10 +5586,6 @@ extension QuickSight {
     }
 
     public struct CreateAccountSubscriptionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The name of your Amazon QuickSight account. This name is unique over all of Amazon Web Services, and it appears only when users sign in. You can't change AccountName value after the Amazon QuickSight account is created.
         public let accountName: String
         /// The name of your Active Directory. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Amazon QuickSight account.
@@ -5635,6 +5635,26 @@ extension QuickSight {
             self.realm = realm
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.accountName, forKey: .accountName)
+            try container.encodeIfPresent(self.activeDirectoryName, forKey: .activeDirectoryName)
+            try container.encodeIfPresent(self.adminGroup, forKey: .adminGroup)
+            try container.encode(self.authenticationMethod, forKey: .authenticationMethod)
+            try container.encodeIfPresent(self.authorGroup, forKey: .authorGroup)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.contactNumber, forKey: .contactNumber)
+            try container.encodeIfPresent(self.directoryId, forKey: .directoryId)
+            try container.encode(self.edition, forKey: .edition)
+            try container.encodeIfPresent(self.emailAddress, forKey: .emailAddress)
+            try container.encodeIfPresent(self.firstName, forKey: .firstName)
+            try container.encodeIfPresent(self.lastName, forKey: .lastName)
+            try container.encode(self.notificationEmail, forKey: .notificationEmail)
+            try container.encodeIfPresent(self.readerGroup, forKey: .readerGroup)
+            try container.encodeIfPresent(self.realm, forKey: .realm)
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
@@ -5679,7 +5699,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.signupResponse = try container.decodeIfPresent(SignupResponse.self, forKey: .signupResponse)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5689,11 +5708,6 @@ extension QuickSight {
     }
 
     public struct CreateAnalysisRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analysisId", location: .uri("AnalysisId")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The ID for the analysis that you're creating. This ID displays in the URL of the analysis.
         public let analysisId: String
         /// The ID of the Amazon Web Services account where you are creating an analysis.
@@ -5723,6 +5737,20 @@ extension QuickSight {
             self.sourceEntity = sourceEntity
             self.tags = tags
             self.themeArn = themeArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.analysisId, key: "AnalysisId")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.definition, forKey: .definition)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.parameters, forKey: .parameters)
+            try container.encodeIfPresent(self.permissions, forKey: .permissions)
+            try container.encodeIfPresent(self.sourceEntity, forKey: .sourceEntity)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.themeArn, forKey: .themeArn)
         }
 
         public func validate(name: String) throws {
@@ -5788,7 +5816,6 @@ extension QuickSight {
             self.creationStatus = try container.decodeIfPresent(ResourceStatus.self, forKey: .creationStatus)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5821,11 +5848,6 @@ extension QuickSight {
     }
 
     public struct CreateDashboardRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dashboardId", location: .uri("DashboardId"))
-        ]
-
         /// The ID of the Amazon Web Services account where you want to create the dashboard.
         public let awsAccountId: String
         /// The ID for the dashboard, also added to the IAM policy.
@@ -5861,6 +5883,22 @@ extension QuickSight {
             self.tags = tags
             self.themeArn = themeArn
             self.versionDescription = versionDescription
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dashboardId, key: "DashboardId")
+            try container.encodeIfPresent(self.dashboardPublishOptions, forKey: .dashboardPublishOptions)
+            try container.encodeIfPresent(self.definition, forKey: .definition)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.parameters, forKey: .parameters)
+            try container.encodeIfPresent(self.permissions, forKey: .permissions)
+            try container.encodeIfPresent(self.sourceEntity, forKey: .sourceEntity)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.themeArn, forKey: .themeArn)
+            try container.encodeIfPresent(self.versionDescription, forKey: .versionDescription)
         }
 
         public func validate(name: String) throws {
@@ -5934,7 +5972,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.versionArn = try container.decodeIfPresent(String.self, forKey: .versionArn)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5947,10 +5984,6 @@ extension QuickSight {
     }
 
     public struct CreateDataSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// Groupings of columns that work together in certain Amazon QuickSight features. Currently, only geospatial hierarchy is supported.
@@ -5997,6 +6030,26 @@ extension QuickSight {
             self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
             self.rowLevelPermissionTagConfiguration = rowLevelPermissionTagConfiguration
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.columnGroups, forKey: .columnGroups)
+            try container.encodeIfPresent(self.columnLevelPermissionRules, forKey: .columnLevelPermissionRules)
+            try container.encode(self.dataSetId, forKey: .dataSetId)
+            try container.encodeIfPresent(self.datasetParameters, forKey: .datasetParameters)
+            try container.encodeIfPresent(self.dataSetUsageConfiguration, forKey: .dataSetUsageConfiguration)
+            try container.encodeIfPresent(self.fieldFolders, forKey: .fieldFolders)
+            try container.encode(self.importMode, forKey: .importMode)
+            try container.encodeIfPresent(self.logicalTableMap, forKey: .logicalTableMap)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.permissions, forKey: .permissions)
+            try container.encode(self.physicalTableMap, forKey: .physicalTableMap)
+            try container.encodeIfPresent(self.rowLevelPermissionDataSet, forKey: .rowLevelPermissionDataSet)
+            try container.encodeIfPresent(self.rowLevelPermissionTagConfiguration, forKey: .rowLevelPermissionTagConfiguration)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -6105,7 +6158,6 @@ extension QuickSight {
             self.ingestionId = try container.decodeIfPresent(String.self, forKey: .ingestionId)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6118,10 +6170,6 @@ extension QuickSight {
     }
 
     public struct CreateDataSourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The credentials Amazon QuickSight that uses to connect to your underlying source. Currently, only
@@ -6157,6 +6205,21 @@ extension QuickSight {
             self.tags = tags
             self.type = type
             self.vpcConnectionProperties = vpcConnectionProperties
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.credentials, forKey: .credentials)
+            try container.encode(self.dataSourceId, forKey: .dataSourceId)
+            try container.encodeIfPresent(self.dataSourceParameters, forKey: .dataSourceParameters)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.permissions, forKey: .permissions)
+            try container.encodeIfPresent(self.sslProperties, forKey: .sslProperties)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.type, forKey: .type)
+            try container.encodeIfPresent(self.vpcConnectionProperties, forKey: .vpcConnectionProperties)
         }
 
         public func validate(name: String) throws {
@@ -6220,7 +6283,6 @@ extension QuickSight {
             self.dataSourceId = try container.decodeIfPresent(String.self, forKey: .dataSourceId)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6232,13 +6294,6 @@ extension QuickSight {
     }
 
     public struct CreateFolderMembershipRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "folderId", location: .uri("FolderId")),
-            AWSMemberEncoding(label: "memberId", location: .uri("MemberId")),
-            AWSMemberEncoding(label: "memberType", location: .uri("MemberType"))
-        ]
-
         /// The ID for the Amazon Web Services account that contains the folder.
         public let awsAccountId: String
         /// The ID of the folder.
@@ -6253,6 +6308,15 @@ extension QuickSight {
             self.folderId = folderId
             self.memberId = memberId
             self.memberType = memberType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.folderId, key: "FolderId")
+            request.encodePath(self.memberId, key: "MemberId")
+            request.encodePath(self.memberType, key: "MemberType")
         }
 
         public func validate(name: String) throws {
@@ -6292,11 +6356,6 @@ extension QuickSight {
     }
 
     public struct CreateFolderRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "folderId", location: .uri("FolderId"))
-        ]
-
         /// The ID for the Amazon Web Services account where you want to create the folder.
         public let awsAccountId: String
         /// The ID of the folder.
@@ -6320,6 +6379,18 @@ extension QuickSight {
             self.parentFolderArn = parentFolderArn
             self.permissions = permissions
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.folderId, key: "FolderId")
+            try container.encodeIfPresent(self.folderType, forKey: .folderType)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.parentFolderArn, forKey: .parentFolderArn)
+            try container.encodeIfPresent(self.permissions, forKey: .permissions)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -6376,7 +6447,6 @@ extension QuickSight {
             self.folderId = try container.decodeIfPresent(String.self, forKey: .folderId)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6387,13 +6457,6 @@ extension QuickSight {
     }
 
     public struct CreateGroupMembershipRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "groupName", location: .uri("GroupName")),
-            AWSMemberEncoding(label: "memberName", location: .uri("MemberName")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace"))
-        ]
-
         /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the
         /// 			Amazon Web Services account that contains your Amazon QuickSight account.
         public let awsAccountId: String
@@ -6409,6 +6472,15 @@ extension QuickSight {
             self.groupName = groupName
             self.memberName = memberName
             self.namespace = namespace
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.groupName, key: "GroupName")
+            request.encodePath(self.memberName, key: "MemberName")
+            request.encodePath(self.namespace, key: "Namespace")
         }
 
         public func validate(name: String) throws {
@@ -6447,7 +6519,6 @@ extension QuickSight {
             self.groupMember = try container.decodeIfPresent(GroupMember.self, forKey: .groupMember)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6457,11 +6528,6 @@ extension QuickSight {
     }
 
     public struct CreateGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace"))
-        ]
-
         /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the
         /// 			Amazon Web Services account that contains your Amazon QuickSight account.
         public let awsAccountId: String
@@ -6477,6 +6543,15 @@ extension QuickSight {
             self.description = description
             self.groupName = groupName
             self.namespace = namespace
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.groupName, forKey: .groupName)
+            request.encodePath(self.namespace, key: "Namespace")
         }
 
         public func validate(name: String) throws {
@@ -6517,7 +6592,6 @@ extension QuickSight {
             self.group = try container.decodeIfPresent(Group.self, forKey: .group)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6527,11 +6601,6 @@ extension QuickSight {
     }
 
     public struct CreateIAMPolicyAssignmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace"))
-        ]
-
         /// The name of the assignment, also called a rule.
         /// 			The
         /// 			name
@@ -6561,6 +6630,17 @@ extension QuickSight {
             self.identities = identities
             self.namespace = namespace
             self.policyArn = policyArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.assignmentName, forKey: .assignmentName)
+            try container.encode(self.assignmentStatus, forKey: .assignmentStatus)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.identities, forKey: .identities)
+            request.encodePath(self.namespace, key: "Namespace")
+            try container.encodeIfPresent(self.policyArn, forKey: .policyArn)
         }
 
         public func validate(name: String) throws {
@@ -6624,7 +6704,6 @@ extension QuickSight {
             self.policyArn = try container.decodeIfPresent(String.self, forKey: .policyArn)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6638,12 +6717,6 @@ extension QuickSight {
     }
 
     public struct CreateIngestionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
-            AWSMemberEncoding(label: "ingestionId", location: .uri("IngestionId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID of the dataset used in the ingestion.
@@ -6658,6 +6731,15 @@ extension QuickSight {
             self.dataSetId = dataSetId
             self.ingestionId = ingestionId
             self.ingestionType = ingestionType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dataSetId, key: "DataSetId")
+            request.encodePath(self.ingestionId, key: "IngestionId")
+            try container.encodeIfPresent(self.ingestionType, forKey: .ingestionType)
         }
 
         public func validate(name: String) throws {
@@ -6702,7 +6784,6 @@ extension QuickSight {
             self.ingestionStatus = try container.decodeIfPresent(IngestionStatus.self, forKey: .ingestionStatus)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6714,10 +6795,6 @@ extension QuickSight {
     }
 
     public struct CreateNamespaceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The ID for the Amazon Web Services account that you want to create the Amazon QuickSight namespace in.
         public let awsAccountId: String
         /// Specifies the type of your user identity directory. Currently, this supports users with an identity type of QUICKSIGHT.
@@ -6732,6 +6809,15 @@ extension QuickSight {
             self.identityStore = identityStore
             self.namespace = namespace
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.identityStore, forKey: .identityStore)
+            try container.encode(self.namespace, forKey: .namespace)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -6790,7 +6876,6 @@ extension QuickSight {
             self.name = try container.decodeIfPresent(String.self, forKey: .name)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6804,11 +6889,6 @@ extension QuickSight {
     }
 
     public struct CreateRefreshScheduleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID of the dataset.
@@ -6820,6 +6900,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
             self.schedule = schedule
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dataSetId, key: "DataSetId")
+            try container.encode(self.schedule, forKey: .schedule)
         }
 
         public func validate(name: String) throws {
@@ -6858,7 +6946,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.scheduleId = try container.decodeIfPresent(String.self, forKey: .scheduleId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6869,12 +6956,6 @@ extension QuickSight {
     }
 
     public struct CreateTemplateAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "aliasName", location: .uri("AliasName")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "templateId", location: .uri("TemplateId"))
-        ]
-
         /// The name that you want to give to the template alias that you're creating. Don't start the
         /// 			alias name with the $ character. Alias names that start with $
         /// 			are reserved by Amazon QuickSight.
@@ -6891,6 +6972,15 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.templateId = templateId
             self.templateVersionNumber = templateVersionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aliasName, key: "AliasName")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.templateId, key: "TemplateId")
+            try container.encode(self.templateVersionNumber, forKey: .templateVersionNumber)
         }
 
         public func validate(name: String) throws {
@@ -6931,7 +7021,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.templateAlias = try container.decodeIfPresent(TemplateAlias.self, forKey: .templateAlias)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6941,11 +7030,6 @@ extension QuickSight {
     }
 
     public struct CreateTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "templateId", location: .uri("TemplateId"))
-        ]
-
         /// The ID for the Amazon Web Services account that the group is in. You use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The definition of a template. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in
@@ -6986,6 +7070,19 @@ extension QuickSight {
             self.tags = tags
             self.templateId = templateId
             self.versionDescription = versionDescription
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.definition, forKey: .definition)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.permissions, forKey: .permissions)
+            try container.encodeIfPresent(self.sourceEntity, forKey: .sourceEntity)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            request.encodePath(self.templateId, key: "TemplateId")
+            try container.encodeIfPresent(self.versionDescription, forKey: .versionDescription)
         }
 
         public func validate(name: String) throws {
@@ -7056,7 +7153,6 @@ extension QuickSight {
             self.status = response.decodeStatus()
             self.templateId = try container.decodeIfPresent(String.self, forKey: .templateId)
             self.versionArn = try container.decodeIfPresent(String.self, forKey: .versionArn)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7069,12 +7165,6 @@ extension QuickSight {
     }
 
     public struct CreateThemeAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "aliasName", location: .uri("AliasName")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "themeId", location: .uri("ThemeId"))
-        ]
-
         /// The name that you want to give to the theme alias that you are creating. The
         /// 			alias name can't begin with a $. Alias names that start with $
         /// 			are reserved by Amazon QuickSight.
@@ -7091,6 +7181,15 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.themeId = themeId
             self.themeVersionNumber = themeVersionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aliasName, key: "AliasName")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.themeId, key: "ThemeId")
+            try container.encode(self.themeVersionNumber, forKey: .themeVersionNumber)
         }
 
         public func validate(name: String) throws {
@@ -7131,7 +7230,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.themeAlias = try container.decodeIfPresent(ThemeAlias.self, forKey: .themeAlias)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7141,11 +7239,6 @@ extension QuickSight {
     }
 
     public struct CreateThemeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "themeId", location: .uri("ThemeId"))
-        ]
-
         /// The ID of the Amazon Web Services account where you want to store the new theme.
         public let awsAccountId: String
         /// The ID of the theme that a custom theme will inherit from. All themes inherit from one of
@@ -7181,6 +7274,19 @@ extension QuickSight {
             self.tags = tags
             self.themeId = themeId
             self.versionDescription = versionDescription
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.baseThemeId, forKey: .baseThemeId)
+            try container.encode(self.configuration, forKey: .configuration)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.permissions, forKey: .permissions)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            request.encodePath(self.themeId, key: "ThemeId")
+            try container.encodeIfPresent(self.versionDescription, forKey: .versionDescription)
         }
 
         public func validate(name: String) throws {
@@ -7252,7 +7358,6 @@ extension QuickSight {
             self.status = response.decodeStatus()
             self.themeId = try container.decodeIfPresent(String.self, forKey: .themeId)
             self.versionArn = try container.decodeIfPresent(String.self, forKey: .versionArn)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7265,11 +7370,6 @@ extension QuickSight {
     }
 
     public struct CreateTopicRefreshScheduleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "topicId", location: .uri("TopicId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the topic you're creating a refresh schedule for.
         public let awsAccountId: String
         /// The Amazon Resource Name (ARN) of the dataset.
@@ -7287,6 +7387,16 @@ extension QuickSight {
             self.datasetName = datasetName
             self.refreshSchedule = refreshSchedule
             self.topicId = topicId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.datasetArn, forKey: .datasetArn)
+            try container.encodeIfPresent(self.datasetName, forKey: .datasetName)
+            try container.encode(self.refreshSchedule, forKey: .refreshSchedule)
+            request.encodePath(self.topicId, key: "TopicId")
         }
 
         public func validate(name: String) throws {
@@ -7333,7 +7443,6 @@ extension QuickSight {
             self.status = response.decodeStatus()
             self.topicArn = try container.decodeIfPresent(String.self, forKey: .topicArn)
             self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7345,10 +7454,6 @@ extension QuickSight {
     }
 
     public struct CreateTopicRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The ID of the Amazon Web Services account that you want to create a topic in.
         public let awsAccountId: String
         /// Contains a map of the key-value pairs for the resource tag or tags that are assigned to the dataset.
@@ -7363,6 +7468,15 @@ extension QuickSight {
             self.tags = tags
             self.topic = topic
             self.topicId = topicId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.topic, forKey: .topic)
+            try container.encode(self.topicId, forKey: .topicId)
         }
 
         public func validate(name: String) throws {
@@ -7414,7 +7528,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7426,10 +7539,6 @@ extension QuickSight {
     }
 
     public struct CreateVPCConnectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The Amazon Web Services account ID of the account where you want to create a new VPC
         /// 			connection.
         public let awsAccountId: String
@@ -7460,6 +7569,19 @@ extension QuickSight {
             self.subnetIds = subnetIds
             self.tags = tags
             self.vpcConnectionId = vpcConnectionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.dnsResolvers, forKey: .dnsResolvers)
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.roleArn, forKey: .roleArn)
+            try container.encode(self.securityGroupIds, forKey: .securityGroupIds)
+            try container.encode(self.subnetIds, forKey: .subnetIds)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.vpcConnectionId, forKey: .vpcConnectionId)
         }
 
         public func validate(name: String) throws {
@@ -7544,7 +7666,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.vpcConnectionId = try container.decodeIfPresent(String.self, forKey: .vpcConnectionId)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9903,11 +10024,6 @@ extension QuickSight {
     }
 
     public struct DeleteAccountCustomizationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "namespace", location: .querystring("namespace"))
-        ]
-
         /// The ID for the Amazon Web Services account that you want to delete Amazon QuickSight customizations from in this Amazon Web Services Region.
         public let awsAccountId: String
         /// The Amazon QuickSight namespace that you're deleting the customizations from.
@@ -9916,6 +10032,13 @@ extension QuickSight {
         public init(awsAccountId: String, namespace: String? = nil) {
             self.awsAccountId = awsAccountId
             self.namespace = namespace
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.namespace, key: "namespace")
         }
 
         public func validate(name: String) throws {
@@ -9945,7 +10068,6 @@ extension QuickSight {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9954,15 +10076,17 @@ extension QuickSight {
     }
 
     public struct DeleteAccountSubscriptionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The Amazon Web Services account ID of the account that you want to delete.
         public let awsAccountId: String
 
         public init(awsAccountId: String) {
             self.awsAccountId = awsAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
         }
 
         public func validate(name: String) throws {
@@ -9990,7 +10114,6 @@ extension QuickSight {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9999,13 +10122,6 @@ extension QuickSight {
     }
 
     public struct DeleteAnalysisRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analysisId", location: .uri("AnalysisId")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "forceDeleteWithoutRecovery", location: .querystring("force-delete-without-recovery")),
-            AWSMemberEncoding(label: "recoveryWindowInDays", location: .querystring("recovery-window-in-days"))
-        ]
-
         /// The ID of the analysis that you're deleting.
         public let analysisId: String
         /// The ID of the Amazon Web Services account where you want to delete an analysis.
@@ -10020,6 +10136,15 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.forceDeleteWithoutRecovery = forceDeleteWithoutRecovery
             self.recoveryWindowInDays = recoveryWindowInDays
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.analysisId, key: "AnalysisId")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.forceDeleteWithoutRecovery, key: "force-delete-without-recovery")
+            request.encodeQuery(self.recoveryWindowInDays, key: "recovery-window-in-days")
         }
 
         public func validate(name: String) throws {
@@ -10064,7 +10189,6 @@ extension QuickSight {
             self.deletionTime = try container.decodeIfPresent(Date.self, forKey: .deletionTime)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10076,12 +10200,6 @@ extension QuickSight {
     }
 
     public struct DeleteDashboardRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dashboardId", location: .uri("DashboardId")),
-            AWSMemberEncoding(label: "versionNumber", location: .querystring("version-number"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the dashboard that you're deleting.
         public let awsAccountId: String
         /// The ID for the dashboard.
@@ -10093,6 +10211,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
             self.versionNumber = versionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dashboardId, key: "DashboardId")
+            request.encodeQuery(self.versionNumber, key: "version-number")
         }
 
         public func validate(name: String) throws {
@@ -10132,7 +10258,6 @@ extension QuickSight {
             self.dashboardId = try container.decodeIfPresent(String.self, forKey: .dashboardId)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10143,11 +10268,6 @@ extension QuickSight {
     }
 
     public struct DeleteDataSetRefreshPropertiesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID of the dataset.
@@ -10156,6 +10276,13 @@ extension QuickSight {
         public init(awsAccountId: String, dataSetId: String) {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dataSetId, key: "DataSetId")
         }
 
         public func validate(name: String) throws {
@@ -10183,7 +10310,6 @@ extension QuickSight {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10192,11 +10318,6 @@ extension QuickSight {
     }
 
     public struct DeleteDataSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -10205,6 +10326,13 @@ extension QuickSight {
         public init(awsAccountId: String, dataSetId: String) {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dataSetId, key: "DataSetId")
         }
 
         public func validate(name: String) throws {
@@ -10240,7 +10368,6 @@ extension QuickSight {
             self.dataSetId = try container.decodeIfPresent(String.self, forKey: .dataSetId)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10251,11 +10378,6 @@ extension QuickSight {
     }
 
     public struct DeleteDataSourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dataSourceId", location: .uri("DataSourceId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -10264,6 +10386,13 @@ extension QuickSight {
         public init(awsAccountId: String, dataSourceId: String) {
             self.awsAccountId = awsAccountId
             self.dataSourceId = dataSourceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dataSourceId, key: "DataSourceId")
         }
 
         public func validate(name: String) throws {
@@ -10299,7 +10428,6 @@ extension QuickSight {
             self.dataSourceId = try container.decodeIfPresent(String.self, forKey: .dataSourceId)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10310,13 +10438,6 @@ extension QuickSight {
     }
 
     public struct DeleteFolderMembershipRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "folderId", location: .uri("FolderId")),
-            AWSMemberEncoding(label: "memberId", location: .uri("MemberId")),
-            AWSMemberEncoding(label: "memberType", location: .uri("MemberType"))
-        ]
-
         /// The ID for the Amazon Web Services account that contains the folder.
         public let awsAccountId: String
         /// The Folder ID.
@@ -10331,6 +10452,15 @@ extension QuickSight {
             self.folderId = folderId
             self.memberId = memberId
             self.memberType = memberType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.folderId, key: "FolderId")
+            request.encodePath(self.memberId, key: "MemberId")
+            request.encodePath(self.memberType, key: "MemberType")
         }
 
         public func validate(name: String) throws {
@@ -10366,11 +10496,6 @@ extension QuickSight {
     }
 
     public struct DeleteFolderRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "folderId", location: .uri("FolderId"))
-        ]
-
         /// The ID for the Amazon Web Services account that contains the folder.
         public let awsAccountId: String
         /// The ID of the folder.
@@ -10379,6 +10504,13 @@ extension QuickSight {
         public init(awsAccountId: String, folderId: String) {
             self.awsAccountId = awsAccountId
             self.folderId = folderId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.folderId, key: "FolderId")
         }
 
         public func validate(name: String) throws {
@@ -10417,7 +10549,6 @@ extension QuickSight {
             self.folderId = try container.decodeIfPresent(String.self, forKey: .folderId)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10428,13 +10559,6 @@ extension QuickSight {
     }
 
     public struct DeleteGroupMembershipRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "groupName", location: .uri("GroupName")),
-            AWSMemberEncoding(label: "memberName", location: .uri("MemberName")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace"))
-        ]
-
         /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the
         /// 			Amazon Web Services account that contains your Amazon QuickSight account.
         public let awsAccountId: String
@@ -10450,6 +10574,15 @@ extension QuickSight {
             self.groupName = groupName
             self.memberName = memberName
             self.namespace = namespace
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.groupName, key: "GroupName")
+            request.encodePath(self.memberName, key: "MemberName")
+            request.encodePath(self.namespace, key: "Namespace")
         }
 
         public func validate(name: String) throws {
@@ -10484,7 +10617,6 @@ extension QuickSight {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10493,12 +10625,6 @@ extension QuickSight {
     }
 
     public struct DeleteGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "groupName", location: .uri("GroupName")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace"))
-        ]
-
         /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the
         /// 			Amazon Web Services account that contains your Amazon QuickSight account.
         public let awsAccountId: String
@@ -10511,6 +10637,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.groupName = groupName
             self.namespace = namespace
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.groupName, key: "GroupName")
+            request.encodePath(self.namespace, key: "Namespace")
         }
 
         public func validate(name: String) throws {
@@ -10542,7 +10676,6 @@ extension QuickSight {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10551,12 +10684,6 @@ extension QuickSight {
     }
 
     public struct DeleteIAMPolicyAssignmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assignmentName", location: .uri("AssignmentName")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace"))
-        ]
-
         /// The name of the assignment.
         public let assignmentName: String
         /// The Amazon Web Services account ID where you want to delete the IAM
@@ -10569,6 +10696,14 @@ extension QuickSight {
             self.assignmentName = assignmentName
             self.awsAccountId = awsAccountId
             self.namespace = namespace
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assignmentName, key: "AssignmentName")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.namespace, key: "Namespace")
         }
 
         public func validate(name: String) throws {
@@ -10604,7 +10739,6 @@ extension QuickSight {
             self.assignmentName = try container.decodeIfPresent(String.self, forKey: .assignmentName)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10614,11 +10748,6 @@ extension QuickSight {
     }
 
     public struct DeleteNamespaceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace"))
-        ]
-
         /// The ID for the Amazon Web Services account that you want to delete the Amazon QuickSight namespace from.
         public let awsAccountId: String
         /// The namespace that you want to delete.
@@ -10627,6 +10756,13 @@ extension QuickSight {
         public init(awsAccountId: String, namespace: String) {
             self.awsAccountId = awsAccountId
             self.namespace = namespace
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.namespace, key: "Namespace")
         }
 
         public func validate(name: String) throws {
@@ -10656,7 +10792,6 @@ extension QuickSight {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10665,12 +10800,6 @@ extension QuickSight {
     }
 
     public struct DeleteRefreshScheduleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
-            AWSMemberEncoding(label: "scheduleId", location: .uri("ScheduleId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID of the dataset.
@@ -10682,6 +10811,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
             self.scheduleId = scheduleId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dataSetId, key: "DataSetId")
+            request.encodePath(self.scheduleId, key: "ScheduleId")
         }
 
         public func validate(name: String) throws {
@@ -10717,7 +10854,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.scheduleId = try container.decodeIfPresent(String.self, forKey: .scheduleId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10728,12 +10864,6 @@ extension QuickSight {
     }
 
     public struct DeleteTemplateAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "aliasName", location: .uri("AliasName")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "templateId", location: .uri("TemplateId"))
-        ]
-
         /// The name for the template alias. To delete a specific alias, you delete the version that the
         /// 			alias points to. You can specify the alias name, or specify the latest version of the
         /// 			template by providing the keyword $LATEST in the AliasName
@@ -10748,6 +10878,14 @@ extension QuickSight {
             self.aliasName = aliasName
             self.awsAccountId = awsAccountId
             self.templateId = templateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aliasName, key: "AliasName")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.templateId, key: "TemplateId")
         }
 
         public func validate(name: String) throws {
@@ -10793,7 +10931,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.templateId = try container.decodeIfPresent(String.self, forKey: .templateId)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10805,12 +10942,6 @@ extension QuickSight {
     }
 
     public struct DeleteTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "templateId", location: .uri("TemplateId")),
-            AWSMemberEncoding(label: "versionNumber", location: .querystring("version-number"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the template that you're deleting.
         public let awsAccountId: String
         /// An ID for the template you want to delete.
@@ -10824,6 +10955,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.templateId = templateId
             self.versionNumber = versionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.templateId, key: "TemplateId")
+            request.encodeQuery(self.versionNumber, key: "version-number")
         }
 
         public func validate(name: String) throws {
@@ -10863,7 +11002,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.templateId = try container.decodeIfPresent(String.self, forKey: .templateId)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10874,12 +11012,6 @@ extension QuickSight {
     }
 
     public struct DeleteThemeAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "aliasName", location: .uri("AliasName")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "themeId", location: .uri("ThemeId"))
-        ]
-
         /// The unique name for the theme alias to delete.
         public let aliasName: String
         /// The ID of the Amazon Web Services account that contains the theme alias to delete.
@@ -10891,6 +11023,14 @@ extension QuickSight {
             self.aliasName = aliasName
             self.awsAccountId = awsAccountId
             self.themeId = themeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aliasName, key: "AliasName")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.themeId, key: "ThemeId")
         }
 
         public func validate(name: String) throws {
@@ -10936,7 +11076,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.themeId = try container.decodeIfPresent(String.self, forKey: .themeId)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10948,12 +11087,6 @@ extension QuickSight {
     }
 
     public struct DeleteThemeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "themeId", location: .uri("ThemeId")),
-            AWSMemberEncoding(label: "versionNumber", location: .querystring("version-number"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the theme that you're deleting.
         public let awsAccountId: String
         /// An ID for the theme that you want to delete.
@@ -10966,6 +11099,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.themeId = themeId
             self.versionNumber = versionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.themeId, key: "ThemeId")
+            request.encodeQuery(self.versionNumber, key: "version-number")
         }
 
         public func validate(name: String) throws {
@@ -11005,7 +11146,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.themeId = try container.decodeIfPresent(String.self, forKey: .themeId)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11016,12 +11156,6 @@ extension QuickSight {
     }
 
     public struct DeleteTopicRefreshScheduleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "datasetId", location: .uri("DatasetId")),
-            AWSMemberEncoding(label: "topicId", location: .uri("TopicId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID of the dataset.
@@ -11033,6 +11167,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.datasetId = datasetId
             self.topicId = topicId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.datasetId, key: "DatasetId")
+            request.encodePath(self.topicId, key: "TopicId")
         }
 
         public func validate(name: String) throws {
@@ -11074,7 +11216,6 @@ extension QuickSight {
             self.status = response.decodeStatus()
             self.topicArn = try container.decodeIfPresent(String.self, forKey: .topicArn)
             self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11086,11 +11227,6 @@ extension QuickSight {
     }
 
     public struct DeleteTopicRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "topicId", location: .uri("TopicId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the topic that you want to delete.
         public let awsAccountId: String
         /// The ID of the topic that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -11099,6 +11235,13 @@ extension QuickSight {
         public init(awsAccountId: String, topicId: String) {
             self.awsAccountId = awsAccountId
             self.topicId = topicId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.topicId, key: "TopicId")
         }
 
         public func validate(name: String) throws {
@@ -11136,7 +11279,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11147,12 +11289,6 @@ extension QuickSight {
     }
 
     public struct DeleteUserByPrincipalIdRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace")),
-            AWSMemberEncoding(label: "principalId", location: .uri("PrincipalId"))
-        ]
-
         /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the
         /// 			Amazon Web Services account that contains your Amazon QuickSight account.
         public let awsAccountId: String
@@ -11165,6 +11301,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.namespace = namespace
             self.principalId = principalId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.namespace, key: "Namespace")
+            request.encodePath(self.principalId, key: "PrincipalId")
         }
 
         public func validate(name: String) throws {
@@ -11194,7 +11338,6 @@ extension QuickSight {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11203,12 +11346,6 @@ extension QuickSight {
     }
 
     public struct DeleteUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace")),
-            AWSMemberEncoding(label: "userName", location: .uri("UserName"))
-        ]
-
         /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the
         /// 			Amazon Web Services account that contains your Amazon QuickSight account.
         public let awsAccountId: String
@@ -11221,6 +11358,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.namespace = namespace
             self.userName = userName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.namespace, key: "Namespace")
+            request.encodePath(self.userName, key: "UserName")
         }
 
         public func validate(name: String) throws {
@@ -11252,7 +11397,6 @@ extension QuickSight {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11261,11 +11405,6 @@ extension QuickSight {
     }
 
     public struct DeleteVPCConnectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "vpcConnectionId", location: .uri("VPCConnectionId"))
-        ]
-
         /// The Amazon Web Services account ID of the account where you want to delete a VPC
         /// 			connection.
         public let awsAccountId: String
@@ -11276,6 +11415,13 @@ extension QuickSight {
         public init(awsAccountId: String, vpcConnectionId: String) {
             self.awsAccountId = awsAccountId
             self.vpcConnectionId = vpcConnectionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.vpcConnectionId, key: "VPCConnectionId")
         }
 
         public func validate(name: String) throws {
@@ -11323,7 +11469,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.vpcConnectionId = try container.decodeIfPresent(String.self, forKey: .vpcConnectionId)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11336,12 +11481,6 @@ extension QuickSight {
     }
 
     public struct DescribeAccountCustomizationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
-            AWSMemberEncoding(label: "resolved", location: .querystring("resolved"))
-        ]
-
         /// The ID for the Amazon Web Services account that you want to describe Amazon QuickSight customizations for.
         public let awsAccountId: String
         /// The Amazon QuickSight namespace that you want to describe Amazon QuickSight customizations for.
@@ -11353,6 +11492,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.namespace = namespace
             self.resolved = resolved
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.namespace, key: "namespace")
+            request.encodeQuery(self.resolved, key: "resolved")
         }
 
         public func validate(name: String) throws {
@@ -11398,7 +11545,6 @@ extension QuickSight {
             self.namespace = try container.decodeIfPresent(String.self, forKey: .namespace)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11411,15 +11557,17 @@ extension QuickSight {
     }
 
     public struct DescribeAccountSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The ID for the Amazon Web Services account that contains the settings that you want to list.
         public let awsAccountId: String
 
         public init(awsAccountId: String) {
             self.awsAccountId = awsAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
         }
 
         public func validate(name: String) throws {
@@ -11451,7 +11599,6 @@ extension QuickSight {
             self.accountSettings = try container.decodeIfPresent(AccountSettings.self, forKey: .accountSettings)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11461,15 +11608,17 @@ extension QuickSight {
     }
 
     public struct DescribeAccountSubscriptionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The Amazon Web Services account ID associated with your Amazon QuickSight account.
         public let awsAccountId: String
 
         public init(awsAccountId: String) {
             self.awsAccountId = awsAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
         }
 
         public func validate(name: String) throws {
@@ -11501,7 +11650,6 @@ extension QuickSight {
             self.accountInfo = try container.decodeIfPresent(AccountInfo.self, forKey: .accountInfo)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11511,11 +11659,6 @@ extension QuickSight {
     }
 
     public struct DescribeAnalysisDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analysisId", location: .uri("AnalysisId")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The ID of the analysis that you're describing. The ID is part of the URL of the analysis.
         public let analysisId: String
         /// The ID of the Amazon Web Services account that contains the analysis. You must be using the Amazon Web Services account that the analysis is in.
@@ -11524,6 +11667,13 @@ extension QuickSight {
         public init(analysisId: String, awsAccountId: String) {
             self.analysisId = analysisId
             self.awsAccountId = awsAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.analysisId, key: "AnalysisId")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
         }
 
         public func validate(name: String) throws {
@@ -11578,7 +11728,6 @@ extension QuickSight {
             self.resourceStatus = try container.decodeIfPresent(ResourceStatus.self, forKey: .resourceStatus)
             self.status = response.decodeStatus()
             self.themeArn = try container.decodeIfPresent(String.self, forKey: .themeArn)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11593,11 +11742,6 @@ extension QuickSight {
     }
 
     public struct DescribeAnalysisPermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analysisId", location: .uri("AnalysisId")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The ID of the analysis whose permissions you're describing. The ID is part of the analysis URL.
         public let analysisId: String
         /// The ID of the Amazon Web Services account that contains the analysis whose permissions you're describing. You must be using the Amazon Web Services account that the analysis is in.
@@ -11606,6 +11750,13 @@ extension QuickSight {
         public init(analysisId: String, awsAccountId: String) {
             self.analysisId = analysisId
             self.awsAccountId = awsAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.analysisId, key: "AnalysisId")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
         }
 
         public func validate(name: String) throws {
@@ -11648,7 +11799,6 @@ extension QuickSight {
             self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11660,11 +11810,6 @@ extension QuickSight {
     }
 
     public struct DescribeAnalysisRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analysisId", location: .uri("AnalysisId")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The ID of the analysis that you're describing. The ID is part of the URL of the analysis.
         public let analysisId: String
         /// The ID of the Amazon Web Services account that contains the analysis. You must be using the  Amazon Web Services account that the analysis is in.
@@ -11673,6 +11818,13 @@ extension QuickSight {
         public init(analysisId: String, awsAccountId: String) {
             self.analysisId = analysisId
             self.awsAccountId = awsAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.analysisId, key: "AnalysisId")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
         }
 
         public func validate(name: String) throws {
@@ -11707,7 +11859,6 @@ extension QuickSight {
             self.analysis = try container.decodeIfPresent(Analysis.self, forKey: .analysis)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11717,11 +11868,6 @@ extension QuickSight {
     }
 
     public struct DescribeAssetBundleExportJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetBundleExportJobId", location: .uri("AssetBundleExportJobId")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The ID of the job that you want described. The job ID is set when you start a new job with a StartAssetBundleExportJob API call.
         public let assetBundleExportJobId: String
         /// The ID of the Amazon Web Services account the export job is executed in.
@@ -11730,6 +11876,13 @@ extension QuickSight {
         public init(assetBundleExportJobId: String, awsAccountId: String) {
             self.assetBundleExportJobId = assetBundleExportJobId
             self.awsAccountId = awsAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetBundleExportJobId, key: "AssetBundleExportJobId")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
         }
 
         public func validate(name: String) throws {
@@ -11804,7 +11957,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.resourceArns = try container.decodeIfPresent([String].self, forKey: .resourceArns)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11824,11 +11976,6 @@ extension QuickSight {
     }
 
     public struct DescribeAssetBundleImportJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetBundleImportJobId", location: .uri("AssetBundleImportJobId")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The ID of the job. The job ID is set when you start a new job with a StartAssetBundleImportJob API call.
         public let assetBundleImportJobId: String
         /// The ID of the Amazon Web Services account the import job was executed in.
@@ -11837,6 +11984,13 @@ extension QuickSight {
         public init(assetBundleImportJobId: String, awsAccountId: String) {
             self.assetBundleImportJobId = assetBundleImportJobId
             self.awsAccountId = awsAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetBundleImportJobId, key: "AssetBundleImportJobId")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
         }
 
         public func validate(name: String) throws {
@@ -11907,7 +12061,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.rollbackErrors = try container.decodeIfPresent([AssetBundleImportJobError].self, forKey: .rollbackErrors)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11926,13 +12079,6 @@ extension QuickSight {
     }
 
     public struct DescribeDashboardDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "aliasName", location: .querystring("alias-name")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dashboardId", location: .uri("DashboardId")),
-            AWSMemberEncoding(label: "versionNumber", location: .querystring("version-number"))
-        ]
-
         /// The alias name.
         public let aliasName: String?
         /// The ID of the Amazon Web Services account that contains the dashboard that you're describing.
@@ -11947,6 +12093,15 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
             self.versionNumber = versionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.aliasName, key: "alias-name")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dashboardId, key: "DashboardId")
+            request.encodeQuery(self.versionNumber, key: "version-number")
         }
 
         public func validate(name: String) throws {
@@ -12009,7 +12164,6 @@ extension QuickSight {
             self.resourceStatus = try container.decodeIfPresent(ResourceStatus.self, forKey: .resourceStatus)
             self.status = response.decodeStatus()
             self.themeArn = try container.decodeIfPresent(String.self, forKey: .themeArn)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12025,11 +12179,6 @@ extension QuickSight {
     }
 
     public struct DescribeDashboardPermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dashboardId", location: .uri("DashboardId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the dashboard that you're describing permissions for.
         public let awsAccountId: String
         /// The ID for the dashboard, also added to the IAM policy.
@@ -12038,6 +12187,13 @@ extension QuickSight {
         public init(awsAccountId: String, dashboardId: String) {
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dashboardId, key: "DashboardId")
         }
 
         public func validate(name: String) throws {
@@ -12084,7 +12240,6 @@ extension QuickSight {
             self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12097,13 +12252,6 @@ extension QuickSight {
     }
 
     public struct DescribeDashboardRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "aliasName", location: .querystring("alias-name")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dashboardId", location: .uri("DashboardId")),
-            AWSMemberEncoding(label: "versionNumber", location: .querystring("version-number"))
-        ]
-
         /// The alias name.
         public let aliasName: String?
         /// The ID of the Amazon Web Services account that contains the dashboard that you're describing.
@@ -12118,6 +12266,15 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
             self.versionNumber = versionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.aliasName, key: "alias-name")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dashboardId, key: "DashboardId")
+            request.encodeQuery(self.versionNumber, key: "version-number")
         }
 
         public func validate(name: String) throws {
@@ -12156,7 +12313,6 @@ extension QuickSight {
             self.dashboard = try container.decodeIfPresent(Dashboard.self, forKey: .dashboard)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12166,11 +12322,6 @@ extension QuickSight {
     }
 
     public struct DescribeDataSetPermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -12179,6 +12330,13 @@ extension QuickSight {
         public init(awsAccountId: String, dataSetId: String) {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dataSetId, key: "DataSetId")
         }
 
         public func validate(name: String) throws {
@@ -12218,7 +12376,6 @@ extension QuickSight {
             self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12230,11 +12387,6 @@ extension QuickSight {
     }
 
     public struct DescribeDataSetRefreshPropertiesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID of the dataset.
@@ -12243,6 +12395,13 @@ extension QuickSight {
         public init(awsAccountId: String, dataSetId: String) {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dataSetId, key: "DataSetId")
         }
 
         public func validate(name: String) throws {
@@ -12274,7 +12433,6 @@ extension QuickSight {
             self.dataSetRefreshProperties = try container.decodeIfPresent(DataSetRefreshProperties.self, forKey: .dataSetRefreshProperties)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12284,11 +12442,6 @@ extension QuickSight {
     }
 
     public struct DescribeDataSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -12297,6 +12450,13 @@ extension QuickSight {
         public init(awsAccountId: String, dataSetId: String) {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dataSetId, key: "DataSetId")
         }
 
         public func validate(name: String) throws {
@@ -12328,7 +12488,6 @@ extension QuickSight {
             self.dataSet = try container.decodeIfPresent(DataSet.self, forKey: .dataSet)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12338,11 +12497,6 @@ extension QuickSight {
     }
 
     public struct DescribeDataSourcePermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dataSourceId", location: .uri("DataSourceId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -12351,6 +12505,13 @@ extension QuickSight {
         public init(awsAccountId: String, dataSourceId: String) {
             self.awsAccountId = awsAccountId
             self.dataSourceId = dataSourceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dataSourceId, key: "DataSourceId")
         }
 
         public func validate(name: String) throws {
@@ -12390,7 +12551,6 @@ extension QuickSight {
             self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12402,11 +12562,6 @@ extension QuickSight {
     }
 
     public struct DescribeDataSourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dataSourceId", location: .uri("DataSourceId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -12415,6 +12570,13 @@ extension QuickSight {
         public init(awsAccountId: String, dataSourceId: String) {
             self.awsAccountId = awsAccountId
             self.dataSourceId = dataSourceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dataSourceId, key: "DataSourceId")
         }
 
         public func validate(name: String) throws {
@@ -12446,7 +12608,6 @@ extension QuickSight {
             self.dataSource = try container.decodeIfPresent(DataSource.self, forKey: .dataSource)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12456,11 +12617,6 @@ extension QuickSight {
     }
 
     public struct DescribeFolderPermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "folderId", location: .uri("FolderId"))
-        ]
-
         /// The ID for the Amazon Web Services account that contains the folder.
         public let awsAccountId: String
         /// The ID of the folder.
@@ -12469,6 +12625,13 @@ extension QuickSight {
         public init(awsAccountId: String, folderId: String) {
             self.awsAccountId = awsAccountId
             self.folderId = folderId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.folderId, key: "FolderId")
         }
 
         public func validate(name: String) throws {
@@ -12511,7 +12674,6 @@ extension QuickSight {
             self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12523,11 +12685,6 @@ extension QuickSight {
     }
 
     public struct DescribeFolderRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "folderId", location: .uri("FolderId"))
-        ]
-
         /// The ID for the Amazon Web Services account that contains the folder.
         public let awsAccountId: String
         /// The ID of the folder.
@@ -12536,6 +12693,13 @@ extension QuickSight {
         public init(awsAccountId: String, folderId: String) {
             self.awsAccountId = awsAccountId
             self.folderId = folderId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.folderId, key: "FolderId")
         }
 
         public func validate(name: String) throws {
@@ -12551,11 +12715,6 @@ extension QuickSight {
     }
 
     public struct DescribeFolderResolvedPermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "folderId", location: .uri("FolderId"))
-        ]
-
         /// The ID for the Amazon Web Services account that contains the folder.
         public let awsAccountId: String
         /// The ID of the folder.
@@ -12564,6 +12723,13 @@ extension QuickSight {
         public init(awsAccountId: String, folderId: String) {
             self.awsAccountId = awsAccountId
             self.folderId = folderId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.folderId, key: "FolderId")
         }
 
         public func validate(name: String) throws {
@@ -12606,7 +12772,6 @@ extension QuickSight {
             self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12637,7 +12802,6 @@ extension QuickSight {
             self.folder = try container.decodeIfPresent(Folder.self, forKey: .folder)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12647,13 +12811,6 @@ extension QuickSight {
     }
 
     public struct DescribeGroupMembershipRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "groupName", location: .uri("GroupName")),
-            AWSMemberEncoding(label: "memberName", location: .uri("MemberName")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace"))
-        ]
-
         /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the  Amazon Web Services account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The name of the group that you want to search.
@@ -12668,6 +12825,15 @@ extension QuickSight {
             self.groupName = groupName
             self.memberName = memberName
             self.namespace = namespace
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.groupName, key: "GroupName")
+            request.encodePath(self.memberName, key: "MemberName")
+            request.encodePath(self.namespace, key: "Namespace")
         }
 
         public func validate(name: String) throws {
@@ -12705,7 +12871,6 @@ extension QuickSight {
             self.groupMember = try container.decodeIfPresent(GroupMember.self, forKey: .groupMember)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12715,12 +12880,6 @@ extension QuickSight {
     }
 
     public struct DescribeGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "groupName", location: .uri("GroupName")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace"))
-        ]
-
         /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the
         /// 			Amazon Web Services account that contains your Amazon QuickSight account.
         public let awsAccountId: String
@@ -12733,6 +12892,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.groupName = groupName
             self.namespace = namespace
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.groupName, key: "GroupName")
+            request.encodePath(self.namespace, key: "Namespace")
         }
 
         public func validate(name: String) throws {
@@ -12768,7 +12935,6 @@ extension QuickSight {
             self.group = try container.decodeIfPresent(Group.self, forKey: .group)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12778,12 +12944,6 @@ extension QuickSight {
     }
 
     public struct DescribeIAMPolicyAssignmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assignmentName", location: .uri("AssignmentName")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace"))
-        ]
-
         /// The name of the assignment, also called a rule.
         public let assignmentName: String
         /// The ID of the Amazon Web Services account that contains the assignment that you want to
@@ -12796,6 +12956,14 @@ extension QuickSight {
             self.assignmentName = assignmentName
             self.awsAccountId = awsAccountId
             self.namespace = namespace
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assignmentName, key: "AssignmentName")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.namespace, key: "Namespace")
         }
 
         public func validate(name: String) throws {
@@ -12831,7 +12999,6 @@ extension QuickSight {
             self.iamPolicyAssignment = try container.decodeIfPresent(IAMPolicyAssignment.self, forKey: .iamPolicyAssignment)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12841,12 +13008,6 @@ extension QuickSight {
     }
 
     public struct DescribeIngestionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
-            AWSMemberEncoding(label: "ingestionId", location: .uri("IngestionId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID of the dataset used in the ingestion.
@@ -12858,6 +13019,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
             self.ingestionId = ingestionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dataSetId, key: "DataSetId")
+            request.encodePath(self.ingestionId, key: "IngestionId")
         }
 
         public func validate(name: String) throws {
@@ -12892,7 +13061,6 @@ extension QuickSight {
             self.ingestion = try container.decodeIfPresent(Ingestion.self, forKey: .ingestion)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12902,15 +13070,17 @@ extension QuickSight {
     }
 
     public struct DescribeIpRestrictionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the IP rules.
         public let awsAccountId: String
 
         public init(awsAccountId: String) {
             self.awsAccountId = awsAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
         }
 
         public func validate(name: String) throws {
@@ -12951,7 +13121,6 @@ extension QuickSight {
             self.ipRestrictionRuleMap = try container.decodeIfPresent([String: String].self, forKey: .ipRestrictionRuleMap)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12963,11 +13132,6 @@ extension QuickSight {
     }
 
     public struct DescribeNamespaceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace"))
-        ]
-
         /// The ID for the Amazon Web Services account that contains the Amazon QuickSight namespace that you want to describe.
         public let awsAccountId: String
         /// The namespace that you want to describe.
@@ -12976,6 +13140,13 @@ extension QuickSight {
         public init(awsAccountId: String, namespace: String) {
             self.awsAccountId = awsAccountId
             self.namespace = namespace
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.namespace, key: "Namespace")
         }
 
         public func validate(name: String) throws {
@@ -13009,7 +13180,6 @@ extension QuickSight {
             self.namespace = try container.decodeIfPresent(NamespaceInfoV2.self, forKey: .namespace)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13019,12 +13189,6 @@ extension QuickSight {
     }
 
     public struct DescribeRefreshScheduleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
-            AWSMemberEncoding(label: "scheduleId", location: .uri("ScheduleId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID of the dataset.
@@ -13036,6 +13200,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
             self.scheduleId = scheduleId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dataSetId, key: "DataSetId")
+            request.encodePath(self.scheduleId, key: "ScheduleId")
         }
 
         public func validate(name: String) throws {
@@ -13071,7 +13243,6 @@ extension QuickSight {
             self.refreshSchedule = try container.decodeIfPresent(RefreshSchedule.self, forKey: .refreshSchedule)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13082,12 +13253,6 @@ extension QuickSight {
     }
 
     public struct DescribeTemplateAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "aliasName", location: .uri("AliasName")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "templateId", location: .uri("TemplateId"))
-        ]
-
         /// The name of the template alias that you want to describe. If you name a specific alias, you
         /// 			describe the version that the alias points to. You can specify the latest version of the
         /// 			template by providing the keyword $LATEST in the AliasName
@@ -13103,6 +13268,14 @@ extension QuickSight {
             self.aliasName = aliasName
             self.awsAccountId = awsAccountId
             self.templateId = templateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aliasName, key: "AliasName")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.templateId, key: "TemplateId")
         }
 
         public func validate(name: String) throws {
@@ -13140,7 +13313,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.templateAlias = try container.decodeIfPresent(TemplateAlias.self, forKey: .templateAlias)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13150,13 +13322,6 @@ extension QuickSight {
     }
 
     public struct DescribeTemplateDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "aliasName", location: .querystring("alias-name")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "templateId", location: .uri("TemplateId")),
-            AWSMemberEncoding(label: "versionNumber", location: .querystring("version-number"))
-        ]
-
         /// The alias of the template that you want to describe. If you name a specific alias, you
         /// 			 describe the version that the alias points to. You can specify the latest version of the
         /// 			 template by providing the keyword $LATEST in the AliasName
@@ -13175,6 +13340,15 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.templateId = templateId
             self.versionNumber = versionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.aliasName, key: "alias-name")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.templateId, key: "TemplateId")
+            request.encodeQuery(self.versionNumber, key: "version-number")
         }
 
         public func validate(name: String) throws {
@@ -13233,7 +13407,6 @@ extension QuickSight {
             self.status = response.decodeStatus()
             self.templateId = try container.decodeIfPresent(String.self, forKey: .templateId)
             self.themeArn = try container.decodeIfPresent(String.self, forKey: .themeArn)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13248,11 +13421,6 @@ extension QuickSight {
     }
 
     public struct DescribeTemplatePermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "templateId", location: .uri("TemplateId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the template that you're describing.
         public let awsAccountId: String
         /// The ID for the template.
@@ -13261,6 +13429,13 @@ extension QuickSight {
         public init(awsAccountId: String, templateId: String) {
             self.awsAccountId = awsAccountId
             self.templateId = templateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.templateId, key: "TemplateId")
         }
 
         public func validate(name: String) throws {
@@ -13303,7 +13478,6 @@ extension QuickSight {
             self.status = response.decodeStatus()
             self.templateArn = try container.decodeIfPresent(String.self, forKey: .templateArn)
             self.templateId = try container.decodeIfPresent(String.self, forKey: .templateId)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13315,13 +13489,6 @@ extension QuickSight {
     }
 
     public struct DescribeTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "aliasName", location: .querystring("alias-name")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "templateId", location: .uri("TemplateId")),
-            AWSMemberEncoding(label: "versionNumber", location: .querystring("version-number"))
-        ]
-
         /// The alias of the template that you want to describe. If you name a specific alias, you
         /// 			describe the version that the alias points to. You can specify the latest version of the
         /// 			template by providing the keyword $LATEST in the AliasName
@@ -13340,6 +13507,15 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.templateId = templateId
             self.versionNumber = versionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.aliasName, key: "alias-name")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.templateId, key: "TemplateId")
+            request.encodeQuery(self.versionNumber, key: "version-number")
         }
 
         public func validate(name: String) throws {
@@ -13378,7 +13554,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.template = try container.decodeIfPresent(Template.self, forKey: .template)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13388,12 +13563,6 @@ extension QuickSight {
     }
 
     public struct DescribeThemeAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "aliasName", location: .uri("AliasName")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "themeId", location: .uri("ThemeId"))
-        ]
-
         /// The name of the theme alias that you want to describe.
         public let aliasName: String
         /// The ID of the Amazon Web Services account that contains the theme alias that you're
@@ -13406,6 +13575,14 @@ extension QuickSight {
             self.aliasName = aliasName
             self.awsAccountId = awsAccountId
             self.themeId = themeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aliasName, key: "AliasName")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.themeId, key: "ThemeId")
         }
 
         public func validate(name: String) throws {
@@ -13443,7 +13620,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.themeAlias = try container.decodeIfPresent(ThemeAlias.self, forKey: .themeAlias)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13453,11 +13629,6 @@ extension QuickSight {
     }
 
     public struct DescribeThemePermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "themeId", location: .uri("ThemeId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the theme that you're describing.
         public let awsAccountId: String
         /// The ID for the theme that you want to describe permissions for.
@@ -13466,6 +13637,13 @@ extension QuickSight {
         public init(awsAccountId: String, themeId: String) {
             self.awsAccountId = awsAccountId
             self.themeId = themeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.themeId, key: "ThemeId")
         }
 
         public func validate(name: String) throws {
@@ -13508,7 +13686,6 @@ extension QuickSight {
             self.status = response.decodeStatus()
             self.themeArn = try container.decodeIfPresent(String.self, forKey: .themeArn)
             self.themeId = try container.decodeIfPresent(String.self, forKey: .themeId)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13520,13 +13697,6 @@ extension QuickSight {
     }
 
     public struct DescribeThemeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "aliasName", location: .querystring("alias-name")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "themeId", location: .uri("ThemeId")),
-            AWSMemberEncoding(label: "versionNumber", location: .querystring("version-number"))
-        ]
-
         /// The alias of the theme that you want to describe. If you name a specific alias, you
         /// 			describe the version that the alias points to. You can specify the latest version of the
         /// 			theme by providing the keyword $LATEST in the AliasName
@@ -13545,6 +13715,15 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.themeId = themeId
             self.versionNumber = versionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.aliasName, key: "alias-name")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.themeId, key: "ThemeId")
+            request.encodeQuery(self.versionNumber, key: "version-number")
         }
 
         public func validate(name: String) throws {
@@ -13581,7 +13760,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.theme = try container.decodeIfPresent(Theme.self, forKey: .theme)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13591,11 +13769,6 @@ extension QuickSight {
     }
 
     public struct DescribeTopicPermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "topicId", location: .uri("TopicId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the topic that you want described.
         public let awsAccountId: String
         /// The ID of the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -13604,6 +13777,13 @@ extension QuickSight {
         public init(awsAccountId: String, topicId: String) {
             self.awsAccountId = awsAccountId
             self.topicId = topicId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.topicId, key: "TopicId")
         }
 
         public func validate(name: String) throws {
@@ -13645,7 +13825,6 @@ extension QuickSight {
             self.status = response.decodeStatus()
             self.topicArn = try container.decodeIfPresent(String.self, forKey: .topicArn)
             self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13657,12 +13836,6 @@ extension QuickSight {
     }
 
     public struct DescribeTopicRefreshRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "refreshId", location: .uri("RefreshId")),
-            AWSMemberEncoding(label: "topicId", location: .uri("TopicId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the topic whose refresh you want to describe.
         public let awsAccountId: String
         /// The ID of the refresh, which is performed when the topic is created or updated.
@@ -13674,6 +13847,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.refreshId = refreshId
             self.topicId = topicId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.refreshId, key: "RefreshId")
+            request.encodePath(self.topicId, key: "TopicId")
         }
 
         public func validate(name: String) throws {
@@ -13707,7 +13888,6 @@ extension QuickSight {
             self.refreshDetails = try container.decodeIfPresent(TopicRefreshDetails.self, forKey: .refreshDetails)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13717,12 +13897,6 @@ extension QuickSight {
     }
 
     public struct DescribeTopicRefreshScheduleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "datasetId", location: .uri("DatasetId")),
-            AWSMemberEncoding(label: "topicId", location: .uri("TopicId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID of the dataset.
@@ -13734,6 +13908,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.datasetId = datasetId
             self.topicId = topicId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.datasetId, key: "DatasetId")
+            request.encodePath(self.topicId, key: "TopicId")
         }
 
         public func validate(name: String) throws {
@@ -13779,7 +13961,6 @@ extension QuickSight {
             self.status = response.decodeStatus()
             self.topicArn = try container.decodeIfPresent(String.self, forKey: .topicArn)
             self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13792,11 +13973,6 @@ extension QuickSight {
     }
 
     public struct DescribeTopicRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "topicId", location: .uri("TopicId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID of the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -13805,6 +13981,13 @@ extension QuickSight {
         public init(awsAccountId: String, topicId: String) {
             self.awsAccountId = awsAccountId
             self.topicId = topicId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.topicId, key: "TopicId")
         }
 
         public func validate(name: String) throws {
@@ -13846,7 +14029,6 @@ extension QuickSight {
             self.status = response.decodeStatus()
             self.topic = try container.decodeIfPresent(TopicDetails.self, forKey: .topic)
             self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13858,12 +14040,6 @@ extension QuickSight {
     }
 
     public struct DescribeUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace")),
-            AWSMemberEncoding(label: "userName", location: .uri("UserName"))
-        ]
-
         /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the
         /// 			Amazon Web Services account that contains your Amazon QuickSight account.
         public let awsAccountId: String
@@ -13876,6 +14052,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.namespace = namespace
             self.userName = userName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.namespace, key: "Namespace")
+            request.encodePath(self.userName, key: "UserName")
         }
 
         public func validate(name: String) throws {
@@ -13911,7 +14095,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.user = try container.decodeIfPresent(User.self, forKey: .user)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13921,11 +14104,6 @@ extension QuickSight {
     }
 
     public struct DescribeVPCConnectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "vpcConnectionId", location: .uri("VPCConnectionId"))
-        ]
-
         /// The Amazon Web Services account ID of the account that contains the VPC connection that
         /// 			you want described.
         public let awsAccountId: String
@@ -13936,6 +14114,13 @@ extension QuickSight {
         public init(awsAccountId: String, vpcConnectionId: String) {
             self.awsAccountId = awsAccountId
             self.vpcConnectionId = vpcConnectionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.vpcConnectionId, key: "VPCConnectionId")
         }
 
         public func validate(name: String) throws {
@@ -16285,10 +16470,6 @@ extension QuickSight {
     }
 
     public struct GenerateEmbedUrlForAnonymousUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The domains that you want to add to the allow list for access to the generated URL that is then embedded. This optional parameter overrides the static domains that are configured in the Manage QuickSight menu in the Amazon QuickSight console. Instead, it allows only the domains that you include in this parameter. You can list up to three domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use *. For example, https://*.sapp.amazon.com includes all subdomains under https://sapp.amazon.com.
         public let allowedDomains: [String]?
         /// The Amazon Resource Names (ARNs) for the Amazon QuickSight resources that the user is authorized to access during the lifetime of the session. If you choose Dashboard embedding experience, pass the list of dashboard ARNs in the account that you want the user to be able to view. Currently, you can pass up to 25 dashboard ARNs in each API call.
@@ -16312,6 +16493,18 @@ extension QuickSight {
             self.namespace = namespace
             self.sessionLifetimeInMinutes = sessionLifetimeInMinutes
             self.sessionTags = sessionTags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.allowedDomains, forKey: .allowedDomains)
+            try container.encode(self.authorizedResourceArns, forKey: .authorizedResourceArns)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.experienceConfiguration, forKey: .experienceConfiguration)
+            try container.encode(self.namespace, forKey: .namespace)
+            try container.encodeIfPresent(self.sessionLifetimeInMinutes, forKey: .sessionLifetimeInMinutes)
+            try container.encodeIfPresent(self.sessionTags, forKey: .sessionTags)
         }
 
         public func validate(name: String) throws {
@@ -16364,7 +16557,6 @@ extension QuickSight {
             self.embedUrl = try container.decode(String.self, forKey: .embedUrl)
             self.requestId = try container.decode(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -16375,10 +16567,6 @@ extension QuickSight {
     }
 
     public struct GenerateEmbedUrlForRegisteredUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The domains that you want to add to the allow list for access to the generated URL that  is then embedded. This optional parameter overrides the static domains that are  configured in the Manage QuickSight menu in the Amazon QuickSight console. Instead, it  allows only the domains that you include in this parameter. You can list up to three  domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use *. For example, https://*.sapp.amazon.com includes all subdomains under https://sapp.amazon.com.
         public let allowedDomains: [String]?
         /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
@@ -16396,6 +16584,16 @@ extension QuickSight {
             self.experienceConfiguration = experienceConfiguration
             self.sessionLifetimeInMinutes = sessionLifetimeInMinutes
             self.userArn = userArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.allowedDomains, forKey: .allowedDomains)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.experienceConfiguration, forKey: .experienceConfiguration)
+            try container.encodeIfPresent(self.sessionLifetimeInMinutes, forKey: .sessionLifetimeInMinutes)
+            try container.encode(self.userArn, forKey: .userArn)
         }
 
         public func validate(name: String) throws {
@@ -16435,7 +16633,6 @@ extension QuickSight {
             self.embedUrl = try container.decode(String.self, forKey: .embedUrl)
             self.requestId = try container.decode(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -16776,19 +16973,6 @@ extension QuickSight {
     }
 
     public struct GetDashboardEmbedUrlRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "additionalDashboardIds", location: .querystring("additional-dashboard-ids")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dashboardId", location: .uri("DashboardId")),
-            AWSMemberEncoding(label: "identityType", location: .querystring("creds-type")),
-            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
-            AWSMemberEncoding(label: "resetDisabled", location: .querystring("reset-disabled")),
-            AWSMemberEncoding(label: "sessionLifetimeInMinutes", location: .querystring("session-lifetime")),
-            AWSMemberEncoding(label: "statePersistenceEnabled", location: .querystring("state-persistence-enabled")),
-            AWSMemberEncoding(label: "undoRedoDisabled", location: .querystring("undo-redo-disabled")),
-            AWSMemberEncoding(label: "userArn", location: .querystring("user-arn"))
-        ]
-
         /// A list of one or more dashboard IDs that you want anonymous users to have tempporary access to. Currently, the IdentityType parameter must be set to ANONYMOUS because other identity types authenticate as Amazon QuickSight or IAM users. For example, if you set "--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS", the session can access all three dashboards.
         public let additionalDashboardIds: [String]?
         /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
@@ -16826,6 +17010,21 @@ extension QuickSight {
             self.statePersistenceEnabled = statePersistenceEnabled
             self.undoRedoDisabled = undoRedoDisabled
             self.userArn = userArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.additionalDashboardIds, key: "additional-dashboard-ids")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dashboardId, key: "DashboardId")
+            request.encodeQuery(self.identityType, key: "creds-type")
+            request.encodeQuery(self.namespace, key: "namespace")
+            request.encodeQuery(self.resetDisabled, key: "reset-disabled")
+            request.encodeQuery(self.sessionLifetimeInMinutes, key: "session-lifetime")
+            request.encodeQuery(self.statePersistenceEnabled, key: "state-persistence-enabled")
+            request.encodeQuery(self.undoRedoDisabled, key: "undo-redo-disabled")
+            request.encodeQuery(self.userArn, key: "user-arn")
         }
 
         public func validate(name: String) throws {
@@ -16874,7 +17073,6 @@ extension QuickSight {
             self.embedUrl = try container.decodeIfPresent(String.self, forKey: .embedUrl)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -16884,13 +17082,6 @@ extension QuickSight {
     }
 
     public struct GetSessionEmbedUrlRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "entryPoint", location: .querystring("entry-point")),
-            AWSMemberEncoding(label: "sessionLifetimeInMinutes", location: .querystring("session-lifetime")),
-            AWSMemberEncoding(label: "userArn", location: .querystring("user-arn"))
-        ]
-
         /// The ID for the Amazon Web Services account associated with your Amazon QuickSight subscription.
         public let awsAccountId: String
         /// The URL you use to access the embedded session. The entry point URL is constrained to the following paths:    /start     /start/analyses     /start/dashboards     /start/favorites     /dashboards/DashboardId - where DashboardId is the actual ID key from the Amazon QuickSight console URL of the dashboard    /analyses/AnalysisId - where AnalysisId is the actual ID key from the Amazon QuickSight console URL of the analysis
@@ -16907,6 +17098,15 @@ extension QuickSight {
             self.entryPoint = entryPoint
             self.sessionLifetimeInMinutes = sessionLifetimeInMinutes
             self.userArn = userArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.entryPoint, key: "entry-point")
+            request.encodeQuery(self.sessionLifetimeInMinutes, key: "session-lifetime")
+            request.encodeQuery(self.userArn, key: "user-arn")
         }
 
         public func validate(name: String) throws {
@@ -16945,7 +17145,6 @@ extension QuickSight {
             self.embedUrl = try container.decodeIfPresent(String.self, forKey: .embedUrl)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -18843,12 +19042,6 @@ extension QuickSight {
     }
 
     public struct ListAnalysesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the analyses.
         public let awsAccountId: String
         /// The maximum number of results to return.
@@ -18860,6 +19053,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -18897,7 +19098,6 @@ extension QuickSight {
             self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -18908,12 +19108,6 @@ extension QuickSight {
     }
 
     public struct ListAssetBundleExportJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ID of the Amazon Web Services account that the export jobs were executed in.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
@@ -18925,6 +19119,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -18962,7 +19164,6 @@ extension QuickSight {
             self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -18973,12 +19174,6 @@ extension QuickSight {
     }
 
     public struct ListAssetBundleImportJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ID of the Amazon Web Services account that the import jobs were executed in.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
@@ -18990,6 +19185,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -19027,7 +19230,6 @@ extension QuickSight {
             self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19089,13 +19291,6 @@ extension QuickSight {
     }
 
     public struct ListDashboardVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dashboardId", location: .uri("DashboardId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the dashboard that you're listing versions for.
         public let awsAccountId: String
         /// The ID for the dashboard.
@@ -19110,6 +19305,15 @@ extension QuickSight {
             self.dashboardId = dashboardId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dashboardId, key: "DashboardId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -19150,7 +19354,6 @@ extension QuickSight {
             self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19161,12 +19364,6 @@ extension QuickSight {
     }
 
     public struct ListDashboardsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the dashboards that you're listing.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
@@ -19178,6 +19375,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -19215,7 +19420,6 @@ extension QuickSight {
             self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19226,12 +19430,6 @@ extension QuickSight {
     }
 
     public struct ListDataSetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
@@ -19243,6 +19441,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -19280,7 +19486,6 @@ extension QuickSight {
             self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19291,12 +19496,6 @@ extension QuickSight {
     }
 
     public struct ListDataSourcesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
@@ -19308,6 +19507,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -19345,7 +19552,6 @@ extension QuickSight {
             self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19356,13 +19562,6 @@ extension QuickSight {
     }
 
     public struct ListFolderMembersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "folderId", location: .uri("FolderId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ID for the Amazon Web Services account that contains the folder.
         public let awsAccountId: String
         /// The ID of the folder.
@@ -19377,6 +19576,15 @@ extension QuickSight {
             self.folderId = folderId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.folderId, key: "FolderId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -19417,7 +19625,6 @@ extension QuickSight {
             self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19428,12 +19635,6 @@ extension QuickSight {
     }
 
     public struct ListFoldersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ID for the Amazon Web Services account that contains the folder.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
@@ -19445,6 +19646,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -19482,7 +19691,6 @@ extension QuickSight {
             self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19493,14 +19701,6 @@ extension QuickSight {
     }
 
     public struct ListGroupMembershipsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "groupName", location: .uri("GroupName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the
         /// 			Amazon Web Services account that contains your Amazon QuickSight account.
         public let awsAccountId: String
@@ -19519,6 +19719,16 @@ extension QuickSight {
             self.maxResults = maxResults
             self.namespace = namespace
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.groupName, key: "GroupName")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodePath(self.namespace, key: "Namespace")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -19560,7 +19770,6 @@ extension QuickSight {
             self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19571,13 +19780,6 @@ extension QuickSight {
     }
 
     public struct ListGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the
         /// 			Amazon Web Services account that contains your Amazon QuickSight account.
         public let awsAccountId: String
@@ -19593,6 +19795,15 @@ extension QuickSight {
             self.maxResults = maxResults
             self.namespace = namespace
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodePath(self.namespace, key: "Namespace")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -19632,7 +19843,6 @@ extension QuickSight {
             self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19643,14 +19853,6 @@ extension QuickSight {
     }
 
     public struct ListIAMPolicyAssignmentsForUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "userName", location: .uri("UserName"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the assignments.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
@@ -19668,6 +19870,16 @@ extension QuickSight {
             self.namespace = namespace
             self.nextToken = nextToken
             self.userName = userName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodePath(self.namespace, key: "Namespace")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodePath(self.userName, key: "UserName")
         }
 
         public func validate(name: String) throws {
@@ -19709,7 +19921,6 @@ extension QuickSight {
             self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19720,14 +19931,6 @@ extension QuickSight {
     }
 
     public struct ListIAMPolicyAssignmentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assignmentStatus", location: .querystring("assignment-status")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The status of the assignments.
         public let assignmentStatus: AssignmentStatus?
         /// The ID of the Amazon Web Services account that contains these IAM policy
@@ -19746,6 +19949,16 @@ extension QuickSight {
             self.maxResults = maxResults
             self.namespace = namespace
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.assignmentStatus, key: "assignment-status")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodePath(self.namespace, key: "Namespace")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -19785,7 +19998,6 @@ extension QuickSight {
             self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19796,13 +20008,6 @@ extension QuickSight {
     }
 
     public struct ListIngestionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID of the dataset used in the ingestion.
@@ -19817,6 +20022,15 @@ extension QuickSight {
             self.dataSetId = dataSetId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dataSetId, key: "DataSetId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -19854,7 +20068,6 @@ extension QuickSight {
             self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19865,12 +20078,6 @@ extension QuickSight {
     }
 
     public struct ListNamespacesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ID for the Amazon Web Services account that contains the Amazon QuickSight namespaces that you want to list.
         public let awsAccountId: String
         /// The maximum number of results to return.
@@ -19882,6 +20089,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -19919,7 +20134,6 @@ extension QuickSight {
             self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19930,11 +20144,6 @@ extension QuickSight {
     }
 
     public struct ListRefreshSchedulesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID of the dataset.
@@ -19943,6 +20152,13 @@ extension QuickSight {
         public init(awsAccountId: String, dataSetId: String) {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dataSetId, key: "DataSetId")
         }
 
         public func validate(name: String) throws {
@@ -19974,7 +20190,6 @@ extension QuickSight {
             self.refreshSchedules = try container.decodeIfPresent([RefreshSchedule].self, forKey: .refreshSchedules)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19984,15 +20199,17 @@ extension QuickSight {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource that you want a list of tags for.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -20019,7 +20236,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.tags = try container.decodeIfPresent([Tag].self, forKey: .tags)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -20029,13 +20245,6 @@ extension QuickSight {
     }
 
     public struct ListTemplateAliasesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-result")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "templateId", location: .uri("TemplateId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the template aliases that you're listing.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
@@ -20050,6 +20259,15 @@ extension QuickSight {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.templateId = templateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-result")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodePath(self.templateId, key: "TemplateId")
         }
 
         public func validate(name: String) throws {
@@ -20090,7 +20308,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.templateAliasList = try container.decodeIfPresent([TemplateAlias].self, forKey: .templateAliasList)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -20101,13 +20318,6 @@ extension QuickSight {
     }
 
     public struct ListTemplateVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "templateId", location: .uri("TemplateId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the templates that you're listing.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
@@ -20122,6 +20332,15 @@ extension QuickSight {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.templateId = templateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodePath(self.templateId, key: "TemplateId")
         }
 
         public func validate(name: String) throws {
@@ -20162,7 +20381,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.templateVersionSummaryList = try container.decodeIfPresent([TemplateVersionSummary].self, forKey: .templateVersionSummaryList)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -20173,12 +20391,6 @@ extension QuickSight {
     }
 
     public struct ListTemplatesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-result")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the templates that you're listing.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
@@ -20190,6 +20402,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-result")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -20227,7 +20447,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.templateSummaryList = try container.decodeIfPresent([TemplateSummary].self, forKey: .templateSummaryList)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -20238,13 +20457,6 @@ extension QuickSight {
     }
 
     public struct ListThemeAliasesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-result")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "themeId", location: .uri("ThemeId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the theme aliases that you're listing.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
@@ -20259,6 +20471,15 @@ extension QuickSight {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.themeId = themeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-result")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodePath(self.themeId, key: "ThemeId")
         }
 
         public func validate(name: String) throws {
@@ -20299,7 +20520,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.themeAliasList = try container.decodeIfPresent([ThemeAlias].self, forKey: .themeAliasList)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -20310,13 +20530,6 @@ extension QuickSight {
     }
 
     public struct ListThemeVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "themeId", location: .uri("ThemeId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the themes that you're listing.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
@@ -20331,6 +20544,15 @@ extension QuickSight {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.themeId = themeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodePath(self.themeId, key: "ThemeId")
         }
 
         public func validate(name: String) throws {
@@ -20371,7 +20593,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.themeVersionSummaryList = try container.decodeIfPresent([ThemeVersionSummary].self, forKey: .themeVersionSummaryList)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -20382,13 +20603,6 @@ extension QuickSight {
     }
 
     public struct ListThemesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "type", location: .querystring("type"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the themes that you're listing.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
@@ -20403,6 +20617,15 @@ extension QuickSight {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.type, key: "type")
         }
 
         public func validate(name: String) throws {
@@ -20440,7 +20663,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.themeSummaryList = try container.decodeIfPresent([ThemeSummary].self, forKey: .themeSummaryList)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -20451,11 +20673,6 @@ extension QuickSight {
     }
 
     public struct ListTopicRefreshSchedulesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "topicId", location: .uri("TopicId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the topic whose refresh schedule you want described.
         public let awsAccountId: String
         /// The ID for the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -20464,6 +20681,13 @@ extension QuickSight {
         public init(awsAccountId: String, topicId: String) {
             self.awsAccountId = awsAccountId
             self.topicId = topicId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.topicId, key: "TopicId")
         }
 
         public func validate(name: String) throws {
@@ -20505,7 +20729,6 @@ extension QuickSight {
             self.status = response.decodeStatus()
             self.topicArn = try container.decodeIfPresent(String.self, forKey: .topicArn)
             self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -20517,12 +20740,6 @@ extension QuickSight {
     }
 
     public struct ListTopicsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the topics that you want to list.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
@@ -20534,6 +20751,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -20571,7 +20796,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.topicsSummaries = try container.decodeIfPresent([TopicSummary].self, forKey: .topicsSummaries)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -20582,14 +20806,6 @@ extension QuickSight {
     }
 
     public struct ListUserGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "userName", location: .uri("UserName"))
-        ]
-
         /// The Amazon Web Services account ID that the user is in. Currently, you use the ID for the Amazon Web Services account
         /// 			that contains your Amazon QuickSight account.
         public let awsAccountId: String
@@ -20608,6 +20824,16 @@ extension QuickSight {
             self.namespace = namespace
             self.nextToken = nextToken
             self.userName = userName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodePath(self.namespace, key: "Namespace")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodePath(self.userName, key: "UserName")
         }
 
         public func validate(name: String) throws {
@@ -20649,7 +20875,6 @@ extension QuickSight {
             self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -20660,13 +20885,6 @@ extension QuickSight {
     }
 
     public struct ListUsersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the
         /// 			Amazon Web Services account that contains your Amazon QuickSight account.
         public let awsAccountId: String
@@ -20682,6 +20900,15 @@ extension QuickSight {
             self.maxResults = maxResults
             self.namespace = namespace
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodePath(self.namespace, key: "Namespace")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -20721,7 +20948,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.userList = try container.decodeIfPresent([User].self, forKey: .userList)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -20732,12 +20958,6 @@ extension QuickSight {
     }
 
     public struct ListVPCConnectionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The Amazon Web Services account ID of the account that contains the VPC connections
         /// 			that you want to list.
         public let awsAccountId: String
@@ -20750,6 +20970,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -20789,7 +21017,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.vpcConnectionSummaries = try container.decodeIfPresent([VPCConnectionSummary].self, forKey: .vpcConnectionSummaries)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -23485,11 +23712,6 @@ extension QuickSight {
     }
 
     public struct PutDataSetRefreshPropertiesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID of the dataset.
@@ -23501,6 +23723,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
             self.dataSetRefreshProperties = dataSetRefreshProperties
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dataSetId, key: "DataSetId")
+            try container.encode(self.dataSetRefreshProperties, forKey: .dataSetRefreshProperties)
         }
 
         public func validate(name: String) throws {
@@ -23531,7 +23761,6 @@ extension QuickSight {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -24175,11 +24404,6 @@ extension QuickSight {
     }
 
     public struct RegisterUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace"))
-        ]
-
         /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the
         /// 			Amazon Web Services account that contains your Amazon QuickSight account.
         public let awsAccountId: String
@@ -24232,6 +24456,23 @@ extension QuickSight {
             self.sessionName = sessionName
             self.userName = userName
             self.userRole = userRole
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.customFederationProviderUrl, forKey: .customFederationProviderUrl)
+            try container.encodeIfPresent(self.customPermissionsName, forKey: .customPermissionsName)
+            try container.encode(self.email, forKey: .email)
+            try container.encodeIfPresent(self.externalLoginFederationProviderType, forKey: .externalLoginFederationProviderType)
+            try container.encodeIfPresent(self.externalLoginId, forKey: .externalLoginId)
+            try container.encodeIfPresent(self.iamArn, forKey: .iamArn)
+            try container.encode(self.identityType, forKey: .identityType)
+            request.encodePath(self.namespace, key: "Namespace")
+            try container.encodeIfPresent(self.sessionName, forKey: .sessionName)
+            try container.encodeIfPresent(self.userName, forKey: .userName)
+            try container.encode(self.userRole, forKey: .userRole)
         }
 
         public func validate(name: String) throws {
@@ -24289,7 +24530,6 @@ extension QuickSight {
             self.status = response.decodeStatus()
             self.user = try container.decodeIfPresent(User.self, forKey: .user)
             self.userInvitationUrl = try container.decodeIfPresent(String.self, forKey: .userInvitationUrl)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -24615,11 +24855,6 @@ extension QuickSight {
     }
 
     public struct RestoreAnalysisRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analysisId", location: .uri("AnalysisId")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The ID of the analysis that you're restoring.
         public let analysisId: String
         /// The ID of the Amazon Web Services account that contains the analysis.
@@ -24628,6 +24863,13 @@ extension QuickSight {
         public init(analysisId: String, awsAccountId: String) {
             self.analysisId = analysisId
             self.awsAccountId = awsAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.analysisId, key: "AnalysisId")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
         }
 
         public func validate(name: String) throws {
@@ -24666,7 +24908,6 @@ extension QuickSight {
             self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -25355,10 +25596,6 @@ extension QuickSight {
     }
 
     public struct SearchAnalysesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the analyses that you're searching for.
         public let awsAccountId: String
         /// The structure for the search filters that you want to apply to your search.
@@ -25373,6 +25610,15 @@ extension QuickSight {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
         }
 
         public func validate(name: String) throws {
@@ -25416,7 +25662,6 @@ extension QuickSight {
             self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -25427,10 +25672,6 @@ extension QuickSight {
     }
 
     public struct SearchDashboardsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the user whose dashboards you're searching for.
         public let awsAccountId: String
         /// The filters to apply to the search. Currently, you can search only by user name, for example, "Filters": [ { "Name": "QUICKSIGHT_USER", "Operator": "StringEquals", "Value": "arn:aws:quicksight:us-east-1:1:user/default/UserName1" } ]
@@ -25445,6 +25686,15 @@ extension QuickSight {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
         }
 
         public func validate(name: String) throws {
@@ -25488,7 +25738,6 @@ extension QuickSight {
             self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -25499,10 +25748,6 @@ extension QuickSight {
     }
 
     public struct SearchDataSetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The filters to apply to the search.
@@ -25517,6 +25762,15 @@ extension QuickSight {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
         }
 
         public func validate(name: String) throws {
@@ -25560,7 +25814,6 @@ extension QuickSight {
             self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -25571,10 +25824,6 @@ extension QuickSight {
     }
 
     public struct SearchDataSourcesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The filters to apply to the search.
@@ -25589,6 +25838,15 @@ extension QuickSight {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
         }
 
         public func validate(name: String) throws {
@@ -25632,7 +25890,6 @@ extension QuickSight {
             self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -25643,10 +25900,6 @@ extension QuickSight {
     }
 
     public struct SearchFoldersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The ID for the Amazon Web Services account that contains the folder.
         public let awsAccountId: String
         /// The filters to apply to the search. Currently, you can search only by the parent folder ARN. For example, "Filters": [ { "Name": "PARENT_FOLDER_ARN", "Operator": "StringEquals", "Value": "arn:aws:quicksight:us-east-1:1:folder/folderId" } ].
@@ -25661,6 +25914,15 @@ extension QuickSight {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
         }
 
         public func validate(name: String) throws {
@@ -25703,7 +25965,6 @@ extension QuickSight {
             self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -25714,13 +25975,6 @@ extension QuickSight {
     }
 
     public struct SearchGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The structure for the search filters that you want to apply to your search.
@@ -25738,6 +25992,16 @@ extension QuickSight {
             self.maxResults = maxResults
             self.namespace = namespace
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.filters, forKey: .filters)
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodePath(self.namespace, key: "Namespace")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -25781,7 +26045,6 @@ extension QuickSight {
             self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -26649,10 +26912,6 @@ extension QuickSight {
     }
 
     public struct StartAssetBundleExportJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The ID of the job. This ID is unique while the job is running. After the job is completed, you can reuse this ID for another job.
         public let assetBundleExportJobId: String
         /// The ID of the Amazon Web Services account to export assets from.
@@ -26673,6 +26932,17 @@ extension QuickSight {
             self.exportFormat = exportFormat
             self.includeAllDependencies = includeAllDependencies
             self.resourceArns = resourceArns
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.assetBundleExportJobId, forKey: .assetBundleExportJobId)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.cloudFormationOverridePropertyConfiguration, forKey: .cloudFormationOverridePropertyConfiguration)
+            try container.encode(self.exportFormat, forKey: .exportFormat)
+            try container.encodeIfPresent(self.includeAllDependencies, forKey: .includeAllDependencies)
+            try container.encode(self.resourceArns, forKey: .resourceArns)
         }
 
         public func validate(name: String) throws {
@@ -26720,7 +26990,6 @@ extension QuickSight {
             self.assetBundleExportJobId = try container.decodeIfPresent(String.self, forKey: .assetBundleExportJobId)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -26731,10 +27000,6 @@ extension QuickSight {
     }
 
     public struct StartAssetBundleImportJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The ID of the job. This ID is unique while the job is running. After the job is completed, you can reuse this ID for another job.
         public let assetBundleImportJobId: String
         /// The source of the asset bundle zip file that contains the data that you want to import.
@@ -26752,6 +27017,16 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.failureAction = failureAction
             self.overrideParameters = overrideParameters
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.assetBundleImportJobId, forKey: .assetBundleImportJobId)
+            try container.encode(self.assetBundleImportSource, forKey: .assetBundleImportSource)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.failureAction, forKey: .failureAction)
+            try container.encodeIfPresent(self.overrideParameters, forKey: .overrideParameters)
         }
 
         public func validate(name: String) throws {
@@ -26797,7 +27072,6 @@ extension QuickSight {
             self.assetBundleImportJobId = try container.decodeIfPresent(String.self, forKey: .assetBundleImportJobId)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -27746,10 +28020,6 @@ extension QuickSight {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource that you want to tag.
         public let resourceArn: String
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the resource.
@@ -27758,6 +28028,13 @@ extension QuickSight {
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -27789,7 +28066,6 @@ extension QuickSight {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -29924,11 +30200,6 @@ extension QuickSight {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("keys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource that you want to untag.
         public let resourceArn: String
         /// The keys of the key-value pairs for the resource tag or tags assigned to the resource.
@@ -29937,6 +30208,13 @@ extension QuickSight {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "keys")
         }
 
         public func validate(name: String) throws {
@@ -29967,7 +30245,6 @@ extension QuickSight {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -29976,11 +30253,6 @@ extension QuickSight {
     }
 
     public struct UpdateAccountCustomizationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "namespace", location: .querystring("namespace"))
-        ]
-
         /// The Amazon QuickSight customizations you're updating in the current Amazon Web Services Region.
         public let accountCustomization: AccountCustomization
         /// The ID for the Amazon Web Services account that you want to update Amazon QuickSight customizations for.
@@ -29992,6 +30264,14 @@ extension QuickSight {
             self.accountCustomization = accountCustomization
             self.awsAccountId = awsAccountId
             self.namespace = namespace
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.accountCustomization, forKey: .accountCustomization)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.namespace, key: "namespace")
         }
 
         public func validate(name: String) throws {
@@ -30039,7 +30319,6 @@ extension QuickSight {
             self.namespace = try container.decodeIfPresent(String.self, forKey: .namespace)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -30052,10 +30331,6 @@ extension QuickSight {
     }
 
     public struct UpdateAccountSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The ID for the Amazon Web Services account that contains the Amazon QuickSight settings that you want to list.
         public let awsAccountId: String
         /// The default namespace for this Amazon Web Services account. Currently, the default is default. IAM users that register for the first time with Amazon QuickSight provide an email address that becomes associated with the default namespace.
@@ -30070,6 +30345,15 @@ extension QuickSight {
             self.defaultNamespace = defaultNamespace
             self.notificationEmail = notificationEmail
             self.terminationProtectionEnabled = terminationProtectionEnabled
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.defaultNamespace, forKey: .defaultNamespace)
+            try container.encodeIfPresent(self.notificationEmail, forKey: .notificationEmail)
+            try container.encodeIfPresent(self.terminationProtectionEnabled, forKey: .terminationProtectionEnabled)
         }
 
         public func validate(name: String) throws {
@@ -30103,7 +30387,6 @@ extension QuickSight {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -30112,11 +30395,6 @@ extension QuickSight {
     }
 
     public struct UpdateAnalysisPermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analysisId", location: .uri("AnalysisId")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The ID of the analysis whose permissions you're updating. The ID is part of the analysis URL.
         public let analysisId: String
         /// The ID of the Amazon Web Services account that contains the analysis whose permissions you're updating. You must be using the Amazon Web Services account that the analysis is in.
@@ -30131,6 +30409,15 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.grantPermissions = grantPermissions
             self.revokePermissions = revokePermissions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.analysisId, key: "AnalysisId")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.grantPermissions, forKey: .grantPermissions)
+            try container.encodeIfPresent(self.revokePermissions, forKey: .revokePermissions)
         }
 
         public func validate(name: String) throws {
@@ -30184,7 +30471,6 @@ extension QuickSight {
             self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -30196,11 +30482,6 @@ extension QuickSight {
     }
 
     public struct UpdateAnalysisRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analysisId", location: .uri("AnalysisId")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The ID for the analysis that you're updating. This ID displays in the URL of the analysis.
         public let analysisId: String
         /// The ID of the Amazon Web Services account that contains the analysis that you're updating.
@@ -30224,6 +30505,18 @@ extension QuickSight {
             self.parameters = parameters
             self.sourceEntity = sourceEntity
             self.themeArn = themeArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.analysisId, key: "AnalysisId")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.definition, forKey: .definition)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.parameters, forKey: .parameters)
+            try container.encodeIfPresent(self.sourceEntity, forKey: .sourceEntity)
+            try container.encodeIfPresent(self.themeArn, forKey: .themeArn)
         }
 
         public func validate(name: String) throws {
@@ -30277,7 +30570,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.updateStatus = try container.decodeIfPresent(ResourceStatus.self, forKey: .updateStatus)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -30289,11 +30581,6 @@ extension QuickSight {
     }
 
     public struct UpdateDashboardPermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dashboardId", location: .uri("DashboardId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the dashboard whose permissions you're updating.
         public let awsAccountId: String
         /// The ID for the dashboard.
@@ -30314,6 +30601,17 @@ extension QuickSight {
             self.grantPermissions = grantPermissions
             self.revokeLinkPermissions = revokeLinkPermissions
             self.revokePermissions = revokePermissions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dashboardId, key: "DashboardId")
+            try container.encodeIfPresent(self.grantLinkPermissions, forKey: .grantLinkPermissions)
+            try container.encodeIfPresent(self.grantPermissions, forKey: .grantPermissions)
+            try container.encodeIfPresent(self.revokeLinkPermissions, forKey: .revokeLinkPermissions)
+            try container.encodeIfPresent(self.revokePermissions, forKey: .revokePermissions)
         }
 
         public func validate(name: String) throws {
@@ -30381,7 +30679,6 @@ extension QuickSight {
             self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -30394,12 +30691,6 @@ extension QuickSight {
     }
 
     public struct UpdateDashboardPublishedVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dashboardId", location: .uri("DashboardId")),
-            AWSMemberEncoding(label: "versionNumber", location: .uri("VersionNumber"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the dashboard that you're updating.
         public let awsAccountId: String
         /// The ID for the dashboard.
@@ -30411,6 +30702,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
             self.versionNumber = versionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dashboardId, key: "DashboardId")
+            request.encodePath(self.versionNumber, key: "VersionNumber")
         }
 
         public func validate(name: String) throws {
@@ -30450,7 +30749,6 @@ extension QuickSight {
             self.dashboardId = try container.decodeIfPresent(String.self, forKey: .dashboardId)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -30461,11 +30759,6 @@ extension QuickSight {
     }
 
     public struct UpdateDashboardRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dashboardId", location: .uri("DashboardId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the dashboard that you're updating.
         public let awsAccountId: String
         /// The ID for the dashboard.
@@ -30495,6 +30788,20 @@ extension QuickSight {
             self.sourceEntity = sourceEntity
             self.themeArn = themeArn
             self.versionDescription = versionDescription
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dashboardId, key: "DashboardId")
+            try container.encodeIfPresent(self.dashboardPublishOptions, forKey: .dashboardPublishOptions)
+            try container.encodeIfPresent(self.definition, forKey: .definition)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.parameters, forKey: .parameters)
+            try container.encodeIfPresent(self.sourceEntity, forKey: .sourceEntity)
+            try container.encodeIfPresent(self.themeArn, forKey: .themeArn)
+            try container.encodeIfPresent(self.versionDescription, forKey: .versionDescription)
         }
 
         public func validate(name: String) throws {
@@ -30558,11 +30865,6 @@ extension QuickSight {
     }
 
     public struct UpdateDataSetPermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID for the dataset whose permissions you want to update. This ID is unique per
@@ -30578,6 +30880,15 @@ extension QuickSight {
             self.dataSetId = dataSetId
             self.grantPermissions = grantPermissions
             self.revokePermissions = revokePermissions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dataSetId, key: "DataSetId")
+            try container.encodeIfPresent(self.grantPermissions, forKey: .grantPermissions)
+            try container.encodeIfPresent(self.revokePermissions, forKey: .revokePermissions)
         }
 
         public func validate(name: String) throws {
@@ -30627,7 +30938,6 @@ extension QuickSight {
             self.dataSetId = try container.decodeIfPresent(String.self, forKey: .dataSetId)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -30638,11 +30948,6 @@ extension QuickSight {
     }
 
     public struct UpdateDataSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// Groupings of columns that work together in certain Amazon QuickSight features. Currently, only geospatial hierarchy is supported.
@@ -30684,6 +30989,24 @@ extension QuickSight {
             self.physicalTableMap = physicalTableMap
             self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
             self.rowLevelPermissionTagConfiguration = rowLevelPermissionTagConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.columnGroups, forKey: .columnGroups)
+            try container.encodeIfPresent(self.columnLevelPermissionRules, forKey: .columnLevelPermissionRules)
+            request.encodePath(self.dataSetId, key: "DataSetId")
+            try container.encodeIfPresent(self.datasetParameters, forKey: .datasetParameters)
+            try container.encodeIfPresent(self.dataSetUsageConfiguration, forKey: .dataSetUsageConfiguration)
+            try container.encodeIfPresent(self.fieldFolders, forKey: .fieldFolders)
+            try container.encode(self.importMode, forKey: .importMode)
+            try container.encodeIfPresent(self.logicalTableMap, forKey: .logicalTableMap)
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.physicalTableMap, forKey: .physicalTableMap)
+            try container.encodeIfPresent(self.rowLevelPermissionDataSet, forKey: .rowLevelPermissionDataSet)
+            try container.encodeIfPresent(self.rowLevelPermissionTagConfiguration, forKey: .rowLevelPermissionTagConfiguration)
         }
 
         public func validate(name: String) throws {
@@ -30779,7 +31102,6 @@ extension QuickSight {
             self.ingestionId = try container.decodeIfPresent(String.self, forKey: .ingestionId)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -30792,11 +31114,6 @@ extension QuickSight {
     }
 
     public struct UpdateDataSourcePermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dataSourceId", location: .uri("DataSourceId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -30811,6 +31128,15 @@ extension QuickSight {
             self.dataSourceId = dataSourceId
             self.grantPermissions = grantPermissions
             self.revokePermissions = revokePermissions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dataSourceId, key: "DataSourceId")
+            try container.encodeIfPresent(self.grantPermissions, forKey: .grantPermissions)
+            try container.encodeIfPresent(self.revokePermissions, forKey: .revokePermissions)
         }
 
         public func validate(name: String) throws {
@@ -30859,7 +31185,6 @@ extension QuickSight {
             self.dataSourceId = try container.decodeIfPresent(String.self, forKey: .dataSourceId)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -30870,11 +31195,6 @@ extension QuickSight {
     }
 
     public struct UpdateDataSourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dataSourceId", location: .uri("DataSourceId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The credentials that Amazon QuickSight that uses to connect to your underlying source. Currently,
@@ -30901,6 +31221,18 @@ extension QuickSight {
             self.name = name
             self.sslProperties = sslProperties
             self.vpcConnectionProperties = vpcConnectionProperties
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.credentials, forKey: .credentials)
+            request.encodePath(self.dataSourceId, key: "DataSourceId")
+            try container.encodeIfPresent(self.dataSourceParameters, forKey: .dataSourceParameters)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.sslProperties, forKey: .sslProperties)
+            try container.encodeIfPresent(self.vpcConnectionProperties, forKey: .vpcConnectionProperties)
         }
 
         public func validate(name: String) throws {
@@ -30950,7 +31282,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.updateStatus = try container.decodeIfPresent(ResourceStatus.self, forKey: .updateStatus)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -30962,11 +31293,6 @@ extension QuickSight {
     }
 
     public struct UpdateFolderPermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "folderId", location: .uri("FolderId"))
-        ]
-
         /// The ID for the Amazon Web Services account that contains the folder to update.
         public let awsAccountId: String
         /// The ID of the folder.
@@ -30981,6 +31307,15 @@ extension QuickSight {
             self.folderId = folderId
             self.grantPermissions = grantPermissions
             self.revokePermissions = revokePermissions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.folderId, key: "FolderId")
+            try container.encodeIfPresent(self.grantPermissions, forKey: .grantPermissions)
+            try container.encodeIfPresent(self.revokePermissions, forKey: .revokePermissions)
         }
 
         public func validate(name: String) throws {
@@ -31038,11 +31373,6 @@ extension QuickSight {
     }
 
     public struct UpdateFolderRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "folderId", location: .uri("FolderId"))
-        ]
-
         /// The ID for the Amazon Web Services account that contains the folder to update.
         public let awsAccountId: String
         /// The ID of the folder.
@@ -31054,6 +31384,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.folderId = folderId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.folderId, key: "FolderId")
+            try container.encode(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -31096,7 +31434,6 @@ extension QuickSight {
             self.folderId = try container.decodeIfPresent(String.self, forKey: .folderId)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -31107,12 +31444,6 @@ extension QuickSight {
     }
 
     public struct UpdateGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "groupName", location: .uri("GroupName")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace"))
-        ]
-
         /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the
         /// 			Amazon Web Services account that contains your Amazon QuickSight account.
         public let awsAccountId: String
@@ -31128,6 +31459,15 @@ extension QuickSight {
             self.description = description
             self.groupName = groupName
             self.namespace = namespace
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.groupName, key: "GroupName")
+            request.encodePath(self.namespace, key: "Namespace")
         }
 
         public func validate(name: String) throws {
@@ -31167,7 +31507,6 @@ extension QuickSight {
             self.group = try container.decodeIfPresent(Group.self, forKey: .group)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -31177,12 +31516,6 @@ extension QuickSight {
     }
 
     public struct UpdateIAMPolicyAssignmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assignmentName", location: .uri("AssignmentName")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace"))
-        ]
-
         /// The name of the assignment, also called a rule.
         /// 			The
         /// 			name must be unique within the
@@ -31212,6 +31545,17 @@ extension QuickSight {
             self.identities = identities
             self.namespace = namespace
             self.policyArn = policyArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assignmentName, key: "AssignmentName")
+            try container.encodeIfPresent(self.assignmentStatus, forKey: .assignmentStatus)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.identities, forKey: .identities)
+            request.encodePath(self.namespace, key: "Namespace")
+            try container.encodeIfPresent(self.policyArn, forKey: .policyArn)
         }
 
         public func validate(name: String) throws {
@@ -31272,7 +31616,6 @@ extension QuickSight {
             self.policyArn = try container.decodeIfPresent(String.self, forKey: .policyArn)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -31286,10 +31629,6 @@ extension QuickSight {
     }
 
     public struct UpdateIpRestrictionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the IP rules.
         public let awsAccountId: String
         /// A value that specifies whether IP rules are turned on.
@@ -31301,6 +31640,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.enabled = enabled
             self.ipRestrictionRuleMap = ipRestrictionRuleMap
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.enabled, forKey: .enabled)
+            try container.encodeIfPresent(self.ipRestrictionRuleMap, forKey: .ipRestrictionRuleMap)
         }
 
         public func validate(name: String) throws {
@@ -31339,7 +31686,6 @@ extension QuickSight {
             self.awsAccountId = try container.decodeIfPresent(String.self, forKey: .awsAccountId)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -31349,10 +31695,6 @@ extension QuickSight {
     }
 
     public struct UpdatePublicSharingSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
-        ]
-
         /// The Amazon Web Services account ID associated with your Amazon QuickSight subscription.
         public let awsAccountId: String
         /// A Boolean value that indicates whether public sharing is turned on for an Amazon QuickSight account.
@@ -31361,6 +31703,13 @@ extension QuickSight {
         public init(awsAccountId: String, publicSharingEnabled: Bool? = nil) {
             self.awsAccountId = awsAccountId
             self.publicSharingEnabled = publicSharingEnabled
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.publicSharingEnabled, forKey: .publicSharingEnabled)
         }
 
         public func validate(name: String) throws {
@@ -31390,7 +31739,6 @@ extension QuickSight {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -31399,11 +31747,6 @@ extension QuickSight {
     }
 
     public struct UpdateRefreshScheduleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
-        ]
-
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID of the dataset.
@@ -31415,6 +31758,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
             self.schedule = schedule
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dataSetId, key: "DataSetId")
+            try container.encode(self.schedule, forKey: .schedule)
         }
 
         public func validate(name: String) throws {
@@ -31453,7 +31804,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.scheduleId = try container.decodeIfPresent(String.self, forKey: .scheduleId)
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -31464,12 +31814,6 @@ extension QuickSight {
     }
 
     public struct UpdateTemplateAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "aliasName", location: .uri("AliasName")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "templateId", location: .uri("TemplateId"))
-        ]
-
         /// The alias of the template that you want to update. If you name a specific alias, you update
         /// 			the version that the alias points to. You can specify the latest version of the template
         /// 			by providing the keyword $LATEST in the AliasName parameter.
@@ -31487,6 +31831,15 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.templateId = templateId
             self.templateVersionNumber = templateVersionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aliasName, key: "AliasName")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.templateId, key: "TemplateId")
+            try container.encode(self.templateVersionNumber, forKey: .templateVersionNumber)
         }
 
         public func validate(name: String) throws {
@@ -31527,7 +31880,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.templateAlias = try container.decodeIfPresent(TemplateAlias.self, forKey: .templateAlias)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -31537,11 +31889,6 @@ extension QuickSight {
     }
 
     public struct UpdateTemplatePermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "templateId", location: .uri("TemplateId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the template.
         public let awsAccountId: String
         /// A list of resource permissions to be granted on the template.
@@ -31556,6 +31903,15 @@ extension QuickSight {
             self.grantPermissions = grantPermissions
             self.revokePermissions = revokePermissions
             self.templateId = templateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.grantPermissions, forKey: .grantPermissions)
+            try container.encodeIfPresent(self.revokePermissions, forKey: .revokePermissions)
+            request.encodePath(self.templateId, key: "TemplateId")
         }
 
         public func validate(name: String) throws {
@@ -31609,7 +31965,6 @@ extension QuickSight {
             self.status = response.decodeStatus()
             self.templateArn = try container.decodeIfPresent(String.self, forKey: .templateArn)
             self.templateId = try container.decodeIfPresent(String.self, forKey: .templateId)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -31621,11 +31976,6 @@ extension QuickSight {
     }
 
     public struct UpdateTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "templateId", location: .uri("TemplateId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the template that you're updating.
         public let awsAccountId: String
         /// The definition of a template. A definition is the data model of all features in a Dashboard, Template, or Analysis.
@@ -31657,6 +32007,17 @@ extension QuickSight {
             self.sourceEntity = sourceEntity
             self.templateId = templateId
             self.versionDescription = versionDescription
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.definition, forKey: .definition)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.sourceEntity, forKey: .sourceEntity)
+            request.encodePath(self.templateId, key: "TemplateId")
+            try container.encodeIfPresent(self.versionDescription, forKey: .versionDescription)
         }
 
         public func validate(name: String) throws {
@@ -31714,7 +32075,6 @@ extension QuickSight {
             self.status = response.decodeStatus()
             self.templateId = try container.decodeIfPresent(String.self, forKey: .templateId)
             self.versionArn = try container.decodeIfPresent(String.self, forKey: .versionArn)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -31727,12 +32087,6 @@ extension QuickSight {
     }
 
     public struct UpdateThemeAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "aliasName", location: .uri("AliasName")),
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "themeId", location: .uri("ThemeId"))
-        ]
-
         /// The name of the theme alias that you want to update.
         public let aliasName: String
         /// The ID of the Amazon Web Services account that contains the theme alias that you're updating.
@@ -31747,6 +32101,15 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.themeId = themeId
             self.themeVersionNumber = themeVersionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aliasName, key: "AliasName")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.themeId, key: "ThemeId")
+            try container.encode(self.themeVersionNumber, forKey: .themeVersionNumber)
         }
 
         public func validate(name: String) throws {
@@ -31787,7 +32150,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.themeAlias = try container.decodeIfPresent(ThemeAlias.self, forKey: .themeAlias)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -31797,11 +32159,6 @@ extension QuickSight {
     }
 
     public struct UpdateThemePermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "themeId", location: .uri("ThemeId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the theme.
         public let awsAccountId: String
         /// A list of resource permissions to be granted for the theme.
@@ -31816,6 +32173,15 @@ extension QuickSight {
             self.grantPermissions = grantPermissions
             self.revokePermissions = revokePermissions
             self.themeId = themeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.grantPermissions, forKey: .grantPermissions)
+            try container.encodeIfPresent(self.revokePermissions, forKey: .revokePermissions)
+            request.encodePath(self.themeId, key: "ThemeId")
         }
 
         public func validate(name: String) throws {
@@ -31869,7 +32235,6 @@ extension QuickSight {
             self.status = response.decodeStatus()
             self.themeArn = try container.decodeIfPresent(String.self, forKey: .themeArn)
             self.themeId = try container.decodeIfPresent(String.self, forKey: .themeId)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -31881,11 +32246,6 @@ extension QuickSight {
     }
 
     public struct UpdateThemeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "themeId", location: .uri("ThemeId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the theme that you're updating.
         public let awsAccountId: String
         /// The theme ID, defined by Amazon QuickSight, that a custom theme inherits from.
@@ -31909,6 +32269,17 @@ extension QuickSight {
             self.name = name
             self.themeId = themeId
             self.versionDescription = versionDescription
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.baseThemeId, forKey: .baseThemeId)
+            try container.encodeIfPresent(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.themeId, key: "ThemeId")
+            try container.encodeIfPresent(self.versionDescription, forKey: .versionDescription)
         }
 
         public func validate(name: String) throws {
@@ -31968,7 +32339,6 @@ extension QuickSight {
             self.status = response.decodeStatus()
             self.themeId = try container.decodeIfPresent(String.self, forKey: .themeId)
             self.versionArn = try container.decodeIfPresent(String.self, forKey: .versionArn)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -31981,11 +32351,6 @@ extension QuickSight {
     }
 
     public struct UpdateTopicPermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "topicId", location: .uri("TopicId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the topic that you want to update the permissions for.
         public let awsAccountId: String
         /// The resource permissions that you want to grant to the topic.
@@ -32000,6 +32365,15 @@ extension QuickSight {
             self.grantPermissions = grantPermissions
             self.revokePermissions = revokePermissions
             self.topicId = topicId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.grantPermissions, forKey: .grantPermissions)
+            try container.encodeIfPresent(self.revokePermissions, forKey: .revokePermissions)
+            request.encodePath(self.topicId, key: "TopicId")
         }
 
         public func validate(name: String) throws {
@@ -32052,7 +32426,6 @@ extension QuickSight {
             self.status = response.decodeStatus()
             self.topicArn = try container.decodeIfPresent(String.self, forKey: .topicArn)
             self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -32064,12 +32437,6 @@ extension QuickSight {
     }
 
     public struct UpdateTopicRefreshScheduleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "datasetId", location: .uri("DatasetId")),
-            AWSMemberEncoding(label: "topicId", location: .uri("TopicId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the topic whose refresh schedule you want to update.
         public let awsAccountId: String
         /// The ID of the dataset.
@@ -32084,6 +32451,15 @@ extension QuickSight {
             self.datasetId = datasetId
             self.refreshSchedule = refreshSchedule
             self.topicId = topicId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.datasetId, key: "DatasetId")
+            try container.encode(self.refreshSchedule, forKey: .refreshSchedule)
+            request.encodePath(self.topicId, key: "TopicId")
         }
 
         public func validate(name: String) throws {
@@ -32128,7 +32504,6 @@ extension QuickSight {
             self.status = response.decodeStatus()
             self.topicArn = try container.decodeIfPresent(String.self, forKey: .topicArn)
             self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -32140,11 +32515,6 @@ extension QuickSight {
     }
 
     public struct UpdateTopicRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "topicId", location: .uri("TopicId"))
-        ]
-
         /// The ID of the Amazon Web Services account that contains the topic that you want to update.
         public let awsAccountId: String
         /// The definition of the topic that you want to update.
@@ -32156,6 +32526,14 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.topic = topic
             self.topicId = topicId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.topic, forKey: .topic)
+            request.encodePath(self.topicId, key: "TopicId")
         }
 
         public func validate(name: String) throws {
@@ -32200,7 +32578,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -32212,12 +32589,6 @@ extension QuickSight {
     }
 
     public struct UpdateUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace")),
-            AWSMemberEncoding(label: "userName", location: .uri("UserName"))
-        ]
-
         /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the
         /// 			Amazon Web Services account that contains your Amazon QuickSight account.
         public let awsAccountId: String
@@ -32255,6 +32626,21 @@ extension QuickSight {
             self.role = role
             self.unapplyCustomPermissions = unapplyCustomPermissions
             self.userName = userName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.customFederationProviderUrl, forKey: .customFederationProviderUrl)
+            try container.encodeIfPresent(self.customPermissionsName, forKey: .customPermissionsName)
+            try container.encode(self.email, forKey: .email)
+            try container.encodeIfPresent(self.externalLoginFederationProviderType, forKey: .externalLoginFederationProviderType)
+            try container.encodeIfPresent(self.externalLoginId, forKey: .externalLoginId)
+            request.encodePath(self.namespace, key: "Namespace")
+            try container.encode(self.role, forKey: .role)
+            try container.encodeIfPresent(self.unapplyCustomPermissions, forKey: .unapplyCustomPermissions)
+            request.encodePath(self.userName, key: "UserName")
         }
 
         public func validate(name: String) throws {
@@ -32301,7 +32687,6 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.user = try container.decodeIfPresent(User.self, forKey: .user)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -32311,11 +32696,6 @@ extension QuickSight {
     }
 
     public struct UpdateVPCConnectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
-            AWSMemberEncoding(label: "vpcConnectionId", location: .uri("VPCConnectionId"))
-        ]
-
         /// The Amazon Web Services account ID of the account that contains the VPC connection that
         /// 			you want to update.
         public let awsAccountId: String
@@ -32342,6 +32722,18 @@ extension QuickSight {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcConnectionId = vpcConnectionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.dnsResolvers, forKey: .dnsResolvers)
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.roleArn, forKey: .roleArn)
+            try container.encode(self.securityGroupIds, forKey: .securityGroupIds)
+            try container.encode(self.subnetIds, forKey: .subnetIds)
+            request.encodePath(self.vpcConnectionId, key: "VPCConnectionId")
         }
 
         public func validate(name: String) throws {
@@ -32416,7 +32808,6 @@ extension QuickSight {
             self.status = response.decodeStatus()
             self.updateStatus = try container.decodeIfPresent(VPCConnectionResourceStatus.self, forKey: .updateStatus)
             self.vpcConnectionId = try container.decodeIfPresent(String.self, forKey: .vpcConnectionId)
-
         }
 
         private enum CodingKeys: String, CodingKey {

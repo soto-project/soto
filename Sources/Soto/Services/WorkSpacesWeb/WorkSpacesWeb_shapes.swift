@@ -68,11 +68,6 @@ extension WorkSpacesWeb {
     // MARK: Shapes
 
     public struct AssociateBrowserSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "browserSettingsArn", location: .querystring("browserSettingsArn")),
-            AWSMemberEncoding(label: "portalArn", location: .uri("portalArn"))
-        ]
-
         /// The ARN of the browser settings.
         public let browserSettingsArn: String
         /// The ARN of the web portal.
@@ -81,6 +76,13 @@ extension WorkSpacesWeb {
         public init(browserSettingsArn: String, portalArn: String) {
             self.browserSettingsArn = browserSettingsArn
             self.portalArn = portalArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.browserSettingsArn, key: "browserSettingsArn")
+            request.encodePath(self.portalArn, key: "portalArn")
         }
 
         public func validate(name: String) throws {
@@ -113,11 +115,6 @@ extension WorkSpacesWeb {
     }
 
     public struct AssociateIpAccessSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ipAccessSettingsArn", location: .querystring("ipAccessSettingsArn")),
-            AWSMemberEncoding(label: "portalArn", location: .uri("portalArn"))
-        ]
-
         /// The ARN of the IP access settings.
         public let ipAccessSettingsArn: String
         /// The ARN of the web portal.
@@ -126,6 +123,13 @@ extension WorkSpacesWeb {
         public init(ipAccessSettingsArn: String, portalArn: String) {
             self.ipAccessSettingsArn = ipAccessSettingsArn
             self.portalArn = portalArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.ipAccessSettingsArn, key: "ipAccessSettingsArn")
+            request.encodePath(self.portalArn, key: "portalArn")
         }
 
         public func validate(name: String) throws {
@@ -158,11 +162,6 @@ extension WorkSpacesWeb {
     }
 
     public struct AssociateNetworkSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "networkSettingsArn", location: .querystring("networkSettingsArn")),
-            AWSMemberEncoding(label: "portalArn", location: .uri("portalArn"))
-        ]
-
         /// The ARN of the network settings.
         public let networkSettingsArn: String
         /// The ARN of the web portal.
@@ -171,6 +170,13 @@ extension WorkSpacesWeb {
         public init(networkSettingsArn: String, portalArn: String) {
             self.networkSettingsArn = networkSettingsArn
             self.portalArn = portalArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.networkSettingsArn, key: "networkSettingsArn")
+            request.encodePath(self.portalArn, key: "portalArn")
         }
 
         public func validate(name: String) throws {
@@ -203,11 +209,6 @@ extension WorkSpacesWeb {
     }
 
     public struct AssociateTrustStoreRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "portalArn", location: .uri("portalArn")),
-            AWSMemberEncoding(label: "trustStoreArn", location: .querystring("trustStoreArn"))
-        ]
-
         /// The ARN of the web portal.
         public let portalArn: String
         /// The ARN of the trust store.
@@ -216,6 +217,13 @@ extension WorkSpacesWeb {
         public init(portalArn: String, trustStoreArn: String) {
             self.portalArn = portalArn
             self.trustStoreArn = trustStoreArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalArn, key: "portalArn")
+            request.encodeQuery(self.trustStoreArn, key: "trustStoreArn")
         }
 
         public func validate(name: String) throws {
@@ -248,11 +256,6 @@ extension WorkSpacesWeb {
     }
 
     public struct AssociateUserAccessLoggingSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "portalArn", location: .uri("portalArn")),
-            AWSMemberEncoding(label: "userAccessLoggingSettingsArn", location: .querystring("userAccessLoggingSettingsArn"))
-        ]
-
         /// The ARN of the web portal.
         public let portalArn: String
         /// The ARN of the user access logging settings.
@@ -261,6 +264,13 @@ extension WorkSpacesWeb {
         public init(portalArn: String, userAccessLoggingSettingsArn: String) {
             self.portalArn = portalArn
             self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalArn, key: "portalArn")
+            request.encodeQuery(self.userAccessLoggingSettingsArn, key: "userAccessLoggingSettingsArn")
         }
 
         public func validate(name: String) throws {
@@ -293,11 +303,6 @@ extension WorkSpacesWeb {
     }
 
     public struct AssociateUserSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "portalArn", location: .uri("portalArn")),
-            AWSMemberEncoding(label: "userSettingsArn", location: .querystring("userSettingsArn"))
-        ]
-
         /// The ARN of the web portal.
         public let portalArn: String
         /// The ARN of the user settings.
@@ -306,6 +311,13 @@ extension WorkSpacesWeb {
         public init(portalArn: String, userSettingsArn: String) {
             self.portalArn = portalArn
             self.userSettingsArn = userSettingsArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalArn, key: "portalArn")
+            request.encodeQuery(self.userSettingsArn, key: "userSettingsArn")
         }
 
         public func validate(name: String) throws {
@@ -934,15 +946,17 @@ extension WorkSpacesWeb {
     }
 
     public struct DeleteBrowserSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "browserSettingsArn", location: .uri("browserSettingsArn"))
-        ]
-
         /// The ARN of the browser settings.
         public let browserSettingsArn: String
 
         public init(browserSettingsArn: String) {
             self.browserSettingsArn = browserSettingsArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.browserSettingsArn, key: "browserSettingsArn")
         }
 
         public func validate(name: String) throws {
@@ -959,15 +973,17 @@ extension WorkSpacesWeb {
     }
 
     public struct DeleteIdentityProviderRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identityProviderArn", location: .uri("identityProviderArn"))
-        ]
-
         /// The ARN of the identity provider.
         public let identityProviderArn: String
 
         public init(identityProviderArn: String) {
             self.identityProviderArn = identityProviderArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identityProviderArn, key: "identityProviderArn")
         }
 
         public func validate(name: String) throws {
@@ -984,15 +1000,17 @@ extension WorkSpacesWeb {
     }
 
     public struct DeleteIpAccessSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ipAccessSettingsArn", location: .uri("ipAccessSettingsArn"))
-        ]
-
         /// The ARN of the IP access settings.
         public let ipAccessSettingsArn: String
 
         public init(ipAccessSettingsArn: String) {
             self.ipAccessSettingsArn = ipAccessSettingsArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.ipAccessSettingsArn, key: "ipAccessSettingsArn")
         }
 
         public func validate(name: String) throws {
@@ -1009,15 +1027,17 @@ extension WorkSpacesWeb {
     }
 
     public struct DeleteNetworkSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "networkSettingsArn", location: .uri("networkSettingsArn"))
-        ]
-
         /// The ARN of the network settings.
         public let networkSettingsArn: String
 
         public init(networkSettingsArn: String) {
             self.networkSettingsArn = networkSettingsArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.networkSettingsArn, key: "networkSettingsArn")
         }
 
         public func validate(name: String) throws {
@@ -1034,15 +1054,17 @@ extension WorkSpacesWeb {
     }
 
     public struct DeletePortalRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "portalArn", location: .uri("portalArn"))
-        ]
-
         /// The ARN of the web portal.
         public let portalArn: String
 
         public init(portalArn: String) {
             self.portalArn = portalArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalArn, key: "portalArn")
         }
 
         public func validate(name: String) throws {
@@ -1059,15 +1081,17 @@ extension WorkSpacesWeb {
     }
 
     public struct DeleteTrustStoreRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trustStoreArn", location: .uri("trustStoreArn"))
-        ]
-
         /// The ARN of the trust store.
         public let trustStoreArn: String
 
         public init(trustStoreArn: String) {
             self.trustStoreArn = trustStoreArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.trustStoreArn, key: "trustStoreArn")
         }
 
         public func validate(name: String) throws {
@@ -1084,15 +1108,17 @@ extension WorkSpacesWeb {
     }
 
     public struct DeleteUserAccessLoggingSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "userAccessLoggingSettingsArn", location: .uri("userAccessLoggingSettingsArn"))
-        ]
-
         /// The ARN of the user access logging settings.
         public let userAccessLoggingSettingsArn: String
 
         public init(userAccessLoggingSettingsArn: String) {
             self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.userAccessLoggingSettingsArn, key: "userAccessLoggingSettingsArn")
         }
 
         public func validate(name: String) throws {
@@ -1109,15 +1135,17 @@ extension WorkSpacesWeb {
     }
 
     public struct DeleteUserSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "userSettingsArn", location: .uri("userSettingsArn"))
-        ]
-
         /// The ARN of the user settings.
         public let userSettingsArn: String
 
         public init(userSettingsArn: String) {
             self.userSettingsArn = userSettingsArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.userSettingsArn, key: "userSettingsArn")
         }
 
         public func validate(name: String) throws {
@@ -1134,15 +1162,17 @@ extension WorkSpacesWeb {
     }
 
     public struct DisassociateBrowserSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "portalArn", location: .uri("portalArn"))
-        ]
-
         /// The ARN of the web portal.
         public let portalArn: String
 
         public init(portalArn: String) {
             self.portalArn = portalArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalArn, key: "portalArn")
         }
 
         public func validate(name: String) throws {
@@ -1159,15 +1189,17 @@ extension WorkSpacesWeb {
     }
 
     public struct DisassociateIpAccessSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "portalArn", location: .uri("portalArn"))
-        ]
-
         /// The ARN of the web portal.
         public let portalArn: String
 
         public init(portalArn: String) {
             self.portalArn = portalArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalArn, key: "portalArn")
         }
 
         public func validate(name: String) throws {
@@ -1184,15 +1216,17 @@ extension WorkSpacesWeb {
     }
 
     public struct DisassociateNetworkSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "portalArn", location: .uri("portalArn"))
-        ]
-
         /// The ARN of the web portal.
         public let portalArn: String
 
         public init(portalArn: String) {
             self.portalArn = portalArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalArn, key: "portalArn")
         }
 
         public func validate(name: String) throws {
@@ -1209,15 +1243,17 @@ extension WorkSpacesWeb {
     }
 
     public struct DisassociateTrustStoreRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "portalArn", location: .uri("portalArn"))
-        ]
-
         /// The ARN of the web portal.
         public let portalArn: String
 
         public init(portalArn: String) {
             self.portalArn = portalArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalArn, key: "portalArn")
         }
 
         public func validate(name: String) throws {
@@ -1234,15 +1270,17 @@ extension WorkSpacesWeb {
     }
 
     public struct DisassociateUserAccessLoggingSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "portalArn", location: .uri("portalArn"))
-        ]
-
         /// The ARN of the web portal.
         public let portalArn: String
 
         public init(portalArn: String) {
             self.portalArn = portalArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalArn, key: "portalArn")
         }
 
         public func validate(name: String) throws {
@@ -1259,15 +1297,17 @@ extension WorkSpacesWeb {
     }
 
     public struct DisassociateUserSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "portalArn", location: .uri("portalArn"))
-        ]
-
         /// The ARN of the web portal.
         public let portalArn: String
 
         public init(portalArn: String) {
             self.portalArn = portalArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalArn, key: "portalArn")
         }
 
         public func validate(name: String) throws {
@@ -1284,15 +1324,17 @@ extension WorkSpacesWeb {
     }
 
     public struct GetBrowserSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "browserSettingsArn", location: .uri("browserSettingsArn"))
-        ]
-
         /// The ARN of the browser settings.
         public let browserSettingsArn: String
 
         public init(browserSettingsArn: String) {
             self.browserSettingsArn = browserSettingsArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.browserSettingsArn, key: "browserSettingsArn")
         }
 
         public func validate(name: String) throws {
@@ -1318,15 +1360,17 @@ extension WorkSpacesWeb {
     }
 
     public struct GetIdentityProviderRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identityProviderArn", location: .uri("identityProviderArn"))
-        ]
-
         /// The ARN of the identity provider.
         public let identityProviderArn: String
 
         public init(identityProviderArn: String) {
             self.identityProviderArn = identityProviderArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identityProviderArn, key: "identityProviderArn")
         }
 
         public func validate(name: String) throws {
@@ -1352,15 +1396,17 @@ extension WorkSpacesWeb {
     }
 
     public struct GetIpAccessSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ipAccessSettingsArn", location: .uri("ipAccessSettingsArn"))
-        ]
-
         /// The ARN of the IP access settings.
         public let ipAccessSettingsArn: String
 
         public init(ipAccessSettingsArn: String) {
             self.ipAccessSettingsArn = ipAccessSettingsArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.ipAccessSettingsArn, key: "ipAccessSettingsArn")
         }
 
         public func validate(name: String) throws {
@@ -1386,15 +1432,17 @@ extension WorkSpacesWeb {
     }
 
     public struct GetNetworkSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "networkSettingsArn", location: .uri("networkSettingsArn"))
-        ]
-
         /// The ARN of the network settings.
         public let networkSettingsArn: String
 
         public init(networkSettingsArn: String) {
             self.networkSettingsArn = networkSettingsArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.networkSettingsArn, key: "networkSettingsArn")
         }
 
         public func validate(name: String) throws {
@@ -1420,15 +1468,17 @@ extension WorkSpacesWeb {
     }
 
     public struct GetPortalRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "portalArn", location: .uri("portalArn"))
-        ]
-
         /// The ARN of the web portal.
         public let portalArn: String
 
         public init(portalArn: String) {
             self.portalArn = portalArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalArn, key: "portalArn")
         }
 
         public func validate(name: String) throws {
@@ -1454,15 +1504,17 @@ extension WorkSpacesWeb {
     }
 
     public struct GetPortalServiceProviderMetadataRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "portalArn", location: .uri("portalArn"))
-        ]
-
         /// The ARN of the web portal.
         public let portalArn: String
 
         public init(portalArn: String) {
             self.portalArn = portalArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalArn, key: "portalArn")
         }
 
         public func validate(name: String) throws {
@@ -1492,11 +1544,6 @@ extension WorkSpacesWeb {
     }
 
     public struct GetTrustStoreCertificateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "thumbprint", location: .querystring("thumbprint")),
-            AWSMemberEncoding(label: "trustStoreArn", location: .uri("trustStoreArn"))
-        ]
-
         /// The thumbprint of the trust store certificate.
         public let thumbprint: String
         /// The ARN of the trust store certificate.
@@ -1505,6 +1552,13 @@ extension WorkSpacesWeb {
         public init(thumbprint: String, trustStoreArn: String) {
             self.thumbprint = thumbprint
             self.trustStoreArn = trustStoreArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.thumbprint, key: "thumbprint")
+            request.encodePath(self.trustStoreArn, key: "trustStoreArn")
         }
 
         public func validate(name: String) throws {
@@ -1537,15 +1591,17 @@ extension WorkSpacesWeb {
     }
 
     public struct GetTrustStoreRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trustStoreArn", location: .uri("trustStoreArn"))
-        ]
-
         /// The ARN of the trust store.
         public let trustStoreArn: String
 
         public init(trustStoreArn: String) {
             self.trustStoreArn = trustStoreArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.trustStoreArn, key: "trustStoreArn")
         }
 
         public func validate(name: String) throws {
@@ -1571,15 +1627,17 @@ extension WorkSpacesWeb {
     }
 
     public struct GetUserAccessLoggingSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "userAccessLoggingSettingsArn", location: .uri("userAccessLoggingSettingsArn"))
-        ]
-
         /// The ARN of the user access logging settings.
         public let userAccessLoggingSettingsArn: String
 
         public init(userAccessLoggingSettingsArn: String) {
             self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.userAccessLoggingSettingsArn, key: "userAccessLoggingSettingsArn")
         }
 
         public func validate(name: String) throws {
@@ -1605,15 +1663,17 @@ extension WorkSpacesWeb {
     }
 
     public struct GetUserSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "userSettingsArn", location: .uri("userSettingsArn"))
-        ]
-
         /// The ARN of the user settings.
         public let userSettingsArn: String
 
         public init(userSettingsArn: String) {
             self.userSettingsArn = userSettingsArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.userSettingsArn, key: "userSettingsArn")
         }
 
         public func validate(name: String) throws {
@@ -1767,11 +1827,6 @@ extension WorkSpacesWeb {
     }
 
     public struct ListBrowserSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to be included in the next page.
         public let maxResults: Int?
         /// The pagination token used to retrieve the next page of results for this operation.
@@ -1780,6 +1835,13 @@ extension WorkSpacesWeb {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1810,12 +1872,6 @@ extension WorkSpacesWeb {
     }
 
     public struct ListIdentityProvidersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "portalArn", location: .uri("portalArn"))
-        ]
-
         /// The maximum number of results to be included in the next page.
         public let maxResults: Int?
         /// The pagination token used to retrieve the next page of results for this operation.
@@ -1827,6 +1883,14 @@ extension WorkSpacesWeb {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.portalArn = portalArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.portalArn, key: "portalArn")
         }
 
         public func validate(name: String) throws {
@@ -1860,11 +1924,6 @@ extension WorkSpacesWeb {
     }
 
     public struct ListIpAccessSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to be included in the next page.
         public let maxResults: Int?
         /// The pagination token used to retrieve the next page of results for this operation.
@@ -1873,6 +1932,13 @@ extension WorkSpacesWeb {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1903,11 +1969,6 @@ extension WorkSpacesWeb {
     }
 
     public struct ListNetworkSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to be included in the next page.
         public let maxResults: Int?
         /// The pagination token used to retrieve the next page of results for this operation.
@@ -1916,6 +1977,13 @@ extension WorkSpacesWeb {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1946,11 +2014,6 @@ extension WorkSpacesWeb {
     }
 
     public struct ListPortalsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to be included in the next page.
         public let maxResults: Int?
         /// The pagination token used to retrieve the next page of results for this operation.
@@ -1959,6 +2022,13 @@ extension WorkSpacesWeb {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1989,15 +2059,17 @@ extension WorkSpacesWeb {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The ARN of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -2023,12 +2095,6 @@ extension WorkSpacesWeb {
     }
 
     public struct ListTrustStoreCertificatesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "trustStoreArn", location: .uri("trustStoreArn"))
-        ]
-
         /// The maximum number of results to be included in the next page.
         public let maxResults: Int?
         /// The pagination token used to retrieve the next page of results for this operation.
@@ -2040,6 +2106,14 @@ extension WorkSpacesWeb {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.trustStoreArn = trustStoreArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.trustStoreArn, key: "trustStoreArn")
         }
 
         public func validate(name: String) throws {
@@ -2077,11 +2151,6 @@ extension WorkSpacesWeb {
     }
 
     public struct ListTrustStoresRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to be included in the next page.
         public let maxResults: Int?
         /// The pagination token used to retrieve the next page of results for this operation.
@@ -2090,6 +2159,13 @@ extension WorkSpacesWeb {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2120,11 +2196,6 @@ extension WorkSpacesWeb {
     }
 
     public struct ListUserAccessLoggingSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to be included in the next page.
         public let maxResults: Int?
         /// The pagination token used to retrieve the next page of results for this operation.
@@ -2133,6 +2204,13 @@ extension WorkSpacesWeb {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2163,11 +2241,6 @@ extension WorkSpacesWeb {
     }
 
     public struct ListUserSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to be included in the next page.
         public let maxResults: Int?
         /// The pagination token used to retrieve the next page of results for this operation.
@@ -2176,6 +2249,13 @@ extension WorkSpacesWeb {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2411,10 +2491,6 @@ extension WorkSpacesWeb {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request.  If you do not specify a client token, one is automatically generated by the AWS SDK.
         public let clientToken: String?
         /// The ARN of the resource.
@@ -2426,6 +2502,14 @@ extension WorkSpacesWeb {
             self.clientToken = clientToken
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2481,11 +2565,6 @@ extension WorkSpacesWeb {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The ARN of the resource.
         public let resourceArn: String
         /// The list of tag keys to remove from the resource.
@@ -2494,6 +2573,13 @@ extension WorkSpacesWeb {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -2516,10 +2602,6 @@ extension WorkSpacesWeb {
     }
 
     public struct UpdateBrowserSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "browserSettingsArn", location: .uri("browserSettingsArn"))
-        ]
-
         /// A JSON string containing Chrome Enterprise policies that will be applied to all streaming sessions.
         public let browserPolicy: String?
         /// The ARN of the browser settings.
@@ -2531,6 +2613,14 @@ extension WorkSpacesWeb {
             self.browserPolicy = browserPolicy
             self.browserSettingsArn = browserSettingsArn
             self.clientToken = clientToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.browserPolicy, forKey: .browserPolicy)
+            request.encodePath(self.browserSettingsArn, key: "browserSettingsArn")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
         }
 
         public func validate(name: String) throws {
@@ -2564,10 +2654,6 @@ extension WorkSpacesWeb {
     }
 
     public struct UpdateIdentityProviderRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identityProviderArn", location: .uri("identityProviderArn"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request.  If you do not specify a client token, one is automatically generated by the AWS SDK.
         public let clientToken: String?
         /// The ARN of the identity provider.
@@ -2585,6 +2671,16 @@ extension WorkSpacesWeb {
             self.identityProviderDetails = identityProviderDetails
             self.identityProviderName = identityProviderName
             self.identityProviderType = identityProviderType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.identityProviderArn, key: "identityProviderArn")
+            try container.encodeIfPresent(self.identityProviderDetails, forKey: .identityProviderDetails)
+            try container.encodeIfPresent(self.identityProviderName, forKey: .identityProviderName)
+            try container.encodeIfPresent(self.identityProviderType, forKey: .identityProviderType)
         }
 
         public func validate(name: String) throws {
@@ -2626,10 +2722,6 @@ extension WorkSpacesWeb {
     }
 
     public struct UpdateIpAccessSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ipAccessSettingsArn", location: .uri("ipAccessSettingsArn"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request.  If you do not specify a client token, one is automatically generated by the AWS SDK.
         public let clientToken: String?
         /// The description of the IP access settings.
@@ -2647,6 +2739,16 @@ extension WorkSpacesWeb {
             self.displayName = displayName
             self.ipAccessSettingsArn = ipAccessSettingsArn
             self.ipRules = ipRules
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.displayName, forKey: .displayName)
+            request.encodePath(self.ipAccessSettingsArn, key: "ipAccessSettingsArn")
+            try container.encodeIfPresent(self.ipRules, forKey: .ipRules)
         }
 
         public func validate(name: String) throws {
@@ -2690,10 +2792,6 @@ extension WorkSpacesWeb {
     }
 
     public struct UpdateNetworkSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "networkSettingsArn", location: .uri("networkSettingsArn"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request.  If you do not specify a client token, one is automatically generated by the AWS SDK.
         public let clientToken: String?
         /// The ARN of the network settings.
@@ -2711,6 +2809,16 @@ extension WorkSpacesWeb {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcId = vpcId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.networkSettingsArn, key: "networkSettingsArn")
+            try container.encodeIfPresent(self.securityGroupIds, forKey: .securityGroupIds)
+            try container.encodeIfPresent(self.subnetIds, forKey: .subnetIds)
+            try container.encodeIfPresent(self.vpcId, forKey: .vpcId)
         }
 
         public func validate(name: String) throws {
@@ -2760,10 +2868,6 @@ extension WorkSpacesWeb {
     }
 
     public struct UpdatePortalRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "portalArn", location: .uri("portalArn"))
-        ]
-
         /// The type of authentication integration points used when signing into the web portal. Defaults to Standard.  Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider.  IAM_Identity_Center web portals are authenticated through AWS IAM Identity Center (successor to AWS Single Sign-On). They provide additional features, such as IdP-initiated authentication. Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
         public let authenticationType: AuthenticationType?
         /// The name of the web portal. This is not visible to users who log into the web portal.
@@ -2775,6 +2879,14 @@ extension WorkSpacesWeb {
             self.authenticationType = authenticationType
             self.displayName = displayName
             self.portalArn = portalArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.authenticationType, forKey: .authenticationType)
+            try container.encodeIfPresent(self.displayName, forKey: .displayName)
+            request.encodePath(self.portalArn, key: "portalArn")
         }
 
         public func validate(name: String) throws {
@@ -2806,10 +2918,6 @@ extension WorkSpacesWeb {
     }
 
     public struct UpdateTrustStoreRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trustStoreArn", location: .uri("trustStoreArn"))
-        ]
-
         /// A list of CA certificates to add to the trust store.
         public let certificatesToAdd: [AWSBase64Data]?
         /// A list of CA certificates to delete from a trust store.
@@ -2824,6 +2932,15 @@ extension WorkSpacesWeb {
             self.certificatesToDelete = certificatesToDelete
             self.clientToken = clientToken
             self.trustStoreArn = trustStoreArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.certificatesToAdd, forKey: .certificatesToAdd)
+            try container.encodeIfPresent(self.certificatesToDelete, forKey: .certificatesToDelete)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.trustStoreArn, key: "trustStoreArn")
         }
 
         public func validate(name: String) throws {
@@ -2860,10 +2977,6 @@ extension WorkSpacesWeb {
     }
 
     public struct UpdateUserAccessLoggingSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "userAccessLoggingSettingsArn", location: .uri("userAccessLoggingSettingsArn"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request.  If you do not specify a client token, one is automatically generated by the AWS SDK.
         public let clientToken: String?
         /// The ARN of the Kinesis stream.
@@ -2875,6 +2988,14 @@ extension WorkSpacesWeb {
             self.clientToken = clientToken
             self.kinesisStreamArn = kinesisStreamArn
             self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.kinesisStreamArn, forKey: .kinesisStreamArn)
+            request.encodePath(self.userAccessLoggingSettingsArn, key: "userAccessLoggingSettingsArn")
         }
 
         public func validate(name: String) throws {
@@ -2908,10 +3029,6 @@ extension WorkSpacesWeb {
     }
 
     public struct UpdateUserSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "userSettingsArn", location: .uri("userSettingsArn"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request.  If you do not specify a client token, one is automatically generated by the AWS SDK.
         public let clientToken: String?
         /// Specifies whether the user can copy text from the streaming session to the local device.
@@ -2941,6 +3058,20 @@ extension WorkSpacesWeb {
             self.printAllowed = printAllowed
             self.uploadAllowed = uploadAllowed
             self.userSettingsArn = userSettingsArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.copyAllowed, forKey: .copyAllowed)
+            try container.encodeIfPresent(self.disconnectTimeoutInMinutes, forKey: .disconnectTimeoutInMinutes)
+            try container.encodeIfPresent(self.downloadAllowed, forKey: .downloadAllowed)
+            try container.encodeIfPresent(self.idleDisconnectTimeoutInMinutes, forKey: .idleDisconnectTimeoutInMinutes)
+            try container.encodeIfPresent(self.pasteAllowed, forKey: .pasteAllowed)
+            try container.encodeIfPresent(self.printAllowed, forKey: .printAllowed)
+            try container.encodeIfPresent(self.uploadAllowed, forKey: .uploadAllowed)
+            request.encodePath(self.userSettingsArn, key: "userSettingsArn")
         }
 
         public func validate(name: String) throws {

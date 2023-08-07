@@ -341,15 +341,17 @@ extension Outposts {
     }
 
     public struct CancelOrderInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "orderId", location: .uri("OrderId"))
-        ]
-
         ///  The ID of the order.
         public let orderId: String
 
         public init(orderId: String) {
             self.orderId = orderId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.orderId, key: "OrderId")
         }
 
         public func validate(name: String) throws {
@@ -643,15 +645,17 @@ extension Outposts {
     }
 
     public struct DeleteOutpostInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "outpostId", location: .uri("OutpostId"))
-        ]
-
         ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
         public let outpostId: String
 
         public init(outpostId: String) {
             self.outpostId = outpostId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.outpostId, key: "OutpostId")
         }
 
         public func validate(name: String) throws {
@@ -668,15 +672,17 @@ extension Outposts {
     }
 
     public struct DeleteSiteInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "siteId", location: .uri("SiteId"))
-        ]
-
         ///  The ID or the Amazon Resource Name (ARN) of the site.
         public let siteId: String
 
         public init(siteId: String) {
             self.siteId = siteId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.siteId, key: "SiteId")
         }
 
         public func validate(name: String) throws {
@@ -714,15 +720,17 @@ extension Outposts {
     }
 
     public struct GetCatalogItemInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "catalogItemId", location: .uri("CatalogItemId"))
-        ]
-
         /// The ID of the catalog item.
         public let catalogItemId: String
 
         public init(catalogItemId: String) {
             self.catalogItemId = catalogItemId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.catalogItemId, key: "CatalogItemId")
         }
 
         public func validate(name: String) throws {
@@ -748,15 +756,17 @@ extension Outposts {
     }
 
     public struct GetConnectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionId", location: .uri("ConnectionId"))
-        ]
-
         ///  The ID of the connection.
         public let connectionId: String
 
         public init(connectionId: String) {
             self.connectionId = connectionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectionId, key: "ConnectionId")
         }
 
         public func validate(name: String) throws {
@@ -786,15 +796,17 @@ extension Outposts {
     }
 
     public struct GetOrderInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "orderId", location: .uri("OrderId"))
-        ]
-
         /// The ID of the order.
         public let orderId: String
 
         public init(orderId: String) {
             self.orderId = orderId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.orderId, key: "OrderId")
         }
 
         public func validate(name: String) throws {
@@ -819,15 +831,17 @@ extension Outposts {
     }
 
     public struct GetOutpostInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "outpostId", location: .uri("OutpostId"))
-        ]
-
         ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
         public let outpostId: String
 
         public init(outpostId: String) {
             self.outpostId = outpostId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.outpostId, key: "OutpostId")
         }
 
         public func validate(name: String) throws {
@@ -840,12 +854,6 @@ extension Outposts {
     }
 
     public struct GetOutpostInstanceTypesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "outpostId", location: .uri("OutpostId"))
-        ]
-
         public let maxResults: Int?
         public let nextToken: String?
         ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
@@ -855,6 +863,14 @@ extension Outposts {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.outpostId = outpostId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodePath(self.outpostId, key: "OutpostId")
         }
 
         public func validate(name: String) throws {
@@ -906,11 +922,6 @@ extension Outposts {
     }
 
     public struct GetSiteAddressInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "addressType", location: .querystring("AddressType")),
-            AWSMemberEncoding(label: "siteId", location: .uri("SiteId"))
-        ]
-
         /// The type of the address you request.
         public let addressType: AddressType
         ///  The ID or the Amazon Resource Name (ARN) of the site.
@@ -919,6 +930,13 @@ extension Outposts {
         public init(addressType: AddressType, siteId: String) {
             self.addressType = addressType
             self.siteId = siteId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.addressType, key: "AddressType")
+            request.encodePath(self.siteId, key: "SiteId")
         }
 
         public func validate(name: String) throws {
@@ -951,15 +969,17 @@ extension Outposts {
     }
 
     public struct GetSiteInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "siteId", location: .uri("SiteId"))
-        ]
-
         ///  The ID or the Amazon Resource Name (ARN) of the site.
         public let siteId: String
 
         public init(siteId: String) {
             self.siteId = siteId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.siteId, key: "SiteId")
         }
 
         public func validate(name: String) throws {
@@ -1079,14 +1099,6 @@ extension Outposts {
     }
 
     public struct ListAssetsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostIdFilter", location: .querystring("HostIdFilter")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "outpostIdentifier", location: .uri("OutpostIdentifier")),
-            AWSMemberEncoding(label: "statusFilter", location: .querystring("StatusFilter"))
-        ]
-
         /// Filters the results by the host ID of a Dedicated Host.
         public let hostIdFilter: [String]?
         public let maxResults: Int?
@@ -1102,6 +1114,16 @@ extension Outposts {
             self.nextToken = nextToken
             self.outpostIdentifier = outpostIdentifier
             self.statusFilter = statusFilter
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.hostIdFilter, key: "HostIdFilter")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodePath(self.outpostIdentifier, key: "OutpostIdentifier")
+            request.encodeQuery(self.statusFilter, key: "StatusFilter")
         }
 
         public func validate(name: String) throws {
@@ -1142,14 +1164,6 @@ extension Outposts {
     }
 
     public struct ListCatalogItemsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ec2FamilyFilter", location: .querystring("EC2FamilyFilter")),
-            AWSMemberEncoding(label: "itemClassFilter", location: .querystring("ItemClassFilter")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "supportedStorageFilter", location: .querystring("SupportedStorageFilter"))
-        ]
-
         /// Filters the results by EC2 family (for example, M5).
         public let ec2FamilyFilter: [String]?
         /// Filters the results by item class.
@@ -1165,6 +1179,16 @@ extension Outposts {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.supportedStorageFilter = supportedStorageFilter
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.ec2FamilyFilter, key: "EC2FamilyFilter")
+            request.encodeQuery(self.itemClassFilter, key: "ItemClassFilter")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.supportedStorageFilter, key: "SupportedStorageFilter")
         }
 
         public func validate(name: String) throws {
@@ -1200,12 +1224,6 @@ extension Outposts {
     }
 
     public struct ListOrdersInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "outpostIdentifierFilter", location: .querystring("OutpostIdentifierFilter"))
-        ]
-
         public let maxResults: Int?
         public let nextToken: String?
         ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
@@ -1215,6 +1233,14 @@ extension Outposts {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.outpostIdentifierFilter = outpostIdentifierFilter
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.outpostIdentifierFilter, key: "OutpostIdentifierFilter")
         }
 
         public func validate(name: String) throws {
@@ -1248,14 +1274,6 @@ extension Outposts {
     }
 
     public struct ListOutpostsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "availabilityZoneFilter", location: .querystring("AvailabilityZoneFilter")),
-            AWSMemberEncoding(label: "availabilityZoneIdFilter", location: .querystring("AvailabilityZoneIdFilter")),
-            AWSMemberEncoding(label: "lifeCycleStatusFilter", location: .querystring("LifeCycleStatusFilter")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// Filters the results by Availability Zone (for example, us-east-1a).
         public let availabilityZoneFilter: [String]?
         /// Filters the results by AZ ID (for example, use1-az1).
@@ -1271,6 +1289,16 @@ extension Outposts {
             self.lifeCycleStatusFilter = lifeCycleStatusFilter
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.availabilityZoneFilter, key: "AvailabilityZoneFilter")
+            request.encodeQuery(self.availabilityZoneIdFilter, key: "AvailabilityZoneIdFilter")
+            request.encodeQuery(self.lifeCycleStatusFilter, key: "LifeCycleStatusFilter")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -1321,14 +1349,6 @@ extension Outposts {
     }
 
     public struct ListSitesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "operatingAddressCityFilter", location: .querystring("OperatingAddressCityFilter")),
-            AWSMemberEncoding(label: "operatingAddressCountryCodeFilter", location: .querystring("OperatingAddressCountryCodeFilter")),
-            AWSMemberEncoding(label: "operatingAddressStateOrRegionFilter", location: .querystring("OperatingAddressStateOrRegionFilter"))
-        ]
-
         public let maxResults: Int?
         public let nextToken: String?
         /// Filters the results by city.
@@ -1344,6 +1364,16 @@ extension Outposts {
             self.operatingAddressCityFilter = operatingAddressCityFilter
             self.operatingAddressCountryCodeFilter = operatingAddressCountryCodeFilter
             self.operatingAddressStateOrRegionFilter = operatingAddressStateOrRegionFilter
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.operatingAddressCityFilter, key: "OperatingAddressCityFilter")
+            request.encodeQuery(self.operatingAddressCountryCodeFilter, key: "OperatingAddressCountryCodeFilter")
+            request.encodeQuery(self.operatingAddressStateOrRegionFilter, key: "OperatingAddressStateOrRegionFilter")
         }
 
         public func validate(name: String) throws {
@@ -1388,15 +1418,17 @@ extension Outposts {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1717,10 +1749,6 @@ extension Outposts {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tags to add to the resource.
@@ -1729,6 +1757,13 @@ extension Outposts {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1755,11 +1790,6 @@ extension Outposts {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tag keys.
@@ -1768,6 +1798,13 @@ extension Outposts {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -1790,10 +1827,6 @@ extension Outposts {
     }
 
     public struct UpdateOutpostInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "outpostId", location: .uri("OutpostId"))
-        ]
-
         public let description: String?
         public let name: String?
         ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
@@ -1806,6 +1839,15 @@ extension Outposts {
             self.name = name
             self.outpostId = outpostId
             self.supportedHardwareType = supportedHardwareType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.outpostId, key: "OutpostId")
+            try container.encodeIfPresent(self.supportedHardwareType, forKey: .supportedHardwareType)
         }
 
         public func validate(name: String) throws {
@@ -1839,10 +1881,6 @@ extension Outposts {
     }
 
     public struct UpdateSiteAddressInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "siteId", location: .uri("SiteId"))
-        ]
-
         ///  The address for the site.
         public let address: Address
         ///  The type of the address.
@@ -1854,6 +1892,14 @@ extension Outposts {
             self.address = address
             self.addressType = addressType
             self.siteId = siteId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.address, forKey: .address)
+            try container.encode(self.addressType, forKey: .addressType)
+            request.encodePath(self.siteId, key: "SiteId")
         }
 
         public func validate(name: String) throws {
@@ -1887,10 +1933,6 @@ extension Outposts {
     }
 
     public struct UpdateSiteInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "siteId", location: .uri("SiteId"))
-        ]
-
         public let description: String?
         public let name: String?
         /// Notes about a site.
@@ -1903,6 +1945,15 @@ extension Outposts {
             self.name = name
             self.notes = notes
             self.siteId = siteId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.notes, forKey: .notes)
+            request.encodePath(self.siteId, key: "SiteId")
         }
 
         public func validate(name: String) throws {
@@ -1940,10 +1991,6 @@ extension Outposts {
     }
 
     public struct UpdateSiteRackPhysicalPropertiesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "siteId", location: .uri("SiteId"))
-        ]
-
         /// The type of fiber that you will use to attach the Outpost to your network.
         public let fiberOpticCableType: FiberOpticCableType?
         /// The maximum rack weight that this site can support. NO_LIMIT is over 2000lbs.
@@ -1976,6 +2023,21 @@ extension Outposts {
             self.siteId = siteId
             self.uplinkCount = uplinkCount
             self.uplinkGbps = uplinkGbps
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.fiberOpticCableType, forKey: .fiberOpticCableType)
+            try container.encodeIfPresent(self.maximumSupportedWeightLbs, forKey: .maximumSupportedWeightLbs)
+            try container.encodeIfPresent(self.opticalStandard, forKey: .opticalStandard)
+            try container.encodeIfPresent(self.powerConnector, forKey: .powerConnector)
+            try container.encodeIfPresent(self.powerDrawKva, forKey: .powerDrawKva)
+            try container.encodeIfPresent(self.powerFeedDrop, forKey: .powerFeedDrop)
+            try container.encodeIfPresent(self.powerPhase, forKey: .powerPhase)
+            request.encodePath(self.siteId, key: "SiteId")
+            try container.encodeIfPresent(self.uplinkCount, forKey: .uplinkCount)
+            try container.encodeIfPresent(self.uplinkGbps, forKey: .uplinkGbps)
         }
 
         public func validate(name: String) throws {

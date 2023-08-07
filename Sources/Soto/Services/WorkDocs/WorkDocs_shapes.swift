@@ -343,12 +343,6 @@ extension WorkDocs {
     // MARK: Shapes
 
     public struct AbortDocumentVersionUploadRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "documentId", location: .uri("DocumentId")),
-            AWSMemberEncoding(label: "versionId", location: .uri("VersionId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -360,6 +354,14 @@ extension WorkDocs {
             self.authenticationToken = authenticationToken
             self.documentId = documentId
             self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodePath(self.documentId, key: "DocumentId")
+            request.encodePath(self.versionId, key: "VersionId")
         }
 
         public func validate(name: String) throws {
@@ -377,11 +379,6 @@ extension WorkDocs {
     }
 
     public struct ActivateUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the user.
@@ -390,6 +387,13 @@ extension WorkDocs {
         public init(authenticationToken: String? = nil, userId: String) {
             self.authenticationToken = authenticationToken
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodePath(self.userId, key: "UserId")
         }
 
         public func validate(name: String) throws {
@@ -462,11 +466,6 @@ extension WorkDocs {
     }
 
     public struct AddResourcePermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The notification options.
@@ -481,6 +480,15 @@ extension WorkDocs {
             self.notificationOptions = notificationOptions
             self.principals = principals
             self.resourceId = resourceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            try container.encodeIfPresent(self.notificationOptions, forKey: .notificationOptions)
+            try container.encode(self.principals, forKey: .principals)
+            request.encodePath(self.resourceId, key: "ResourceId")
         }
 
         public func validate(name: String) throws {
@@ -593,12 +601,6 @@ extension WorkDocs {
     }
 
     public struct CreateCommentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "documentId", location: .uri("DocumentId")),
-            AWSMemberEncoding(label: "versionId", location: .uri("VersionId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -625,6 +627,19 @@ extension WorkDocs {
             self.threadId = threadId
             self.versionId = versionId
             self.visibility = visibility
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodePath(self.documentId, key: "DocumentId")
+            try container.encodeIfPresent(self.notifyCollaborators, forKey: .notifyCollaborators)
+            try container.encodeIfPresent(self.parentId, forKey: .parentId)
+            try container.encode(self.text, forKey: .text)
+            try container.encodeIfPresent(self.threadId, forKey: .threadId)
+            request.encodePath(self.versionId, key: "VersionId")
+            try container.encodeIfPresent(self.visibility, forKey: .visibility)
         }
 
         public func validate(name: String) throws {
@@ -669,12 +684,6 @@ extension WorkDocs {
     }
 
     public struct CreateCustomMetadataRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId")),
-            AWSMemberEncoding(label: "versionId", location: .querystring("versionid"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// Custom metadata in the form of name-value pairs.
@@ -689,6 +698,15 @@ extension WorkDocs {
             self.customMetadata = customMetadata
             self.resourceId = resourceId
             self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            try container.encode(self.customMetadata, forKey: .customMetadata)
+            request.encodePath(self.resourceId, key: "ResourceId")
+            request.encodeQuery(self.versionId, key: "versionid")
         }
 
         public func validate(name: String) throws {
@@ -722,10 +740,6 @@ extension WorkDocs {
     }
 
     public struct CreateFolderRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The name of the new folder.
@@ -737,6 +751,14 @@ extension WorkDocs {
             self.authenticationToken = authenticationToken
             self.name = name
             self.parentFolderId = parentFolderId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encode(self.parentFolderId, forKey: .parentFolderId)
         }
 
         public func validate(name: String) throws {
@@ -770,11 +792,6 @@ extension WorkDocs {
     }
 
     public struct CreateLabelsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// List of labels to add to the resource.
@@ -786,6 +803,14 @@ extension WorkDocs {
             self.authenticationToken = authenticationToken
             self.labels = labels
             self.resourceId = resourceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            try container.encode(self.labels, forKey: .labels)
+            request.encodePath(self.resourceId, key: "ResourceId")
         }
 
         public func validate(name: String) throws {
@@ -812,10 +837,6 @@ extension WorkDocs {
     }
 
     public struct CreateNotificationSubscriptionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "organizationId", location: .uri("OrganizationId"))
-        ]
-
         /// The endpoint to receive the notifications. If the protocol is HTTPS, the endpoint is a URL that begins with https.
         public let endpoint: String
         /// The ID of the organization.
@@ -830,6 +851,15 @@ extension WorkDocs {
             self.organizationId = organizationId
             self.`protocol` = `protocol`
             self.subscriptionType = subscriptionType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.endpoint, forKey: .endpoint)
+            request.encodePath(self.organizationId, key: "OrganizationId")
+            try container.encode(self.`protocol`, forKey: .`protocol`)
+            try container.encode(self.subscriptionType, forKey: .subscriptionType)
         }
 
         public func validate(name: String) throws {
@@ -861,10 +891,6 @@ extension WorkDocs {
     }
 
     public struct CreateUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The email address of the user.
@@ -894,6 +920,20 @@ extension WorkDocs {
             self.surname = surname
             self.timeZoneId = timeZoneId
             self.username = username
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            try container.encodeIfPresent(self.emailAddress, forKey: .emailAddress)
+            try container.encode(self.givenName, forKey: .givenName)
+            try container.encodeIfPresent(self.organizationId, forKey: .organizationId)
+            try container.encode(self.password, forKey: .password)
+            try container.encodeIfPresent(self.storageRule, forKey: .storageRule)
+            try container.encode(self.surname, forKey: .surname)
+            try container.encodeIfPresent(self.timeZoneId, forKey: .timeZoneId)
+            try container.encode(self.username, forKey: .username)
         }
 
         public func validate(name: String) throws {
@@ -963,11 +1003,6 @@ extension WorkDocs {
     }
 
     public struct DeactivateUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the user.
@@ -976,6 +1011,13 @@ extension WorkDocs {
         public init(authenticationToken: String? = nil, userId: String) {
             self.authenticationToken = authenticationToken
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodePath(self.userId, key: "UserId")
         }
 
         public func validate(name: String) throws {
@@ -990,13 +1032,6 @@ extension WorkDocs {
     }
 
     public struct DeleteCommentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "commentId", location: .uri("CommentId")),
-            AWSMemberEncoding(label: "documentId", location: .uri("DocumentId")),
-            AWSMemberEncoding(label: "versionId", location: .uri("VersionId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the comment.
@@ -1011,6 +1046,15 @@ extension WorkDocs {
             self.commentId = commentId
             self.documentId = documentId
             self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodePath(self.commentId, key: "CommentId")
+            request.encodePath(self.documentId, key: "DocumentId")
+            request.encodePath(self.versionId, key: "VersionId")
         }
 
         public func validate(name: String) throws {
@@ -1031,14 +1075,6 @@ extension WorkDocs {
     }
 
     public struct DeleteCustomMetadataRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "deleteAll", location: .querystring("deleteAll")),
-            AWSMemberEncoding(label: "keys", location: .querystring("keys")),
-            AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId")),
-            AWSMemberEncoding(label: "versionId", location: .querystring("versionId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// Flag to indicate removal of all custom metadata properties from the specified resource.
@@ -1056,6 +1092,16 @@ extension WorkDocs {
             self.keys = keys
             self.resourceId = resourceId
             self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodeQuery(self.deleteAll, key: "deleteAll")
+            request.encodeQuery(self.keys, key: "keys")
+            request.encodePath(self.resourceId, key: "ResourceId")
+            request.encodeQuery(self.versionId, key: "versionId")
         }
 
         public func validate(name: String) throws {
@@ -1083,11 +1129,6 @@ extension WorkDocs {
     }
 
     public struct DeleteDocumentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "documentId", location: .uri("DocumentId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -1096,6 +1137,13 @@ extension WorkDocs {
         public init(authenticationToken: String? = nil, documentId: String) {
             self.authenticationToken = authenticationToken
             self.documentId = documentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodePath(self.documentId, key: "DocumentId")
         }
 
         public func validate(name: String) throws {
@@ -1110,13 +1158,6 @@ extension WorkDocs {
     }
 
     public struct DeleteDocumentVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "deletePriorVersions", location: .querystring("deletePriorVersions")),
-            AWSMemberEncoding(label: "documentId", location: .uri("DocumentId")),
-            AWSMemberEncoding(label: "versionId", location: .uri("VersionId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// Deletes all versions of a document prior to the current version.
@@ -1131,6 +1172,15 @@ extension WorkDocs {
             self.deletePriorVersions = deletePriorVersions
             self.documentId = documentId
             self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodeQuery(self.deletePriorVersions, key: "deletePriorVersions")
+            request.encodePath(self.documentId, key: "DocumentId")
+            request.encodePath(self.versionId, key: "VersionId")
         }
 
         public func validate(name: String) throws {
@@ -1148,11 +1198,6 @@ extension WorkDocs {
     }
 
     public struct DeleteFolderContentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "folderId", location: .uri("FolderId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the folder.
@@ -1161,6 +1206,13 @@ extension WorkDocs {
         public init(authenticationToken: String? = nil, folderId: String) {
             self.authenticationToken = authenticationToken
             self.folderId = folderId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodePath(self.folderId, key: "FolderId")
         }
 
         public func validate(name: String) throws {
@@ -1175,11 +1227,6 @@ extension WorkDocs {
     }
 
     public struct DeleteFolderRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "folderId", location: .uri("FolderId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the folder.
@@ -1188,6 +1235,13 @@ extension WorkDocs {
         public init(authenticationToken: String? = nil, folderId: String) {
             self.authenticationToken = authenticationToken
             self.folderId = folderId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodePath(self.folderId, key: "FolderId")
         }
 
         public func validate(name: String) throws {
@@ -1202,13 +1256,6 @@ extension WorkDocs {
     }
 
     public struct DeleteLabelsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "deleteAll", location: .querystring("deleteAll")),
-            AWSMemberEncoding(label: "labels", location: .querystring("labels")),
-            AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// Flag to request removal of all labels from the specified resource.
@@ -1223,6 +1270,15 @@ extension WorkDocs {
             self.deleteAll = deleteAll
             self.labels = labels
             self.resourceId = resourceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodeQuery(self.deleteAll, key: "deleteAll")
+            request.encodeQuery(self.labels, key: "labels")
+            request.encodePath(self.resourceId, key: "ResourceId")
         }
 
         public func validate(name: String) throws {
@@ -1247,11 +1303,6 @@ extension WorkDocs {
     }
 
     public struct DeleteNotificationSubscriptionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "organizationId", location: .uri("OrganizationId")),
-            AWSMemberEncoding(label: "subscriptionId", location: .uri("SubscriptionId"))
-        ]
-
         /// The ID of the organization.
         public let organizationId: String
         /// The ID of the subscription.
@@ -1260,6 +1311,13 @@ extension WorkDocs {
         public init(organizationId: String, subscriptionId: String) {
             self.organizationId = organizationId
             self.subscriptionId = subscriptionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.organizationId, key: "OrganizationId")
+            request.encodePath(self.subscriptionId, key: "SubscriptionId")
         }
 
         public func validate(name: String) throws {
@@ -1275,11 +1333,6 @@ extension WorkDocs {
     }
 
     public struct DeleteUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using Amazon Web Services credentials.
         public let authenticationToken: String?
         /// The ID of the user.
@@ -1288,6 +1341,13 @@ extension WorkDocs {
         public init(authenticationToken: String? = nil, userId: String) {
             self.authenticationToken = authenticationToken
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodePath(self.userId, key: "UserId")
         }
 
         public func validate(name: String) throws {
@@ -1302,19 +1362,6 @@ extension WorkDocs {
     }
 
     public struct DescribeActivitiesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "activityTypes", location: .querystring("activityTypes")),
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "endTime", location: .querystring("endTime")),
-            AWSMemberEncoding(label: "includeIndirectActivities", location: .querystring("includeIndirectActivities")),
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "organizationId", location: .querystring("organizationId")),
-            AWSMemberEncoding(label: "resourceId", location: .querystring("resourceId")),
-            AWSMemberEncoding(label: "startTime", location: .querystring("startTime")),
-            AWSMemberEncoding(label: "userId", location: .querystring("userId"))
-        ]
-
         /// Specifies which activity types to include in the response. If this field is left empty, all activity types are returned.
         public let activityTypes: String?
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
@@ -1347,6 +1394,21 @@ extension WorkDocs {
             self.resourceId = resourceId
             self.startTime = startTime
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.activityTypes, key: "activityTypes")
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodeQuery(self.endTime, key: "endTime")
+            request.encodeQuery(self.includeIndirectActivities, key: "includeIndirectActivities")
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodeQuery(self.organizationId, key: "organizationId")
+            request.encodeQuery(self.resourceId, key: "resourceId")
+            request.encodeQuery(self.startTime, key: "startTime")
+            request.encodeQuery(self.userId, key: "userId")
         }
 
         public func validate(name: String) throws {
@@ -1392,14 +1454,6 @@ extension WorkDocs {
     }
 
     public struct DescribeCommentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "documentId", location: .uri("DocumentId")),
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "versionId", location: .uri("VersionId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -1417,6 +1471,16 @@ extension WorkDocs {
             self.limit = limit
             self.marker = marker
             self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodePath(self.documentId, key: "DocumentId")
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodePath(self.versionId, key: "VersionId")
         }
 
         public func validate(name: String) throws {
@@ -1456,15 +1520,6 @@ extension WorkDocs {
     }
 
     public struct DescribeDocumentVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "documentId", location: .uri("DocumentId")),
-            AWSMemberEncoding(label: "fields", location: .querystring("fields")),
-            AWSMemberEncoding(label: "include", location: .querystring("include")),
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "marker", location: .querystring("marker"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -1485,6 +1540,17 @@ extension WorkDocs {
             self.include = include
             self.limit = limit
             self.marker = marker
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodePath(self.documentId, key: "DocumentId")
+            request.encodeQuery(self.fields, key: "fields")
+            request.encodeQuery(self.include, key: "include")
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodeQuery(self.marker, key: "marker")
         }
 
         public func validate(name: String) throws {
@@ -1526,17 +1592,6 @@ extension WorkDocs {
     }
 
     public struct DescribeFolderContentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "folderId", location: .uri("FolderId")),
-            AWSMemberEncoding(label: "include", location: .querystring("include")),
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "order", location: .querystring("order")),
-            AWSMemberEncoding(label: "sort", location: .querystring("sort")),
-            AWSMemberEncoding(label: "type", location: .querystring("type"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the folder.
@@ -1563,6 +1618,19 @@ extension WorkDocs {
             self.order = order
             self.sort = sort
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodePath(self.folderId, key: "FolderId")
+            request.encodeQuery(self.include, key: "include")
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodeQuery(self.order, key: "order")
+            request.encodeQuery(self.sort, key: "sort")
+            request.encodeQuery(self.type, key: "type")
         }
 
         public func validate(name: String) throws {
@@ -1605,14 +1673,6 @@ extension WorkDocs {
     }
 
     public struct DescribeGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "organizationId", location: .querystring("organizationId")),
-            AWSMemberEncoding(label: "searchQuery", location: .querystring("searchQuery"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The maximum number of items to return with this call.
@@ -1630,6 +1690,16 @@ extension WorkDocs {
             self.marker = marker
             self.organizationId = organizationId
             self.searchQuery = searchQuery
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodeQuery(self.organizationId, key: "organizationId")
+            request.encodeQuery(self.searchQuery, key: "searchQuery")
         }
 
         public func validate(name: String) throws {
@@ -1668,12 +1738,6 @@ extension WorkDocs {
     }
 
     public struct DescribeNotificationSubscriptionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "organizationId", location: .uri("OrganizationId"))
-        ]
-
         /// The maximum number of items to return with this call.
         public let limit: Int?
         /// The marker for the next set of results. (You received this marker from a previous call.)
@@ -1685,6 +1749,14 @@ extension WorkDocs {
             self.limit = limit
             self.marker = marker
             self.organizationId = organizationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodePath(self.organizationId, key: "OrganizationId")
         }
 
         public func validate(name: String) throws {
@@ -1718,14 +1790,6 @@ extension WorkDocs {
     }
 
     public struct DescribeResourcePermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "principalId", location: .querystring("principalId")),
-            AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The maximum number of items to return with this call.
@@ -1743,6 +1807,16 @@ extension WorkDocs {
             self.marker = marker
             self.principalId = principalId
             self.resourceId = resourceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodeQuery(self.principalId, key: "principalId")
+            request.encodePath(self.resourceId, key: "ResourceId")
         }
 
         public func validate(name: String) throws {
@@ -1781,12 +1855,6 @@ extension WorkDocs {
     }
 
     public struct DescribeRootFoldersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "marker", location: .querystring("marker"))
-        ]
-
         /// Amazon WorkDocs authentication token.
         public let authenticationToken: String
         /// The maximum number of items to return.
@@ -1798,6 +1866,14 @@ extension WorkDocs {
             self.authenticationToken = authenticationToken
             self.limit = limit
             self.marker = marker
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodeQuery(self.marker, key: "marker")
         }
 
         public func validate(name: String) throws {
@@ -1830,19 +1906,6 @@ extension WorkDocs {
     }
 
     public struct DescribeUsersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "fields", location: .querystring("fields")),
-            AWSMemberEncoding(label: "include", location: .querystring("include")),
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "order", location: .querystring("order")),
-            AWSMemberEncoding(label: "organizationId", location: .querystring("organizationId")),
-            AWSMemberEncoding(label: "query", location: .querystring("query")),
-            AWSMemberEncoding(label: "sort", location: .querystring("sort")),
-            AWSMemberEncoding(label: "userIds", location: .querystring("userIds"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// A comma-separated list of values. Specify "STORAGE_METADATA" to include the user storage quota and utilization information.
@@ -1875,6 +1938,21 @@ extension WorkDocs {
             self.query = query
             self.sort = sort
             self.userIds = userIds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodeQuery(self.fields, key: "fields")
+            request.encodeQuery(self.include, key: "include")
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodeQuery(self.order, key: "order")
+            request.encodeQuery(self.organizationId, key: "organizationId")
+            request.encodeQuery(self.query, key: "query")
+            request.encodeQuery(self.sort, key: "sort")
+            request.encodeQuery(self.userIds, key: "userIds")
         }
 
         public func validate(name: String) throws {
@@ -2155,15 +2233,17 @@ extension WorkDocs {
     }
 
     public struct GetCurrentUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication"))
-        ]
-
         /// Amazon WorkDocs authentication token.
         public let authenticationToken: String
 
         public init(authenticationToken: String) {
             self.authenticationToken = authenticationToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
         }
 
         public func validate(name: String) throws {
@@ -2188,14 +2268,6 @@ extension WorkDocs {
     }
 
     public struct GetDocumentPathRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "documentId", location: .uri("DocumentId")),
-            AWSMemberEncoding(label: "fields", location: .querystring("fields")),
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "marker", location: .querystring("marker"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -2213,6 +2285,16 @@ extension WorkDocs {
             self.fields = fields
             self.limit = limit
             self.marker = marker
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodePath(self.documentId, key: "DocumentId")
+            request.encodeQuery(self.fields, key: "fields")
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodeQuery(self.marker, key: "marker")
         }
 
         public func validate(name: String) throws {
@@ -2247,12 +2329,6 @@ extension WorkDocs {
     }
 
     public struct GetDocumentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "documentId", location: .uri("DocumentId")),
-            AWSMemberEncoding(label: "includeCustomMetadata", location: .querystring("includeCustomMetadata"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -2264,6 +2340,14 @@ extension WorkDocs {
             self.authenticationToken = authenticationToken
             self.documentId = documentId
             self.includeCustomMetadata = includeCustomMetadata
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodePath(self.documentId, key: "DocumentId")
+            request.encodeQuery(self.includeCustomMetadata, key: "includeCustomMetadata")
         }
 
         public func validate(name: String) throws {
@@ -2295,14 +2379,6 @@ extension WorkDocs {
     }
 
     public struct GetDocumentVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "documentId", location: .uri("DocumentId")),
-            AWSMemberEncoding(label: "fields", location: .querystring("fields")),
-            AWSMemberEncoding(label: "includeCustomMetadata", location: .querystring("includeCustomMetadata")),
-            AWSMemberEncoding(label: "versionId", location: .uri("VersionId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -2320,6 +2396,16 @@ extension WorkDocs {
             self.fields = fields
             self.includeCustomMetadata = includeCustomMetadata
             self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodePath(self.documentId, key: "DocumentId")
+            request.encodeQuery(self.fields, key: "fields")
+            request.encodeQuery(self.includeCustomMetadata, key: "includeCustomMetadata")
+            request.encodePath(self.versionId, key: "VersionId")
         }
 
         public func validate(name: String) throws {
@@ -2357,14 +2443,6 @@ extension WorkDocs {
     }
 
     public struct GetFolderPathRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "fields", location: .querystring("fields")),
-            AWSMemberEncoding(label: "folderId", location: .uri("FolderId")),
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "marker", location: .querystring("marker"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// A comma-separated list of values. Specify "NAME" to include the names of the parent folders.
@@ -2382,6 +2460,16 @@ extension WorkDocs {
             self.folderId = folderId
             self.limit = limit
             self.marker = marker
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodeQuery(self.fields, key: "fields")
+            request.encodePath(self.folderId, key: "FolderId")
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodeQuery(self.marker, key: "marker")
         }
 
         public func validate(name: String) throws {
@@ -2416,12 +2504,6 @@ extension WorkDocs {
     }
 
     public struct GetFolderRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "folderId", location: .uri("FolderId")),
-            AWSMemberEncoding(label: "includeCustomMetadata", location: .querystring("includeCustomMetadata"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the folder.
@@ -2433,6 +2515,14 @@ extension WorkDocs {
             self.authenticationToken = authenticationToken
             self.folderId = folderId
             self.includeCustomMetadata = includeCustomMetadata
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodePath(self.folderId, key: "FolderId")
+            request.encodeQuery(self.includeCustomMetadata, key: "includeCustomMetadata")
         }
 
         public func validate(name: String) throws {
@@ -2464,14 +2554,6 @@ extension WorkDocs {
     }
 
     public struct GetResourcesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "collectionType", location: .querystring("collectionType")),
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "userId", location: .querystring("userId"))
-        ]
-
         /// The Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The collection type.
@@ -2489,6 +2571,16 @@ extension WorkDocs {
             self.limit = limit
             self.marker = marker
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodeQuery(self.collectionType, key: "collectionType")
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodeQuery(self.userId, key: "userId")
         }
 
         public func validate(name: String) throws {
@@ -2545,10 +2637,6 @@ extension WorkDocs {
     }
 
     public struct InitiateDocumentVersionUploadRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The timestamp when the content of the document was originally created.
@@ -2575,6 +2663,19 @@ extension WorkDocs {
             self.id = id
             self.name = name
             self.parentFolderId = parentFolderId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            try container.encodeIfPresent(self.contentCreatedTimestamp, forKey: .contentCreatedTimestamp)
+            try container.encodeIfPresent(self.contentModifiedTimestamp, forKey: .contentModifiedTimestamp)
+            try container.encodeIfPresent(self.contentType, forKey: .contentType)
+            try container.encodeIfPresent(self.documentSizeInBytes, forKey: .documentSizeInBytes)
+            try container.encodeIfPresent(self.id, forKey: .id)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.parentFolderId, forKey: .parentFolderId)
         }
 
         public func validate(name: String) throws {
@@ -2715,11 +2816,6 @@ extension WorkDocs {
     }
 
     public struct RemoveAllResourcePermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the resource.
@@ -2728,6 +2824,13 @@ extension WorkDocs {
         public init(authenticationToken: String? = nil, resourceId: String) {
             self.authenticationToken = authenticationToken
             self.resourceId = resourceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodePath(self.resourceId, key: "ResourceId")
         }
 
         public func validate(name: String) throws {
@@ -2742,13 +2845,6 @@ extension WorkDocs {
     }
 
     public struct RemoveResourcePermissionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "principalId", location: .uri("PrincipalId")),
-            AWSMemberEncoding(label: "principalType", location: .querystring("type")),
-            AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The principal ID of the resource.
@@ -2763,6 +2859,15 @@ extension WorkDocs {
             self.principalId = principalId
             self.principalType = principalType
             self.resourceId = resourceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodePath(self.principalId, key: "PrincipalId")
+            request.encodeQuery(self.principalType, key: "type")
+            request.encodePath(self.resourceId, key: "ResourceId")
         }
 
         public func validate(name: String) throws {
@@ -2880,11 +2985,6 @@ extension WorkDocs {
     }
 
     public struct RestoreDocumentVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "documentId", location: .uri("DocumentId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -2893,6 +2993,13 @@ extension WorkDocs {
         public init(authenticationToken: String? = nil, documentId: String) {
             self.authenticationToken = authenticationToken
             self.documentId = documentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodePath(self.documentId, key: "DocumentId")
         }
 
         public func validate(name: String) throws {
@@ -2931,10 +3038,6 @@ extension WorkDocs {
     }
 
     public struct SearchResourcesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication"))
-        ]
-
         /// A list of attributes to include in the response. Used to request fields that are not normally returned in a standard response.
         public let additionalResponseFields: [AdditionalResponseFieldType]?
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
@@ -2964,6 +3067,20 @@ extension WorkDocs {
             self.organizationId = organizationId
             self.queryScopes = queryScopes
             self.queryText = queryText
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.additionalResponseFields, forKey: .additionalResponseFields)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.limit, forKey: .limit)
+            try container.encodeIfPresent(self.marker, forKey: .marker)
+            try container.encodeIfPresent(self.orderBy, forKey: .orderBy)
+            try container.encodeIfPresent(self.organizationId, forKey: .organizationId)
+            try container.encodeIfPresent(self.queryScopes, forKey: .queryScopes)
+            try container.encodeIfPresent(self.queryText, forKey: .queryText)
         }
 
         public func validate(name: String) throws {
@@ -3134,11 +3251,6 @@ extension WorkDocs {
     }
 
     public struct UpdateDocumentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "documentId", location: .uri("DocumentId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -3156,6 +3268,16 @@ extension WorkDocs {
             self.name = name
             self.parentFolderId = parentFolderId
             self.resourceState = resourceState
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodePath(self.documentId, key: "DocumentId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.parentFolderId, forKey: .parentFolderId)
+            try container.encodeIfPresent(self.resourceState, forKey: .resourceState)
         }
 
         public func validate(name: String) throws {
@@ -3180,12 +3302,6 @@ extension WorkDocs {
     }
 
     public struct UpdateDocumentVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "documentId", location: .uri("DocumentId")),
-            AWSMemberEncoding(label: "versionId", location: .uri("VersionId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -3200,6 +3316,15 @@ extension WorkDocs {
             self.documentId = documentId
             self.versionId = versionId
             self.versionStatus = versionStatus
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodePath(self.documentId, key: "DocumentId")
+            request.encodePath(self.versionId, key: "VersionId")
+            try container.encodeIfPresent(self.versionStatus, forKey: .versionStatus)
         }
 
         public func validate(name: String) throws {
@@ -3219,11 +3344,6 @@ extension WorkDocs {
     }
 
     public struct UpdateFolderRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "folderId", location: .uri("FolderId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the folder.
@@ -3241,6 +3361,16 @@ extension WorkDocs {
             self.name = name
             self.parentFolderId = parentFolderId
             self.resourceState = resourceState
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            request.encodePath(self.folderId, key: "FolderId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.parentFolderId, forKey: .parentFolderId)
+            try container.encodeIfPresent(self.resourceState, forKey: .resourceState)
         }
 
         public func validate(name: String) throws {
@@ -3265,11 +3395,6 @@ extension WorkDocs {
     }
 
     public struct UpdateUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
-            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
-        ]
-
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The given name of the user.
@@ -3299,6 +3424,20 @@ extension WorkDocs {
             self.timeZoneId = timeZoneId
             self.type = type
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.authenticationToken, key: "Authentication")
+            try container.encodeIfPresent(self.givenName, forKey: .givenName)
+            try container.encodeIfPresent(self.grantPoweruserPrivileges, forKey: .grantPoweruserPrivileges)
+            try container.encodeIfPresent(self.locale, forKey: .locale)
+            try container.encodeIfPresent(self.storageRule, forKey: .storageRule)
+            try container.encodeIfPresent(self.surname, forKey: .surname)
+            try container.encodeIfPresent(self.timeZoneId, forKey: .timeZoneId)
+            try container.encodeIfPresent(self.type, forKey: .type)
+            request.encodePath(self.userId, key: "UserId")
         }
 
         public func validate(name: String) throws {

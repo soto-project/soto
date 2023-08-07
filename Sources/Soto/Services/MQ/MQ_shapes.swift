@@ -507,10 +507,6 @@ extension MQ {
     }
 
     public struct CreateTagsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource tag.
         public let resourceArn: String
         /// The key-value pair for the resource tag.
@@ -521,17 +517,19 @@ extension MQ {
             self.tags = tags
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
         }
     }
 
     public struct CreateUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "brokerId", location: .uri("BrokerId")),
-            AWSMemberEncoding(label: "username", location: .uri("Username"))
-        ]
-
         /// The unique ID that Amazon MQ generates for the broker.
         public let brokerId: String
         /// Enables access to the ActiveMQ Web Console for the ActiveMQ user.
@@ -551,6 +549,16 @@ extension MQ {
             self.username = username
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.brokerId, key: "BrokerId")
+            try container.encodeIfPresent(self.consoleAccess, forKey: .consoleAccess)
+            try container.encodeIfPresent(self.groups, forKey: .groups)
+            try container.encode(self.password, forKey: .password)
+            request.encodePath(self.username, key: "Username")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case consoleAccess = "consoleAccess"
             case groups = "groups"
@@ -563,15 +571,17 @@ extension MQ {
     }
 
     public struct DeleteBrokerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "brokerId", location: .uri("BrokerId"))
-        ]
-
         /// The unique ID that Amazon MQ generates for the broker.
         public let brokerId: String
 
         public init(brokerId: String) {
             self.brokerId = brokerId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.brokerId, key: "BrokerId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -591,11 +601,6 @@ extension MQ {
     }
 
     public struct DeleteTagsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource tag.
         public let resourceArn: String
         /// An array of tag keys to delete
@@ -606,15 +611,17 @@ extension MQ {
             self.tagKeys = tagKeys
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "brokerId", location: .uri("BrokerId")),
-            AWSMemberEncoding(label: "username", location: .uri("Username"))
-        ]
-
         /// The unique ID that Amazon MQ generates for the broker.
         public let brokerId: String
         /// The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
@@ -625,6 +632,13 @@ extension MQ {
             self.username = username
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.brokerId, key: "BrokerId")
+            request.encodePath(self.username, key: "Username")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -633,12 +647,6 @@ extension MQ {
     }
 
     public struct DescribeBrokerEngineTypesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "engineType", location: .querystring("engineType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// Filter response by engine type.
         public let engineType: String?
         /// The maximum number of brokers that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100.
@@ -650,6 +658,14 @@ extension MQ {
             self.engineType = engineType
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.engineType, key: "engineType")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -682,14 +698,6 @@ extension MQ {
     }
 
     public struct DescribeBrokerInstanceOptionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "engineType", location: .querystring("engineType")),
-            AWSMemberEncoding(label: "hostInstanceType", location: .querystring("hostInstanceType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "storageType", location: .querystring("storageType"))
-        ]
-
         /// Filter response by engine type.
         public let engineType: String?
         /// Filter response by host instance type.
@@ -707,6 +715,16 @@ extension MQ {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.storageType = storageType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.engineType, key: "engineType")
+            request.encodeQuery(self.hostInstanceType, key: "hostInstanceType")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.storageType, key: "storageType")
         }
 
         public func validate(name: String) throws {
@@ -739,15 +757,17 @@ extension MQ {
     }
 
     public struct DescribeBrokerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "brokerId", location: .uri("BrokerId"))
-        ]
-
         /// The unique ID that Amazon MQ generates for the broker.
         public let brokerId: String
 
         public init(brokerId: String) {
             self.brokerId = brokerId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.brokerId, key: "BrokerId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -880,15 +900,17 @@ extension MQ {
     }
 
     public struct DescribeConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationId", location: .uri("ConfigurationId"))
-        ]
-
         /// The unique ID that Amazon MQ generates for the configuration.
         public let configurationId: String
 
         public init(configurationId: String) {
             self.configurationId = configurationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationId, key: "ConfigurationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -945,11 +967,6 @@ extension MQ {
     }
 
     public struct DescribeConfigurationRevisionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationId", location: .uri("ConfigurationId")),
-            AWSMemberEncoding(label: "configurationRevision", location: .uri("ConfigurationRevision"))
-        ]
-
         /// The unique ID that Amazon MQ generates for the configuration.
         public let configurationId: String
         /// The revision of the configuration.
@@ -958,6 +975,13 @@ extension MQ {
         public init(configurationId: String, configurationRevision: String) {
             self.configurationId = configurationId
             self.configurationRevision = configurationRevision
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationId, key: "ConfigurationId")
+            request.encodePath(self.configurationRevision, key: "ConfigurationRevision")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -990,11 +1014,6 @@ extension MQ {
     }
 
     public struct DescribeUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "brokerId", location: .uri("BrokerId")),
-            AWSMemberEncoding(label: "username", location: .uri("Username"))
-        ]
-
         /// The unique ID that Amazon MQ generates for the broker.
         public let brokerId: String
         /// The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
@@ -1003,6 +1022,13 @@ extension MQ {
         public init(brokerId: String, username: String) {
             self.brokerId = brokerId
             self.username = username
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.brokerId, key: "BrokerId")
+            request.encodePath(self.username, key: "Username")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1170,11 +1196,6 @@ extension MQ {
     }
 
     public struct ListBrokersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of brokers that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100.
         public let maxResults: Int?
         /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
@@ -1183,6 +1204,13 @@ extension MQ {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1211,12 +1239,6 @@ extension MQ {
     }
 
     public struct ListConfigurationRevisionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationId", location: .uri("ConfigurationId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique ID that Amazon MQ generates for the configuration.
         public let configurationId: String
         /// The maximum number of brokers that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100.
@@ -1228,6 +1250,14 @@ extension MQ {
             self.configurationId = configurationId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationId, key: "ConfigurationId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1264,11 +1294,6 @@ extension MQ {
     }
 
     public struct ListConfigurationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of brokers that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100.
         public let maxResults: Int?
         /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
@@ -1277,6 +1302,13 @@ extension MQ {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1309,15 +1341,17 @@ extension MQ {
     }
 
     public struct ListTagsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource tag.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1337,12 +1371,6 @@ extension MQ {
     }
 
     public struct ListUsersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "brokerId", location: .uri("BrokerId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique ID that Amazon MQ generates for the broker.
         public let brokerId: String
         /// The maximum number of brokers that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100.
@@ -1354,6 +1382,14 @@ extension MQ {
             self.brokerId = brokerId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.brokerId, key: "BrokerId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1453,15 +1489,17 @@ extension MQ {
     }
 
     public struct RebootBrokerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "brokerId", location: .uri("BrokerId"))
-        ]
-
         /// The unique ID that Amazon MQ generates for the broker.
         public let brokerId: String
 
         public init(brokerId: String) {
             self.brokerId = brokerId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.brokerId, key: "BrokerId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1493,10 +1531,6 @@ extension MQ {
     }
 
     public struct UpdateBrokerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "brokerId", location: .uri("BrokerId"))
-        ]
-
         /// Optional. The authentication strategy used to secure the broker. The default is SIMPLE.
         public let authenticationStrategy: AuthenticationStrategy?
         /// Enables automatic upgrades to new minor versions for brokers, as new versions are released and supported by Amazon MQ. Automatic upgrades occur during the scheduled maintenance window of the broker or after a manual broker reboot.
@@ -1529,6 +1563,21 @@ extension MQ {
             self.logs = logs
             self.maintenanceWindowStartTime = maintenanceWindowStartTime
             self.securityGroups = securityGroups
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.authenticationStrategy, forKey: .authenticationStrategy)
+            try container.encodeIfPresent(self.autoMinorVersionUpgrade, forKey: .autoMinorVersionUpgrade)
+            request.encodePath(self.brokerId, key: "BrokerId")
+            try container.encodeIfPresent(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.engineVersion, forKey: .engineVersion)
+            try container.encodeIfPresent(self.hostInstanceType, forKey: .hostInstanceType)
+            try container.encodeIfPresent(self.ldapServerMetadata, forKey: .ldapServerMetadata)
+            try container.encodeIfPresent(self.logs, forKey: .logs)
+            try container.encodeIfPresent(self.maintenanceWindowStartTime, forKey: .maintenanceWindowStartTime)
+            try container.encodeIfPresent(self.securityGroups, forKey: .securityGroups)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1594,10 +1643,6 @@ extension MQ {
     }
 
     public struct UpdateConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationId", location: .uri("ConfigurationId"))
-        ]
-
         /// The unique ID that Amazon MQ generates for the configuration.
         public let configurationId: String
         /// Required. The base64-encoded XML configuration.
@@ -1609,6 +1654,14 @@ extension MQ {
             self.configurationId = configurationId
             self.data = data
             self.description = description
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationId, key: "ConfigurationId")
+            try container.encode(self.data, forKey: .data)
+            try container.encodeIfPresent(self.description, forKey: .description)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1652,11 +1705,6 @@ extension MQ {
     }
 
     public struct UpdateUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "brokerId", location: .uri("BrokerId")),
-            AWSMemberEncoding(label: "username", location: .uri("Username"))
-        ]
-
         /// The unique ID that Amazon MQ generates for the broker.
         public let brokerId: String
         /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
@@ -1674,6 +1722,16 @@ extension MQ {
             self.groups = groups
             self.password = password
             self.username = username
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.brokerId, key: "BrokerId")
+            try container.encodeIfPresent(self.consoleAccess, forKey: .consoleAccess)
+            try container.encodeIfPresent(self.groups, forKey: .groups)
+            try container.encodeIfPresent(self.password, forKey: .password)
+            request.encodePath(self.username, key: "Username")
         }
 
         private enum CodingKeys: String, CodingKey {

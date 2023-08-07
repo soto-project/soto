@@ -132,10 +132,6 @@ extension Greengrass {
     // MARK: Shapes
 
     public struct AssociateRoleToGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
-        ]
-
         /// The ID of the Greengrass group.
         public let groupId: String
         /// The ARN of the role you wish to associate with this group. The existence of the role is not validated.
@@ -144,6 +140,13 @@ extension Greengrass {
         public init(groupId: String, roleArn: String) {
             self.groupId = groupId
             self.roleArn = roleArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.groupId, key: "GroupId")
+            try container.encode(self.roleArn, forKey: .roleArn)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -371,10 +374,6 @@ extension Greengrass {
     }
 
     public struct CreateConnectorDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token"))
-        ]
-
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         /// Information about the initial version of the connector definition.
@@ -389,6 +388,15 @@ extension Greengrass {
             self.initialVersion = initialVersion
             self.name = name
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
+            try container.encodeIfPresent(self.initialVersion, forKey: .initialVersion)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -436,11 +444,6 @@ extension Greengrass {
     }
 
     public struct CreateConnectorDefinitionVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "connectorDefinitionId", location: .uri("ConnectorDefinitionId"))
-        ]
-
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         /// The ID of the connector definition.
@@ -452,6 +455,14 @@ extension Greengrass {
             self.amznClientToken = amznClientToken
             self.connectorDefinitionId = connectorDefinitionId
             self.connectors = connectors
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
+            request.encodePath(self.connectorDefinitionId, key: "ConnectorDefinitionId")
+            try container.encodeIfPresent(self.connectors, forKey: .connectors)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -485,10 +496,6 @@ extension Greengrass {
     }
 
     public struct CreateCoreDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token"))
-        ]
-
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         /// Information about the initial version of the core definition.
@@ -503,6 +510,15 @@ extension Greengrass {
             self.initialVersion = initialVersion
             self.name = name
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
+            try container.encodeIfPresent(self.initialVersion, forKey: .initialVersion)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -550,11 +566,6 @@ extension Greengrass {
     }
 
     public struct CreateCoreDefinitionVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "coreDefinitionId", location: .uri("CoreDefinitionId"))
-        ]
-
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         /// The ID of the core definition.
@@ -566,6 +577,14 @@ extension Greengrass {
             self.amznClientToken = amznClientToken
             self.coreDefinitionId = coreDefinitionId
             self.cores = cores
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
+            request.encodePath(self.coreDefinitionId, key: "CoreDefinitionId")
+            try container.encodeIfPresent(self.cores, forKey: .cores)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -599,11 +618,6 @@ extension Greengrass {
     }
 
     public struct CreateDeploymentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
-        ]
-
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         /// The ID of the deployment if you wish to redeploy a previous deployment.
@@ -621,6 +635,16 @@ extension Greengrass {
             self.deploymentType = deploymentType
             self.groupId = groupId
             self.groupVersionId = groupVersionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
+            try container.encodeIfPresent(self.deploymentId, forKey: .deploymentId)
+            try container.encode(self.deploymentType, forKey: .deploymentType)
+            request.encodePath(self.groupId, key: "GroupId")
+            try container.encodeIfPresent(self.groupVersionId, forKey: .groupVersionId)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -648,10 +672,6 @@ extension Greengrass {
     }
 
     public struct CreateDeviceDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token"))
-        ]
-
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         /// Information about the initial version of the device definition.
@@ -666,6 +686,15 @@ extension Greengrass {
             self.initialVersion = initialVersion
             self.name = name
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
+            try container.encodeIfPresent(self.initialVersion, forKey: .initialVersion)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -713,11 +742,6 @@ extension Greengrass {
     }
 
     public struct CreateDeviceDefinitionVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "deviceDefinitionId", location: .uri("DeviceDefinitionId"))
-        ]
-
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         /// The ID of the device definition.
@@ -729,6 +753,14 @@ extension Greengrass {
             self.amznClientToken = amznClientToken
             self.deviceDefinitionId = deviceDefinitionId
             self.devices = devices
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
+            request.encodePath(self.deviceDefinitionId, key: "DeviceDefinitionId")
+            try container.encodeIfPresent(self.devices, forKey: .devices)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -762,10 +794,6 @@ extension Greengrass {
     }
 
     public struct CreateFunctionDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token"))
-        ]
-
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         /// Information about the initial version of the function definition.
@@ -780,6 +808,15 @@ extension Greengrass {
             self.initialVersion = initialVersion
             self.name = name
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
+            try container.encodeIfPresent(self.initialVersion, forKey: .initialVersion)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -827,11 +864,6 @@ extension Greengrass {
     }
 
     public struct CreateFunctionDefinitionVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "functionDefinitionId", location: .uri("FunctionDefinitionId"))
-        ]
-
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         /// The default configuration that applies to all Lambda functions in this function definition version. Individual Lambda functions can override these settings.
@@ -846,6 +878,15 @@ extension Greengrass {
             self.defaultConfig = defaultConfig
             self.functionDefinitionId = functionDefinitionId
             self.functions = functions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
+            try container.encodeIfPresent(self.defaultConfig, forKey: .defaultConfig)
+            request.encodePath(self.functionDefinitionId, key: "FunctionDefinitionId")
+            try container.encodeIfPresent(self.functions, forKey: .functions)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -880,11 +921,6 @@ extension Greengrass {
     }
 
     public struct CreateGroupCertificateAuthorityRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
-        ]
-
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         /// The ID of the Greengrass group.
@@ -893,6 +929,13 @@ extension Greengrass {
         public init(amznClientToken: String? = nil, groupId: String) {
             self.amznClientToken = amznClientToken
             self.groupId = groupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
+            request.encodePath(self.groupId, key: "GroupId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -912,10 +955,6 @@ extension Greengrass {
     }
 
     public struct CreateGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token"))
-        ]
-
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         /// Information about the initial version of the group.
@@ -930,6 +969,15 @@ extension Greengrass {
             self.initialVersion = initialVersion
             self.name = name
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
+            try container.encodeIfPresent(self.initialVersion, forKey: .initialVersion)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -977,11 +1025,6 @@ extension Greengrass {
     }
 
     public struct CreateGroupVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
-        ]
-
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         /// The ARN of the connector definition version for this group.
@@ -1011,6 +1054,20 @@ extension Greengrass {
             self.loggerDefinitionVersionArn = loggerDefinitionVersionArn
             self.resourceDefinitionVersionArn = resourceDefinitionVersionArn
             self.subscriptionDefinitionVersionArn = subscriptionDefinitionVersionArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
+            try container.encodeIfPresent(self.connectorDefinitionVersionArn, forKey: .connectorDefinitionVersionArn)
+            try container.encodeIfPresent(self.coreDefinitionVersionArn, forKey: .coreDefinitionVersionArn)
+            try container.encodeIfPresent(self.deviceDefinitionVersionArn, forKey: .deviceDefinitionVersionArn)
+            try container.encodeIfPresent(self.functionDefinitionVersionArn, forKey: .functionDefinitionVersionArn)
+            request.encodePath(self.groupId, key: "GroupId")
+            try container.encodeIfPresent(self.loggerDefinitionVersionArn, forKey: .loggerDefinitionVersionArn)
+            try container.encodeIfPresent(self.resourceDefinitionVersionArn, forKey: .resourceDefinitionVersionArn)
+            try container.encodeIfPresent(self.subscriptionDefinitionVersionArn, forKey: .subscriptionDefinitionVersionArn)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1050,10 +1107,6 @@ extension Greengrass {
     }
 
     public struct CreateLoggerDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token"))
-        ]
-
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         /// Information about the initial version of the logger definition.
@@ -1068,6 +1121,15 @@ extension Greengrass {
             self.initialVersion = initialVersion
             self.name = name
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
+            try container.encodeIfPresent(self.initialVersion, forKey: .initialVersion)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1115,11 +1177,6 @@ extension Greengrass {
     }
 
     public struct CreateLoggerDefinitionVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "loggerDefinitionId", location: .uri("LoggerDefinitionId"))
-        ]
-
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         /// The ID of the logger definition.
@@ -1131,6 +1188,14 @@ extension Greengrass {
             self.amznClientToken = amznClientToken
             self.loggerDefinitionId = loggerDefinitionId
             self.loggers = loggers
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
+            request.encodePath(self.loggerDefinitionId, key: "LoggerDefinitionId")
+            try container.encodeIfPresent(self.loggers, forKey: .loggers)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1164,10 +1229,6 @@ extension Greengrass {
     }
 
     public struct CreateResourceDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token"))
-        ]
-
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         /// Information about the initial version of the resource definition.
@@ -1182,6 +1243,15 @@ extension Greengrass {
             self.initialVersion = initialVersion
             self.name = name
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
+            try container.encodeIfPresent(self.initialVersion, forKey: .initialVersion)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1229,11 +1299,6 @@ extension Greengrass {
     }
 
     public struct CreateResourceDefinitionVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "resourceDefinitionId", location: .uri("ResourceDefinitionId"))
-        ]
-
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         /// The ID of the resource definition.
@@ -1245,6 +1310,14 @@ extension Greengrass {
             self.amznClientToken = amznClientToken
             self.resourceDefinitionId = resourceDefinitionId
             self.resources = resources
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
+            request.encodePath(self.resourceDefinitionId, key: "ResourceDefinitionId")
+            try container.encodeIfPresent(self.resources, forKey: .resources)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1278,10 +1351,6 @@ extension Greengrass {
     }
 
     public struct CreateSoftwareUpdateJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token"))
-        ]
-
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         public let s3UrlSignerRole: String
@@ -1299,6 +1368,18 @@ extension Greengrass {
             self.updateTargets = updateTargets
             self.updateTargetsArchitecture = updateTargetsArchitecture
             self.updateTargetsOperatingSystem = updateTargetsOperatingSystem
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
+            try container.encode(self.s3UrlSignerRole, forKey: .s3UrlSignerRole)
+            try container.encode(self.softwareToUpdate, forKey: .softwareToUpdate)
+            try container.encodeIfPresent(self.updateAgentLogLevel, forKey: .updateAgentLogLevel)
+            try container.encode(self.updateTargets, forKey: .updateTargets)
+            try container.encode(self.updateTargetsArchitecture, forKey: .updateTargetsArchitecture)
+            try container.encode(self.updateTargetsOperatingSystem, forKey: .updateTargetsOperatingSystem)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1333,10 +1414,6 @@ extension Greengrass {
     }
 
     public struct CreateSubscriptionDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token"))
-        ]
-
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         /// Information about the initial version of the subscription definition.
@@ -1351,6 +1428,15 @@ extension Greengrass {
             self.initialVersion = initialVersion
             self.name = name
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
+            try container.encodeIfPresent(self.initialVersion, forKey: .initialVersion)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1398,11 +1484,6 @@ extension Greengrass {
     }
 
     public struct CreateSubscriptionDefinitionVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri("SubscriptionDefinitionId"))
-        ]
-
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         /// The ID of the subscription definition.
@@ -1414,6 +1495,14 @@ extension Greengrass {
             self.amznClientToken = amznClientToken
             self.subscriptionDefinitionId = subscriptionDefinitionId
             self.subscriptions = subscriptions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
+            request.encodePath(self.subscriptionDefinitionId, key: "SubscriptionDefinitionId")
+            try container.encodeIfPresent(self.subscriptions, forKey: .subscriptions)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1488,15 +1577,17 @@ extension Greengrass {
     }
 
     public struct DeleteConnectorDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectorDefinitionId", location: .uri("ConnectorDefinitionId"))
-        ]
-
         /// The ID of the connector definition.
         public let connectorDefinitionId: String
 
         public init(connectorDefinitionId: String) {
             self.connectorDefinitionId = connectorDefinitionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectorDefinitionId, key: "ConnectorDefinitionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1507,15 +1598,17 @@ extension Greengrass {
     }
 
     public struct DeleteCoreDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coreDefinitionId", location: .uri("CoreDefinitionId"))
-        ]
-
         /// The ID of the core definition.
         public let coreDefinitionId: String
 
         public init(coreDefinitionId: String) {
             self.coreDefinitionId = coreDefinitionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.coreDefinitionId, key: "CoreDefinitionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1526,15 +1619,17 @@ extension Greengrass {
     }
 
     public struct DeleteDeviceDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceDefinitionId", location: .uri("DeviceDefinitionId"))
-        ]
-
         /// The ID of the device definition.
         public let deviceDefinitionId: String
 
         public init(deviceDefinitionId: String) {
             self.deviceDefinitionId = deviceDefinitionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deviceDefinitionId, key: "DeviceDefinitionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1545,15 +1640,17 @@ extension Greengrass {
     }
 
     public struct DeleteFunctionDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionDefinitionId", location: .uri("FunctionDefinitionId"))
-        ]
-
         /// The ID of the Lambda function definition.
         public let functionDefinitionId: String
 
         public init(functionDefinitionId: String) {
             self.functionDefinitionId = functionDefinitionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionDefinitionId, key: "FunctionDefinitionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1564,15 +1661,17 @@ extension Greengrass {
     }
 
     public struct DeleteGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
-        ]
-
         /// The ID of the Greengrass group.
         public let groupId: String
 
         public init(groupId: String) {
             self.groupId = groupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.groupId, key: "GroupId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1583,15 +1682,17 @@ extension Greengrass {
     }
 
     public struct DeleteLoggerDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "loggerDefinitionId", location: .uri("LoggerDefinitionId"))
-        ]
-
         /// The ID of the logger definition.
         public let loggerDefinitionId: String
 
         public init(loggerDefinitionId: String) {
             self.loggerDefinitionId = loggerDefinitionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.loggerDefinitionId, key: "LoggerDefinitionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1602,15 +1703,17 @@ extension Greengrass {
     }
 
     public struct DeleteResourceDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceDefinitionId", location: .uri("ResourceDefinitionId"))
-        ]
-
         /// The ID of the resource definition.
         public let resourceDefinitionId: String
 
         public init(resourceDefinitionId: String) {
             self.resourceDefinitionId = resourceDefinitionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceDefinitionId, key: "ResourceDefinitionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1621,15 +1724,17 @@ extension Greengrass {
     }
 
     public struct DeleteSubscriptionDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri("SubscriptionDefinitionId"))
-        ]
-
         /// The ID of the subscription definition.
         public let subscriptionDefinitionId: String
 
         public init(subscriptionDefinitionId: String) {
             self.subscriptionDefinitionId = subscriptionDefinitionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.subscriptionDefinitionId, key: "SubscriptionDefinitionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1707,15 +1812,17 @@ extension Greengrass {
     }
 
     public struct DisassociateRoleFromGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
-        ]
-
         /// The ID of the Greengrass group.
         public let groupId: String
 
         public init(groupId: String) {
             self.groupId = groupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.groupId, key: "GroupId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1932,15 +2039,17 @@ extension Greengrass {
     }
 
     public struct GetAssociatedRoleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
-        ]
-
         /// The ID of the Greengrass group.
         public let groupId: String
 
         public init(groupId: String) {
             self.groupId = groupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.groupId, key: "GroupId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1964,15 +2073,17 @@ extension Greengrass {
     }
 
     public struct GetBulkDeploymentStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bulkDeploymentId", location: .uri("BulkDeploymentId"))
-        ]
-
         /// The ID of the bulk deployment.
         public let bulkDeploymentId: String
 
         public init(bulkDeploymentId: String) {
             self.bulkDeploymentId = bulkDeploymentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bulkDeploymentId, key: "BulkDeploymentId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2012,15 +2123,17 @@ extension Greengrass {
     }
 
     public struct GetConnectivityInfoRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "thingName", location: .uri("ThingName"))
-        ]
-
         /// The thing name.
         public let thingName: String
 
         public init(thingName: String) {
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.thingName, key: "ThingName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2044,15 +2157,17 @@ extension Greengrass {
     }
 
     public struct GetConnectorDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectorDefinitionId", location: .uri("ConnectorDefinitionId"))
-        ]
-
         /// The ID of the connector definition.
         public let connectorDefinitionId: String
 
         public init(connectorDefinitionId: String) {
             self.connectorDefinitionId = connectorDefinitionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectorDefinitionId, key: "ConnectorDefinitionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2100,12 +2215,6 @@ extension Greengrass {
     }
 
     public struct GetConnectorDefinitionVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectorDefinitionId", location: .uri("ConnectorDefinitionId")),
-            AWSMemberEncoding(label: "connectorDefinitionVersionId", location: .uri("ConnectorDefinitionVersionId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The ID of the connector definition.
         public let connectorDefinitionId: String
         /// The ID of the connector definition version. This value maps to the ''Version'' property of the corresponding ''VersionInformation'' object, which is returned by ''ListConnectorDefinitionVersions'' requests. If the version is the last one that was associated with a connector definition, the value also maps to the ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
@@ -2117,6 +2226,14 @@ extension Greengrass {
             self.connectorDefinitionId = connectorDefinitionId
             self.connectorDefinitionVersionId = connectorDefinitionVersionId
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectorDefinitionId, key: "ConnectorDefinitionId")
+            request.encodePath(self.connectorDefinitionVersionId, key: "ConnectorDefinitionVersionId")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2156,15 +2273,17 @@ extension Greengrass {
     }
 
     public struct GetCoreDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coreDefinitionId", location: .uri("CoreDefinitionId"))
-        ]
-
         /// The ID of the core definition.
         public let coreDefinitionId: String
 
         public init(coreDefinitionId: String) {
             self.coreDefinitionId = coreDefinitionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.coreDefinitionId, key: "CoreDefinitionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2212,11 +2331,6 @@ extension Greengrass {
     }
 
     public struct GetCoreDefinitionVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coreDefinitionId", location: .uri("CoreDefinitionId")),
-            AWSMemberEncoding(label: "coreDefinitionVersionId", location: .uri("CoreDefinitionVersionId"))
-        ]
-
         /// The ID of the core definition.
         public let coreDefinitionId: String
         /// The ID of the core definition version. This value maps to the ''Version'' property of the corresponding ''VersionInformation'' object, which is returned by ''ListCoreDefinitionVersions'' requests. If the version is the last one that was associated with a core definition, the value also maps to the ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
@@ -2225,6 +2339,13 @@ extension Greengrass {
         public init(coreDefinitionId: String, coreDefinitionVersionId: String) {
             self.coreDefinitionId = coreDefinitionId
             self.coreDefinitionVersionId = coreDefinitionVersionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.coreDefinitionId, key: "CoreDefinitionId")
+            request.encodePath(self.coreDefinitionVersionId, key: "CoreDefinitionVersionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2264,11 +2385,6 @@ extension Greengrass {
     }
 
     public struct GetDeploymentStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deploymentId", location: .uri("DeploymentId")),
-            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
-        ]
-
         /// The ID of the deployment.
         public let deploymentId: String
         /// The ID of the Greengrass group.
@@ -2277,6 +2393,13 @@ extension Greengrass {
         public init(deploymentId: String, groupId: String) {
             self.deploymentId = deploymentId
             self.groupId = groupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deploymentId, key: "DeploymentId")
+            request.encodePath(self.groupId, key: "GroupId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2312,15 +2435,17 @@ extension Greengrass {
     }
 
     public struct GetDeviceDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceDefinitionId", location: .uri("DeviceDefinitionId"))
-        ]
-
         /// The ID of the device definition.
         public let deviceDefinitionId: String
 
         public init(deviceDefinitionId: String) {
             self.deviceDefinitionId = deviceDefinitionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deviceDefinitionId, key: "DeviceDefinitionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2368,12 +2493,6 @@ extension Greengrass {
     }
 
     public struct GetDeviceDefinitionVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceDefinitionId", location: .uri("DeviceDefinitionId")),
-            AWSMemberEncoding(label: "deviceDefinitionVersionId", location: .uri("DeviceDefinitionVersionId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The ID of the device definition.
         public let deviceDefinitionId: String
         /// The ID of the device definition version. This value maps to the ''Version'' property of the corresponding ''VersionInformation'' object, which is returned by ''ListDeviceDefinitionVersions'' requests. If the version is the last one that was associated with a device definition, the value also maps to the ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
@@ -2385,6 +2504,14 @@ extension Greengrass {
             self.deviceDefinitionId = deviceDefinitionId
             self.deviceDefinitionVersionId = deviceDefinitionVersionId
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deviceDefinitionId, key: "DeviceDefinitionId")
+            request.encodePath(self.deviceDefinitionVersionId, key: "DeviceDefinitionVersionId")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2424,15 +2551,17 @@ extension Greengrass {
     }
 
     public struct GetFunctionDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionDefinitionId", location: .uri("FunctionDefinitionId"))
-        ]
-
         /// The ID of the Lambda function definition.
         public let functionDefinitionId: String
 
         public init(functionDefinitionId: String) {
             self.functionDefinitionId = functionDefinitionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionDefinitionId, key: "FunctionDefinitionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2480,12 +2609,6 @@ extension Greengrass {
     }
 
     public struct GetFunctionDefinitionVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionDefinitionId", location: .uri("FunctionDefinitionId")),
-            AWSMemberEncoding(label: "functionDefinitionVersionId", location: .uri("FunctionDefinitionVersionId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The ID of the Lambda function definition.
         public let functionDefinitionId: String
         /// The ID of the function definition version. This value maps to the ''Version'' property of the corresponding ''VersionInformation'' object, which is returned by ''ListFunctionDefinitionVersions'' requests. If the version is the last one that was associated with a function definition, the value also maps to the ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
@@ -2497,6 +2620,14 @@ extension Greengrass {
             self.functionDefinitionId = functionDefinitionId
             self.functionDefinitionVersionId = functionDefinitionVersionId
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionDefinitionId, key: "FunctionDefinitionId")
+            request.encodePath(self.functionDefinitionVersionId, key: "FunctionDefinitionVersionId")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2536,11 +2667,6 @@ extension Greengrass {
     }
 
     public struct GetGroupCertificateAuthorityRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "certificateAuthorityId", location: .uri("CertificateAuthorityId")),
-            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
-        ]
-
         /// The ID of the certificate authority.
         public let certificateAuthorityId: String
         /// The ID of the Greengrass group.
@@ -2549,6 +2675,13 @@ extension Greengrass {
         public init(certificateAuthorityId: String, groupId: String) {
             self.certificateAuthorityId = certificateAuthorityId
             self.groupId = groupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.certificateAuthorityId, key: "CertificateAuthorityId")
+            request.encodePath(self.groupId, key: "GroupId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2576,15 +2709,17 @@ extension Greengrass {
     }
 
     public struct GetGroupCertificateConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
-        ]
-
         /// The ID of the Greengrass group.
         public let groupId: String
 
         public init(groupId: String) {
             self.groupId = groupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.groupId, key: "GroupId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2612,15 +2747,17 @@ extension Greengrass {
     }
 
     public struct GetGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
-        ]
-
         /// The ID of the Greengrass group.
         public let groupId: String
 
         public init(groupId: String) {
             self.groupId = groupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.groupId, key: "GroupId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2668,11 +2805,6 @@ extension Greengrass {
     }
 
     public struct GetGroupVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri("GroupId")),
-            AWSMemberEncoding(label: "groupVersionId", location: .uri("GroupVersionId"))
-        ]
-
         /// The ID of the Greengrass group.
         public let groupId: String
         /// The ID of the group version. This value maps to the ''Version'' property of the corresponding ''VersionInformation'' object, which is returned by ''ListGroupVersions'' requests. If the version is the last one that was associated with a group, the value also maps to the ''LatestVersion'' property of the corresponding ''GroupInformation'' object.
@@ -2681,6 +2813,13 @@ extension Greengrass {
         public init(groupId: String, groupVersionId: String) {
             self.groupId = groupId
             self.groupVersionId = groupVersionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.groupId, key: "GroupId")
+            request.encodePath(self.groupVersionId, key: "GroupVersionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2716,15 +2855,17 @@ extension Greengrass {
     }
 
     public struct GetLoggerDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "loggerDefinitionId", location: .uri("LoggerDefinitionId"))
-        ]
-
         /// The ID of the logger definition.
         public let loggerDefinitionId: String
 
         public init(loggerDefinitionId: String) {
             self.loggerDefinitionId = loggerDefinitionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.loggerDefinitionId, key: "LoggerDefinitionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2772,12 +2913,6 @@ extension Greengrass {
     }
 
     public struct GetLoggerDefinitionVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "loggerDefinitionId", location: .uri("LoggerDefinitionId")),
-            AWSMemberEncoding(label: "loggerDefinitionVersionId", location: .uri("LoggerDefinitionVersionId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The ID of the logger definition.
         public let loggerDefinitionId: String
         /// The ID of the logger definition version. This value maps to the ''Version'' property of the corresponding ''VersionInformation'' object, which is returned by ''ListLoggerDefinitionVersions'' requests. If the version is the last one that was associated with a logger definition, the value also maps to the ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
@@ -2789,6 +2924,14 @@ extension Greengrass {
             self.loggerDefinitionId = loggerDefinitionId
             self.loggerDefinitionVersionId = loggerDefinitionVersionId
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.loggerDefinitionId, key: "LoggerDefinitionId")
+            request.encodePath(self.loggerDefinitionVersionId, key: "LoggerDefinitionVersionId")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2824,15 +2967,17 @@ extension Greengrass {
     }
 
     public struct GetResourceDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceDefinitionId", location: .uri("ResourceDefinitionId"))
-        ]
-
         /// The ID of the resource definition.
         public let resourceDefinitionId: String
 
         public init(resourceDefinitionId: String) {
             self.resourceDefinitionId = resourceDefinitionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceDefinitionId, key: "ResourceDefinitionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2880,11 +3025,6 @@ extension Greengrass {
     }
 
     public struct GetResourceDefinitionVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceDefinitionId", location: .uri("ResourceDefinitionId")),
-            AWSMemberEncoding(label: "resourceDefinitionVersionId", location: .uri("ResourceDefinitionVersionId"))
-        ]
-
         /// The ID of the resource definition.
         public let resourceDefinitionId: String
         /// The ID of the resource definition version. This value maps to the ''Version'' property of the corresponding ''VersionInformation'' object, which is returned by ''ListResourceDefinitionVersions'' requests. If the version is the last one that was associated with a resource definition, the value also maps to the ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
@@ -2893,6 +3033,13 @@ extension Greengrass {
         public init(resourceDefinitionId: String, resourceDefinitionVersionId: String) {
             self.resourceDefinitionId = resourceDefinitionId
             self.resourceDefinitionVersionId = resourceDefinitionVersionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceDefinitionId, key: "ResourceDefinitionId")
+            request.encodePath(self.resourceDefinitionVersionId, key: "ResourceDefinitionVersionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2949,15 +3096,17 @@ extension Greengrass {
     }
 
     public struct GetSubscriptionDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri("SubscriptionDefinitionId"))
-        ]
-
         /// The ID of the subscription definition.
         public let subscriptionDefinitionId: String
 
         public init(subscriptionDefinitionId: String) {
             self.subscriptionDefinitionId = subscriptionDefinitionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.subscriptionDefinitionId, key: "SubscriptionDefinitionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3005,12 +3154,6 @@ extension Greengrass {
     }
 
     public struct GetSubscriptionDefinitionVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri("SubscriptionDefinitionId")),
-            AWSMemberEncoding(label: "subscriptionDefinitionVersionId", location: .uri("SubscriptionDefinitionVersionId"))
-        ]
-
         /// The token for the next set of results, or ''null'' if there are no additional results.
         public let nextToken: String?
         /// The ID of the subscription definition.
@@ -3022,6 +3165,14 @@ extension Greengrass {
             self.nextToken = nextToken
             self.subscriptionDefinitionId = subscriptionDefinitionId
             self.subscriptionDefinitionVersionId = subscriptionDefinitionVersionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodePath(self.subscriptionDefinitionId, key: "SubscriptionDefinitionId")
+            request.encodePath(self.subscriptionDefinitionVersionId, key: "SubscriptionDefinitionVersionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3061,15 +3212,17 @@ extension Greengrass {
     }
 
     public struct GetThingRuntimeConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "thingName", location: .uri("ThingName"))
-        ]
-
         /// The thing name.
         public let thingName: String
 
         public init(thingName: String) {
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.thingName, key: "ThingName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3197,12 +3350,6 @@ extension Greengrass {
     }
 
     public struct ListBulkDeploymentDetailedReportsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bulkDeploymentId", location: .uri("BulkDeploymentId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The ID of the bulk deployment.
         public let bulkDeploymentId: String
         /// The maximum number of results to be returned per request.
@@ -3214,6 +3361,14 @@ extension Greengrass {
             self.bulkDeploymentId = bulkDeploymentId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bulkDeploymentId, key: "BulkDeploymentId")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3237,11 +3392,6 @@ extension Greengrass {
     }
 
     public struct ListBulkDeploymentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The maximum number of results to be returned per request.
         public let maxResults: String?
         /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -3250,6 +3400,13 @@ extension Greengrass {
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3273,12 +3430,6 @@ extension Greengrass {
     }
 
     public struct ListConnectorDefinitionVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectorDefinitionId", location: .uri("ConnectorDefinitionId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The ID of the connector definition.
         public let connectorDefinitionId: String
         /// The maximum number of results to be returned per request.
@@ -3290,6 +3441,14 @@ extension Greengrass {
             self.connectorDefinitionId = connectorDefinitionId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectorDefinitionId, key: "ConnectorDefinitionId")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3313,11 +3472,6 @@ extension Greengrass {
     }
 
     public struct ListConnectorDefinitionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The maximum number of results to be returned per request.
         public let maxResults: String?
         /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -3326,6 +3480,13 @@ extension Greengrass {
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3349,12 +3510,6 @@ extension Greengrass {
     }
 
     public struct ListCoreDefinitionVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coreDefinitionId", location: .uri("CoreDefinitionId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The ID of the core definition.
         public let coreDefinitionId: String
         /// The maximum number of results to be returned per request.
@@ -3366,6 +3521,14 @@ extension Greengrass {
             self.coreDefinitionId = coreDefinitionId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.coreDefinitionId, key: "CoreDefinitionId")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3389,11 +3552,6 @@ extension Greengrass {
     }
 
     public struct ListCoreDefinitionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The maximum number of results to be returned per request.
         public let maxResults: String?
         /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -3402,6 +3560,13 @@ extension Greengrass {
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3425,12 +3590,6 @@ extension Greengrass {
     }
 
     public struct ListDeploymentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri("GroupId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The ID of the Greengrass group.
         public let groupId: String
         /// The maximum number of results to be returned per request.
@@ -3442,6 +3601,14 @@ extension Greengrass {
             self.groupId = groupId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.groupId, key: "GroupId")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3465,12 +3632,6 @@ extension Greengrass {
     }
 
     public struct ListDeviceDefinitionVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceDefinitionId", location: .uri("DeviceDefinitionId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The ID of the device definition.
         public let deviceDefinitionId: String
         /// The maximum number of results to be returned per request.
@@ -3482,6 +3643,14 @@ extension Greengrass {
             self.deviceDefinitionId = deviceDefinitionId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deviceDefinitionId, key: "DeviceDefinitionId")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3505,11 +3674,6 @@ extension Greengrass {
     }
 
     public struct ListDeviceDefinitionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The maximum number of results to be returned per request.
         public let maxResults: String?
         /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -3518,6 +3682,13 @@ extension Greengrass {
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3541,12 +3712,6 @@ extension Greengrass {
     }
 
     public struct ListFunctionDefinitionVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionDefinitionId", location: .uri("FunctionDefinitionId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The ID of the Lambda function definition.
         public let functionDefinitionId: String
         /// The maximum number of results to be returned per request.
@@ -3558,6 +3723,14 @@ extension Greengrass {
             self.functionDefinitionId = functionDefinitionId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionDefinitionId, key: "FunctionDefinitionId")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3581,11 +3754,6 @@ extension Greengrass {
     }
 
     public struct ListFunctionDefinitionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The maximum number of results to be returned per request.
         public let maxResults: String?
         /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -3594,6 +3762,13 @@ extension Greengrass {
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3617,15 +3792,17 @@ extension Greengrass {
     }
 
     public struct ListGroupCertificateAuthoritiesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
-        ]
-
         /// The ID of the Greengrass group.
         public let groupId: String
 
         public init(groupId: String) {
             self.groupId = groupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.groupId, key: "GroupId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3645,12 +3822,6 @@ extension Greengrass {
     }
 
     public struct ListGroupVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri("GroupId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The ID of the Greengrass group.
         public let groupId: String
         /// The maximum number of results to be returned per request.
@@ -3662,6 +3833,14 @@ extension Greengrass {
             self.groupId = groupId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.groupId, key: "GroupId")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3685,11 +3864,6 @@ extension Greengrass {
     }
 
     public struct ListGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The maximum number of results to be returned per request.
         public let maxResults: String?
         /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -3698,6 +3872,13 @@ extension Greengrass {
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3721,12 +3902,6 @@ extension Greengrass {
     }
 
     public struct ListLoggerDefinitionVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "loggerDefinitionId", location: .uri("LoggerDefinitionId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The ID of the logger definition.
         public let loggerDefinitionId: String
         /// The maximum number of results to be returned per request.
@@ -3738,6 +3913,14 @@ extension Greengrass {
             self.loggerDefinitionId = loggerDefinitionId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.loggerDefinitionId, key: "LoggerDefinitionId")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3761,11 +3944,6 @@ extension Greengrass {
     }
 
     public struct ListLoggerDefinitionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The maximum number of results to be returned per request.
         public let maxResults: String?
         /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -3774,6 +3952,13 @@ extension Greengrass {
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3797,12 +3982,6 @@ extension Greengrass {
     }
 
     public struct ListResourceDefinitionVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "resourceDefinitionId", location: .uri("ResourceDefinitionId"))
-        ]
-
         /// The maximum number of results to be returned per request.
         public let maxResults: String?
         /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -3814,6 +3993,14 @@ extension Greengrass {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceDefinitionId = resourceDefinitionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodePath(self.resourceDefinitionId, key: "ResourceDefinitionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3837,11 +4024,6 @@ extension Greengrass {
     }
 
     public struct ListResourceDefinitionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The maximum number of results to be returned per request.
         public let maxResults: String?
         /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -3850,6 +4032,13 @@ extension Greengrass {
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3873,12 +4062,6 @@ extension Greengrass {
     }
 
     public struct ListSubscriptionDefinitionVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri("SubscriptionDefinitionId"))
-        ]
-
         /// The maximum number of results to be returned per request.
         public let maxResults: String?
         /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -3890,6 +4073,14 @@ extension Greengrass {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.subscriptionDefinitionId = subscriptionDefinitionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodePath(self.subscriptionDefinitionId, key: "SubscriptionDefinitionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3913,11 +4104,6 @@ extension Greengrass {
     }
 
     public struct ListSubscriptionDefinitionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The maximum number of results to be returned per request.
         public let maxResults: String?
         /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -3926,6 +4112,13 @@ extension Greengrass {
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3949,15 +4142,17 @@ extension Greengrass {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4056,11 +4251,6 @@ extension Greengrass {
     }
 
     public struct ResetDeploymentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
-        ]
-
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         /// If true, performs a best-effort only core reset.
@@ -4072,6 +4262,14 @@ extension Greengrass {
             self.amznClientToken = amznClientToken
             self.force = force
             self.groupId = groupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
+            try container.encodeIfPresent(self.force, forKey: .force)
+            request.encodePath(self.groupId, key: "GroupId")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4264,10 +4462,6 @@ extension Greengrass {
     }
 
     public struct StartBulkDeploymentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token"))
-        ]
-
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         /// The ARN of the execution role to associate with the bulk deployment operation. This IAM role must allow the ''greengrass:CreateDeployment'' action for all group versions that are listed in the input file. This IAM role must have access to the S3 bucket containing the input file.
@@ -4282,6 +4476,15 @@ extension Greengrass {
             self.executionRoleArn = executionRoleArn
             self.inputFileUri = inputFileUri
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
+            try container.encode(self.executionRoleArn, forKey: .executionRoleArn)
+            try container.encode(self.inputFileUri, forKey: .inputFileUri)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4309,15 +4512,17 @@ extension Greengrass {
     }
 
     public struct StopBulkDeploymentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bulkDeploymentId", location: .uri("BulkDeploymentId"))
-        ]
-
         /// The ID of the bulk deployment.
         public let bulkDeploymentId: String
 
         public init(bulkDeploymentId: String) {
             self.bulkDeploymentId = bulkDeploymentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bulkDeploymentId, key: "BulkDeploymentId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4366,10 +4571,6 @@ extension Greengrass {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         public let tags: [String: String]?
@@ -4377,6 +4578,13 @@ extension Greengrass {
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4415,11 +4623,6 @@ extension Greengrass {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// An array of tag keys to delete
@@ -4430,14 +4633,17 @@ extension Greengrass {
             self.tagKeys = tagKeys
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateConnectivityInfoRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "thingName", location: .uri("ThingName"))
-        ]
-
         /// A list of connectivity info.
         public let connectivityInfo: [ConnectivityInfo]?
         /// The thing name.
@@ -4446,6 +4652,13 @@ extension Greengrass {
         public init(connectivityInfo: [ConnectivityInfo]? = nil, thingName: String) {
             self.connectivityInfo = connectivityInfo
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.connectivityInfo, forKey: .connectivityInfo)
+            request.encodePath(self.thingName, key: "ThingName")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4471,10 +4684,6 @@ extension Greengrass {
     }
 
     public struct UpdateConnectorDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectorDefinitionId", location: .uri("ConnectorDefinitionId"))
-        ]
-
         /// The ID of the connector definition.
         public let connectorDefinitionId: String
         /// The name of the definition.
@@ -4483,6 +4692,13 @@ extension Greengrass {
         public init(connectorDefinitionId: String, name: String? = nil) {
             self.connectorDefinitionId = connectorDefinitionId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectorDefinitionId, key: "ConnectorDefinitionId")
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4495,10 +4711,6 @@ extension Greengrass {
     }
 
     public struct UpdateCoreDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coreDefinitionId", location: .uri("CoreDefinitionId"))
-        ]
-
         /// The ID of the core definition.
         public let coreDefinitionId: String
         /// The name of the definition.
@@ -4507,6 +4719,13 @@ extension Greengrass {
         public init(coreDefinitionId: String, name: String? = nil) {
             self.coreDefinitionId = coreDefinitionId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.coreDefinitionId, key: "CoreDefinitionId")
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4519,10 +4738,6 @@ extension Greengrass {
     }
 
     public struct UpdateDeviceDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceDefinitionId", location: .uri("DeviceDefinitionId"))
-        ]
-
         /// The ID of the device definition.
         public let deviceDefinitionId: String
         /// The name of the definition.
@@ -4531,6 +4746,13 @@ extension Greengrass {
         public init(deviceDefinitionId: String, name: String? = nil) {
             self.deviceDefinitionId = deviceDefinitionId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deviceDefinitionId, key: "DeviceDefinitionId")
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4543,10 +4765,6 @@ extension Greengrass {
     }
 
     public struct UpdateFunctionDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionDefinitionId", location: .uri("FunctionDefinitionId"))
-        ]
-
         /// The ID of the Lambda function definition.
         public let functionDefinitionId: String
         /// The name of the definition.
@@ -4555,6 +4773,13 @@ extension Greengrass {
         public init(functionDefinitionId: String, name: String? = nil) {
             self.functionDefinitionId = functionDefinitionId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionDefinitionId, key: "FunctionDefinitionId")
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4567,10 +4792,6 @@ extension Greengrass {
     }
 
     public struct UpdateGroupCertificateConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
-        ]
-
         /// The amount of time remaining before the certificate expires, in milliseconds.
         public let certificateExpiryInMilliseconds: String?
         /// The ID of the Greengrass group.
@@ -4579,6 +4800,13 @@ extension Greengrass {
         public init(certificateExpiryInMilliseconds: String? = nil, groupId: String) {
             self.certificateExpiryInMilliseconds = certificateExpiryInMilliseconds
             self.groupId = groupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.certificateExpiryInMilliseconds, forKey: .certificateExpiryInMilliseconds)
+            request.encodePath(self.groupId, key: "GroupId")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4608,10 +4836,6 @@ extension Greengrass {
     }
 
     public struct UpdateGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
-        ]
-
         /// The ID of the Greengrass group.
         public let groupId: String
         /// The name of the definition.
@@ -4620,6 +4844,13 @@ extension Greengrass {
         public init(groupId: String, name: String? = nil) {
             self.groupId = groupId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.groupId, key: "GroupId")
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4632,10 +4863,6 @@ extension Greengrass {
     }
 
     public struct UpdateLoggerDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "loggerDefinitionId", location: .uri("LoggerDefinitionId"))
-        ]
-
         /// The ID of the logger definition.
         public let loggerDefinitionId: String
         /// The name of the definition.
@@ -4644,6 +4871,13 @@ extension Greengrass {
         public init(loggerDefinitionId: String, name: String? = nil) {
             self.loggerDefinitionId = loggerDefinitionId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.loggerDefinitionId, key: "LoggerDefinitionId")
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4656,10 +4890,6 @@ extension Greengrass {
     }
 
     public struct UpdateResourceDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceDefinitionId", location: .uri("ResourceDefinitionId"))
-        ]
-
         /// The name of the definition.
         public let name: String?
         /// The ID of the resource definition.
@@ -4668,6 +4898,13 @@ extension Greengrass {
         public init(name: String? = nil, resourceDefinitionId: String) {
             self.name = name
             self.resourceDefinitionId = resourceDefinitionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.resourceDefinitionId, key: "ResourceDefinitionId")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4680,10 +4917,6 @@ extension Greengrass {
     }
 
     public struct UpdateSubscriptionDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri("SubscriptionDefinitionId"))
-        ]
-
         /// The name of the definition.
         public let name: String?
         /// The ID of the subscription definition.
@@ -4692,6 +4925,13 @@ extension Greengrass {
         public init(name: String? = nil, subscriptionDefinitionId: String) {
             self.name = name
             self.subscriptionDefinitionId = subscriptionDefinitionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.subscriptionDefinitionId, key: "SubscriptionDefinitionId")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4704,10 +4944,6 @@ extension Greengrass {
     }
 
     public struct UpdateThingRuntimeConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "thingName", location: .uri("ThingName"))
-        ]
-
         /// Configuration for telemetry service.
         public let telemetryConfiguration: TelemetryConfigurationUpdate?
         /// The thing name.
@@ -4716,6 +4952,13 @@ extension Greengrass {
         public init(telemetryConfiguration: TelemetryConfigurationUpdate? = nil, thingName: String) {
             self.telemetryConfiguration = telemetryConfiguration
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.telemetryConfiguration, forKey: .telemetryConfiguration)
+            request.encodePath(self.thingName, key: "ThingName")
         }
 
         private enum CodingKeys: String, CodingKey {

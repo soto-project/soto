@@ -823,10 +823,6 @@ extension PaymentCryptographyData {
     }
 
     public struct DecryptDataInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "keyIdentifier", location: .uri("KeyIdentifier"))
-        ]
-
         /// The ciphertext to decrypt.
         public let cipherText: String
         /// The encryption key type and attributes for ciphertext decryption.
@@ -838,6 +834,14 @@ extension PaymentCryptographyData {
             self.cipherText = cipherText
             self.decryptionAttributes = decryptionAttributes
             self.keyIdentifier = keyIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.cipherText, forKey: .cipherText)
+            try container.encode(self.decryptionAttributes, forKey: .decryptionAttributes)
+            request.encodePath(self.keyIdentifier, key: "KeyIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1079,10 +1083,6 @@ extension PaymentCryptographyData {
     }
 
     public struct EncryptDataInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "keyIdentifier", location: .uri("KeyIdentifier"))
-        ]
-
         /// The encryption key type and attributes for plaintext encryption.
         public let encryptionAttributes: EncryptionDecryptionAttributes
         /// The keyARN of the encryption key that Amazon Web Services Payment Cryptography uses for plaintext encryption.
@@ -1094,6 +1094,14 @@ extension PaymentCryptographyData {
             self.encryptionAttributes = encryptionAttributes
             self.keyIdentifier = keyIdentifier
             self.plainText = plainText
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.encryptionAttributes, forKey: .encryptionAttributes)
+            request.encodePath(self.keyIdentifier, key: "KeyIdentifier")
+            try container.encode(self.plainText, forKey: .plainText)
         }
 
         public func validate(name: String) throws {
@@ -1583,10 +1591,6 @@ extension PaymentCryptographyData {
     }
 
     public struct ReEncryptDataInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "incomingKeyIdentifier", location: .uri("IncomingKeyIdentifier"))
-        ]
-
         /// Ciphertext to be encrypted. The minimum allowed length is 16 bytes and maximum allowed length is 4096 bytes.
         public let cipherText: String
         /// The attributes and values for incoming ciphertext.
@@ -1604,6 +1608,16 @@ extension PaymentCryptographyData {
             self.incomingKeyIdentifier = incomingKeyIdentifier
             self.outgoingEncryptionAttributes = outgoingEncryptionAttributes
             self.outgoingKeyIdentifier = outgoingKeyIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.cipherText, forKey: .cipherText)
+            try container.encode(self.incomingEncryptionAttributes, forKey: .incomingEncryptionAttributes)
+            request.encodePath(self.incomingKeyIdentifier, key: "IncomingKeyIdentifier")
+            try container.encode(self.outgoingEncryptionAttributes, forKey: .outgoingEncryptionAttributes)
+            try container.encode(self.outgoingKeyIdentifier, forKey: .outgoingKeyIdentifier)
         }
 
         public func validate(name: String) throws {

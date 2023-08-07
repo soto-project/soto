@@ -423,10 +423,6 @@ extension CleanRooms {
     }
 
     public struct BatchGetSchemaInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "collaborationIdentifier", location: .uri("collaborationIdentifier"))
-        ]
-
         /// A unique identifier for the collaboration that the schemas belong to. Currently accepts collaboration ID.
         public let collaborationIdentifier: String
         /// The names for the schema objects to retrieve.&gt;
@@ -435,6 +431,13 @@ extension CleanRooms {
         public init(collaborationIdentifier: String, names: [String]) {
             self.collaborationIdentifier = collaborationIdentifier
             self.names = names
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
+            try container.encode(self.names, forKey: .names)
         }
 
         public func validate(name: String) throws {
@@ -889,10 +892,6 @@ extension CleanRooms {
     }
 
     public struct CreateConfiguredTableAnalysisRuleInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configuredTableIdentifier", location: .uri("configuredTableIdentifier"))
-        ]
-
         /// The entire created configured table analysis rule object.
         public let analysisRulePolicy: ConfiguredTableAnalysisRulePolicy
         /// The type of analysis rule. Valid values are AGGREGATION and LIST.
@@ -904,6 +903,14 @@ extension CleanRooms {
             self.analysisRulePolicy = analysisRulePolicy
             self.analysisRuleType = analysisRuleType
             self.configuredTableIdentifier = configuredTableIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.analysisRulePolicy, forKey: .analysisRulePolicy)
+            try container.encode(self.analysisRuleType, forKey: .analysisRuleType)
+            request.encodePath(self.configuredTableIdentifier, key: "configuredTableIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -933,10 +940,6 @@ extension CleanRooms {
     }
 
     public struct CreateConfiguredTableAssociationInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "membershipIdentifier", location: .uri("membershipIdentifier"))
-        ]
-
         /// A unique identifier for the configured table to be associated to. Currently accepts a configured table ID.
         public let configuredTableIdentifier: String
         /// A description for the configured table association.
@@ -957,6 +960,17 @@ extension CleanRooms {
             self.name = name
             self.roleArn = roleArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.configuredTableIdentifier, forKey: .configuredTableIdentifier)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.roleArn, forKey: .roleArn)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1145,15 +1159,17 @@ extension CleanRooms {
     }
 
     public struct DeleteCollaborationInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "collaborationIdentifier", location: .uri("collaborationIdentifier"))
-        ]
-
         /// The identifier for the collaboration.
         public let collaborationIdentifier: String
 
         public init(collaborationIdentifier: String) {
             self.collaborationIdentifier = collaborationIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1170,11 +1186,6 @@ extension CleanRooms {
     }
 
     public struct DeleteConfiguredTableAnalysisRuleInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analysisRuleType", location: .uri("analysisRuleType")),
-            AWSMemberEncoding(label: "configuredTableIdentifier", location: .uri("configuredTableIdentifier"))
-        ]
-
         /// The analysis rule type to be deleted. Configured table analysis rules are uniquely identified by their configured table identifier and analysis rule type.
         public let analysisRuleType: ConfiguredTableAnalysisRuleType
         /// The unique identifier for the configured table that the analysis rule applies to. Currently accepts the configured table ID.
@@ -1183,6 +1194,13 @@ extension CleanRooms {
         public init(analysisRuleType: ConfiguredTableAnalysisRuleType, configuredTableIdentifier: String) {
             self.analysisRuleType = analysisRuleType
             self.configuredTableIdentifier = configuredTableIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.analysisRuleType, key: "analysisRuleType")
+            request.encodePath(self.configuredTableIdentifier, key: "configuredTableIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1199,11 +1217,6 @@ extension CleanRooms {
     }
 
     public struct DeleteConfiguredTableAssociationInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configuredTableAssociationIdentifier", location: .uri("configuredTableAssociationIdentifier")),
-            AWSMemberEncoding(label: "membershipIdentifier", location: .uri("membershipIdentifier"))
-        ]
-
         /// The unique ID for the configured table association to be deleted. Currently accepts the configured table ID.
         public let configuredTableAssociationIdentifier: String
         /// A unique identifier for the membership that the configured table association belongs to. Currently accepts the membership ID.
@@ -1212,6 +1225,13 @@ extension CleanRooms {
         public init(configuredTableAssociationIdentifier: String, membershipIdentifier: String) {
             self.configuredTableAssociationIdentifier = configuredTableAssociationIdentifier
             self.membershipIdentifier = membershipIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configuredTableAssociationIdentifier, key: "configuredTableAssociationIdentifier")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1231,15 +1251,17 @@ extension CleanRooms {
     }
 
     public struct DeleteConfiguredTableInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configuredTableIdentifier", location: .uri("configuredTableIdentifier"))
-        ]
-
         /// The unique ID for the configured table to delete.
         public let configuredTableIdentifier: String
 
         public init(configuredTableIdentifier: String) {
             self.configuredTableIdentifier = configuredTableIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configuredTableIdentifier, key: "configuredTableIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1256,11 +1278,6 @@ extension CleanRooms {
     }
 
     public struct DeleteMemberInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
-            AWSMemberEncoding(label: "collaborationIdentifier", location: .uri("collaborationIdentifier"))
-        ]
-
         /// The account ID of the member to remove.
         public let accountId: String
         /// The unique identifier for the associated collaboration.
@@ -1269,6 +1286,13 @@ extension CleanRooms {
         public init(accountId: String, collaborationIdentifier: String) {
             self.accountId = accountId
             self.collaborationIdentifier = collaborationIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accountId, key: "accountId")
+            request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1288,15 +1312,17 @@ extension CleanRooms {
     }
 
     public struct DeleteMembershipInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "membershipIdentifier", location: .uri("membershipIdentifier"))
-        ]
-
         /// The identifier for a membership resource.
         public let membershipIdentifier: String
 
         public init(membershipIdentifier: String) {
             self.membershipIdentifier = membershipIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1313,15 +1339,17 @@ extension CleanRooms {
     }
 
     public struct GetCollaborationInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "collaborationIdentifier", location: .uri("collaborationIdentifier"))
-        ]
-
         /// The identifier for the collaboration.
         public let collaborationIdentifier: String
 
         public init(collaborationIdentifier: String) {
             self.collaborationIdentifier = collaborationIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1347,11 +1375,6 @@ extension CleanRooms {
     }
 
     public struct GetConfiguredTableAnalysisRuleInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analysisRuleType", location: .uri("analysisRuleType")),
-            AWSMemberEncoding(label: "configuredTableIdentifier", location: .uri("configuredTableIdentifier"))
-        ]
-
         /// The analysis rule to be retrieved. Configured table analysis rules are uniquely identified by their configured table identifier and analysis rule type.
         public let analysisRuleType: ConfiguredTableAnalysisRuleType
         /// The unique identifier for the configured table to retrieve. Currently accepts the configured table ID.
@@ -1360,6 +1383,13 @@ extension CleanRooms {
         public init(analysisRuleType: ConfiguredTableAnalysisRuleType, configuredTableIdentifier: String) {
             self.analysisRuleType = analysisRuleType
             self.configuredTableIdentifier = configuredTableIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.analysisRuleType, key: "analysisRuleType")
+            request.encodePath(self.configuredTableIdentifier, key: "configuredTableIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1385,11 +1415,6 @@ extension CleanRooms {
     }
 
     public struct GetConfiguredTableAssociationInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configuredTableAssociationIdentifier", location: .uri("configuredTableAssociationIdentifier")),
-            AWSMemberEncoding(label: "membershipIdentifier", location: .uri("membershipIdentifier"))
-        ]
-
         /// The unique ID for the configured table association to retrieve. Currently accepts the configured table ID.
         public let configuredTableAssociationIdentifier: String
         /// A unique identifier for the membership that the configured table association belongs to. Currently accepts the membership ID.
@@ -1398,6 +1423,13 @@ extension CleanRooms {
         public init(configuredTableAssociationIdentifier: String, membershipIdentifier: String) {
             self.configuredTableAssociationIdentifier = configuredTableAssociationIdentifier
             self.membershipIdentifier = membershipIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configuredTableAssociationIdentifier, key: "configuredTableAssociationIdentifier")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1426,15 +1458,17 @@ extension CleanRooms {
     }
 
     public struct GetConfiguredTableInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configuredTableIdentifier", location: .uri("configuredTableIdentifier"))
-        ]
-
         /// The unique ID for the configured table to retrieve.
         public let configuredTableIdentifier: String
 
         public init(configuredTableIdentifier: String) {
             self.configuredTableIdentifier = configuredTableIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configuredTableIdentifier, key: "configuredTableIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1460,15 +1494,17 @@ extension CleanRooms {
     }
 
     public struct GetMembershipInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "membershipIdentifier", location: .uri("membershipIdentifier"))
-        ]
-
         /// The identifier for a membership resource.
         public let membershipIdentifier: String
 
         public init(membershipIdentifier: String) {
             self.membershipIdentifier = membershipIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1494,11 +1530,6 @@ extension CleanRooms {
     }
 
     public struct GetProtectedQueryInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "membershipIdentifier", location: .uri("membershipIdentifier")),
-            AWSMemberEncoding(label: "protectedQueryIdentifier", location: .uri("protectedQueryIdentifier"))
-        ]
-
         /// The identifier for a membership in a protected query instance.
         public let membershipIdentifier: String
         /// The identifier for a protected query instance.
@@ -1507,6 +1538,13 @@ extension CleanRooms {
         public init(membershipIdentifier: String, protectedQueryIdentifier: String) {
             self.membershipIdentifier = membershipIdentifier
             self.protectedQueryIdentifier = protectedQueryIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            request.encodePath(self.protectedQueryIdentifier, key: "protectedQueryIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1535,12 +1573,6 @@ extension CleanRooms {
     }
 
     public struct GetSchemaAnalysisRuleInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "collaborationIdentifier", location: .uri("collaborationIdentifier")),
-            AWSMemberEncoding(label: "name", location: .uri("name")),
-            AWSMemberEncoding(label: "type", location: .uri("type"))
-        ]
-
         /// A unique identifier for the collaboration that the schema belongs to. Currently accepts a collaboration ID.
         public let collaborationIdentifier: String
         /// The name of the schema to retrieve the analysis rule for.
@@ -1552,6 +1584,14 @@ extension CleanRooms {
             self.collaborationIdentifier = collaborationIdentifier
             self.name = name
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
+            request.encodePath(self.name, key: "name")
+            request.encodePath(self.type, key: "type")
         }
 
         public func validate(name: String) throws {
@@ -1579,11 +1619,6 @@ extension CleanRooms {
     }
 
     public struct GetSchemaInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "collaborationIdentifier", location: .uri("collaborationIdentifier")),
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// A unique identifier for the collaboration that the schema belongs to. Currently accepts a collaboration ID.
         public let collaborationIdentifier: String
         /// The name of the relation to retrieve the schema for.
@@ -1592,6 +1627,13 @@ extension CleanRooms {
         public init(collaborationIdentifier: String, name: String) {
             self.collaborationIdentifier = collaborationIdentifier
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -1643,12 +1685,6 @@ extension CleanRooms {
     }
 
     public struct ListCollaborationsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "memberStatus", location: .querystring("memberStatus")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
         public let maxResults: Int?
         /// The caller's status in a collaboration.
@@ -1660,6 +1696,14 @@ extension CleanRooms {
             self.maxResults = maxResults
             self.memberStatus = memberStatus
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.memberStatus, key: "memberStatus")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1689,12 +1733,6 @@ extension CleanRooms {
     }
 
     public struct ListConfiguredTableAssociationsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "membershipIdentifier", location: .uri("membershipIdentifier")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum size of the results that is returned per call.
         public let maxResults: Int?
         /// A unique identifier for the membership to list configured table associations for. Currently accepts the membership ID.
@@ -1706,6 +1744,14 @@ extension CleanRooms {
             self.maxResults = maxResults
             self.membershipIdentifier = membershipIdentifier
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1738,11 +1784,6 @@ extension CleanRooms {
     }
 
     public struct ListConfiguredTablesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum size of the results that is returned per call.
         public let maxResults: Int?
         /// The token value retrieved from a previous call to access the next page of results.
@@ -1751,6 +1792,13 @@ extension CleanRooms {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1780,12 +1828,6 @@ extension CleanRooms {
     }
 
     public struct ListMembersInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "collaborationIdentifier", location: .uri("collaborationIdentifier")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the collaboration in which the members are listed.
         public let collaborationIdentifier: String
         /// The maximum size of the results that is returned per call.
@@ -1797,6 +1839,14 @@ extension CleanRooms {
             self.collaborationIdentifier = collaborationIdentifier
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1829,12 +1879,6 @@ extension CleanRooms {
     }
 
     public struct ListMembershipsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         /// The maximum size of the results that is returned per call.
         public let maxResults: Int?
         /// The token value retrieved from a previous call to access the next page of results.
@@ -1846,6 +1890,14 @@ extension CleanRooms {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -1875,13 +1927,6 @@ extension CleanRooms {
     }
 
     public struct ListProtectedQueriesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "membershipIdentifier", location: .uri("membershipIdentifier")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service can return a nextToken even if the maximum results has not been met.
         public let maxResults: Int?
         /// The identifier for the membership in the collaboration.
@@ -1896,6 +1941,15 @@ extension CleanRooms {
             self.membershipIdentifier = membershipIdentifier
             self.nextToken = nextToken
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -1928,13 +1982,6 @@ extension CleanRooms {
     }
 
     public struct ListSchemasInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "collaborationIdentifier", location: .uri("collaborationIdentifier")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "schemaType", location: .querystring("schemaType"))
-        ]
-
         /// A unique identifier for the collaboration that the schema belongs to. Currently accepts a collaboration ID.
         public let collaborationIdentifier: String
         /// The maximum size of the results that is returned per call.
@@ -1949,6 +1996,15 @@ extension CleanRooms {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.schemaType = schemaType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.schemaType, key: "schemaType")
         }
 
         public func validate(name: String) throws {
@@ -1981,15 +2037,17 @@ extension CleanRooms {
     }
 
     public struct ListTagsForResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) associated with the resource you want to list tags on.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -2486,10 +2544,6 @@ extension CleanRooms {
     }
 
     public struct StartProtectedQueryInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "membershipIdentifier", location: .uri("membershipIdentifier"))
-        ]
-
         /// A unique identifier for the membership to run this query against. Currently accepts a membership ID.
         public let membershipIdentifier: String
         /// The details needed to write the query results.
@@ -2504,6 +2558,15 @@ extension CleanRooms {
             self.resultConfiguration = resultConfiguration
             self.sqlParameters = sqlParameters
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            try container.encode(self.resultConfiguration, forKey: .resultConfiguration)
+            try container.encode(self.sqlParameters, forKey: .sqlParameters)
+            try container.encode(self.type, forKey: .type)
         }
 
         public func validate(name: String) throws {
@@ -2534,10 +2597,6 @@ extension CleanRooms {
     }
 
     public struct TagResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) associated with the resource you want to tag.
         public let resourceArn: String
         /// A map of objects specifying each key name and value.
@@ -2546,6 +2605,13 @@ extension CleanRooms {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2570,11 +2636,6 @@ extension CleanRooms {
     }
 
     public struct UntagResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) associated with the resource you want to remove the tag from.
         public let resourceArn: String
         /// A list of key names of tags to be removed.
@@ -2583,6 +2644,13 @@ extension CleanRooms {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -2603,10 +2671,6 @@ extension CleanRooms {
     }
 
     public struct UpdateCollaborationInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "collaborationIdentifier", location: .uri("collaborationIdentifier"))
-        ]
-
         /// The identifier for the collaboration.
         public let collaborationIdentifier: String
         /// A description of the collaboration.
@@ -2618,6 +2682,14 @@ extension CleanRooms {
             self.collaborationIdentifier = collaborationIdentifier
             self.description = description
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -2652,11 +2724,6 @@ extension CleanRooms {
     }
 
     public struct UpdateConfiguredTableAnalysisRuleInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analysisRuleType", location: .uri("analysisRuleType")),
-            AWSMemberEncoding(label: "configuredTableIdentifier", location: .uri("configuredTableIdentifier"))
-        ]
-
         /// The new analysis rule policy for the configured table analysis rule.
         public let analysisRulePolicy: ConfiguredTableAnalysisRulePolicy
         /// The analysis rule type to be updated. Configured table analysis rules are uniquely identified by their configured table identifier and analysis rule type.
@@ -2668,6 +2735,14 @@ extension CleanRooms {
             self.analysisRulePolicy = analysisRulePolicy
             self.analysisRuleType = analysisRuleType
             self.configuredTableIdentifier = configuredTableIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.analysisRulePolicy, forKey: .analysisRulePolicy)
+            request.encodePath(self.analysisRuleType, key: "analysisRuleType")
+            request.encodePath(self.configuredTableIdentifier, key: "configuredTableIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -2696,11 +2771,6 @@ extension CleanRooms {
     }
 
     public struct UpdateConfiguredTableAssociationInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configuredTableAssociationIdentifier", location: .uri("configuredTableAssociationIdentifier")),
-            AWSMemberEncoding(label: "membershipIdentifier", location: .uri("membershipIdentifier"))
-        ]
-
         /// The unique identifier for the configured table association to update. Currently accepts the configured table association ID.
         public let configuredTableAssociationIdentifier: String
         /// A new description for the configured table association.
@@ -2715,6 +2785,15 @@ extension CleanRooms {
             self.description = description
             self.membershipIdentifier = membershipIdentifier
             self.roleArn = roleArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configuredTableAssociationIdentifier, key: "configuredTableAssociationIdentifier")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
         }
 
         public func validate(name: String) throws {
@@ -2751,10 +2830,6 @@ extension CleanRooms {
     }
 
     public struct UpdateConfiguredTableInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configuredTableIdentifier", location: .uri("configuredTableIdentifier"))
-        ]
-
         /// The identifier for the configured table to update. Currently accepts the configured table ID.
         public let configuredTableIdentifier: String
         /// A new description for the configured table.
@@ -2766,6 +2841,14 @@ extension CleanRooms {
             self.configuredTableIdentifier = configuredTableIdentifier
             self.description = description
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configuredTableIdentifier, key: "configuredTableIdentifier")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -2799,10 +2882,6 @@ extension CleanRooms {
     }
 
     public struct UpdateMembershipInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "membershipIdentifier", location: .uri("membershipIdentifier"))
-        ]
-
         /// The unique identifier of the membership.
         public let membershipIdentifier: String
         /// An indicator as to whether query logging has been enabled or disabled for the collaboration.
@@ -2811,6 +2890,13 @@ extension CleanRooms {
         public init(membershipIdentifier: String, queryLogStatus: MembershipQueryLogStatus? = nil) {
             self.membershipIdentifier = membershipIdentifier
             self.queryLogStatus = queryLogStatus
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            try container.encodeIfPresent(self.queryLogStatus, forKey: .queryLogStatus)
         }
 
         public func validate(name: String) throws {
@@ -2837,11 +2923,6 @@ extension CleanRooms {
     }
 
     public struct UpdateProtectedQueryInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "membershipIdentifier", location: .uri("membershipIdentifier")),
-            AWSMemberEncoding(label: "protectedQueryIdentifier", location: .uri("protectedQueryIdentifier"))
-        ]
-
         /// The identifier for a member of a protected query instance.
         public let membershipIdentifier: String
         /// The identifier for a protected query instance.
@@ -2853,6 +2934,14 @@ extension CleanRooms {
             self.membershipIdentifier = membershipIdentifier
             self.protectedQueryIdentifier = protectedQueryIdentifier
             self.targetStatus = targetStatus
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            request.encodePath(self.protectedQueryIdentifier, key: "protectedQueryIdentifier")
+            try container.encode(self.targetStatus, forKey: .targetStatus)
         }
 
         public func validate(name: String) throws {

@@ -245,10 +245,6 @@ extension GreengrassV2 {
     }
 
     public struct BatchAssociateClientDeviceWithCoreDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri("coreDeviceThingName"))
-        ]
-
         /// The name of the core device. This is also the name of the IoT thing.
         public let coreDeviceThingName: String
         /// The list of client devices to associate.
@@ -257,6 +253,13 @@ extension GreengrassV2 {
         public init(coreDeviceThingName: String, entries: [AssociateClientDeviceWithCoreDeviceEntry]? = nil) {
             self.coreDeviceThingName = coreDeviceThingName
             self.entries = entries
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.coreDeviceThingName, key: "coreDeviceThingName")
+            try container.encodeIfPresent(self.entries, forKey: .entries)
         }
 
         public func validate(name: String) throws {
@@ -288,10 +291,6 @@ extension GreengrassV2 {
     }
 
     public struct BatchDisassociateClientDeviceFromCoreDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri("coreDeviceThingName"))
-        ]
-
         /// The name of the core device. This is also the name of the IoT thing.
         public let coreDeviceThingName: String
         /// The list of client devices to disassociate.
@@ -300,6 +299,13 @@ extension GreengrassV2 {
         public init(coreDeviceThingName: String, entries: [DisassociateClientDeviceFromCoreDeviceEntry]? = nil) {
             self.coreDeviceThingName = coreDeviceThingName
             self.entries = entries
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.coreDeviceThingName, key: "coreDeviceThingName")
+            try container.encodeIfPresent(self.entries, forKey: .entries)
         }
 
         public func validate(name: String) throws {
@@ -331,15 +337,17 @@ extension GreengrassV2 {
     }
 
     public struct CancelDeploymentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deploymentId", location: .uri("deploymentId"))
-        ]
-
         /// The ID of the deployment.
         public let deploymentId: String
 
         public init(deploymentId: String) {
             self.deploymentId = deploymentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deploymentId, key: "deploymentId")
         }
 
         public func validate(name: String) throws {
@@ -828,15 +836,17 @@ extension GreengrassV2 {
     }
 
     public struct DeleteComponentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("arn"))
-        ]
-
         /// The ARN of the component version.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "arn")
         }
 
         public func validate(name: String) throws {
@@ -847,15 +857,17 @@ extension GreengrassV2 {
     }
 
     public struct DeleteCoreDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri("coreDeviceThingName"))
-        ]
-
         /// The name of the core device. This is also the name of the IoT thing.
         public let coreDeviceThingName: String
 
         public init(coreDeviceThingName: String) {
             self.coreDeviceThingName = coreDeviceThingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.coreDeviceThingName, key: "coreDeviceThingName")
         }
 
         public func validate(name: String) throws {
@@ -867,15 +879,17 @@ extension GreengrassV2 {
     }
 
     public struct DeleteDeploymentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deploymentId", location: .uri("deploymentId"))
-        ]
-
         /// The ID of the deployment.
         public let deploymentId: String
 
         public init(deploymentId: String) {
             self.deploymentId = deploymentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deploymentId, key: "deploymentId")
         }
 
         public func validate(name: String) throws {
@@ -1004,15 +1018,17 @@ extension GreengrassV2 {
     }
 
     public struct DescribeComponentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("arn"))
-        ]
-
         /// The ARN of the component version.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "arn")
         }
 
         public func validate(name: String) throws {
@@ -1194,11 +1210,6 @@ extension GreengrassV2 {
     }
 
     public struct GetComponentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("arn")),
-            AWSMemberEncoding(label: "recipeOutputFormat", location: .querystring("recipeOutputFormat"))
-        ]
-
         /// The ARN of the component version.
         public let arn: String
         /// The format of the recipe.
@@ -1207,6 +1218,13 @@ extension GreengrassV2 {
         public init(arn: String, recipeOutputFormat: RecipeOutputFormat? = nil) {
             self.arn = arn
             self.recipeOutputFormat = recipeOutputFormat
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "arn")
+            request.encodeQuery(self.recipeOutputFormat, key: "recipeOutputFormat")
         }
 
         public func validate(name: String) throws {
@@ -1238,11 +1256,6 @@ extension GreengrassV2 {
     }
 
     public struct GetComponentVersionArtifactRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("arn")),
-            AWSMemberEncoding(label: "artifactName", location: .uri("artifactName"))
-        ]
-
         /// The ARN of the component version. Specify the ARN of a public or a Lambda component version.
         public let arn: String
         /// The name of the artifact. You can use the GetComponent operation to download the component recipe, which includes the URI of the artifact. The artifact name is the section of the URI after the scheme. For example, in the artifact URI greengrass:SomeArtifact.zip, the artifact name is SomeArtifact.zip.
@@ -1251,6 +1264,13 @@ extension GreengrassV2 {
         public init(arn: String, artifactName: String) {
             self.arn = arn
             self.artifactName = artifactName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "arn")
+            request.encodePath(self.artifactName, key: "artifactName")
         }
 
         public func validate(name: String) throws {
@@ -1275,15 +1295,17 @@ extension GreengrassV2 {
     }
 
     public struct GetConnectivityInfoRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
-        ]
-
         /// The name of the core device. This is also the name of the IoT thing.
         public let thingName: String
 
         public init(thingName: String) {
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.thingName, key: "thingName")
         }
 
         public func validate(name: String) throws {
@@ -1312,15 +1334,17 @@ extension GreengrassV2 {
     }
 
     public struct GetCoreDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri("coreDeviceThingName"))
-        ]
-
         /// The name of the core device. This is also the name of the IoT thing.
         public let coreDeviceThingName: String
 
         public init(coreDeviceThingName: String) {
             self.coreDeviceThingName = coreDeviceThingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.coreDeviceThingName, key: "coreDeviceThingName")
         }
 
         public func validate(name: String) throws {
@@ -1369,15 +1393,17 @@ extension GreengrassV2 {
     }
 
     public struct GetDeploymentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deploymentId", location: .uri("deploymentId"))
-        ]
-
         /// The ID of the deployment.
         public let deploymentId: String
 
         public init(deploymentId: String) {
             self.deploymentId = deploymentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deploymentId, key: "deploymentId")
         }
 
         public func validate(name: String) throws {
@@ -1869,12 +1895,6 @@ extension GreengrassV2 {
     }
 
     public struct ListClientDevicesAssociatedWithCoreDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri("coreDeviceThingName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name of the core device. This is also the name of the IoT thing.
         public let coreDeviceThingName: String
         /// The maximum number of results to be returned per paginated request.
@@ -1886,6 +1906,14 @@ extension GreengrassV2 {
             self.coreDeviceThingName = coreDeviceThingName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.coreDeviceThingName, key: "coreDeviceThingName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1916,12 +1944,6 @@ extension GreengrassV2 {
     }
 
     public struct ListComponentVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("arn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The ARN of the component.
         public let arn: String
         /// The maximum number of results to be returned per paginated request.
@@ -1933,6 +1955,14 @@ extension GreengrassV2 {
             self.arn = arn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "arn")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1962,12 +1992,6 @@ extension GreengrassV2 {
     }
 
     public struct ListComponentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "scope", location: .querystring("scope"))
-        ]
-
         /// The maximum number of results to be returned per paginated request.
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
@@ -1979,6 +2003,14 @@ extension GreengrassV2 {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.scope = scope
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.scope, key: "scope")
         }
 
         public func validate(name: String) throws {
@@ -2007,13 +2039,6 @@ extension GreengrassV2 {
     }
 
     public struct ListCoreDevicesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring("status")),
-            AWSMemberEncoding(label: "thingGroupArn", location: .querystring("thingGroupArn"))
-        ]
-
         /// The maximum number of results to be returned per paginated request.
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
@@ -2028,6 +2053,15 @@ extension GreengrassV2 {
             self.nextToken = nextToken
             self.status = status
             self.thingGroupArn = thingGroupArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
+            request.encodeQuery(self.thingGroupArn, key: "thingGroupArn")
         }
 
         public func validate(name: String) throws {
@@ -2057,14 +2091,6 @@ extension GreengrassV2 {
     }
 
     public struct ListDeploymentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "historyFilter", location: .querystring("historyFilter")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "parentTargetArn", location: .querystring("parentTargetArn")),
-            AWSMemberEncoding(label: "targetArn", location: .querystring("targetArn"))
-        ]
-
         /// The filter for the list of deployments. Choose one of the following options:    ALL – The list includes all deployments.    LATEST_ONLY – The list includes only the latest revision of each deployment.   Default: LATEST_ONLY
         public let historyFilter: DeploymentHistoryFilter?
         /// The maximum number of results to be returned per paginated request.
@@ -2082,6 +2108,16 @@ extension GreengrassV2 {
             self.nextToken = nextToken
             self.parentTargetArn = parentTargetArn
             self.targetArn = targetArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.historyFilter, key: "historyFilter")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.parentTargetArn, key: "parentTargetArn")
+            request.encodeQuery(self.targetArn, key: "targetArn")
         }
 
         public func validate(name: String) throws {
@@ -2112,12 +2148,6 @@ extension GreengrassV2 {
     }
 
     public struct ListEffectiveDeploymentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri("coreDeviceThingName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name of the core device. This is also the name of the IoT thing.
         public let coreDeviceThingName: String
         /// The maximum number of results to be returned per paginated request.
@@ -2129,6 +2159,14 @@ extension GreengrassV2 {
             self.coreDeviceThingName = coreDeviceThingName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.coreDeviceThingName, key: "coreDeviceThingName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2159,13 +2197,6 @@ extension GreengrassV2 {
     }
 
     public struct ListInstalledComponentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri("coreDeviceThingName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "topologyFilter", location: .querystring("topologyFilter"))
-        ]
-
         /// The name of the core device. This is also the name of the IoT thing.
         public let coreDeviceThingName: String
         /// The maximum number of results to be returned per paginated request.
@@ -2180,6 +2211,15 @@ extension GreengrassV2 {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.topologyFilter = topologyFilter
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.coreDeviceThingName, key: "coreDeviceThingName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.topologyFilter, key: "topologyFilter")
         }
 
         public func validate(name: String) throws {
@@ -2210,15 +2250,17 @@ extension GreengrassV2 {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The ARN of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -2335,10 +2377,6 @@ extension GreengrassV2 {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The ARN of the resource to tag.
         public let resourceArn: String
         /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
@@ -2347,6 +2385,13 @@ extension GreengrassV2 {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2370,11 +2415,6 @@ extension GreengrassV2 {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The ARN of the resource to untag.
         public let resourceArn: String
         /// A list of keys for tags to remove from the resource.
@@ -2383,6 +2423,13 @@ extension GreengrassV2 {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -2403,10 +2450,6 @@ extension GreengrassV2 {
     }
 
     public struct UpdateConnectivityInfoRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "thingName", location: .uri("ThingName"))
-        ]
-
         /// The connectivity information for the core device.
         public let connectivityInfo: [ConnectivityInfo]
         /// The name of the core device. This is also the name of the IoT thing.
@@ -2415,6 +2458,13 @@ extension GreengrassV2 {
         public init(connectivityInfo: [ConnectivityInfo], thingName: String) {
             self.connectivityInfo = connectivityInfo
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.connectivityInfo, forKey: .connectivityInfo)
+            request.encodePath(self.thingName, key: "ThingName")
         }
 
         public func validate(name: String) throws {

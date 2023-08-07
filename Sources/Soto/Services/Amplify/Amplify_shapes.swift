@@ -566,10 +566,6 @@ extension Amplify {
     }
 
     public struct CreateBackendEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId"))
-        ]
-
         ///  The unique ID for an Amplify app.
         public let appId: String
         ///  The name of deployment artifacts.
@@ -584,6 +580,15 @@ extension Amplify {
             self.deploymentArtifacts = deploymentArtifacts
             self.environmentName = environmentName
             self.stackName = stackName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            try container.encodeIfPresent(self.deploymentArtifacts, forKey: .deploymentArtifacts)
+            try container.encode(self.environmentName, forKey: .environmentName)
+            try container.encodeIfPresent(self.stackName, forKey: .stackName)
         }
 
         public func validate(name: String) throws {
@@ -622,10 +627,6 @@ extension Amplify {
     }
 
     public struct CreateBranchRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId"))
-        ]
-
         ///  The unique ID for an Amplify app.
         public let appId: String
         ///  The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app.
@@ -682,6 +683,29 @@ extension Amplify {
             self.stage = stage
             self.tags = tags
             self.ttl = ttl
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            try container.encodeIfPresent(self.backendEnvironmentArn, forKey: .backendEnvironmentArn)
+            try container.encodeIfPresent(self.basicAuthCredentials, forKey: .basicAuthCredentials)
+            try container.encode(self.branchName, forKey: .branchName)
+            try container.encodeIfPresent(self.buildSpec, forKey: .buildSpec)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.displayName, forKey: .displayName)
+            try container.encodeIfPresent(self.enableAutoBuild, forKey: .enableAutoBuild)
+            try container.encodeIfPresent(self.enableBasicAuth, forKey: .enableBasicAuth)
+            try container.encodeIfPresent(self.enableNotification, forKey: .enableNotification)
+            try container.encodeIfPresent(self.enablePerformanceMode, forKey: .enablePerformanceMode)
+            try container.encodeIfPresent(self.enablePullRequestPreview, forKey: .enablePullRequestPreview)
+            try container.encodeIfPresent(self.environmentVariables, forKey: .environmentVariables)
+            try container.encodeIfPresent(self.framework, forKey: .framework)
+            try container.encodeIfPresent(self.pullRequestEnvironmentName, forKey: .pullRequestEnvironmentName)
+            try container.encodeIfPresent(self.stage, forKey: .stage)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.ttl, forKey: .ttl)
         }
 
         public func validate(name: String) throws {
@@ -759,11 +783,6 @@ extension Amplify {
     }
 
     public struct CreateDeploymentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri("branchName"))
-        ]
-
         ///  The unique ID for an Amplify app.
         public let appId: String
         ///  The name for the branch, for the job.
@@ -775,6 +794,14 @@ extension Amplify {
             self.appId = appId
             self.branchName = branchName
             self.fileMap = fileMap
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.branchName, key: "branchName")
+            try container.encodeIfPresent(self.fileMap, forKey: .fileMap)
         }
 
         public func validate(name: String) throws {
@@ -819,10 +846,6 @@ extension Amplify {
     }
 
     public struct CreateDomainAssociationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId"))
-        ]
-
         ///  The unique ID for an Amplify app.
         public let appId: String
         ///  Sets the branch patterns for automatic subdomain creation.
@@ -843,6 +866,17 @@ extension Amplify {
             self.domainName = domainName
             self.enableAutoSubDomain = enableAutoSubDomain
             self.subDomainSettings = subDomainSettings
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            try container.encodeIfPresent(self.autoSubDomainCreationPatterns, forKey: .autoSubDomainCreationPatterns)
+            try container.encodeIfPresent(self.autoSubDomainIAMRole, forKey: .autoSubDomainIAMRole)
+            try container.encode(self.domainName, forKey: .domainName)
+            try container.encodeIfPresent(self.enableAutoSubDomain, forKey: .enableAutoSubDomain)
+            try container.encode(self.subDomainSettings, forKey: .subDomainSettings)
         }
 
         public func validate(name: String) throws {
@@ -887,10 +921,6 @@ extension Amplify {
     }
 
     public struct CreateWebhookRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId"))
-        ]
-
         ///  The unique ID for an Amplify app.
         public let appId: String
         ///  The name for a branch that is part of an Amplify app.
@@ -902,6 +932,14 @@ extension Amplify {
             self.appId = appId
             self.branchName = branchName
             self.description = description
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            try container.encode(self.branchName, forKey: .branchName)
+            try container.encodeIfPresent(self.description, forKey: .description)
         }
 
         public func validate(name: String) throws {
@@ -975,15 +1013,17 @@ extension Amplify {
     }
 
     public struct DeleteAppRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId"))
-        ]
-
         ///  The unique ID for an Amplify app.
         public let appId: String
 
         public init(appId: String) {
             self.appId = appId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
         }
 
         public func validate(name: String) throws {
@@ -1008,11 +1048,6 @@ extension Amplify {
     }
 
     public struct DeleteBackendEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName"))
-        ]
-
         ///  The unique ID of an Amplify app.
         public let appId: String
         ///  The name of a backend environment of an Amplify app.
@@ -1021,6 +1056,13 @@ extension Amplify {
         public init(appId: String, environmentName: String) {
             self.appId = appId
             self.environmentName = environmentName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.environmentName, key: "environmentName")
         }
 
         public func validate(name: String) throws {
@@ -1049,11 +1091,6 @@ extension Amplify {
     }
 
     public struct DeleteBranchRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri("branchName"))
-        ]
-
         ///  The unique ID for an Amplify app.
         public let appId: String
         ///  The name for the branch.
@@ -1062,6 +1099,13 @@ extension Amplify {
         public init(appId: String, branchName: String) {
             self.appId = appId
             self.branchName = branchName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.branchName, key: "branchName")
         }
 
         public func validate(name: String) throws {
@@ -1090,11 +1134,6 @@ extension Amplify {
     }
 
     public struct DeleteDomainAssociationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "domainName", location: .uri("domainName"))
-        ]
-
         ///  The unique id for an Amplify app.
         public let appId: String
         ///  The name of the domain.
@@ -1103,6 +1142,13 @@ extension Amplify {
         public init(appId: String, domainName: String) {
             self.appId = appId
             self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.domainName, key: "domainName")
         }
 
         public func validate(name: String) throws {
@@ -1129,12 +1175,6 @@ extension Amplify {
     }
 
     public struct DeleteJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri("branchName")),
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
-        ]
-
         ///  The unique ID for an Amplify app.
         public let appId: String
         ///  The name for the branch, for the job.
@@ -1146,6 +1186,14 @@ extension Amplify {
             self.appId = appId
             self.branchName = branchName
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.branchName, key: "branchName")
+            request.encodePath(self.jobId, key: "jobId")
         }
 
         public func validate(name: String) throws {
@@ -1175,15 +1223,17 @@ extension Amplify {
     }
 
     public struct DeleteWebhookRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "webhookId", location: .uri("webhookId"))
-        ]
-
         ///  The unique ID for a webhook.
         public let webhookId: String
 
         public init(webhookId: String) {
             self.webhookId = webhookId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.webhookId, key: "webhookId")
         }
 
         public func validate(name: String) throws {
@@ -1253,10 +1303,6 @@ extension Amplify {
     }
 
     public struct GenerateAccessLogsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId"))
-        ]
-
         ///  The unique ID for an Amplify app.
         public let appId: String
         ///  The name of the domain.
@@ -1271,6 +1317,15 @@ extension Amplify {
             self.domainName = domainName
             self.endTime = endTime
             self.startTime = startTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            try container.encode(self.domainName, forKey: .domainName)
+            try container.encodeIfPresent(self.endTime, forKey: .endTime)
+            try container.encodeIfPresent(self.startTime, forKey: .startTime)
         }
 
         public func validate(name: String) throws {
@@ -1302,15 +1357,17 @@ extension Amplify {
     }
 
     public struct GetAppRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId"))
-        ]
-
         ///  The unique ID for an Amplify app.
         public let appId: String
 
         public init(appId: String) {
             self.appId = appId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
         }
 
         public func validate(name: String) throws {
@@ -1335,15 +1392,17 @@ extension Amplify {
     }
 
     public struct GetArtifactUrlRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "artifactId", location: .uri("artifactId"))
-        ]
-
         ///  The unique ID for an artifact.
         public let artifactId: String
 
         public init(artifactId: String) {
             self.artifactId = artifactId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.artifactId, key: "artifactId")
         }
 
         public func validate(name: String) throws {
@@ -1372,11 +1431,6 @@ extension Amplify {
     }
 
     public struct GetBackendEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName"))
-        ]
-
         ///  The unique id for an Amplify app.
         public let appId: String
         ///  The name for the backend environment.
@@ -1385,6 +1439,13 @@ extension Amplify {
         public init(appId: String, environmentName: String) {
             self.appId = appId
             self.environmentName = environmentName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.environmentName, key: "environmentName")
         }
 
         public func validate(name: String) throws {
@@ -1413,11 +1474,6 @@ extension Amplify {
     }
 
     public struct GetBranchRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri("branchName"))
-        ]
-
         ///  The unique ID for an Amplify app.
         public let appId: String
         ///  The name for the branch.
@@ -1426,6 +1482,13 @@ extension Amplify {
         public init(appId: String, branchName: String) {
             self.appId = appId
             self.branchName = branchName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.branchName, key: "branchName")
         }
 
         public func validate(name: String) throws {
@@ -1453,11 +1516,6 @@ extension Amplify {
     }
 
     public struct GetDomainAssociationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "domainName", location: .uri("domainName"))
-        ]
-
         ///  The unique id for an Amplify app.
         public let appId: String
         ///  The name of the domain.
@@ -1466,6 +1524,13 @@ extension Amplify {
         public init(appId: String, domainName: String) {
             self.appId = appId
             self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.domainName, key: "domainName")
         }
 
         public func validate(name: String) throws {
@@ -1493,12 +1558,6 @@ extension Amplify {
     }
 
     public struct GetJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri("branchName")),
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
-        ]
-
         ///  The unique ID for an Amplify app.
         public let appId: String
         ///  The branch name for the job.
@@ -1510,6 +1569,14 @@ extension Amplify {
             self.appId = appId
             self.branchName = branchName
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.branchName, key: "branchName")
+            request.encodePath(self.jobId, key: "jobId")
         }
 
         public func validate(name: String) throws {
@@ -1539,15 +1606,17 @@ extension Amplify {
     }
 
     public struct GetWebhookRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "webhookId", location: .uri("webhookId"))
-        ]
-
         ///  The unique ID for a webhook.
         public let webhookId: String
 
         public init(webhookId: String) {
             self.webhookId = webhookId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.webhookId, key: "webhookId")
         }
 
         public func validate(name: String) throws {
@@ -1634,11 +1703,6 @@ extension Amplify {
     }
 
     public struct ListAppsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The maximum number of records to list in a single response.
         public let maxResults: Int?
         ///  A pagination token. If non-null, the pagination token is returned in a result. Pass its value in another request to retrieve more entries.
@@ -1647,6 +1711,13 @@ extension Amplify {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1677,14 +1748,6 @@ extension Amplify {
     }
 
     public struct ListArtifactsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri("branchName")),
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The unique ID for an Amplify app.
         public let appId: String
         ///  The name of a branch that is part of an Amplify app.
@@ -1702,6 +1765,16 @@ extension Amplify {
             self.jobId = jobId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.branchName, key: "branchName")
+            request.encodePath(self.jobId, key: "jobId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1740,13 +1813,6 @@ extension Amplify {
     }
 
     public struct ListBackendEnvironmentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "environmentName", location: .querystring("environmentName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The unique ID for an Amplify app.
         public let appId: String
         ///  The name of the backend environment
@@ -1761,6 +1827,15 @@ extension Amplify {
             self.environmentName = environmentName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodeQuery(self.environmentName, key: "environmentName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1797,12 +1872,6 @@ extension Amplify {
     }
 
     public struct ListBranchesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The unique ID for an Amplify app.
         public let appId: String
         ///  The maximum number of records to list in a single response.
@@ -1814,6 +1883,14 @@ extension Amplify {
             self.appId = appId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1847,12 +1924,6 @@ extension Amplify {
     }
 
     public struct ListDomainAssociationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The unique ID for an Amplify app.
         public let appId: String
         ///  The maximum number of records to list in a single response.
@@ -1864,6 +1935,14 @@ extension Amplify {
             self.appId = appId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1897,13 +1976,6 @@ extension Amplify {
     }
 
     public struct ListJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri("branchName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The unique ID for an Amplify app.
         public let appId: String
         ///  The name for a branch.
@@ -1918,6 +1990,15 @@ extension Amplify {
             self.branchName = branchName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.branchName, key: "branchName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1954,15 +2035,17 @@ extension Amplify {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         ///  The Amazon Resource Name (ARN) to use to list tags.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1987,12 +2070,6 @@ extension Amplify {
     }
 
     public struct ListWebhooksRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The unique ID for an Amplify app.
         public let appId: String
         ///  The maximum number of records to list in a single response.
@@ -2004,6 +2081,14 @@ extension Amplify {
             self.appId = appId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2062,11 +2147,6 @@ extension Amplify {
     }
 
     public struct StartDeploymentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri("branchName"))
-        ]
-
         ///  The unique ID for an Amplify app.
         public let appId: String
         ///  The name for the branch, for the job.
@@ -2081,6 +2161,15 @@ extension Amplify {
             self.branchName = branchName
             self.jobId = jobId
             self.sourceUrl = sourceUrl
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.branchName, key: "branchName")
+            try container.encodeIfPresent(self.jobId, forKey: .jobId)
+            try container.encodeIfPresent(self.sourceUrl, forKey: .sourceUrl)
         }
 
         public func validate(name: String) throws {
@@ -2116,11 +2205,6 @@ extension Amplify {
     }
 
     public struct StartJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri("branchName"))
-        ]
-
         ///  The unique ID for an Amplify app.
         public let appId: String
         ///  The branch name for the job.
@@ -2147,6 +2231,19 @@ extension Amplify {
             self.jobId = jobId
             self.jobReason = jobReason
             self.jobType = jobType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.branchName, key: "branchName")
+            try container.encodeIfPresent(self.commitId, forKey: .commitId)
+            try container.encodeIfPresent(self.commitMessage, forKey: .commitMessage)
+            try container.encodeIfPresent(self.commitTime, forKey: .commitTime)
+            try container.encodeIfPresent(self.jobId, forKey: .jobId)
+            try container.encodeIfPresent(self.jobReason, forKey: .jobReason)
+            try container.encode(self.jobType, forKey: .jobType)
         }
 
         public func validate(name: String) throws {
@@ -2243,12 +2340,6 @@ extension Amplify {
     }
 
     public struct StopJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri("branchName")),
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
-        ]
-
         ///  The unique ID for an Amplify app.
         public let appId: String
         ///  The name for the branch, for the job.
@@ -2260,6 +2351,14 @@ extension Amplify {
             self.appId = appId
             self.branchName = branchName
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            request.encodePath(self.branchName, key: "branchName")
+            request.encodePath(self.jobId, key: "jobId")
         }
 
         public func validate(name: String) throws {
@@ -2336,10 +2435,6 @@ extension Amplify {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         ///  The Amazon Resource Name (ARN) to use to tag a resource.
         public let resourceArn: String
         ///  The tags used to tag the resource.
@@ -2348,6 +2443,13 @@ extension Amplify {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2373,11 +2475,6 @@ extension Amplify {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         ///  The Amazon Resource Name (ARN) to use to untag a resource.
         public let resourceArn: String
         ///  The tag keys to use to untag a resource.
@@ -2386,6 +2483,13 @@ extension Amplify {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -2408,10 +2512,6 @@ extension Amplify {
     }
 
     public struct UpdateAppRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId"))
-        ]
-
         /// The personal access token for a GitHub repository for an Amplify app. The personal access token is used to authorize access to a GitHub repository using the Amplify GitHub App. The token is not stored. Use accessToken for GitHub repositories only. To authorize access to a repository provider such as Bitbucket or CodeCommit, use oauthToken. You must specify either accessToken or oauthToken when you update an app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the Amplify User Guide .
         public let accessToken: String?
         ///  The unique ID for an Amplify app.
@@ -2471,6 +2571,30 @@ extension Amplify {
             self.oauthToken = oauthToken
             self.platform = platform
             self.repository = repository
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.accessToken, forKey: .accessToken)
+            request.encodePath(self.appId, key: "appId")
+            try container.encodeIfPresent(self.autoBranchCreationConfig, forKey: .autoBranchCreationConfig)
+            try container.encodeIfPresent(self.autoBranchCreationPatterns, forKey: .autoBranchCreationPatterns)
+            try container.encodeIfPresent(self.basicAuthCredentials, forKey: .basicAuthCredentials)
+            try container.encodeIfPresent(self.buildSpec, forKey: .buildSpec)
+            try container.encodeIfPresent(self.customHeaders, forKey: .customHeaders)
+            try container.encodeIfPresent(self.customRules, forKey: .customRules)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.enableAutoBranchCreation, forKey: .enableAutoBranchCreation)
+            try container.encodeIfPresent(self.enableBasicAuth, forKey: .enableBasicAuth)
+            try container.encodeIfPresent(self.enableBranchAutoBuild, forKey: .enableBranchAutoBuild)
+            try container.encodeIfPresent(self.enableBranchAutoDeletion, forKey: .enableBranchAutoDeletion)
+            try container.encodeIfPresent(self.environmentVariables, forKey: .environmentVariables)
+            try container.encodeIfPresent(self.iamServiceRoleArn, forKey: .iamServiceRoleArn)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.oauthToken, forKey: .oauthToken)
+            try container.encodeIfPresent(self.platform, forKey: .platform)
+            try container.encodeIfPresent(self.repository, forKey: .repository)
         }
 
         public func validate(name: String) throws {
@@ -2551,11 +2675,6 @@ extension Amplify {
     }
 
     public struct UpdateBranchRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri("branchName"))
-        ]
-
         ///  The unique ID for an Amplify app.
         public let appId: String
         ///  The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app.
@@ -2609,6 +2728,28 @@ extension Amplify {
             self.pullRequestEnvironmentName = pullRequestEnvironmentName
             self.stage = stage
             self.ttl = ttl
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            try container.encodeIfPresent(self.backendEnvironmentArn, forKey: .backendEnvironmentArn)
+            try container.encodeIfPresent(self.basicAuthCredentials, forKey: .basicAuthCredentials)
+            request.encodePath(self.branchName, key: "branchName")
+            try container.encodeIfPresent(self.buildSpec, forKey: .buildSpec)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.displayName, forKey: .displayName)
+            try container.encodeIfPresent(self.enableAutoBuild, forKey: .enableAutoBuild)
+            try container.encodeIfPresent(self.enableBasicAuth, forKey: .enableBasicAuth)
+            try container.encodeIfPresent(self.enableNotification, forKey: .enableNotification)
+            try container.encodeIfPresent(self.enablePerformanceMode, forKey: .enablePerformanceMode)
+            try container.encodeIfPresent(self.enablePullRequestPreview, forKey: .enablePullRequestPreview)
+            try container.encodeIfPresent(self.environmentVariables, forKey: .environmentVariables)
+            try container.encodeIfPresent(self.framework, forKey: .framework)
+            try container.encodeIfPresent(self.pullRequestEnvironmentName, forKey: .pullRequestEnvironmentName)
+            try container.encodeIfPresent(self.stage, forKey: .stage)
+            try container.encodeIfPresent(self.ttl, forKey: .ttl)
         }
 
         public func validate(name: String) throws {
@@ -2676,11 +2817,6 @@ extension Amplify {
     }
 
     public struct UpdateDomainAssociationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "domainName", location: .uri("domainName"))
-        ]
-
         ///  The unique ID for an Amplify app.
         public let appId: String
         ///  Sets the branch patterns for automatic subdomain creation.
@@ -2701,6 +2837,17 @@ extension Amplify {
             self.domainName = domainName
             self.enableAutoSubDomain = enableAutoSubDomain
             self.subDomainSettings = subDomainSettings
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            try container.encodeIfPresent(self.autoSubDomainCreationPatterns, forKey: .autoSubDomainCreationPatterns)
+            try container.encodeIfPresent(self.autoSubDomainIAMRole, forKey: .autoSubDomainIAMRole)
+            request.encodePath(self.domainName, key: "domainName")
+            try container.encodeIfPresent(self.enableAutoSubDomain, forKey: .enableAutoSubDomain)
+            try container.encodeIfPresent(self.subDomainSettings, forKey: .subDomainSettings)
         }
 
         public func validate(name: String) throws {
@@ -2744,10 +2891,6 @@ extension Amplify {
     }
 
     public struct UpdateWebhookRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "webhookId", location: .uri("webhookId"))
-        ]
-
         ///  The name for a branch that is part of an Amplify app.
         public let branchName: String?
         ///  The description for a webhook.
@@ -2759,6 +2902,14 @@ extension Amplify {
             self.branchName = branchName
             self.description = description
             self.webhookId = webhookId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.branchName, forKey: .branchName)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.webhookId, key: "webhookId")
         }
 
         public func validate(name: String) throws {

@@ -177,23 +177,6 @@ extension CloudSearchDomain {
     }
 
     public struct SearchRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cursor", location: .querystring("cursor")),
-            AWSMemberEncoding(label: "expr", location: .querystring("expr")),
-            AWSMemberEncoding(label: "facet", location: .querystring("facet")),
-            AWSMemberEncoding(label: "filterQuery", location: .querystring("fq")),
-            AWSMemberEncoding(label: "highlight", location: .querystring("highlight")),
-            AWSMemberEncoding(label: "partial", location: .querystring("partial")),
-            AWSMemberEncoding(label: "query", location: .querystring("q")),
-            AWSMemberEncoding(label: "queryOptions", location: .querystring("q.options")),
-            AWSMemberEncoding(label: "queryParser", location: .querystring("q.parser")),
-            AWSMemberEncoding(label: "return", location: .querystring("return")),
-            AWSMemberEncoding(label: "size", location: .querystring("size")),
-            AWSMemberEncoding(label: "sort", location: .querystring("sort")),
-            AWSMemberEncoding(label: "start", location: .querystring("start")),
-            AWSMemberEncoding(label: "stats", location: .querystring("stats"))
-        ]
-
         /// Retrieves a cursor value you can use to page through large result sets. Use the size parameter to control the number of hits to include in each response. You can specify either the cursor or start parameter in a request; they are mutually exclusive. To get the first cursor, set the cursor value to initial. In subsequent requests, specify the cursor value returned in the hits section of the response.  For more information, see Paginating Results in the Amazon CloudSearch Developer Guide.
         public let cursor: String?
         /// Defines one or more numeric expressions that can be used to sort results or specify search or filter criteria. You can also specify expressions as return fields.  You specify the expressions in JSON using the form {"EXPRESSIONNAME":"EXPRESSION"}. You can define and use multiple expressions in a search request. For example:  {"expression1":"_score*rating", "expression2":"(1/rank)*year"}  For information about the variables, operators, and functions you can use in expressions, see Writing Expressions in the Amazon CloudSearch Developer Guide.
@@ -244,6 +227,25 @@ extension CloudSearchDomain {
             self.sort = sort
             self.start = start
             self.stats = stats
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.cursor, key: "cursor")
+            request.encodeQuery(self.expr, key: "expr")
+            request.encodeQuery(self.facet, key: "facet")
+            request.encodeQuery(self.filterQuery, key: "fq")
+            request.encodeQuery(self.highlight, key: "highlight")
+            request.encodeQuery(self.partial, key: "partial")
+            request.encodeQuery(self.query, key: "q")
+            request.encodeQuery(self.queryOptions, key: "q.options")
+            request.encodeQuery(self.queryParser, key: "q.parser")
+            request.encodeQuery(self.`return`, key: "return")
+            request.encodeQuery(self.size, key: "size")
+            request.encodeQuery(self.sort, key: "sort")
+            request.encodeQuery(self.start, key: "start")
+            request.encodeQuery(self.stats, key: "stats")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -313,12 +315,6 @@ extension CloudSearchDomain {
     }
 
     public struct SuggestRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "query", location: .querystring("q")),
-            AWSMemberEncoding(label: "size", location: .querystring("size")),
-            AWSMemberEncoding(label: "suggester", location: .querystring("suggester"))
-        ]
-
         /// Specifies the string for which you want to get suggestions.
         public let query: String
         /// Specifies the maximum number of suggestions to return.
@@ -330,6 +326,14 @@ extension CloudSearchDomain {
             self.query = query
             self.size = size
             self.suggester = suggester
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.query, key: "q")
+            request.encodeQuery(self.size, key: "size")
+            request.encodeQuery(self.suggester, key: "suggester")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -390,14 +394,8 @@ extension CloudSearchDomain {
         }
     }
 
-    public struct UploadDocumentsRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "documents"
+    public struct UploadDocumentsRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.allowStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
-        ]
-
         /// The format of the batch you are uploading. Amazon CloudSearch supports two document batch formats:  application/json application/xml
         public let contentType: ContentType
         /// A batch of documents formatted in JSON or HTML.
@@ -406,6 +404,13 @@ extension CloudSearchDomain {
         public init(contentType: ContentType, documents: AWSHTTPBody) {
             self.contentType = contentType
             self.documents = documents
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeHeader(self.contentType, key: "Content-Type")
+            try container.encode(self.documents)
         }
 
         private enum CodingKeys: CodingKey {}

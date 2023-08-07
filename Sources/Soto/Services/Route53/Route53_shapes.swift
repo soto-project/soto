@@ -286,11 +286,6 @@ extension Route53 {
     }
 
     public struct ActivateKeySigningKeyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// A unique string used to identify a hosted zone.
         public let hostedZoneId: String
         /// A string used to identify a key-signing key (KSK). Name can include
@@ -301,6 +296,13 @@ extension Route53 {
         public init(hostedZoneId: String, name: String) {
             self.hostedZoneId = hostedZoneId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.hostedZoneId, key: "HostedZoneId")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -531,10 +533,6 @@ extension Route53 {
     }
 
     public struct AssociateVPCWithHostedZoneRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId"))
-        ]
-
         ///  Optional: A comment about the association request.
         public let comment: String?
         /// The ID of the private hosted zone that you want to associate an Amazon VPC
@@ -549,6 +547,14 @@ extension Route53 {
             self.comment = comment
             self.hostedZoneId = hostedZoneId
             self.vpc = vpc
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.comment, forKey: .comment)
+            request.encodePath(self.hostedZoneId, key: "HostedZoneId")
+            try container.encode(self.vpc, forKey: .vpc)
         }
 
         public func validate(name: String) throws {
@@ -634,10 +640,6 @@ extension Route53 {
     }
 
     public struct ChangeCidrCollectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         ///  Information about changes to a CIDR collection.
         @CustomCoding<StandardArrayCoder<CidrCollectionChange>>
         public var changes: [CidrCollectionChange]
@@ -659,6 +661,14 @@ extension Route53 {
             self.changes = changes
             self.collectionVersion = collectionVersion
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.changes, forKey: .changes)
+            try container.encodeIfPresent(self.collectionVersion, forKey: .collectionVersion)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -722,10 +732,6 @@ extension Route53 {
     }
 
     public struct ChangeResourceRecordSetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId"))
-        ]
-
         /// A complex type that contains an optional comment and the Changes
         /// 			element.
         public let changeBatch: ChangeBatch
@@ -736,6 +742,13 @@ extension Route53 {
         public init(changeBatch: ChangeBatch, hostedZoneId: String) {
             self.changeBatch = changeBatch
             self.hostedZoneId = hostedZoneId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.changeBatch, forKey: .changeBatch)
+            request.encodePath(self.hostedZoneId, key: "HostedZoneId")
         }
 
         public func validate(name: String) throws {
@@ -764,11 +777,6 @@ extension Route53 {
     }
 
     public struct ChangeTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId")),
-            AWSMemberEncoding(label: "resourceType", location: .uri("ResourceType"))
-        ]
-
         public struct _AddTagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
         public struct _RemoveTagKeysEncoding: ArrayCoderProperties { public static let member = "Key" }
 
@@ -791,6 +799,15 @@ extension Route53 {
             self.removeTagKeys = removeTagKeys
             self.resourceId = resourceId
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.addTags, forKey: .addTags)
+            try container.encodeIfPresent(self.removeTagKeys, forKey: .removeTagKeys)
+            request.encodePath(self.resourceId, key: "ResourceId")
+            request.encodePath(self.resourceType, key: "ResourceType")
         }
 
         public func validate(name: String) throws {
@@ -1051,8 +1068,7 @@ extension Route53 {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.collection = try container.decodeIfPresent(CidrCollection.self, forKey: .collection)
-            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
-
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1110,8 +1126,7 @@ extension Route53 {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.healthCheck = try container.decode(HealthCheck.self, forKey: .healthCheck)
-            self.location = try response.decode(String.self, forHeader: "Location")
-
+            self.location = try response.decodeHeader(String.self, key: "Location")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1203,9 +1218,8 @@ extension Route53 {
             self.changeInfo = try container.decode(ChangeInfo.self, forKey: .changeInfo)
             self.delegationSet = try container.decode(DelegationSet.self, forKey: .delegationSet)
             self.hostedZone = try container.decode(HostedZone.self, forKey: .hostedZone)
-            self.location = try response.decode(String.self, forHeader: "Location")
+            self.location = try response.decodeHeader(String.self, key: "Location")
             self.vpc = try container.decodeIfPresent(VPC.self, forKey: .vpc)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1281,8 +1295,7 @@ extension Route53 {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.changeInfo = try container.decode(ChangeInfo.self, forKey: .changeInfo)
             self.keySigningKey = try container.decode(KeySigningKey.self, forKey: .keySigningKey)
-            self.location = try response.decode(String.self, forHeader: "Location")
-
+            self.location = try response.decodeHeader(String.self, key: "Location")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1331,9 +1344,8 @@ extension Route53 {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.location = try response.decode(String.self, forHeader: "Location")
+            self.location = try response.decodeHeader(String.self, key: "Location")
             self.queryLoggingConfig = try container.decode(QueryLoggingConfig.self, forKey: .queryLoggingConfig)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1385,8 +1397,7 @@ extension Route53 {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.delegationSet = try container.decode(DelegationSet.self, forKey: .delegationSet)
-            self.location = try response.decode(String.self, forHeader: "Location")
-
+            self.location = try response.decodeHeader(String.self, key: "Location")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1454,9 +1465,8 @@ extension Route53 {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.location = try response.decode(String.self, forHeader: "Location")
+            self.location = try response.decodeHeader(String.self, key: "Location")
             self.trafficPolicyInstance = try container.decode(TrafficPolicyInstance.self, forKey: .trafficPolicyInstance)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1505,9 +1515,8 @@ extension Route53 {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.location = try response.decode(String.self, forHeader: "Location")
+            self.location = try response.decodeHeader(String.self, key: "Location")
             self.trafficPolicy = try container.decode(TrafficPolicy.self, forKey: .trafficPolicy)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1516,10 +1525,6 @@ extension Route53 {
     }
 
     public struct CreateTrafficPolicyVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The comment that you specified in the CreateTrafficPolicyVersion request,
         /// 			if any.
         public let comment: String?
@@ -1534,6 +1539,14 @@ extension Route53 {
             self.comment = comment
             self.document = document
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.comment, forKey: .comment)
+            try container.encode(self.document, forKey: .document)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -1564,9 +1577,8 @@ extension Route53 {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.location = try response.decode(String.self, forHeader: "Location")
+            self.location = try response.decodeHeader(String.self, key: "Location")
             self.trafficPolicy = try container.decode(TrafficPolicy.self, forKey: .trafficPolicy)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1575,10 +1587,6 @@ extension Route53 {
     }
 
     public struct CreateVPCAssociationAuthorizationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId"))
-        ]
-
         /// The ID of the private hosted zone that you want to authorize associating a VPC
         /// 			with.
         public let hostedZoneId: String
@@ -1589,6 +1597,13 @@ extension Route53 {
         public init(hostedZoneId: String, vpc: VPC) {
             self.hostedZoneId = hostedZoneId
             self.vpc = vpc
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.hostedZoneId, key: "HostedZoneId")
+            try container.encode(self.vpc, forKey: .vpc)
         }
 
         public func validate(name: String) throws {
@@ -1644,11 +1659,6 @@ extension Route53 {
     }
 
     public struct DeactivateKeySigningKeyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// A unique string used to identify a hosted zone.
         public let hostedZoneId: String
         /// A string used to identify a key-signing key (KSK).
@@ -1657,6 +1667,13 @@ extension Route53 {
         public init(hostedZoneId: String, name: String) {
             self.hostedZoneId = hostedZoneId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.hostedZoneId, key: "HostedZoneId")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1707,15 +1724,17 @@ extension Route53 {
     }
 
     public struct DeleteCidrCollectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The UUID of the collection to delete.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -1730,15 +1749,17 @@ extension Route53 {
     }
 
     public struct DeleteHealthCheckRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "healthCheckId", location: .uri("HealthCheckId"))
-        ]
-
         /// The ID of the health check that you want to delete.
         public let healthCheckId: String
 
         public init(healthCheckId: String) {
             self.healthCheckId = healthCheckId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.healthCheckId, key: "HealthCheckId")
         }
 
         public func validate(name: String) throws {
@@ -1753,15 +1774,17 @@ extension Route53 {
     }
 
     public struct DeleteHostedZoneRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the hosted zone you want to delete.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -1786,11 +1809,6 @@ extension Route53 {
     }
 
     public struct DeleteKeySigningKeyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// A unique string used to identify a hosted zone.
         public let hostedZoneId: String
         /// A string used to identify a key-signing key (KSK).
@@ -1799,6 +1817,13 @@ extension Route53 {
         public init(hostedZoneId: String, name: String) {
             self.hostedZoneId = hostedZoneId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.hostedZoneId, key: "HostedZoneId")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1823,15 +1848,17 @@ extension Route53 {
     }
 
     public struct DeleteQueryLoggingConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the configuration that you want to delete.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -1847,15 +1874,17 @@ extension Route53 {
     }
 
     public struct DeleteReusableDelegationSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the reusable delegation set that you want to delete.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -1870,10 +1899,6 @@ extension Route53 {
     }
 
     public struct DeleteTrafficPolicyInstanceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the traffic policy instance that you want to delete.   When you delete a traffic policy instance, Amazon Route 53 also deletes all of the
         /// 				resource record sets that were created when you created the traffic policy
         /// 				instance.
@@ -1881,6 +1906,12 @@ extension Route53 {
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -1896,11 +1927,6 @@ extension Route53 {
     }
 
     public struct DeleteTrafficPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "version", location: .uri("Version"))
-        ]
-
         /// The ID of the traffic policy that you want to delete.
         public let id: String
         /// The version number of the traffic policy that you want to delete.
@@ -1909,6 +1935,13 @@ extension Route53 {
         public init(id: String, version: Int) {
             self.id = id
             self.version = version
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodePath(self.version, key: "Version")
         }
 
         public func validate(name: String) throws {
@@ -1926,10 +1959,6 @@ extension Route53 {
     }
 
     public struct DeleteVPCAssociationAuthorizationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId"))
-        ]
-
         /// When removing authorization to associate a VPC that was created by one Amazon Web Services account with a hosted zone that was created with a different Amazon Web Services account, the ID of the hosted zone.
         public let hostedZoneId: String
         /// When removing authorization to associate a VPC that was created by one Amazon Web Services account with a hosted zone that was created with a different Amazon Web Services account, a complex type that includes the ID and region of the
@@ -1939,6 +1968,13 @@ extension Route53 {
         public init(hostedZoneId: String, vpc: VPC) {
             self.hostedZoneId = hostedZoneId
             self.vpc = vpc
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.hostedZoneId, key: "HostedZoneId")
+            try container.encode(self.vpc, forKey: .vpc)
         }
 
         public func validate(name: String) throws {
@@ -1975,15 +2011,17 @@ extension Route53 {
     }
 
     public struct DisableHostedZoneDNSSECRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId"))
-        ]
-
         /// A unique string used to identify a hosted zone.
         public let hostedZoneId: String
 
         public init(hostedZoneId: String) {
             self.hostedZoneId = hostedZoneId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.hostedZoneId, key: "HostedZoneId")
         }
 
         public func validate(name: String) throws {
@@ -2006,10 +2044,6 @@ extension Route53 {
     }
 
     public struct DisassociateVPCFromHostedZoneRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId"))
-        ]
-
         ///  Optional: A comment about the disassociation request.
         public let comment: String?
         /// The ID of the private hosted zone that you want to disassociate a VPC from.
@@ -2022,6 +2056,14 @@ extension Route53 {
             self.comment = comment
             self.hostedZoneId = hostedZoneId
             self.vpc = vpc
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.comment, forKey: .comment)
+            request.encodePath(self.hostedZoneId, key: "HostedZoneId")
+            try container.encode(self.vpc, forKey: .vpc)
         }
 
         public func validate(name: String) throws {
@@ -2050,15 +2092,17 @@ extension Route53 {
     }
 
     public struct EnableHostedZoneDNSSECRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId"))
-        ]
-
         /// A unique string used to identify a hosted zone.
         public let hostedZoneId: String
 
         public init(hostedZoneId: String) {
             self.hostedZoneId = hostedZoneId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.hostedZoneId, key: "HostedZoneId")
         }
 
         public func validate(name: String) throws {
@@ -2155,10 +2199,6 @@ extension Route53 {
     }
 
     public struct GetAccountLimitRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "type", location: .uri("Type"))
-        ]
-
         /// The limit that you want to get. Valid values include the following:    MAX_HEALTH_CHECKS_BY_OWNER: The maximum
         /// 					number of health checks that you can create using the current account.    MAX_HOSTED_ZONES_BY_OWNER: The maximum number
         /// 					of hosted zones that you can create using the current account.    MAX_REUSABLE_DELEGATION_SETS_BY_OWNER: The
@@ -2172,6 +2212,12 @@ extension Route53 {
 
         public init(type: AccountLimitType) {
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.type, key: "Type")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2201,10 +2247,6 @@ extension Route53 {
     }
 
     public struct GetChangeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the change batch request. The value that you specify here is the value that
         /// 				ChangeResourceRecordSets returned in the Id element when
         /// 			you submitted the request.
@@ -2212,6 +2254,12 @@ extension Route53 {
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -2255,15 +2303,17 @@ extension Route53 {
     }
 
     public struct GetDNSSECRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId"))
-        ]
-
         /// A unique string used to identify a hosted zone.
         public let hostedZoneId: String
 
         public init(hostedZoneId: String) {
             self.hostedZoneId = hostedZoneId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.hostedZoneId, key: "HostedZoneId")
         }
 
         public func validate(name: String) throws {
@@ -2292,12 +2342,6 @@ extension Route53 {
     }
 
     public struct GetGeoLocationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "continentCode", location: .querystring("continentcode")),
-            AWSMemberEncoding(label: "countryCode", location: .querystring("countrycode")),
-            AWSMemberEncoding(label: "subdivisionCode", location: .querystring("subdivisioncode"))
-        ]
-
         /// For geolocation resource record sets, a two-letter abbreviation that identifies a
         /// 			continent. Amazon Route 53 supports the following continent codes:    AF: Africa    AN: Antarctica    AS: Asia    EU: Europe    OC: Oceania    NA: North America    SA: South America
         public let continentCode: String?
@@ -2315,6 +2359,14 @@ extension Route53 {
             self.continentCode = continentCode
             self.countryCode = countryCode
             self.subdivisionCode = subdivisionCode
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.continentCode, key: "continentcode")
+            request.encodeQuery(self.countryCode, key: "countrycode")
+            request.encodeQuery(self.subdivisionCode, key: "subdivisioncode")
         }
 
         public func validate(name: String) throws {
@@ -2361,10 +2413,6 @@ extension Route53 {
     }
 
     public struct GetHealthCheckLastFailureReasonRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "healthCheckId", location: .uri("HealthCheckId"))
-        ]
-
         /// The ID for the health check for which you want the last failure reason. When you
         /// 			created the health check, CreateHealthCheck returned the ID in the
         /// 			response, in the HealthCheckId element.  If you want to get the last failure reason for a calculated health check, you must
@@ -2375,6 +2423,12 @@ extension Route53 {
 
         public init(healthCheckId: String) {
             self.healthCheckId = healthCheckId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.healthCheckId, key: "HealthCheckId")
         }
 
         public func validate(name: String) throws {
@@ -2402,10 +2456,6 @@ extension Route53 {
     }
 
     public struct GetHealthCheckRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "healthCheckId", location: .uri("HealthCheckId"))
-        ]
-
         /// The identifier that Amazon Route 53 assigned to the health check when you created it.
         /// 			When you add or update a resource record set, you use this value to specify which health
         /// 			check to use. The value can be up to 64 characters long.
@@ -2413,6 +2463,12 @@ extension Route53 {
 
         public init(healthCheckId: String) {
             self.healthCheckId = healthCheckId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.healthCheckId, key: "HealthCheckId")
         }
 
         public func validate(name: String) throws {
@@ -2437,10 +2493,6 @@ extension Route53 {
     }
 
     public struct GetHealthCheckStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "healthCheckId", location: .uri("HealthCheckId"))
-        ]
-
         /// The ID for the health check that you want the current status for. When you created the
         /// 			health check, CreateHealthCheck returned the ID in the response, in the
         /// 				HealthCheckId element.  If you want to check the status of a calculated health check, you must use the
@@ -2451,6 +2503,12 @@ extension Route53 {
 
         public init(healthCheckId: String) {
             self.healthCheckId = healthCheckId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.healthCheckId, key: "HealthCheckId")
         }
 
         public func validate(name: String) throws {
@@ -2497,11 +2555,6 @@ extension Route53 {
     }
 
     public struct GetHostedZoneLimitRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId")),
-            AWSMemberEncoding(label: "type", location: .uri("Type"))
-        ]
-
         /// The ID of the hosted zone that you want to get a limit for.
         public let hostedZoneId: String
         /// The limit that you want to get. Valid values include the following:    MAX_RRSETS_BY_ZONE: The maximum number of
@@ -2513,6 +2566,13 @@ extension Route53 {
         public init(hostedZoneId: String, type: HostedZoneLimitType) {
             self.hostedZoneId = hostedZoneId
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.hostedZoneId, key: "HostedZoneId")
+            request.encodePath(self.type, key: "Type")
         }
 
         public func validate(name: String) throws {
@@ -2546,15 +2606,17 @@ extension Route53 {
     }
 
     public struct GetHostedZoneRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the hosted zone that you want to get information about.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -2592,16 +2654,18 @@ extension Route53 {
     }
 
     public struct GetQueryLoggingConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the configuration for DNS query logging that you want to get information
         /// 			about.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -2627,11 +2691,6 @@ extension Route53 {
     }
 
     public struct GetReusableDelegationSetLimitRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "delegationSetId", location: .uri("DelegationSetId")),
-            AWSMemberEncoding(label: "type", location: .uri("Type"))
-        ]
-
         /// The ID of the delegation set that you want to get the limit for.
         public let delegationSetId: String
         /// Specify MAX_ZONES_BY_REUSABLE_DELEGATION_SET to get the maximum number of
@@ -2641,6 +2700,13 @@ extension Route53 {
         public init(delegationSetId: String, type: ReusableDelegationSetLimitType) {
             self.delegationSetId = delegationSetId
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.delegationSetId, key: "DelegationSetId")
+            request.encodePath(self.type, key: "Type")
         }
 
         public func validate(name: String) throws {
@@ -2670,16 +2736,18 @@ extension Route53 {
     }
 
     public struct GetReusableDelegationSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the reusable delegation set that you want to get a list of name servers
         /// 			for.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -2720,15 +2788,17 @@ extension Route53 {
     }
 
     public struct GetTrafficPolicyInstanceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the traffic policy instance that you want to get information about.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -2753,11 +2823,6 @@ extension Route53 {
     }
 
     public struct GetTrafficPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "version", location: .uri("Version"))
-        ]
-
         /// The ID of the traffic policy that you want to get information about.
         public let id: String
         /// The version number of the traffic policy that you want to get information
@@ -2767,6 +2832,13 @@ extension Route53 {
         public init(id: String, version: Int) {
             self.id = id
             self.version = version
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodePath(self.version, key: "Version")
         }
 
         public func validate(name: String) throws {
@@ -3377,13 +3449,6 @@ extension Route53 {
     }
 
     public struct ListCidrBlocksRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "collectionId", location: .uri("CollectionId")),
-            AWSMemberEncoding(label: "locationName", location: .querystring("location")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxresults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nexttoken"))
-        ]
-
         /// The UUID of the CIDR collection.
         public let collectionId: String
         /// The name of the CIDR collection location.
@@ -3399,6 +3464,15 @@ extension Route53 {
             self.locationName = locationName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collectionId, key: "CollectionId")
+            request.encodeQuery(self.locationName, key: "location")
+            request.encodeQuery(self.maxResults, key: "maxresults")
+            request.encodeQuery(self.nextToken, key: "nexttoken")
         }
 
         public func validate(name: String) throws {
@@ -3432,11 +3506,6 @@ extension Route53 {
     }
 
     public struct ListCidrCollectionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxresults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nexttoken"))
-        ]
-
         /// The maximum number of CIDR collections to return in the response.
         public let maxResults: Int?
         /// An opaque pagination token to indicate where the service is to begin enumerating
@@ -3446,6 +3515,13 @@ extension Route53 {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxresults")
+            request.encodeQuery(self.nextToken, key: "nexttoken")
         }
 
         public func validate(name: String) throws {
@@ -3475,12 +3551,6 @@ extension Route53 {
     }
 
     public struct ListCidrLocationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "collectionId", location: .uri("CollectionId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxresults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nexttoken"))
-        ]
-
         /// The CIDR collection ID.
         public let collectionId: String
         /// The maximum number of CIDR collection locations to return in the response.
@@ -3493,6 +3563,14 @@ extension Route53 {
             self.collectionId = collectionId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collectionId, key: "CollectionId")
+            request.encodeQuery(self.maxResults, key: "maxresults")
+            request.encodeQuery(self.nextToken, key: "nexttoken")
         }
 
         public func validate(name: String) throws {
@@ -3523,13 +3601,6 @@ extension Route53 {
     }
 
     public struct ListGeoLocationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems")),
-            AWSMemberEncoding(label: "startContinentCode", location: .querystring("startcontinentcode")),
-            AWSMemberEncoding(label: "startCountryCode", location: .querystring("startcountrycode")),
-            AWSMemberEncoding(label: "startSubdivisionCode", location: .querystring("startsubdivisioncode"))
-        ]
-
         /// (Optional) The maximum number of geolocations to be included in the response body for
         /// 			this request. If more than maxitems geolocations remain to be listed, then
         /// 			the value of the IsTruncated element in the response is
@@ -3563,6 +3634,15 @@ extension Route53 {
             self.startContinentCode = startContinentCode
             self.startCountryCode = startCountryCode
             self.startSubdivisionCode = startSubdivisionCode
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxItems, key: "maxitems")
+            request.encodeQuery(self.startContinentCode, key: "startcontinentcode")
+            request.encodeQuery(self.startCountryCode, key: "startcountrycode")
+            request.encodeQuery(self.startSubdivisionCode, key: "startsubdivisioncode")
         }
 
         public func validate(name: String) throws {
@@ -3630,11 +3710,6 @@ extension Route53 {
     }
 
     public struct ListHealthChecksRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems"))
-        ]
-
         /// If the value of IsTruncated in the previous response was
         /// 				true, you have more health checks. To get another group, submit another
         /// 				ListHealthChecks request.  For the value of marker, specify the value of NextMarker
@@ -3651,6 +3726,13 @@ extension Route53 {
         public init(marker: String? = nil, maxItems: Int? = nil) {
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodeQuery(self.maxItems, key: "maxitems")
         }
 
         public func validate(name: String) throws {
@@ -3703,12 +3785,6 @@ extension Route53 {
     }
 
     public struct ListHostedZonesByNameRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dnsName", location: .querystring("dnsname")),
-            AWSMemberEncoding(label: "hostedZoneId", location: .querystring("hostedzoneid")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems"))
-        ]
-
         /// (Optional) For your first request to ListHostedZonesByName, include the
         /// 				dnsname parameter only if you want to specify the name of the first
         /// 			hosted zone in the response. If you don't include the dnsname parameter,
@@ -3737,6 +3813,14 @@ extension Route53 {
             self.dnsName = dnsName
             self.hostedZoneId = hostedZoneId
             self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.dnsName, key: "dnsname")
+            request.encodeQuery(self.hostedZoneId, key: "hostedzoneid")
+            request.encodeQuery(self.maxItems, key: "maxitems")
         }
 
         public func validate(name: String) throws {
@@ -3803,13 +3887,6 @@ extension Route53 {
     }
 
     public struct ListHostedZonesByVPCRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nexttoken")),
-            AWSMemberEncoding(label: "vpcId", location: .querystring("vpcid")),
-            AWSMemberEncoding(label: "vpcRegion", location: .querystring("vpcregion"))
-        ]
-
         /// (Optional) The maximum number of hosted zones that you want Amazon Route 53 to return.
         /// 			If the specified VPC is associated with more than MaxItems hosted zones,
         /// 			the response includes a NextToken element. NextToken contains
@@ -3833,6 +3910,15 @@ extension Route53 {
             self.nextToken = nextToken
             self.vpcId = vpcId
             self.vpcRegion = vpcRegion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxItems, key: "maxitems")
+            request.encodeQuery(self.nextToken, key: "nexttoken")
+            request.encodeQuery(self.vpcId, key: "vpcid")
+            request.encodeQuery(self.vpcRegion, key: "vpcregion")
         }
 
         public func validate(name: String) throws {
@@ -3873,12 +3959,6 @@ extension Route53 {
     }
 
     public struct ListHostedZonesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "delegationSetId", location: .querystring("delegationsetid")),
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems"))
-        ]
-
         /// If you're using reusable delegation sets and you want to list all of the hosted zones
         /// 			that are associated with a reusable delegation set, specify the ID of that reusable
         /// 			delegation set.
@@ -3901,6 +3981,14 @@ extension Route53 {
             self.delegationSetId = delegationSetId
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.delegationSetId, key: "delegationsetid")
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodeQuery(self.maxItems, key: "maxitems")
         }
 
         public func validate(name: String) throws {
@@ -3954,12 +4042,6 @@ extension Route53 {
     }
 
     public struct ListQueryLoggingConfigsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .querystring("hostedzoneid")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxresults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nexttoken"))
-        ]
-
         /// (Optional) If you want to list the query logging configuration that is associated with
         /// 			a hosted zone, specify the ID in HostedZoneId.  If you don't specify a hosted zone ID, ListQueryLoggingConfigs returns
         /// 			all of the configurations that are associated with the current Amazon Web Services account.
@@ -3980,6 +4062,14 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.hostedZoneId, key: "hostedzoneid")
+            request.encodeQuery(self.maxResults, key: "maxresults")
+            request.encodeQuery(self.nextToken, key: "nexttoken")
         }
 
         public func validate(name: String) throws {
@@ -4017,14 +4107,6 @@ extension Route53 {
     }
 
     public struct ListResourceRecordSetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems")),
-            AWSMemberEncoding(label: "startRecordIdentifier", location: .querystring("identifier")),
-            AWSMemberEncoding(label: "startRecordName", location: .querystring("name")),
-            AWSMemberEncoding(label: "startRecordType", location: .querystring("type"))
-        ]
-
         /// The ID of the hosted zone that contains the resource record sets that you want to
         /// 			list.
         public let hostedZoneId: String
@@ -4065,6 +4147,16 @@ extension Route53 {
             self.startRecordIdentifier = startRecordIdentifier
             self.startRecordName = startRecordName
             self.startRecordType = startRecordType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.hostedZoneId, key: "HostedZoneId")
+            request.encodeQuery(self.maxItems, key: "maxitems")
+            request.encodeQuery(self.startRecordIdentifier, key: "identifier")
+            request.encodeQuery(self.startRecordName, key: "name")
+            request.encodeQuery(self.startRecordType, key: "type")
         }
 
         public func validate(name: String) throws {
@@ -4120,11 +4212,6 @@ extension Route53 {
     }
 
     public struct ListReusableDelegationSetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems"))
-        ]
-
         /// If the value of IsTruncated in the previous response was
         /// 				true, you have more reusable delegation sets. To get another group,
         /// 			submit another ListReusableDelegationSets request.  For the value of marker, specify the value of NextMarker
@@ -4140,6 +4227,13 @@ extension Route53 {
         public init(marker: String? = nil, maxItems: Int? = nil) {
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodeQuery(self.maxItems, key: "maxitems")
         }
 
         public func validate(name: String) throws {
@@ -4190,11 +4284,6 @@ extension Route53 {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId")),
-            AWSMemberEncoding(label: "resourceType", location: .uri("ResourceType"))
-        ]
-
         /// The ID of the resource for which you want to retrieve tags.
         public let resourceId: String
         /// The type of the resource.   The resource type for health checks is healthcheck.   The resource type for hosted zones is hostedzone.
@@ -4203,6 +4292,13 @@ extension Route53 {
         public init(resourceId: String, resourceType: TagResourceType) {
             self.resourceId = resourceId
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceId, key: "ResourceId")
+            request.encodePath(self.resourceType, key: "ResourceType")
         }
 
         public func validate(name: String) throws {
@@ -4227,10 +4323,6 @@ extension Route53 {
     }
 
     public struct ListTagsForResourcesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceType", location: .uri("ResourceType"))
-        ]
-
         public struct _ResourceIdsEncoding: ArrayCoderProperties { public static let member = "ResourceId" }
 
         /// A complex type that contains the ResourceId element for each resource for which you
@@ -4243,6 +4335,13 @@ extension Route53 {
         public init(resourceIds: [String], resourceType: TagResourceType) {
             self.resourceIds = resourceIds
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.resourceIds, forKey: .resourceIds)
+            request.encodePath(self.resourceType, key: "ResourceType")
         }
 
         public func validate(name: String) throws {
@@ -4276,11 +4375,6 @@ extension Route53 {
     }
 
     public struct ListTrafficPoliciesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems")),
-            AWSMemberEncoding(label: "trafficPolicyIdMarker", location: .querystring("trafficpolicyid"))
-        ]
-
         /// (Optional) The maximum number of traffic policies that you want Amazon Route 53 to
         /// 			return in response to this request. If you have more than MaxItems traffic
         /// 			policies, the value of IsTruncated in the response is true,
@@ -4300,6 +4394,13 @@ extension Route53 {
         public init(maxItems: Int? = nil, trafficPolicyIdMarker: String? = nil) {
             self.maxItems = maxItems
             self.trafficPolicyIdMarker = trafficPolicyIdMarker
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxItems, key: "maxitems")
+            request.encodeQuery(self.trafficPolicyIdMarker, key: "trafficpolicyid")
         }
 
         public func validate(name: String) throws {
@@ -4347,13 +4448,6 @@ extension Route53 {
     }
 
     public struct ListTrafficPolicyInstancesByHostedZoneRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .querystring("id")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems")),
-            AWSMemberEncoding(label: "trafficPolicyInstanceNameMarker", location: .querystring("trafficpolicyinstancename")),
-            AWSMemberEncoding(label: "trafficPolicyInstanceTypeMarker", location: .querystring("trafficpolicyinstancetype"))
-        ]
-
         /// The ID of the hosted zone that you want to list traffic policy instances for.
         public let hostedZoneId: String
         /// The maximum number of traffic policy instances to be included in the response body for
@@ -4388,6 +4482,15 @@ extension Route53 {
             self.maxItems = maxItems
             self.trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker
             self.trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.hostedZoneId, key: "id")
+            request.encodeQuery(self.maxItems, key: "maxitems")
+            request.encodeQuery(self.trafficPolicyInstanceNameMarker, key: "trafficpolicyinstancename")
+            request.encodeQuery(self.trafficPolicyInstanceTypeMarker, key: "trafficpolicyinstancetype")
         }
 
         public func validate(name: String) throws {
@@ -4444,15 +4547,6 @@ extension Route53 {
     }
 
     public struct ListTrafficPolicyInstancesByPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneIdMarker", location: .querystring("hostedzoneid")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems")),
-            AWSMemberEncoding(label: "trafficPolicyId", location: .querystring("id")),
-            AWSMemberEncoding(label: "trafficPolicyInstanceNameMarker", location: .querystring("trafficpolicyinstancename")),
-            AWSMemberEncoding(label: "trafficPolicyInstanceTypeMarker", location: .querystring("trafficpolicyinstancetype")),
-            AWSMemberEncoding(label: "trafficPolicyVersion", location: .querystring("version"))
-        ]
-
         /// If the value of IsTruncated in the previous response was
         /// 				true, you have more traffic policy instances. To get more traffic
         /// 			policy instances, submit another ListTrafficPolicyInstancesByPolicy
@@ -4503,6 +4597,17 @@ extension Route53 {
             self.trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker
             self.trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker
             self.trafficPolicyVersion = trafficPolicyVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.hostedZoneIdMarker, key: "hostedzoneid")
+            request.encodeQuery(self.maxItems, key: "maxitems")
+            request.encodeQuery(self.trafficPolicyId, key: "id")
+            request.encodeQuery(self.trafficPolicyInstanceNameMarker, key: "trafficpolicyinstancename")
+            request.encodeQuery(self.trafficPolicyInstanceTypeMarker, key: "trafficpolicyinstancetype")
+            request.encodeQuery(self.trafficPolicyVersion, key: "version")
         }
 
         public func validate(name: String) throws {
@@ -4569,13 +4674,6 @@ extension Route53 {
     }
 
     public struct ListTrafficPolicyInstancesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneIdMarker", location: .querystring("hostedzoneid")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems")),
-            AWSMemberEncoding(label: "trafficPolicyInstanceNameMarker", location: .querystring("trafficpolicyinstancename")),
-            AWSMemberEncoding(label: "trafficPolicyInstanceTypeMarker", location: .querystring("trafficpolicyinstancetype"))
-        ]
-
         /// If the value of IsTruncated in the previous response was
         /// 				true, you have more traffic policy instances. To get more traffic
         /// 			policy instances, submit another ListTrafficPolicyInstances request. For
@@ -4617,6 +4715,15 @@ extension Route53 {
             self.maxItems = maxItems
             self.trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker
             self.trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.hostedZoneIdMarker, key: "hostedzoneid")
+            request.encodeQuery(self.maxItems, key: "maxitems")
+            request.encodeQuery(self.trafficPolicyInstanceNameMarker, key: "trafficpolicyinstancename")
+            request.encodeQuery(self.trafficPolicyInstanceTypeMarker, key: "trafficpolicyinstancetype")
         }
 
         public func validate(name: String) throws {
@@ -4680,12 +4787,6 @@ extension Route53 {
     }
 
     public struct ListTrafficPolicyVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems")),
-            AWSMemberEncoding(label: "trafficPolicyVersionMarker", location: .querystring("trafficpolicyversion"))
-        ]
-
         /// Specify the value of Id of the traffic policy for which you want to list
         /// 			all versions.
         public let id: String
@@ -4709,6 +4810,14 @@ extension Route53 {
             self.id = id
             self.maxItems = maxItems
             self.trafficPolicyVersionMarker = trafficPolicyVersionMarker
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeQuery(self.maxItems, key: "maxitems")
+            request.encodeQuery(self.trafficPolicyVersionMarker, key: "trafficpolicyversion")
         }
 
         public func validate(name: String) throws {
@@ -4760,12 +4869,6 @@ extension Route53 {
     }
 
     public struct ListVPCAssociationAuthorizationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxresults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nexttoken"))
-        ]
-
         /// The ID of the hosted zone for which you want a list of VPCs that can be associated
         /// 			with the hosted zone.
         public let hostedZoneId: String
@@ -4784,6 +4887,14 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.hostedZoneId, key: "HostedZoneId")
+            request.encodeQuery(self.maxResults, key: "maxresults")
+            request.encodeQuery(self.nextToken, key: "nexttoken")
         }
 
         public func validate(name: String) throws {
@@ -5290,15 +5401,6 @@ extension Route53 {
     }
 
     public struct TestDNSAnswerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "edns0ClientSubnetIP", location: .querystring("edns0clientsubnetip")),
-            AWSMemberEncoding(label: "edns0ClientSubnetMask", location: .querystring("edns0clientsubnetmask")),
-            AWSMemberEncoding(label: "hostedZoneId", location: .querystring("hostedzoneid")),
-            AWSMemberEncoding(label: "recordName", location: .querystring("recordname")),
-            AWSMemberEncoding(label: "recordType", location: .querystring("recordtype")),
-            AWSMemberEncoding(label: "resolverIP", location: .querystring("resolverip"))
-        ]
-
         /// If the resolver that you specified for resolverip supports EDNS0, specify the IPv4 or
         /// 			IPv6 address of a client in the applicable location, for example,
         /// 				192.0.2.44 or 2001:db8:85a3::8a2e:370:7334.
@@ -5334,6 +5436,17 @@ extension Route53 {
             self.recordName = recordName
             self.recordType = recordType
             self.resolverIP = resolverIP
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.edns0ClientSubnetIP, key: "edns0clientsubnetip")
+            request.encodeQuery(self.edns0ClientSubnetMask, key: "edns0clientsubnetmask")
+            request.encodeQuery(self.hostedZoneId, key: "hostedzoneid")
+            request.encodeQuery(self.recordName, key: "recordname")
+            request.encodeQuery(self.recordType, key: "recordtype")
+            request.encodeQuery(self.resolverIP, key: "resolverip")
         }
 
         public func validate(name: String) throws {
@@ -5518,10 +5631,6 @@ extension Route53 {
     }
 
     public struct UpdateHealthCheckRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "healthCheckId", location: .uri("HealthCheckId"))
-        ]
-
         public struct _ChildHealthChecksEncoding: ArrayCoderProperties { public static let member = "ChildHealthCheck" }
         public struct _RegionsEncoding: ArrayCoderProperties { public static let member = "Region" }
         public struct _ResetElementsEncoding: ArrayCoderProperties { public static let member = "ResettableElementName" }
@@ -5720,6 +5829,28 @@ extension Route53 {
             self.searchString = searchString
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.alarmIdentifier, forKey: .alarmIdentifier)
+            try container.encodeIfPresent(self.childHealthChecks, forKey: .childHealthChecks)
+            try container.encodeIfPresent(self.disabled, forKey: .disabled)
+            try container.encodeIfPresent(self.enableSNI, forKey: .enableSNI)
+            try container.encodeIfPresent(self.failureThreshold, forKey: .failureThreshold)
+            try container.encodeIfPresent(self.fullyQualifiedDomainName, forKey: .fullyQualifiedDomainName)
+            request.encodePath(self.healthCheckId, key: "HealthCheckId")
+            try container.encodeIfPresent(self.healthCheckVersion, forKey: .healthCheckVersion)
+            try container.encodeIfPresent(self.healthThreshold, forKey: .healthThreshold)
+            try container.encodeIfPresent(self.insufficientDataHealthStatus, forKey: .insufficientDataHealthStatus)
+            try container.encodeIfPresent(self.inverted, forKey: .inverted)
+            try container.encodeIfPresent(self.ipAddress, forKey: .ipAddress)
+            try container.encodeIfPresent(self.port, forKey: .port)
+            try container.encodeIfPresent(self.regions, forKey: .regions)
+            try container.encodeIfPresent(self.resetElements, forKey: .resetElements)
+            try container.encodeIfPresent(self.resourcePath, forKey: .resourcePath)
+            try container.encodeIfPresent(self.searchString, forKey: .searchString)
+        }
+
         public func validate(name: String) throws {
             try self.alarmIdentifier?.validate(name: "\(name).alarmIdentifier")
             try self.childHealthChecks?.forEach {
@@ -5779,10 +5910,6 @@ extension Route53 {
     }
 
     public struct UpdateHostedZoneCommentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The new comment for the hosted zone. If you don't specify a value for
         /// 				Comment, Amazon Route 53 deletes the existing value of the
         /// 				Comment element, if any.
@@ -5793,6 +5920,13 @@ extension Route53 {
         public init(comment: String? = nil, id: String) {
             self.comment = comment
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.comment, forKey: .comment)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -5820,11 +5954,6 @@ extension Route53 {
     }
 
     public struct UpdateTrafficPolicyCommentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "version", location: .uri("Version"))
-        ]
-
         /// The new comment for the specified traffic policy and version.
         public let comment: String
         /// The value of Id for the traffic policy that you want to update the
@@ -5838,6 +5967,14 @@ extension Route53 {
             self.comment = comment
             self.id = id
             self.version = version
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.comment, forKey: .comment)
+            request.encodePath(self.id, key: "Id")
+            request.encodePath(self.version, key: "Version")
         }
 
         public func validate(name: String) throws {
@@ -5867,10 +6004,6 @@ extension Route53 {
     }
 
     public struct UpdateTrafficPolicyInstanceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the traffic policy instance that you want to update.
         public let id: String
         /// The ID of the traffic policy that you want Amazon Route 53 to use to update resource
@@ -5888,6 +6021,15 @@ extension Route53 {
             self.trafficPolicyId = trafficPolicyId
             self.trafficPolicyVersion = trafficPolicyVersion
             self.ttl = ttl
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            try container.encode(self.trafficPolicyId, forKey: .trafficPolicyId)
+            try container.encode(self.trafficPolicyVersion, forKey: .trafficPolicyVersion)
+            try container.encode(self.ttl, forKey: .ttl)
         }
 
         public func validate(name: String) throws {

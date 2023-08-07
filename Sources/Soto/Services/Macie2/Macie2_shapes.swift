@@ -1820,11 +1820,6 @@ extension Macie2 {
     }
 
     public struct DeleteAllowListRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "ignoreJobChecks", location: .querystring("ignoreJobChecks"))
-        ]
-
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
         /// Specifies whether to force deletion of the allow list, even if active classification jobs are configured to use the list. When you try to delete an allow list, Amazon Macie checks for classification jobs that use the list and have a status other than COMPLETE or CANCELLED. By default, Macie rejects your request if any jobs meet these criteria. To skip these checks and delete the list, set this value to true. To delete the list only if no active jobs are configured to use it, set this value to false.
@@ -1835,6 +1830,13 @@ extension Macie2 {
             self.ignoreJobChecks = ignoreJobChecks
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodeQuery(self.ignoreJobChecks, key: "ignoreJobChecks")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -1843,15 +1845,17 @@ extension Macie2 {
     }
 
     public struct DeleteCustomDataIdentifierRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1862,15 +1866,17 @@ extension Macie2 {
     }
 
     public struct DeleteFindingsFilterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1907,15 +1913,17 @@ extension Macie2 {
     }
 
     public struct DeleteMemberRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1968,15 +1976,17 @@ extension Macie2 {
     }
 
     public struct DescribeClassificationJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
-        ]
-
         /// The unique identifier for the classification job.
         public let jobId: String
 
         public init(jobId: String) {
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "jobId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2153,15 +2163,17 @@ extension Macie2 {
     }
 
     public struct DisableOrganizationAdminAccountRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "adminAccountId", location: .querystring("adminAccountId"))
-        ]
-
         /// The Amazon Web Services account ID of the delegated Amazon Macie administrator account.
         public let adminAccountId: String
 
         public init(adminAccountId: String) {
             self.adminAccountId = adminAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.adminAccountId, key: "adminAccountId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2188,15 +2200,17 @@ extension Macie2 {
     }
 
     public struct DisassociateMemberRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2492,15 +2506,17 @@ extension Macie2 {
     }
 
     public struct GetAllowListRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2690,15 +2706,17 @@ extension Macie2 {
     }
 
     public struct GetClassificationScopeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2726,15 +2744,17 @@ extension Macie2 {
     }
 
     public struct GetCustomDataIdentifierRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2837,15 +2857,17 @@ extension Macie2 {
     }
 
     public struct GetFindingsFilterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3009,15 +3031,17 @@ extension Macie2 {
     }
 
     public struct GetMemberRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3071,15 +3095,17 @@ extension Macie2 {
     }
 
     public struct GetResourceProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3129,15 +3155,17 @@ extension Macie2 {
     }
 
     public struct GetSensitiveDataOccurrencesAvailabilityRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "findingId", location: .uri("findingId"))
-        ]
-
         /// The unique identifier for the finding.
         public let findingId: String
 
         public init(findingId: String) {
             self.findingId = findingId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.findingId, key: "findingId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3161,15 +3189,17 @@ extension Macie2 {
     }
 
     public struct GetSensitiveDataOccurrencesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "findingId", location: .uri("findingId"))
-        ]
-
         /// The unique identifier for the finding.
         public let findingId: String
 
         public init(findingId: String) {
             self.findingId = findingId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.findingId, key: "findingId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3197,15 +3227,17 @@ extension Macie2 {
     }
 
     public struct GetSensitivityInspectionTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3291,15 +3323,17 @@ extension Macie2 {
     }
 
     public struct GetUsageTotalsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "timeRange", location: .querystring("timeRange"))
-        ]
-
         /// The inclusive time period to retrieve the data for. Valid values are: MONTH_TO_DATE, for the current calendar month to date; and, PAST_30_DAYS, for the preceding 30 days. If you don't specify a value for this parameter, Amazon Macie provides aggregated usage data for the preceding 30 days.
         public let timeRange: String?
 
         public init(timeRange: String? = nil) {
             self.timeRange = timeRange
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.timeRange, key: "timeRange")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3645,11 +3679,6 @@ extension Macie2 {
     }
 
     public struct ListAllowListsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of items to include in each page of a paginated response.
         public let maxResults: Int?
         /// The nextToken string that specifies which page of results to return in a paginated response.
@@ -3658,6 +3687,13 @@ extension Macie2 {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3728,11 +3764,6 @@ extension Macie2 {
     }
 
     public struct ListClassificationScopesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .querystring("name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name of the classification scope to retrieve the unique identifier for.
         public let name: String?
         /// The nextToken string that specifies which page of results to return in a paginated response.
@@ -3741,6 +3772,13 @@ extension Macie2 {
         public init(name: String? = nil, nextToken: String? = nil) {
             self.name = name
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.name, key: "name")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3798,11 +3836,6 @@ extension Macie2 {
     }
 
     public struct ListFindingsFiltersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of items to include in each page of a paginated response.
         public let maxResults: Int?
         /// The nextToken string that specifies which page of results to return in a paginated response.
@@ -3811,6 +3844,13 @@ extension Macie2 {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3881,11 +3921,6 @@ extension Macie2 {
     }
 
     public struct ListInvitationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of items to include in each page of a paginated response.
         public let maxResults: Int?
         /// The nextToken string that specifies which page of results to return in a paginated response.
@@ -3894,6 +3929,13 @@ extension Macie2 {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4007,12 +4049,6 @@ extension Macie2 {
     }
 
     public struct ListMembersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "onlyAssociated", location: .querystring("onlyAssociated"))
-        ]
-
         /// The maximum number of items to include in each page of a paginated response.
         public let maxResults: Int?
         /// The nextToken string that specifies which page of results to return in a paginated response.
@@ -4024,6 +4060,14 @@ extension Macie2 {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.onlyAssociated = onlyAssociated
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.onlyAssociated, key: "onlyAssociated")
         }
 
         public func validate(name: String) throws {
@@ -4052,11 +4096,6 @@ extension Macie2 {
     }
 
     public struct ListOrganizationAdminAccountsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of items to include in each page of a paginated response.
         public let maxResults: Int?
         /// The nextToken string that specifies which page of results to return in a paginated response.
@@ -4065,6 +4104,13 @@ extension Macie2 {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4093,11 +4139,6 @@ extension Macie2 {
     }
 
     public struct ListResourceProfileArtifactsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The nextToken string that specifies which page of results to return in a paginated response.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
@@ -4106,6 +4147,13 @@ extension Macie2 {
         public init(nextToken: String? = nil, resourceArn: String) {
             self.nextToken = nextToken
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4129,12 +4177,6 @@ extension Macie2 {
     }
 
     public struct ListResourceProfileDetectionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The maximum number of items to include in each page of a paginated response.
         public let maxResults: Int?
         /// The nextToken string that specifies which page of results to return in a paginated response.
@@ -4146,6 +4188,14 @@ extension Macie2 {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -4174,11 +4224,6 @@ extension Macie2 {
     }
 
     public struct ListSensitivityInspectionTemplatesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of items to include in each page of a paginated response.
         public let maxResults: Int?
         /// The nextToken string that specifies which page of results to return in a paginated response.
@@ -4187,6 +4232,13 @@ extension Macie2 {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4215,15 +4267,17 @@ extension Macie2 {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5571,10 +5625,6 @@ extension Macie2 {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// A map of key-value pairs that specifies the tags to associate with the resource. A resource can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
@@ -5583,6 +5633,13 @@ extension Macie2 {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5700,11 +5757,6 @@ extension Macie2 {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// One or more tags (keys) to remove from the resource. In an HTTP request to remove multiple tags, append the tagKeys parameter and argument for each tag to remove, separated by an ampersand (&amp;).
@@ -5715,6 +5767,13 @@ extension Macie2 {
             self.tagKeys = tagKeys
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5723,10 +5782,6 @@ extension Macie2 {
     }
 
     public struct UpdateAllowListRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The criteria that specify the text or text pattern to ignore. The criteria can be the location and name of an S3 object that lists specific text to ignore (s3WordsList), or a regular expression that defines a text pattern to ignore (regex). You can change a list's underlying criteria, such as the name of the S3 object or the regular expression to use. However, you can't change the type from s3WordsList to regex or the other way around.
         public let criteria: AllowListCriteria
         /// A custom description of the allow list. The description can contain as many as 512 characters.
@@ -5741,6 +5796,15 @@ extension Macie2 {
             self.description = description
             self.id = id
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.criteria, forKey: .criteria)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.id, key: "id")
+            try container.encode(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -5795,10 +5859,6 @@ extension Macie2 {
     }
 
     public struct UpdateClassificationJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
-        ]
-
         /// The unique identifier for the classification job.
         public let jobId: String
         /// The new status for the job. Valid values are: CANCELLED - Stops the job permanently and cancels it. This value is valid only if the job's current status is IDLE, PAUSED, RUNNING, or USER_PAUSED. If you specify this value and the job's current status is RUNNING, Amazon Macie immediately begins to stop all processing tasks for the job. You can't resume or restart a job after you cancel it. RUNNING - Resumes the job. This value is valid only if the job's current status is USER_PAUSED. If you paused the job while it was actively running and you specify this value less than 30 days after you paused the job, Macie immediately resumes processing from the point where you paused the job. Otherwise, Macie resumes the job according to the schedule and other settings for the job. USER_PAUSED - Pauses the job temporarily. This value is valid only if the job's current status is IDLE, PAUSED, or RUNNING. If you specify this value and the job's current status is RUNNING, Macie immediately begins to pause all processing tasks for the job. If you pause a one-time job and you don't resume it within 30 days, the job expires and Macie cancels the job. If you pause a recurring job when its status is RUNNING and you don't resume it within 30 days, the job run expires and Macie cancels the run. To check the expiration date, refer to the UserPausedDetails.jobExpiresAt property.
@@ -5807,6 +5867,13 @@ extension Macie2 {
         public init(jobId: String, jobStatus: JobStatus) {
             self.jobId = jobId
             self.jobStatus = jobStatus
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "jobId")
+            try container.encode(self.jobStatus, forKey: .jobStatus)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5819,10 +5886,6 @@ extension Macie2 {
     }
 
     public struct UpdateClassificationScopeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
         /// The S3 buckets to add or remove from the exclusion list defined by the classification scope.
@@ -5831,6 +5894,13 @@ extension Macie2 {
         public init(id: String, s3: S3ClassificationScopeUpdate? = nil) {
             self.id = id
             self.s3 = s3
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            try container.encodeIfPresent(self.s3, forKey: .s3)
         }
 
         public func validate(name: String) throws {
@@ -5847,10 +5917,6 @@ extension Macie2 {
     }
 
     public struct UpdateFindingsFilterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The action to perform on findings that match the filter criteria (findingCriteria). Valid values are: ARCHIVE, suppress (automatically archive) the findings; and, NOOP, don't perform any action on the findings.
         public let action: FindingsFilterAction?
         /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
@@ -5874,6 +5940,18 @@ extension Macie2 {
             self.id = id
             self.name = name
             self.position = position
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.action, forKey: .action)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.findingCriteria, forKey: .findingCriteria)
+            request.encodePath(self.id, key: "id")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.position, forKey: .position)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5925,10 +6003,6 @@ extension Macie2 {
     }
 
     public struct UpdateMemberSessionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
         /// Specifies the new status for the account. Valid values are: ENABLED, resume all Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for the account.
@@ -5937,6 +6011,13 @@ extension Macie2 {
         public init(id: String, status: MacieStatus) {
             self.id = id
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            try container.encode(self.status, forKey: .status)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5966,10 +6047,6 @@ extension Macie2 {
     }
 
     public struct UpdateResourceProfileDetectionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
         public let resourceArn: String
         /// An array of objects, one for each custom data identifier or managed data identifier that detected the type of sensitive data to start excluding or including in the bucket's score. To start including all sensitive data types in the score, don't specify any values for this array.
@@ -5978,6 +6055,13 @@ extension Macie2 {
         public init(resourceArn: String, suppressDataIdentifiers: [SuppressDataIdentifier]? = nil) {
             self.resourceArn = resourceArn
             self.suppressDataIdentifiers = suppressDataIdentifiers
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
+            try container.encodeIfPresent(self.suppressDataIdentifiers, forKey: .suppressDataIdentifiers)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5990,10 +6074,6 @@ extension Macie2 {
     }
 
     public struct UpdateResourceProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
         public let resourceArn: String
         /// The new sensitivity score for the bucket. Valid values are: 100, assign the maximum score and apply the Sensitive label to the bucket; and, null (empty), assign a score that Amazon Macie calculates automatically after you submit the request.
@@ -6002,6 +6082,13 @@ extension Macie2 {
         public init(resourceArn: String, sensitivityScoreOverride: Int? = nil) {
             self.resourceArn = resourceArn
             self.sensitivityScoreOverride = sensitivityScoreOverride
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
+            try container.encodeIfPresent(self.sensitivityScoreOverride, forKey: .sensitivityScoreOverride)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6044,10 +6131,6 @@ extension Macie2 {
     }
 
     public struct UpdateSensitivityInspectionTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// A custom description of the template. The description can contain as many as 200 characters.
         public let description: String?
         /// The managed data identifiers to explicitly exclude (not use) when analyzing data. To exclude an allow list or custom data identifier that's currently included by the template, update the values for the SensitivityInspectionTemplateIncludes.allowListIds and SensitivityInspectionTemplateIncludes.customDataIdentifierIds properties, respectively.
@@ -6062,6 +6145,15 @@ extension Macie2 {
             self.excludes = excludes
             self.id = id
             self.includes = includes
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.excludes, forKey: .excludes)
+            request.encodePath(self.id, key: "id")
+            try container.encodeIfPresent(self.includes, forKey: .includes)
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -356,11 +356,6 @@ extension AmplifyBackend {
     }
 
     public struct CloneBackendRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The name of the backend environment.
@@ -372,6 +367,14 @@ extension AmplifyBackend {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
             self.targetEnvironmentName = targetEnvironmentName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            request.encodePath(self.backendEnvironmentName, key: "BackendEnvironmentName")
+            try container.encode(self.targetEnvironmentName, forKey: .targetEnvironmentName)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -413,10 +416,6 @@ extension AmplifyBackend {
     }
 
     public struct CreateBackendAPIRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The name of the backend environment.
@@ -431,6 +430,15 @@ extension AmplifyBackend {
             self.backendEnvironmentName = backendEnvironmentName
             self.resourceConfig = resourceConfig
             self.resourceName = resourceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            try container.encode(self.backendEnvironmentName, forKey: .backendEnvironmentName)
+            try container.encode(self.resourceConfig, forKey: .resourceConfig)
+            try container.encode(self.resourceName, forKey: .resourceName)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -579,10 +587,6 @@ extension AmplifyBackend {
     }
 
     public struct CreateBackendAuthRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The name of the backend environment.
@@ -597,6 +601,15 @@ extension AmplifyBackend {
             self.backendEnvironmentName = backendEnvironmentName
             self.resourceConfig = resourceConfig
             self.resourceName = resourceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            try container.encode(self.backendEnvironmentName, forKey: .backendEnvironmentName)
+            try container.encode(self.resourceConfig, forKey: .resourceConfig)
+            try container.encode(self.resourceName, forKey: .resourceName)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -727,10 +740,6 @@ extension AmplifyBackend {
     }
 
     public struct CreateBackendConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The app ID for the backend manager.
@@ -739,6 +748,13 @@ extension AmplifyBackend {
         public init(appId: String, backendManagerAppId: String? = nil) {
             self.appId = appId
             self.backendManagerAppId = backendManagerAppId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            try container.encodeIfPresent(self.backendManagerAppId, forKey: .backendManagerAppId)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -834,10 +850,6 @@ extension AmplifyBackend {
     }
 
     public struct CreateBackendStorageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The name of the backend environment.
@@ -852,6 +864,15 @@ extension AmplifyBackend {
             self.backendEnvironmentName = backendEnvironmentName
             self.resourceConfig = resourceConfig
             self.resourceName = resourceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            try container.encode(self.backendEnvironmentName, forKey: .backendEnvironmentName)
+            try container.encode(self.resourceConfig, forKey: .resourceConfig)
+            try container.encode(self.resourceName, forKey: .resourceName)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -908,15 +929,17 @@ extension AmplifyBackend {
     }
 
     public struct CreateTokenRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId"))
-        ]
-
         /// The app ID.
         public let appId: String
 
         public init(appId: String) {
             self.appId = appId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -948,11 +971,6 @@ extension AmplifyBackend {
     }
 
     public struct DeleteBackendAPIRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The name of the backend environment.
@@ -967,6 +985,15 @@ extension AmplifyBackend {
             self.backendEnvironmentName = backendEnvironmentName
             self.resourceConfig = resourceConfig
             self.resourceName = resourceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            request.encodePath(self.backendEnvironmentName, key: "BackendEnvironmentName")
+            try container.encodeIfPresent(self.resourceConfig, forKey: .resourceConfig)
+            try container.encode(self.resourceName, forKey: .resourceName)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1009,11 +1036,6 @@ extension AmplifyBackend {
     }
 
     public struct DeleteBackendAuthRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The name of the backend environment.
@@ -1025,6 +1047,14 @@ extension AmplifyBackend {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
             self.resourceName = resourceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            request.encodePath(self.backendEnvironmentName, key: "BackendEnvironmentName")
+            try container.encode(self.resourceName, forKey: .resourceName)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1066,11 +1096,6 @@ extension AmplifyBackend {
     }
 
     public struct DeleteBackendRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The name of the backend environment.
@@ -1079,6 +1104,13 @@ extension AmplifyBackend {
         public init(appId: String, backendEnvironmentName: String) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            request.encodePath(self.backendEnvironmentName, key: "BackendEnvironmentName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1118,11 +1150,6 @@ extension AmplifyBackend {
     }
 
     public struct DeleteBackendStorageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The name of the backend environment.
@@ -1137,6 +1164,15 @@ extension AmplifyBackend {
             self.backendEnvironmentName = backendEnvironmentName
             self.resourceName = resourceName
             self.serviceName = serviceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            request.encodePath(self.backendEnvironmentName, key: "BackendEnvironmentName")
+            try container.encode(self.resourceName, forKey: .resourceName)
+            try container.encode(self.serviceName, forKey: .serviceName)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1171,11 +1207,6 @@ extension AmplifyBackend {
     }
 
     public struct DeleteTokenRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
-            AWSMemberEncoding(label: "sessionId", location: .uri("SessionId"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The session ID.
@@ -1184,6 +1215,13 @@ extension AmplifyBackend {
         public init(appId: String, sessionId: String) {
             self.appId = appId
             self.sessionId = sessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            request.encodePath(self.sessionId, key: "SessionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1220,11 +1258,6 @@ extension AmplifyBackend {
     }
 
     public struct GenerateBackendAPIModelsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The name of the backend environment.
@@ -1236,6 +1269,14 @@ extension AmplifyBackend {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
             self.resourceName = resourceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            request.encodePath(self.backendEnvironmentName, key: "BackendEnvironmentName")
+            try container.encode(self.resourceName, forKey: .resourceName)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1277,11 +1318,6 @@ extension AmplifyBackend {
     }
 
     public struct GetBackendAPIModelsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The name of the backend environment.
@@ -1293,6 +1329,14 @@ extension AmplifyBackend {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
             self.resourceName = resourceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            request.encodePath(self.backendEnvironmentName, key: "BackendEnvironmentName")
+            try container.encode(self.resourceName, forKey: .resourceName)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1322,11 +1366,6 @@ extension AmplifyBackend {
     }
 
     public struct GetBackendAPIRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The name of the backend environment.
@@ -1341,6 +1380,15 @@ extension AmplifyBackend {
             self.backendEnvironmentName = backendEnvironmentName
             self.resourceConfig = resourceConfig
             self.resourceName = resourceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            request.encodePath(self.backendEnvironmentName, key: "BackendEnvironmentName")
+            try container.encodeIfPresent(self.resourceConfig, forKey: .resourceConfig)
+            try container.encode(self.resourceName, forKey: .resourceName)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1379,11 +1427,6 @@ extension AmplifyBackend {
     }
 
     public struct GetBackendAuthRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The name of the backend environment.
@@ -1395,6 +1438,14 @@ extension AmplifyBackend {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
             self.resourceName = resourceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            request.encodePath(self.backendEnvironmentName, key: "BackendEnvironmentName")
+            try container.encode(self.resourceName, forKey: .resourceName)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1432,12 +1483,6 @@ extension AmplifyBackend {
     }
 
     public struct GetBackendJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName")),
-            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The name of the backend environment.
@@ -1449,6 +1494,14 @@ extension AmplifyBackend {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            request.encodePath(self.backendEnvironmentName, key: "BackendEnvironmentName")
+            request.encodePath(self.jobId, key: "JobId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1496,10 +1549,6 @@ extension AmplifyBackend {
     }
 
     public struct GetBackendRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The name of the backend environment.
@@ -1508,6 +1557,13 @@ extension AmplifyBackend {
         public init(appId: String, backendEnvironmentName: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            try container.encodeIfPresent(self.backendEnvironmentName, forKey: .backendEnvironmentName)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1553,11 +1609,6 @@ extension AmplifyBackend {
     }
 
     public struct GetBackendStorageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The name of the backend environment.
@@ -1569,6 +1620,14 @@ extension AmplifyBackend {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
             self.resourceName = resourceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            request.encodePath(self.backendEnvironmentName, key: "BackendEnvironmentName")
+            try container.encode(self.resourceName, forKey: .resourceName)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1627,11 +1686,6 @@ extension AmplifyBackend {
     }
 
     public struct GetTokenRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
-            AWSMemberEncoding(label: "sessionId", location: .uri("SessionId"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The session ID.
@@ -1640,6 +1694,13 @@ extension AmplifyBackend {
         public init(appId: String, sessionId: String) {
             self.appId = appId
             self.sessionId = sessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            request.encodePath(self.sessionId, key: "SessionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1671,11 +1732,6 @@ extension AmplifyBackend {
     }
 
     public struct ImportBackendAuthRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The name of the backend environment.
@@ -1696,6 +1752,17 @@ extension AmplifyBackend {
             self.nativeClientId = nativeClientId
             self.userPoolId = userPoolId
             self.webClientId = webClientId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            request.encodePath(self.backendEnvironmentName, key: "BackendEnvironmentName")
+            try container.encodeIfPresent(self.identityPoolId, forKey: .identityPoolId)
+            try container.encode(self.nativeClientId, forKey: .nativeClientId)
+            try container.encode(self.userPoolId, forKey: .userPoolId)
+            try container.encode(self.webClientId, forKey: .webClientId)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1740,11 +1807,6 @@ extension AmplifyBackend {
     }
 
     public struct ImportBackendStorageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The name of the backend environment.
@@ -1759,6 +1821,15 @@ extension AmplifyBackend {
             self.backendEnvironmentName = backendEnvironmentName
             self.bucketName = bucketName
             self.serviceName = serviceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            request.encodePath(self.backendEnvironmentName, key: "BackendEnvironmentName")
+            try container.encodeIfPresent(self.bucketName, forKey: .bucketName)
+            try container.encode(self.serviceName, forKey: .serviceName)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1793,11 +1864,6 @@ extension AmplifyBackend {
     }
 
     public struct ListBackendJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The name of the backend environment.
@@ -1821,6 +1887,18 @@ extension AmplifyBackend {
             self.nextToken = nextToken
             self.operation = operation
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            request.encodePath(self.backendEnvironmentName, key: "BackendEnvironmentName")
+            try container.encodeIfPresent(self.jobId, forKey: .jobId)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.operation, forKey: .operation)
+            try container.encodeIfPresent(self.status, forKey: .status)
         }
 
         public func validate(name: String) throws {
@@ -1910,10 +1988,6 @@ extension AmplifyBackend {
     }
 
     public struct RemoveAllBackendsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// Cleans up the Amplify Console app if this value is set to true.
@@ -1922,6 +1996,13 @@ extension AmplifyBackend {
         public init(appId: String, cleanAmplifyApp: Bool? = nil) {
             self.appId = appId
             self.cleanAmplifyApp = cleanAmplifyApp
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            try container.encodeIfPresent(self.cleanAmplifyApp, forKey: .cleanAmplifyApp)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1959,15 +2040,17 @@ extension AmplifyBackend {
     }
 
     public struct RemoveBackendConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId"))
-        ]
-
         /// The app ID.
         public let appId: String
 
         public init(appId: String) {
             self.appId = appId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2059,11 +2142,6 @@ extension AmplifyBackend {
     }
 
     public struct UpdateBackendAPIRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The name of the backend environment.
@@ -2078,6 +2156,15 @@ extension AmplifyBackend {
             self.backendEnvironmentName = backendEnvironmentName
             self.resourceConfig = resourceConfig
             self.resourceName = resourceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            request.encodePath(self.backendEnvironmentName, key: "BackendEnvironmentName")
+            try container.encodeIfPresent(self.resourceConfig, forKey: .resourceConfig)
+            try container.encode(self.resourceName, forKey: .resourceName)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2221,11 +2308,6 @@ extension AmplifyBackend {
     }
 
     public struct UpdateBackendAuthRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The name of the backend environment.
@@ -2240,6 +2322,15 @@ extension AmplifyBackend {
             self.backendEnvironmentName = backendEnvironmentName
             self.resourceConfig = resourceConfig
             self.resourceName = resourceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            request.encodePath(self.backendEnvironmentName, key: "BackendEnvironmentName")
+            try container.encode(self.resourceConfig, forKey: .resourceConfig)
+            try container.encode(self.resourceName, forKey: .resourceName)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2357,10 +2448,6 @@ extension AmplifyBackend {
     }
 
     public struct UpdateBackendConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// Describes the Amazon Cognito configuration for Admin UI access.
@@ -2369,6 +2456,13 @@ extension AmplifyBackend {
         public init(appId: String, loginAuthConfig: LoginAuthConfigReqObj? = nil) {
             self.appId = appId
             self.loginAuthConfig = loginAuthConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            try container.encodeIfPresent(self.loginAuthConfig, forKey: .loginAuthConfig)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2402,12 +2496,6 @@ extension AmplifyBackend {
     }
 
     public struct UpdateBackendJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName")),
-            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The name of the backend environment.
@@ -2425,6 +2513,16 @@ extension AmplifyBackend {
             self.jobId = jobId
             self.operation = operation
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            request.encodePath(self.backendEnvironmentName, key: "BackendEnvironmentName")
+            request.encodePath(self.jobId, key: "JobId")
+            try container.encodeIfPresent(self.operation, forKey: .operation)
+            try container.encodeIfPresent(self.status, forKey: .status)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2475,11 +2573,6 @@ extension AmplifyBackend {
     }
 
     public struct UpdateBackendStorageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
-        ]
-
         /// The app ID.
         public let appId: String
         /// The name of the backend environment.
@@ -2494,6 +2587,15 @@ extension AmplifyBackend {
             self.backendEnvironmentName = backendEnvironmentName
             self.resourceConfig = resourceConfig
             self.resourceName = resourceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "AppId")
+            request.encodePath(self.backendEnvironmentName, key: "BackendEnvironmentName")
+            try container.encode(self.resourceConfig, forKey: .resourceConfig)
+            try container.encode(self.resourceName, forKey: .resourceName)
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -268,11 +268,6 @@ extension EMRServerless {
     }
 
     public struct CancelJobRunRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId")),
-            AWSMemberEncoding(label: "jobRunId", location: .uri("jobRunId"))
-        ]
-
         /// The ID of the application on which the job run will be canceled.
         public let applicationId: String
         /// The ID of the job run to cancel.
@@ -281,6 +276,13 @@ extension EMRServerless {
         public init(applicationId: String, jobRunId: String) {
             self.applicationId = applicationId
             self.jobRunId = jobRunId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.jobRunId, key: "jobRunId")
         }
 
         public func validate(name: String) throws {
@@ -498,15 +500,17 @@ extension EMRServerless {
     }
 
     public struct DeleteApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId"))
-        ]
-
         /// The ID of the application that will be deleted.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
         }
 
         public func validate(name: String) throws {
@@ -523,15 +527,17 @@ extension EMRServerless {
     }
 
     public struct GetApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId"))
-        ]
-
         /// The ID of the application that will be described.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
         }
 
         public func validate(name: String) throws {
@@ -557,11 +563,6 @@ extension EMRServerless {
     }
 
     public struct GetDashboardForJobRunRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId")),
-            AWSMemberEncoding(label: "jobRunId", location: .uri("jobRunId"))
-        ]
-
         /// The ID of the application.
         public let applicationId: String
         /// The ID of the job run.
@@ -570,6 +571,13 @@ extension EMRServerless {
         public init(applicationId: String, jobRunId: String) {
             self.applicationId = applicationId
             self.jobRunId = jobRunId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.jobRunId, key: "jobRunId")
         }
 
         public func validate(name: String) throws {
@@ -598,11 +606,6 @@ extension EMRServerless {
     }
 
     public struct GetJobRunRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId")),
-            AWSMemberEncoding(label: "jobRunId", location: .uri("jobRunId"))
-        ]
-
         /// The ID of the application on which the job run is submitted.
         public let applicationId: String
         /// The ID of the job run.
@@ -611,6 +614,13 @@ extension EMRServerless {
         public init(applicationId: String, jobRunId: String) {
             self.applicationId = applicationId
             self.jobRunId = jobRunId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.jobRunId, key: "jobRunId")
         }
 
         public func validate(name: String) throws {
@@ -872,12 +882,6 @@ extension EMRServerless {
     }
 
     public struct ListApplicationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "states", location: .querystring("states"))
-        ]
-
         /// The maximum number of applications that can be listed.
         public let maxResults: Int?
         /// The token for the next set of application results.
@@ -889,6 +893,14 @@ extension EMRServerless {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.states = states
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.states, key: "states")
         }
 
         public func validate(name: String) throws {
@@ -920,15 +932,6 @@ extension EMRServerless {
     }
 
     public struct ListJobRunsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId")),
-            AWSMemberEncoding(label: "createdAtAfter", location: .querystring("createdAtAfter")),
-            AWSMemberEncoding(label: "createdAtBefore", location: .querystring("createdAtBefore")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "states", location: .querystring("states"))
-        ]
-
         /// The ID of the application for which to list the job run.
         public let applicationId: String
         /// The lower bound of the option to filter by creation date and time.
@@ -949,6 +952,17 @@ extension EMRServerless {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.states = states
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodeQuery(self.createdAtAfter, key: "createdAtAfter")
+            request.encodeQuery(self.createdAtBefore, key: "createdAtBefore")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.states, key: "states")
         }
 
         public func validate(name: String) throws {
@@ -982,15 +996,17 @@ extension EMRServerless {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) that identifies the resource to list the tags for. Currently, the supported resources are Amazon EMR Serverless applications and job runs.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1208,15 +1224,17 @@ extension EMRServerless {
     }
 
     public struct StartApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId"))
-        ]
-
         /// The ID of the application to start.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
         }
 
         public func validate(name: String) throws {
@@ -1233,10 +1251,6 @@ extension EMRServerless {
     }
 
     public struct StartJobRunRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId"))
-        ]
-
         /// The ID of the application on which to run the job.
         public let applicationId: String
         /// The client idempotency token of the job run to start. Its value must be unique for each request.
@@ -1263,6 +1277,19 @@ extension EMRServerless {
             self.jobDriver = jobDriver
             self.name = name
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            try container.encode(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.configurationOverrides, forKey: .configurationOverrides)
+            try container.encode(self.executionRoleArn, forKey: .executionRoleArn)
+            try container.encodeIfPresent(self.executionTimeoutMinutes, forKey: .executionTimeoutMinutes)
+            try container.encodeIfPresent(self.jobDriver, forKey: .jobDriver)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1325,15 +1352,17 @@ extension EMRServerless {
     }
 
     public struct StopApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId"))
-        ]
-
         /// The ID of the application to stop.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
         }
 
         public func validate(name: String) throws {
@@ -1350,10 +1379,6 @@ extension EMRServerless {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) that identifies the resource to list the tags for. Currently, the supported resources are Amazon EMR Serverless applications and job runs.
         public let resourceArn: String
         /// The tags to add to the resource. A tag is an array of key-value pairs.
@@ -1362,6 +1387,13 @@ extension EMRServerless {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1409,11 +1441,6 @@ extension EMRServerless {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) that identifies the resource to list the tags for. Currently, the supported resources are Amazon EMR Serverless applications and job runs.
         public let resourceArn: String
         /// The keys of the tags to be removed.
@@ -1422,6 +1449,13 @@ extension EMRServerless {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -1445,10 +1479,6 @@ extension EMRServerless {
     }
 
     public struct UpdateApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId"))
-        ]
-
         /// The ID of the application to update.
         public let applicationId: String
         /// The CPU architecture of an application.
@@ -1480,6 +1510,21 @@ extension EMRServerless {
             self.maximumCapacity = maximumCapacity
             self.networkConfiguration = networkConfiguration
             self.workerTypeSpecifications = workerTypeSpecifications
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            try container.encodeIfPresent(self.architecture, forKey: .architecture)
+            try container.encodeIfPresent(self.autoStartConfiguration, forKey: .autoStartConfiguration)
+            try container.encodeIfPresent(self.autoStopConfiguration, forKey: .autoStopConfiguration)
+            try container.encode(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.imageConfiguration, forKey: .imageConfiguration)
+            try container.encodeIfPresent(self.initialCapacity, forKey: .initialCapacity)
+            try container.encodeIfPresent(self.maximumCapacity, forKey: .maximumCapacity)
+            try container.encodeIfPresent(self.networkConfiguration, forKey: .networkConfiguration)
+            try container.encodeIfPresent(self.workerTypeSpecifications, forKey: .workerTypeSpecifications)
         }
 
         public func validate(name: String) throws {

@@ -57,15 +57,17 @@ extension CognitoSync {
     // MARK: Shapes
 
     public struct BulkPublishRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
-        ]
-
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
         public let identityPoolId: String
 
         public init(identityPoolId: String) {
             self.identityPoolId = identityPoolId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identityPoolId, key: "IdentityPoolId")
         }
 
         public func validate(name: String) throws {
@@ -157,12 +159,6 @@ extension CognitoSync {
     }
 
     public struct DeleteDatasetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri("DatasetName")),
-            AWSMemberEncoding(label: "identityId", location: .uri("IdentityId")),
-            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
-        ]
-
         /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
         public let datasetName: String
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -174,6 +170,14 @@ extension CognitoSync {
             self.datasetName = datasetName
             self.identityId = identityId
             self.identityPoolId = identityPoolId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.datasetName, key: "DatasetName")
+            request.encodePath(self.identityId, key: "IdentityId")
+            request.encodePath(self.identityPoolId, key: "IdentityPoolId")
         }
 
         public func validate(name: String) throws {
@@ -205,12 +209,6 @@ extension CognitoSync {
     }
 
     public struct DescribeDatasetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri("DatasetName")),
-            AWSMemberEncoding(label: "identityId", location: .uri("IdentityId")),
-            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
-        ]
-
         /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
         public let datasetName: String
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -222,6 +220,14 @@ extension CognitoSync {
             self.datasetName = datasetName
             self.identityId = identityId
             self.identityPoolId = identityPoolId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.datasetName, key: "DatasetName")
+            request.encodePath(self.identityId, key: "IdentityId")
+            request.encodePath(self.identityPoolId, key: "IdentityPoolId")
         }
 
         public func validate(name: String) throws {
@@ -253,15 +259,17 @@ extension CognitoSync {
     }
 
     public struct DescribeIdentityPoolUsageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
-        ]
-
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
         public let identityPoolId: String
 
         public init(identityPoolId: String) {
             self.identityPoolId = identityPoolId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identityPoolId, key: "IdentityPoolId")
         }
 
         public func validate(name: String) throws {
@@ -287,11 +295,6 @@ extension CognitoSync {
     }
 
     public struct DescribeIdentityUsageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identityId", location: .uri("IdentityId")),
-            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
-        ]
-
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
         public let identityId: String
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -300,6 +303,13 @@ extension CognitoSync {
         public init(identityId: String, identityPoolId: String) {
             self.identityId = identityId
             self.identityPoolId = identityPoolId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identityId, key: "IdentityId")
+            request.encodePath(self.identityPoolId, key: "IdentityPoolId")
         }
 
         public func validate(name: String) throws {
@@ -328,15 +338,17 @@ extension CognitoSync {
     }
 
     public struct GetBulkPublishDetailsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
-        ]
-
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
         public let identityPoolId: String
 
         public init(identityPoolId: String) {
             self.identityPoolId = identityPoolId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identityPoolId, key: "IdentityPoolId")
         }
 
         public func validate(name: String) throws {
@@ -378,15 +390,17 @@ extension CognitoSync {
     }
 
     public struct GetCognitoEventsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
-        ]
-
         /// The Cognito Identity Pool ID for the request
         public let identityPoolId: String
 
         public init(identityPoolId: String) {
             self.identityPoolId = identityPoolId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identityPoolId, key: "IdentityPoolId")
         }
 
         public func validate(name: String) throws {
@@ -412,15 +426,17 @@ extension CognitoSync {
     }
 
     public struct GetIdentityPoolConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
-        ]
-
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool for which to return a configuration.
         public let identityPoolId: String
 
         public init(identityPoolId: String) {
             self.identityPoolId = identityPoolId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identityPoolId, key: "IdentityPoolId")
         }
 
         public func validate(name: String) throws {
@@ -508,13 +524,6 @@ extension CognitoSync {
     }
 
     public struct ListDatasetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identityId", location: .uri("IdentityId")),
-            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
         public let identityId: String
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -529,6 +538,15 @@ extension CognitoSync {
             self.identityPoolId = identityPoolId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identityId, key: "IdentityId")
+            request.encodePath(self.identityPoolId, key: "IdentityPoolId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -565,11 +583,6 @@ extension CognitoSync {
     }
 
     public struct ListIdentityPoolUsageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to be returned.
         public let maxResults: Int?
         /// A pagination token for obtaining the next page of results.
@@ -578,6 +591,13 @@ extension CognitoSync {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -609,16 +629,6 @@ extension CognitoSync {
     }
 
     public struct ListRecordsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri("DatasetName")),
-            AWSMemberEncoding(label: "identityId", location: .uri("IdentityId")),
-            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId")),
-            AWSMemberEncoding(label: "lastSyncCount", location: .querystring("lastSyncCount")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "syncSessionToken", location: .querystring("syncSessionToken"))
-        ]
-
         /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
         public let datasetName: String
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -642,6 +652,18 @@ extension CognitoSync {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.syncSessionToken = syncSessionToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.datasetName, key: "DatasetName")
+            request.encodePath(self.identityId, key: "IdentityId")
+            request.encodePath(self.identityPoolId, key: "IdentityPoolId")
+            request.encodeQuery(self.lastSyncCount, key: "lastSyncCount")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.syncSessionToken, key: "syncSessionToken")
         }
 
         public func validate(name: String) throws {
@@ -799,11 +821,6 @@ extension CognitoSync {
     }
 
     public struct RegisterDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identityId", location: .uri("IdentityId")),
-            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
-        ]
-
         /// The unique ID for this identity.
         public let identityId: String
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. Here, the ID of the pool that the identity belongs to.
@@ -818,6 +835,15 @@ extension CognitoSync {
             self.identityPoolId = identityPoolId
             self.platform = platform
             self.token = token
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identityId, key: "IdentityId")
+            request.encodePath(self.identityPoolId, key: "IdentityPoolId")
+            try container.encode(self.platform, forKey: .platform)
+            try container.encode(self.token, forKey: .token)
         }
 
         public func validate(name: String) throws {
@@ -849,10 +875,6 @@ extension CognitoSync {
     }
 
     public struct SetCognitoEventsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
-        ]
-
         /// The events to configure
         public let events: [String: String]
         /// The Cognito Identity Pool to use when configuring Cognito Events
@@ -861,6 +883,13 @@ extension CognitoSync {
         public init(events: [String: String], identityPoolId: String) {
             self.events = events
             self.identityPoolId = identityPoolId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.events, forKey: .events)
+            request.encodePath(self.identityPoolId, key: "IdentityPoolId")
         }
 
         public func validate(name: String) throws {
@@ -876,10 +905,6 @@ extension CognitoSync {
     }
 
     public struct SetIdentityPoolConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
-        ]
-
         /// Options to apply to this identity pool for Amazon Cognito streams.
         public let cognitoStreams: CognitoStreams?
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool to modify.
@@ -891,6 +916,14 @@ extension CognitoSync {
             self.cognitoStreams = cognitoStreams
             self.identityPoolId = identityPoolId
             self.pushSync = pushSync
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.cognitoStreams, forKey: .cognitoStreams)
+            request.encodePath(self.identityPoolId, key: "IdentityPoolId")
+            try container.encodeIfPresent(self.pushSync, forKey: .pushSync)
         }
 
         public func validate(name: String) throws {
@@ -929,13 +962,6 @@ extension CognitoSync {
     }
 
     public struct SubscribeToDatasetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri("DatasetName")),
-            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId")),
-            AWSMemberEncoding(label: "identityId", location: .uri("IdentityId")),
-            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
-        ]
-
         /// The name of the dataset to subcribe to.
         public let datasetName: String
         /// The unique ID generated for this device by Cognito.
@@ -950,6 +976,15 @@ extension CognitoSync {
             self.deviceId = deviceId
             self.identityId = identityId
             self.identityPoolId = identityPoolId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.datasetName, key: "DatasetName")
+            request.encodePath(self.deviceId, key: "DeviceId")
+            request.encodePath(self.identityId, key: "IdentityId")
+            request.encodePath(self.identityPoolId, key: "IdentityPoolId")
         }
 
         public func validate(name: String) throws {
@@ -974,13 +1009,6 @@ extension CognitoSync {
     }
 
     public struct UnsubscribeFromDatasetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri("DatasetName")),
-            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId")),
-            AWSMemberEncoding(label: "identityId", location: .uri("IdentityId")),
-            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
-        ]
-
         /// The name of the dataset from which to unsubcribe.
         public let datasetName: String
         /// The unique ID generated for this device by Cognito.
@@ -995,6 +1023,15 @@ extension CognitoSync {
             self.deviceId = deviceId
             self.identityId = identityId
             self.identityPoolId = identityPoolId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.datasetName, key: "DatasetName")
+            request.encodePath(self.deviceId, key: "DeviceId")
+            request.encodePath(self.identityId, key: "IdentityId")
+            request.encodePath(self.identityPoolId, key: "IdentityPoolId")
         }
 
         public func validate(name: String) throws {
@@ -1019,13 +1056,6 @@ extension CognitoSync {
     }
 
     public struct UpdateRecordsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientContext", location: .header("x-amz-Client-Context")),
-            AWSMemberEncoding(label: "datasetName", location: .uri("DatasetName")),
-            AWSMemberEncoding(label: "identityId", location: .uri("IdentityId")),
-            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
-        ]
-
         /// Intended to supply a device ID that will populate the lastModifiedBy field referenced in other methods. The ClientContext field is not yet implemented.
         public let clientContext: String?
         /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
@@ -1049,6 +1079,18 @@ extension CognitoSync {
             self.identityPoolId = identityPoolId
             self.recordPatches = recordPatches
             self.syncSessionToken = syncSessionToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientContext, key: "x-amz-Client-Context")
+            request.encodePath(self.datasetName, key: "DatasetName")
+            try container.encodeIfPresent(self.deviceId, forKey: .deviceId)
+            request.encodePath(self.identityId, key: "IdentityId")
+            request.encodePath(self.identityPoolId, key: "IdentityPoolId")
+            try container.encodeIfPresent(self.recordPatches, forKey: .recordPatches)
+            try container.encode(self.syncSessionToken, forKey: .syncSessionToken)
         }
 
         public func validate(name: String) throws {

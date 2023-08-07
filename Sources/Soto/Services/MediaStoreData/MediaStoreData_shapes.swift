@@ -46,15 +46,17 @@ extension MediaStoreData {
     // MARK: Shapes
 
     public struct DeleteObjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "path", location: .uri("Path"))
-        ]
-
         /// The path (including the file name) where the object is stored in the container. Format: //
         public let path: String
 
         public init(path: String) {
             self.path = path
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.path, key: "Path")
         }
 
         public func validate(name: String) throws {
@@ -71,15 +73,17 @@ extension MediaStoreData {
     }
 
     public struct DescribeObjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "path", location: .uri("Path"))
-        ]
-
         /// The path (including the file name) where the object is stored in the container. Format: //
         public let path: String
 
         public init(path: String) {
             self.path = path
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.path, key: "Path")
         }
 
         public func validate(name: String) throws {
@@ -114,23 +118,17 @@ extension MediaStoreData {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.cacheControl = try response.decodeIfPresent(String.self, forHeader: "Cache-Control")
-            self.contentLength = try response.decodeIfPresent(Int64.self, forHeader: "Content-Length")
-            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.lastModified = try response.decodeIfPresent(Date.self, forHeader: "Last-Modified")
-
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.contentLength = try response.decodeHeaderIfPresent(Int64.self, key: "Content-Length")
+            self.contentType = try response.decodeHeaderIfPresent(String.self, key: "Content-Type")
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.lastModified = try response.decodeHeaderIfPresent(Date.self, key: "Last-Modified")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetObjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "path", location: .uri("Path")),
-            AWSMemberEncoding(label: "range", location: .header("Range"))
-        ]
-
         /// The path (including the file name) where the object is stored in the container. Format: // For example, to upload the file mlaw.avi to the folder path premium\canada in the container movies, enter the path premium/canada/mlaw.avi. Do not include the container name in this path. If the path includes any folders that don't exist yet, the service creates them. For example, suppose you have an existing premium/usa subfolder. If you specify premium/canada, the service creates a canada subfolder in the premium folder. You then have two subfolders, usa and canada, in the premium folder.  There is no correlation between the path to the source and the path (folders) in the container in AWS Elemental MediaStore. For more information about folders and how they exist in a container, see the AWS Elemental MediaStore User Guide. The file name is the name that is assigned to the file that you upload. The file can have the same name inside and outside of AWS Elemental MediaStore, or it can have the same name. The file name can include or omit an extension.
         public let path: String
         /// The range bytes of an object to retrieve. For more information about the Range header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35. AWS Elemental MediaStore ignores this header for partially uploaded objects that have streaming upload availability.
@@ -139,6 +137,13 @@ extension MediaStoreData {
         public init(path: String, range: String? = nil) {
             self.path = path
             self.range = range
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.path, key: "Path")
+            request.encodeHeader(self.range, key: "Range")
         }
 
         public func validate(name: String) throws {
@@ -184,15 +189,15 @@ extension MediaStoreData {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.body = response.decodePayload()
-            self.cacheControl = try response.decodeIfPresent(String.self, forHeader: "Cache-Control")
-            self.contentLength = try response.decodeIfPresent(Int64.self, forHeader: "Content-Length")
-            self.contentRange = try response.decodeIfPresent(String.self, forHeader: "Content-Range")
-            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.lastModified = try response.decodeIfPresent(Date.self, forHeader: "Last-Modified")
+            let container = try decoder.singleValueContainer()
+            self.body = try container.decode(AWSHTTPBody.self)
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.contentLength = try response.decodeHeaderIfPresent(Int64.self, key: "Content-Length")
+            self.contentRange = try response.decodeHeaderIfPresent(String.self, key: "Content-Range")
+            self.contentType = try response.decodeHeaderIfPresent(String.self, key: "Content-Type")
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.lastModified = try response.decodeHeaderIfPresent(Date.self, key: "Last-Modified")
             self.statusCode = response.decodeStatus()
-
         }
 
         private enum CodingKeys: CodingKey {}
@@ -232,12 +237,6 @@ extension MediaStoreData {
     }
 
     public struct ListItemsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "path", location: .querystring("Path"))
-        ]
-
         /// The maximum number of results to return per API request. For example, you submit a ListItems request with MaxResults set at 500. Although 2,000 items match your request, the service returns no more than the first 500 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 1,000 results per page.
         public let maxResults: Int?
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListItems request with MaxResults set at 500. The service returns the first batch of results (up to 500) and a NextToken value. To see the next batch of results, you can submit the ListItems request a second time and specify the NextToken value. Tokens expire after 15 minutes.
@@ -249,6 +248,14 @@ extension MediaStoreData {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.path = path
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.path, key: "Path")
         }
 
         public func validate(name: String) throws {
@@ -278,18 +285,8 @@ extension MediaStoreData {
         }
     }
 
-    public struct PutObjectRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "body"
+    public struct PutObjectRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.allowStreaming, .allowChunkedStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cacheControl", location: .header("Cache-Control")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "path", location: .uri("Path")),
-            AWSMemberEncoding(label: "storageClass", location: .header("x-amz-storage-class")),
-            AWSMemberEncoding(label: "uploadAvailability", location: .header("x-amz-upload-availability"))
-        ]
-
         /// The bytes to be stored.
         public let body: AWSHTTPBody
         /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP at https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9. Headers with a custom user-defined value are also accepted.
@@ -310,6 +307,17 @@ extension MediaStoreData {
             self.path = path
             self.storageClass = storageClass
             self.uploadAvailability = uploadAvailability
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.body)
+            request.encodeHeader(self.cacheControl, key: "Cache-Control")
+            request.encodeHeader(self.contentType, key: "Content-Type")
+            request.encodePath(self.path, key: "Path")
+            request.encodeHeader(self.storageClass, key: "x-amz-storage-class")
+            request.encodeHeader(self.uploadAvailability, key: "x-amz-upload-availability")
         }
 
         public func validate(name: String) throws {

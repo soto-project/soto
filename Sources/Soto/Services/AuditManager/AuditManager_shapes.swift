@@ -824,10 +824,6 @@ extension AuditManager {
     }
 
     public struct AssociateAssessmentReportEvidenceFolderRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
-        ]
-
         ///  The identifier for the assessment.
         public let assessmentId: String
         ///  The identifier for the folder that the evidence is stored in.
@@ -836,6 +832,13 @@ extension AuditManager {
         public init(assessmentId: String, evidenceFolderId: String) {
             self.assessmentId = assessmentId
             self.evidenceFolderId = evidenceFolderId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assessmentId, key: "assessmentId")
+            try container.encode(self.evidenceFolderId, forKey: .evidenceFolderId)
         }
 
         public func validate(name: String) throws {
@@ -857,10 +860,6 @@ extension AuditManager {
     }
 
     public struct BatchAssociateAssessmentReportEvidenceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
-        ]
-
         ///  The identifier for the assessment.
         public let assessmentId: String
         ///  The identifier for the folder that the evidence is stored in.
@@ -872,6 +871,14 @@ extension AuditManager {
             self.assessmentId = assessmentId
             self.evidenceFolderId = evidenceFolderId
             self.evidenceIds = evidenceIds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assessmentId, key: "assessmentId")
+            try container.encode(self.evidenceFolderId, forKey: .evidenceFolderId)
+            try container.encode(self.evidenceIds, forKey: .evidenceIds)
         }
 
         public func validate(name: String) throws {
@@ -934,10 +941,6 @@ extension AuditManager {
     }
 
     public struct BatchCreateDelegationByAssessmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
-        ]
-
         ///  The identifier for the assessment.
         public let assessmentId: String
         ///  The API request to batch create delegations in Audit Manager.
@@ -946,6 +949,13 @@ extension AuditManager {
         public init(assessmentId: String, createDelegationRequests: [CreateDelegationRequest]) {
             self.assessmentId = assessmentId
             self.createDelegationRequests = createDelegationRequests
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assessmentId, key: "assessmentId")
+            try container.encode(self.createDelegationRequests, forKey: .createDelegationRequests)
         }
 
         public func validate(name: String) throws {
@@ -1003,10 +1013,6 @@ extension AuditManager {
     }
 
     public struct BatchDeleteDelegationByAssessmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
-        ]
-
         ///  The identifier for the assessment.
         public let assessmentId: String
         ///  The identifiers for the delegations.
@@ -1015,6 +1021,13 @@ extension AuditManager {
         public init(assessmentId: String, delegationIds: [String]) {
             self.assessmentId = assessmentId
             self.delegationIds = delegationIds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assessmentId, key: "assessmentId")
+            try container.encode(self.delegationIds, forKey: .delegationIds)
         }
 
         public func validate(name: String) throws {
@@ -1049,10 +1062,6 @@ extension AuditManager {
     }
 
     public struct BatchDisassociateAssessmentReportEvidenceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
-        ]
-
         ///  The identifier for the assessment.
         public let assessmentId: String
         ///  The identifier for the folder that the evidence is stored in.
@@ -1064,6 +1073,14 @@ extension AuditManager {
             self.assessmentId = assessmentId
             self.evidenceFolderId = evidenceFolderId
             self.evidenceIds = evidenceIds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assessmentId, key: "assessmentId")
+            try container.encode(self.evidenceFolderId, forKey: .evidenceFolderId)
+            try container.encode(self.evidenceIds, forKey: .evidenceIds)
         }
 
         public func validate(name: String) throws {
@@ -1126,12 +1143,6 @@ extension AuditManager {
     }
 
     public struct BatchImportEvidenceToAssessmentControlRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId")),
-            AWSMemberEncoding(label: "controlId", location: .uri("controlId")),
-            AWSMemberEncoding(label: "controlSetId", location: .uri("controlSetId"))
-        ]
-
         ///  The identifier for the assessment.
         public let assessmentId: String
         ///  The identifier for the control.
@@ -1146,6 +1157,15 @@ extension AuditManager {
             self.controlId = controlId
             self.controlSetId = controlSetId
             self.manualEvidence = manualEvidence
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assessmentId, key: "assessmentId")
+            request.encodePath(self.controlId, key: "controlId")
+            request.encodePath(self.controlSetId, key: "controlSetId")
+            try container.encode(self.manualEvidence, forKey: .manualEvidence)
         }
 
         public func validate(name: String) throws {
@@ -1608,10 +1628,6 @@ extension AuditManager {
     }
 
     public struct CreateAssessmentReportRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
-        ]
-
         ///  The identifier for the assessment.
         public let assessmentId: String
         ///  The description of the assessment report.
@@ -1626,6 +1642,15 @@ extension AuditManager {
             self.description = description
             self.name = name
             self.queryStatement = queryStatement
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assessmentId, key: "assessmentId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.queryStatement, forKey: .queryStatement)
         }
 
         public func validate(name: String) throws {
@@ -1983,15 +2008,17 @@ extension AuditManager {
     }
 
     public struct DeleteAssessmentFrameworkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "frameworkId", location: .uri("frameworkId"))
-        ]
-
         ///  The identifier for the custom framework.
         public let frameworkId: String
 
         public init(frameworkId: String) {
             self.frameworkId = frameworkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.frameworkId, key: "frameworkId")
         }
 
         public func validate(name: String) throws {
@@ -2008,11 +2035,6 @@ extension AuditManager {
     }
 
     public struct DeleteAssessmentFrameworkShareRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "requestId", location: .uri("requestId")),
-            AWSMemberEncoding(label: "requestType", location: .querystring("requestType"))
-        ]
-
         /// The unique identifier for the share request to be deleted.
         public let requestId: String
         /// Specifies whether the share request is a sent request or a received request.
@@ -2021,6 +2043,13 @@ extension AuditManager {
         public init(requestId: String, requestType: ShareRequestType) {
             self.requestId = requestId
             self.requestType = requestType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.requestId, key: "requestId")
+            request.encodeQuery(self.requestType, key: "requestType")
         }
 
         public func validate(name: String) throws {
@@ -2037,11 +2066,6 @@ extension AuditManager {
     }
 
     public struct DeleteAssessmentReportRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId")),
-            AWSMemberEncoding(label: "assessmentReportId", location: .uri("assessmentReportId"))
-        ]
-
         ///  The unique identifier for the assessment.
         public let assessmentId: String
         ///  The unique identifier for the assessment report.
@@ -2050,6 +2074,13 @@ extension AuditManager {
         public init(assessmentId: String, assessmentReportId: String) {
             self.assessmentId = assessmentId
             self.assessmentReportId = assessmentReportId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assessmentId, key: "assessmentId")
+            request.encodePath(self.assessmentReportId, key: "assessmentReportId")
         }
 
         public func validate(name: String) throws {
@@ -2069,15 +2100,17 @@ extension AuditManager {
     }
 
     public struct DeleteAssessmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
-        ]
-
         ///  The identifier for the assessment.
         public let assessmentId: String
 
         public init(assessmentId: String) {
             self.assessmentId = assessmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assessmentId, key: "assessmentId")
         }
 
         public func validate(name: String) throws {
@@ -2094,15 +2127,17 @@ extension AuditManager {
     }
 
     public struct DeleteControlRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "controlId", location: .uri("controlId"))
-        ]
-
         ///  The unique identifier for the control.
         public let controlId: String
 
         public init(controlId: String) {
             self.controlId = controlId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.controlId, key: "controlId")
         }
 
         public func validate(name: String) throws {
@@ -2172,10 +2207,6 @@ extension AuditManager {
     }
 
     public struct DisassociateAssessmentReportEvidenceFolderRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
-        ]
-
         ///  The unique identifier for the assessment.
         public let assessmentId: String
         ///  The unique identifier for the folder that the evidence is stored in.
@@ -2184,6 +2215,13 @@ extension AuditManager {
         public init(assessmentId: String, evidenceFolderId: String) {
             self.assessmentId = assessmentId
             self.evidenceFolderId = evidenceFolderId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assessmentId, key: "assessmentId")
+            try container.encode(self.evidenceFolderId, forKey: .evidenceFolderId)
         }
 
         public func validate(name: String) throws {
@@ -2427,15 +2465,17 @@ extension AuditManager {
     }
 
     public struct GetAssessmentFrameworkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "frameworkId", location: .uri("frameworkId"))
-        ]
-
         ///  The identifier for the framework.
         public let frameworkId: String
 
         public init(frameworkId: String) {
             self.frameworkId = frameworkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.frameworkId, key: "frameworkId")
         }
 
         public func validate(name: String) throws {
@@ -2461,11 +2501,6 @@ extension AuditManager {
     }
 
     public struct GetAssessmentReportUrlRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId")),
-            AWSMemberEncoding(label: "assessmentReportId", location: .uri("assessmentReportId"))
-        ]
-
         ///  The unique identifier for the assessment.
         public let assessmentId: String
         ///  The unique identifier for the assessment report.
@@ -2474,6 +2509,13 @@ extension AuditManager {
         public init(assessmentId: String, assessmentReportId: String) {
             self.assessmentId = assessmentId
             self.assessmentReportId = assessmentReportId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assessmentId, key: "assessmentId")
+            request.encodePath(self.assessmentReportId, key: "assessmentReportId")
         }
 
         public func validate(name: String) throws {
@@ -2501,15 +2543,17 @@ extension AuditManager {
     }
 
     public struct GetAssessmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
-        ]
-
         /// The unique identifier for the assessment.
         public let assessmentId: String
 
         public init(assessmentId: String) {
             self.assessmentId = assessmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assessmentId, key: "assessmentId")
         }
 
         public func validate(name: String) throws {
@@ -2537,14 +2581,6 @@ extension AuditManager {
     }
 
     public struct GetChangeLogsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId")),
-            AWSMemberEncoding(label: "controlId", location: .querystring("controlId")),
-            AWSMemberEncoding(label: "controlSetId", location: .querystring("controlSetId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique identifier for the assessment.
         public let assessmentId: String
         ///  The unique identifier for the control.
@@ -2562,6 +2598,16 @@ extension AuditManager {
             self.controlSetId = controlSetId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assessmentId, key: "assessmentId")
+            request.encodeQuery(self.controlId, key: "controlId")
+            request.encodeQuery(self.controlSetId, key: "controlSetId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2602,15 +2648,17 @@ extension AuditManager {
     }
 
     public struct GetControlRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "controlId", location: .uri("controlId"))
-        ]
-
         ///  The identifier for the control.
         public let controlId: String
 
         public init(controlId: String) {
             self.controlId = controlId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.controlId, key: "controlId")
         }
 
         public func validate(name: String) throws {
@@ -2636,11 +2684,6 @@ extension AuditManager {
     }
 
     public struct GetDelegationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  Represents the maximum number of results on a page or for an API request call.
         public let maxResults: Int?
         ///  The pagination token that's used to fetch the next set of results.
@@ -2649,6 +2692,13 @@ extension AuditManager {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2680,14 +2730,6 @@ extension AuditManager {
     }
 
     public struct GetEvidenceByEvidenceFolderRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId")),
-            AWSMemberEncoding(label: "controlSetId", location: .uri("controlSetId")),
-            AWSMemberEncoding(label: "evidenceFolderId", location: .uri("evidenceFolderId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The identifier for the assessment.
         public let assessmentId: String
         ///  The identifier for the control set.
@@ -2705,6 +2747,16 @@ extension AuditManager {
             self.evidenceFolderId = evidenceFolderId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assessmentId, key: "assessmentId")
+            request.encodePath(self.controlSetId, key: "controlSetId")
+            request.encodePath(self.evidenceFolderId, key: "evidenceFolderId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2745,12 +2797,6 @@ extension AuditManager {
     }
 
     public struct GetEvidenceFolderRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId")),
-            AWSMemberEncoding(label: "controlSetId", location: .uri("controlSetId")),
-            AWSMemberEncoding(label: "evidenceFolderId", location: .uri("evidenceFolderId"))
-        ]
-
         ///  The unique identifier for the assessment.
         public let assessmentId: String
         ///  The unique identifier for the control set.
@@ -2762,6 +2808,14 @@ extension AuditManager {
             self.assessmentId = assessmentId
             self.controlSetId = controlSetId
             self.evidenceFolderId = evidenceFolderId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assessmentId, key: "assessmentId")
+            request.encodePath(self.controlSetId, key: "controlSetId")
+            request.encodePath(self.evidenceFolderId, key: "evidenceFolderId")
         }
 
         public func validate(name: String) throws {
@@ -2793,14 +2847,6 @@ extension AuditManager {
     }
 
     public struct GetEvidenceFoldersByAssessmentControlRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId")),
-            AWSMemberEncoding(label: "controlId", location: .uri("controlId")),
-            AWSMemberEncoding(label: "controlSetId", location: .uri("controlSetId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The identifier for the assessment.
         public let assessmentId: String
         ///  The identifier for the control.
@@ -2818,6 +2864,16 @@ extension AuditManager {
             self.controlSetId = controlSetId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assessmentId, key: "assessmentId")
+            request.encodePath(self.controlId, key: "controlId")
+            request.encodePath(self.controlSetId, key: "controlSetId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2858,12 +2914,6 @@ extension AuditManager {
     }
 
     public struct GetEvidenceFoldersByAssessmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The unique identifier for the assessment.
         public let assessmentId: String
         ///  Represents the maximum number of results on a page or for an API request call.
@@ -2875,6 +2925,14 @@ extension AuditManager {
             self.assessmentId = assessmentId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assessmentId, key: "assessmentId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2909,13 +2967,6 @@ extension AuditManager {
     }
 
     public struct GetEvidenceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId")),
-            AWSMemberEncoding(label: "controlSetId", location: .uri("controlSetId")),
-            AWSMemberEncoding(label: "evidenceFolderId", location: .uri("evidenceFolderId")),
-            AWSMemberEncoding(label: "evidenceId", location: .uri("evidenceId"))
-        ]
-
         ///  The unique identifier for the assessment.
         public let assessmentId: String
         ///  The unique identifier for the control set.
@@ -2930,6 +2981,15 @@ extension AuditManager {
             self.controlSetId = controlSetId
             self.evidenceFolderId = evidenceFolderId
             self.evidenceId = evidenceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assessmentId, key: "assessmentId")
+            request.encodePath(self.controlSetId, key: "controlSetId")
+            request.encodePath(self.evidenceFolderId, key: "evidenceFolderId")
+            request.encodePath(self.evidenceId, key: "evidenceId")
         }
 
         public func validate(name: String) throws {
@@ -2964,15 +3024,17 @@ extension AuditManager {
     }
 
     public struct GetInsightsByAssessmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
-        ]
-
         /// The unique identifier for the assessment.
         public let assessmentId: String
 
         public init(assessmentId: String) {
             self.assessmentId = assessmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assessmentId, key: "assessmentId")
         }
 
         public func validate(name: String) throws {
@@ -3053,15 +3115,17 @@ extension AuditManager {
     }
 
     public struct GetSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attribute", location: .uri("attribute"))
-        ]
-
         ///  The list of setting attribute enum values.
         public let attribute: SettingAttribute
 
         public init(attribute: SettingAttribute) {
             self.attribute = attribute
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attribute, key: "attribute")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3151,13 +3215,6 @@ extension AuditManager {
     }
 
     public struct ListAssessmentControlInsightsByControlDomainRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .querystring("assessmentId")),
-            AWSMemberEncoding(label: "controlDomainId", location: .querystring("controlDomainId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique identifier for the active assessment.
         public let assessmentId: String
         /// The unique identifier for the control domain.
@@ -3172,6 +3229,15 @@ extension AuditManager {
             self.controlDomainId = controlDomainId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.assessmentId, key: "assessmentId")
+            request.encodeQuery(self.controlDomainId, key: "controlDomainId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3209,12 +3275,6 @@ extension AuditManager {
     }
 
     public struct ListAssessmentFrameworkShareRequestsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "requestType", location: .querystring("requestType"))
-        ]
-
         ///  Represents the maximum number of results on a page or for an API request call.
         public let maxResults: Int?
         ///  The pagination token that's used to fetch the next set of results.
@@ -3226,6 +3286,14 @@ extension AuditManager {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.requestType = requestType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.requestType, key: "requestType")
         }
 
         public func validate(name: String) throws {
@@ -3257,12 +3325,6 @@ extension AuditManager {
     }
 
     public struct ListAssessmentFrameworksRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "frameworkType", location: .querystring("frameworkType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The type of framework, such as a standard framework or a custom framework.
         public let frameworkType: FrameworkType
         ///  Represents the maximum number of results on a page or for an API request call.
@@ -3274,6 +3336,14 @@ extension AuditManager {
             self.frameworkType = frameworkType
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.frameworkType, key: "frameworkType")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3305,11 +3375,6 @@ extension AuditManager {
     }
 
     public struct ListAssessmentReportsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  Represents the maximum number of results on a page or for an API request call.
         public let maxResults: Int?
         ///  The pagination token that's used to fetch the next set of results.
@@ -3318,6 +3383,13 @@ extension AuditManager {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3349,12 +3421,6 @@ extension AuditManager {
     }
 
     public struct ListAssessmentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         ///  Represents the maximum number of results on a page or for an API request call.
         public let maxResults: Int?
         ///  The pagination token that's used to fetch the next set of results.
@@ -3366,6 +3432,14 @@ extension AuditManager {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -3397,12 +3471,6 @@ extension AuditManager {
     }
 
     public struct ListControlDomainInsightsByAssessmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .querystring("assessmentId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique identifier for the active assessment.
         public let assessmentId: String
         /// Represents the maximum number of results on a page or for an API request call.
@@ -3414,6 +3482,14 @@ extension AuditManager {
             self.assessmentId = assessmentId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.assessmentId, key: "assessmentId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3448,11 +3524,6 @@ extension AuditManager {
     }
 
     public struct ListControlDomainInsightsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// Represents the maximum number of results on a page or for an API request call.
         public let maxResults: Int?
         /// The pagination token that's used to fetch the next set of results.
@@ -3461,6 +3532,13 @@ extension AuditManager {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3492,12 +3570,6 @@ extension AuditManager {
     }
 
     public struct ListControlInsightsByControlDomainRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "controlDomainId", location: .querystring("controlDomainId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique identifier for the control domain.
         public let controlDomainId: String
         /// Represents the maximum number of results on a page or for an API request call.
@@ -3509,6 +3581,14 @@ extension AuditManager {
             self.controlDomainId = controlDomainId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.controlDomainId, key: "controlDomainId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3543,12 +3623,6 @@ extension AuditManager {
     }
 
     public struct ListControlsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "controlType", location: .querystring("controlType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The type of control, such as a standard control or a custom control.
         public let controlType: ControlType
         ///  Represents the maximum number of results on a page or for an API request call.
@@ -3560,6 +3634,14 @@ extension AuditManager {
             self.controlType = controlType
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.controlType, key: "controlType")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3591,12 +3673,6 @@ extension AuditManager {
     }
 
     public struct ListKeywordsForDataSourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "source", location: .querystring("source"))
-        ]
-
         ///  Represents the maximum number of results on a page or for an API request call.
         public let maxResults: Int?
         ///  The pagination token that's used to fetch the next set of results.
@@ -3608,6 +3684,14 @@ extension AuditManager {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.source = source
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.source, key: "source")
         }
 
         public func validate(name: String) throws {
@@ -3639,11 +3723,6 @@ extension AuditManager {
     }
 
     public struct ListNotificationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  Represents the maximum number of results on a page or for an API request call.
         public let maxResults: Int?
         ///  The pagination token that's used to fetch the next set of results.
@@ -3652,6 +3731,13 @@ extension AuditManager {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3683,15 +3769,17 @@ extension AuditManager {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         ///  The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -4007,10 +4095,6 @@ extension AuditManager {
     }
 
     public struct StartAssessmentFrameworkShareRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "frameworkId", location: .uri("frameworkId"))
-        ]
-
         ///  An optional comment from the sender about the share request.
         public let comment: String?
         ///  The Amazon Web Services account of the recipient.
@@ -4025,6 +4109,15 @@ extension AuditManager {
             self.destinationAccount = destinationAccount
             self.destinationRegion = destinationRegion
             self.frameworkId = frameworkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.comment, forKey: .comment)
+            try container.encode(self.destinationAccount, forKey: .destinationAccount)
+            try container.encode(self.destinationRegion, forKey: .destinationRegion)
+            request.encodePath(self.frameworkId, key: "frameworkId")
         }
 
         public func validate(name: String) throws {
@@ -4060,10 +4153,6 @@ extension AuditManager {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         ///  The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         ///  The tags that are associated with the resource.
@@ -4072,6 +4161,13 @@ extension AuditManager {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -4115,11 +4211,6 @@ extension AuditManager {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         ///  The Amazon Resource Name (ARN) of the specified resource.
         public let resourceArn: String
         ///  The name or key of the tag.
@@ -4128,6 +4219,13 @@ extension AuditManager {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -4151,12 +4249,6 @@ extension AuditManager {
     }
 
     public struct UpdateAssessmentControlRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId")),
-            AWSMemberEncoding(label: "controlId", location: .uri("controlId")),
-            AWSMemberEncoding(label: "controlSetId", location: .uri("controlSetId"))
-        ]
-
         ///  The unique identifier for the assessment.
         public let assessmentId: String
         ///  The comment body text for the control.
@@ -4174,6 +4266,16 @@ extension AuditManager {
             self.controlId = controlId
             self.controlSetId = controlSetId
             self.controlStatus = controlStatus
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assessmentId, key: "assessmentId")
+            try container.encodeIfPresent(self.commentBody, forKey: .commentBody)
+            request.encodePath(self.controlId, key: "controlId")
+            request.encodePath(self.controlSetId, key: "controlSetId")
+            try container.encodeIfPresent(self.controlStatus, forKey: .controlStatus)
         }
 
         public func validate(name: String) throws {
@@ -4210,11 +4312,6 @@ extension AuditManager {
     }
 
     public struct UpdateAssessmentControlSetStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId")),
-            AWSMemberEncoding(label: "controlSetId", location: .uri("controlSetId"))
-        ]
-
         ///  The unique identifier for the assessment.
         public let assessmentId: String
         ///  The comment that's related to the status update.
@@ -4229,6 +4326,15 @@ extension AuditManager {
             self.comment = comment
             self.controlSetId = controlSetId
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assessmentId, key: "assessmentId")
+            try container.encode(self.comment, forKey: .comment)
+            request.encodePath(self.controlSetId, key: "controlSetId")
+            try container.encode(self.status, forKey: .status)
         }
 
         public func validate(name: String) throws {
@@ -4295,10 +4401,6 @@ extension AuditManager {
     }
 
     public struct UpdateAssessmentFrameworkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "frameworkId", location: .uri("frameworkId"))
-        ]
-
         ///  The compliance type that the new custom framework supports, such as CIS or HIPAA.
         public let complianceType: String?
         ///  The control sets that are associated with the framework.
@@ -4316,6 +4418,16 @@ extension AuditManager {
             self.description = description
             self.frameworkId = frameworkId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.complianceType, forKey: .complianceType)
+            try container.encode(self.controlSets, forKey: .controlSets)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.frameworkId, key: "frameworkId")
+            try container.encode(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -4358,10 +4470,6 @@ extension AuditManager {
     }
 
     public struct UpdateAssessmentFrameworkShareRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "requestId", location: .uri("requestId"))
-        ]
-
         /// Specifies the update action for the share request.
         public let action: ShareRequestAction
         ///  The unique identifier for the share request.
@@ -4373,6 +4481,14 @@ extension AuditManager {
             self.action = action
             self.requestId = requestId
             self.requestType = requestType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.action, forKey: .action)
+            request.encodePath(self.requestId, key: "requestId")
+            try container.encode(self.requestType, forKey: .requestType)
         }
 
         public func validate(name: String) throws {
@@ -4401,10 +4517,6 @@ extension AuditManager {
     }
 
     public struct UpdateAssessmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
-        ]
-
         ///  The description of the assessment.
         public let assessmentDescription: String?
         ///  The unique identifier for the assessment.
@@ -4425,6 +4537,17 @@ extension AuditManager {
             self.assessmentReportsDestination = assessmentReportsDestination
             self.roles = roles
             self.scope = scope
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.assessmentDescription, forKey: .assessmentDescription)
+            request.encodePath(self.assessmentId, key: "assessmentId")
+            try container.encodeIfPresent(self.assessmentName, forKey: .assessmentName)
+            try container.encodeIfPresent(self.assessmentReportsDestination, forKey: .assessmentReportsDestination)
+            try container.encodeIfPresent(self.roles, forKey: .roles)
+            try container.encode(self.scope, forKey: .scope)
         }
 
         public func validate(name: String) throws {
@@ -4466,10 +4589,6 @@ extension AuditManager {
     }
 
     public struct UpdateAssessmentStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
-        ]
-
         ///  The unique identifier for the assessment.
         public let assessmentId: String
         ///  The current status of the assessment.
@@ -4478,6 +4597,13 @@ extension AuditManager {
         public init(assessmentId: String, status: AssessmentStatus) {
             self.assessmentId = assessmentId
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assessmentId, key: "assessmentId")
+            try container.encode(self.status, forKey: .status)
         }
 
         public func validate(name: String) throws {
@@ -4505,10 +4631,6 @@ extension AuditManager {
     }
 
     public struct UpdateControlRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "controlId", location: .uri("controlId"))
-        ]
-
         ///  The recommended actions to carry out if the control isn't fulfilled.
         public let actionPlanInstructions: String?
         ///  The title of the action plan for remediating the control.
@@ -4532,6 +4654,18 @@ extension AuditManager {
             self.description = description
             self.name = name
             self.testingInformation = testingInformation
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.actionPlanInstructions, forKey: .actionPlanInstructions)
+            try container.encodeIfPresent(self.actionPlanTitle, forKey: .actionPlanTitle)
+            request.encodePath(self.controlId, key: "controlId")
+            try container.encode(self.controlMappingSources, forKey: .controlMappingSources)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.testingInformation, forKey: .testingInformation)
         }
 
         public func validate(name: String) throws {

@@ -133,15 +133,17 @@ extension Tnb {
     // MARK: Shapes
 
     public struct CancelSolNetworkOperationInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nsLcmOpOccId", location: .uri("nsLcmOpOccId"))
-        ]
-
         /// The identifier of the network operation.
         public let nsLcmOpOccId: String
 
         public init(nsLcmOpOccId: String) {
             self.nsLcmOpOccId = nsLcmOpOccId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.nsLcmOpOccId, key: "nsLcmOpOccId")
         }
 
         public func validate(name: String) throws {
@@ -323,15 +325,17 @@ extension Tnb {
     }
 
     public struct DeleteSolFunctionPackageInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vnfPkgId", location: .uri("vnfPkgId"))
-        ]
-
         /// ID of the function package.
         public let vnfPkgId: String
 
         public init(vnfPkgId: String) {
             self.vnfPkgId = vnfPkgId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.vnfPkgId, key: "vnfPkgId")
         }
 
         public func validate(name: String) throws {
@@ -342,15 +346,17 @@ extension Tnb {
     }
 
     public struct DeleteSolNetworkInstanceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nsInstanceId", location: .uri("nsInstanceId"))
-        ]
-
         /// Network instance ID.
         public let nsInstanceId: String
 
         public init(nsInstanceId: String) {
             self.nsInstanceId = nsInstanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.nsInstanceId, key: "nsInstanceId")
         }
 
         public func validate(name: String) throws {
@@ -361,15 +367,17 @@ extension Tnb {
     }
 
     public struct DeleteSolNetworkPackageInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nsdInfoId", location: .uri("nsdInfoId"))
-        ]
-
         /// ID of the network service descriptor in the network package.
         public let nsdInfoId: String
 
         public init(nsdInfoId: String) {
             self.nsdInfoId = nsdInfoId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.nsdInfoId, key: "nsdInfoId")
         }
 
         public func validate(name: String) throws {
@@ -410,15 +418,17 @@ extension Tnb {
     }
 
     public struct GetSolFunctionInstanceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vnfInstanceId", location: .uri("vnfInstanceId"))
-        ]
-
         /// ID of the network function.
         public let vnfInstanceId: String
 
         public init(vnfInstanceId: String) {
             self.vnfInstanceId = vnfInstanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.vnfInstanceId, key: "vnfInstanceId")
         }
 
         public func validate(name: String) throws {
@@ -501,11 +511,6 @@ extension Tnb {
     }
 
     public struct GetSolFunctionPackageContentInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accept", location: .header("Accept")),
-            AWSMemberEncoding(label: "vnfPkgId", location: .uri("vnfPkgId"))
-        ]
-
         /// The format of the package that you want to download from the function packages.
         public let accept: PackageContentType
         /// ID of the function package.
@@ -514,6 +519,13 @@ extension Tnb {
         public init(accept: PackageContentType, vnfPkgId: String) {
             self.accept = accept
             self.vnfPkgId = vnfPkgId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accept, key: "Accept")
+            request.encodePath(self.vnfPkgId, key: "vnfPkgId")
         }
 
         public func validate(name: String) throws {
@@ -537,20 +549,15 @@ extension Tnb {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.contentType = try response.decodeIfPresent(PackageContentType.self, forHeader: "Content-Type")
-            self.packageContent = response.decodePayload()
-
+            let container = try decoder.singleValueContainer()
+            self.contentType = try response.decodeHeaderIfPresent(PackageContentType.self, key: "Content-Type")
+            self.packageContent = try container.decode(AWSHTTPBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSolFunctionPackageDescriptorInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accept", location: .header("Accept")),
-            AWSMemberEncoding(label: "vnfPkgId", location: .uri("vnfPkgId"))
-        ]
-
         /// Indicates which content types, expressed as MIME types, the client is able to understand.
         public let accept: DescriptorContentType
         /// ID of the function package.
@@ -559,6 +566,13 @@ extension Tnb {
         public init(accept: DescriptorContentType, vnfPkgId: String) {
             self.accept = accept
             self.vnfPkgId = vnfPkgId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accept, key: "Accept")
+            request.encodePath(self.vnfPkgId, key: "vnfPkgId")
         }
 
         public func validate(name: String) throws {
@@ -582,24 +596,26 @@ extension Tnb {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.contentType = try response.decodeIfPresent(DescriptorContentType.self, forHeader: "Content-Type")
-            self.vnfd = response.decodePayload()
-
+            let container = try decoder.singleValueContainer()
+            self.contentType = try response.decodeHeaderIfPresent(DescriptorContentType.self, key: "Content-Type")
+            self.vnfd = try container.decode(AWSHTTPBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSolFunctionPackageInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vnfPkgId", location: .uri("vnfPkgId"))
-        ]
-
         /// ID of the function package.
         public let vnfPkgId: String
 
         public init(vnfPkgId: String) {
             self.vnfPkgId = vnfPkgId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.vnfPkgId, key: "vnfPkgId")
         }
 
         public func validate(name: String) throws {
@@ -696,15 +712,17 @@ extension Tnb {
     }
 
     public struct GetSolNetworkInstanceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nsInstanceId", location: .uri("nsInstanceId"))
-        ]
-
         /// ID of the network instance.
         public let nsInstanceId: String
 
         public init(nsInstanceId: String) {
             self.nsInstanceId = nsInstanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.nsInstanceId, key: "nsInstanceId")
         }
 
         public func validate(name: String) throws {
@@ -779,15 +797,17 @@ extension Tnb {
     }
 
     public struct GetSolNetworkOperationInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nsLcmOpOccId", location: .uri("nsLcmOpOccId"))
-        ]
-
         /// The identifier of the network operation.
         public let nsLcmOpOccId: String
 
         public init(nsLcmOpOccId: String) {
             self.nsLcmOpOccId = nsLcmOpOccId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.nsLcmOpOccId, key: "nsLcmOpOccId")
         }
 
         public func validate(name: String) throws {
@@ -893,11 +913,6 @@ extension Tnb {
     }
 
     public struct GetSolNetworkPackageContentInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accept", location: .header("Accept")),
-            AWSMemberEncoding(label: "nsdInfoId", location: .uri("nsdInfoId"))
-        ]
-
         /// The format of the package you want to download from the network package.
         public let accept: PackageContentType
         /// ID of the network service descriptor in the network package.
@@ -906,6 +921,13 @@ extension Tnb {
         public init(accept: PackageContentType, nsdInfoId: String) {
             self.accept = accept
             self.nsdInfoId = nsdInfoId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accept, key: "Accept")
+            request.encodePath(self.nsdInfoId, key: "nsdInfoId")
         }
 
         public func validate(name: String) throws {
@@ -929,24 +951,26 @@ extension Tnb {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.contentType = try response.decodeIfPresent(PackageContentType.self, forHeader: "Content-Type")
-            self.nsdContent = response.decodePayload()
-
+            let container = try decoder.singleValueContainer()
+            self.contentType = try response.decodeHeaderIfPresent(PackageContentType.self, key: "Content-Type")
+            self.nsdContent = try container.decode(AWSHTTPBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSolNetworkPackageDescriptorInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nsdInfoId", location: .uri("nsdInfoId"))
-        ]
-
         /// ID of the network service descriptor in the network package.
         public let nsdInfoId: String
 
         public init(nsdInfoId: String) {
             self.nsdInfoId = nsdInfoId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.nsdInfoId, key: "nsdInfoId")
         }
 
         public func validate(name: String) throws {
@@ -970,24 +994,26 @@ extension Tnb {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.contentType = try response.decodeIfPresent(DescriptorContentType.self, forHeader: "Content-Type")
-            self.nsd = response.decodePayload()
-
+            let container = try decoder.singleValueContainer()
+            self.contentType = try response.decodeHeaderIfPresent(DescriptorContentType.self, key: "Content-Type")
+            self.nsd = try container.decode(AWSHTTPBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSolNetworkPackageInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nsdInfoId", location: .uri("nsdInfoId"))
-        ]
-
         /// ID of the network service descriptor in the network package.
         public let nsdInfoId: String
 
         public init(nsdInfoId: String) {
             self.nsdInfoId = nsdInfoId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.nsdInfoId, key: "nsdInfoId")
         }
 
         public func validate(name: String) throws {
@@ -1122,11 +1148,6 @@ extension Tnb {
     }
 
     public struct InstantiateSolNetworkInstanceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dryRun", location: .querystring("dry_run")),
-            AWSMemberEncoding(label: "nsInstanceId", location: .uri("nsInstanceId"))
-        ]
-
         /// Provides values for the configurable properties.
         public let additionalParamsForNs: String?
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -1141,6 +1162,15 @@ extension Tnb {
             self.dryRun = dryRun
             self.nsInstanceId = nsInstanceId
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.additionalParamsForNs, forKey: .additionalParamsForNs)
+            request.encodeQuery(self.dryRun, key: "dry_run")
+            request.encodePath(self.nsInstanceId, key: "nsInstanceId")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1246,11 +1276,6 @@ extension Tnb {
     }
 
     public struct ListSolFunctionInstancesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextpage_opaque_marker"))
-        ]
-
         /// The maximum number of results to include in the response.
         public let maxResults: Int?
         /// The token for the next page of results.
@@ -1259,6 +1284,13 @@ extension Tnb {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max_results")
+            request.encodeQuery(self.nextToken, key: "nextpage_opaque_marker")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1348,11 +1380,6 @@ extension Tnb {
     }
 
     public struct ListSolFunctionPackagesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextpage_opaque_marker"))
-        ]
-
         /// The maximum number of results to include in the response.
         public let maxResults: Int?
         /// The token for the next page of results.
@@ -1361,6 +1388,13 @@ extension Tnb {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max_results")
+            request.encodeQuery(self.nextToken, key: "nextpage_opaque_marker")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1442,11 +1476,6 @@ extension Tnb {
     }
 
     public struct ListSolNetworkInstancesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextpage_opaque_marker"))
-        ]
-
         /// The maximum number of results to include in the response.
         public let maxResults: Int?
         /// The token for the next page of results.
@@ -1455,6 +1484,13 @@ extension Tnb {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max_results")
+            request.encodeQuery(self.nextToken, key: "nextpage_opaque_marker")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1515,11 +1551,6 @@ extension Tnb {
     }
 
     public struct ListSolNetworkOperationsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextpage_opaque_marker"))
-        ]
-
         /// The maximum number of results to include in the response.
         public let maxResults: Int?
         /// The token for the next page of results.
@@ -1528,6 +1559,13 @@ extension Tnb {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max_results")
+            request.encodeQuery(self.nextToken, key: "nextpage_opaque_marker")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1642,11 +1680,6 @@ extension Tnb {
     }
 
     public struct ListSolNetworkPackagesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextpage_opaque_marker"))
-        ]
-
         /// The maximum number of results to include in the response.
         public let maxResults: Int?
         /// The token for the next page of results.
@@ -1655,6 +1688,13 @@ extension Tnb {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max_results")
+            request.encodeQuery(self.nextToken, key: "nextpage_opaque_marker")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1678,15 +1718,17 @@ extension Tnb {
     }
 
     public struct ListTagsForResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// Resource ARN.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1739,14 +1781,7 @@ extension Tnb {
         }
     }
 
-    public struct PutSolFunctionPackageContentInput: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "file"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "vnfPkgId", location: .uri("vnfPkgId"))
-        ]
-
+    public struct PutSolFunctionPackageContentInput: AWSEncodableShape {
         /// Function package content type.
         public let contentType: PackageContentType?
         /// Function package file.
@@ -1758,6 +1793,14 @@ extension Tnb {
             self.contentType = contentType
             self.file = file
             self.vnfPkgId = vnfPkgId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeHeader(self.contentType, key: "Content-Type")
+            try container.encode(self.file)
+            request.encodePath(self.vnfPkgId, key: "vnfPkgId")
         }
 
         public func validate(name: String) throws {
@@ -1812,14 +1855,7 @@ extension Tnb {
         }
     }
 
-    public struct PutSolNetworkPackageContentInput: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "file"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "nsdInfoId", location: .uri("nsdInfoId"))
-        ]
-
+    public struct PutSolNetworkPackageContentInput: AWSEncodableShape {
         /// Network package content type.
         public let contentType: PackageContentType?
         /// Network package file.
@@ -1831,6 +1867,14 @@ extension Tnb {
             self.contentType = contentType
             self.file = file
             self.nsdInfoId = nsdInfoId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeHeader(self.contentType, key: "Content-Type")
+            try container.encode(self.file)
+            request.encodePath(self.nsdInfoId, key: "nsdInfoId")
         }
 
         public func validate(name: String) throws {
@@ -1890,10 +1934,6 @@ extension Tnb {
     }
 
     public struct TagResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// Resource ARN.
         public let resourceArn: String
         /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
@@ -1902,6 +1942,13 @@ extension Tnb {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1923,10 +1970,6 @@ extension Tnb {
     }
 
     public struct TerminateSolNetworkInstanceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nsInstanceId", location: .uri("nsInstanceId"))
-        ]
-
         /// ID of the network instance.
         public let nsInstanceId: String
         /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
@@ -1935,6 +1978,13 @@ extension Tnb {
         public init(nsInstanceId: String, tags: [String: String]? = nil) {
             self.nsInstanceId = nsInstanceId
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.nsInstanceId, key: "nsInstanceId")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1986,11 +2036,6 @@ extension Tnb {
     }
 
     public struct UntagResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// Resource ARN.
         public let resourceArn: String
         /// Tag keys.
@@ -1999,6 +2044,13 @@ extension Tnb {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -2017,10 +2069,6 @@ extension Tnb {
     }
 
     public struct UpdateSolFunctionPackageInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vnfPkgId", location: .uri("vnfPkgId"))
-        ]
-
         /// Operational state of the function package.
         public let operationalState: OperationalState
         /// ID of the function package.
@@ -2029,6 +2077,13 @@ extension Tnb {
         public init(operationalState: OperationalState, vnfPkgId: String) {
             self.operationalState = operationalState
             self.vnfPkgId = vnfPkgId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.operationalState, forKey: .operationalState)
+            request.encodePath(self.vnfPkgId, key: "vnfPkgId")
         }
 
         public func validate(name: String) throws {
@@ -2054,10 +2109,6 @@ extension Tnb {
     }
 
     public struct UpdateSolNetworkInstanceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nsInstanceId", location: .uri("nsInstanceId"))
-        ]
-
         /// Identifies the network function information parameters and/or the configurable properties of the network function to be modified.
         public let modifyVnfInfoData: UpdateSolNetworkModify?
         /// ID of the network instance.
@@ -2072,6 +2123,15 @@ extension Tnb {
             self.nsInstanceId = nsInstanceId
             self.tags = tags
             self.updateType = updateType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.modifyVnfInfoData, forKey: .modifyVnfInfoData)
+            request.encodePath(self.nsInstanceId, key: "nsInstanceId")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.updateType, forKey: .updateType)
         }
 
         public func validate(name: String) throws {
@@ -2130,10 +2190,6 @@ extension Tnb {
     }
 
     public struct UpdateSolNetworkPackageInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nsdInfoId", location: .uri("nsdInfoId"))
-        ]
-
         /// ID of the network service descriptor in the network package.
         public let nsdInfoId: String
         /// Operational state of the network service descriptor in the network package.
@@ -2142,6 +2198,13 @@ extension Tnb {
         public init(nsdInfoId: String, nsdOperationalState: NsdOperationalState) {
             self.nsdInfoId = nsdInfoId
             self.nsdOperationalState = nsdOperationalState
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.nsdInfoId, key: "nsdInfoId")
+            try container.encode(self.nsdOperationalState, forKey: .nsdOperationalState)
         }
 
         public func validate(name: String) throws {
@@ -2166,14 +2229,7 @@ extension Tnb {
         }
     }
 
-    public struct ValidateSolFunctionPackageContentInput: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "file"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "vnfPkgId", location: .uri("vnfPkgId"))
-        ]
-
+    public struct ValidateSolFunctionPackageContentInput: AWSEncodableShape {
         /// Function package content type.
         public let contentType: PackageContentType?
         /// Function package file.
@@ -2185,6 +2241,14 @@ extension Tnb {
             self.contentType = contentType
             self.file = file
             self.vnfPkgId = vnfPkgId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeHeader(self.contentType, key: "Content-Type")
+            try container.encode(self.file)
+            request.encodePath(self.vnfPkgId, key: "vnfPkgId")
         }
 
         public func validate(name: String) throws {
@@ -2239,14 +2303,7 @@ extension Tnb {
         }
     }
 
-    public struct ValidateSolNetworkPackageContentInput: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "file"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "nsdInfoId", location: .uri("nsdInfoId"))
-        ]
-
+    public struct ValidateSolNetworkPackageContentInput: AWSEncodableShape {
         /// Network package content type.
         public let contentType: PackageContentType?
         /// Network package file.
@@ -2258,6 +2315,14 @@ extension Tnb {
             self.contentType = contentType
             self.file = file
             self.nsdInfoId = nsdInfoId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeHeader(self.contentType, key: "Content-Type")
+            try container.encode(self.file)
+            request.encodePath(self.nsdInfoId, key: "nsdInfoId")
         }
 
         public func validate(name: String) throws {

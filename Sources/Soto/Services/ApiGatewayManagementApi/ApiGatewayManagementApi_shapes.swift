@@ -29,28 +29,32 @@ extension ApiGatewayManagementApi {
     // MARK: Shapes
 
     public struct DeleteConnectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionId", location: .uri("ConnectionId"))
-        ]
-
         public let connectionId: String
 
         public init(connectionId: String) {
             self.connectionId = connectionId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectionId, key: "ConnectionId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetConnectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionId", location: .uri("ConnectionId"))
-        ]
-
         public let connectionId: String
 
         public init(connectionId: String) {
             self.connectionId = connectionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectionId, key: "ConnectionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -95,13 +99,7 @@ extension ApiGatewayManagementApi {
         }
     }
 
-    public struct PostToConnectionRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "data"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionId", location: .uri("ConnectionId"))
-        ]
-
+    public struct PostToConnectionRequest: AWSEncodableShape {
         /// The identifier of the connection that a specific client is using.
         public let connectionId: String
         /// The data to be sent to the client specified by its connection id.
@@ -110,6 +108,13 @@ extension ApiGatewayManagementApi {
         public init(connectionId: String, data: AWSHTTPBody) {
             self.connectionId = connectionId
             self.data = data
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.connectionId, key: "ConnectionId")
+            try container.encode(self.data)
         }
 
         public func validate(name: String) throws {

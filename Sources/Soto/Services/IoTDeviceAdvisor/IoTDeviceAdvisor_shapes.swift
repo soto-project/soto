@@ -141,15 +141,17 @@ extension IoTDeviceAdvisor {
     }
 
     public struct DeleteSuiteDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri("suiteDefinitionId"))
-        ]
-
         /// Suite definition ID of the test suite to be deleted.
         public let suiteDefinitionId: String
 
         public init(suiteDefinitionId: String) {
             self.suiteDefinitionId = suiteDefinitionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.suiteDefinitionId, key: "suiteDefinitionId")
         }
 
         public func validate(name: String) throws {
@@ -195,13 +197,6 @@ extension IoTDeviceAdvisor {
     }
 
     public struct GetEndpointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationMethod", location: .querystring("authenticationMethod")),
-            AWSMemberEncoding(label: "certificateArn", location: .querystring("certificateArn")),
-            AWSMemberEncoding(label: "deviceRoleArn", location: .querystring("deviceRoleArn")),
-            AWSMemberEncoding(label: "thingArn", location: .querystring("thingArn"))
-        ]
-
         /// The authentication method used during the device connection.
         public let authenticationMethod: AuthenticationMethod?
         /// The certificate ARN of the device. This is an optional parameter.
@@ -216,6 +211,15 @@ extension IoTDeviceAdvisor {
             self.certificateArn = certificateArn
             self.deviceRoleArn = deviceRoleArn
             self.thingArn = thingArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.authenticationMethod, key: "authenticationMethod")
+            request.encodeQuery(self.certificateArn, key: "certificateArn")
+            request.encodeQuery(self.deviceRoleArn, key: "deviceRoleArn")
+            request.encodeQuery(self.thingArn, key: "thingArn")
         }
 
         public func validate(name: String) throws {
@@ -244,11 +248,6 @@ extension IoTDeviceAdvisor {
     }
 
     public struct GetSuiteDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri("suiteDefinitionId")),
-            AWSMemberEncoding(label: "suiteDefinitionVersion", location: .querystring("suiteDefinitionVersion"))
-        ]
-
         /// Suite definition ID of the test suite to get.
         public let suiteDefinitionId: String
         /// Suite definition version of the test suite to get.
@@ -257,6 +256,13 @@ extension IoTDeviceAdvisor {
         public init(suiteDefinitionId: String, suiteDefinitionVersion: String? = nil) {
             self.suiteDefinitionId = suiteDefinitionId
             self.suiteDefinitionVersion = suiteDefinitionVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.suiteDefinitionId, key: "suiteDefinitionId")
+            request.encodeQuery(self.suiteDefinitionVersion, key: "suiteDefinitionVersion")
         }
 
         public func validate(name: String) throws {
@@ -311,11 +317,6 @@ extension IoTDeviceAdvisor {
     }
 
     public struct GetSuiteRunReportRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri("suiteDefinitionId")),
-            AWSMemberEncoding(label: "suiteRunId", location: .uri("suiteRunId"))
-        ]
-
         /// Suite definition ID of the test suite.
         public let suiteDefinitionId: String
         /// Suite run ID of the test suite run.
@@ -324,6 +325,13 @@ extension IoTDeviceAdvisor {
         public init(suiteDefinitionId: String, suiteRunId: String) {
             self.suiteDefinitionId = suiteDefinitionId
             self.suiteRunId = suiteRunId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.suiteDefinitionId, key: "suiteDefinitionId")
+            request.encodePath(self.suiteRunId, key: "suiteRunId")
         }
 
         public func validate(name: String) throws {
@@ -350,11 +358,6 @@ extension IoTDeviceAdvisor {
     }
 
     public struct GetSuiteRunRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri("suiteDefinitionId")),
-            AWSMemberEncoding(label: "suiteRunId", location: .uri("suiteRunId"))
-        ]
-
         /// Suite definition ID for the test suite run.
         public let suiteDefinitionId: String
         /// Suite run ID for the test suite run.
@@ -363,6 +366,13 @@ extension IoTDeviceAdvisor {
         public init(suiteDefinitionId: String, suiteRunId: String) {
             self.suiteDefinitionId = suiteDefinitionId
             self.suiteRunId = suiteRunId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.suiteDefinitionId, key: "suiteDefinitionId")
+            request.encodePath(self.suiteRunId, key: "suiteRunId")
         }
 
         public func validate(name: String) throws {
@@ -450,11 +460,6 @@ extension IoTDeviceAdvisor {
     }
 
     public struct ListSuiteDefinitionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return at once.
         public let maxResults: Int?
         /// A token used to get the next set of results.
@@ -463,6 +468,13 @@ extension IoTDeviceAdvisor {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -492,13 +504,6 @@ extension IoTDeviceAdvisor {
     }
 
     public struct ListSuiteRunsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "suiteDefinitionId", location: .querystring("suiteDefinitionId")),
-            AWSMemberEncoding(label: "suiteDefinitionVersion", location: .querystring("suiteDefinitionVersion"))
-        ]
-
         /// The maximum number of results to return at once.
         public let maxResults: Int?
         /// A token to retrieve the next set of results.
@@ -513,6 +518,15 @@ extension IoTDeviceAdvisor {
             self.nextToken = nextToken
             self.suiteDefinitionId = suiteDefinitionId
             self.suiteDefinitionVersion = suiteDefinitionVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.suiteDefinitionId, key: "suiteDefinitionId")
+            request.encodeQuery(self.suiteDefinitionVersion, key: "suiteDefinitionVersion")
         }
 
         public func validate(name: String) throws {
@@ -546,15 +560,17 @@ extension IoTDeviceAdvisor {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The resource ARN of the IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -579,10 +595,6 @@ extension IoTDeviceAdvisor {
     }
 
     public struct StartSuiteRunRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri("suiteDefinitionId"))
-        ]
-
         /// Suite definition ID of the test suite.
         public let suiteDefinitionId: String
         /// Suite definition version of the test suite.
@@ -597,6 +609,15 @@ extension IoTDeviceAdvisor {
             self.suiteDefinitionVersion = suiteDefinitionVersion
             self.suiteRunConfiguration = suiteRunConfiguration
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.suiteDefinitionId, key: "suiteDefinitionId")
+            try container.encodeIfPresent(self.suiteDefinitionVersion, forKey: .suiteDefinitionVersion)
+            try container.encode(self.suiteRunConfiguration, forKey: .suiteRunConfiguration)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -647,11 +668,6 @@ extension IoTDeviceAdvisor {
     }
 
     public struct StopSuiteRunRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri("suiteDefinitionId")),
-            AWSMemberEncoding(label: "suiteRunId", location: .uri("suiteRunId"))
-        ]
-
         /// Suite definition ID of the test suite run to be stopped.
         public let suiteDefinitionId: String
         /// Suite run ID of the test suite run to be stopped.
@@ -660,6 +676,13 @@ extension IoTDeviceAdvisor {
         public init(suiteDefinitionId: String, suiteRunId: String) {
             self.suiteDefinitionId = suiteDefinitionId
             self.suiteRunId = suiteRunId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.suiteDefinitionId, key: "suiteDefinitionId")
+            request.encodePath(self.suiteRunId, key: "suiteRunId")
         }
 
         public func validate(name: String) throws {
@@ -842,10 +865,6 @@ extension IoTDeviceAdvisor {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The resource ARN of an IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN.
         public let resourceArn: String
         /// The tags to be attached to the IoT Device Advisor resource.
@@ -854,6 +873,13 @@ extension IoTDeviceAdvisor {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -969,11 +995,6 @@ extension IoTDeviceAdvisor {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The resource ARN of an IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN.
         public let resourceArn: String
         /// List of tag keys to remove from the IoT Device Advisor resource.
@@ -982,6 +1003,13 @@ extension IoTDeviceAdvisor {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -1002,10 +1030,6 @@ extension IoTDeviceAdvisor {
     }
 
     public struct UpdateSuiteDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri("suiteDefinitionId"))
-        ]
-
         /// Updates a Device Advisor test suite with suite definition configuration.
         public let suiteDefinitionConfiguration: SuiteDefinitionConfiguration
         /// Suite definition ID of the test suite to be updated.
@@ -1014,6 +1038,13 @@ extension IoTDeviceAdvisor {
         public init(suiteDefinitionConfiguration: SuiteDefinitionConfiguration, suiteDefinitionId: String) {
             self.suiteDefinitionConfiguration = suiteDefinitionConfiguration
             self.suiteDefinitionId = suiteDefinitionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.suiteDefinitionConfiguration, forKey: .suiteDefinitionConfiguration)
+            request.encodePath(self.suiteDefinitionId, key: "suiteDefinitionId")
         }
 
         public func validate(name: String) throws {

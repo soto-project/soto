@@ -200,10 +200,6 @@ extension MediaPackageVod {
     }
 
     public struct ConfigureLogsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         public let egressAccessLogs: EgressAccessLogs?
         /// The ID of a MediaPackage VOD PackagingGroup resource.
         public let id: String
@@ -211,6 +207,13 @@ extension MediaPackageVod {
         public init(egressAccessLogs: EgressAccessLogs? = nil, id: String) {
             self.egressAccessLogs = egressAccessLogs
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.egressAccessLogs, forKey: .egressAccessLogs)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -541,15 +544,17 @@ extension MediaPackageVod {
     }
 
     public struct DeleteAssetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the MediaPackage VOD Asset resource to delete.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -560,15 +565,17 @@ extension MediaPackageVod {
     }
 
     public struct DeletePackagingConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the MediaPackage VOD PackagingConfiguration resource to delete.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -579,15 +586,17 @@ extension MediaPackageVod {
     }
 
     public struct DeletePackagingGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the MediaPackage VOD PackagingGroup resource to delete.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -598,15 +607,17 @@ extension MediaPackageVod {
     }
 
     public struct DescribeAssetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of an MediaPackage VOD Asset resource.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -657,15 +668,17 @@ extension MediaPackageVod {
     }
 
     public struct DescribePackagingConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of a MediaPackage VOD PackagingConfiguration resource.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -712,15 +725,17 @@ extension MediaPackageVod {
     }
 
     public struct DescribePackagingGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of a MediaPackage VOD PackagingGroup resource.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -911,12 +926,6 @@ extension MediaPackageVod {
     }
 
     public struct ListAssetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "packagingGroupId", location: .querystring("packagingGroupId"))
-        ]
-
         /// Upper bound on number of records to return.
         public let maxResults: Int?
         /// A token used to resume pagination from the end of a previous request.
@@ -928,6 +937,14 @@ extension MediaPackageVod {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.packagingGroupId = packagingGroupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.packagingGroupId, key: "packagingGroupId")
         }
 
         public func validate(name: String) throws {
@@ -956,12 +973,6 @@ extension MediaPackageVod {
     }
 
     public struct ListPackagingConfigurationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "packagingGroupId", location: .querystring("packagingGroupId"))
-        ]
-
         /// Upper bound on number of records to return.
         public let maxResults: Int?
         /// A token used to resume pagination from the end of a previous request.
@@ -973,6 +984,14 @@ extension MediaPackageVod {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.packagingGroupId = packagingGroupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.packagingGroupId, key: "packagingGroupId")
         }
 
         public func validate(name: String) throws {
@@ -1001,11 +1020,6 @@ extension MediaPackageVod {
     }
 
     public struct ListPackagingGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// Upper bound on number of records to return.
         public let maxResults: Int?
         /// A token used to resume pagination from the end of a previous request.
@@ -1014,6 +1028,13 @@ extension MediaPackageVod {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1042,15 +1063,17 @@ extension MediaPackageVod {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) for the resource. You can get this from the response to any request to the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1242,10 +1265,6 @@ extension MediaPackageVod {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) for the resource. You can get this from the response to any request to the resource.
         public let resourceArn: String
         /// A collection of tags associated with a resource
@@ -1256,17 +1275,19 @@ extension MediaPackageVod {
             self.tags = tags
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
         }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) for the resource. You can get this from the response to any request to the resource.
         public let resourceArn: String
         /// A comma-separated list of the tag keys to remove from the resource.
@@ -1277,14 +1298,17 @@ extension MediaPackageVod {
             self.tagKeys = tagKeys
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdatePackagingGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         public let authorization: Authorization?
         /// The ID of a MediaPackage VOD PackagingGroup resource.
         public let id: String
@@ -1292,6 +1316,13 @@ extension MediaPackageVod {
         public init(authorization: Authorization? = nil, id: String) {
             self.authorization = authorization
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.authorization, forKey: .authorization)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: String, CodingKey {

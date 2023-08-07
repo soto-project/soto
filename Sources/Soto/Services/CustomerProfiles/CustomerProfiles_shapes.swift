@@ -314,10 +314,6 @@ extension CustomerProfiles {
     // MARK: Shapes
 
     public struct AddProfileKeyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// A searchable identifier of a customer profile. The predefined keys you can use include: _account, _profileId, _assetId, _caseId, _orderId, _fullName, _phone, _email, _ctrContactId, _marketoLeadId, _salesforceAccountId, _salesforceContactId, _salesforceAssetId, _zendeskUserId, _zendeskExternalId, _zendeskTicketId, _serviceNowSystemId, _serviceNowIncidentId, _segmentUserId, _shopifyCustomerId, _shopifyOrderId.
@@ -332,6 +328,15 @@ extension CustomerProfiles {
             self.keyName = keyName
             self.profileId = profileId
             self.values = values
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.keyName, forKey: .keyName)
+            try container.encode(self.profileId, forKey: .profileId)
+            try container.encode(self.values, forKey: .values)
         }
 
         public func validate(name: String) throws {
@@ -771,11 +776,6 @@ extension CustomerProfiles {
     }
 
     public struct CreateCalculatedAttributeDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "calculatedAttributeName", location: .uri("CalculatedAttributeName")),
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// Mathematical expression and a list of attribute items specified in that expression.
         public let attributeDetails: AttributeDetails
         /// The unique name of the calculated attribute.
@@ -802,6 +802,19 @@ extension CustomerProfiles {
             self.domainName = domainName
             self.statistic = statistic
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.attributeDetails, forKey: .attributeDetails)
+            request.encodePath(self.calculatedAttributeName, key: "CalculatedAttributeName")
+            try container.encodeIfPresent(self.conditions, forKey: .conditions)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.displayName, forKey: .displayName)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.statistic, forKey: .statistic)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -884,10 +897,6 @@ extension CustomerProfiles {
     }
 
     public struct CreateDomainRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The URL of the SQS dead letter queue, which is used for reporting errors associated with ingesting data from third party applications. You must set up a policy on the DeadLetterQueue for the SendMessage operation to enable Amazon Connect Customer Profiles to send messages to the DeadLetterQueue.
         public let deadLetterQueueUrl: String?
         /// The default encryption key, which is an AWS managed key, is used when no specific type of encryption key is specified. It is used to encrypt all data before it is placed in permanent or semi-permanent storage.
@@ -913,6 +922,17 @@ extension CustomerProfiles {
             self.domainName = domainName
             self.matching = matching
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.deadLetterQueueUrl, forKey: .deadLetterQueueUrl)
+            try container.encodeIfPresent(self.defaultEncryptionKey, forKey: .defaultEncryptionKey)
+            try container.encode(self.defaultExpirationDays, forKey: .defaultExpirationDays)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.matching, forKey: .matching)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -990,11 +1010,6 @@ extension CustomerProfiles {
     }
 
     public struct CreateEventStreamRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "eventStreamName", location: .uri("EventStreamName"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// The name of the event stream.
@@ -1009,6 +1024,15 @@ extension CustomerProfiles {
             self.eventStreamName = eventStreamName
             self.tags = tags
             self.uri = uri
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.eventStreamName, key: "EventStreamName")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.uri, forKey: .uri)
         }
 
         public func validate(name: String) throws {
@@ -1054,10 +1078,6 @@ extension CustomerProfiles {
     }
 
     public struct CreateIntegrationWorkflowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// Configuration data for integration workflow.
@@ -1078,6 +1098,17 @@ extension CustomerProfiles {
             self.roleArn = roleArn
             self.tags = tags
             self.workflowType = workflowType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.integrationConfig, forKey: .integrationConfig)
+            try container.encode(self.objectTypeName, forKey: .objectTypeName)
+            try container.encode(self.roleArn, forKey: .roleArn)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.workflowType, forKey: .workflowType)
         }
 
         public func validate(name: String) throws {
@@ -1127,10 +1158,6 @@ extension CustomerProfiles {
     }
 
     public struct CreateProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// A unique account number that you have given to the customer.
         public let accountNumber: String?
         /// Any additional information relevant to the customer’s profile.
@@ -1205,6 +1232,35 @@ extension CustomerProfiles {
             self.personalEmailAddress = personalEmailAddress
             self.phoneNumber = phoneNumber
             self.shippingAddress = shippingAddress
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.accountNumber, forKey: .accountNumber)
+            try container.encodeIfPresent(self.additionalInformation, forKey: .additionalInformation)
+            try container.encodeIfPresent(self.address, forKey: .address)
+            try container.encodeIfPresent(self.attributes, forKey: .attributes)
+            try container.encodeIfPresent(self.billingAddress, forKey: .billingAddress)
+            try container.encodeIfPresent(self.birthDate, forKey: .birthDate)
+            try container.encodeIfPresent(self.businessEmailAddress, forKey: .businessEmailAddress)
+            try container.encodeIfPresent(self.businessName, forKey: .businessName)
+            try container.encodeIfPresent(self.businessPhoneNumber, forKey: .businessPhoneNumber)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.emailAddress, forKey: .emailAddress)
+            try container.encodeIfPresent(self.firstName, forKey: .firstName)
+            try container.encodeIfPresent(self.gender, forKey: .gender)
+            try container.encodeIfPresent(self.genderString, forKey: .genderString)
+            try container.encodeIfPresent(self.homePhoneNumber, forKey: .homePhoneNumber)
+            try container.encodeIfPresent(self.lastName, forKey: .lastName)
+            try container.encodeIfPresent(self.mailingAddress, forKey: .mailingAddress)
+            try container.encodeIfPresent(self.middleName, forKey: .middleName)
+            try container.encodeIfPresent(self.mobilePhoneNumber, forKey: .mobilePhoneNumber)
+            try container.encodeIfPresent(self.partyType, forKey: .partyType)
+            try container.encodeIfPresent(self.partyTypeString, forKey: .partyTypeString)
+            try container.encodeIfPresent(self.personalEmailAddress, forKey: .personalEmailAddress)
+            try container.encodeIfPresent(self.phoneNumber, forKey: .phoneNumber)
+            try container.encodeIfPresent(self.shippingAddress, forKey: .shippingAddress)
         }
 
         public func validate(name: String) throws {
@@ -1296,11 +1352,6 @@ extension CustomerProfiles {
     }
 
     public struct DeleteCalculatedAttributeDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "calculatedAttributeName", location: .uri("CalculatedAttributeName")),
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The unique name of the calculated attribute.
         public let calculatedAttributeName: String
         /// The unique name of the domain.
@@ -1309,6 +1360,13 @@ extension CustomerProfiles {
         public init(calculatedAttributeName: String, domainName: String) {
             self.calculatedAttributeName = calculatedAttributeName
             self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.calculatedAttributeName, key: "CalculatedAttributeName")
+            request.encodePath(self.domainName, key: "DomainName")
         }
 
         public func validate(name: String) throws {
@@ -1328,15 +1386,17 @@ extension CustomerProfiles {
     }
 
     public struct DeleteDomainRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
         }
 
         public func validate(name: String) throws {
@@ -1362,11 +1422,6 @@ extension CustomerProfiles {
     }
 
     public struct DeleteEventStreamRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "eventStreamName", location: .uri("EventStreamName"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// The name of the event stream
@@ -1375,6 +1430,13 @@ extension CustomerProfiles {
         public init(domainName: String, eventStreamName: String) {
             self.domainName = domainName
             self.eventStreamName = eventStreamName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.eventStreamName, key: "EventStreamName")
         }
 
         public func validate(name: String) throws {
@@ -1394,10 +1456,6 @@ extension CustomerProfiles {
     }
 
     public struct DeleteIntegrationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// The URI of the S3 bucket or any other type of data source.
@@ -1406,6 +1464,13 @@ extension CustomerProfiles {
         public init(domainName: String, uri: String) {
             self.domainName = domainName
             self.uri = uri
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.uri, forKey: .uri)
         }
 
         public func validate(name: String) throws {
@@ -1435,10 +1500,6 @@ extension CustomerProfiles {
     }
 
     public struct DeleteProfileKeyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// A searchable identifier of a customer profile.
@@ -1453,6 +1514,15 @@ extension CustomerProfiles {
             self.keyName = keyName
             self.profileId = profileId
             self.values = values
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.keyName, forKey: .keyName)
+            try container.encode(self.profileId, forKey: .profileId)
+            try container.encode(self.values, forKey: .values)
         }
 
         public func validate(name: String) throws {
@@ -1490,10 +1560,6 @@ extension CustomerProfiles {
     }
 
     public struct DeleteProfileObjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// The name of the profile object type.
@@ -1508,6 +1574,15 @@ extension CustomerProfiles {
             self.objectTypeName = objectTypeName
             self.profileId = profileId
             self.profileObjectUniqueKey = profileObjectUniqueKey
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.objectTypeName, forKey: .objectTypeName)
+            try container.encode(self.profileId, forKey: .profileId)
+            try container.encode(self.profileObjectUniqueKey, forKey: .profileObjectUniqueKey)
         }
 
         public func validate(name: String) throws {
@@ -1543,11 +1618,6 @@ extension CustomerProfiles {
     }
 
     public struct DeleteProfileObjectTypeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "objectTypeName", location: .uri("ObjectTypeName"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// The name of the profile object type.
@@ -1556,6 +1626,13 @@ extension CustomerProfiles {
         public init(domainName: String, objectTypeName: String) {
             self.domainName = domainName
             self.objectTypeName = objectTypeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.objectTypeName, key: "ObjectTypeName")
         }
 
         public func validate(name: String) throws {
@@ -1584,10 +1661,6 @@ extension CustomerProfiles {
     }
 
     public struct DeleteProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// The unique identifier of a customer profile.
@@ -1596,6 +1669,13 @@ extension CustomerProfiles {
         public init(domainName: String, profileId: String) {
             self.domainName = domainName
             self.profileId = profileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.profileId, forKey: .profileId)
         }
 
         public func validate(name: String) throws {
@@ -1624,11 +1704,6 @@ extension CustomerProfiles {
     }
 
     public struct DeleteWorkflowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "workflowId", location: .uri("WorkflowId"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// Unique identifier for the workflow.
@@ -1637,6 +1712,13 @@ extension CustomerProfiles {
         public init(domainName: String, workflowId: String) {
             self.domainName = domainName
             self.workflowId = workflowId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.workflowId, key: "WorkflowId")
         }
 
         public func validate(name: String) throws {
@@ -1979,10 +2061,6 @@ extension CustomerProfiles {
     }
 
     public struct GetAutoMergingPreviewRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// How the auto-merging process should resolve conflicts between different profiles.
         public let conflictResolution: ConflictResolution
         /// A list of matching attributes that represent matching criteria.
@@ -1997,6 +2075,15 @@ extension CustomerProfiles {
             self.consolidation = consolidation
             self.domainName = domainName
             self.minAllowedConfidenceScoreForMerging = minAllowedConfidenceScoreForMerging
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.conflictResolution, forKey: .conflictResolution)
+            try container.encode(self.consolidation, forKey: .consolidation)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.minAllowedConfidenceScoreForMerging, forKey: .minAllowedConfidenceScoreForMerging)
         }
 
         public func validate(name: String) throws {
@@ -2042,11 +2129,6 @@ extension CustomerProfiles {
     }
 
     public struct GetCalculatedAttributeDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "calculatedAttributeName", location: .uri("CalculatedAttributeName")),
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The unique name of the calculated attribute.
         public let calculatedAttributeName: String
         /// The unique name of the domain.
@@ -2055,6 +2137,13 @@ extension CustomerProfiles {
         public init(calculatedAttributeName: String, domainName: String) {
             self.calculatedAttributeName = calculatedAttributeName
             self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.calculatedAttributeName, key: "CalculatedAttributeName")
+            request.encodePath(self.domainName, key: "DomainName")
         }
 
         public func validate(name: String) throws {
@@ -2115,12 +2204,6 @@ extension CustomerProfiles {
     }
 
     public struct GetCalculatedAttributeForProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "calculatedAttributeName", location: .uri("CalculatedAttributeName")),
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "profileId", location: .uri("ProfileId"))
-        ]
-
         /// The unique name of the calculated attribute.
         public let calculatedAttributeName: String
         /// The unique name of the domain.
@@ -2132,6 +2215,14 @@ extension CustomerProfiles {
             self.calculatedAttributeName = calculatedAttributeName
             self.domainName = domainName
             self.profileId = profileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.calculatedAttributeName, key: "CalculatedAttributeName")
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.profileId, key: "ProfileId")
         }
 
         public func validate(name: String) throws {
@@ -2173,15 +2264,17 @@ extension CustomerProfiles {
     }
 
     public struct GetDomainRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
         }
 
         public func validate(name: String) throws {
@@ -2244,11 +2337,6 @@ extension CustomerProfiles {
     }
 
     public struct GetEventStreamRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "eventStreamName", location: .uri("EventStreamName"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// The name of the event stream provided during create operations.
@@ -2257,6 +2345,13 @@ extension CustomerProfiles {
         public init(domainName: String, eventStreamName: String) {
             self.domainName = domainName
             self.eventStreamName = eventStreamName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.eventStreamName, key: "EventStreamName")
         }
 
         public func validate(name: String) throws {
@@ -2309,11 +2404,6 @@ extension CustomerProfiles {
     }
 
     public struct GetIdentityResolutionJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// The unique identifier of the Identity Resolution Job.
@@ -2322,6 +2412,13 @@ extension CustomerProfiles {
         public init(domainName: String, jobId: String) {
             self.domainName = domainName
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.jobId, key: "JobId")
         }
 
         public func validate(name: String) throws {
@@ -2388,10 +2485,6 @@ extension CustomerProfiles {
     }
 
     public struct GetIntegrationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// The URI of the S3 bucket or any other type of data source.
@@ -2400,6 +2493,13 @@ extension CustomerProfiles {
         public init(domainName: String, uri: String) {
             self.domainName = domainName
             self.uri = uri
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.uri, forKey: .uri)
         }
 
         public func validate(name: String) throws {
@@ -2463,12 +2563,6 @@ extension CustomerProfiles {
     }
 
     public struct GetMatchesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// The maximum number of results to return per page.
@@ -2481,6 +2575,14 @@ extension CustomerProfiles {
             self.domainName = domainName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -2522,11 +2624,6 @@ extension CustomerProfiles {
     }
 
     public struct GetProfileObjectTypeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "objectTypeName", location: .uri("ObjectTypeName"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// The name of the profile object type.
@@ -2535,6 +2632,13 @@ extension CustomerProfiles {
         public init(domainName: String, objectTypeName: String) {
             self.domainName = domainName
             self.objectTypeName = objectTypeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.objectTypeName, key: "ObjectTypeName")
         }
 
         public func validate(name: String) throws {
@@ -2607,15 +2711,17 @@ extension CustomerProfiles {
     }
 
     public struct GetProfileObjectTypeTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateId", location: .uri("TemplateId"))
-        ]
-
         /// A unique identifier for the object template.
         public let templateId: String
 
         public init(templateId: String) {
             self.templateId = templateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.templateId, key: "TemplateId")
         }
 
         public func validate(name: String) throws {
@@ -2665,11 +2771,6 @@ extension CustomerProfiles {
     }
 
     public struct GetWorkflowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "workflowId", location: .uri("WorkflowId"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// Unique identifier for the workflow.
@@ -2678,6 +2779,13 @@ extension CustomerProfiles {
         public init(domainName: String, workflowId: String) {
             self.domainName = domainName
             self.workflowId = workflowId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.workflowId, key: "WorkflowId")
         }
 
         public func validate(name: String) throws {
@@ -2732,13 +2840,6 @@ extension CustomerProfiles {
     }
 
     public struct GetWorkflowStepsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "workflowId", location: .uri("WorkflowId"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// The maximum number of results to return per page.
@@ -2754,6 +2855,15 @@ extension CustomerProfiles {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.workflowId = workflowId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodePath(self.workflowId, key: "WorkflowId")
         }
 
         public func validate(name: String) throws {
@@ -2916,12 +3026,6 @@ extension CustomerProfiles {
     }
 
     public struct ListAccountIntegrationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "includeHidden", location: .querystring("include-hidden")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// Boolean to indicate if hidden integration should be returned. Defaults to False.
         public let includeHidden: Bool?
         /// The maximum number of objects returned per page.
@@ -2936,6 +3040,15 @@ extension CustomerProfiles {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.uri = uri
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.includeHidden, key: "include-hidden")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            try container.encode(self.uri, forKey: .uri)
         }
 
         public func validate(name: String) throws {
@@ -3003,12 +3116,6 @@ extension CustomerProfiles {
     }
 
     public struct ListCalculatedAttributeDefinitionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// The maximum number of calculated attribute definitions returned per page.
@@ -3020,6 +3127,14 @@ extension CustomerProfiles {
             self.domainName = domainName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -3078,13 +3193,6 @@ extension CustomerProfiles {
     }
 
     public struct ListCalculatedAttributesForProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "profileId", location: .uri("ProfileId"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// The maximum number of calculated attributes returned per page.
@@ -3099,6 +3207,15 @@ extension CustomerProfiles {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.profileId = profileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodePath(self.profileId, key: "ProfileId")
         }
 
         public func validate(name: String) throws {
@@ -3158,11 +3275,6 @@ extension CustomerProfiles {
     }
 
     public struct ListDomainsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The maximum number of objects returned per page.
         public let maxResults: Int?
         /// The pagination token from the previous ListDomain API call.
@@ -3171,6 +3283,13 @@ extension CustomerProfiles {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -3201,12 +3320,6 @@ extension CustomerProfiles {
     }
 
     public struct ListEventStreamsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// The maximum number of objects returned per page.
@@ -3218,6 +3331,14 @@ extension CustomerProfiles {
             self.domainName = domainName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -3251,12 +3372,6 @@ extension CustomerProfiles {
     }
 
     public struct ListIdentityResolutionJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// The maximum number of results to return per page.
@@ -3269,6 +3384,14 @@ extension CustomerProfiles {
             self.domainName = domainName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -3349,13 +3472,6 @@ extension CustomerProfiles {
     }
 
     public struct ListIntegrationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "includeHidden", location: .querystring("include-hidden")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// Boolean to indicate if hidden integration should be returned. Defaults to False.
@@ -3370,6 +3486,15 @@ extension CustomerProfiles {
             self.includeHidden = includeHidden
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.includeHidden, key: "include-hidden")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -3453,11 +3578,6 @@ extension CustomerProfiles {
     }
 
     public struct ListProfileObjectTypeTemplatesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The maximum number of objects returned per page.
         public let maxResults: Int?
         /// The pagination token from the previous ListObjectTypeTemplates API call.
@@ -3466,6 +3586,13 @@ extension CustomerProfiles {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -3496,12 +3623,6 @@ extension CustomerProfiles {
     }
 
     public struct ListProfileObjectTypesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// The maximum number of objects returned per page.
@@ -3513,6 +3634,14 @@ extension CustomerProfiles {
             self.domainName = domainName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -3567,12 +3696,6 @@ extension CustomerProfiles {
     }
 
     public struct ListProfileObjectsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// The maximum number of objects returned per page.
@@ -3593,6 +3716,17 @@ extension CustomerProfiles {
             self.objectFilter = objectFilter
             self.objectTypeName = objectTypeName
             self.profileId = profileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            try container.encodeIfPresent(self.objectFilter, forKey: .objectFilter)
+            try container.encode(self.objectTypeName, forKey: .objectTypeName)
+            try container.encode(self.profileId, forKey: .profileId)
         }
 
         public func validate(name: String) throws {
@@ -3635,15 +3769,17 @@ extension CustomerProfiles {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The ARN of the resource for which you want to view tags.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -3701,12 +3837,6 @@ extension CustomerProfiles {
     }
 
     public struct ListWorkflowsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// The maximum number of results to return per page.
@@ -3731,6 +3861,18 @@ extension CustomerProfiles {
             self.queryStartDate = queryStartDate
             self.status = status
             self.workflowType = workflowType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            try container.encodeIfPresent(self.queryEndDate, forKey: .queryEndDate)
+            try container.encodeIfPresent(self.queryStartDate, forKey: .queryStartDate)
+            try container.encodeIfPresent(self.status, forKey: .status)
+            try container.encodeIfPresent(self.workflowType, forKey: .workflowType)
         }
 
         public func validate(name: String) throws {
@@ -3864,10 +4006,6 @@ extension CustomerProfiles {
     }
 
     public struct MergeProfilesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// The identifiers of the fields in the profile that has the information you want to apply to the merge. For example, say you want to merge EmailAddress from Profile1 into MainProfile. This would be the identifier of the EmailAddress field in Profile1.
@@ -3882,6 +4020,15 @@ extension CustomerProfiles {
             self.fieldSourceProfileIds = fieldSourceProfileIds
             self.mainProfileId = mainProfileId
             self.profileIdsToBeMerged = profileIdsToBeMerged
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.fieldSourceProfileIds, forKey: .fieldSourceProfileIds)
+            try container.encode(self.mainProfileId, forKey: .mainProfileId)
+            try container.encode(self.profileIdsToBeMerged, forKey: .profileIdsToBeMerged)
         }
 
         public func validate(name: String) throws {
@@ -4107,10 +4254,6 @@ extension CustomerProfiles {
     }
 
     public struct PutIntegrationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// The configuration that controls how Customer Profiles retrieves data from the source.
@@ -4133,6 +4276,17 @@ extension CustomerProfiles {
             self.objectTypeNames = objectTypeNames
             self.tags = tags
             self.uri = uri
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.flowDefinition, forKey: .flowDefinition)
+            try container.encodeIfPresent(self.objectTypeName, forKey: .objectTypeName)
+            try container.encodeIfPresent(self.objectTypeNames, forKey: .objectTypeNames)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.uri, forKey: .uri)
         }
 
         public func validate(name: String) throws {
@@ -4219,10 +4373,6 @@ extension CustomerProfiles {
     }
 
     public struct PutProfileObjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The unique name of the domain.
         public let domainName: String
         /// A string that is serialized from a JSON object.
@@ -4234,6 +4384,14 @@ extension CustomerProfiles {
             self.domainName = domainName
             self.object = object
             self.objectTypeName = objectTypeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.object, forKey: .object)
+            try container.encode(self.objectTypeName, forKey: .objectTypeName)
         }
 
         public func validate(name: String) throws {
@@ -4267,11 +4425,6 @@ extension CustomerProfiles {
     }
 
     public struct PutProfileObjectTypeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "objectTypeName", location: .uri("ObjectTypeName"))
-        ]
-
         /// Indicates whether a profile should be created when data is received if one doesn’t exist for an object of this type. The default is FALSE. If the AllowProfileCreation flag is set to FALSE, then the service tries to fetch a standard profile and associate this object with the profile. If it is set to TRUE, and if no match is found, then the service creates a new standard profile.
         public let allowProfileCreation: Bool?
         /// Description of the profile object type.
@@ -4307,6 +4460,22 @@ extension CustomerProfiles {
             self.sourceLastUpdatedTimestampFormat = sourceLastUpdatedTimestampFormat
             self.tags = tags
             self.templateId = templateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.allowProfileCreation, forKey: .allowProfileCreation)
+            try container.encode(self.description, forKey: .description)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.encryptionKey, forKey: .encryptionKey)
+            try container.encodeIfPresent(self.expirationDays, forKey: .expirationDays)
+            try container.encodeIfPresent(self.fields, forKey: .fields)
+            try container.encodeIfPresent(self.keys, forKey: .keys)
+            request.encodePath(self.objectTypeName, key: "ObjectTypeName")
+            try container.encodeIfPresent(self.sourceLastUpdatedTimestampFormat, forKey: .sourceLastUpdatedTimestampFormat)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.templateId, forKey: .templateId)
         }
 
         public func validate(name: String) throws {
@@ -4580,12 +4749,6 @@ extension CustomerProfiles {
     }
 
     public struct SearchProfilesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// A list of AdditionalSearchKey objects that are each searchable identifiers of a profile. Each AdditionalSearchKey object contains a KeyName and a list of Values associated with that specific key (i.e., a key-value(s) pair). These additional search keys will be used in conjunction with the LogicalOperator and the required KeyName and Values parameters to search for profiles that satisfy the search criteria.
         public let additionalSearchKeys: [AdditionalSearchKey]?
         /// The unique name of the domain.
@@ -4609,6 +4772,18 @@ extension CustomerProfiles {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.values = values
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.additionalSearchKeys, forKey: .additionalSearchKeys)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.keyName, forKey: .keyName)
+            try container.encodeIfPresent(self.logicalOperator, forKey: .logicalOperator)
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            try container.encode(self.values, forKey: .values)
         }
 
         public func validate(name: String) throws {
@@ -4746,10 +4921,6 @@ extension CustomerProfiles {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The ARN of the resource that you're adding tags to.
         public let resourceArn: String
         /// The tags used to organize, track, or control access for this resource.
@@ -4758,6 +4929,13 @@ extension CustomerProfiles {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -4885,11 +5063,6 @@ extension CustomerProfiles {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The ARN of the resource from which you are removing tags.
         public let resourceArn: String
         /// The list of tag keys to remove from the resource.
@@ -4898,6 +5071,13 @@ extension CustomerProfiles {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -4982,11 +5162,6 @@ extension CustomerProfiles {
     }
 
     public struct UpdateCalculatedAttributeDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "calculatedAttributeName", location: .uri("CalculatedAttributeName")),
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The unique name of the calculated attribute.
         public let calculatedAttributeName: String
         /// The conditions including range, object count, and threshold for the calculated attribute.
@@ -5004,6 +5179,16 @@ extension CustomerProfiles {
             self.description = description
             self.displayName = displayName
             self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.calculatedAttributeName, key: "CalculatedAttributeName")
+            try container.encodeIfPresent(self.conditions, forKey: .conditions)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.displayName, forKey: .displayName)
+            request.encodePath(self.domainName, key: "DomainName")
         }
 
         public func validate(name: String) throws {
@@ -5074,10 +5259,6 @@ extension CustomerProfiles {
     }
 
     public struct UpdateDomainRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The URL of the SQS dead letter queue, which is used for reporting errors associated with ingesting data from third party applications. If specified as an empty string, it will clear any existing value. You must set up a policy on the DeadLetterQueue for the SendMessage operation to enable Amazon Connect Customer Profiles to send messages to the DeadLetterQueue.
         public let deadLetterQueueUrl: String?
         /// The default encryption key, which is an AWS managed key, is used when no specific type of encryption key is specified. It is used to encrypt all data before it is placed in permanent or semi-permanent storage. If specified as an empty string, it will clear any existing value.
@@ -5103,6 +5284,17 @@ extension CustomerProfiles {
             self.domainName = domainName
             self.matching = matching
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.deadLetterQueueUrl, forKey: .deadLetterQueueUrl)
+            try container.encodeIfPresent(self.defaultEncryptionKey, forKey: .defaultEncryptionKey)
+            try container.encodeIfPresent(self.defaultExpirationDays, forKey: .defaultExpirationDays)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.matching, forKey: .matching)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -5180,10 +5372,6 @@ extension CustomerProfiles {
     }
 
     public struct UpdateProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// A unique account number that you have given to the customer.
         public let accountNumber: String?
         /// Any additional information relevant to the customer’s profile.
@@ -5261,6 +5449,36 @@ extension CustomerProfiles {
             self.phoneNumber = phoneNumber
             self.profileId = profileId
             self.shippingAddress = shippingAddress
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.accountNumber, forKey: .accountNumber)
+            try container.encodeIfPresent(self.additionalInformation, forKey: .additionalInformation)
+            try container.encodeIfPresent(self.address, forKey: .address)
+            try container.encodeIfPresent(self.attributes, forKey: .attributes)
+            try container.encodeIfPresent(self.billingAddress, forKey: .billingAddress)
+            try container.encodeIfPresent(self.birthDate, forKey: .birthDate)
+            try container.encodeIfPresent(self.businessEmailAddress, forKey: .businessEmailAddress)
+            try container.encodeIfPresent(self.businessName, forKey: .businessName)
+            try container.encodeIfPresent(self.businessPhoneNumber, forKey: .businessPhoneNumber)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.emailAddress, forKey: .emailAddress)
+            try container.encodeIfPresent(self.firstName, forKey: .firstName)
+            try container.encodeIfPresent(self.gender, forKey: .gender)
+            try container.encodeIfPresent(self.genderString, forKey: .genderString)
+            try container.encodeIfPresent(self.homePhoneNumber, forKey: .homePhoneNumber)
+            try container.encodeIfPresent(self.lastName, forKey: .lastName)
+            try container.encodeIfPresent(self.mailingAddress, forKey: .mailingAddress)
+            try container.encodeIfPresent(self.middleName, forKey: .middleName)
+            try container.encodeIfPresent(self.mobilePhoneNumber, forKey: .mobilePhoneNumber)
+            try container.encodeIfPresent(self.partyType, forKey: .partyType)
+            try container.encodeIfPresent(self.partyTypeString, forKey: .partyTypeString)
+            try container.encodeIfPresent(self.personalEmailAddress, forKey: .personalEmailAddress)
+            try container.encodeIfPresent(self.phoneNumber, forKey: .phoneNumber)
+            try container.encode(self.profileId, forKey: .profileId)
+            try container.encodeIfPresent(self.shippingAddress, forKey: .shippingAddress)
         }
 
         public func validate(name: String) throws {

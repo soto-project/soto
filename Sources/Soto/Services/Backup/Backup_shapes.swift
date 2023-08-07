@@ -583,12 +583,6 @@ extension Backup {
     }
 
     public struct CancelLegalHoldInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cancelDescription", location: .querystring("cancelDescription")),
-            AWSMemberEncoding(label: "legalHoldId", location: .uri("LegalHoldId")),
-            AWSMemberEncoding(label: "retainRecordInDays", location: .querystring("retainRecordInDays"))
-        ]
-
         /// String describing the reason for removing the legal hold.
         public let cancelDescription: String
         /// Legal hold ID required to remove the specified legal hold on a recovery point.
@@ -600,6 +594,14 @@ extension Backup {
             self.cancelDescription = cancelDescription
             self.legalHoldId = legalHoldId
             self.retainRecordInDays = retainRecordInDays
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.cancelDescription, key: "cancelDescription")
+            request.encodePath(self.legalHoldId, key: "LegalHoldId")
+            request.encodeQuery(self.retainRecordInDays, key: "retainRecordInDays")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -878,10 +880,6 @@ extension Backup {
     }
 
     public struct CreateBackupSelectionInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanId", location: .uri("BackupPlanId"))
-        ]
-
         /// Uniquely identifies the backup plan to be associated with the selection of resources.
         public let backupPlanId: String
         /// Specifies the body of a request to assign a set of resources to a backup plan.
@@ -893,6 +891,14 @@ extension Backup {
             self.backupPlanId = backupPlanId
             self.backupSelection = backupSelection
             self.creatorRequestId = creatorRequestId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupPlanId, key: "BackupPlanId")
+            try container.encode(self.backupSelection, forKey: .backupSelection)
+            try container.encodeIfPresent(self.creatorRequestId, forKey: .creatorRequestId)
         }
 
         public func validate(name: String) throws {
@@ -927,10 +933,6 @@ extension Backup {
     }
 
     public struct CreateBackupVaultInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
-        ]
-
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of letters, numbers, and hyphens.
         public let backupVaultName: String
         /// Metadata that you can assign to help organize the resources that you create. Each tag is a key-value pair.
@@ -945,6 +947,15 @@ extension Backup {
             self.backupVaultTags = backupVaultTags
             self.creatorRequestId = creatorRequestId
             self.encryptionKeyArn = encryptionKeyArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
+            try container.encodeIfPresent(self.backupVaultTags, forKey: .backupVaultTags)
+            try container.encodeIfPresent(self.creatorRequestId, forKey: .creatorRequestId)
+            try container.encodeIfPresent(self.encryptionKeyArn, forKey: .encryptionKeyArn)
         }
 
         public func validate(name: String) throws {
@@ -1182,15 +1193,17 @@ extension Backup {
     }
 
     public struct DeleteBackupPlanInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanId", location: .uri("BackupPlanId"))
-        ]
-
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String
 
         public init(backupPlanId: String) {
             self.backupPlanId = backupPlanId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupPlanId, key: "BackupPlanId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1222,11 +1235,6 @@ extension Backup {
     }
 
     public struct DeleteBackupSelectionInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanId", location: .uri("BackupPlanId")),
-            AWSMemberEncoding(label: "selectionId", location: .uri("SelectionId"))
-        ]
-
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String
         /// Uniquely identifies the body of a request to assign a set of resources to a backup plan.
@@ -1237,19 +1245,28 @@ extension Backup {
             self.selectionId = selectionId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupPlanId, key: "BackupPlanId")
+            request.encodePath(self.selectionId, key: "SelectionId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBackupVaultAccessPolicyInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
-        ]
-
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
 
         public init(backupVaultName: String) {
             self.backupVaultName = backupVaultName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
         }
 
         public func validate(name: String) throws {
@@ -1260,10 +1277,6 @@ extension Backup {
     }
 
     public struct DeleteBackupVaultInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
-        ]
-
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
 
@@ -1271,19 +1284,27 @@ extension Backup {
             self.backupVaultName = backupVaultName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBackupVaultLockConfigurationInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
-        ]
-
         /// The name of the backup vault from which to delete Backup Vault Lock.
         public let backupVaultName: String
 
         public init(backupVaultName: String) {
             self.backupVaultName = backupVaultName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
         }
 
         public func validate(name: String) throws {
@@ -1294,15 +1315,17 @@ extension Backup {
     }
 
     public struct DeleteBackupVaultNotificationsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
-        ]
-
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
 
         public init(backupVaultName: String) {
             self.backupVaultName = backupVaultName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
         }
 
         public func validate(name: String) throws {
@@ -1313,15 +1336,17 @@ extension Backup {
     }
 
     public struct DeleteFrameworkInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "frameworkName", location: .uri("FrameworkName"))
-        ]
-
         /// The unique name of a framework.
         public let frameworkName: String
 
         public init(frameworkName: String) {
             self.frameworkName = frameworkName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.frameworkName, key: "FrameworkName")
         }
 
         public func validate(name: String) throws {
@@ -1334,11 +1359,6 @@ extension Backup {
     }
 
     public struct DeleteRecoveryPointInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName")),
-            AWSMemberEncoding(label: "recoveryPointArn", location: .uri("RecoveryPointArn"))
-        ]
-
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
@@ -1349,6 +1369,13 @@ extension Backup {
             self.recoveryPointArn = recoveryPointArn
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
+            request.encodePath(self.recoveryPointArn, key: "RecoveryPointArn")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
@@ -1357,15 +1384,17 @@ extension Backup {
     }
 
     public struct DeleteReportPlanInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reportPlanName", location: .uri("ReportPlanName"))
-        ]
-
         /// The unique name of a report plan.
         public let reportPlanName: String
 
         public init(reportPlanName: String) {
             self.reportPlanName = reportPlanName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.reportPlanName, key: "ReportPlanName")
         }
 
         public func validate(name: String) throws {
@@ -1378,15 +1407,17 @@ extension Backup {
     }
 
     public struct DescribeBackupJobInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupJobId", location: .uri("BackupJobId"))
-        ]
-
         /// Uniquely identifies a request to Backup to back up a resource.
         public let backupJobId: String
 
         public init(backupJobId: String) {
             self.backupJobId = backupJobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupJobId, key: "BackupJobId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1502,15 +1533,17 @@ extension Backup {
     }
 
     public struct DescribeBackupVaultInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
-        ]
-
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
 
         public init(backupVaultName: String) {
             self.backupVaultName = backupVaultName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1566,15 +1599,17 @@ extension Backup {
     }
 
     public struct DescribeCopyJobInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "copyJobId", location: .uri("CopyJobId"))
-        ]
-
         /// Uniquely identifies a copy job.
         public let copyJobId: String
 
         public init(copyJobId: String) {
             self.copyJobId = copyJobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.copyJobId, key: "CopyJobId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1594,15 +1629,17 @@ extension Backup {
     }
 
     public struct DescribeFrameworkInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "frameworkName", location: .uri("FrameworkName"))
-        ]
-
         /// The unique name of a framework.
         public let frameworkName: String
 
         public init(frameworkName: String) {
             self.frameworkName = frameworkName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.frameworkName, key: "FrameworkName")
         }
 
         public func validate(name: String) throws {
@@ -1677,15 +1714,17 @@ extension Backup {
     }
 
     public struct DescribeProtectedResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1717,11 +1756,6 @@ extension Backup {
     }
 
     public struct DescribeRecoveryPointInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName")),
-            AWSMemberEncoding(label: "recoveryPointArn", location: .uri("RecoveryPointArn"))
-        ]
-
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
@@ -1730,6 +1764,13 @@ extension Backup {
         public init(backupVaultName: String, recoveryPointArn: String) {
             self.backupVaultName = backupVaultName
             self.recoveryPointArn = recoveryPointArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
+            request.encodePath(self.recoveryPointArn, key: "RecoveryPointArn")
         }
 
         public func validate(name: String) throws {
@@ -1862,15 +1903,17 @@ extension Backup {
     }
 
     public struct DescribeReportJobInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reportJobId", location: .uri("ReportJobId"))
-        ]
-
         /// The identifier of the report job. A unique, randomly generated, Unicode, UTF-8 encoded string that is at most 1,024 bytes long. The report job ID cannot be edited.
         public let reportJobId: String
 
         public init(reportJobId: String) {
             self.reportJobId = reportJobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.reportJobId, key: "ReportJobId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1890,15 +1933,17 @@ extension Backup {
     }
 
     public struct DescribeReportPlanInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reportPlanName", location: .uri("ReportPlanName"))
-        ]
-
         /// The unique name of a report plan.
         public let reportPlanName: String
 
         public init(reportPlanName: String) {
             self.reportPlanName = reportPlanName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.reportPlanName, key: "ReportPlanName")
         }
 
         public func validate(name: String) throws {
@@ -1924,15 +1969,17 @@ extension Backup {
     }
 
     public struct DescribeRestoreJobInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "restoreJobId", location: .uri("RestoreJobId"))
-        ]
-
         /// Uniquely identifies the job that restores a recovery point.
         public let restoreJobId: String
 
         public init(restoreJobId: String) {
             self.restoreJobId = restoreJobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.restoreJobId, key: "RestoreJobId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2000,11 +2047,6 @@ extension Backup {
     }
 
     public struct DisassociateRecoveryPointFromParentInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName")),
-            AWSMemberEncoding(label: "recoveryPointArn", location: .uri("RecoveryPointArn"))
-        ]
-
         /// This is the name of a logical container where the child (nested) recovery point is stored. Backup vaults are identified by names that are unique to the account used  to create them and the Amazon Web Services Region where they are created. They consist of lowercase  letters, numbers, and hyphens.
         public let backupVaultName: String
         /// This is the Amazon Resource Name (ARN) that uniquely identifies the child  (nested) recovery point; for example,  arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
@@ -2015,6 +2057,13 @@ extension Backup {
             self.recoveryPointArn = recoveryPointArn
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
+            request.encodePath(self.recoveryPointArn, key: "RecoveryPointArn")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
@@ -2023,11 +2072,6 @@ extension Backup {
     }
 
     public struct DisassociateRecoveryPointInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName")),
-            AWSMemberEncoding(label: "recoveryPointArn", location: .uri("RecoveryPointArn"))
-        ]
-
         /// The unique name of an Backup vault.
         public let backupVaultName: String
         /// An Amazon Resource Name (ARN) that uniquely identifies an Backup recovery point.
@@ -2038,6 +2082,13 @@ extension Backup {
             self.recoveryPointArn = recoveryPointArn
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
+            request.encodePath(self.recoveryPointArn, key: "RecoveryPointArn")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
@@ -2046,15 +2097,17 @@ extension Backup {
     }
 
     public struct ExportBackupPlanTemplateInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanId", location: .uri("BackupPlanId"))
-        ]
-
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String
 
         public init(backupPlanId: String) {
             self.backupPlanId = backupPlanId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupPlanId, key: "BackupPlanId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2158,15 +2211,17 @@ extension Backup {
     }
 
     public struct GetBackupPlanFromTemplateInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanTemplateId", location: .uri("BackupPlanTemplateId"))
-        ]
-
         /// Uniquely identifies a stored backup plan template.
         public let backupPlanTemplateId: String
 
         public init(backupPlanTemplateId: String) {
             self.backupPlanTemplateId = backupPlanTemplateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupPlanTemplateId, key: "BackupPlanTemplateId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2186,11 +2241,6 @@ extension Backup {
     }
 
     public struct GetBackupPlanInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanId", location: .uri("BackupPlanId")),
-            AWSMemberEncoding(label: "versionId", location: .querystring("versionId"))
-        ]
-
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version IDs cannot be edited.
@@ -2199,6 +2249,13 @@ extension Backup {
         public init(backupPlanId: String, versionId: String? = nil) {
             self.backupPlanId = backupPlanId
             self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupPlanId, key: "BackupPlanId")
+            request.encodeQuery(self.versionId, key: "versionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2250,11 +2307,6 @@ extension Backup {
     }
 
     public struct GetBackupSelectionInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanId", location: .uri("BackupPlanId")),
-            AWSMemberEncoding(label: "selectionId", location: .uri("SelectionId"))
-        ]
-
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String
         /// Uniquely identifies the body of a request to assign a set of resources to a backup plan.
@@ -2263,6 +2315,13 @@ extension Backup {
         public init(backupPlanId: String, selectionId: String) {
             self.backupPlanId = backupPlanId
             self.selectionId = selectionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupPlanId, key: "BackupPlanId")
+            request.encodePath(self.selectionId, key: "SelectionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2298,15 +2357,17 @@ extension Backup {
     }
 
     public struct GetBackupVaultAccessPolicyInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
-        ]
-
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
 
         public init(backupVaultName: String) {
             self.backupVaultName = backupVaultName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
         }
 
         public func validate(name: String) throws {
@@ -2338,15 +2399,17 @@ extension Backup {
     }
 
     public struct GetBackupVaultNotificationsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
-        ]
-
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
 
         public init(backupVaultName: String) {
             self.backupVaultName = backupVaultName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
         }
 
         public func validate(name: String) throws {
@@ -2382,15 +2445,17 @@ extension Backup {
     }
 
     public struct GetLegalHoldInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "legalHoldId", location: .uri("LegalHoldId"))
-        ]
-
         /// This is the ID required to use GetLegalHold. This unique ID  is associated with a specific legal hold.
         public let legalHoldId: String
 
         public init(legalHoldId: String) {
             self.legalHoldId = legalHoldId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.legalHoldId, key: "LegalHoldId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2446,11 +2511,6 @@ extension Backup {
     }
 
     public struct GetRecoveryPointRestoreMetadataInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName")),
-            AWSMemberEncoding(label: "recoveryPointArn", location: .uri("RecoveryPointArn"))
-        ]
-
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
@@ -2459,6 +2519,13 @@ extension Backup {
         public init(backupVaultName: String, recoveryPointArn: String) {
             self.backupVaultName = backupVaultName
             self.recoveryPointArn = recoveryPointArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
+            request.encodePath(self.recoveryPointArn, key: "RecoveryPointArn")
         }
 
         public func validate(name: String) throws {
@@ -2557,21 +2624,6 @@ extension Backup {
     }
 
     public struct ListBackupJobsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "byAccountId", location: .querystring("accountId")),
-            AWSMemberEncoding(label: "byBackupVaultName", location: .querystring("backupVaultName")),
-            AWSMemberEncoding(label: "byCompleteAfter", location: .querystring("completeAfter")),
-            AWSMemberEncoding(label: "byCompleteBefore", location: .querystring("completeBefore")),
-            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring("createdAfter")),
-            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring("createdBefore")),
-            AWSMemberEncoding(label: "byParentJobId", location: .querystring("parentJobId")),
-            AWSMemberEncoding(label: "byResourceArn", location: .querystring("resourceArn")),
-            AWSMemberEncoding(label: "byResourceType", location: .querystring("resourceType")),
-            AWSMemberEncoding(label: "byState", location: .querystring("state")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The account ID to list the jobs from. Returns only backup jobs associated with the specified account ID. If used from an Organizations management account, passing * returns all jobs across the organization.
         public let byAccountId: String?
         /// Returns only backup jobs that will be stored in the specified backup vault. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -2612,6 +2664,23 @@ extension Backup {
             self.nextToken = nextToken
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.byAccountId, key: "accountId")
+            request.encodeQuery(self.byBackupVaultName, key: "backupVaultName")
+            request.encodeQuery(self.byCompleteAfter, key: "completeAfter")
+            request.encodeQuery(self.byCompleteBefore, key: "completeBefore")
+            request.encodeQuery(self.byCreatedAfter, key: "createdAfter")
+            request.encodeQuery(self.byCreatedBefore, key: "createdBefore")
+            request.encodeQuery(self.byParentJobId, key: "parentJobId")
+            request.encodeQuery(self.byResourceArn, key: "resourceArn")
+            request.encodeQuery(self.byResourceType, key: "resourceType")
+            request.encodeQuery(self.byState, key: "state")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.byAccountId, name: "byAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.byBackupVaultName, name: "byBackupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
@@ -2641,11 +2710,6 @@ extension Backup {
     }
 
     public struct ListBackupPlanTemplatesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of items to be returned.
         public let maxResults: Int?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -2654,6 +2718,13 @@ extension Backup {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2682,12 +2753,6 @@ extension Backup {
     }
 
     public struct ListBackupPlanVersionsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanId", location: .uri("BackupPlanId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String
         /// The maximum number of items to be returned.
@@ -2699,6 +2764,14 @@ extension Backup {
             self.backupPlanId = backupPlanId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupPlanId, key: "BackupPlanId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2727,12 +2800,6 @@ extension Backup {
     }
 
     public struct ListBackupPlansInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "includeDeleted", location: .querystring("includeDeleted")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// A Boolean value with a default value of FALSE that returns deleted backup plans when set to TRUE.
         public let includeDeleted: Bool?
         /// The maximum number of items to be returned.
@@ -2744,6 +2811,14 @@ extension Backup {
             self.includeDeleted = includeDeleted
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.includeDeleted, key: "includeDeleted")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2772,12 +2847,6 @@ extension Backup {
     }
 
     public struct ListBackupSelectionsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanId", location: .uri("BackupPlanId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String
         /// The maximum number of items to be returned.
@@ -2789,6 +2858,14 @@ extension Backup {
             self.backupPlanId = backupPlanId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupPlanId, key: "BackupPlanId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2817,11 +2894,6 @@ extension Backup {
     }
 
     public struct ListBackupVaultsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of items to be returned.
         public let maxResults: Int?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -2830,6 +2902,13 @@ extension Backup {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2858,21 +2937,6 @@ extension Backup {
     }
 
     public struct ListCopyJobsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "byAccountId", location: .querystring("accountId")),
-            AWSMemberEncoding(label: "byCompleteAfter", location: .querystring("completeAfter")),
-            AWSMemberEncoding(label: "byCompleteBefore", location: .querystring("completeBefore")),
-            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring("createdAfter")),
-            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring("createdBefore")),
-            AWSMemberEncoding(label: "byDestinationVaultArn", location: .querystring("destinationVaultArn")),
-            AWSMemberEncoding(label: "byParentJobId", location: .querystring("parentJobId")),
-            AWSMemberEncoding(label: "byResourceArn", location: .querystring("resourceArn")),
-            AWSMemberEncoding(label: "byResourceType", location: .querystring("resourceType")),
-            AWSMemberEncoding(label: "byState", location: .querystring("state")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The account ID to list the jobs from. Returns only copy jobs associated with the specified account ID.
         public let byAccountId: String?
         /// Returns only copy jobs completed after a date expressed in Unix format and Coordinated Universal Time (UTC).
@@ -2913,6 +2977,23 @@ extension Backup {
             self.nextToken = nextToken
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.byAccountId, key: "accountId")
+            request.encodeQuery(self.byCompleteAfter, key: "completeAfter")
+            request.encodeQuery(self.byCompleteBefore, key: "completeBefore")
+            request.encodeQuery(self.byCreatedAfter, key: "createdAfter")
+            request.encodeQuery(self.byCreatedBefore, key: "createdBefore")
+            request.encodeQuery(self.byDestinationVaultArn, key: "destinationVaultArn")
+            request.encodeQuery(self.byParentJobId, key: "parentJobId")
+            request.encodeQuery(self.byResourceArn, key: "resourceArn")
+            request.encodeQuery(self.byResourceType, key: "resourceType")
+            request.encodeQuery(self.byState, key: "state")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.byAccountId, name: "byAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.byResourceType, name: "byResourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
@@ -2941,11 +3022,6 @@ extension Backup {
     }
 
     public struct ListFrameworksInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The number of desired results from 1 to 1000. Optional. If unspecified, the query will return 1 MB of data.
         public let maxResults: Int?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2954,6 +3030,13 @@ extension Backup {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -2982,11 +3065,6 @@ extension Backup {
     }
 
     public struct ListLegalHoldsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of resource list items to be returned.
         public let maxResults: Int?
         /// The next item following a partial list of returned resources. For example, if a request is made to return maxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -2995,6 +3073,13 @@ extension Backup {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3023,11 +3108,6 @@ extension Backup {
     }
 
     public struct ListProtectedResourcesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of items to be returned.
         public let maxResults: Int?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -3036,6 +3116,13 @@ extension Backup {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3064,18 +3151,6 @@ extension Backup {
     }
 
     public struct ListRecoveryPointsByBackupVaultInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName")),
-            AWSMemberEncoding(label: "byBackupPlanId", location: .querystring("backupPlanId")),
-            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring("createdAfter")),
-            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring("createdBefore")),
-            AWSMemberEncoding(label: "byParentRecoveryPointArn", location: .querystring("parentRecoveryPointArn")),
-            AWSMemberEncoding(label: "byResourceArn", location: .querystring("resourceArn")),
-            AWSMemberEncoding(label: "byResourceType", location: .querystring("resourceType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.  Backup vault name might not be available when a supported service creates the backup.
         public let backupVaultName: String
         /// Returns only recovery points that match the specified backup plan ID.
@@ -3107,6 +3182,20 @@ extension Backup {
             self.nextToken = nextToken
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
+            request.encodeQuery(self.byBackupPlanId, key: "backupPlanId")
+            request.encodeQuery(self.byCreatedAfter, key: "createdAfter")
+            request.encodeQuery(self.byCreatedBefore, key: "createdBefore")
+            request.encodeQuery(self.byParentRecoveryPointArn, key: "parentRecoveryPointArn")
+            request.encodeQuery(self.byResourceArn, key: "resourceArn")
+            request.encodeQuery(self.byResourceType, key: "resourceType")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
             try self.validate(self.byResourceType, name: "byResourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
@@ -3135,12 +3224,6 @@ extension Backup {
     }
 
     public struct ListRecoveryPointsByLegalHoldInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "legalHoldId", location: .uri("LegalHoldId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// This is the ID of the legal hold.
         public let legalHoldId: String
         /// This is the maximum number of resource list items to be returned.
@@ -3152,6 +3235,14 @@ extension Backup {
             self.legalHoldId = legalHoldId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.legalHoldId, key: "LegalHoldId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3180,12 +3271,6 @@ extension Backup {
     }
 
     public struct ListRecoveryPointsByResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The maximum number of items to be returned.  Amazon RDS requires a value of at least 20.
         public let maxResults: Int?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -3197,6 +3282,14 @@ extension Backup {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -3225,15 +3318,6 @@ extension Backup {
     }
 
     public struct ListReportJobsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "byCreationAfter", location: .querystring("CreationAfter")),
-            AWSMemberEncoding(label: "byCreationBefore", location: .querystring("CreationBefore")),
-            AWSMemberEncoding(label: "byReportPlanName", location: .querystring("ReportPlanName")),
-            AWSMemberEncoding(label: "byStatus", location: .querystring("Status")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// Returns only report jobs that were created after the date and time specified in Unix format and Coordinated Universal Time (UTC). For example, the value 1516925490 represents Friday, January 26, 2018 12:11:30 AM.
         public let byCreationAfter: Date?
         /// Returns only report jobs that were created before the date and time specified in Unix format and Coordinated Universal Time (UTC). For example, the value 1516925490 represents Friday, January 26, 2018 12:11:30 AM.
@@ -3254,6 +3338,17 @@ extension Backup {
             self.byStatus = byStatus
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.byCreationAfter, key: "CreationAfter")
+            request.encodeQuery(self.byCreationBefore, key: "CreationBefore")
+            request.encodeQuery(self.byReportPlanName, key: "ReportPlanName")
+            request.encodeQuery(self.byStatus, key: "Status")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -3285,11 +3380,6 @@ extension Backup {
     }
 
     public struct ListReportPlansInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The number of desired results from 1 to 1000. Optional. If unspecified, the query will return 1 MB of data.
         public let maxResults: Int?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -3298,6 +3388,13 @@ extension Backup {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -3326,17 +3423,6 @@ extension Backup {
     }
 
     public struct ListRestoreJobsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "byAccountId", location: .querystring("accountId")),
-            AWSMemberEncoding(label: "byCompleteAfter", location: .querystring("completeAfter")),
-            AWSMemberEncoding(label: "byCompleteBefore", location: .querystring("completeBefore")),
-            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring("createdAfter")),
-            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring("createdBefore")),
-            AWSMemberEncoding(label: "byStatus", location: .querystring("status")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The account ID to list the jobs from. Returns only restore jobs associated with the specified account ID.
         public let byAccountId: String?
         /// Returns only copy jobs completed after a date expressed in Unix format and Coordinated Universal Time (UTC).
@@ -3363,6 +3449,19 @@ extension Backup {
             self.byStatus = byStatus
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.byAccountId, key: "accountId")
+            request.encodeQuery(self.byCompleteAfter, key: "completeAfter")
+            request.encodeQuery(self.byCompleteBefore, key: "completeBefore")
+            request.encodeQuery(self.byCreatedAfter, key: "createdAfter")
+            request.encodeQuery(self.byCreatedBefore, key: "createdBefore")
+            request.encodeQuery(self.byStatus, key: "status")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3392,12 +3491,6 @@ extension Backup {
     }
 
     public struct ListTagsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The maximum number of items to be returned.
         public let maxResults: Int?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -3409,6 +3502,14 @@ extension Backup {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -3462,10 +3563,6 @@ extension Backup {
     }
 
     public struct PutBackupVaultAccessPolicyInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
-        ]
-
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
         /// The backup vault access policy document in JSON format.
@@ -3474,6 +3571,13 @@ extension Backup {
         public init(backupVaultName: String, policy: String? = nil) {
             self.backupVaultName = backupVaultName
             self.policy = policy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
+            try container.encodeIfPresent(self.policy, forKey: .policy)
         }
 
         public func validate(name: String) throws {
@@ -3486,10 +3590,6 @@ extension Backup {
     }
 
     public struct PutBackupVaultLockConfigurationInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
-        ]
-
         /// The Backup Vault Lock configuration that specifies the name of the backup vault it protects.
         public let backupVaultName: String
         /// The Backup Vault Lock configuration that specifies the number of days before the lock date. For example, setting ChangeableForDays to 30 on Jan. 1, 2022 at 8pm UTC will set the lock date to Jan. 31, 2022 at 8pm UTC. Backup enforces a 72-hour cooling-off period before Vault Lock takes effect and becomes immutable. Therefore, you must set ChangeableForDays to 3 or greater. Before the lock date, you can delete Vault Lock from the vault using DeleteBackupVaultLockConfiguration or change the Vault Lock configuration using PutBackupVaultLockConfiguration. On and after the lock date, the Vault Lock becomes immutable and cannot be changed or deleted. If this parameter is not specified, you can delete Vault Lock from the vault using DeleteBackupVaultLockConfiguration or change the Vault Lock configuration using PutBackupVaultLockConfiguration at any time.
@@ -3506,6 +3606,15 @@ extension Backup {
             self.minRetentionDays = minRetentionDays
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
+            try container.encodeIfPresent(self.changeableForDays, forKey: .changeableForDays)
+            try container.encodeIfPresent(self.maxRetentionDays, forKey: .maxRetentionDays)
+            try container.encodeIfPresent(self.minRetentionDays, forKey: .minRetentionDays)
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
@@ -3518,10 +3627,6 @@ extension Backup {
     }
 
     public struct PutBackupVaultNotificationsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
-        ]
-
         /// An array of events that indicate the status of jobs to back up resources to the backup vault. For common use cases and code samples, see Using Amazon SNS to track Backup events. The following events are supported:    BACKUP_JOB_STARTED | BACKUP_JOB_COMPLETED     COPY_JOB_STARTED | COPY_JOB_SUCCESSFUL | COPY_JOB_FAILED     RESTORE_JOB_STARTED | RESTORE_JOB_COMPLETED | RECOVERY_POINT_MODIFIED     S3_BACKUP_OBJECT_FAILED | S3_RESTORE_OBJECT_FAILED     The list below shows items that are deprecated events (for reference) and are no longer  in use. They are no longer supported and will not return statuses or notifications.  Refer to the list above for current supported events.
         public let backupVaultEvents: [BackupVaultEvent]
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -3533,6 +3638,14 @@ extension Backup {
             self.backupVaultEvents = backupVaultEvents
             self.backupVaultName = backupVaultName
             self.snsTopicArn = snsTopicArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.backupVaultEvents, forKey: .backupVaultEvents)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
+            try container.encode(self.snsTopicArn, forKey: .snsTopicArn)
         }
 
         public func validate(name: String) throws {
@@ -4115,10 +4228,6 @@ extension Backup {
     }
 
     public struct StartReportJobInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reportPlanName", location: .uri("ReportPlanName"))
-        ]
-
         /// A customer-chosen string that you can use to distinguish between otherwise identical calls to StartReportJobInput. Retrying a successful request with the same idempotency token results in a success message with no action taken.
         public let idempotencyToken: String?
         /// The unique name of a report plan.
@@ -4127,6 +4236,13 @@ extension Backup {
         public init(idempotencyToken: String? = StartReportJobInput.idempotencyToken(), reportPlanName: String) {
             self.idempotencyToken = idempotencyToken
             self.reportPlanName = reportPlanName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.idempotencyToken, forKey: .idempotencyToken)
+            request.encodePath(self.reportPlanName, key: "ReportPlanName")
         }
 
         public func validate(name: String) throws {
@@ -4204,10 +4320,6 @@ extension Backup {
     }
 
     public struct StopBackupJobInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupJobId", location: .uri("BackupJobId"))
-        ]
-
         /// Uniquely identifies a request to Backup to back up a resource.
         public let backupJobId: String
 
@@ -4215,14 +4327,16 @@ extension Backup {
             self.backupJobId = backupJobId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupJobId, key: "BackupJobId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct TagResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the type of the tagged resource.
         public let resourceArn: String
         /// Key-value pairs that are used to help organize your resources. You can assign your own metadata to the resources you create. For clarity, this is the structure to assign tags: [{"Key":"string","Value":"string"}].
@@ -4233,16 +4347,19 @@ extension Backup {
             self.tags = tags
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
         }
     }
 
     public struct UntagResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the type of the tagged resource.
         public let resourceArn: String
         /// A list of keys to identify which key-value tags to remove from a resource.
@@ -4253,16 +4370,19 @@ extension Backup {
             self.tagKeyList = tagKeyList
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tagKeyList, forKey: .tagKeyList)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case tagKeyList = "TagKeyList"
         }
     }
 
     public struct UpdateBackupPlanInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanId", location: .uri("BackupPlanId"))
-        ]
-
         /// Specifies the body of a backup plan. Includes a BackupPlanName and one or more sets of Rules.
         public let backupPlan: BackupPlanInput
         /// Uniquely identifies a backup plan.
@@ -4271,6 +4391,13 @@ extension Backup {
         public init(backupPlan: BackupPlanInput, backupPlanId: String) {
             self.backupPlan = backupPlan
             self.backupPlanId = backupPlanId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.backupPlan, forKey: .backupPlan)
+            request.encodePath(self.backupPlanId, key: "BackupPlanId")
         }
 
         public func validate(name: String) throws {
@@ -4312,10 +4439,6 @@ extension Backup {
     }
 
     public struct UpdateFrameworkInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "frameworkName", location: .uri("FrameworkName"))
-        ]
-
         /// A list of the controls that make up the framework. Each control in the list has a name, input parameters, and scope.
         public let frameworkControls: [FrameworkControl]?
         /// An optional description of the framework with a maximum 1,024 characters.
@@ -4330,6 +4453,15 @@ extension Backup {
             self.frameworkDescription = frameworkDescription
             self.frameworkName = frameworkName
             self.idempotencyToken = idempotencyToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.frameworkControls, forKey: .frameworkControls)
+            try container.encodeIfPresent(self.frameworkDescription, forKey: .frameworkDescription)
+            request.encodePath(self.frameworkName, key: "FrameworkName")
+            try container.encodeIfPresent(self.idempotencyToken, forKey: .idempotencyToken)
         }
 
         public func validate(name: String) throws {
@@ -4385,11 +4517,6 @@ extension Backup {
     }
 
     public struct UpdateRecoveryPointLifecycleInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName")),
-            AWSMemberEncoding(label: "recoveryPointArn", location: .uri("RecoveryPointArn"))
-        ]
-
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
         /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.
@@ -4401,6 +4528,14 @@ extension Backup {
             self.backupVaultName = backupVaultName
             self.lifecycle = lifecycle
             self.recoveryPointArn = recoveryPointArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
+            try container.encodeIfPresent(self.lifecycle, forKey: .lifecycle)
+            request.encodePath(self.recoveryPointArn, key: "RecoveryPointArn")
         }
 
         public func validate(name: String) throws {
@@ -4464,10 +4599,6 @@ extension Backup {
     }
 
     public struct UpdateReportPlanInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reportPlanName", location: .uri("ReportPlanName"))
-        ]
-
         /// A customer-chosen string that you can use to distinguish between otherwise identical calls to UpdateReportPlanInput. Retrying a successful request with the same idempotency token results in a success message with no action taken.
         public let idempotencyToken: String?
         /// A structure that contains information about where to deliver your reports, specifically your Amazon S3 bucket name, S3 key prefix, and the formats of your reports.
@@ -4485,6 +4616,16 @@ extension Backup {
             self.reportPlanDescription = reportPlanDescription
             self.reportPlanName = reportPlanName
             self.reportSetting = reportSetting
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.idempotencyToken, forKey: .idempotencyToken)
+            try container.encodeIfPresent(self.reportDeliveryChannel, forKey: .reportDeliveryChannel)
+            try container.encodeIfPresent(self.reportPlanDescription, forKey: .reportPlanDescription)
+            request.encodePath(self.reportPlanName, key: "ReportPlanName")
+            try container.encodeIfPresent(self.reportSetting, forKey: .reportSetting)
         }
 
         public func validate(name: String) throws {

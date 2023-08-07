@@ -323,16 +323,19 @@ extension WellArchitected {
     }
 
     public struct AssociateLensesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
-        ]
-
         public let lensAliases: [String]
         public let workloadId: String
 
         public init(lensAliases: [String], workloadId: String) {
             self.lensAliases = lensAliases
             self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.lensAliases, forKey: .lensAliases)
+            request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
@@ -641,10 +644,6 @@ extension WellArchitected {
     }
 
     public struct CreateLensShareInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias"))
-        ]
-
         public let clientRequestToken: String
         public let lensAlias: String
         public let sharedWith: String
@@ -653,6 +652,14 @@ extension WellArchitected {
             self.clientRequestToken = clientRequestToken
             self.lensAlias = lensAlias
             self.sharedWith = sharedWith
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.lensAlias, key: "LensAlias")
+            try container.encode(self.sharedWith, forKey: .sharedWith)
         }
 
         public func validate(name: String) throws {
@@ -681,10 +688,6 @@ extension WellArchitected {
     }
 
     public struct CreateLensVersionInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias"))
-        ]
-
         public let clientRequestToken: String
         /// Set to true if this new major lens version.
         public let isMajorVersion: Bool?
@@ -697,6 +700,15 @@ extension WellArchitected {
             self.isMajorVersion = isMajorVersion
             self.lensAlias = lensAlias
             self.lensVersion = lensVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encodeIfPresent(self.isMajorVersion, forKey: .isMajorVersion)
+            request.encodePath(self.lensAlias, key: "LensAlias")
+            try container.encode(self.lensVersion, forKey: .lensVersion)
         }
 
         public func validate(name: String) throws {
@@ -731,10 +743,6 @@ extension WellArchitected {
     }
 
     public struct CreateMilestoneInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
-        ]
-
         public let clientRequestToken: String
         public let milestoneName: String
         public let workloadId: String
@@ -743,6 +751,14 @@ extension WellArchitected {
             self.clientRequestToken = clientRequestToken
             self.milestoneName = milestoneName
             self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encode(self.milestoneName, forKey: .milestoneName)
+            request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
@@ -898,10 +914,6 @@ extension WellArchitected {
     }
 
     public struct CreateWorkloadShareInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
-        ]
-
         public let clientRequestToken: String
         public let permissionType: PermissionType
         public let sharedWith: String
@@ -912,6 +924,15 @@ extension WellArchitected {
             self.permissionType = permissionType
             self.sharedWith = sharedWith
             self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encode(self.permissionType, forKey: .permissionType)
+            try container.encode(self.sharedWith, forKey: .sharedWith)
+            request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
@@ -943,12 +964,6 @@ extension WellArchitected {
     }
 
     public struct DeleteLensInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientRequestToken", location: .querystring("ClientRequestToken")),
-            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
-            AWSMemberEncoding(label: "lensStatus", location: .querystring("LensStatus"))
-        ]
-
         public let clientRequestToken: String
         public let lensAlias: String
         /// The status of the lens to be deleted.
@@ -960,6 +975,14 @@ extension WellArchitected {
             self.lensStatus = lensStatus
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientRequestToken, key: "ClientRequestToken")
+            request.encodePath(self.lensAlias, key: "LensAlias")
+            request.encodeQuery(self.lensStatus, key: "LensStatus")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
@@ -969,12 +992,6 @@ extension WellArchitected {
     }
 
     public struct DeleteLensShareInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientRequestToken", location: .querystring("ClientRequestToken")),
-            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
-            AWSMemberEncoding(label: "shareId", location: .uri("ShareId"))
-        ]
-
         public let clientRequestToken: String
         public let lensAlias: String
         public let shareId: String
@@ -983,6 +1000,14 @@ extension WellArchitected {
             self.clientRequestToken = clientRequestToken
             self.lensAlias = lensAlias
             self.shareId = shareId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientRequestToken, key: "ClientRequestToken")
+            request.encodePath(self.lensAlias, key: "LensAlias")
+            request.encodePath(self.shareId, key: "ShareId")
         }
 
         public func validate(name: String) throws {
@@ -995,17 +1020,19 @@ extension WellArchitected {
     }
 
     public struct DeleteWorkloadInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientRequestToken", location: .querystring("ClientRequestToken")),
-            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
-        ]
-
         public let clientRequestToken: String
         public let workloadId: String
 
         public init(clientRequestToken: String = DeleteWorkloadInput.idempotencyToken(), workloadId: String) {
             self.clientRequestToken = clientRequestToken
             self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientRequestToken, key: "ClientRequestToken")
+            request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
@@ -1016,12 +1043,6 @@ extension WellArchitected {
     }
 
     public struct DeleteWorkloadShareInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientRequestToken", location: .querystring("ClientRequestToken")),
-            AWSMemberEncoding(label: "shareId", location: .uri("ShareId")),
-            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
-        ]
-
         public let clientRequestToken: String
         public let shareId: String
         public let workloadId: String
@@ -1030,6 +1051,14 @@ extension WellArchitected {
             self.clientRequestToken = clientRequestToken
             self.shareId = shareId
             self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientRequestToken, key: "ClientRequestToken")
+            request.encodePath(self.shareId, key: "ShareId")
+            request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
@@ -1041,16 +1070,19 @@ extension WellArchitected {
     }
 
     public struct DisassociateLensesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
-        ]
-
         public let lensAliases: [String]
         public let workloadId: String
 
         public init(lensAliases: [String], workloadId: String) {
             self.lensAliases = lensAliases
             self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.lensAliases, forKey: .lensAliases)
+            request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
@@ -1068,11 +1100,6 @@ extension WellArchitected {
     }
 
     public struct ExportLensInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
-            AWSMemberEncoding(label: "lensVersion", location: .querystring("LensVersion"))
-        ]
-
         public let lensAlias: String
         /// The lens version to be exported.
         public let lensVersion: String?
@@ -1080,6 +1107,13 @@ extension WellArchitected {
         public init(lensAlias: String, lensVersion: String? = nil) {
             self.lensAlias = lensAlias
             self.lensVersion = lensVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.lensAlias, key: "LensAlias")
+            request.encodeQuery(self.lensVersion, key: "LensVersion")
         }
 
         public func validate(name: String) throws {
@@ -1106,13 +1140,6 @@ extension WellArchitected {
     }
 
     public struct GetAnswerInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
-            AWSMemberEncoding(label: "milestoneNumber", location: .querystring("MilestoneNumber")),
-            AWSMemberEncoding(label: "questionId", location: .uri("QuestionId")),
-            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
-        ]
-
         public let lensAlias: String
         public let milestoneNumber: Int?
         public let questionId: String
@@ -1123,6 +1150,15 @@ extension WellArchitected {
             self.milestoneNumber = milestoneNumber
             self.questionId = questionId
             self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.lensAlias, key: "LensAlias")
+            request.encodeQuery(self.milestoneNumber, key: "MilestoneNumber")
+            request.encodePath(self.questionId, key: "QuestionId")
+            request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
@@ -1164,13 +1200,6 @@ extension WellArchitected {
     }
 
     public struct GetConsolidatedReportInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "format", location: .querystring("Format")),
-            AWSMemberEncoding(label: "includeSharedResources", location: .querystring("IncludeSharedResources")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The format of the consolidated report. For PDF, Base64String is returned. For JSON,  Metrics is returned.
         public let format: ReportFormat
         /// Set to true to have shared resources included in the report.
@@ -1184,6 +1213,15 @@ extension WellArchitected {
             self.includeSharedResources = includeSharedResources
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.format, key: "Format")
+            request.encodeQuery(self.includeSharedResources, key: "IncludeSharedResources")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -1214,11 +1252,6 @@ extension WellArchitected {
     }
 
     public struct GetLensInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
-            AWSMemberEncoding(label: "lensVersion", location: .querystring("LensVersion"))
-        ]
-
         public let lensAlias: String
         /// The lens version to be retrieved.
         public let lensVersion: String?
@@ -1226,6 +1259,13 @@ extension WellArchitected {
         public init(lensAlias: String, lensVersion: String? = nil) {
             self.lensAlias = lensAlias
             self.lensVersion = lensVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.lensAlias, key: "LensAlias")
+            request.encodeQuery(self.lensVersion, key: "LensVersion")
         }
 
         public func validate(name: String) throws {
@@ -1252,12 +1292,6 @@ extension WellArchitected {
     }
 
     public struct GetLensReviewInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
-            AWSMemberEncoding(label: "milestoneNumber", location: .querystring("MilestoneNumber")),
-            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
-        ]
-
         public let lensAlias: String
         public let milestoneNumber: Int?
         public let workloadId: String
@@ -1266,6 +1300,14 @@ extension WellArchitected {
             self.lensAlias = lensAlias
             self.milestoneNumber = milestoneNumber
             self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.lensAlias, key: "LensAlias")
+            request.encodeQuery(self.milestoneNumber, key: "MilestoneNumber")
+            request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
@@ -1298,12 +1340,6 @@ extension WellArchitected {
     }
 
     public struct GetLensReviewReportInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
-            AWSMemberEncoding(label: "milestoneNumber", location: .querystring("MilestoneNumber")),
-            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
-        ]
-
         public let lensAlias: String
         public let milestoneNumber: Int?
         public let workloadId: String
@@ -1312,6 +1348,14 @@ extension WellArchitected {
             self.lensAlias = lensAlias
             self.milestoneNumber = milestoneNumber
             self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.lensAlias, key: "LensAlias")
+            request.encodeQuery(self.milestoneNumber, key: "MilestoneNumber")
+            request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
@@ -1344,12 +1388,6 @@ extension WellArchitected {
     }
 
     public struct GetLensVersionDifferenceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "baseLensVersion", location: .querystring("BaseLensVersion")),
-            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
-            AWSMemberEncoding(label: "targetLensVersion", location: .querystring("TargetLensVersion"))
-        ]
-
         /// The base version of the lens.
         public let baseLensVersion: String?
         public let lensAlias: String
@@ -1360,6 +1398,14 @@ extension WellArchitected {
             self.baseLensVersion = baseLensVersion
             self.lensAlias = lensAlias
             self.targetLensVersion = targetLensVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.baseLensVersion, key: "BaseLensVersion")
+            request.encodePath(self.lensAlias, key: "LensAlias")
+            request.encodeQuery(self.targetLensVersion, key: "TargetLensVersion")
         }
 
         public func validate(name: String) throws {
@@ -1406,17 +1452,19 @@ extension WellArchitected {
     }
 
     public struct GetMilestoneInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "milestoneNumber", location: .uri("MilestoneNumber")),
-            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
-        ]
-
         public let milestoneNumber: Int
         public let workloadId: String
 
         public init(milestoneNumber: Int = 0, workloadId: String) {
             self.milestoneNumber = milestoneNumber
             self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.milestoneNumber, key: "MilestoneNumber")
+            request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
@@ -1444,14 +1492,16 @@ extension WellArchitected {
     }
 
     public struct GetWorkloadInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
-        ]
-
         public let workloadId: String
 
         public init(workloadId: String) {
             self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
@@ -1800,15 +1850,6 @@ extension WellArchitected {
     }
 
     public struct ListAnswersInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "milestoneNumber", location: .querystring("MilestoneNumber")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "pillarId", location: .querystring("PillarId")),
-            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
-        ]
-
         public let lensAlias: String
         /// The maximum number of results to return for this request.
         public let maxResults: Int?
@@ -1824,6 +1865,17 @@ extension WellArchitected {
             self.nextToken = nextToken
             self.pillarId = pillarId
             self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.lensAlias, key: "LensAlias")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.milestoneNumber, key: "MilestoneNumber")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.pillarId, key: "PillarId")
+            request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
@@ -1870,10 +1922,6 @@ extension WellArchitected {
     }
 
     public struct ListCheckDetailsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
-        ]
-
         public let choiceId: String
         /// Well-Architected Lens ARN.
         public let lensArn: String
@@ -1891,6 +1939,18 @@ extension WellArchitected {
             self.pillarId = pillarId
             self.questionId = questionId
             self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.choiceId, forKey: .choiceId)
+            try container.encode(self.lensArn, forKey: .lensArn)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encode(self.pillarId, forKey: .pillarId)
+            try container.encode(self.questionId, forKey: .questionId)
+            request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
@@ -1932,10 +1992,6 @@ extension WellArchitected {
     }
 
     public struct ListCheckSummariesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
-        ]
-
         public let choiceId: String
         /// Well-Architected Lens ARN.
         public let lensArn: String
@@ -1953,6 +2009,18 @@ extension WellArchitected {
             self.pillarId = pillarId
             self.questionId = questionId
             self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.choiceId, forKey: .choiceId)
+            try container.encode(self.lensArn, forKey: .lensArn)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encode(self.pillarId, forKey: .pillarId)
+            try container.encode(self.questionId, forKey: .questionId)
+            request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
@@ -1994,15 +2062,6 @@ extension WellArchitected {
     }
 
     public struct ListLensReviewImprovementsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "milestoneNumber", location: .querystring("MilestoneNumber")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "pillarId", location: .querystring("PillarId")),
-            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
-        ]
-
         public let lensAlias: String
         /// The maximum number of results to return for this request.
         public let maxResults: Int?
@@ -2018,6 +2077,17 @@ extension WellArchitected {
             self.nextToken = nextToken
             self.pillarId = pillarId
             self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.lensAlias, key: "LensAlias")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.milestoneNumber, key: "MilestoneNumber")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.pillarId, key: "PillarId")
+            request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
@@ -2064,13 +2134,6 @@ extension WellArchitected {
     }
 
     public struct ListLensReviewsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "milestoneNumber", location: .querystring("MilestoneNumber")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
-        ]
-
         public let maxResults: Int?
         public let milestoneNumber: Int?
         public let nextToken: String?
@@ -2081,6 +2144,15 @@ extension WellArchitected {
             self.milestoneNumber = milestoneNumber
             self.nextToken = nextToken
             self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.milestoneNumber, key: "MilestoneNumber")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
@@ -2116,14 +2188,6 @@ extension WellArchitected {
     }
 
     public struct ListLensSharesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "sharedWithPrefix", location: .querystring("SharedWithPrefix")),
-            AWSMemberEncoding(label: "status", location: .querystring("Status"))
-        ]
-
         public let lensAlias: String
         /// The maximum number of results to return for this request.
         public let maxResults: Int?
@@ -2138,6 +2202,16 @@ extension WellArchitected {
             self.nextToken = nextToken
             self.sharedWithPrefix = sharedWithPrefix
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.lensAlias, key: "LensAlias")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.sharedWithPrefix, key: "SharedWithPrefix")
+            request.encodeQuery(self.status, key: "Status")
         }
 
         public func validate(name: String) throws {
@@ -2168,14 +2242,6 @@ extension WellArchitected {
     }
 
     public struct ListLensesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "lensName", location: .querystring("LensName")),
-            AWSMemberEncoding(label: "lensStatus", location: .querystring("LensStatus")),
-            AWSMemberEncoding(label: "lensType", location: .querystring("LensType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         public let lensName: String?
         /// The status of lenses to be returned.
         public let lensStatus: LensStatusType?
@@ -2190,6 +2256,16 @@ extension WellArchitected {
             self.lensType = lensType
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.lensName, key: "LensName")
+            request.encodeQuery(self.lensStatus, key: "LensStatus")
+            request.encodeQuery(self.lensType, key: "LensType")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -2218,10 +2294,6 @@ extension WellArchitected {
     }
 
     public struct ListMilestonesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
-        ]
-
         public let maxResults: Int?
         public let nextToken: String?
         public let workloadId: String
@@ -2230,6 +2302,14 @@ extension WellArchitected {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
@@ -2304,14 +2384,6 @@ extension WellArchitected {
     }
 
     public struct ListShareInvitationsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "lensNamePrefix", location: .querystring("LensNamePrefix")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "shareResourceType", location: .querystring("ShareResourceType")),
-            AWSMemberEncoding(label: "workloadNamePrefix", location: .querystring("WorkloadNamePrefix"))
-        ]
-
         /// An optional string added to the beginning of each lens name returned in the results.
         public let lensNamePrefix: String?
         /// The maximum number of results to return for this request.
@@ -2327,6 +2399,16 @@ extension WellArchitected {
             self.nextToken = nextToken
             self.shareResourceType = shareResourceType
             self.workloadNamePrefix = workloadNamePrefix
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.lensNamePrefix, key: "LensNamePrefix")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.shareResourceType, key: "ShareResourceType")
+            request.encodeQuery(self.workloadNamePrefix, key: "WorkloadNamePrefix")
         }
 
         public func validate(name: String) throws {
@@ -2356,14 +2438,16 @@ extension WellArchitected {
     }
 
     public struct ListTagsForResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workloadArn", location: .uri("WorkloadArn"))
-        ]
-
         public let workloadArn: String
 
         public init(workloadArn: String) {
             self.workloadArn = workloadArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.workloadArn, key: "WorkloadArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2383,14 +2467,6 @@ extension WellArchitected {
     }
 
     public struct ListWorkloadSharesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "sharedWithPrefix", location: .querystring("SharedWithPrefix")),
-            AWSMemberEncoding(label: "status", location: .querystring("Status")),
-            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
-        ]
-
         /// The maximum number of results to return for this request.
         public let maxResults: Int?
         public let nextToken: String?
@@ -2405,6 +2481,16 @@ extension WellArchitected {
             self.sharedWithPrefix = sharedWithPrefix
             self.status = status
             self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.sharedWithPrefix, key: "SharedWithPrefix")
+            request.encodeQuery(self.status, key: "Status")
+            request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
@@ -2702,10 +2788,6 @@ extension WellArchitected {
     }
 
     public struct TagResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workloadArn", location: .uri("WorkloadArn"))
-        ]
-
         /// The tags for the resource.
         public let tags: [String: String]
         public let workloadArn: String
@@ -2713,6 +2795,13 @@ extension WellArchitected {
         public init(tags: [String: String], workloadArn: String) {
             self.tags = tags
             self.workloadArn = workloadArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.tags, forKey: .tags)
+            request.encodePath(self.workloadArn, key: "WorkloadArn")
         }
 
         public func validate(name: String) throws {
@@ -2735,11 +2824,6 @@ extension WellArchitected {
     }
 
     public struct UntagResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys")),
-            AWSMemberEncoding(label: "workloadArn", location: .uri("WorkloadArn"))
-        ]
-
         /// A list of tag keys. Existing tags of the resource  whose keys are members of this list are removed from the resource.
         public let tagKeys: [String]
         public let workloadArn: String
@@ -2747,6 +2831,13 @@ extension WellArchitected {
         public init(tagKeys: [String], workloadArn: String) {
             self.tagKeys = tagKeys
             self.workloadArn = workloadArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+            request.encodePath(self.workloadArn, key: "WorkloadArn")
         }
 
         public func validate(name: String) throws {
@@ -2766,12 +2857,6 @@ extension WellArchitected {
     }
 
     public struct UpdateAnswerInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
-            AWSMemberEncoding(label: "questionId", location: .uri("QuestionId")),
-            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
-        ]
-
         /// A list of choices to update on a question in your workload.  The String key  corresponds to the choice ID to be updated.
         public let choiceUpdates: [String: ChoiceUpdate]?
         public let isApplicable: Bool?
@@ -2792,6 +2877,19 @@ extension WellArchitected {
             self.reason = reason
             self.selectedChoices = selectedChoices
             self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.choiceUpdates, forKey: .choiceUpdates)
+            try container.encodeIfPresent(self.isApplicable, forKey: .isApplicable)
+            request.encodePath(self.lensAlias, key: "LensAlias")
+            try container.encodeIfPresent(self.notes, forKey: .notes)
+            request.encodePath(self.questionId, key: "QuestionId")
+            try container.encodeIfPresent(self.reason, forKey: .reason)
+            try container.encodeIfPresent(self.selectedChoices, forKey: .selectedChoices)
+            request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
@@ -2861,11 +2959,6 @@ extension WellArchitected {
     }
 
     public struct UpdateLensReviewInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
-            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
-        ]
-
         public let lensAlias: String
         public let lensNotes: String?
         public let pillarNotes: [String: String]?
@@ -2876,6 +2969,15 @@ extension WellArchitected {
             self.lensNotes = lensNotes
             self.pillarNotes = pillarNotes
             self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.lensAlias, key: "LensAlias")
+            try container.encodeIfPresent(self.lensNotes, forKey: .lensNotes)
+            try container.encodeIfPresent(self.pillarNotes, forKey: .pillarNotes)
+            request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
@@ -2912,10 +3014,6 @@ extension WellArchitected {
     }
 
     public struct UpdateShareInvitationInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "shareInvitationId", location: .uri("ShareInvitationId"))
-        ]
-
         public let shareInvitationAction: ShareInvitationAction
         /// The ID assigned to the share invitation.
         public let shareInvitationId: String
@@ -2923,6 +3021,13 @@ extension WellArchitected {
         public init(shareInvitationAction: ShareInvitationAction, shareInvitationId: String) {
             self.shareInvitationAction = shareInvitationAction
             self.shareInvitationId = shareInvitationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.shareInvitationAction, forKey: .shareInvitationAction)
+            request.encodePath(self.shareInvitationId, key: "ShareInvitationId")
         }
 
         public func validate(name: String) throws {
@@ -2948,10 +3053,6 @@ extension WellArchitected {
     }
 
     public struct UpdateWorkloadInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
-        ]
-
         public let accountIds: [String]?
         /// List of AppRegistry application ARNs to associate to the workload.
         public let applications: [String]?
@@ -2991,6 +3092,28 @@ extension WellArchitected {
             self.reviewOwner = reviewOwner
             self.workloadId = workloadId
             self.workloadName = workloadName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.accountIds, forKey: .accountIds)
+            try container.encodeIfPresent(self.applications, forKey: .applications)
+            try container.encodeIfPresent(self.architecturalDesign, forKey: .architecturalDesign)
+            try container.encodeIfPresent(self.awsRegions, forKey: .awsRegions)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.discoveryConfig, forKey: .discoveryConfig)
+            try container.encodeIfPresent(self.environment, forKey: .environment)
+            try container.encodeIfPresent(self.improvementStatus, forKey: .improvementStatus)
+            try container.encodeIfPresent(self.industry, forKey: .industry)
+            try container.encodeIfPresent(self.industryType, forKey: .industryType)
+            try container.encodeIfPresent(self.isReviewOwnerUpdateAcknowledged, forKey: .isReviewOwnerUpdateAcknowledged)
+            try container.encodeIfPresent(self.nonAwsRegions, forKey: .nonAwsRegions)
+            try container.encodeIfPresent(self.notes, forKey: .notes)
+            try container.encodeIfPresent(self.pillarPriorities, forKey: .pillarPriorities)
+            try container.encodeIfPresent(self.reviewOwner, forKey: .reviewOwner)
+            request.encodePath(self.workloadId, key: "WorkloadId")
+            try container.encodeIfPresent(self.workloadName, forKey: .workloadName)
         }
 
         public func validate(name: String) throws {
@@ -3063,11 +3186,6 @@ extension WellArchitected {
     }
 
     public struct UpdateWorkloadShareInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "shareId", location: .uri("ShareId")),
-            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
-        ]
-
         public let permissionType: PermissionType
         public let shareId: String
         public let workloadId: String
@@ -3076,6 +3194,14 @@ extension WellArchitected {
             self.permissionType = permissionType
             self.shareId = shareId
             self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.permissionType, forKey: .permissionType)
+            request.encodePath(self.shareId, key: "ShareId")
+            request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
@@ -3104,11 +3230,6 @@ extension WellArchitected {
     }
 
     public struct UpgradeLensReviewInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
-            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
-        ]
-
         public let clientRequestToken: String?
         public let lensAlias: String
         public let milestoneName: String
@@ -3119,6 +3240,15 @@ extension WellArchitected {
             self.lensAlias = lensAlias
             self.milestoneName = milestoneName
             self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.lensAlias, key: "LensAlias")
+            try container.encode(self.milestoneName, forKey: .milestoneName)
+            request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {

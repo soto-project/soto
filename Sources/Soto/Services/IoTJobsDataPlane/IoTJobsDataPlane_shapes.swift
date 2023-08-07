@@ -41,13 +41,6 @@ extension IoTJobsDataPlane {
     // MARK: Shapes
 
     public struct DescribeJobExecutionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "executionNumber", location: .querystring("executionNumber")),
-            AWSMemberEncoding(label: "includeJobDocument", location: .querystring("includeJobDocument")),
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
-            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
-        ]
-
         /// Optional. A number that identifies a particular job execution on a particular device. If not specified, the latest job execution is returned.
         public let executionNumber: Int64?
         /// Optional. When set to true, the response contains the job document. The default is false.
@@ -62,6 +55,15 @@ extension IoTJobsDataPlane {
             self.includeJobDocument = includeJobDocument
             self.jobId = jobId
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.executionNumber, key: "executionNumber")
+            request.encodeQuery(self.includeJobDocument, key: "includeJobDocument")
+            request.encodePath(self.jobId, key: "jobId")
+            request.encodePath(self.thingName, key: "thingName")
         }
 
         public func validate(name: String) throws {
@@ -88,15 +90,17 @@ extension IoTJobsDataPlane {
     }
 
     public struct GetPendingJobExecutionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
-        ]
-
         /// The name of the thing that is executing the job.
         public let thingName: String
 
         public init(thingName: String) {
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.thingName, key: "thingName")
         }
 
         public func validate(name: String) throws {
@@ -233,10 +237,6 @@ extension IoTJobsDataPlane {
     }
 
     public struct StartNextPendingJobExecutionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
-        ]
-
         /// A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged.
         public let statusDetails: [String: String]?
         /// Specifies the amount of time this device has to finish execution of this job. If the job  execution status is not set to a terminal state before this timer expires, or before the  timer is reset (by calling UpdateJobExecution, setting the status to IN_PROGRESS and specifying a new timeout value in field stepTimeoutInMinutes)  the job execution status will be automatically set to TIMED_OUT.  Note that setting  this timeout has no effect on that job execution timeout which may have been specified when  the job was created (CreateJob using field timeoutConfig).
@@ -248,6 +248,14 @@ extension IoTJobsDataPlane {
             self.statusDetails = statusDetails
             self.stepTimeoutInMinutes = stepTimeoutInMinutes
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.statusDetails, forKey: .statusDetails)
+            try container.encodeIfPresent(self.stepTimeoutInMinutes, forKey: .stepTimeoutInMinutes)
+            request.encodePath(self.thingName, key: "thingName")
         }
 
         public func validate(name: String) throws {
@@ -284,11 +292,6 @@ extension IoTJobsDataPlane {
     }
 
     public struct UpdateJobExecutionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
-            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
-        ]
-
         /// Optional. A number that identifies a particular job execution on a particular device.
         public let executionNumber: Int64?
         /// Optional. The expected current version of the job execution. Each time you update the job execution, its version is incremented. If the version of the job execution stored in Jobs does not match, the update is rejected with a VersionMismatch error, and an ErrorResponse that contains the current job execution status data is returned. (This makes it unnecessary to perform a separate DescribeJobExecution request in order to obtain the job execution status data.)
@@ -318,6 +321,20 @@ extension IoTJobsDataPlane {
             self.statusDetails = statusDetails
             self.stepTimeoutInMinutes = stepTimeoutInMinutes
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.executionNumber, forKey: .executionNumber)
+            try container.encodeIfPresent(self.expectedVersion, forKey: .expectedVersion)
+            try container.encodeIfPresent(self.includeJobDocument, forKey: .includeJobDocument)
+            try container.encodeIfPresent(self.includeJobExecutionState, forKey: .includeJobExecutionState)
+            request.encodePath(self.jobId, key: "jobId")
+            try container.encode(self.status, forKey: .status)
+            try container.encodeIfPresent(self.statusDetails, forKey: .statusDetails)
+            try container.encodeIfPresent(self.stepTimeoutInMinutes, forKey: .stepTimeoutInMinutes)
+            request.encodePath(self.thingName, key: "thingName")
         }
 
         public func validate(name: String) throws {

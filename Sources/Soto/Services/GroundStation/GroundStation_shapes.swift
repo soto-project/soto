@@ -582,15 +582,17 @@ extension GroundStation {
     }
 
     public struct CancelContactRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactId", location: .uri("contactId"))
-        ]
-
         /// UUID of a contact.
         public let contactId: String
 
         public init(contactId: String) {
             self.contactId = contactId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactId, key: "contactId")
         }
 
         public func validate(name: String) throws {
@@ -1108,11 +1110,6 @@ extension GroundStation {
     }
 
     public struct DeleteConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configId", location: .uri("configId")),
-            AWSMemberEncoding(label: "configType", location: .uri("configType"))
-        ]
-
         /// UUID of a Config.
         public let configId: String
         /// Type of a Config.
@@ -1121,6 +1118,13 @@ extension GroundStation {
         public init(configId: String, configType: ConfigCapabilityType) {
             self.configId = configId
             self.configType = configType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configId, key: "configId")
+            request.encodePath(self.configType, key: "configType")
         }
 
         public func validate(name: String) throws {
@@ -1133,15 +1137,17 @@ extension GroundStation {
     }
 
     public struct DeleteDataflowEndpointGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dataflowEndpointGroupId", location: .uri("dataflowEndpointGroupId"))
-        ]
-
         /// UUID of a dataflow endpoint group.
         public let dataflowEndpointGroupId: String
 
         public init(dataflowEndpointGroupId: String) {
             self.dataflowEndpointGroupId = dataflowEndpointGroupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataflowEndpointGroupId, key: "dataflowEndpointGroupId")
         }
 
         public func validate(name: String) throws {
@@ -1154,15 +1160,17 @@ extension GroundStation {
     }
 
     public struct DeleteEphemerisRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ephemerisId", location: .uri("ephemerisId"))
-        ]
-
         /// The AWS Ground Station ephemeris ID.
         public let ephemerisId: String
 
         public init(ephemerisId: String) {
             self.ephemerisId = ephemerisId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.ephemerisId, key: "ephemerisId")
         }
 
         public func validate(name: String) throws {
@@ -1175,15 +1183,17 @@ extension GroundStation {
     }
 
     public struct DeleteMissionProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "missionProfileId", location: .uri("missionProfileId"))
-        ]
-
         /// UUID of a mission profile.
         public let missionProfileId: String
 
         public init(missionProfileId: String) {
             self.missionProfileId = missionProfileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.missionProfileId, key: "missionProfileId")
         }
 
         public func validate(name: String) throws {
@@ -1215,15 +1225,17 @@ extension GroundStation {
     }
 
     public struct DescribeContactRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactId", location: .uri("contactId"))
-        ]
-
         /// UUID of a contact.
         public let contactId: String
 
         public init(contactId: String) {
             self.contactId = contactId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactId, key: "contactId")
         }
 
         public func validate(name: String) throws {
@@ -1301,15 +1313,17 @@ extension GroundStation {
     }
 
     public struct DescribeEphemerisRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ephemerisId", location: .uri("ephemerisId"))
-        ]
-
         /// The AWS Ground Station ephemeris ID.
         public let ephemerisId: String
 
         public init(ephemerisId: String) {
             self.ephemerisId = ephemerisId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.ephemerisId, key: "ephemerisId")
         }
 
         public func validate(name: String) throws {
@@ -1631,15 +1645,17 @@ extension GroundStation {
     }
 
     public struct GetAgentConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "agentId", location: .uri("agentId"))
-        ]
-
         /// UUID of agent to get configuration information for.
         public let agentId: String
 
         public init(agentId: String) {
             self.agentId = agentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.agentId, key: "agentId")
         }
 
         public func validate(name: String) throws {
@@ -1669,11 +1685,6 @@ extension GroundStation {
     }
 
     public struct GetConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configId", location: .uri("configId")),
-            AWSMemberEncoding(label: "configType", location: .uri("configType"))
-        ]
-
         /// UUID of a Config.
         public let configId: String
         /// Type of a Config.
@@ -1682,6 +1693,13 @@ extension GroundStation {
         public init(configId: String, configType: ConfigCapabilityType) {
             self.configId = configId
             self.configType = configType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configId, key: "configId")
+            request.encodePath(self.configType, key: "configType")
         }
 
         public func validate(name: String) throws {
@@ -1727,15 +1745,17 @@ extension GroundStation {
     }
 
     public struct GetDataflowEndpointGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dataflowEndpointGroupId", location: .uri("dataflowEndpointGroupId"))
-        ]
-
         /// UUID of a dataflow endpoint group.
         public let dataflowEndpointGroupId: String
 
         public init(dataflowEndpointGroupId: String) {
             self.dataflowEndpointGroupId = dataflowEndpointGroupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataflowEndpointGroupId, key: "dataflowEndpointGroupId")
         }
 
         public func validate(name: String) throws {
@@ -1834,15 +1854,17 @@ extension GroundStation {
     }
 
     public struct GetMissionProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "missionProfileId", location: .uri("missionProfileId"))
-        ]
-
         /// UUID of a mission profile.
         public let missionProfileId: String
 
         public init(missionProfileId: String) {
             self.missionProfileId = missionProfileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.missionProfileId, key: "missionProfileId")
         }
 
         public func validate(name: String) throws {
@@ -1912,15 +1934,17 @@ extension GroundStation {
     }
 
     public struct GetSatelliteRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "satelliteId", location: .uri("satelliteId"))
-        ]
-
         /// UUID of a satellite.
         public let satelliteId: String
 
         public init(satelliteId: String) {
             self.satelliteId = satelliteId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.satelliteId, key: "satelliteId")
         }
 
         public func validate(name: String) throws {
@@ -2000,11 +2024,6 @@ extension GroundStation {
     }
 
     public struct ListConfigsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// Maximum number of Configs returned.
         public let maxResults: Int?
         /// Next token returned in the request of a previous ListConfigs call. Used to get the next page of results.
@@ -2013,6 +2032,13 @@ extension GroundStation {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2114,11 +2140,6 @@ extension GroundStation {
     }
 
     public struct ListDataflowEndpointGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// Maximum number of dataflow endpoint groups returned.
         public let maxResults: Int?
         /// Next token returned in the request of a previous ListDataflowEndpointGroups call. Used to get the next page of results.
@@ -2127,6 +2148,13 @@ extension GroundStation {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2158,11 +2186,6 @@ extension GroundStation {
     }
 
     public struct ListEphemeridesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The end time to list in UTC. The operation will return an ephemeris if its expiration time is within the time range defined by the startTime and endTime.
         public let endTime: Date
         /// Maximum number of ephemerides to return.
@@ -2183,6 +2206,17 @@ extension GroundStation {
             self.satelliteId = satelliteId
             self.startTime = startTime
             self.statusList = statusList
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.endTime, forKey: .endTime)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encode(self.satelliteId, forKey: .satelliteId)
+            try container.encode(self.startTime, forKey: .startTime)
+            try container.encodeIfPresent(self.statusList, forKey: .statusList)
         }
 
         public func validate(name: String) throws {
@@ -2223,12 +2257,6 @@ extension GroundStation {
     }
 
     public struct ListGroundStationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "satelliteId", location: .querystring("satelliteId"))
-        ]
-
         /// Maximum number of ground stations returned.
         public let maxResults: Int?
         /// Next token that can be supplied in the next call to get the next page of ground stations.
@@ -2240,6 +2268,14 @@ extension GroundStation {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.satelliteId = satelliteId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.satelliteId, key: "satelliteId")
         }
 
         public func validate(name: String) throws {
@@ -2274,11 +2310,6 @@ extension GroundStation {
     }
 
     public struct ListMissionProfilesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// Maximum number of mission profiles returned.
         public let maxResults: Int?
         /// Next token returned in the request of a previous ListMissionProfiles call. Used to get the next page of results.
@@ -2287,6 +2318,13 @@ extension GroundStation {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2318,11 +2356,6 @@ extension GroundStation {
     }
 
     public struct ListSatellitesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// Maximum number of satellites returned.
         public let maxResults: Int?
         /// Next token that can be supplied in the next call to get the next page of satellites.
@@ -2331,6 +2364,13 @@ extension GroundStation {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2362,15 +2402,17 @@ extension GroundStation {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// ARN of a resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -2821,10 +2863,6 @@ extension GroundStation {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// ARN of a resource tag.
         public let resourceArn: String
         /// Tags assigned to a resource.
@@ -2833,6 +2871,13 @@ extension GroundStation {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2881,11 +2926,6 @@ extension GroundStation {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// ARN of a resource.
         public let resourceArn: String
         /// Keys of a resource tag.
@@ -2894,6 +2934,13 @@ extension GroundStation {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -2915,10 +2962,6 @@ extension GroundStation {
     }
 
     public struct UpdateAgentStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "agentId", location: .uri("agentId"))
-        ]
-
         /// UUID of agent to update.
         public let agentId: String
         /// Aggregate status for agent.
@@ -2933,6 +2976,15 @@ extension GroundStation {
             self.aggregateStatus = aggregateStatus
             self.componentStatuses = componentStatuses
             self.taskId = taskId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.agentId, key: "agentId")
+            try container.encode(self.aggregateStatus, forKey: .aggregateStatus)
+            try container.encode(self.componentStatuses, forKey: .componentStatuses)
+            try container.encode(self.taskId, forKey: .taskId)
         }
 
         public func validate(name: String) throws {
@@ -2969,11 +3021,6 @@ extension GroundStation {
     }
 
     public struct UpdateConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configId", location: .uri("configId")),
-            AWSMemberEncoding(label: "configType", location: .uri("configType"))
-        ]
-
         /// Parameters of a Config.
         public let configData: ConfigTypeData
         /// UUID of a Config.
@@ -2988,6 +3035,15 @@ extension GroundStation {
             self.configId = configId
             self.configType = configType
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.configData, forKey: .configData)
+            request.encodePath(self.configId, key: "configId")
+            request.encodePath(self.configType, key: "configType")
+            try container.encode(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -3007,10 +3063,6 @@ extension GroundStation {
     }
 
     public struct UpdateEphemerisRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ephemerisId", location: .uri("ephemerisId"))
-        ]
-
         /// Whether the ephemeris is enabled or not. Changing this value will not require the ephemeris to be re-validated.
         public let enabled: Bool
         /// The AWS Ground Station ephemeris ID.
@@ -3025,6 +3077,15 @@ extension GroundStation {
             self.ephemerisId = ephemerisId
             self.name = name
             self.priority = priority
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.enabled, forKey: .enabled)
+            request.encodePath(self.ephemerisId, key: "ephemerisId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.priority, forKey: .priority)
         }
 
         public func validate(name: String) throws {
@@ -3046,10 +3107,6 @@ extension GroundStation {
     }
 
     public struct UpdateMissionProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "missionProfileId", location: .uri("missionProfileId"))
-        ]
-
         /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
         public let contactPostPassDurationSeconds: Int?
         /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
@@ -3079,6 +3136,20 @@ extension GroundStation {
             self.streamsKmsKey = streamsKmsKey
             self.streamsKmsRole = streamsKmsRole
             self.trackingConfigArn = trackingConfigArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.contactPostPassDurationSeconds, forKey: .contactPostPassDurationSeconds)
+            try container.encodeIfPresent(self.contactPrePassDurationSeconds, forKey: .contactPrePassDurationSeconds)
+            try container.encodeIfPresent(self.dataflowEdges, forKey: .dataflowEdges)
+            try container.encodeIfPresent(self.minimumViableContactDurationSeconds, forKey: .minimumViableContactDurationSeconds)
+            request.encodePath(self.missionProfileId, key: "missionProfileId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.streamsKmsKey, forKey: .streamsKmsKey)
+            try container.encodeIfPresent(self.streamsKmsRole, forKey: .streamsKmsRole)
+            try container.encodeIfPresent(self.trackingConfigArn, forKey: .trackingConfigArn)
         }
 
         public func validate(name: String) throws {

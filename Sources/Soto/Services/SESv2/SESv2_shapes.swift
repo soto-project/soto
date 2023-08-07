@@ -606,10 +606,6 @@ extension SESv2 {
     }
 
     public struct CreateConfigurationSetEventDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
-        ]
-
         /// The name of the configuration set .
         public let configurationSetName: String
         /// An object that defines the event destination.
@@ -621,6 +617,14 @@ extension SESv2 {
             self.configurationSetName = configurationSetName
             self.eventDestination = eventDestination
             self.eventDestinationName = eventDestinationName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
+            try container.encode(self.eventDestination, forKey: .eventDestination)
+            try container.encode(self.eventDestinationName, forKey: .eventDestinationName)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -707,10 +711,6 @@ extension SESv2 {
     }
 
     public struct CreateContactRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactListName", location: .uri("ContactListName"))
-        ]
-
         /// The attribute data attached to a contact.
         public let attributesData: String?
         /// The name of the contact list to which the contact should be added.
@@ -728,6 +728,16 @@ extension SESv2 {
             self.emailAddress = emailAddress
             self.topicPreferences = topicPreferences
             self.unsubscribeAll = unsubscribeAll
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.attributesData, forKey: .attributesData)
+            request.encodePath(self.contactListName, key: "ContactListName")
+            try container.encode(self.emailAddress, forKey: .emailAddress)
+            try container.encodeIfPresent(self.topicPreferences, forKey: .topicPreferences)
+            try container.encodeIfPresent(self.unsubscribeAll, forKey: .unsubscribeAll)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -855,11 +865,6 @@ extension SESv2 {
     }
 
     public struct CreateEmailIdentityPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity")),
-            AWSMemberEncoding(label: "policyName", location: .uri("PolicyName"))
-        ]
-
         /// The email identity.
         public let emailIdentity: String
         /// The text of the policy in JSON format. The policy cannot exceed 4 KB. For information about the syntax of sending authorization policies, see the Amazon SES Developer Guide.
@@ -871,6 +876,14 @@ extension SESv2 {
             self.emailIdentity = emailIdentity
             self.policy = policy
             self.policyName = policyName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.emailIdentity, key: "EmailIdentity")
+            try container.encode(self.policy, forKey: .policy)
+            request.encodePath(self.policyName, key: "PolicyName")
         }
 
         public func validate(name: String) throws {
@@ -1118,11 +1131,6 @@ extension SESv2 {
     }
 
     public struct DeleteConfigurationSetEventDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName")),
-            AWSMemberEncoding(label: "eventDestinationName", location: .uri("EventDestinationName"))
-        ]
-
         /// The name of the configuration set that contains the event destination to delete.
         public let configurationSetName: String
         /// The name of the event destination to delete.
@@ -1133,6 +1141,13 @@ extension SESv2 {
             self.eventDestinationName = eventDestinationName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
+            request.encodePath(self.eventDestinationName, key: "EventDestinationName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -1141,15 +1156,17 @@ extension SESv2 {
     }
 
     public struct DeleteConfigurationSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
-        ]
-
         /// The name of the configuration set.
         public let configurationSetName: String
 
         public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1160,15 +1177,17 @@ extension SESv2 {
     }
 
     public struct DeleteContactListRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactListName", location: .uri("ContactListName"))
-        ]
-
         /// The name of the contact list.
         public let contactListName: String
 
         public init(contactListName: String) {
             self.contactListName = contactListName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactListName, key: "ContactListName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1179,11 +1198,6 @@ extension SESv2 {
     }
 
     public struct DeleteContactRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactListName", location: .uri("ContactListName")),
-            AWSMemberEncoding(label: "emailAddress", location: .uri("EmailAddress"))
-        ]
-
         /// The name of the contact list from which the contact should be removed.
         public let contactListName: String
         /// The contact's email address.
@@ -1194,6 +1208,13 @@ extension SESv2 {
             self.emailAddress = emailAddress
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactListName, key: "ContactListName")
+            request.encodePath(self.emailAddress, key: "EmailAddress")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -1202,15 +1223,17 @@ extension SESv2 {
     }
 
     public struct DeleteCustomVerificationEmailTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName"))
-        ]
-
         /// The name of the custom verification email template that you want to delete.
         public let templateName: String
 
         public init(templateName: String) {
             self.templateName = templateName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.templateName, key: "TemplateName")
         }
 
         public func validate(name: String) throws {
@@ -1225,15 +1248,17 @@ extension SESv2 {
     }
 
     public struct DeleteDedicatedIpPoolRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "poolName", location: .uri("PoolName"))
-        ]
-
         /// The name of the dedicated IP pool that you want to delete.
         public let poolName: String
 
         public init(poolName: String) {
             self.poolName = poolName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.poolName, key: "PoolName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1244,11 +1269,6 @@ extension SESv2 {
     }
 
     public struct DeleteEmailIdentityPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity")),
-            AWSMemberEncoding(label: "policyName", location: .uri("PolicyName"))
-        ]
-
         /// The email identity.
         public let emailIdentity: String
         /// The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
@@ -1257,6 +1277,13 @@ extension SESv2 {
         public init(emailIdentity: String, policyName: String) {
             self.emailIdentity = emailIdentity
             self.policyName = policyName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.emailIdentity, key: "EmailIdentity")
+            request.encodePath(self.policyName, key: "PolicyName")
         }
 
         public func validate(name: String) throws {
@@ -1273,15 +1300,17 @@ extension SESv2 {
     }
 
     public struct DeleteEmailIdentityRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity"))
-        ]
-
         /// The identity (that is, the email address or domain) to delete.
         public let emailIdentity: String
 
         public init(emailIdentity: String) {
             self.emailIdentity = emailIdentity
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.emailIdentity, key: "EmailIdentity")
         }
 
         public func validate(name: String) throws {
@@ -1296,15 +1325,17 @@ extension SESv2 {
     }
 
     public struct DeleteEmailTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName"))
-        ]
-
         /// The name of the template to be deleted.
         public let templateName: String
 
         public init(templateName: String) {
             self.templateName = templateName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.templateName, key: "TemplateName")
         }
 
         public func validate(name: String) throws {
@@ -1319,15 +1350,17 @@ extension SESv2 {
     }
 
     public struct DeleteSuppressedDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "emailAddress", location: .uri("EmailAddress"))
-        ]
-
         /// The suppressed email destination to remove from the account suppression list.
         public let emailAddress: String
 
         public init(emailAddress: String) {
             self.emailAddress = emailAddress
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.emailAddress, key: "EmailAddress")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1786,15 +1819,17 @@ extension SESv2 {
     }
 
     public struct GetBlacklistReportsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blacklistItemNames", location: .querystring("BlacklistItemNames"))
-        ]
-
         /// A list of IP addresses that you want to retrieve blacklist information about. You can only specify the dedicated IP addresses that you use to send email using Amazon SES or Amazon Pinpoint.
         public let blacklistItemNames: [String]
 
         public init(blacklistItemNames: [String]) {
             self.blacklistItemNames = blacklistItemNames
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.blacklistItemNames, key: "BlacklistItemNames")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1814,15 +1849,17 @@ extension SESv2 {
     }
 
     public struct GetConfigurationSetEventDestinationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
-        ]
-
         /// The name of the configuration set that contains the event destination.
         public let configurationSetName: String
 
         public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1842,15 +1879,17 @@ extension SESv2 {
     }
 
     public struct GetConfigurationSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
-        ]
-
         /// The name of the configuration set.
         public let configurationSetName: String
 
         public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1898,15 +1937,17 @@ extension SESv2 {
     }
 
     public struct GetContactListRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactListName", location: .uri("ContactListName"))
-        ]
-
         /// The name of the contact list.
         public let contactListName: String
 
         public init(contactListName: String) {
             self.contactListName = contactListName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactListName, key: "ContactListName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1946,11 +1987,6 @@ extension SESv2 {
     }
 
     public struct GetContactRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactListName", location: .uri("ContactListName")),
-            AWSMemberEncoding(label: "emailAddress", location: .uri("EmailAddress"))
-        ]
-
         /// The name of the contact list to which the contact belongs.
         public let contactListName: String
         /// The contact's email address.
@@ -1959,6 +1995,13 @@ extension SESv2 {
         public init(contactListName: String, emailAddress: String) {
             self.contactListName = contactListName
             self.emailAddress = emailAddress
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactListName, key: "ContactListName")
+            request.encodePath(self.emailAddress, key: "EmailAddress")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2006,15 +2049,17 @@ extension SESv2 {
     }
 
     public struct GetCustomVerificationEmailTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName"))
-        ]
-
         /// The name of the custom verification email template that you want to retrieve.
         public let templateName: String
 
         public init(templateName: String) {
             self.templateName = templateName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.templateName, key: "TemplateName")
         }
 
         public func validate(name: String) throws {
@@ -2058,15 +2103,17 @@ extension SESv2 {
     }
 
     public struct GetDedicatedIpPoolRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "poolName", location: .uri("PoolName"))
-        ]
-
         /// The name of the dedicated IP pool to retrieve.
         public let poolName: String
 
         public init(poolName: String) {
             self.poolName = poolName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.poolName, key: "PoolName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2086,15 +2133,17 @@ extension SESv2 {
     }
 
     public struct GetDedicatedIpRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ip", location: .uri("Ip"))
-        ]
-
         /// The IP address that you want to obtain more information about. The value you specify has to be a dedicated IP address that's assocaited with your Amazon Web Services account.
         public let ip: String
 
         public init(ip: String) {
             self.ip = ip
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.ip, key: "Ip")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2114,12 +2163,6 @@ extension SESv2 {
     }
 
     public struct GetDedicatedIpsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize")),
-            AWSMemberEncoding(label: "poolName", location: .querystring("PoolName"))
-        ]
-
         /// A token returned from a previous call to GetDedicatedIps to indicate the position of the dedicated IP pool in the list of IP pools.
         public let nextToken: String?
         /// The number of results to show in a single call to GetDedicatedIpsRequest. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
@@ -2131,6 +2174,14 @@ extension SESv2 {
             self.nextToken = nextToken
             self.pageSize = pageSize
             self.poolName = poolName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.pageSize, key: "PageSize")
+            request.encodeQuery(self.poolName, key: "PoolName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2187,15 +2238,17 @@ extension SESv2 {
     }
 
     public struct GetDeliverabilityTestReportRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reportId", location: .uri("ReportId"))
-        ]
-
         /// A unique string that identifies the predictive inbox placement test.
         public let reportId: String
 
         public init(reportId: String) {
             self.reportId = reportId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.reportId, key: "ReportId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2231,15 +2284,17 @@ extension SESv2 {
     }
 
     public struct GetDomainDeliverabilityCampaignRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "campaignId", location: .uri("CampaignId"))
-        ]
-
         /// The unique identifier for the campaign. The Deliverability dashboard automatically generates and assigns this identifier to a campaign.
         public let campaignId: String
 
         public init(campaignId: String) {
             self.campaignId = campaignId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.campaignId, key: "CampaignId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2259,12 +2314,6 @@ extension SESv2 {
     }
 
     public struct GetDomainStatisticsReportRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .uri("Domain")),
-            AWSMemberEncoding(label: "endDate", location: .querystring("EndDate")),
-            AWSMemberEncoding(label: "startDate", location: .querystring("StartDate"))
-        ]
-
         /// The domain that you want to obtain deliverability metrics for.
         public let domain: String
         /// The last day (in Unix time) that you want to obtain domain deliverability metrics for. The EndDate that you specify has to be less than or equal to 30 days after the StartDate.
@@ -2276,6 +2325,14 @@ extension SESv2 {
             self.domain = domain
             self.endDate = endDate
             self.startDate = startDate
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domain, key: "Domain")
+            request.encodeQuery(self.endDate, key: "EndDate")
+            request.encodeQuery(self.startDate, key: "StartDate")
         }
 
         public func validate(name: String) throws {
@@ -2303,15 +2360,17 @@ extension SESv2 {
     }
 
     public struct GetEmailIdentityPoliciesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity"))
-        ]
-
         /// The email identity.
         public let emailIdentity: String
 
         public init(emailIdentity: String) {
             self.emailIdentity = emailIdentity
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.emailIdentity, key: "EmailIdentity")
         }
 
         public func validate(name: String) throws {
@@ -2335,15 +2394,17 @@ extension SESv2 {
     }
 
     public struct GetEmailIdentityRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity"))
-        ]
-
         /// The email identity.
         public let emailIdentity: String
 
         public init(emailIdentity: String) {
             self.emailIdentity = emailIdentity
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.emailIdentity, key: "EmailIdentity")
         }
 
         public func validate(name: String) throws {
@@ -2399,15 +2460,17 @@ extension SESv2 {
     }
 
     public struct GetEmailTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName"))
-        ]
-
         /// The name of the template.
         public let templateName: String
 
         public init(templateName: String) {
             self.templateName = templateName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.templateName, key: "TemplateName")
         }
 
         public func validate(name: String) throws {
@@ -2435,15 +2498,17 @@ extension SESv2 {
     }
 
     public struct GetImportJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
-        ]
-
         /// The ID of the import job.
         public let jobId: String
 
         public init(jobId: String) {
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "JobId")
         }
 
         public func validate(name: String) throws {
@@ -2499,15 +2564,17 @@ extension SESv2 {
     }
 
     public struct GetSuppressedDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "emailAddress", location: .uri("EmailAddress"))
-        ]
-
         /// The email address that's on the account suppression list.
         public let emailAddress: String
 
         public init(emailAddress: String) {
             self.emailAddress = emailAddress
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.emailAddress, key: "EmailAddress")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2697,11 +2764,6 @@ extension SESv2 {
     }
 
     public struct ListConfigurationSetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
-        ]
-
         /// A token returned from a previous call to ListConfigurationSets to indicate the position in the list of configuration sets.
         public let nextToken: String?
         /// The number of results to show in a single call to ListConfigurationSets. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
@@ -2710,6 +2772,13 @@ extension SESv2 {
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.pageSize, key: "PageSize")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2733,11 +2802,6 @@ extension SESv2 {
     }
 
     public struct ListContactListsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
-        ]
-
         /// A string token indicating that there might be additional contact lists available to be listed. Use the token provided in the Response to use in the subsequent call to ListContactLists with the same parameters to retrieve the next page of contact lists.
         public let nextToken: String?
         /// Maximum number of contact lists to return at once. Use this parameter to paginate results. If additional contact lists exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent requests to retrieve additional lists.
@@ -2746,6 +2810,13 @@ extension SESv2 {
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.pageSize, key: "PageSize")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2786,12 +2857,6 @@ extension SESv2 {
     }
 
     public struct ListContactsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactListName", location: .uri("ContactListName")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
-        ]
-
         /// The name of the contact list.
         public let contactListName: String
         /// A filter that can be applied to a list of contacts.
@@ -2806,6 +2871,15 @@ extension SESv2 {
             self.filter = filter
             self.nextToken = nextToken
             self.pageSize = pageSize
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactListName, key: "ContactListName")
+            try container.encodeIfPresent(self.filter, forKey: .filter)
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.pageSize, key: "PageSize")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2831,11 +2905,6 @@ extension SESv2 {
     }
 
     public struct ListCustomVerificationEmailTemplatesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
-        ]
-
         /// A token returned from a previous call to ListCustomVerificationEmailTemplates to indicate the position in the list of custom verification email templates.
         public let nextToken: String?
         /// The number of results to show in a single call to ListCustomVerificationEmailTemplates. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 50.
@@ -2844,6 +2913,13 @@ extension SESv2 {
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.pageSize, key: "PageSize")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2867,11 +2943,6 @@ extension SESv2 {
     }
 
     public struct ListDedicatedIpPoolsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
-        ]
-
         /// A token returned from a previous call to ListDedicatedIpPools to indicate the position in the list of dedicated IP pools.
         public let nextToken: String?
         /// The number of results to show in a single call to ListDedicatedIpPools. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
@@ -2880,6 +2951,13 @@ extension SESv2 {
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.pageSize, key: "PageSize")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2903,11 +2981,6 @@ extension SESv2 {
     }
 
     public struct ListDeliverabilityTestReportsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
-        ]
-
         /// A token returned from a previous call to ListDeliverabilityTestReports to indicate the position in the list of predictive inbox placement tests.
         public let nextToken: String?
         /// The number of results to show in a single call to ListDeliverabilityTestReports. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
@@ -2916,6 +2989,13 @@ extension SESv2 {
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.pageSize, key: "PageSize")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2939,14 +3019,6 @@ extension SESv2 {
     }
 
     public struct ListDomainDeliverabilityCampaignsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "endDate", location: .querystring("EndDate")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize")),
-            AWSMemberEncoding(label: "startDate", location: .querystring("StartDate")),
-            AWSMemberEncoding(label: "subscribedDomain", location: .uri("SubscribedDomain"))
-        ]
-
         /// The last day that you want to obtain deliverability data for. This value has to be less than or equal to 30 days after the value of the StartDate parameter.
         public let endDate: Date
         /// A token that’s returned from a previous call to the ListDomainDeliverabilityCampaigns operation. This token indicates the position of a campaign in the list of campaigns.
@@ -2964,6 +3036,16 @@ extension SESv2 {
             self.pageSize = pageSize
             self.startDate = startDate
             self.subscribedDomain = subscribedDomain
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.endDate, key: "EndDate")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.pageSize, key: "PageSize")
+            request.encodeQuery(self.startDate, key: "StartDate")
+            request.encodePath(self.subscribedDomain, key: "SubscribedDomain")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2987,11 +3069,6 @@ extension SESv2 {
     }
 
     public struct ListEmailIdentitiesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
-        ]
-
         /// A token returned from a previous call to ListEmailIdentities to indicate the position in the list of identities.
         public let nextToken: String?
         /// The number of results to show in a single call to ListEmailIdentities. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
@@ -3000,6 +3077,13 @@ extension SESv2 {
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.pageSize, key: "PageSize")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3023,11 +3107,6 @@ extension SESv2 {
     }
 
     public struct ListEmailTemplatesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
-        ]
-
         /// A token returned from a previous call to ListEmailTemplates to indicate the position in the list of email templates.
         public let nextToken: String?
         /// The number of results to show in a single call to ListEmailTemplates. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 10.
@@ -3036,6 +3115,13 @@ extension SESv2 {
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.pageSize, key: "PageSize")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3059,11 +3145,6 @@ extension SESv2 {
     }
 
     public struct ListImportJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
-        ]
-
         /// The destination of the import job, which can be used to list import jobs that have a certain ImportDestinationType.
         public let importDestinationType: ImportDestinationType?
         /// A string token indicating that there might be additional import jobs available to be listed. Copy this token to a subsequent call to ListImportJobs with the same parameters to retrieve the next page of import jobs.
@@ -3075,6 +3156,14 @@ extension SESv2 {
             self.importDestinationType = importDestinationType
             self.nextToken = nextToken
             self.pageSize = pageSize
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.importDestinationType, forKey: .importDestinationType)
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.pageSize, key: "PageSize")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3164,14 +3253,6 @@ extension SESv2 {
     }
 
     public struct ListSuppressedDestinationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "endDate", location: .querystring("EndDate")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize")),
-            AWSMemberEncoding(label: "reasons", location: .querystring("Reason")),
-            AWSMemberEncoding(label: "startDate", location: .querystring("StartDate"))
-        ]
-
         /// Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list before a specific date.
         public let endDate: Date?
         /// A token returned from a previous call to ListSuppressedDestinations to indicate the position in the list of suppressed email addresses.
@@ -3189,6 +3270,16 @@ extension SESv2 {
             self.pageSize = pageSize
             self.reasons = reasons
             self.startDate = startDate
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.endDate, key: "EndDate")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.pageSize, key: "PageSize")
+            request.encodeQuery(self.reasons, key: "Reason")
+            request.encodeQuery(self.startDate, key: "StartDate")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3212,15 +3303,17 @@ extension SESv2 {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource that you want to retrieve tag information for.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "ResourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3520,10 +3613,6 @@ extension SESv2 {
     }
 
     public struct PutConfigurationSetDeliveryOptionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
-        ]
-
         /// The name of the configuration set to associate with a dedicated IP pool.
         public let configurationSetName: String
         /// The name of the dedicated IP pool to associate with the configuration set.
@@ -3537,6 +3626,14 @@ extension SESv2 {
             self.tlsPolicy = tlsPolicy
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
+            try container.encodeIfPresent(self.sendingPoolName, forKey: .sendingPoolName)
+            try container.encodeIfPresent(self.tlsPolicy, forKey: .tlsPolicy)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case sendingPoolName = "SendingPoolName"
             case tlsPolicy = "TlsPolicy"
@@ -3548,10 +3645,6 @@ extension SESv2 {
     }
 
     public struct PutConfigurationSetReputationOptionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
-        ]
-
         /// The name of the configuration set.
         public let configurationSetName: String
         /// If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set.
@@ -3560,6 +3653,13 @@ extension SESv2 {
         public init(configurationSetName: String, reputationMetricsEnabled: Bool? = nil) {
             self.configurationSetName = configurationSetName
             self.reputationMetricsEnabled = reputationMetricsEnabled
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
+            try container.encodeIfPresent(self.reputationMetricsEnabled, forKey: .reputationMetricsEnabled)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3572,10 +3672,6 @@ extension SESv2 {
     }
 
     public struct PutConfigurationSetSendingOptionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
-        ]
-
         /// The name of the configuration set to enable or disable email sending for.
         public let configurationSetName: String
         /// If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set.
@@ -3584,6 +3680,13 @@ extension SESv2 {
         public init(configurationSetName: String, sendingEnabled: Bool? = nil) {
             self.configurationSetName = configurationSetName
             self.sendingEnabled = sendingEnabled
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
+            try container.encodeIfPresent(self.sendingEnabled, forKey: .sendingEnabled)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3596,10 +3699,6 @@ extension SESv2 {
     }
 
     public struct PutConfigurationSetSuppressionOptionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
-        ]
-
         /// The name of the configuration set to change the suppression list preferences for.
         public let configurationSetName: String
         /// A list that contains the reasons that email addresses are automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
@@ -3608,6 +3707,13 @@ extension SESv2 {
         public init(configurationSetName: String, suppressedReasons: [SuppressionListReason]? = nil) {
             self.configurationSetName = configurationSetName
             self.suppressedReasons = suppressedReasons
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
+            try container.encodeIfPresent(self.suppressedReasons, forKey: .suppressedReasons)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3620,10 +3726,6 @@ extension SESv2 {
     }
 
     public struct PutConfigurationSetTrackingOptionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
-        ]
-
         /// The name of the configuration set.
         public let configurationSetName: String
         /// The domain to use to track open and click events.
@@ -3632,6 +3734,13 @@ extension SESv2 {
         public init(configurationSetName: String, customRedirectDomain: String? = nil) {
             self.configurationSetName = configurationSetName
             self.customRedirectDomain = customRedirectDomain
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
+            try container.encodeIfPresent(self.customRedirectDomain, forKey: .customRedirectDomain)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3644,10 +3753,6 @@ extension SESv2 {
     }
 
     public struct PutConfigurationSetVdmOptionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
-        ]
-
         /// The name of the configuration set.
         public let configurationSetName: String
         /// The VDM options to apply to the configuration set.
@@ -3656,6 +3761,13 @@ extension SESv2 {
         public init(configurationSetName: String, vdmOptions: VdmOptions? = nil) {
             self.configurationSetName = configurationSetName
             self.vdmOptions = vdmOptions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
+            try container.encodeIfPresent(self.vdmOptions, forKey: .vdmOptions)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3668,10 +3780,6 @@ extension SESv2 {
     }
 
     public struct PutDedicatedIpInPoolRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ip", location: .uri("Ip"))
-        ]
-
         /// The name of the IP pool that you want to add the dedicated IP address to. You have to specify an IP pool that already exists.
         public let destinationPoolName: String
         /// The IP address that you want to move to the dedicated IP pool. The value you specify has to be a dedicated IP address that's associated with your Amazon Web Services account.
@@ -3680,6 +3788,13 @@ extension SESv2 {
         public init(destinationPoolName: String, ip: String) {
             self.destinationPoolName = destinationPoolName
             self.ip = ip
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.destinationPoolName, forKey: .destinationPoolName)
+            request.encodePath(self.ip, key: "Ip")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3692,10 +3807,6 @@ extension SESv2 {
     }
 
     public struct PutDedicatedIpPoolScalingAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "poolName", location: .uri("PoolName"))
-        ]
-
         /// The name of the dedicated IP pool.
         public let poolName: String
         /// The scaling mode to apply to the dedicated IP pool.  Changing the scaling mode from MANAGED to STANDARD is not supported.
@@ -3704,6 +3815,13 @@ extension SESv2 {
         public init(poolName: String, scalingMode: ScalingMode) {
             self.poolName = poolName
             self.scalingMode = scalingMode
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.poolName, key: "PoolName")
+            try container.encode(self.scalingMode, forKey: .scalingMode)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3716,10 +3834,6 @@ extension SESv2 {
     }
 
     public struct PutDedicatedIpWarmupAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ip", location: .uri("Ip"))
-        ]
-
         /// The dedicated IP address that you want to update the warm-up attributes for.
         public let ip: String
         /// The warm-up percentage that you want to associate with the dedicated IP address.
@@ -3728,6 +3842,13 @@ extension SESv2 {
         public init(ip: String, warmupPercentage: Int) {
             self.ip = ip
             self.warmupPercentage = warmupPercentage
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.ip, key: "Ip")
+            try container.encode(self.warmupPercentage, forKey: .warmupPercentage)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3761,10 +3882,6 @@ extension SESv2 {
     }
 
     public struct PutEmailIdentityConfigurationSetAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity"))
-        ]
-
         /// The configuration set to associate with an email identity.
         public let configurationSetName: String?
         /// The email address or domain to associate with a configuration set.
@@ -3773,6 +3890,13 @@ extension SESv2 {
         public init(configurationSetName: String? = nil, emailIdentity: String) {
             self.configurationSetName = configurationSetName
             self.emailIdentity = emailIdentity
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.configurationSetName, forKey: .configurationSetName)
+            request.encodePath(self.emailIdentity, key: "EmailIdentity")
         }
 
         public func validate(name: String) throws {
@@ -3789,10 +3913,6 @@ extension SESv2 {
     }
 
     public struct PutEmailIdentityDkimAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity"))
-        ]
-
         /// The email identity.
         public let emailIdentity: String
         /// Sets the DKIM signing configuration for the identity. When you set this value true, then the messages that are sent from the identity are signed using DKIM. If you set this value to false, your messages are sent without DKIM signing.
@@ -3801,6 +3921,13 @@ extension SESv2 {
         public init(emailIdentity: String, signingEnabled: Bool? = nil) {
             self.emailIdentity = emailIdentity
             self.signingEnabled = signingEnabled
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.emailIdentity, key: "EmailIdentity")
+            try container.encodeIfPresent(self.signingEnabled, forKey: .signingEnabled)
         }
 
         public func validate(name: String) throws {
@@ -3817,10 +3944,6 @@ extension SESv2 {
     }
 
     public struct PutEmailIdentityDkimSigningAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity"))
-        ]
-
         /// The email identity.
         public let emailIdentity: String
         /// An object that contains information about the private key and selector that you want to use to configure DKIM for the identity for Bring Your Own DKIM (BYODKIM) for the identity, or, configures the key length to be used for Easy DKIM.
@@ -3832,6 +3955,14 @@ extension SESv2 {
             self.emailIdentity = emailIdentity
             self.signingAttributes = signingAttributes
             self.signingAttributesOrigin = signingAttributesOrigin
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.emailIdentity, key: "EmailIdentity")
+            try container.encodeIfPresent(self.signingAttributes, forKey: .signingAttributes)
+            try container.encode(self.signingAttributesOrigin, forKey: .signingAttributesOrigin)
         }
 
         public func validate(name: String) throws {
@@ -3863,10 +3994,6 @@ extension SESv2 {
     }
 
     public struct PutEmailIdentityFeedbackAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity"))
-        ]
-
         /// Sets the feedback forwarding configuration for the identity. If the value is true, you receive email notifications when bounce or complaint events occur. These notifications are sent to the address that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications (for example, by setting up an event destination), you receive an email notification when these events occur (even if this setting is disabled).
         public let emailForwardingEnabled: Bool?
         /// The email identity.
@@ -3875,6 +4002,13 @@ extension SESv2 {
         public init(emailForwardingEnabled: Bool? = nil, emailIdentity: String) {
             self.emailForwardingEnabled = emailForwardingEnabled
             self.emailIdentity = emailIdentity
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.emailForwardingEnabled, forKey: .emailForwardingEnabled)
+            request.encodePath(self.emailIdentity, key: "EmailIdentity")
         }
 
         public func validate(name: String) throws {
@@ -3891,10 +4025,6 @@ extension SESv2 {
     }
 
     public struct PutEmailIdentityMailFromAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity"))
-        ]
-
         /// The action to take if the required MX record isn't found when you send an email. When you set this value to UseDefaultValue, the mail is sent using amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, the Amazon SES API v2 returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
         public let behaviorOnMxFailure: BehaviorOnMxFailure?
         /// The verified email identity.
@@ -3906,6 +4036,14 @@ extension SESv2 {
             self.behaviorOnMxFailure = behaviorOnMxFailure
             self.emailIdentity = emailIdentity
             self.mailFromDomain = mailFromDomain
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.behaviorOnMxFailure, forKey: .behaviorOnMxFailure)
+            request.encodePath(self.emailIdentity, key: "EmailIdentity")
+            try container.encodeIfPresent(self.mailFromDomain, forKey: .mailFromDomain)
         }
 
         public func validate(name: String) throws {
@@ -4444,10 +4582,6 @@ extension SESv2 {
     }
 
     public struct TestRenderEmailTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName"))
-        ]
-
         /// A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
         public let templateData: String
         /// The name of the template.
@@ -4456,6 +4590,13 @@ extension SESv2 {
         public init(templateData: String, templateName: String) {
             self.templateData = templateData
             self.templateName = templateName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.templateData, forKey: .templateData)
+            request.encodePath(self.templateName, key: "TemplateName")
         }
 
         public func validate(name: String) throws {
@@ -4554,11 +4695,6 @@ extension SESv2 {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("TagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource that you want to remove one or more tags from.
         public let resourceArn: String
         /// The tags (tag keys) that you want to remove from the resource. When you specify a tag key, the action removes both that key and its associated tag value. To remove more than one tag from the resource, append the TagKeys parameter and argument for each additional tag to remove, separated by an ampersand. For example: /v2/email/tags?ResourceArn=ResourceArn&TagKeys=Key1&TagKeys=Key2
@@ -4569,6 +4705,13 @@ extension SESv2 {
             self.tagKeys = tagKeys
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "TagKeys")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -4577,11 +4720,6 @@ extension SESv2 {
     }
 
     public struct UpdateConfigurationSetEventDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName")),
-            AWSMemberEncoding(label: "eventDestinationName", location: .uri("EventDestinationName"))
-        ]
-
         /// The name of the configuration set that contains the event destination to modify.
         public let configurationSetName: String
         /// An object that defines the event destination.
@@ -4595,6 +4733,14 @@ extension SESv2 {
             self.eventDestinationName = eventDestinationName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
+            try container.encode(self.eventDestination, forKey: .eventDestination)
+            request.encodePath(self.eventDestinationName, key: "EventDestinationName")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case eventDestination = "EventDestination"
         }
@@ -4605,10 +4751,6 @@ extension SESv2 {
     }
 
     public struct UpdateContactListRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactListName", location: .uri("ContactListName"))
-        ]
-
         /// The name of the contact list.
         public let contactListName: String
         /// A description of what the contact list is about.
@@ -4622,6 +4764,14 @@ extension SESv2 {
             self.topics = topics
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactListName, key: "ContactListName")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.topics, forKey: .topics)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case topics = "Topics"
@@ -4633,11 +4783,6 @@ extension SESv2 {
     }
 
     public struct UpdateContactRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactListName", location: .uri("ContactListName")),
-            AWSMemberEncoding(label: "emailAddress", location: .uri("EmailAddress"))
-        ]
-
         /// The attribute data attached to a contact.
         public let attributesData: String?
         /// The name of the contact list.
@@ -4657,6 +4802,16 @@ extension SESv2 {
             self.unsubscribeAll = unsubscribeAll
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.attributesData, forKey: .attributesData)
+            request.encodePath(self.contactListName, key: "ContactListName")
+            request.encodePath(self.emailAddress, key: "EmailAddress")
+            try container.encodeIfPresent(self.topicPreferences, forKey: .topicPreferences)
+            try container.encodeIfPresent(self.unsubscribeAll, forKey: .unsubscribeAll)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case attributesData = "AttributesData"
             case topicPreferences = "TopicPreferences"
@@ -4669,10 +4824,6 @@ extension SESv2 {
     }
 
     public struct UpdateCustomVerificationEmailTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName"))
-        ]
-
         /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
         public let failureRedirectionURL: String
         /// The email address that the custom verification email is sent from.
@@ -4695,6 +4846,17 @@ extension SESv2 {
             self.templateSubject = templateSubject
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.failureRedirectionURL, forKey: .failureRedirectionURL)
+            try container.encode(self.fromEmailAddress, forKey: .fromEmailAddress)
+            try container.encode(self.successRedirectionURL, forKey: .successRedirectionURL)
+            try container.encode(self.templateContent, forKey: .templateContent)
+            request.encodePath(self.templateName, key: "TemplateName")
+            try container.encode(self.templateSubject, forKey: .templateSubject)
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
         }
@@ -4713,11 +4875,6 @@ extension SESv2 {
     }
 
     public struct UpdateEmailIdentityPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity")),
-            AWSMemberEncoding(label: "policyName", location: .uri("PolicyName"))
-        ]
-
         /// The email identity.
         public let emailIdentity: String
         /// The text of the policy in JSON format. The policy cannot exceed 4 KB. For information about the syntax of sending authorization policies, see the Amazon SES Developer Guide.
@@ -4729,6 +4886,14 @@ extension SESv2 {
             self.emailIdentity = emailIdentity
             self.policy = policy
             self.policyName = policyName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.emailIdentity, key: "EmailIdentity")
+            try container.encode(self.policy, forKey: .policy)
+            request.encodePath(self.policyName, key: "PolicyName")
         }
 
         public func validate(name: String) throws {
@@ -4748,10 +4913,6 @@ extension SESv2 {
     }
 
     public struct UpdateEmailTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName"))
-        ]
-
         /// The content of the email template, composed of a subject line, an HTML part, and a text-only part.
         public let templateContent: EmailTemplateContent
         /// The name of the template.
@@ -4760,6 +4921,13 @@ extension SESv2 {
         public init(templateContent: EmailTemplateContent, templateName: String) {
             self.templateContent = templateContent
             self.templateName = templateName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.templateContent, forKey: .templateContent)
+            request.encodePath(self.templateName, key: "TemplateName")
         }
 
         public func validate(name: String) throws {

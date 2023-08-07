@@ -316,10 +316,6 @@ extension EFS {
     }
 
     public struct CreateReplicationConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sourceFileSystemId", location: .uri("SourceFileSystemId"))
-        ]
-
         /// An array of destination configuration objects. Only one destination configuration object is supported.
         public let destinations: [DestinationToCreate]
         /// Specifies the Amazon EFS file system that you want to replicate. This file system cannot already be  a source or destination file system in another replication configuration.
@@ -328,6 +324,13 @@ extension EFS {
         public init(destinations: [DestinationToCreate], sourceFileSystemId: String) {
             self.destinations = destinations
             self.sourceFileSystemId = sourceFileSystemId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.destinations, forKey: .destinations)
+            request.encodePath(self.sourceFileSystemId, key: "SourceFileSystemId")
         }
 
         public func validate(name: String) throws {
@@ -344,10 +347,6 @@ extension EFS {
     }
 
     public struct CreateTagsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
-        ]
-
         /// The ID of the file system whose tags you want to modify (String). This operation modifies the tags only, not the file system.
         public let fileSystemId: String
         /// An array of Tag objects to add. Each Tag object is a key-value pair.
@@ -356,6 +355,13 @@ extension EFS {
         public init(fileSystemId: String, tags: [Tag]) {
             self.fileSystemId = fileSystemId
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.fileSystemId, key: "FileSystemId")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -403,15 +409,17 @@ extension EFS {
     }
 
     public struct DeleteAccessPointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessPointId", location: .uri("AccessPointId"))
-        ]
-
         /// The ID of the access point that you want to delete.
         public let accessPointId: String
 
         public init(accessPointId: String) {
             self.accessPointId = accessPointId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accessPointId, key: "AccessPointId")
         }
 
         public func validate(name: String) throws {
@@ -423,15 +431,17 @@ extension EFS {
     }
 
     public struct DeleteFileSystemPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
-        ]
-
         /// Specifies the EFS file system for which to delete the FileSystemPolicy.
         public let fileSystemId: String
 
         public init(fileSystemId: String) {
             self.fileSystemId = fileSystemId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.fileSystemId, key: "FileSystemId")
         }
 
         public func validate(name: String) throws {
@@ -443,15 +453,17 @@ extension EFS {
     }
 
     public struct DeleteFileSystemRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
-        ]
-
         /// The ID of the file system you want to delete.
         public let fileSystemId: String
 
         public init(fileSystemId: String) {
             self.fileSystemId = fileSystemId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.fileSystemId, key: "FileSystemId")
         }
 
         public func validate(name: String) throws {
@@ -463,15 +475,17 @@ extension EFS {
     }
 
     public struct DeleteMountTargetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "mountTargetId", location: .uri("MountTargetId"))
-        ]
-
         /// The ID of the mount target to delete (String).
         public let mountTargetId: String
 
         public init(mountTargetId: String) {
             self.mountTargetId = mountTargetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.mountTargetId, key: "MountTargetId")
         }
 
         public func validate(name: String) throws {
@@ -484,15 +498,17 @@ extension EFS {
     }
 
     public struct DeleteReplicationConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sourceFileSystemId", location: .uri("SourceFileSystemId"))
-        ]
-
         /// The ID of the source file system in the replication configuration.
         public let sourceFileSystemId: String
 
         public init(sourceFileSystemId: String) {
             self.sourceFileSystemId = sourceFileSystemId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.sourceFileSystemId, key: "SourceFileSystemId")
         }
 
         public func validate(name: String) throws {
@@ -504,10 +520,6 @@ extension EFS {
     }
 
     public struct DeleteTagsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
-        ]
-
         /// The ID of the file system whose tags you want to delete (String).
         public let fileSystemId: String
         /// A list of tag keys to delete.
@@ -516,6 +528,13 @@ extension EFS {
         public init(fileSystemId: String, tagKeys: [String]) {
             self.fileSystemId = fileSystemId
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.fileSystemId, key: "FileSystemId")
+            try container.encode(self.tagKeys, forKey: .tagKeys)
         }
 
         public func validate(name: String) throws {
@@ -536,13 +555,6 @@ extension EFS {
     }
 
     public struct DescribeAccessPointsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessPointId", location: .querystring("AccessPointId")),
-            AWSMemberEncoding(label: "fileSystemId", location: .querystring("FileSystemId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// (Optional) Specifies an EFS access point to describe in the response; mutually exclusive with FileSystemId.
         public let accessPointId: String?
         /// (Optional) If you provide a FileSystemId, EFS returns all access points for that file system; mutually exclusive with AccessPointId.
@@ -557,6 +569,15 @@ extension EFS {
             self.fileSystemId = fileSystemId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.accessPointId, key: "AccessPointId")
+            request.encodeQuery(self.fileSystemId, key: "FileSystemId")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -632,15 +653,17 @@ extension EFS {
     }
 
     public struct DescribeBackupPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
-        ]
-
         /// Specifies which EFS file system to retrieve the BackupPolicy for.
         public let fileSystemId: String
 
         public init(fileSystemId: String) {
             self.fileSystemId = fileSystemId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.fileSystemId, key: "FileSystemId")
         }
 
         public func validate(name: String) throws {
@@ -652,15 +675,17 @@ extension EFS {
     }
 
     public struct DescribeFileSystemPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
-        ]
-
         /// Specifies which EFS file system to retrieve the FileSystemPolicy for.
         public let fileSystemId: String
 
         public init(fileSystemId: String) {
             self.fileSystemId = fileSystemId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.fileSystemId, key: "FileSystemId")
         }
 
         public func validate(name: String) throws {
@@ -672,13 +697,6 @@ extension EFS {
     }
 
     public struct DescribeFileSystemsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "creationToken", location: .querystring("CreationToken")),
-            AWSMemberEncoding(label: "fileSystemId", location: .querystring("FileSystemId")),
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// (Optional) Restricts the list to the file system with this creation token (String). You specify a creation token when you create an Amazon EFS file system.
         public let creationToken: String?
         /// (Optional) ID of the file system whose description you want to retrieve (String).
@@ -693,6 +711,15 @@ extension EFS {
             self.fileSystemId = fileSystemId
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.creationToken, key: "CreationToken")
+            request.encodeQuery(self.fileSystemId, key: "FileSystemId")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
         }
 
         public func validate(name: String) throws {
@@ -732,15 +759,17 @@ extension EFS {
     }
 
     public struct DescribeLifecycleConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
-        ]
-
         /// The ID of the file system whose LifecycleConfiguration object you want to retrieve (String).
         public let fileSystemId: String
 
         public init(fileSystemId: String) {
             self.fileSystemId = fileSystemId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.fileSystemId, key: "FileSystemId")
         }
 
         public func validate(name: String) throws {
@@ -752,15 +781,17 @@ extension EFS {
     }
 
     public struct DescribeMountTargetSecurityGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "mountTargetId", location: .uri("MountTargetId"))
-        ]
-
         /// The ID of the mount target whose security groups you want to retrieve.
         public let mountTargetId: String
 
         public init(mountTargetId: String) {
             self.mountTargetId = mountTargetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.mountTargetId, key: "MountTargetId")
         }
 
         public func validate(name: String) throws {
@@ -786,14 +817,6 @@ extension EFS {
     }
 
     public struct DescribeMountTargetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessPointId", location: .querystring("AccessPointId")),
-            AWSMemberEncoding(label: "fileSystemId", location: .querystring("FileSystemId")),
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems")),
-            AWSMemberEncoding(label: "mountTargetId", location: .querystring("MountTargetId"))
-        ]
-
         /// (Optional) The ID of the access point whose mount targets that you want to list. It must be included in your request if a FileSystemId or MountTargetId is not included in your request. Accepts either an access point ID or ARN as input.
         public let accessPointId: String?
         /// (Optional) ID of the file system whose mount targets you want to list (String). It must be included in your request if an AccessPointId or MountTargetId is not included. Accepts either a file system ID or ARN as input.
@@ -811,6 +834,16 @@ extension EFS {
             self.marker = marker
             self.maxItems = maxItems
             self.mountTargetId = mountTargetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.accessPointId, key: "AccessPointId")
+            request.encodeQuery(self.fileSystemId, key: "FileSystemId")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+            request.encodeQuery(self.mountTargetId, key: "MountTargetId")
         }
 
         public func validate(name: String) throws {
@@ -852,12 +885,6 @@ extension EFS {
     }
 
     public struct DescribeReplicationConfigurationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .querystring("FileSystemId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// You can retrieve the replication configuration for a specific file system by providing its file system ID.
         public let fileSystemId: String?
         /// (Optional) To limit the number of objects returned in a response, you can specify the MaxItems parameter. The default value is 100.
@@ -869,6 +896,14 @@ extension EFS {
             self.fileSystemId = fileSystemId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.fileSystemId, key: "FileSystemId")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -901,12 +936,6 @@ extension EFS {
     }
 
     public struct DescribeTagsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId")),
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// The ID of the file system whose tag set you want to retrieve.
         public let fileSystemId: String
         /// (Optional) An opaque pagination token returned from a previous DescribeTags operation (String). If present, it specifies to continue the list from where the previous call left off.
@@ -918,6 +947,14 @@ extension EFS {
             self.fileSystemId = fileSystemId
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.fileSystemId, key: "FileSystemId")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
         }
 
         public func validate(name: String) throws {
@@ -1160,12 +1197,6 @@ extension EFS {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId"))
-        ]
-
         /// (Optional) Specifies the maximum number of tag objects to return in the response. The default value is 100.
         public let maxResults: Int?
         /// (Optional) You can use NextToken in a subsequent request to fetch the next page of access point descriptions if the response payload was paginated.
@@ -1177,6 +1208,14 @@ extension EFS {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceId = resourceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodePath(self.resourceId, key: "ResourceId")
         }
 
         public func validate(name: String) throws {
@@ -1209,10 +1248,6 @@ extension EFS {
     }
 
     public struct ModifyMountTargetSecurityGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "mountTargetId", location: .uri("MountTargetId"))
-        ]
-
         /// The ID of the mount target whose security groups you want to modify.
         public let mountTargetId: String
         /// An array of up to five VPC security group IDs.
@@ -1221,6 +1256,13 @@ extension EFS {
         public init(mountTargetId: String, securityGroups: [String]? = nil) {
             self.mountTargetId = mountTargetId
             self.securityGroups = securityGroups
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.mountTargetId, key: "MountTargetId")
+            try container.encodeIfPresent(self.securityGroups, forKey: .securityGroups)
         }
 
         public func validate(name: String) throws {
@@ -1348,10 +1390,6 @@ extension EFS {
     }
 
     public struct PutBackupPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
-        ]
-
         /// The backup policy included in the PutBackupPolicy request.
         public let backupPolicy: BackupPolicy
         /// Specifies which EFS file system to update the backup policy for.
@@ -1360,6 +1398,13 @@ extension EFS {
         public init(backupPolicy: BackupPolicy, fileSystemId: String) {
             self.backupPolicy = backupPolicy
             self.fileSystemId = fileSystemId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.backupPolicy, forKey: .backupPolicy)
+            request.encodePath(self.fileSystemId, key: "FileSystemId")
         }
 
         public func validate(name: String) throws {
@@ -1373,10 +1418,6 @@ extension EFS {
     }
 
     public struct PutFileSystemPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
-        ]
-
         /// (Optional) A boolean that specifies whether or not to bypass the FileSystemPolicy lockout safety check. The lockout safety check  determines whether the policy in the request will lock out, or prevent, the IAM principal that is making the request from making future PutFileSystemPolicy requests on this file system. Set BypassPolicyLockoutSafetyCheck to True only when you intend to prevent  the IAM principal that is making the request from making subsequent PutFileSystemPolicy requests on this file system.  The default value is False.
         public let bypassPolicyLockoutSafetyCheck: Bool?
         /// The ID of the EFS file system that you want to create or update the FileSystemPolicy for.
@@ -1388,6 +1429,14 @@ extension EFS {
             self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
             self.fileSystemId = fileSystemId
             self.policy = policy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.bypassPolicyLockoutSafetyCheck, forKey: .bypassPolicyLockoutSafetyCheck)
+            request.encodePath(self.fileSystemId, key: "FileSystemId")
+            try container.encode(self.policy, forKey: .policy)
         }
 
         public func validate(name: String) throws {
@@ -1405,10 +1454,6 @@ extension EFS {
     }
 
     public struct PutLifecycleConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
-        ]
-
         /// The ID of the file system for which you are creating the LifecycleConfiguration object (String).
         public let fileSystemId: String
         /// An array of LifecyclePolicy objects that define the file system's LifecycleConfiguration object. A LifecycleConfiguration object informs EFS lifecycle management and EFS Intelligent-Tiering of the following:   When to move files in the file system from primary storage to the IA storage class.   When to move files that are in IA storage to primary storage.    When using the put-lifecycle-configuration CLI command or the PutLifecycleConfiguration API action, Amazon EFS requires that each LifecyclePolicy object have only a single transition. This means that in a request body, LifecyclePolicies must be structured as an array of LifecyclePolicy objects, one object for each transition, TransitionToIA, TransitionToPrimaryStorageClass. See the example requests in the following section for more information.
@@ -1417,6 +1462,13 @@ extension EFS {
         public init(fileSystemId: String, lifecyclePolicies: [LifecyclePolicy]) {
             self.fileSystemId = fileSystemId
             self.lifecyclePolicies = lifecyclePolicies
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.fileSystemId, key: "FileSystemId")
+            try container.encode(self.lifecyclePolicies, forKey: .lifecyclePolicies)
         }
 
         public func validate(name: String) throws {
@@ -1530,10 +1582,6 @@ extension EFS {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId"))
-        ]
-
         /// The ID specifying the EFS resource that you want to create a tag for.
         public let resourceId: String
         /// An array of Tag objects to add. Each Tag object is a key-value pair.
@@ -1542,6 +1590,13 @@ extension EFS {
         public init(resourceId: String, tags: [Tag]) {
             self.resourceId = resourceId
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceId, key: "ResourceId")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1558,11 +1613,6 @@ extension EFS {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// Specifies the EFS resource that you want to remove tags from.
         public let resourceId: String
         /// The keys of the key-value tag pairs that you want to remove from the specified EFS resource.
@@ -1571,6 +1621,13 @@ extension EFS {
         public init(resourceId: String, tagKeys: [String]) {
             self.resourceId = resourceId
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceId, key: "ResourceId")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -1589,10 +1646,6 @@ extension EFS {
     }
 
     public struct UpdateFileSystemRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
-        ]
-
         /// The ID of the file system that you want to update.
         public let fileSystemId: String
         /// (Optional) Sets the amount of provisioned throughput, in MiB/s, for the file system. Valid values are 1-1024. If you are changing the throughput mode to provisioned, you must also  provide the amount of provisioned throughput. Required if ThroughputMode is changed  to provisioned on update.
@@ -1604,6 +1657,14 @@ extension EFS {
             self.fileSystemId = fileSystemId
             self.provisionedThroughputInMibps = provisionedThroughputInMibps
             self.throughputMode = throughputMode
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.fileSystemId, key: "FileSystemId")
+            try container.encodeIfPresent(self.provisionedThroughputInMibps, forKey: .provisionedThroughputInMibps)
+            try container.encodeIfPresent(self.throughputMode, forKey: .throughputMode)
         }
 
         public func validate(name: String) throws {

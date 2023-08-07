@@ -1563,15 +1563,17 @@ extension ServiceCatalog {
     }
 
     public struct DeleteTagOptionInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .querystring("id"))
-        ]
-
         /// The TagOption identifier.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -2405,15 +2407,17 @@ extension ServiceCatalog {
     }
 
     public struct DescribeTagOptionInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .querystring("id"))
-        ]
-
         /// The TagOption identifier.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -2590,11 +2594,6 @@ extension ServiceCatalog {
     }
 
     public struct DisassociateTagOptionFromResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceId", location: .querystring("resourceId")),
-            AWSMemberEncoding(label: "tagOptionId", location: .querystring("tagOptionId"))
-        ]
-
         /// The resource identifier.
         public let resourceId: String
         /// The TagOption identifier.
@@ -2603,6 +2602,13 @@ extension ServiceCatalog {
         public init(resourceId: String, tagOptionId: String) {
             self.resourceId = resourceId
             self.tagOptionId = tagOptionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceId, key: "resourceId")
+            request.encodeQuery(self.tagOptionId, key: "tagOptionId")
         }
 
         public func validate(name: String) throws {
@@ -3720,13 +3726,6 @@ extension ServiceCatalog {
     }
 
     public struct ListResourcesForTagOptionInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize")),
-            AWSMemberEncoding(label: "pageToken", location: .querystring("pageToken")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType")),
-            AWSMemberEncoding(label: "tagOptionId", location: .querystring("tagOptionId"))
-        ]
-
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
@@ -3741,6 +3740,15 @@ extension ServiceCatalog {
             self.pageToken = pageToken
             self.resourceType = resourceType
             self.tagOptionId = tagOptionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.pageSize, key: "pageSize")
+            request.encodeQuery(self.pageToken, key: "pageToken")
+            request.encodeQuery(self.resourceType, key: "resourceType")
+            request.encodeQuery(self.tagOptionId, key: "tagOptionId")
         }
 
         public func validate(name: String) throws {

@@ -697,11 +697,6 @@ extension IoTEventsData {
     }
 
     public struct DescribeAlarmRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "alarmModelName", location: .uri("alarmModelName")),
-            AWSMemberEncoding(label: "keyValue", location: .querystring("keyValue"))
-        ]
-
         /// The name of the alarm model.
         public let alarmModelName: String
         /// The value of the key used as a filter to select only the alarms associated with the
@@ -711,6 +706,13 @@ extension IoTEventsData {
         public init(alarmModelName: String, keyValue: String? = nil) {
             self.alarmModelName = alarmModelName
             self.keyValue = keyValue
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.alarmModelName, key: "alarmModelName")
+            request.encodeQuery(self.keyValue, key: "keyValue")
         }
 
         public func validate(name: String) throws {
@@ -739,11 +741,6 @@ extension IoTEventsData {
     }
 
     public struct DescribeDetectorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorModelName", location: .uri("detectorModelName")),
-            AWSMemberEncoding(label: "keyValue", location: .querystring("keyValue"))
-        ]
-
         /// The name of the detector model whose detectors (instances) you want information about.
         public let detectorModelName: String
         /// A filter used to limit results to detectors (instances) created because of the given key ID.
@@ -752,6 +749,13 @@ extension IoTEventsData {
         public init(detectorModelName: String, keyValue: String? = nil) {
             self.detectorModelName = detectorModelName
             self.keyValue = keyValue
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorModelName, key: "detectorModelName")
+            request.encodeQuery(self.keyValue, key: "keyValue")
         }
 
         public func validate(name: String) throws {
@@ -1016,12 +1020,6 @@ extension IoTEventsData {
     }
 
     public struct ListAlarmsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "alarmModelName", location: .uri("alarmModelName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name of the alarm model.
         public let alarmModelName: String
         /// The maximum number of results to be returned per request.
@@ -1033,6 +1031,14 @@ extension IoTEventsData {
             self.alarmModelName = alarmModelName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.alarmModelName, key: "alarmModelName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1065,13 +1071,6 @@ extension IoTEventsData {
     }
 
     public struct ListDetectorsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "detectorModelName", location: .uri("detectorModelName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "stateName", location: .querystring("stateName"))
-        ]
-
         /// The name of the detector model whose detectors (instances) are listed.
         public let detectorModelName: String
         /// The maximum number of results to be returned per request.
@@ -1086,6 +1085,15 @@ extension IoTEventsData {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.stateName = stateName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorModelName, key: "detectorModelName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.stateName, key: "stateName")
         }
 
         public func validate(name: String) throws {

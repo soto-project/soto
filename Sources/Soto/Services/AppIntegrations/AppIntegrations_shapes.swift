@@ -272,15 +272,17 @@ extension AppIntegrations {
     }
 
     public struct DeleteDataIntegrationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dataIntegrationIdentifier", location: .uri("DataIntegrationIdentifier"))
-        ]
-
         /// A unique identifier for the DataIntegration.
         public let dataIntegrationIdentifier: String
 
         public init(dataIntegrationIdentifier: String) {
             self.dataIntegrationIdentifier = dataIntegrationIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataIntegrationIdentifier, key: "DataIntegrationIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -297,15 +299,17 @@ extension AppIntegrations {
     }
 
     public struct DeleteEventIntegrationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the event integration.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -441,15 +445,17 @@ extension AppIntegrations {
     }
 
     public struct GetDataIntegrationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
-        ]
-
         /// A unique identifier.
         public let identifier: String
 
         public init(identifier: String) {
             self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
         }
 
         public func validate(name: String) throws {
@@ -511,15 +517,17 @@ extension AppIntegrations {
     }
 
     public struct GetEventIntegrationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the event integration.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -565,12 +573,6 @@ extension AppIntegrations {
     }
 
     public struct ListDataIntegrationAssociationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dataIntegrationIdentifier", location: .uri("DataIntegrationIdentifier")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// A unique identifier for the DataIntegration.
         public let dataIntegrationIdentifier: String
         /// The maximum number of results to return per page.
@@ -583,6 +585,14 @@ extension AppIntegrations {
             self.dataIntegrationIdentifier = dataIntegrationIdentifier
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataIntegrationIdentifier, key: "DataIntegrationIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -617,11 +627,6 @@ extension AppIntegrations {
     }
 
     public struct ListDataIntegrationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous
@@ -631,6 +636,13 @@ extension AppIntegrations {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -662,12 +674,6 @@ extension AppIntegrations {
     }
 
     public struct ListEventIntegrationAssociationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventIntegrationName", location: .uri("EventIntegrationName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name of the event integration.
         public let eventIntegrationName: String
         /// The maximum number of results to return per page.
@@ -680,6 +686,14 @@ extension AppIntegrations {
             self.eventIntegrationName = eventIntegrationName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.eventIntegrationName, key: "EventIntegrationName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -714,11 +728,6 @@ extension AppIntegrations {
     }
 
     public struct ListEventIntegrationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous
@@ -728,6 +737,13 @@ extension AppIntegrations {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -759,15 +775,17 @@ extension AppIntegrations {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -826,10 +844,6 @@ extension AppIntegrations {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
@@ -838,6 +852,13 @@ extension AppIntegrations {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -864,11 +885,6 @@ extension AppIntegrations {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tag keys.
@@ -877,6 +893,13 @@ extension AppIntegrations {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -900,10 +923,6 @@ extension AppIntegrations {
     }
 
     public struct UpdateDataIntegrationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
-        ]
-
         /// A description of the DataIntegration.
         public let description: String?
         /// A unique identifier for the DataIntegration.
@@ -915,6 +934,14 @@ extension AppIntegrations {
             self.description = description
             self.identifier = identifier
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.identifier, key: "Identifier")
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -940,10 +967,6 @@ extension AppIntegrations {
     }
 
     public struct UpdateEventIntegrationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The description of the event inegration.
         public let description: String?
         /// The name of the event integration.
@@ -952,6 +975,13 @@ extension AppIntegrations {
         public init(description: String? = nil, name: String) {
             self.description = description
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {

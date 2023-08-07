@@ -422,14 +422,16 @@ extension IoTRoboRunner {
     }
 
     public struct GetDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .querystring("id"))
-        ]
-
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -475,14 +477,16 @@ extension IoTRoboRunner {
     }
 
     public struct GetSiteRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .querystring("id"))
-        ]
-
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -525,14 +529,16 @@ extension IoTRoboRunner {
     }
 
     public struct GetWorkerFleetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .querystring("id"))
-        ]
-
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -575,14 +581,16 @@ extension IoTRoboRunner {
     }
 
     public struct GetWorkerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .querystring("id"))
-        ]
-
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -640,13 +648,6 @@ extension IoTRoboRunner {
     }
 
     public struct ListDestinationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "site", location: .querystring("site")),
-            AWSMemberEncoding(label: "state", location: .querystring("state"))
-        ]
-
         public let maxResults: Int?
         public let nextToken: String?
         public let site: String
@@ -657,6 +658,15 @@ extension IoTRoboRunner {
             self.nextToken = nextToken
             self.site = site
             self.state = state
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.site, key: "site")
+            request.encodeQuery(self.state, key: "state")
         }
 
         public func validate(name: String) throws {
@@ -689,17 +699,19 @@ extension IoTRoboRunner {
     }
 
     public struct ListSitesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         public let maxResults: Int?
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -729,12 +741,6 @@ extension IoTRoboRunner {
     }
 
     public struct ListWorkerFleetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "site", location: .querystring("site"))
-        ]
-
         public let maxResults: Int?
         public let nextToken: String?
         public let site: String
@@ -743,6 +749,14 @@ extension IoTRoboRunner {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.site = site
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.site, key: "site")
         }
 
         public func validate(name: String) throws {
@@ -775,13 +789,6 @@ extension IoTRoboRunner {
     }
 
     public struct ListWorkersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fleet", location: .querystring("fleet")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "site", location: .querystring("site"))
-        ]
-
         public let fleet: String?
         public let maxResults: Int?
         public let nextToken: String?
@@ -792,6 +799,15 @@ extension IoTRoboRunner {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.site = site
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.fleet, key: "fleet")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.site, key: "site")
         }
 
         public func validate(name: String) throws {

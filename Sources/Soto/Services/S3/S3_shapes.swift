@@ -810,22 +810,13 @@ extension S3 {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
-
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct AbortMultipartUploadRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
-            AWSMemberEncoding(label: "uploadId", location: .querystring("uploadId"))
-        ]
-
         /// The bucket name to which the upload was taking place.  When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -842,6 +833,16 @@ extension S3 {
             self.key = key
             self.requestPayer = requestPayer
             self.uploadId = uploadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodePath(self.key, key: "Key")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeQuery(self.uploadId, key: "uploadId")
         }
 
         public func validate(name: String) throws {
@@ -1231,20 +1232,19 @@ extension S3 {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.bucket = try container.decodeIfPresent(String.self, forKey: .bucket)
-            self.bucketKeyEnabled = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-server-side-encryption-bucket-key-enabled")
+            self.bucketKeyEnabled = try response.decodeHeaderIfPresent(Bool.self, key: "x-amz-server-side-encryption-bucket-key-enabled")
             self.checksumCRC32 = try container.decodeIfPresent(String.self, forKey: .checksumCRC32)
             self.checksumCRC32C = try container.decodeIfPresent(String.self, forKey: .checksumCRC32C)
             self.checksumSHA1 = try container.decodeIfPresent(String.self, forKey: .checksumSHA1)
             self.checksumSHA256 = try container.decodeIfPresent(String.self, forKey: .checksumSHA256)
             self.eTag = try container.decodeIfPresent(String.self, forKey: .eTag)
-            self.expiration = try response.decodeIfPresent(String.self, forHeader: "x-amz-expiration")
+            self.expiration = try response.decodeHeaderIfPresent(String.self, key: "x-amz-expiration")
             self.key = try container.decodeIfPresent(String.self, forKey: .key)
             self.location = try container.decodeIfPresent(String.self, forKey: .location)
-            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
-            self.serverSideEncryption = try response.decodeIfPresent(ServerSideEncryption.self, forHeader: "x-amz-server-side-encryption")
-            self.ssekmsKeyId = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-aws-kms-key-id")
-            self.versionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-version-id")
-
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
+            self.serverSideEncryption = try response.decodeHeaderIfPresent(ServerSideEncryption.self, key: "x-amz-server-side-encryption")
+            self.ssekmsKeyId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-aws-kms-key-id")
+            self.versionId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-version-id")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1259,25 +1259,8 @@ extension S3 {
         }
     }
 
-    public struct CompleteMultipartUploadRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "multipartUpload"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "checksumCRC32", location: .header("x-amz-checksum-crc32")),
-            AWSMemberEncoding(label: "checksumCRC32C", location: .header("x-amz-checksum-crc32c")),
-            AWSMemberEncoding(label: "checksumSHA1", location: .header("x-amz-checksum-sha1")),
-            AWSMemberEncoding(label: "checksumSHA256", location: .header("x-amz-checksum-sha256")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "multipartUpload", location: .body("CompleteMultipartUpload")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
-            AWSMemberEncoding(label: "sseCustomerAlgorithm", location: .header("x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sseCustomerKey", location: .header("x-amz-server-side-encryption-customer-key")),
-            AWSMemberEncoding(label: "sseCustomerKeyMD5", location: .header("x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "uploadId", location: .querystring("uploadId"))
-        ]
-
+    public struct CompleteMultipartUploadRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "MultipartUpload"
         /// Name of the bucket to which the multipart upload was initiated. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 32-bit CRC32 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
@@ -1318,6 +1301,24 @@ extension S3 {
             self.sseCustomerKey = sseCustomerKey
             self.sseCustomerKeyMD5 = sseCustomerKeyMD5
             self.uploadId = uploadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumCRC32, key: "x-amz-checksum-crc32")
+            request.encodeHeader(self.checksumCRC32C, key: "x-amz-checksum-crc32c")
+            request.encodeHeader(self.checksumSHA1, key: "x-amz-checksum-sha1")
+            request.encodeHeader(self.checksumSHA256, key: "x-amz-checksum-sha256")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodePath(self.key, key: "Key")
+            try container.encode(self.multipartUpload)
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeHeader(self.sseCustomerAlgorithm, key: "x-amz-server-side-encryption-customer-algorithm")
+            request.encodeHeader(self.sseCustomerKey, key: "x-amz-server-side-encryption-customer-key")
+            request.encodeHeader(self.sseCustomerKeyMD5, key: "x-amz-server-side-encryption-customer-key-MD5")
+            request.encodeQuery(self.uploadId, key: "uploadId")
         }
 
         public func validate(name: String) throws {
@@ -1433,68 +1434,24 @@ extension S3 {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.bucketKeyEnabled = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-server-side-encryption-bucket-key-enabled")
-            self.copyObjectResult = try .init(from: decoder)
-            self.copySourceVersionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-copy-source-version-id")
-            self.expiration = try response.decodeIfPresent(String.self, forHeader: "x-amz-expiration")
-            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
-            self.serverSideEncryption = try response.decodeIfPresent(ServerSideEncryption.self, forHeader: "x-amz-server-side-encryption")
-            self.sseCustomerAlgorithm = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-algorithm")
-            self.sseCustomerKeyMD5 = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-key-MD5")
-            self.ssekmsEncryptionContext = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-context")
-            self.ssekmsKeyId = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-aws-kms-key-id")
-            self.versionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-version-id")
-
+            let container = try decoder.singleValueContainer()
+            self.bucketKeyEnabled = try response.decodeHeaderIfPresent(Bool.self, key: "x-amz-server-side-encryption-bucket-key-enabled")
+            self.copyObjectResult = try container.decode(CopyObjectResult.self)
+            self.copySourceVersionId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-copy-source-version-id")
+            self.expiration = try response.decodeHeaderIfPresent(String.self, key: "x-amz-expiration")
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
+            self.serverSideEncryption = try response.decodeHeaderIfPresent(ServerSideEncryption.self, key: "x-amz-server-side-encryption")
+            self.sseCustomerAlgorithm = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-customer-algorithm")
+            self.sseCustomerKeyMD5 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-customer-key-MD5")
+            self.ssekmsEncryptionContext = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-context")
+            self.ssekmsKeyId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-aws-kms-key-id")
+            self.versionId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-version-id")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct CopyObjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "acl", location: .header("x-amz-acl")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "bucketKeyEnabled", location: .header("x-amz-server-side-encryption-bucket-key-enabled")),
-            AWSMemberEncoding(label: "cacheControl", location: .header("Cache-Control")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-checksum-algorithm")),
-            AWSMemberEncoding(label: "contentDisposition", location: .header("Content-Disposition")),
-            AWSMemberEncoding(label: "contentEncoding", location: .header("Content-Encoding")),
-            AWSMemberEncoding(label: "contentLanguage", location: .header("Content-Language")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "copySource", location: .header("x-amz-copy-source")),
-            AWSMemberEncoding(label: "copySourceIfMatch", location: .header("x-amz-copy-source-if-match")),
-            AWSMemberEncoding(label: "_copySourceIfModifiedSince", location: .header("x-amz-copy-source-if-modified-since")),
-            AWSMemberEncoding(label: "copySourceIfNoneMatch", location: .header("x-amz-copy-source-if-none-match")),
-            AWSMemberEncoding(label: "_copySourceIfUnmodifiedSince", location: .header("x-amz-copy-source-if-unmodified-since")),
-            AWSMemberEncoding(label: "copySourceSSECustomerAlgorithm", location: .header("x-amz-copy-source-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "copySourceSSECustomerKey", location: .header("x-amz-copy-source-server-side-encryption-customer-key")),
-            AWSMemberEncoding(label: "copySourceSSECustomerKeyMD5", location: .header("x-amz-copy-source-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "expectedSourceBucketOwner", location: .header("x-amz-source-expected-bucket-owner")),
-            AWSMemberEncoding(label: "_expires", location: .header("Expires")),
-            AWSMemberEncoding(label: "grantFullControl", location: .header("x-amz-grant-full-control")),
-            AWSMemberEncoding(label: "grantRead", location: .header("x-amz-grant-read")),
-            AWSMemberEncoding(label: "grantReadACP", location: .header("x-amz-grant-read-acp")),
-            AWSMemberEncoding(label: "grantWriteACP", location: .header("x-amz-grant-write-acp")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "metadata", location: .headerPrefix("x-amz-meta-")),
-            AWSMemberEncoding(label: "metadataDirective", location: .header("x-amz-metadata-directive")),
-            AWSMemberEncoding(label: "objectLockLegalHoldStatus", location: .header("x-amz-object-lock-legal-hold")),
-            AWSMemberEncoding(label: "objectLockMode", location: .header("x-amz-object-lock-mode")),
-            AWSMemberEncoding(label: "_objectLockRetainUntilDate", location: .header("x-amz-object-lock-retain-until-date")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
-            AWSMemberEncoding(label: "serverSideEncryption", location: .header("x-amz-server-side-encryption")),
-            AWSMemberEncoding(label: "sseCustomerAlgorithm", location: .header("x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sseCustomerKey", location: .header("x-amz-server-side-encryption-customer-key")),
-            AWSMemberEncoding(label: "sseCustomerKeyMD5", location: .header("x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "ssekmsEncryptionContext", location: .header("x-amz-server-side-encryption-context")),
-            AWSMemberEncoding(label: "ssekmsKeyId", location: .header("x-amz-server-side-encryption-aws-kms-key-id")),
-            AWSMemberEncoding(label: "storageClass", location: .header("x-amz-storage-class")),
-            AWSMemberEncoding(label: "tagging", location: .header("x-amz-tagging")),
-            AWSMemberEncoding(label: "taggingDirective", location: .header("x-amz-tagging-directive")),
-            AWSMemberEncoding(label: "websiteRedirectLocation", location: .header("x-amz-website-redirect-location"))
-        ]
-
         /// The canned ACL to apply to the object. This action is not supported by Amazon S3 on Outposts.
         public let acl: ObjectCannedACL?
         /// The name of the destination bucket. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
@@ -1625,6 +1582,52 @@ extension S3 {
             self.websiteRedirectLocation = websiteRedirectLocation
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.acl, key: "x-amz-acl")
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.bucketKeyEnabled, key: "x-amz-server-side-encryption-bucket-key-enabled")
+            request.encodeHeader(self.cacheControl, key: "Cache-Control")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-checksum-algorithm")
+            request.encodeHeader(self.contentDisposition, key: "Content-Disposition")
+            request.encodeHeader(self.contentEncoding, key: "Content-Encoding")
+            request.encodeHeader(self.contentLanguage, key: "Content-Language")
+            request.encodeHeader(self.contentType, key: "Content-Type")
+            request.encodeHeader(self.copySource, key: "x-amz-copy-source")
+            request.encodeHeader(self.copySourceIfMatch, key: "x-amz-copy-source-if-match")
+            request.encodeHeader(self._copySourceIfModifiedSince, key: "x-amz-copy-source-if-modified-since")
+            request.encodeHeader(self.copySourceIfNoneMatch, key: "x-amz-copy-source-if-none-match")
+            request.encodeHeader(self._copySourceIfUnmodifiedSince, key: "x-amz-copy-source-if-unmodified-since")
+            request.encodeHeader(self.copySourceSSECustomerAlgorithm, key: "x-amz-copy-source-server-side-encryption-customer-algorithm")
+            request.encodeHeader(self.copySourceSSECustomerKey, key: "x-amz-copy-source-server-side-encryption-customer-key")
+            request.encodeHeader(self.copySourceSSECustomerKeyMD5, key: "x-amz-copy-source-server-side-encryption-customer-key-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeHeader(self.expectedSourceBucketOwner, key: "x-amz-source-expected-bucket-owner")
+            request.encodeHeader(self._expires, key: "Expires")
+            request.encodeHeader(self.grantFullControl, key: "x-amz-grant-full-control")
+            request.encodeHeader(self.grantRead, key: "x-amz-grant-read")
+            request.encodeHeader(self.grantReadACP, key: "x-amz-grant-read-acp")
+            request.encodeHeader(self.grantWriteACP, key: "x-amz-grant-write-acp")
+            request.encodePath(self.key, key: "Key")
+            request.encodeHeader(self.metadata, key: "x-amz-meta-")
+            request.encodeHeader(self.metadataDirective, key: "x-amz-metadata-directive")
+            request.encodeHeader(self.objectLockLegalHoldStatus, key: "x-amz-object-lock-legal-hold")
+            request.encodeHeader(self.objectLockMode, key: "x-amz-object-lock-mode")
+            request.encodeHeader(self._objectLockRetainUntilDate, key: "x-amz-object-lock-retain-until-date")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeHeader(self.serverSideEncryption, key: "x-amz-server-side-encryption")
+            request.encodeHeader(self.sseCustomerAlgorithm, key: "x-amz-server-side-encryption-customer-algorithm")
+            request.encodeHeader(self.sseCustomerKey, key: "x-amz-server-side-encryption-customer-key")
+            request.encodeHeader(self.sseCustomerKeyMD5, key: "x-amz-server-side-encryption-customer-key-MD5")
+            request.encodeHeader(self.ssekmsEncryptionContext, key: "x-amz-server-side-encryption-context")
+            request.encodeHeader(self.ssekmsKeyId, key: "x-amz-server-side-encryption-aws-kms-key-id")
+            request.encodeHeader(self.storageClass, key: "x-amz-storage-class")
+            request.encodeHeader(self.tagging, key: "x-amz-tagging")
+            request.encodeHeader(self.taggingDirective, key: "x-amz-tagging-directive")
+            request.encodeHeader(self.websiteRedirectLocation, key: "x-amz-website-redirect-location")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.copySource, name: "copySource", parent: name, pattern: ".+\\/.+")
             try self.validate(self.key, name: "key", parent: name, min: 1)
@@ -1722,29 +1725,14 @@ extension S3 {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
-
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateBucketRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "createBucketConfiguration"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "acl", location: .header("x-amz-acl")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "createBucketConfiguration", location: .body("CreateBucketConfiguration")),
-            AWSMemberEncoding(label: "grantFullControl", location: .header("x-amz-grant-full-control")),
-            AWSMemberEncoding(label: "grantRead", location: .header("x-amz-grant-read")),
-            AWSMemberEncoding(label: "grantReadACP", location: .header("x-amz-grant-read-acp")),
-            AWSMemberEncoding(label: "grantWrite", location: .header("x-amz-grant-write")),
-            AWSMemberEncoding(label: "grantWriteACP", location: .header("x-amz-grant-write-acp")),
-            AWSMemberEncoding(label: "objectLockEnabledForBucket", location: .header("x-amz-bucket-object-lock-enabled")),
-            AWSMemberEncoding(label: "objectOwnership", location: .header("x-amz-object-ownership"))
-        ]
-
+    public struct CreateBucketRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "CreateBucketConfiguration"
         /// The canned ACL to apply to the bucket.
         public let acl: BucketCannedACL?
         /// The name of the bucket to create.
@@ -1776,6 +1764,21 @@ extension S3 {
             self.grantWriteACP = grantWriteACP
             self.objectLockEnabledForBucket = objectLockEnabledForBucket
             self.objectOwnership = objectOwnership
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeHeader(self.acl, key: "x-amz-acl")
+            request.encodePath(self.bucket, key: "Bucket")
+            try container.encode(self.createBucketConfiguration)
+            request.encodeHeader(self.grantFullControl, key: "x-amz-grant-full-control")
+            request.encodeHeader(self.grantRead, key: "x-amz-grant-read")
+            request.encodeHeader(self.grantReadACP, key: "x-amz-grant-read-acp")
+            request.encodeHeader(self.grantWrite, key: "x-amz-grant-write")
+            request.encodeHeader(self.grantWriteACP, key: "x-amz-grant-write-acp")
+            request.encodeHeader(self.objectLockEnabledForBucket, key: "x-amz-bucket-object-lock-enabled")
+            request.encodeHeader(self.objectOwnership, key: "x-amz-object-ownership")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1828,20 +1831,19 @@ extension S3 {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.abortDate = try response.decodeIfPresent(Date.self, forHeader: "x-amz-abort-date")
-            self.abortRuleId = try response.decodeIfPresent(String.self, forHeader: "x-amz-abort-rule-id")
+            self.abortDate = try response.decodeHeaderIfPresent(Date.self, key: "x-amz-abort-date")
+            self.abortRuleId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-abort-rule-id")
             self.bucket = try container.decodeIfPresent(String.self, forKey: .bucket)
-            self.bucketKeyEnabled = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-server-side-encryption-bucket-key-enabled")
-            self.checksumAlgorithm = try response.decodeIfPresent(ChecksumAlgorithm.self, forHeader: "x-amz-checksum-algorithm")
+            self.bucketKeyEnabled = try response.decodeHeaderIfPresent(Bool.self, key: "x-amz-server-side-encryption-bucket-key-enabled")
+            self.checksumAlgorithm = try response.decodeHeaderIfPresent(ChecksumAlgorithm.self, key: "x-amz-checksum-algorithm")
             self.key = try container.decodeIfPresent(String.self, forKey: .key)
-            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
-            self.serverSideEncryption = try response.decodeIfPresent(ServerSideEncryption.self, forHeader: "x-amz-server-side-encryption")
-            self.sseCustomerAlgorithm = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-algorithm")
-            self.sseCustomerKeyMD5 = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-key-MD5")
-            self.ssekmsEncryptionContext = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-context")
-            self.ssekmsKeyId = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-aws-kms-key-id")
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
+            self.serverSideEncryption = try response.decodeHeaderIfPresent(ServerSideEncryption.self, key: "x-amz-server-side-encryption")
+            self.sseCustomerAlgorithm = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-customer-algorithm")
+            self.sseCustomerKeyMD5 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-customer-key-MD5")
+            self.ssekmsEncryptionContext = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-context")
+            self.ssekmsKeyId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-aws-kms-key-id")
             self.uploadId = try container.decodeIfPresent(String.self, forKey: .uploadId)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1852,39 +1854,6 @@ extension S3 {
     }
 
     public struct CreateMultipartUploadRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "acl", location: .header("x-amz-acl")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "bucketKeyEnabled", location: .header("x-amz-server-side-encryption-bucket-key-enabled")),
-            AWSMemberEncoding(label: "cacheControl", location: .header("Cache-Control")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-checksum-algorithm")),
-            AWSMemberEncoding(label: "contentDisposition", location: .header("Content-Disposition")),
-            AWSMemberEncoding(label: "contentEncoding", location: .header("Content-Encoding")),
-            AWSMemberEncoding(label: "contentLanguage", location: .header("Content-Language")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "_expires", location: .header("Expires")),
-            AWSMemberEncoding(label: "grantFullControl", location: .header("x-amz-grant-full-control")),
-            AWSMemberEncoding(label: "grantRead", location: .header("x-amz-grant-read")),
-            AWSMemberEncoding(label: "grantReadACP", location: .header("x-amz-grant-read-acp")),
-            AWSMemberEncoding(label: "grantWriteACP", location: .header("x-amz-grant-write-acp")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "metadata", location: .headerPrefix("x-amz-meta-")),
-            AWSMemberEncoding(label: "objectLockLegalHoldStatus", location: .header("x-amz-object-lock-legal-hold")),
-            AWSMemberEncoding(label: "objectLockMode", location: .header("x-amz-object-lock-mode")),
-            AWSMemberEncoding(label: "_objectLockRetainUntilDate", location: .header("x-amz-object-lock-retain-until-date")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
-            AWSMemberEncoding(label: "serverSideEncryption", location: .header("x-amz-server-side-encryption")),
-            AWSMemberEncoding(label: "sseCustomerAlgorithm", location: .header("x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sseCustomerKey", location: .header("x-amz-server-side-encryption-customer-key")),
-            AWSMemberEncoding(label: "sseCustomerKeyMD5", location: .header("x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "ssekmsEncryptionContext", location: .header("x-amz-server-side-encryption-context")),
-            AWSMemberEncoding(label: "ssekmsKeyId", location: .header("x-amz-server-side-encryption-aws-kms-key-id")),
-            AWSMemberEncoding(label: "storageClass", location: .header("x-amz-storage-class")),
-            AWSMemberEncoding(label: "tagging", location: .header("x-amz-tagging")),
-            AWSMemberEncoding(label: "websiteRedirectLocation", location: .header("x-amz-website-redirect-location"))
-        ]
-
         /// The canned ACL to apply to the object. This action is not supported by Amazon S3 on Outposts.
         public let acl: ObjectCannedACL?
         /// The name of the bucket to which to initiate the upload When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
@@ -1980,6 +1949,41 @@ extension S3 {
             self.websiteRedirectLocation = websiteRedirectLocation
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.acl, key: "x-amz-acl")
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.bucketKeyEnabled, key: "x-amz-server-side-encryption-bucket-key-enabled")
+            request.encodeHeader(self.cacheControl, key: "Cache-Control")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-checksum-algorithm")
+            request.encodeHeader(self.contentDisposition, key: "Content-Disposition")
+            request.encodeHeader(self.contentEncoding, key: "Content-Encoding")
+            request.encodeHeader(self.contentLanguage, key: "Content-Language")
+            request.encodeHeader(self.contentType, key: "Content-Type")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeHeader(self._expires, key: "Expires")
+            request.encodeHeader(self.grantFullControl, key: "x-amz-grant-full-control")
+            request.encodeHeader(self.grantRead, key: "x-amz-grant-read")
+            request.encodeHeader(self.grantReadACP, key: "x-amz-grant-read-acp")
+            request.encodeHeader(self.grantWriteACP, key: "x-amz-grant-write-acp")
+            request.encodePath(self.key, key: "Key")
+            request.encodeHeader(self.metadata, key: "x-amz-meta-")
+            request.encodeHeader(self.objectLockLegalHoldStatus, key: "x-amz-object-lock-legal-hold")
+            request.encodeHeader(self.objectLockMode, key: "x-amz-object-lock-mode")
+            request.encodeHeader(self._objectLockRetainUntilDate, key: "x-amz-object-lock-retain-until-date")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeHeader(self.serverSideEncryption, key: "x-amz-server-side-encryption")
+            request.encodeHeader(self.sseCustomerAlgorithm, key: "x-amz-server-side-encryption-customer-algorithm")
+            request.encodeHeader(self.sseCustomerKey, key: "x-amz-server-side-encryption-customer-key")
+            request.encodeHeader(self.sseCustomerKeyMD5, key: "x-amz-server-side-encryption-customer-key-MD5")
+            request.encodeHeader(self.ssekmsEncryptionContext, key: "x-amz-server-side-encryption-context")
+            request.encodeHeader(self.ssekmsKeyId, key: "x-amz-server-side-encryption-aws-kms-key-id")
+            request.encodeHeader(self.storageClass, key: "x-amz-storage-class")
+            request.encodeHeader(self.tagging, key: "x-amz-tagging")
+            request.encodeHeader(self.websiteRedirectLocation, key: "x-amz-website-redirect-location")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
@@ -2032,12 +2036,6 @@ extension S3 {
     }
 
     public struct DeleteBucketAnalyticsConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "id", location: .querystring("id"))
-        ]
-
         /// The name of the bucket from which an analytics configuration is deleted.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -2051,15 +2049,18 @@ extension S3 {
             self.id = id
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeQuery(self.id, key: "id")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBucketCorsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// Specifies the bucket whose cors configuration is being deleted.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -2070,15 +2071,17 @@ extension S3 {
             self.expectedBucketOwner = expectedBucketOwner
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBucketEncryptionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The name of the bucket containing the server-side encryption configuration to delete.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -2089,15 +2092,17 @@ extension S3 {
             self.expectedBucketOwner = expectedBucketOwner
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBucketIntelligentTieringConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "id", location: .querystring("id"))
-        ]
-
         /// The name of the Amazon S3 bucket whose configuration you want to modify or retrieve.
         public let bucket: String
         /// The ID used to identify the S3 Intelligent-Tiering configuration.
@@ -2108,16 +2113,17 @@ extension S3 {
             self.id = id
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeQuery(self.id, key: "id")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBucketInventoryConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "id", location: .querystring("id"))
-        ]
-
         /// The name of the bucket containing the inventory configuration to delete.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -2131,15 +2137,18 @@ extension S3 {
             self.id = id
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeQuery(self.id, key: "id")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBucketLifecycleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The bucket name of the lifecycle to delete.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -2150,16 +2159,17 @@ extension S3 {
             self.expectedBucketOwner = expectedBucketOwner
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBucketMetricsConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "id", location: .querystring("id"))
-        ]
-
         /// The name of the bucket containing the metrics configuration to delete.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -2173,15 +2183,18 @@ extension S3 {
             self.id = id
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeQuery(self.id, key: "id")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBucketOwnershipControlsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The Amazon S3 bucket whose OwnershipControls you want to delete.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -2192,15 +2205,17 @@ extension S3 {
             self.expectedBucketOwner = expectedBucketOwner
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBucketPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The bucket name.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -2211,15 +2226,17 @@ extension S3 {
             self.expectedBucketOwner = expectedBucketOwner
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBucketReplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         ///  The bucket name.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -2230,15 +2247,17 @@ extension S3 {
             self.expectedBucketOwner = expectedBucketOwner
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBucketRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// Specifies the bucket being deleted.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -2249,15 +2268,17 @@ extension S3 {
             self.expectedBucketOwner = expectedBucketOwner
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBucketTaggingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The bucket that has the tag set to be removed.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -2268,15 +2289,17 @@ extension S3 {
             self.expectedBucketOwner = expectedBucketOwner
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBucketWebsiteRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The bucket name for which you want to remove the website configuration.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -2285,6 +2308,13 @@ extension S3 {
         public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2347,26 +2377,15 @@ extension S3 {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.deleteMarker = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-delete-marker")
-            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
-            self.versionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-version-id")
-
+            self.deleteMarker = try response.decodeHeaderIfPresent(Bool.self, key: "x-amz-delete-marker")
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
+            self.versionId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-version-id")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteObjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "bypassGovernanceRetention", location: .header("x-amz-bypass-governance-retention")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "mfa", location: .header("x-amz-mfa")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
-            AWSMemberEncoding(label: "versionId", location: .querystring("versionId"))
-        ]
-
         /// The bucket name of the bucket containing the object.  When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// Indicates whether S3 Object Lock should bypass Governance-mode restrictions to process this operation. To use this header, you must have the s3:BypassGovernanceRetention permission.
@@ -2391,6 +2410,18 @@ extension S3 {
             self.versionId = versionId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.bypassGovernanceRetention, key: "x-amz-bypass-governance-retention")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodePath(self.key, key: "Key")
+            request.encodeHeader(self.mfa, key: "x-amz-mfa")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeQuery(self.versionId, key: "versionId")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
@@ -2408,21 +2439,13 @@ extension S3 {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.versionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-version-id")
-
+            self.versionId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-version-id")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteObjectTaggingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "versionId", location: .querystring("versionId"))
-        ]
-
         /// The bucket name containing the objects from which to remove the tags.  When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -2437,6 +2460,15 @@ extension S3 {
             self.expectedBucketOwner = expectedBucketOwner
             self.key = key
             self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodePath(self.key, key: "Key")
+            request.encodeQuery(self.versionId, key: "versionId")
         }
 
         public func validate(name: String) throws {
@@ -2464,8 +2496,7 @@ extension S3 {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.deleted = try container.decodeIfPresent([DeletedObject].self, forKey: .deleted)
             self.errors = try container.decodeIfPresent([Error].self, forKey: .errors)
-            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
-
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2474,20 +2505,9 @@ extension S3 {
         }
     }
 
-    public struct DeleteObjectsRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "delete"
+    public struct DeleteObjectsRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "bypassGovernanceRetention", location: .header("x-amz-bypass-governance-retention")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
-            AWSMemberEncoding(label: "delete", location: .body("Delete")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "mfa", location: .header("x-amz-mfa")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "Delete"
         /// The bucket name containing the objects to delete.  When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// Specifies whether you want to delete this object even if it has a Governance-type Object Lock in place. To use this header, you must have the s3:BypassGovernanceRetention permission.
@@ -2512,6 +2532,18 @@ extension S3 {
             self.requestPayer = requestPayer
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.bypassGovernanceRetention, key: "x-amz-bypass-governance-retention")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            try container.encode(self.delete)
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeHeader(self.mfa, key: "x-amz-mfa")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+        }
+
         public func validate(name: String) throws {
             try self.delete.validate(name: "\(name).delete")
         }
@@ -2520,11 +2552,6 @@ extension S3 {
     }
 
     public struct DeletePublicAccessBlockRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The Amazon S3 bucket whose PublicAccessBlock configuration you want to delete.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -2533,6 +2560,13 @@ extension S3 {
         public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2728,11 +2762,6 @@ extension S3 {
     }
 
     public struct GetBucketAccelerateConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The name of the bucket for which the accelerate configuration is retrieved.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -2741,6 +2770,13 @@ extension S3 {
         public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2767,11 +2803,6 @@ extension S3 {
     }
 
     public struct GetBucketAclRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// Specifies the S3 bucket whose ACL is being requested. To use this API operation against an access point, provide the alias of the access point in place of the bucket name. To use this API operation against an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name.
         /// If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned.
         /// For more information about InvalidAccessPointAliasError, see List of Error Codes.
@@ -2782,6 +2813,13 @@ extension S3 {
         public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2796,20 +2834,14 @@ extension S3 {
         }
 
         public init(from decoder: Decoder) throws {
-            self.analyticsConfiguration = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.analyticsConfiguration = try container.decode(AnalyticsConfiguration.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketAnalyticsConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "id", location: .querystring("id"))
-        ]
-
         /// The name of the bucket from which an analytics configuration is retrieved.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -2821,6 +2853,14 @@ extension S3 {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeQuery(self.id, key: "id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2840,11 +2880,6 @@ extension S3 {
     }
 
     public struct GetBucketCorsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The bucket name for which to get the cors configuration. To use this API operation against an access point, provide the alias of the access point in place of the bucket name. To use this API operation against an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name.
         /// If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned.
         /// For more information about InvalidAccessPointAliasError, see List of Error Codes.
@@ -2855,6 +2890,13 @@ extension S3 {
         public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2868,19 +2910,14 @@ extension S3 {
         }
 
         public init(from decoder: Decoder) throws {
-            self.serverSideEncryptionConfiguration = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.serverSideEncryptionConfiguration = try container.decode(ServerSideEncryptionConfiguration.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketEncryptionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The name of the bucket from which the server-side encryption configuration is retrieved.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -2889,6 +2926,13 @@ extension S3 {
         public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2903,19 +2947,14 @@ extension S3 {
         }
 
         public init(from decoder: Decoder) throws {
-            self.intelligentTieringConfiguration = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.intelligentTieringConfiguration = try container.decode(IntelligentTieringConfiguration.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketIntelligentTieringConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "id", location: .querystring("id"))
-        ]
-
         /// The name of the Amazon S3 bucket whose configuration you want to modify or retrieve.
         public let bucket: String
         /// The ID used to identify the S3 Intelligent-Tiering configuration.
@@ -2924,6 +2963,13 @@ extension S3 {
         public init(bucket: String, id: String) {
             self.bucket = bucket
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeQuery(self.id, key: "id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2938,20 +2984,14 @@ extension S3 {
         }
 
         public init(from decoder: Decoder) throws {
-            self.inventoryConfiguration = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.inventoryConfiguration = try container.decode(InventoryConfiguration.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketInventoryConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "id", location: .querystring("id"))
-        ]
-
         /// The name of the bucket containing the inventory configuration to retrieve.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -2963,6 +3003,14 @@ extension S3 {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeQuery(self.id, key: "id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2982,11 +3030,6 @@ extension S3 {
     }
 
     public struct GetBucketLifecycleConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The name of the bucket for which to get the lifecycle information.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -2995,6 +3038,13 @@ extension S3 {
         public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3014,11 +3064,6 @@ extension S3 {
     }
 
     public struct GetBucketLocationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The name of the bucket for which to get the location. To use this API operation against an access point, provide the alias of the access point in place of the bucket name. To use this API operation against an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name.
         /// If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned.
         /// For more information about InvalidAccessPointAliasError, see List of Error Codes.
@@ -3029,6 +3074,13 @@ extension S3 {
         public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3047,11 +3099,6 @@ extension S3 {
     }
 
     public struct GetBucketLoggingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The bucket name for which to get the logging information.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -3060,6 +3107,13 @@ extension S3 {
         public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3074,20 +3128,14 @@ extension S3 {
         }
 
         public init(from decoder: Decoder) throws {
-            self.metricsConfiguration = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.metricsConfiguration = try container.decode(MetricsConfiguration.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketMetricsConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "id", location: .querystring("id"))
-        ]
-
         /// The name of the bucket containing the metrics configuration to retrieve.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -3101,15 +3149,18 @@ extension S3 {
             self.id = id
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeQuery(self.id, key: "id")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketNotificationConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The name of the bucket for which to get the notification configuration. To use this API operation against an access point, provide the alias of the access point in place of the bucket name. To use this API operation against an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name.
         /// If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned.
         /// For more information about InvalidAccessPointAliasError, see List of Error Codes.
@@ -3120,6 +3171,13 @@ extension S3 {
         public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3134,19 +3192,14 @@ extension S3 {
         }
 
         public init(from decoder: Decoder) throws {
-            self.ownershipControls = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.ownershipControls = try container.decode(OwnershipControls.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketOwnershipControlsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The name of the Amazon S3 bucket whose OwnershipControls you want to retrieve.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -3155,6 +3208,13 @@ extension S3 {
         public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3169,19 +3229,14 @@ extension S3 {
         }
 
         public init(from decoder: Decoder) throws {
-            self.policy = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.policy = try container.decode(String.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The bucket name for which to get the bucket policy. To use this API operation against an access point, provide the alias of the access point in place of the bucket name. To use this API operation against an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name.
         /// If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned.
         /// For more information about InvalidAccessPointAliasError, see List of Error Codes.
@@ -3192,6 +3247,13 @@ extension S3 {
         public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3206,19 +3268,14 @@ extension S3 {
         }
 
         public init(from decoder: Decoder) throws {
-            self.policyStatus = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.policyStatus = try container.decode(PolicyStatus.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketPolicyStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The name of the Amazon S3 bucket whose policy status you want to retrieve.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -3227,6 +3284,13 @@ extension S3 {
         public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3240,19 +3304,14 @@ extension S3 {
         }
 
         public init(from decoder: Decoder) throws {
-            self.replicationConfiguration = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.replicationConfiguration = try container.decode(ReplicationConfiguration.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketReplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The bucket name for which to get the replication information.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -3261,6 +3320,13 @@ extension S3 {
         public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3280,11 +3346,6 @@ extension S3 {
     }
 
     public struct GetBucketRequestPaymentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The name of the bucket for which to get the payment request configuration
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -3293,6 +3354,13 @@ extension S3 {
         public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3315,11 +3383,6 @@ extension S3 {
     }
 
     public struct GetBucketTaggingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The name of the bucket for which to get the tagging information.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -3328,6 +3391,13 @@ extension S3 {
         public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3351,11 +3421,6 @@ extension S3 {
     }
 
     public struct GetBucketVersioningRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The name of the bucket for which to get the versioning information.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -3364,6 +3429,13 @@ extension S3 {
         public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3398,11 +3470,6 @@ extension S3 {
     }
 
     public struct GetBucketWebsiteRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The bucket name for which to get the website configuration.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -3411,6 +3478,13 @@ extension S3 {
         public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3437,8 +3511,7 @@ extension S3 {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.grants = try container.decode(OptionalCustomCoding<ArrayCoder<_GrantsEncoding, Grant>>.self, forKey: .grants).wrappedValue
             self.owner = try container.decodeIfPresent(Owner.self, forKey: .owner)
-            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
-
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3448,14 +3521,6 @@ extension S3 {
     }
 
     public struct GetObjectAclRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
-            AWSMemberEncoding(label: "versionId", location: .querystring("versionId"))
-        ]
-
         /// The bucket name that contains the object for which to get the ACL information.  When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -3472,6 +3537,16 @@ extension S3 {
             self.key = key
             self.requestPayer = requestPayer
             self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodePath(self.key, key: "Key")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeQuery(self.versionId, key: "versionId")
         }
 
         public func validate(name: String) throws {
@@ -3517,15 +3592,14 @@ extension S3 {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.checksum = try container.decodeIfPresent(Checksum.self, forKey: .checksum)
-            self.deleteMarker = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-delete-marker")
+            self.deleteMarker = try response.decodeHeaderIfPresent(Bool.self, key: "x-amz-delete-marker")
             self.eTag = try container.decodeIfPresent(String.self, forKey: .eTag)
-            self.lastModified = try response.decodeIfPresent(Date.self, forHeader: "Last-Modified")
+            self.lastModified = try response.decodeHeaderIfPresent(Date.self, key: "Last-Modified")
             self.objectParts = try container.decodeIfPresent(GetObjectAttributesParts.self, forKey: .objectParts)
             self.objectSize = try container.decodeIfPresent(Int64.self, forKey: .objectSize)
-            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
             self.storageClass = try container.decodeIfPresent(StorageClass.self, forKey: .storageClass)
-            self.versionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-version-id")
-
+            self.versionId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-version-id")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3571,20 +3645,6 @@ extension S3 {
     }
 
     public struct GetObjectAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "maxParts", location: .header("x-amz-max-parts")),
-            AWSMemberEncoding(label: "objectAttributes", location: .header("x-amz-object-attributes")),
-            AWSMemberEncoding(label: "partNumberMarker", location: .header("x-amz-part-number-marker")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
-            AWSMemberEncoding(label: "sseCustomerAlgorithm", location: .header("x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sseCustomerKey", location: .header("x-amz-server-side-encryption-customer-key")),
-            AWSMemberEncoding(label: "sseCustomerKeyMD5", location: .header("x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "versionId", location: .querystring("versionId"))
-        ]
-
         /// The name of the bucket that contains the object. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -3621,6 +3681,22 @@ extension S3 {
             self.versionId = versionId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodePath(self.key, key: "Key")
+            request.encodeHeader(self.maxParts, key: "x-amz-max-parts")
+            request.encodeHeader(self.objectAttributes, key: "x-amz-object-attributes")
+            request.encodeHeader(self.partNumberMarker, key: "x-amz-part-number-marker")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeHeader(self.sseCustomerAlgorithm, key: "x-amz-server-side-encryption-customer-algorithm")
+            request.encodeHeader(self.sseCustomerKey, key: "x-amz-server-side-encryption-customer-key")
+            request.encodeHeader(self.sseCustomerKeyMD5, key: "x-amz-server-side-encryption-customer-key-MD5")
+            request.encodeQuery(self.versionId, key: "versionId")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
@@ -3637,22 +3713,14 @@ extension S3 {
         }
 
         public init(from decoder: Decoder) throws {
-            self.legalHold = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.legalHold = try container.decode(ObjectLockLegalHold.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetObjectLegalHoldRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
-            AWSMemberEncoding(label: "versionId", location: .querystring("versionId"))
-        ]
-
         /// The bucket name containing the object whose legal hold status you want to retrieve.  When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -3671,6 +3739,16 @@ extension S3 {
             self.versionId = versionId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodePath(self.key, key: "Key")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeQuery(self.versionId, key: "versionId")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
@@ -3687,19 +3765,14 @@ extension S3 {
         }
 
         public init(from decoder: Decoder) throws {
-            self.objectLockConfiguration = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.objectLockConfiguration = try container.decode(ObjectLockConfiguration.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetObjectLockConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The bucket whose Object Lock configuration you want to retrieve. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -3708,6 +3781,13 @@ extension S3 {
         public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3831,43 +3911,43 @@ extension S3 {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.acceptRanges = try response.decodeIfPresent(String.self, forHeader: "accept-ranges")
-            self.body = response.decodePayload()
-            self.bucketKeyEnabled = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-server-side-encryption-bucket-key-enabled")
-            self.cacheControl = try response.decodeIfPresent(String.self, forHeader: "Cache-Control")
-            self.checksumCRC32 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-crc32")
-            self.checksumCRC32C = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-crc32c")
-            self.checksumSHA1 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-sha1")
-            self.checksumSHA256 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-sha256")
-            self.contentDisposition = try response.decodeIfPresent(String.self, forHeader: "Content-Disposition")
-            self.contentEncoding = try response.decodeIfPresent(String.self, forHeader: "Content-Encoding")
-            self.contentLanguage = try response.decodeIfPresent(String.self, forHeader: "Content-Language")
-            self.contentLength = try response.decodeIfPresent(Int64.self, forHeader: "Content-Length")
-            self.contentRange = try response.decodeIfPresent(String.self, forHeader: "Content-Range")
-            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
-            self.deleteMarker = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-delete-marker")
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.expiration = try response.decodeIfPresent(String.self, forHeader: "x-amz-expiration")
-            self.expires = try response.decodeIfPresent(Date.self, forHeader: "Expires")
-            self.lastModified = try response.decodeIfPresent(Date.self, forHeader: "Last-Modified")
-            self.metadata = try response.decodeIfPresent([String: String].self, forHeader: "x-amz-meta-")
-            self.missingMeta = try response.decodeIfPresent(Int.self, forHeader: "x-amz-missing-meta")
-            self.objectLockLegalHoldStatus = try response.decodeIfPresent(ObjectLockLegalHoldStatus.self, forHeader: "x-amz-object-lock-legal-hold")
-            self.objectLockMode = try response.decodeIfPresent(ObjectLockMode.self, forHeader: "x-amz-object-lock-mode")
-            self.objectLockRetainUntilDate = try response.decodeIfPresent(Date.self, forHeader: "x-amz-object-lock-retain-until-date")
-            self.partsCount = try response.decodeIfPresent(Int.self, forHeader: "x-amz-mp-parts-count")
-            self.replicationStatus = try response.decodeIfPresent(ReplicationStatus.self, forHeader: "x-amz-replication-status")
-            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
-            self.restore = try response.decodeIfPresent(String.self, forHeader: "x-amz-restore")
-            self.serverSideEncryption = try response.decodeIfPresent(ServerSideEncryption.self, forHeader: "x-amz-server-side-encryption")
-            self.sseCustomerAlgorithm = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-algorithm")
-            self.sseCustomerKeyMD5 = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-key-MD5")
-            self.ssekmsKeyId = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-aws-kms-key-id")
-            self.storageClass = try response.decodeIfPresent(StorageClass.self, forHeader: "x-amz-storage-class")
-            self.tagCount = try response.decodeIfPresent(Int.self, forHeader: "x-amz-tagging-count")
-            self.versionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-version-id")
-            self.websiteRedirectLocation = try response.decodeIfPresent(String.self, forHeader: "x-amz-website-redirect-location")
-
+            let container = try decoder.singleValueContainer()
+            self.acceptRanges = try response.decodeHeaderIfPresent(String.self, key: "accept-ranges")
+            self.body = try container.decode(AWSHTTPBody.self)
+            self.bucketKeyEnabled = try response.decodeHeaderIfPresent(Bool.self, key: "x-amz-server-side-encryption-bucket-key-enabled")
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.checksumCRC32 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32")
+            self.checksumCRC32C = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32c")
+            self.checksumSHA1 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha1")
+            self.checksumSHA256 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha256")
+            self.contentDisposition = try response.decodeHeaderIfPresent(String.self, key: "Content-Disposition")
+            self.contentEncoding = try response.decodeHeaderIfPresent(String.self, key: "Content-Encoding")
+            self.contentLanguage = try response.decodeHeaderIfPresent(String.self, key: "Content-Language")
+            self.contentLength = try response.decodeHeaderIfPresent(Int64.self, key: "Content-Length")
+            self.contentRange = try response.decodeHeaderIfPresent(String.self, key: "Content-Range")
+            self.contentType = try response.decodeHeaderIfPresent(String.self, key: "Content-Type")
+            self.deleteMarker = try response.decodeHeaderIfPresent(Bool.self, key: "x-amz-delete-marker")
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.expiration = try response.decodeHeaderIfPresent(String.self, key: "x-amz-expiration")
+            self.expires = try response.decodeHeaderIfPresent(Date.self, key: "Expires")
+            self.lastModified = try response.decodeHeaderIfPresent(Date.self, key: "Last-Modified")
+            self.metadata = try response.decodeHeaderIfPresent([String: String].self, key: "x-amz-meta-")
+            self.missingMeta = try response.decodeHeaderIfPresent(Int.self, key: "x-amz-missing-meta")
+            self.objectLockLegalHoldStatus = try response.decodeHeaderIfPresent(ObjectLockLegalHoldStatus.self, key: "x-amz-object-lock-legal-hold")
+            self.objectLockMode = try response.decodeHeaderIfPresent(ObjectLockMode.self, key: "x-amz-object-lock-mode")
+            self.objectLockRetainUntilDate = try response.decodeHeaderIfPresent(Date.self, key: "x-amz-object-lock-retain-until-date")
+            self.partsCount = try response.decodeHeaderIfPresent(Int.self, key: "x-amz-mp-parts-count")
+            self.replicationStatus = try response.decodeHeaderIfPresent(ReplicationStatus.self, key: "x-amz-replication-status")
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
+            self.restore = try response.decodeHeaderIfPresent(String.self, key: "x-amz-restore")
+            self.serverSideEncryption = try response.decodeHeaderIfPresent(ServerSideEncryption.self, key: "x-amz-server-side-encryption")
+            self.sseCustomerAlgorithm = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-customer-algorithm")
+            self.sseCustomerKeyMD5 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-customer-key-MD5")
+            self.ssekmsKeyId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-aws-kms-key-id")
+            self.storageClass = try response.decodeHeaderIfPresent(StorageClass.self, key: "x-amz-storage-class")
+            self.tagCount = try response.decodeHeaderIfPresent(Int.self, key: "x-amz-tagging-count")
+            self.versionId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-version-id")
+            self.websiteRedirectLocation = try response.decodeHeaderIfPresent(String.self, key: "x-amz-website-redirect-location")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3875,30 +3955,6 @@ extension S3 {
 
     public struct GetObjectRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "checksumMode", location: .header("x-amz-checksum-mode")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match")),
-            AWSMemberEncoding(label: "_ifModifiedSince", location: .header("If-Modified-Since")),
-            AWSMemberEncoding(label: "ifNoneMatch", location: .header("If-None-Match")),
-            AWSMemberEncoding(label: "_ifUnmodifiedSince", location: .header("If-Unmodified-Since")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "partNumber", location: .querystring("partNumber")),
-            AWSMemberEncoding(label: "range", location: .header("Range")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
-            AWSMemberEncoding(label: "responseCacheControl", location: .querystring("response-cache-control")),
-            AWSMemberEncoding(label: "responseContentDisposition", location: .querystring("response-content-disposition")),
-            AWSMemberEncoding(label: "responseContentEncoding", location: .querystring("response-content-encoding")),
-            AWSMemberEncoding(label: "responseContentLanguage", location: .querystring("response-content-language")),
-            AWSMemberEncoding(label: "responseContentType", location: .querystring("response-content-type")),
-            AWSMemberEncoding(label: "_responseExpires", location: .querystring("response-expires")),
-            AWSMemberEncoding(label: "sseCustomerAlgorithm", location: .header("x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sseCustomerKey", location: .header("x-amz-server-side-encryption-customer-key")),
-            AWSMemberEncoding(label: "sseCustomerKeyMD5", location: .header("x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "versionId", location: .querystring("versionId"))
-        ]
-
         /// The bucket name containing the object.  When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When using an Object Lambda access point the hostname takes the form AccessPointName-AccountId.s3-object-lambda.Region.amazonaws.com. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// To retrieve the checksum, this mode must be enabled.
@@ -3968,6 +4024,32 @@ extension S3 {
             self.versionId = versionId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumMode, key: "x-amz-checksum-mode")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            request.encodeHeader(self._ifModifiedSince, key: "If-Modified-Since")
+            request.encodeHeader(self.ifNoneMatch, key: "If-None-Match")
+            request.encodeHeader(self._ifUnmodifiedSince, key: "If-Unmodified-Since")
+            request.encodePath(self.key, key: "Key")
+            request.encodeQuery(self.partNumber, key: "partNumber")
+            request.encodeHeader(self.range, key: "Range")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeQuery(self.responseCacheControl, key: "response-cache-control")
+            request.encodeQuery(self.responseContentDisposition, key: "response-content-disposition")
+            request.encodeQuery(self.responseContentEncoding, key: "response-content-encoding")
+            request.encodeQuery(self.responseContentLanguage, key: "response-content-language")
+            request.encodeQuery(self.responseContentType, key: "response-content-type")
+            request.encodeQuery(self._responseExpires, key: "response-expires")
+            request.encodeHeader(self.sseCustomerAlgorithm, key: "x-amz-server-side-encryption-customer-algorithm")
+            request.encodeHeader(self.sseCustomerKey, key: "x-amz-server-side-encryption-customer-key")
+            request.encodeHeader(self.sseCustomerKeyMD5, key: "x-amz-server-side-encryption-customer-key-MD5")
+            request.encodeQuery(self.versionId, key: "versionId")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
@@ -3984,22 +4066,14 @@ extension S3 {
         }
 
         public init(from decoder: Decoder) throws {
-            self.retention = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.retention = try container.decode(ObjectLockRetention.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetObjectRetentionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
-            AWSMemberEncoding(label: "versionId", location: .querystring("versionId"))
-        ]
-
         /// The bucket name containing the object whose retention settings you want to retrieve.  When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -4016,6 +4090,16 @@ extension S3 {
             self.key = key
             self.requestPayer = requestPayer
             self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodePath(self.key, key: "Key")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeQuery(self.versionId, key: "versionId")
         }
 
         public func validate(name: String) throws {
@@ -4043,8 +4127,7 @@ extension S3 {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.tagSet = try container.decode(CustomCoding<ArrayCoder<_TagSetEncoding, Tag>>.self, forKey: .tagSet).wrappedValue
-            self.versionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-version-id")
-
+            self.versionId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-version-id")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4053,14 +4136,6 @@ extension S3 {
     }
 
     public struct GetObjectTaggingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
-            AWSMemberEncoding(label: "versionId", location: .querystring("versionId"))
-        ]
-
         /// The bucket name containing the object for which to get the tagging information.  When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -4077,6 +4152,16 @@ extension S3 {
             self.key = key
             self.requestPayer = requestPayer
             self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodePath(self.key, key: "Key")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeQuery(self.versionId, key: "versionId")
         }
 
         public func validate(name: String) throws {
@@ -4099,22 +4184,15 @@ extension S3 {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.body = response.decodePayload()
-            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
-
+            let container = try decoder.singleValueContainer()
+            self.body = try container.decode(AWSHTTPBody.self)
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetObjectTorrentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer"))
-        ]
-
         /// The name of the bucket containing the object for which to get the torrent files.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -4128,6 +4206,15 @@ extension S3 {
             self.expectedBucketOwner = expectedBucketOwner
             self.key = key
             self.requestPayer = requestPayer
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodePath(self.key, key: "Key")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
         }
 
         public func validate(name: String) throws {
@@ -4146,19 +4233,14 @@ extension S3 {
         }
 
         public init(from decoder: Decoder) throws {
-            self.publicAccessBlockConfiguration = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.publicAccessBlockConfiguration = try container.decode(PublicAccessBlockConfiguration.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPublicAccessBlockRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want to retrieve.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -4167,6 +4249,13 @@ extension S3 {
         public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4232,11 +4321,6 @@ extension S3 {
     }
 
     public struct HeadBucketRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The bucket name. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name.  If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned.  For more information about InvalidAccessPointAliasError, see List of Error Codes. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -4245,6 +4329,13 @@ extension S3 {
         public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4361,65 +4452,46 @@ extension S3 {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.acceptRanges = try response.decodeIfPresent(String.self, forHeader: "accept-ranges")
-            self.archiveStatus = try response.decodeIfPresent(ArchiveStatus.self, forHeader: "x-amz-archive-status")
-            self.bucketKeyEnabled = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-server-side-encryption-bucket-key-enabled")
-            self.cacheControl = try response.decodeIfPresent(String.self, forHeader: "Cache-Control")
-            self.checksumCRC32 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-crc32")
-            self.checksumCRC32C = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-crc32c")
-            self.checksumSHA1 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-sha1")
-            self.checksumSHA256 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-sha256")
-            self.contentDisposition = try response.decodeIfPresent(String.self, forHeader: "Content-Disposition")
-            self.contentEncoding = try response.decodeIfPresent(String.self, forHeader: "Content-Encoding")
-            self.contentLanguage = try response.decodeIfPresent(String.self, forHeader: "Content-Language")
-            self.contentLength = try response.decodeIfPresent(Int64.self, forHeader: "Content-Length")
-            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
-            self.deleteMarker = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-delete-marker")
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.expiration = try response.decodeIfPresent(String.self, forHeader: "x-amz-expiration")
-            self.expires = try response.decodeIfPresent(Date.self, forHeader: "Expires")
-            self.lastModified = try response.decodeIfPresent(Date.self, forHeader: "Last-Modified")
-            self.metadata = try response.decodeIfPresent([String: String].self, forHeader: "x-amz-meta-")
-            self.missingMeta = try response.decodeIfPresent(Int.self, forHeader: "x-amz-missing-meta")
-            self.objectLockLegalHoldStatus = try response.decodeIfPresent(ObjectLockLegalHoldStatus.self, forHeader: "x-amz-object-lock-legal-hold")
-            self.objectLockMode = try response.decodeIfPresent(ObjectLockMode.self, forHeader: "x-amz-object-lock-mode")
-            self.objectLockRetainUntilDate = try response.decodeIfPresent(Date.self, forHeader: "x-amz-object-lock-retain-until-date")
-            self.partsCount = try response.decodeIfPresent(Int.self, forHeader: "x-amz-mp-parts-count")
-            self.replicationStatus = try response.decodeIfPresent(ReplicationStatus.self, forHeader: "x-amz-replication-status")
-            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
-            self.restore = try response.decodeIfPresent(String.self, forHeader: "x-amz-restore")
-            self.serverSideEncryption = try response.decodeIfPresent(ServerSideEncryption.self, forHeader: "x-amz-server-side-encryption")
-            self.sseCustomerAlgorithm = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-algorithm")
-            self.sseCustomerKeyMD5 = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-key-MD5")
-            self.ssekmsKeyId = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-aws-kms-key-id")
-            self.storageClass = try response.decodeIfPresent(StorageClass.self, forHeader: "x-amz-storage-class")
-            self.versionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-version-id")
-            self.websiteRedirectLocation = try response.decodeIfPresent(String.self, forHeader: "x-amz-website-redirect-location")
-
+            self.acceptRanges = try response.decodeHeaderIfPresent(String.self, key: "accept-ranges")
+            self.archiveStatus = try response.decodeHeaderIfPresent(ArchiveStatus.self, key: "x-amz-archive-status")
+            self.bucketKeyEnabled = try response.decodeHeaderIfPresent(Bool.self, key: "x-amz-server-side-encryption-bucket-key-enabled")
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.checksumCRC32 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32")
+            self.checksumCRC32C = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32c")
+            self.checksumSHA1 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha1")
+            self.checksumSHA256 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha256")
+            self.contentDisposition = try response.decodeHeaderIfPresent(String.self, key: "Content-Disposition")
+            self.contentEncoding = try response.decodeHeaderIfPresent(String.self, key: "Content-Encoding")
+            self.contentLanguage = try response.decodeHeaderIfPresent(String.self, key: "Content-Language")
+            self.contentLength = try response.decodeHeaderIfPresent(Int64.self, key: "Content-Length")
+            self.contentType = try response.decodeHeaderIfPresent(String.self, key: "Content-Type")
+            self.deleteMarker = try response.decodeHeaderIfPresent(Bool.self, key: "x-amz-delete-marker")
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.expiration = try response.decodeHeaderIfPresent(String.self, key: "x-amz-expiration")
+            self.expires = try response.decodeHeaderIfPresent(Date.self, key: "Expires")
+            self.lastModified = try response.decodeHeaderIfPresent(Date.self, key: "Last-Modified")
+            self.metadata = try response.decodeHeaderIfPresent([String: String].self, key: "x-amz-meta-")
+            self.missingMeta = try response.decodeHeaderIfPresent(Int.self, key: "x-amz-missing-meta")
+            self.objectLockLegalHoldStatus = try response.decodeHeaderIfPresent(ObjectLockLegalHoldStatus.self, key: "x-amz-object-lock-legal-hold")
+            self.objectLockMode = try response.decodeHeaderIfPresent(ObjectLockMode.self, key: "x-amz-object-lock-mode")
+            self.objectLockRetainUntilDate = try response.decodeHeaderIfPresent(Date.self, key: "x-amz-object-lock-retain-until-date")
+            self.partsCount = try response.decodeHeaderIfPresent(Int.self, key: "x-amz-mp-parts-count")
+            self.replicationStatus = try response.decodeHeaderIfPresent(ReplicationStatus.self, key: "x-amz-replication-status")
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
+            self.restore = try response.decodeHeaderIfPresent(String.self, key: "x-amz-restore")
+            self.serverSideEncryption = try response.decodeHeaderIfPresent(ServerSideEncryption.self, key: "x-amz-server-side-encryption")
+            self.sseCustomerAlgorithm = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-customer-algorithm")
+            self.sseCustomerKeyMD5 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-customer-key-MD5")
+            self.ssekmsKeyId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-aws-kms-key-id")
+            self.storageClass = try response.decodeHeaderIfPresent(StorageClass.self, key: "x-amz-storage-class")
+            self.versionId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-version-id")
+            self.websiteRedirectLocation = try response.decodeHeaderIfPresent(String.self, key: "x-amz-website-redirect-location")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct HeadObjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "checksumMode", location: .header("x-amz-checksum-mode")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match")),
-            AWSMemberEncoding(label: "_ifModifiedSince", location: .header("If-Modified-Since")),
-            AWSMemberEncoding(label: "ifNoneMatch", location: .header("If-None-Match")),
-            AWSMemberEncoding(label: "_ifUnmodifiedSince", location: .header("If-Unmodified-Since")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "partNumber", location: .querystring("partNumber")),
-            AWSMemberEncoding(label: "range", location: .header("Range")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
-            AWSMemberEncoding(label: "sseCustomerAlgorithm", location: .header("x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sseCustomerKey", location: .header("x-amz-server-side-encryption-customer-key")),
-            AWSMemberEncoding(label: "sseCustomerKeyMD5", location: .header("x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "versionId", location: .querystring("versionId"))
-        ]
-
         /// The name of the bucket containing the object. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// To retrieve the checksum, this parameter must be enabled. In addition, if you enable ChecksumMode and the object is encrypted with Amazon Web Services Key Management Service (Amazon Web Services KMS), you must have permission to use the kms:Decrypt action for the request to succeed.
@@ -4468,6 +4540,26 @@ extension S3 {
             self.sseCustomerKey = sseCustomerKey
             self.sseCustomerKeyMD5 = sseCustomerKeyMD5
             self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumMode, key: "x-amz-checksum-mode")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            request.encodeHeader(self._ifModifiedSince, key: "If-Modified-Since")
+            request.encodeHeader(self.ifNoneMatch, key: "If-None-Match")
+            request.encodeHeader(self._ifUnmodifiedSince, key: "If-Unmodified-Since")
+            request.encodePath(self.key, key: "Key")
+            request.encodeQuery(self.partNumber, key: "partNumber")
+            request.encodeHeader(self.range, key: "Range")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeHeader(self.sseCustomerAlgorithm, key: "x-amz-server-side-encryption-customer-algorithm")
+            request.encodeHeader(self.sseCustomerKey, key: "x-amz-server-side-encryption-customer-key")
+            request.encodeHeader(self.sseCustomerKeyMD5, key: "x-amz-server-side-encryption-customer-key-MD5")
+            request.encodeQuery(self.versionId, key: "versionId")
         }
 
         public func validate(name: String) throws {
@@ -4922,12 +5014,6 @@ extension S3 {
     }
 
     public struct ListBucketAnalyticsConfigurationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "continuationToken", location: .querystring("continuation-token")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The name of the bucket from which analytics configurations are retrieved.
         public let bucket: String
         /// The ContinuationToken that represents a placeholder from where this request should begin.
@@ -4939,6 +5025,14 @@ extension S3 {
             self.bucket = bucket
             self.continuationToken = continuationToken
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeQuery(self.continuationToken, key: "continuation-token")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4970,11 +5064,6 @@ extension S3 {
     }
 
     public struct ListBucketIntelligentTieringConfigurationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "continuationToken", location: .querystring("continuation-token"))
-        ]
-
         /// The name of the Amazon S3 bucket whose configuration you want to modify or retrieve.
         public let bucket: String
         /// The ContinuationToken that represents a placeholder from where this request should begin.
@@ -4983,6 +5072,13 @@ extension S3 {
         public init(bucket: String, continuationToken: String? = nil) {
             self.bucket = bucket
             self.continuationToken = continuationToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeQuery(self.continuationToken, key: "continuation-token")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5014,12 +5110,6 @@ extension S3 {
     }
 
     public struct ListBucketInventoryConfigurationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "continuationToken", location: .querystring("continuation-token")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The name of the bucket containing the inventory configurations to retrieve.
         public let bucket: String
         /// The marker used to continue an inventory configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
@@ -5031,6 +5121,14 @@ extension S3 {
             self.bucket = bucket
             self.continuationToken = continuationToken
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeQuery(self.continuationToken, key: "continuation-token")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5062,12 +5160,6 @@ extension S3 {
     }
 
     public struct ListBucketMetricsConfigurationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "continuationToken", location: .querystring("continuation-token")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
         /// The name of the bucket containing the metrics configurations to retrieve.
         public let bucket: String
         /// The marker that is used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
@@ -5079,6 +5171,14 @@ extension S3 {
             self.bucket = bucket
             self.continuationToken = continuationToken
             self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeQuery(self.continuationToken, key: "continuation-token")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5162,17 +5262,6 @@ extension S3 {
     }
 
     public struct ListMultipartUploadsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "delimiter", location: .querystring("delimiter")),
-            AWSMemberEncoding(label: "encodingType", location: .querystring("encoding-type")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "keyMarker", location: .querystring("key-marker")),
-            AWSMemberEncoding(label: "maxUploads", location: .querystring("max-uploads")),
-            AWSMemberEncoding(label: "prefix", location: .querystring("prefix")),
-            AWSMemberEncoding(label: "uploadIdMarker", location: .querystring("upload-id-marker"))
-        ]
-
         /// The name of the bucket to which the multipart upload was initiated.  When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// Character you use to group keys. All keys that contain the same string between the prefix, if specified, and the first occurrence of the delimiter after the prefix are grouped under a single result element, CommonPrefixes. If you don't specify the prefix parameter, then the substring starts at the beginning of the key. The keys that are grouped under CommonPrefixes result element are not returned elsewhere in the response.
@@ -5198,6 +5287,19 @@ extension S3 {
             self.maxUploads = maxUploads
             self.prefix = prefix
             self.uploadIdMarker = uploadIdMarker
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeQuery(self.delimiter, key: "delimiter")
+            request.encodeQuery(self.encodingType, key: "encoding-type")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeQuery(self.keyMarker, key: "key-marker")
+            request.encodeQuery(self.maxUploads, key: "max-uploads")
+            request.encodeQuery(self.prefix, key: "prefix")
+            request.encodeQuery(self.uploadIdMarker, key: "upload-id-marker")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5265,17 +5367,6 @@ extension S3 {
     }
 
     public struct ListObjectVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "delimiter", location: .querystring("delimiter")),
-            AWSMemberEncoding(label: "encodingType", location: .querystring("encoding-type")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "keyMarker", location: .querystring("key-marker")),
-            AWSMemberEncoding(label: "maxKeys", location: .querystring("max-keys")),
-            AWSMemberEncoding(label: "prefix", location: .querystring("prefix")),
-            AWSMemberEncoding(label: "versionIdMarker", location: .querystring("version-id-marker"))
-        ]
-
         /// The bucket name that contains the objects.
         public let bucket: String
         /// A delimiter is a character that you specify to group keys. All keys that contain the same string between the prefix and the first occurrence of the delimiter are grouped under a single result element in CommonPrefixes. These groups are counted as one result against the max-keys limitation. These keys are not returned elsewhere in the response.
@@ -5301,6 +5392,19 @@ extension S3 {
             self.maxKeys = maxKeys
             self.prefix = prefix
             self.versionIdMarker = versionIdMarker
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeQuery(self.delimiter, key: "delimiter")
+            request.encodeQuery(self.encodingType, key: "encoding-type")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeQuery(self.keyMarker, key: "key-marker")
+            request.encodeQuery(self.maxKeys, key: "max-keys")
+            request.encodeQuery(self.prefix, key: "prefix")
+            request.encodeQuery(self.versionIdMarker, key: "version-id-marker")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5356,17 +5460,6 @@ extension S3 {
     }
 
     public struct ListObjectsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "delimiter", location: .querystring("delimiter")),
-            AWSMemberEncoding(label: "encodingType", location: .querystring("encoding-type")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "maxKeys", location: .querystring("max-keys")),
-            AWSMemberEncoding(label: "prefix", location: .querystring("prefix")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer"))
-        ]
-
         /// The name of the bucket containing the objects. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// A delimiter is a character you use to group keys.
@@ -5392,6 +5485,19 @@ extension S3 {
             self.maxKeys = maxKeys
             self.prefix = prefix
             self.requestPayer = requestPayer
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeQuery(self.delimiter, key: "delimiter")
+            request.encodeQuery(self.encodingType, key: "encoding-type")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodeQuery(self.maxKeys, key: "max-keys")
+            request.encodeQuery(self.prefix, key: "prefix")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5455,19 +5561,6 @@ extension S3 {
     }
 
     public struct ListObjectsV2Request: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "continuationToken", location: .querystring("continuation-token")),
-            AWSMemberEncoding(label: "delimiter", location: .querystring("delimiter")),
-            AWSMemberEncoding(label: "encodingType", location: .querystring("encoding-type")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "fetchOwner", location: .querystring("fetch-owner")),
-            AWSMemberEncoding(label: "maxKeys", location: .querystring("max-keys")),
-            AWSMemberEncoding(label: "prefix", location: .querystring("prefix")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
-            AWSMemberEncoding(label: "startAfter", location: .querystring("start-after"))
-        ]
-
         /// Bucket name to list.  When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// ContinuationToken indicates Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key.
@@ -5500,6 +5593,21 @@ extension S3 {
             self.prefix = prefix
             self.requestPayer = requestPayer
             self.startAfter = startAfter
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeQuery(self.continuationToken, key: "continuation-token")
+            request.encodeQuery(self.delimiter, key: "delimiter")
+            request.encodeQuery(self.encodingType, key: "encoding-type")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeQuery(self.fetchOwner, key: "fetch-owner")
+            request.encodeQuery(self.maxKeys, key: "max-keys")
+            request.encodeQuery(self.prefix, key: "prefix")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeQuery(self.startAfter, key: "start-after")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5558,8 +5666,8 @@ extension S3 {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.abortDate = try response.decodeIfPresent(Date.self, forHeader: "x-amz-abort-date")
-            self.abortRuleId = try response.decodeIfPresent(String.self, forHeader: "x-amz-abort-rule-id")
+            self.abortDate = try response.decodeHeaderIfPresent(Date.self, key: "x-amz-abort-date")
+            self.abortRuleId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-abort-rule-id")
             self.bucket = try container.decodeIfPresent(String.self, forKey: .bucket)
             self.checksumAlgorithm = try container.decodeIfPresent(ChecksumAlgorithm.self, forKey: .checksumAlgorithm)
             self.initiator = try container.decodeIfPresent(Initiator.self, forKey: .initiator)
@@ -5570,10 +5678,9 @@ extension S3 {
             self.owner = try container.decodeIfPresent(Owner.self, forKey: .owner)
             self.partNumberMarker = try container.decodeIfPresent(String.self, forKey: .partNumberMarker)
             self.parts = try container.decodeIfPresent([Part].self, forKey: .parts)
-            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
             self.storageClass = try container.decodeIfPresent(StorageClass.self, forKey: .storageClass)
             self.uploadId = try container.decodeIfPresent(String.self, forKey: .uploadId)
-
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5593,19 +5700,6 @@ extension S3 {
     }
 
     public struct ListPartsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "maxParts", location: .querystring("max-parts")),
-            AWSMemberEncoding(label: "partNumberMarker", location: .querystring("part-number-marker")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
-            AWSMemberEncoding(label: "sseCustomerAlgorithm", location: .header("x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sseCustomerKey", location: .header("x-amz-server-side-encryption-customer-key")),
-            AWSMemberEncoding(label: "sseCustomerKeyMD5", location: .header("x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "uploadId", location: .querystring("uploadId"))
-        ]
-
         /// The name of the bucket to which the parts are being uploaded.  When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -5637,6 +5731,21 @@ extension S3 {
             self.sseCustomerKey = sseCustomerKey
             self.sseCustomerKeyMD5 = sseCustomerKeyMD5
             self.uploadId = uploadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodePath(self.key, key: "Key")
+            request.encodeQuery(self.maxParts, key: "max-parts")
+            request.encodeQuery(self.partNumberMarker, key: "part-number-marker")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeHeader(self.sseCustomerAlgorithm, key: "x-amz-server-side-encryption-customer-algorithm")
+            request.encodeHeader(self.sseCustomerKey, key: "x-amz-server-side-encryption-customer-key")
+            request.encodeHeader(self.sseCustomerKeyMD5, key: "x-amz-server-side-encryption-customer-key-MD5")
+            request.encodeQuery(self.uploadId, key: "uploadId")
         }
 
         public func validate(name: String) throws {
@@ -6217,10 +6326,6 @@ extension S3 {
     }
 
     public struct ProgressEvent: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "details", location: .body("Details"))
-        ]
-
         /// The Progress event details.
         public let details: Progress
 
@@ -6229,8 +6334,8 @@ extension S3 {
         }
 
         public init(from decoder: Decoder) throws {
-            self.details = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.details = try container.decode(Progress.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6261,17 +6366,9 @@ extension S3 {
         }
     }
 
-    public struct PutBucketAccelerateConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "accelerateConfiguration"
+    public struct PutBucketAccelerateConfigurationRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accelerateConfiguration", location: .body("AccelerateConfiguration")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "AccelerateConfiguration"
         /// Container for setting the transfer acceleration state.
         public let accelerateConfiguration: AccelerateConfiguration
         /// The name of the bucket for which the accelerate configuration is set.
@@ -6288,27 +6385,21 @@ extension S3 {
             self.expectedBucketOwner = expectedBucketOwner
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.accelerateConfiguration)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutBucketAclRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "accessControlPolicy"
+    public struct PutBucketAclRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessControlPolicy", location: .body("AccessControlPolicy")),
-            AWSMemberEncoding(label: "acl", location: .header("x-amz-acl")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
-            AWSMemberEncoding(label: "contentMD5", location: .header("Content-MD5")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "grantFullControl", location: .header("x-amz-grant-full-control")),
-            AWSMemberEncoding(label: "grantRead", location: .header("x-amz-grant-read")),
-            AWSMemberEncoding(label: "grantReadACP", location: .header("x-amz-grant-read-acp")),
-            AWSMemberEncoding(label: "grantWrite", location: .header("x-amz-grant-write")),
-            AWSMemberEncoding(label: "grantWriteACP", location: .header("x-amz-grant-write-acp"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "AccessControlPolicy"
         /// Contains the elements that set the ACL permissions for an object per grantee.
         public let accessControlPolicy: AccessControlPolicy?
         /// The canned ACL to apply to the bucket.
@@ -6346,19 +6437,27 @@ extension S3 {
             self.grantWriteACP = grantWriteACP
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.accessControlPolicy)
+            request.encodeHeader(self.acl, key: "x-amz-acl")
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeHeader(self.grantFullControl, key: "x-amz-grant-full-control")
+            request.encodeHeader(self.grantRead, key: "x-amz-grant-read")
+            request.encodeHeader(self.grantReadACP, key: "x-amz-grant-read-acp")
+            request.encodeHeader(self.grantWrite, key: "x-amz-grant-write")
+            request.encodeHeader(self.grantWriteACP, key: "x-amz-grant-write-acp")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutBucketAnalyticsConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "analyticsConfiguration"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analyticsConfiguration", location: .body("AnalyticsConfiguration")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "id", location: .querystring("id"))
-        ]
-
+    public struct PutBucketAnalyticsConfigurationRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "AnalyticsConfiguration"
         /// The configuration and any analyses for the analytics filter.
         public let analyticsConfiguration: AnalyticsConfiguration
         /// The name of the bucket to which an analytics configuration is stored.
@@ -6375,6 +6474,15 @@ extension S3 {
             self.id = id
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.analyticsConfiguration)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeQuery(self.id, key: "id")
+        }
+
         public func validate(name: String) throws {
             try self.analyticsConfiguration.validate(name: "\(name).analyticsConfiguration")
         }
@@ -6382,18 +6490,9 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutBucketCorsRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "corsConfiguration"
+    public struct PutBucketCorsRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
-            AWSMemberEncoding(label: "contentMD5", location: .header("Content-MD5")),
-            AWSMemberEncoding(label: "corsConfiguration", location: .body("CORSConfiguration")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "CORSConfiguration"
         /// Specifies the bucket impacted by the corsconfiguration.
         public let bucket: String
         /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
@@ -6413,21 +6512,22 @@ extension S3 {
             self.expectedBucketOwner = expectedBucketOwner
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            try container.encode(self.corsConfiguration)
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutBucketEncryptionRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "serverSideEncryptionConfiguration"
+    public struct PutBucketEncryptionRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
-            AWSMemberEncoding(label: "contentMD5", location: .header("Content-MD5")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "serverSideEncryptionConfiguration", location: .body("ServerSideEncryptionConfiguration"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "ServerSideEncryptionConfiguration"
         /// Specifies default encryption for a bucket using server-side encryption with different key options. By default, all buckets have a default encryption configuration that uses server-side encryption with Amazon S3 managed keys (SSE-S3). You can optionally configure default encryption for a bucket by using server-side encryption with an Amazon Web Services KMS key (SSE-KMS) or a customer-provided key (SSE-C). For information about the bucket default encryption feature, see Amazon S3 Bucket Default Encryption in the Amazon S3 User Guide.
         public let bucket: String
         /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
@@ -6446,18 +6546,21 @@ extension S3 {
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            try container.encode(self.serverSideEncryptionConfiguration)
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutBucketIntelligentTieringConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "intelligentTieringConfiguration"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "id", location: .querystring("id")),
-            AWSMemberEncoding(label: "intelligentTieringConfiguration", location: .body("IntelligentTieringConfiguration"))
-        ]
-
+    public struct PutBucketIntelligentTieringConfigurationRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "IntelligentTieringConfiguration"
         /// The name of the Amazon S3 bucket whose configuration you want to modify or retrieve.
         public let bucket: String
         /// The ID used to identify the S3 Intelligent-Tiering configuration.
@@ -6471,6 +6574,14 @@ extension S3 {
             self.intelligentTieringConfiguration = intelligentTieringConfiguration
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeQuery(self.id, key: "id")
+            try container.encode(self.intelligentTieringConfiguration)
+        }
+
         public func validate(name: String) throws {
             try self.intelligentTieringConfiguration.validate(name: "\(name).intelligentTieringConfiguration")
         }
@@ -6478,16 +6589,8 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutBucketInventoryConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "inventoryConfiguration"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "id", location: .querystring("id")),
-            AWSMemberEncoding(label: "inventoryConfiguration", location: .body("InventoryConfiguration"))
-        ]
-
+    public struct PutBucketInventoryConfigurationRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "InventoryConfiguration"
         /// The name of the bucket where the inventory configuration will be stored.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -6504,20 +6607,21 @@ extension S3 {
             self.inventoryConfiguration = inventoryConfiguration
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeQuery(self.id, key: "id")
+            try container.encode(self.inventoryConfiguration)
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutBucketLifecycleConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "lifecycleConfiguration"
+    public struct PutBucketLifecycleConfigurationRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "lifecycleConfiguration", location: .body("LifecycleConfiguration"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "LifecycleConfiguration"
         /// The name of the bucket for which to set the configuration.
         public let bucket: String
         /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
@@ -6534,6 +6638,15 @@ extension S3 {
             self.lifecycleConfiguration = lifecycleConfiguration
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            try container.encode(self.lifecycleConfiguration)
+        }
+
         public func validate(name: String) throws {
             try self.lifecycleConfiguration?.validate(name: "\(name).lifecycleConfiguration")
         }
@@ -6541,18 +6654,9 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutBucketLoggingRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "bucketLoggingStatus"
+    public struct PutBucketLoggingRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "bucketLoggingStatus", location: .body("BucketLoggingStatus")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
-            AWSMemberEncoding(label: "contentMD5", location: .header("Content-MD5")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "BucketLoggingStatus"
         /// The name of the bucket for which to set the logging parameters.
         public let bucket: String
         /// Container for logging status information.
@@ -6572,19 +6676,21 @@ extension S3 {
             self.expectedBucketOwner = expectedBucketOwner
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            try container.encode(self.bucketLoggingStatus)
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutBucketMetricsConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "metricsConfiguration"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "id", location: .querystring("id")),
-            AWSMemberEncoding(label: "metricsConfiguration", location: .body("MetricsConfiguration"))
-        ]
-
+    public struct PutBucketMetricsConfigurationRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "MetricsConfiguration"
         /// The name of the bucket for which the metrics configuration is set.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -6601,6 +6707,15 @@ extension S3 {
             self.metricsConfiguration = metricsConfiguration
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeQuery(self.id, key: "id")
+            try container.encode(self.metricsConfiguration)
+        }
+
         public func validate(name: String) throws {
             try self.metricsConfiguration.validate(name: "\(name).metricsConfiguration")
         }
@@ -6608,16 +6723,8 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutBucketNotificationConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "notificationConfiguration"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "notificationConfiguration", location: .body("NotificationConfiguration")),
-            AWSMemberEncoding(label: "skipDestinationValidation", location: .header("x-amz-skip-destination-validation"))
-        ]
-
+    public struct PutBucketNotificationConfigurationRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "NotificationConfiguration"
         /// The name of the bucket.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -6633,20 +6740,21 @@ extension S3 {
             self.skipDestinationValidation = skipDestinationValidation
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            try container.encode(self.notificationConfiguration)
+            request.encodeHeader(self.skipDestinationValidation, key: "x-amz-skip-destination-validation")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutBucketOwnershipControlsRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "ownershipControls"
+    public struct PutBucketOwnershipControlsRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "contentMD5", location: .header("Content-MD5")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "ownershipControls", location: .body("OwnershipControls"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "OwnershipControls"
         /// The name of the Amazon S3 bucket whose OwnershipControls you want to set.
         public let bucket: String
         /// The MD5 hash of the OwnershipControls request body.  For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
@@ -6663,22 +6771,21 @@ extension S3 {
             self.ownershipControls = ownershipControls
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            try container.encode(self.ownershipControls)
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutBucketPolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "policy"
+    public struct PutBucketPolicyRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
-            AWSMemberEncoding(label: "confirmRemoveSelfBucketAccess", location: .header("x-amz-confirm-remove-self-bucket-access")),
-            AWSMemberEncoding(label: "contentMD5", location: .header("Content-MD5")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "policy", location: .body("Policy"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "Policy"
         /// The name of the bucket.
         public let bucket: String
         /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
@@ -6701,22 +6808,23 @@ extension S3 {
             self.policy = policy
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.confirmRemoveSelfBucketAccess, key: "x-amz-confirm-remove-self-bucket-access")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            try container.encode(self.policy)
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutBucketReplicationRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "replicationConfiguration"
+    public struct PutBucketReplicationRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
-            AWSMemberEncoding(label: "contentMD5", location: .header("Content-MD5")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "replicationConfiguration", location: .body("ReplicationConfiguration")),
-            AWSMemberEncoding(label: "token", location: .header("x-amz-bucket-object-lock-token"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "ReplicationConfiguration"
         /// The name of the bucket
         public let bucket: String
         /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
@@ -6738,6 +6846,17 @@ extension S3 {
             self.token = token
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            try container.encode(self.replicationConfiguration)
+            request.encodeHeader(self.token, key: "x-amz-bucket-object-lock-token")
+        }
+
         public func validate(name: String) throws {
             try self.replicationConfiguration.validate(name: "\(name).replicationConfiguration")
         }
@@ -6745,18 +6864,9 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutBucketRequestPaymentRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "requestPaymentConfiguration"
+    public struct PutBucketRequestPaymentRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
-            AWSMemberEncoding(label: "contentMD5", location: .header("Content-MD5")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "requestPaymentConfiguration", location: .body("RequestPaymentConfiguration"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "RequestPaymentConfiguration"
         /// The bucket name.
         public let bucket: String
         /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
@@ -6776,21 +6886,22 @@ extension S3 {
             self.requestPaymentConfiguration = requestPaymentConfiguration
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            try container.encode(self.requestPaymentConfiguration)
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutBucketTaggingRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "tagging"
+    public struct PutBucketTaggingRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
-            AWSMemberEncoding(label: "contentMD5", location: .header("Content-MD5")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "tagging", location: .body("Tagging"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "Tagging"
         /// The bucket name.
         public let bucket: String
         /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
@@ -6810,6 +6921,16 @@ extension S3 {
             self.tagging = tagging
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            try container.encode(self.tagging)
+        }
+
         public func validate(name: String) throws {
             try self.tagging.validate(name: "\(name).tagging")
         }
@@ -6817,19 +6938,9 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutBucketVersioningRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "versioningConfiguration"
+    public struct PutBucketVersioningRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
-            AWSMemberEncoding(label: "contentMD5", location: .header("Content-MD5")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "mfa", location: .header("x-amz-mfa")),
-            AWSMemberEncoding(label: "versioningConfiguration", location: .body("VersioningConfiguration"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "VersioningConfiguration"
         /// The bucket name.
         public let bucket: String
         /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
@@ -6852,21 +6963,23 @@ extension S3 {
             self.versioningConfiguration = versioningConfiguration
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeHeader(self.mfa, key: "x-amz-mfa")
+            try container.encode(self.versioningConfiguration)
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutBucketWebsiteRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "websiteConfiguration"
+    public struct PutBucketWebsiteRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
-            AWSMemberEncoding(label: "contentMD5", location: .header("Content-MD5")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "websiteConfiguration", location: .body("WebsiteConfiguration"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "WebsiteConfiguration"
         /// The bucket name.
         public let bucket: String
         /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
@@ -6886,6 +6999,16 @@ extension S3 {
             self.websiteConfiguration = websiteConfiguration
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            try container.encode(self.websiteConfiguration)
+        }
+
         public func validate(name: String) throws {
             try self.websiteConfiguration.validate(name: "\(name).websiteConfiguration")
         }
@@ -6902,34 +7025,15 @@ extension S3 {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
-
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutObjectAclRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "accessControlPolicy"
+    public struct PutObjectAclRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessControlPolicy", location: .body("AccessControlPolicy")),
-            AWSMemberEncoding(label: "acl", location: .header("x-amz-acl")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
-            AWSMemberEncoding(label: "contentMD5", location: .header("Content-MD5")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "grantFullControl", location: .header("x-amz-grant-full-control")),
-            AWSMemberEncoding(label: "grantRead", location: .header("x-amz-grant-read")),
-            AWSMemberEncoding(label: "grantReadACP", location: .header("x-amz-grant-read-acp")),
-            AWSMemberEncoding(label: "grantWrite", location: .header("x-amz-grant-write")),
-            AWSMemberEncoding(label: "grantWriteACP", location: .header("x-amz-grant-write-acp")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
-            AWSMemberEncoding(label: "versionId", location: .querystring("versionId"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "AccessControlPolicy"
         /// Contains the elements that set the ACL permissions for an object per grantee.
         public let accessControlPolicy: AccessControlPolicy?
         /// The canned ACL to apply to the object. For more information, see Canned ACL.
@@ -6975,6 +7079,25 @@ extension S3 {
             self.versionId = versionId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.accessControlPolicy)
+            request.encodeHeader(self.acl, key: "x-amz-acl")
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeHeader(self.grantFullControl, key: "x-amz-grant-full-control")
+            request.encodeHeader(self.grantRead, key: "x-amz-grant-read")
+            request.encodeHeader(self.grantReadACP, key: "x-amz-grant-read-acp")
+            request.encodeHeader(self.grantWrite, key: "x-amz-grant-write")
+            request.encodeHeader(self.grantWriteACP, key: "x-amz-grant-write-acp")
+            request.encodePath(self.key, key: "Key")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeQuery(self.versionId, key: "versionId")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
@@ -6991,28 +7114,15 @@ extension S3 {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
-
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutObjectLegalHoldRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "legalHold"
+    public struct PutObjectLegalHoldRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
-            AWSMemberEncoding(label: "contentMD5", location: .header("Content-MD5")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "legalHold", location: .body("LegalHold")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
-            AWSMemberEncoding(label: "versionId", location: .querystring("versionId"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "LegalHold"
         /// The bucket name containing the object that you want to place a legal hold on.  When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.
         public let bucket: String
         /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
@@ -7040,6 +7150,19 @@ extension S3 {
             self.versionId = versionId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodePath(self.key, key: "Key")
+            try container.encode(self.legalHold)
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeQuery(self.versionId, key: "versionId")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
@@ -7056,27 +7179,15 @@ extension S3 {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
-
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutObjectLockConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "objectLockConfiguration"
+    public struct PutObjectLockConfigurationRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
-            AWSMemberEncoding(label: "contentMD5", location: .header("Content-MD5")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "objectLockConfiguration", location: .body("ObjectLockConfiguration")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
-            AWSMemberEncoding(label: "token", location: .header("x-amz-bucket-object-lock-token"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "ObjectLockConfiguration"
         /// The bucket whose Object Lock configuration you want to create or replace.
         public let bucket: String
         /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
@@ -7099,6 +7210,18 @@ extension S3 {
             self.objectLockConfiguration = objectLockConfiguration
             self.requestPayer = requestPayer
             self.token = token
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            try container.encode(self.objectLockConfiguration)
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeHeader(self.token, key: "x-amz-bucket-object-lock-token")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -7152,69 +7275,28 @@ extension S3 {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.bucketKeyEnabled = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-server-side-encryption-bucket-key-enabled")
-            self.checksumCRC32 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-crc32")
-            self.checksumCRC32C = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-crc32c")
-            self.checksumSHA1 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-sha1")
-            self.checksumSHA256 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-sha256")
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.expiration = try response.decodeIfPresent(String.self, forHeader: "x-amz-expiration")
-            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
-            self.serverSideEncryption = try response.decodeIfPresent(ServerSideEncryption.self, forHeader: "x-amz-server-side-encryption")
-            self.sseCustomerAlgorithm = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-algorithm")
-            self.sseCustomerKeyMD5 = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-key-MD5")
-            self.ssekmsEncryptionContext = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-context")
-            self.ssekmsKeyId = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-aws-kms-key-id")
-            self.versionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-version-id")
-
+            self.bucketKeyEnabled = try response.decodeHeaderIfPresent(Bool.self, key: "x-amz-server-side-encryption-bucket-key-enabled")
+            self.checksumCRC32 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32")
+            self.checksumCRC32C = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32c")
+            self.checksumSHA1 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha1")
+            self.checksumSHA256 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha256")
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.expiration = try response.decodeHeaderIfPresent(String.self, key: "x-amz-expiration")
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
+            self.serverSideEncryption = try response.decodeHeaderIfPresent(ServerSideEncryption.self, key: "x-amz-server-side-encryption")
+            self.sseCustomerAlgorithm = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-customer-algorithm")
+            self.sseCustomerKeyMD5 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-customer-key-MD5")
+            self.ssekmsEncryptionContext = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-context")
+            self.ssekmsKeyId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-aws-kms-key-id")
+            self.versionId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-version-id")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutObjectRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "body"
+    public struct PutObjectRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .md5ChecksumHeader, .allowStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "acl", location: .header("x-amz-acl")),
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "bucketKeyEnabled", location: .header("x-amz-server-side-encryption-bucket-key-enabled")),
-            AWSMemberEncoding(label: "cacheControl", location: .header("Cache-Control")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
-            AWSMemberEncoding(label: "checksumCRC32", location: .header("x-amz-checksum-crc32")),
-            AWSMemberEncoding(label: "checksumCRC32C", location: .header("x-amz-checksum-crc32c")),
-            AWSMemberEncoding(label: "checksumSHA1", location: .header("x-amz-checksum-sha1")),
-            AWSMemberEncoding(label: "checksumSHA256", location: .header("x-amz-checksum-sha256")),
-            AWSMemberEncoding(label: "contentDisposition", location: .header("Content-Disposition")),
-            AWSMemberEncoding(label: "contentEncoding", location: .header("Content-Encoding")),
-            AWSMemberEncoding(label: "contentLanguage", location: .header("Content-Language")),
-            AWSMemberEncoding(label: "contentLength", location: .header("Content-Length")),
-            AWSMemberEncoding(label: "contentMD5", location: .header("Content-MD5")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "_expires", location: .header("Expires")),
-            AWSMemberEncoding(label: "grantFullControl", location: .header("x-amz-grant-full-control")),
-            AWSMemberEncoding(label: "grantRead", location: .header("x-amz-grant-read")),
-            AWSMemberEncoding(label: "grantReadACP", location: .header("x-amz-grant-read-acp")),
-            AWSMemberEncoding(label: "grantWriteACP", location: .header("x-amz-grant-write-acp")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "metadata", location: .headerPrefix("x-amz-meta-")),
-            AWSMemberEncoding(label: "objectLockLegalHoldStatus", location: .header("x-amz-object-lock-legal-hold")),
-            AWSMemberEncoding(label: "objectLockMode", location: .header("x-amz-object-lock-mode")),
-            AWSMemberEncoding(label: "_objectLockRetainUntilDate", location: .header("x-amz-object-lock-retain-until-date")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
-            AWSMemberEncoding(label: "serverSideEncryption", location: .header("x-amz-server-side-encryption")),
-            AWSMemberEncoding(label: "sseCustomerAlgorithm", location: .header("x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sseCustomerKey", location: .header("x-amz-server-side-encryption-customer-key")),
-            AWSMemberEncoding(label: "sseCustomerKeyMD5", location: .header("x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "ssekmsEncryptionContext", location: .header("x-amz-server-side-encryption-context")),
-            AWSMemberEncoding(label: "ssekmsKeyId", location: .header("x-amz-server-side-encryption-aws-kms-key-id")),
-            AWSMemberEncoding(label: "storageClass", location: .header("x-amz-storage-class")),
-            AWSMemberEncoding(label: "tagging", location: .header("x-amz-tagging")),
-            AWSMemberEncoding(label: "websiteRedirectLocation", location: .header("x-amz-website-redirect-location"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "Body"
         /// The canned ACL to apply to the object. For more information, see Canned ACL. This action is not supported by Amazon S3 on Outposts.
         public let acl: ObjectCannedACL?
         /// Object data.
@@ -7331,6 +7413,48 @@ extension S3 {
             self.websiteRedirectLocation = websiteRedirectLocation
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeHeader(self.acl, key: "x-amz-acl")
+            try container.encode(self.body)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.bucketKeyEnabled, key: "x-amz-server-side-encryption-bucket-key-enabled")
+            request.encodeHeader(self.cacheControl, key: "Cache-Control")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.checksumCRC32, key: "x-amz-checksum-crc32")
+            request.encodeHeader(self.checksumCRC32C, key: "x-amz-checksum-crc32c")
+            request.encodeHeader(self.checksumSHA1, key: "x-amz-checksum-sha1")
+            request.encodeHeader(self.checksumSHA256, key: "x-amz-checksum-sha256")
+            request.encodeHeader(self.contentDisposition, key: "Content-Disposition")
+            request.encodeHeader(self.contentEncoding, key: "Content-Encoding")
+            request.encodeHeader(self.contentLanguage, key: "Content-Language")
+            request.encodeHeader(self.contentLength, key: "Content-Length")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.contentType, key: "Content-Type")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeHeader(self._expires, key: "Expires")
+            request.encodeHeader(self.grantFullControl, key: "x-amz-grant-full-control")
+            request.encodeHeader(self.grantRead, key: "x-amz-grant-read")
+            request.encodeHeader(self.grantReadACP, key: "x-amz-grant-read-acp")
+            request.encodeHeader(self.grantWriteACP, key: "x-amz-grant-write-acp")
+            request.encodePath(self.key, key: "Key")
+            request.encodeHeader(self.metadata, key: "x-amz-meta-")
+            request.encodeHeader(self.objectLockLegalHoldStatus, key: "x-amz-object-lock-legal-hold")
+            request.encodeHeader(self.objectLockMode, key: "x-amz-object-lock-mode")
+            request.encodeHeader(self._objectLockRetainUntilDate, key: "x-amz-object-lock-retain-until-date")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeHeader(self.serverSideEncryption, key: "x-amz-server-side-encryption")
+            request.encodeHeader(self.sseCustomerAlgorithm, key: "x-amz-server-side-encryption-customer-algorithm")
+            request.encodeHeader(self.sseCustomerKey, key: "x-amz-server-side-encryption-customer-key")
+            request.encodeHeader(self.sseCustomerKeyMD5, key: "x-amz-server-side-encryption-customer-key-MD5")
+            request.encodeHeader(self.ssekmsEncryptionContext, key: "x-amz-server-side-encryption-context")
+            request.encodeHeader(self.ssekmsKeyId, key: "x-amz-server-side-encryption-aws-kms-key-id")
+            request.encodeHeader(self.storageClass, key: "x-amz-storage-class")
+            request.encodeHeader(self.tagging, key: "x-amz-tagging")
+            request.encodeHeader(self.websiteRedirectLocation, key: "x-amz-website-redirect-location")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
@@ -7347,29 +7471,15 @@ extension S3 {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
-
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutObjectRetentionRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "retention"
+    public struct PutObjectRetentionRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "bypassGovernanceRetention", location: .header("x-amz-bypass-governance-retention")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
-            AWSMemberEncoding(label: "contentMD5", location: .header("Content-MD5")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
-            AWSMemberEncoding(label: "retention", location: .body("Retention")),
-            AWSMemberEncoding(label: "versionId", location: .querystring("versionId"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "Retention"
         /// The bucket name that contains the object you want to apply this Object Retention configuration to.  When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.
         public let bucket: String
         /// Indicates whether this action should bypass Governance-mode restrictions.
@@ -7400,6 +7510,20 @@ extension S3 {
             self.versionId = versionId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.bypassGovernanceRetention, key: "x-amz-bypass-governance-retention")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodePath(self.key, key: "Key")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            try container.encode(self.retention)
+            request.encodeQuery(self.versionId, key: "versionId")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
@@ -7417,28 +7541,15 @@ extension S3 {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.versionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-version-id")
-
+            self.versionId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-version-id")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutObjectTaggingRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "tagging"
+    public struct PutObjectTaggingRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
-            AWSMemberEncoding(label: "contentMD5", location: .header("Content-MD5")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
-            AWSMemberEncoding(label: "tagging", location: .body("Tagging")),
-            AWSMemberEncoding(label: "versionId", location: .querystring("versionId"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "Tagging"
         /// The bucket name containing the object.  When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
@@ -7466,6 +7577,19 @@ extension S3 {
             self.versionId = versionId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodePath(self.key, key: "Key")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            try container.encode(self.tagging)
+            request.encodeQuery(self.versionId, key: "versionId")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.tagging.validate(name: "\(name).tagging")
@@ -7474,18 +7598,9 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutPublicAccessBlockRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "publicAccessBlockConfiguration"
+    public struct PutPublicAccessBlockRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
-            AWSMemberEncoding(label: "contentMD5", location: .header("Content-MD5")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "publicAccessBlockConfiguration", location: .body("PublicAccessBlockConfiguration"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "PublicAccessBlockConfiguration"
         /// The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want to set.
         public let bucket: String
         /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
@@ -7503,6 +7618,16 @@ extension S3 {
             self.contentMD5 = contentMD5
             self.expectedBucketOwner = expectedBucketOwner
             self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            try container.encode(self.publicAccessBlockConfiguration)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -7532,21 +7657,16 @@ extension S3 {
     }
 
     public struct RecordsEvent: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "payload", location: .body("Payload"))
-        ]
-
         /// The byte array of partial, one or more result records.
-        public let payload: ByteBuffer
+        public let payload: AWSEventPayload
 
-        public init(payload: ByteBuffer) {
+        public init(payload: AWSEventPayload) {
             self.payload = payload
         }
 
         public init(from decoder: Decoder) throws {
-            let response = decoder.userInfo[.awsEvent]! as! EventDecodingContainer
-            self.payload = response.decodePayload()
-
+            let container = try decoder.singleValueContainer()
+            self.payload = try container.decode(AWSEventPayload.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -7785,28 +7905,16 @@ extension S3 {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
-            self.restoreOutputPath = try response.decodeIfPresent(String.self, forHeader: "x-amz-restore-output-path")
-
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
+            self.restoreOutputPath = try response.decodeHeaderIfPresent(String.self, key: "x-amz-restore-output-path")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct RestoreObjectRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "restoreRequest"
+    public struct RestoreObjectRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
-            AWSMemberEncoding(label: "restoreRequest", location: .body("RestoreRequest")),
-            AWSMemberEncoding(label: "versionId", location: .querystring("versionId"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "RestoreRequest"
         /// The bucket name containing the object to restore.  When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
@@ -7828,6 +7936,18 @@ extension S3 {
             self.requestPayer = requestPayer
             self.restoreRequest = restoreRequest
             self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodePath(self.key, key: "Key")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            try container.encode(self.restoreRequest)
+            request.encodeQuery(self.versionId, key: "versionId")
         }
 
         public func validate(name: String) throws {
@@ -8001,24 +8121,14 @@ extension S3 {
         }
 
         public init(from decoder: Decoder) throws {
-            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.payload = response.decodeEventStream()
-
+            let container = try decoder.singleValueContainer()
+            self.payload = try container.decode(AWSEventStream<SelectObjectContentEventStream>.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct SelectObjectContentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "sseCustomerAlgorithm", location: .header("x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sseCustomerKey", location: .header("x-amz-server-side-encryption-customer-key")),
-            AWSMemberEncoding(label: "sseCustomerKeyMD5", location: .header("x-amz-server-side-encryption-customer-key-MD5"))
-        ]
-
         /// The S3 bucket.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -8057,6 +8167,23 @@ extension S3 {
             self.sseCustomerAlgorithm = sseCustomerAlgorithm
             self.sseCustomerKey = sseCustomerKey
             self.sseCustomerKeyMD5 = sseCustomerKeyMD5
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            try container.encode(self.expression, forKey: .expression)
+            try container.encode(self.expressionType, forKey: .expressionType)
+            try container.encode(self.inputSerialization, forKey: .inputSerialization)
+            request.encodePath(self.key, key: "Key")
+            try container.encode(self.outputSerialization, forKey: .outputSerialization)
+            try container.encodeIfPresent(self.requestProgress, forKey: .requestProgress)
+            try container.encodeIfPresent(self.scanRange, forKey: .scanRange)
+            request.encodeHeader(self.sseCustomerAlgorithm, key: "x-amz-server-side-encryption-customer-algorithm")
+            request.encodeHeader(self.sseCustomerKey, key: "x-amz-server-side-encryption-customer-key")
+            request.encodeHeader(self.sseCustomerKeyMD5, key: "x-amz-server-side-encryption-customer-key-MD5")
         }
 
         public func validate(name: String) throws {
@@ -8197,10 +8324,6 @@ extension S3 {
     }
 
     public struct StatsEvent: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "details", location: .body("Details"))
-        ]
-
         /// The Stats event details.
         public let details: Stats
 
@@ -8209,8 +8332,8 @@ extension S3 {
         }
 
         public init(from decoder: Decoder) throws {
-            self.details = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.details = try container.decode(Stats.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8398,43 +8521,21 @@ extension S3 {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.bucketKeyEnabled = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-server-side-encryption-bucket-key-enabled")
-            self.copyPartResult = try .init(from: decoder)
-            self.copySourceVersionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-copy-source-version-id")
-            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
-            self.serverSideEncryption = try response.decodeIfPresent(ServerSideEncryption.self, forHeader: "x-amz-server-side-encryption")
-            self.sseCustomerAlgorithm = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-algorithm")
-            self.sseCustomerKeyMD5 = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-key-MD5")
-            self.ssekmsKeyId = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-aws-kms-key-id")
-
+            let container = try decoder.singleValueContainer()
+            self.bucketKeyEnabled = try response.decodeHeaderIfPresent(Bool.self, key: "x-amz-server-side-encryption-bucket-key-enabled")
+            self.copyPartResult = try container.decode(CopyPartResult.self)
+            self.copySourceVersionId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-copy-source-version-id")
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
+            self.serverSideEncryption = try response.decodeHeaderIfPresent(ServerSideEncryption.self, key: "x-amz-server-side-encryption")
+            self.sseCustomerAlgorithm = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-customer-algorithm")
+            self.sseCustomerKeyMD5 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-customer-key-MD5")
+            self.ssekmsKeyId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-aws-kms-key-id")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct UploadPartCopyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "copySource", location: .header("x-amz-copy-source")),
-            AWSMemberEncoding(label: "copySourceIfMatch", location: .header("x-amz-copy-source-if-match")),
-            AWSMemberEncoding(label: "_copySourceIfModifiedSince", location: .header("x-amz-copy-source-if-modified-since")),
-            AWSMemberEncoding(label: "copySourceIfNoneMatch", location: .header("x-amz-copy-source-if-none-match")),
-            AWSMemberEncoding(label: "_copySourceIfUnmodifiedSince", location: .header("x-amz-copy-source-if-unmodified-since")),
-            AWSMemberEncoding(label: "copySourceRange", location: .header("x-amz-copy-source-range")),
-            AWSMemberEncoding(label: "copySourceSSECustomerAlgorithm", location: .header("x-amz-copy-source-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "copySourceSSECustomerKey", location: .header("x-amz-copy-source-server-side-encryption-customer-key")),
-            AWSMemberEncoding(label: "copySourceSSECustomerKeyMD5", location: .header("x-amz-copy-source-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "expectedSourceBucketOwner", location: .header("x-amz-source-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "partNumber", location: .querystring("partNumber")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
-            AWSMemberEncoding(label: "sseCustomerAlgorithm", location: .header("x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sseCustomerKey", location: .header("x-amz-server-side-encryption-customer-key")),
-            AWSMemberEncoding(label: "sseCustomerKeyMD5", location: .header("x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "uploadId", location: .querystring("uploadId"))
-        ]
-
         /// The bucket name. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// Specifies the source object for the copy operation. You specify the value in one of two formats, depending on whether you want to access the source object through an access point:   For objects not accessed through an access point, specify the name of the source bucket and key of the source object, separated by a slash (/). For example, to copy the object reports/january.pdf from the bucket awsexamplebucket, use awsexamplebucket/reports/january.pdf. The value must be URL-encoded.   For objects accessed through access points, specify the Amazon Resource Name (ARN) of the object as accessed through the access point, in the format arn:aws:s3:::accesspoint//object/. For example, to copy the object reports/january.pdf through access point my-access-point owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3:us-west-2:123456789012:accesspoint/my-access-point/object/reports/january.pdf. The value must be URL encoded.  Amazon S3 supports copy operations using access points only when the source and destination buckets are in the same Amazon Web Services Region.  Alternatively, for objects accessed through Amazon S3 on Outposts, specify the ARN of the object as accessed in the format arn:aws:s3-outposts:::outpost//object/. For example, to copy the object reports/january.pdf through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/object/reports/january.pdf. The value must be URL-encoded.     To copy a specific version of an object, append ?versionId= to the value (for example, awsexamplebucket/reports/january.pdf?versionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893). If you don't specify a version ID, Amazon S3 copies the latest version of the source object.
@@ -8497,6 +8598,30 @@ extension S3 {
             self.uploadId = uploadId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.copySource, key: "x-amz-copy-source")
+            request.encodeHeader(self.copySourceIfMatch, key: "x-amz-copy-source-if-match")
+            request.encodeHeader(self._copySourceIfModifiedSince, key: "x-amz-copy-source-if-modified-since")
+            request.encodeHeader(self.copySourceIfNoneMatch, key: "x-amz-copy-source-if-none-match")
+            request.encodeHeader(self._copySourceIfUnmodifiedSince, key: "x-amz-copy-source-if-unmodified-since")
+            request.encodeHeader(self.copySourceRange, key: "x-amz-copy-source-range")
+            request.encodeHeader(self.copySourceSSECustomerAlgorithm, key: "x-amz-copy-source-server-side-encryption-customer-algorithm")
+            request.encodeHeader(self.copySourceSSECustomerKey, key: "x-amz-copy-source-server-side-encryption-customer-key")
+            request.encodeHeader(self.copySourceSSECustomerKeyMD5, key: "x-amz-copy-source-server-side-encryption-customer-key-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeHeader(self.expectedSourceBucketOwner, key: "x-amz-source-expected-bucket-owner")
+            request.encodePath(self.key, key: "Key")
+            request.encodeQuery(self.partNumber, key: "partNumber")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeHeader(self.sseCustomerAlgorithm, key: "x-amz-server-side-encryption-customer-algorithm")
+            request.encodeHeader(self.sseCustomerKey, key: "x-amz-server-side-encryption-customer-key")
+            request.encodeHeader(self.sseCustomerKeyMD5, key: "x-amz-server-side-encryption-customer-key-MD5")
+            request.encodeQuery(self.uploadId, key: "uploadId")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.copySource, name: "copySource", parent: name, pattern: ".+\\/.+")
             try self.validate(self.key, name: "key", parent: name, min: 1)
@@ -8544,46 +8669,25 @@ extension S3 {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.bucketKeyEnabled = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-server-side-encryption-bucket-key-enabled")
-            self.checksumCRC32 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-crc32")
-            self.checksumCRC32C = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-crc32c")
-            self.checksumSHA1 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-sha1")
-            self.checksumSHA256 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-sha256")
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
-            self.serverSideEncryption = try response.decodeIfPresent(ServerSideEncryption.self, forHeader: "x-amz-server-side-encryption")
-            self.sseCustomerAlgorithm = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-algorithm")
-            self.sseCustomerKeyMD5 = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-key-MD5")
-            self.ssekmsKeyId = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-aws-kms-key-id")
-
+            self.bucketKeyEnabled = try response.decodeHeaderIfPresent(Bool.self, key: "x-amz-server-side-encryption-bucket-key-enabled")
+            self.checksumCRC32 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32")
+            self.checksumCRC32C = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32c")
+            self.checksumSHA1 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha1")
+            self.checksumSHA256 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha256")
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
+            self.serverSideEncryption = try response.decodeHeaderIfPresent(ServerSideEncryption.self, key: "x-amz-server-side-encryption")
+            self.sseCustomerAlgorithm = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-customer-algorithm")
+            self.sseCustomerKeyMD5 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-customer-key-MD5")
+            self.ssekmsKeyId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-aws-kms-key-id")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UploadPartRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "body"
+    public struct UploadPartRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .md5ChecksumHeader, .allowStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
-            AWSMemberEncoding(label: "checksumCRC32", location: .header("x-amz-checksum-crc32")),
-            AWSMemberEncoding(label: "checksumCRC32C", location: .header("x-amz-checksum-crc32c")),
-            AWSMemberEncoding(label: "checksumSHA1", location: .header("x-amz-checksum-sha1")),
-            AWSMemberEncoding(label: "checksumSHA256", location: .header("x-amz-checksum-sha256")),
-            AWSMemberEncoding(label: "contentLength", location: .header("Content-Length")),
-            AWSMemberEncoding(label: "contentMD5", location: .header("Content-MD5")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri("Key")),
-            AWSMemberEncoding(label: "partNumber", location: .querystring("partNumber")),
-            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
-            AWSMemberEncoding(label: "sseCustomerAlgorithm", location: .header("x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sseCustomerKey", location: .header("x-amz-server-side-encryption-customer-key")),
-            AWSMemberEncoding(label: "sseCustomerKeyMD5", location: .header("x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "uploadId", location: .querystring("uploadId"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "Body"
         /// Object data.
         public let body: AWSHTTPBody?
         /// The name of the bucket to which the multipart upload was initiated. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
@@ -8636,6 +8740,28 @@ extension S3 {
             self.sseCustomerKey = sseCustomerKey
             self.sseCustomerKeyMD5 = sseCustomerKeyMD5
             self.uploadId = uploadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.body)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.checksumCRC32, key: "x-amz-checksum-crc32")
+            request.encodeHeader(self.checksumCRC32C, key: "x-amz-checksum-crc32c")
+            request.encodeHeader(self.checksumSHA1, key: "x-amz-checksum-sha1")
+            request.encodeHeader(self.checksumSHA256, key: "x-amz-checksum-sha256")
+            request.encodeHeader(self.contentLength, key: "Content-Length")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodePath(self.key, key: "Key")
+            request.encodeQuery(self.partNumber, key: "partNumber")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeHeader(self.sseCustomerAlgorithm, key: "x-amz-server-side-encryption-customer-algorithm")
+            request.encodeHeader(self.sseCustomerKey, key: "x-amz-server-side-encryption-customer-key")
+            request.encodeHeader(self.sseCustomerKeyMD5, key: "x-amz-server-side-encryption-customer-key-MD5")
+            request.encodeQuery(self.uploadId, key: "uploadId")
         }
 
         public func validate(name: String) throws {
@@ -8694,53 +8820,9 @@ extension S3 {
         }
     }
 
-    public struct WriteGetObjectResponseRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "body"
+    public struct WriteGetObjectResponseRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.allowStreaming, .allowChunkedStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "acceptRanges", location: .header("x-amz-fwd-header-accept-ranges")),
-            AWSMemberEncoding(label: "bucketKeyEnabled", location: .header("x-amz-fwd-header-x-amz-server-side-encryption-bucket-key-enabled")),
-            AWSMemberEncoding(label: "cacheControl", location: .header("x-amz-fwd-header-Cache-Control")),
-            AWSMemberEncoding(label: "checksumCRC32", location: .header("x-amz-fwd-header-x-amz-checksum-crc32")),
-            AWSMemberEncoding(label: "checksumCRC32C", location: .header("x-amz-fwd-header-x-amz-checksum-crc32c")),
-            AWSMemberEncoding(label: "checksumSHA1", location: .header("x-amz-fwd-header-x-amz-checksum-sha1")),
-            AWSMemberEncoding(label: "checksumSHA256", location: .header("x-amz-fwd-header-x-amz-checksum-sha256")),
-            AWSMemberEncoding(label: "contentDisposition", location: .header("x-amz-fwd-header-Content-Disposition")),
-            AWSMemberEncoding(label: "contentEncoding", location: .header("x-amz-fwd-header-Content-Encoding")),
-            AWSMemberEncoding(label: "contentLanguage", location: .header("x-amz-fwd-header-Content-Language")),
-            AWSMemberEncoding(label: "contentLength", location: .header("Content-Length")),
-            AWSMemberEncoding(label: "contentRange", location: .header("x-amz-fwd-header-Content-Range")),
-            AWSMemberEncoding(label: "contentType", location: .header("x-amz-fwd-header-Content-Type")),
-            AWSMemberEncoding(label: "deleteMarker", location: .header("x-amz-fwd-header-x-amz-delete-marker")),
-            AWSMemberEncoding(label: "errorCode", location: .header("x-amz-fwd-error-code")),
-            AWSMemberEncoding(label: "errorMessage", location: .header("x-amz-fwd-error-message")),
-            AWSMemberEncoding(label: "eTag", location: .header("x-amz-fwd-header-ETag")),
-            AWSMemberEncoding(label: "expiration", location: .header("x-amz-fwd-header-x-amz-expiration")),
-            AWSMemberEncoding(label: "_expires", location: .header("x-amz-fwd-header-Expires")),
-            AWSMemberEncoding(label: "_lastModified", location: .header("x-amz-fwd-header-Last-Modified")),
-            AWSMemberEncoding(label: "metadata", location: .headerPrefix("x-amz-meta-")),
-            AWSMemberEncoding(label: "missingMeta", location: .header("x-amz-fwd-header-x-amz-missing-meta")),
-            AWSMemberEncoding(label: "objectLockLegalHoldStatus", location: .header("x-amz-fwd-header-x-amz-object-lock-legal-hold")),
-            AWSMemberEncoding(label: "objectLockMode", location: .header("x-amz-fwd-header-x-amz-object-lock-mode")),
-            AWSMemberEncoding(label: "_objectLockRetainUntilDate", location: .header("x-amz-fwd-header-x-amz-object-lock-retain-until-date")),
-            AWSMemberEncoding(label: "partsCount", location: .header("x-amz-fwd-header-x-amz-mp-parts-count")),
-            AWSMemberEncoding(label: "replicationStatus", location: .header("x-amz-fwd-header-x-amz-replication-status")),
-            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-fwd-header-x-amz-request-charged")),
-            AWSMemberEncoding(label: "requestRoute", location: .header("x-amz-request-route")),
-            AWSMemberEncoding(label: "requestRoute", location: .hostname("RequestRoute")),
-            AWSMemberEncoding(label: "requestToken", location: .header("x-amz-request-token")),
-            AWSMemberEncoding(label: "restore", location: .header("x-amz-fwd-header-x-amz-restore")),
-            AWSMemberEncoding(label: "serverSideEncryption", location: .header("x-amz-fwd-header-x-amz-server-side-encryption")),
-            AWSMemberEncoding(label: "sseCustomerAlgorithm", location: .header("x-amz-fwd-header-x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sseCustomerKeyMD5", location: .header("x-amz-fwd-header-x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "ssekmsKeyId", location: .header("x-amz-fwd-header-x-amz-server-side-encryption-aws-kms-key-id")),
-            AWSMemberEncoding(label: "statusCode", location: .header("x-amz-fwd-status")),
-            AWSMemberEncoding(label: "storageClass", location: .header("x-amz-fwd-header-x-amz-storage-class")),
-            AWSMemberEncoding(label: "tagCount", location: .header("x-amz-fwd-header-x-amz-tagging-count")),
-            AWSMemberEncoding(label: "versionId", location: .header("x-amz-fwd-header-x-amz-version-id"))
-        ]
-
+        public static let _xmlRootNodeName: String? = "Body"
         /// Indicates that a range of bytes was specified.
         public let acceptRanges: String?
         /// The object data.
@@ -8865,6 +8947,52 @@ extension S3 {
             self.storageClass = storageClass
             self.tagCount = tagCount
             self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeHeader(self.acceptRanges, key: "x-amz-fwd-header-accept-ranges")
+            try container.encode(self.body)
+            request.encodeHeader(self.bucketKeyEnabled, key: "x-amz-fwd-header-x-amz-server-side-encryption-bucket-key-enabled")
+            request.encodeHeader(self.cacheControl, key: "x-amz-fwd-header-Cache-Control")
+            request.encodeHeader(self.checksumCRC32, key: "x-amz-fwd-header-x-amz-checksum-crc32")
+            request.encodeHeader(self.checksumCRC32C, key: "x-amz-fwd-header-x-amz-checksum-crc32c")
+            request.encodeHeader(self.checksumSHA1, key: "x-amz-fwd-header-x-amz-checksum-sha1")
+            request.encodeHeader(self.checksumSHA256, key: "x-amz-fwd-header-x-amz-checksum-sha256")
+            request.encodeHeader(self.contentDisposition, key: "x-amz-fwd-header-Content-Disposition")
+            request.encodeHeader(self.contentEncoding, key: "x-amz-fwd-header-Content-Encoding")
+            request.encodeHeader(self.contentLanguage, key: "x-amz-fwd-header-Content-Language")
+            request.encodeHeader(self.contentLength, key: "Content-Length")
+            request.encodeHeader(self.contentRange, key: "x-amz-fwd-header-Content-Range")
+            request.encodeHeader(self.contentType, key: "x-amz-fwd-header-Content-Type")
+            request.encodeHeader(self.deleteMarker, key: "x-amz-fwd-header-x-amz-delete-marker")
+            request.encodeHeader(self.errorCode, key: "x-amz-fwd-error-code")
+            request.encodeHeader(self.errorMessage, key: "x-amz-fwd-error-message")
+            request.encodeHeader(self.eTag, key: "x-amz-fwd-header-ETag")
+            request.encodeHeader(self.expiration, key: "x-amz-fwd-header-x-amz-expiration")
+            request.encodeHeader(self._expires, key: "x-amz-fwd-header-Expires")
+            request.encodeHeader(self._lastModified, key: "x-amz-fwd-header-Last-Modified")
+            request.encodeHeader(self.metadata, key: "x-amz-meta-")
+            request.encodeHeader(self.missingMeta, key: "x-amz-fwd-header-x-amz-missing-meta")
+            request.encodeHeader(self.objectLockLegalHoldStatus, key: "x-amz-fwd-header-x-amz-object-lock-legal-hold")
+            request.encodeHeader(self.objectLockMode, key: "x-amz-fwd-header-x-amz-object-lock-mode")
+            request.encodeHeader(self._objectLockRetainUntilDate, key: "x-amz-fwd-header-x-amz-object-lock-retain-until-date")
+            request.encodeHeader(self.partsCount, key: "x-amz-fwd-header-x-amz-mp-parts-count")
+            request.encodeHeader(self.replicationStatus, key: "x-amz-fwd-header-x-amz-replication-status")
+            request.encodeHeader(self.requestCharged, key: "x-amz-fwd-header-x-amz-request-charged")
+            request.encodeHeader(self.requestRoute, key: "x-amz-request-route")
+            request.encodeHostPrefix(self.requestRoute, key: "RequestRoute")
+            request.encodeHeader(self.requestToken, key: "x-amz-request-token")
+            request.encodeHeader(self.restore, key: "x-amz-fwd-header-x-amz-restore")
+            request.encodeHeader(self.serverSideEncryption, key: "x-amz-fwd-header-x-amz-server-side-encryption")
+            request.encodeHeader(self.sseCustomerAlgorithm, key: "x-amz-fwd-header-x-amz-server-side-encryption-customer-algorithm")
+            request.encodeHeader(self.sseCustomerKeyMD5, key: "x-amz-fwd-header-x-amz-server-side-encryption-customer-key-MD5")
+            request.encodeHeader(self.ssekmsKeyId, key: "x-amz-fwd-header-x-amz-server-side-encryption-aws-kms-key-id")
+            request.encodeHeader(self.statusCode, key: "x-amz-fwd-status")
+            request.encodeHeader(self.storageClass, key: "x-amz-fwd-header-x-amz-storage-class")
+            request.encodeHeader(self.tagCount, key: "x-amz-fwd-header-x-amz-tagging-count")
+            request.encodeHeader(self.versionId, key: "x-amz-fwd-header-x-amz-version-id")
         }
 
         private enum CodingKeys: CodingKey {}

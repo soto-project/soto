@@ -658,15 +658,17 @@ extension SageMakerGeospatial {
     }
 
     public struct DeleteEarthObservationJobInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the Earth Observation job being deleted.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
         }
 
         public func validate(name: String) throws {
@@ -681,15 +683,17 @@ extension SageMakerGeospatial {
     }
 
     public struct DeleteVectorEnrichmentJobInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the Vector Enrichment job being deleted.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
         }
 
         public func validate(name: String) throws {
@@ -1006,15 +1010,17 @@ extension SageMakerGeospatial {
     }
 
     public struct GetEarthObservationJobInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the Earth Observation job.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
         }
 
         public func validate(name: String) throws {
@@ -1090,15 +1096,17 @@ extension SageMakerGeospatial {
     }
 
     public struct GetRasterDataCollectionInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the raster data collection.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
         }
 
         public func validate(name: String) throws {
@@ -1150,21 +1158,6 @@ extension SageMakerGeospatial {
     }
 
     public struct GetTileInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .querystring("Arn")),
-            AWSMemberEncoding(label: "executionRoleArn", location: .querystring("ExecutionRoleArn")),
-            AWSMemberEncoding(label: "imageAssets", location: .querystring("ImageAssets")),
-            AWSMemberEncoding(label: "imageMask", location: .querystring("ImageMask")),
-            AWSMemberEncoding(label: "outputDataType", location: .querystring("OutputDataType")),
-            AWSMemberEncoding(label: "outputFormat", location: .querystring("OutputFormat")),
-            AWSMemberEncoding(label: "propertyFilters", location: .querystring("PropertyFilters")),
-            AWSMemberEncoding(label: "target", location: .querystring("Target")),
-            AWSMemberEncoding(label: "timeRangeFilter", location: .querystring("TimeRangeFilter")),
-            AWSMemberEncoding(label: "x", location: .uri("x")),
-            AWSMemberEncoding(label: "y", location: .uri("y")),
-            AWSMemberEncoding(label: "z", location: .uri("z"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the tile operation.
         public let arn: String
         /// The Amazon Resource Name (ARN) of the IAM role that you specify.
@@ -1205,6 +1198,23 @@ extension SageMakerGeospatial {
             self.z = z
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.arn, key: "Arn")
+            request.encodeQuery(self.executionRoleArn, key: "ExecutionRoleArn")
+            request.encodeQuery(self.imageAssets, key: "ImageAssets")
+            request.encodeQuery(self.imageMask, key: "ImageMask")
+            request.encodeQuery(self.outputDataType, key: "OutputDataType")
+            request.encodeQuery(self.outputFormat, key: "OutputFormat")
+            request.encodeQuery(self.propertyFilters, key: "PropertyFilters")
+            request.encodeQuery(self.target, key: "Target")
+            request.encodeQuery(self.timeRangeFilter, key: "TimeRangeFilter")
+            request.encodePath(self.x, key: "x")
+            request.encodePath(self.y, key: "y")
+            request.encodePath(self.z, key: "z")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z-]{0,12}:sagemaker-geospatial:[a-z0-9-]{1,25}:[0-9]{12}:earth-observation-job/[a-z0-9]{12,}$")
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
@@ -1226,24 +1236,25 @@ extension SageMakerGeospatial {
         }
 
         public init(from decoder: Decoder) throws {
-            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.binaryFile = response.decodePayload()
-
+            let container = try decoder.singleValueContainer()
+            self.binaryFile = try container.decode(AWSHTTPBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetVectorEnrichmentJobInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the Vector Enrichment job.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
         }
 
         public func validate(name: String) throws {
@@ -1495,11 +1506,6 @@ extension SageMakerGeospatial {
     }
 
     public struct ListRasterDataCollectionsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The total number of items to return.
         public let maxResults: Int?
         /// If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results.
@@ -1508,6 +1514,13 @@ extension SageMakerGeospatial {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -1535,15 +1548,17 @@ extension SageMakerGeospatial {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource you want to tag.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -2356,10 +2371,6 @@ extension SageMakerGeospatial {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource you want to tag.
         public let resourceArn: String
         /// Each tag consists of a key and a value.
@@ -2368,6 +2379,13 @@ extension SageMakerGeospatial {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2445,11 +2463,6 @@ extension SageMakerGeospatial {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource you want to untag.
         public let resourceArn: String
         /// Keys of the tags you want to remove.
@@ -2458,6 +2471,13 @@ extension SageMakerGeospatial {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {

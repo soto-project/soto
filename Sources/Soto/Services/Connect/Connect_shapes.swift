@@ -1061,11 +1061,6 @@ extension Connect {
     }
 
     public struct ActivateEvaluationFormRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "evaluationFormId", location: .uri("EvaluationFormId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The unique identifier for the evaluation form.
         public let evaluationFormId: String
         /// The version of the evaluation form to activate. If the version property is not provided, the latest version of the evaluation form is activated.
@@ -1077,6 +1072,14 @@ extension Connect {
             self.evaluationFormId = evaluationFormId
             self.evaluationFormVersion = evaluationFormVersion
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.evaluationFormId, key: "EvaluationFormId")
+            try container.encode(self.evaluationFormVersion, forKey: .evaluationFormVersion)
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -1275,10 +1278,6 @@ extension Connect {
     }
 
     public struct AssociateApprovedOriginRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The domain to add to your allow list.
@@ -1287,6 +1286,13 @@ extension Connect {
         public init(instanceId: String, origin: String) {
             self.instanceId = instanceId
             self.origin = origin
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.origin, forKey: .origin)
         }
 
         public func validate(name: String) throws {
@@ -1301,10 +1307,6 @@ extension Connect {
     }
 
     public struct AssociateBotRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         public let lexBot: LexBot?
@@ -1315,6 +1317,14 @@ extension Connect {
             self.instanceId = instanceId
             self.lexBot = lexBot
             self.lexV2Bot = lexV2Bot
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.lexBot, forKey: .lexBot)
+            try container.encodeIfPresent(self.lexV2Bot, forKey: .lexV2Bot)
         }
 
         public func validate(name: String) throws {
@@ -1331,11 +1341,6 @@ extension Connect {
     }
 
     public struct AssociateDefaultVocabularyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "languageCode", location: .uri("LanguageCode"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see
@@ -1348,6 +1353,14 @@ extension Connect {
             self.instanceId = instanceId
             self.languageCode = languageCode
             self.vocabularyId = vocabularyId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.languageCode, key: "LanguageCode")
+            try container.encodeIfPresent(self.vocabularyId, forKey: .vocabularyId)
         }
 
         public func validate(name: String) throws {
@@ -1367,10 +1380,6 @@ extension Connect {
     }
 
     public struct AssociateInstanceStorageConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A valid resource type.
@@ -1382,6 +1391,14 @@ extension Connect {
             self.instanceId = instanceId
             self.resourceType = resourceType
             self.storageConfig = storageConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.resourceType, forKey: .resourceType)
+            try container.encode(self.storageConfig, forKey: .storageConfig)
         }
 
         public func validate(name: String) throws {
@@ -1410,10 +1427,6 @@ extension Connect {
     }
 
     public struct AssociateLambdaFunctionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The Amazon Resource Name (ARN) for the Lambda function being associated. Maximum number of characters allowed is 140.
         public let functionArn: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -1422,6 +1435,13 @@ extension Connect {
         public init(functionArn: String, instanceId: String) {
             self.functionArn = functionArn
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.functionArn, forKey: .functionArn)
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -1437,10 +1457,6 @@ extension Connect {
     }
 
     public struct AssociateLexBotRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The Amazon Lex bot to associate with the instance.
@@ -1449,6 +1465,13 @@ extension Connect {
         public init(instanceId: String, lexBot: LexBot) {
             self.instanceId = instanceId
             self.lexBot = lexBot
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.lexBot, forKey: .lexBot)
         }
 
         public func validate(name: String) throws {
@@ -1463,10 +1486,6 @@ extension Connect {
     }
 
     public struct AssociatePhoneNumberContactFlowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "phoneNumberId", location: .uri("PhoneNumberId"))
-        ]
-
         /// The identifier of the flow.
         public let contactFlowId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -1478,6 +1497,14 @@ extension Connect {
             self.contactFlowId = contactFlowId
             self.instanceId = instanceId
             self.phoneNumberId = phoneNumberId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.contactFlowId, forKey: .contactFlowId)
+            try container.encode(self.instanceId, forKey: .instanceId)
+            request.encodePath(self.phoneNumberId, key: "PhoneNumberId")
         }
 
         public func validate(name: String) throws {
@@ -1493,11 +1520,6 @@ extension Connect {
     }
 
     public struct AssociateQueueQuickConnectsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "queueId", location: .uri("QueueId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the queue.
@@ -1509,6 +1531,14 @@ extension Connect {
             self.instanceId = instanceId
             self.queueId = queueId
             self.quickConnectIds = quickConnectIds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.queueId, key: "QueueId")
+            try container.encode(self.quickConnectIds, forKey: .quickConnectIds)
         }
 
         public func validate(name: String) throws {
@@ -1524,11 +1554,6 @@ extension Connect {
     }
 
     public struct AssociateRoutingProfileQueuesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "routingProfileId", location: .uri("RoutingProfileId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The queues to associate with this routing profile.
@@ -1540,6 +1565,14 @@ extension Connect {
             self.instanceId = instanceId
             self.queueConfigs = queueConfigs
             self.routingProfileId = routingProfileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.queueConfigs, forKey: .queueConfigs)
+            request.encodePath(self.routingProfileId, key: "RoutingProfileId")
         }
 
         public func validate(name: String) throws {
@@ -1558,10 +1591,6 @@ extension Connect {
     }
 
     public struct AssociateSecurityKeyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A valid security key in PEM format.
@@ -1570,6 +1599,13 @@ extension Connect {
         public init(instanceId: String, key: String) {
             self.instanceId = instanceId
             self.key = key
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.key, forKey: .key)
         }
 
         public func validate(name: String) throws {
@@ -2073,10 +2109,6 @@ extension Connect {
     }
 
     public struct CreateAgentStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The description of the status.
         public let description: String?
         /// The display order of the status.
@@ -2097,6 +2129,17 @@ extension Connect {
             self.name = name
             self.state = state
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.displayOrder, forKey: .displayOrder)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.state, forKey: .state)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2145,10 +2188,6 @@ extension Connect {
     }
 
     public struct CreateContactFlowModuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The content of the flow module.
@@ -2169,6 +2208,17 @@ extension Connect {
             self.instanceId = instanceId
             self.name = name
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.content, forKey: .content)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2219,10 +2269,6 @@ extension Connect {
     }
 
     public struct CreateContactFlowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The content of the flow.
         public let content: String
         /// The description of the flow.
@@ -2243,6 +2289,17 @@ extension Connect {
             self.name = name
             self.tags = tags
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.content, forKey: .content)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.type, forKey: .type)
         }
 
         public func validate(name: String) throws {
@@ -2286,10 +2343,6 @@ extension Connect {
     }
 
     public struct CreateEvaluationFormRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The description of the evaluation form.
@@ -2310,6 +2363,17 @@ extension Connect {
             self.items = items
             self.scoringStrategy = scoringStrategy
             self.title = title
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.items, forKey: .items)
+            try container.encodeIfPresent(self.scoringStrategy, forKey: .scoringStrategy)
+            try container.encode(self.title, forKey: .title)
         }
 
         public func validate(name: String) throws {
@@ -2353,10 +2417,6 @@ extension Connect {
     }
 
     public struct CreateHoursOfOperationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// Configuration information for the hours of operation: day, start time, and end time.
         public let config: [HoursOfOperationConfig]
         /// The description of the hours of operation.
@@ -2377,6 +2437,17 @@ extension Connect {
             self.name = name
             self.tags = tags
             self.timeZone = timeZone
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.config, forKey: .config)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.timeZone, forKey: .timeZone)
         }
 
         public func validate(name: String) throws {
@@ -2487,10 +2558,6 @@ extension Connect {
     }
 
     public struct CreateIntegrationAssociationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The Amazon Resource Name (ARN) of the integration.  When integrating with Amazon Pinpoint, the Amazon Connect and Amazon Pinpoint instances must be in the same account.
@@ -2514,6 +2581,18 @@ extension Connect {
             self.sourceApplicationUrl = sourceApplicationUrl
             self.sourceType = sourceType
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.integrationArn, forKey: .integrationArn)
+            try container.encode(self.integrationType, forKey: .integrationType)
+            try container.encodeIfPresent(self.sourceApplicationName, forKey: .sourceApplicationName)
+            try container.encodeIfPresent(self.sourceApplicationUrl, forKey: .sourceApplicationUrl)
+            try container.encodeIfPresent(self.sourceType, forKey: .sourceType)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2613,10 +2692,6 @@ extension Connect {
     }
 
     public struct CreatePromptRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The description of the prompt.
         public let description: String?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -2634,6 +2709,16 @@ extension Connect {
             self.name = name
             self.s3Uri = s3Uri
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.s3Uri, forKey: .s3Uri)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2682,10 +2767,6 @@ extension Connect {
     }
 
     public struct CreateQueueRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The description of the queue.
         public let description: String?
         /// The identifier for the hours of operation.
@@ -2712,6 +2793,19 @@ extension Connect {
             self.outboundCallerConfig = outboundCallerConfig
             self.quickConnectIds = quickConnectIds
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.hoursOfOperationId, forKey: .hoursOfOperationId)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.maxContacts, forKey: .maxContacts)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.outboundCallerConfig, forKey: .outboundCallerConfig)
+            try container.encodeIfPresent(self.quickConnectIds, forKey: .quickConnectIds)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2764,10 +2858,6 @@ extension Connect {
     }
 
     public struct CreateQuickConnectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The description of the quick connect.
         public let description: String?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -2785,6 +2875,16 @@ extension Connect {
             self.name = name
             self.quickConnectConfig = quickConnectConfig
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.quickConnectConfig, forKey: .quickConnectConfig)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2831,10 +2931,6 @@ extension Connect {
     }
 
     public struct CreateRoutingProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The default outbound queue for the routing profile.
         public let defaultOutboundQueueId: String
         /// Description of the routing profile. Must not be more than 250 characters.
@@ -2858,6 +2954,18 @@ extension Connect {
             self.name = name
             self.queueConfigs = queueConfigs
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.defaultOutboundQueueId, forKey: .defaultOutboundQueueId)
+            try container.encode(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.mediaConcurrencies, forKey: .mediaConcurrencies)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.queueConfigs, forKey: .queueConfigs)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2913,10 +3021,6 @@ extension Connect {
     }
 
     public struct CreateRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// A list of actions to be run when the rule is triggered.
         public let actions: [RuleAction]
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
@@ -2940,6 +3044,18 @@ extension Connect {
             self.name = name
             self.publishStatus = publishStatus
             self.triggerEventSource = triggerEventSource
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.actions, forKey: .actions)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.function, forKey: .function)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.publishStatus, forKey: .publishStatus)
+            try container.encode(self.triggerEventSource, forKey: .triggerEventSource)
         }
 
         public func validate(name: String) throws {
@@ -2983,10 +3099,6 @@ extension Connect {
     }
 
     public struct CreateSecurityProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
         public let allowedAccessControlTags: [String: String]?
         /// The description of the security profile.
@@ -3010,6 +3122,18 @@ extension Connect {
             self.securityProfileName = securityProfileName
             self.tagRestrictedResources = tagRestrictedResources
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.allowedAccessControlTags, forKey: .allowedAccessControlTags)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.permissions, forKey: .permissions)
+            try container.encode(self.securityProfileName, forKey: .securityProfileName)
+            try container.encodeIfPresent(self.tagRestrictedResources, forKey: .tagRestrictedResources)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -3073,10 +3197,6 @@ extension Connect {
     }
 
     public struct CreateTaskTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// Constraints that are applicable to the fields listed.
@@ -3108,6 +3228,20 @@ extension Connect {
             self.instanceId = instanceId
             self.name = name
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.constraints, forKey: .constraints)
+            try container.encodeIfPresent(self.contactFlowId, forKey: .contactFlowId)
+            try container.encodeIfPresent(self.defaults, forKey: .defaults)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.fields, forKey: .fields)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.status, forKey: .status)
         }
 
         public func validate(name: String) throws {
@@ -3225,11 +3359,6 @@ extension Connect {
     }
 
     public struct CreateUseCaseRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "integrationAssociationId", location: .uri("IntegrationAssociationId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the integration association.
@@ -3244,6 +3373,15 @@ extension Connect {
             self.integrationAssociationId = integrationAssociationId
             self.tags = tags
             self.useCaseType = useCaseType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.integrationAssociationId, key: "IntegrationAssociationId")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.useCaseType, forKey: .useCaseType)
         }
 
         public func validate(name: String) throws {
@@ -3285,10 +3423,6 @@ extension Connect {
     }
 
     public struct CreateUserHierarchyGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of the user hierarchy group. Must not be more than 100 characters.
@@ -3303,6 +3437,15 @@ extension Connect {
             self.name = name
             self.parentGroupId = parentGroupId
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.parentGroupId, forKey: .parentGroupId)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -3343,10 +3486,6 @@ extension Connect {
     }
 
     public struct CreateUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the user account in the directory used for identity management. If Amazon Connect cannot access the directory, you can specify this identifier to authenticate users. If you include the identifier, we assume that Amazon Connect cannot access the directory. Otherwise, the identity information is used to authenticate users from your directory. This parameter is required if you are using an existing directory for identity management in Amazon Connect when Amazon Connect cannot access your directory to authenticate users. If you are using SAML for identity management and include this parameter, an error is returned.
         public let directoryUserId: String?
         /// The identifier of the hierarchy group for the user.
@@ -3379,6 +3518,21 @@ extension Connect {
             self.securityProfileIds = securityProfileIds
             self.tags = tags
             self.username = username
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.directoryUserId, forKey: .directoryUserId)
+            try container.encodeIfPresent(self.hierarchyGroupId, forKey: .hierarchyGroupId)
+            try container.encodeIfPresent(self.identityInfo, forKey: .identityInfo)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.password, forKey: .password)
+            try container.encode(self.phoneConfig, forKey: .phoneConfig)
+            try container.encode(self.routingProfileId, forKey: .routingProfileId)
+            try container.encode(self.securityProfileIds, forKey: .securityProfileIds)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.username, forKey: .username)
         }
 
         public func validate(name: String) throws {
@@ -3432,10 +3586,6 @@ extension Connect {
     }
 
     public struct CreateVocabularyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs. If a create request is received more than once with same client token, subsequent requests return the previous response without creating a vocabulary again.
         public let clientToken: String?
         /// The content of the custom vocabulary in plain-text format with a table of values. Each row in the table represents a word or a phrase, described with Phrase, IPA, SoundsLike, and DisplayAs fields. Separate the fields with TAB characters. The size limit is 50KB. For more information, see Create a custom vocabulary using a table.
@@ -3457,6 +3607,17 @@ extension Connect {
             self.languageCode = languageCode
             self.tags = tags
             self.vocabularyName = vocabularyName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.content, forKey: .content)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.languageCode, forKey: .languageCode)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.vocabularyName, forKey: .vocabularyName)
         }
 
         public func validate(name: String) throws {
@@ -3631,11 +3792,6 @@ extension Connect {
     }
 
     public struct DeactivateEvaluationFormRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "evaluationFormId", location: .uri("EvaluationFormId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The unique identifier for the evaluation form.
         public let evaluationFormId: String
         /// A version of the evaluation form. If the version property is not provided, the latest version of the evaluation form is deactivated.
@@ -3647,6 +3803,14 @@ extension Connect {
             self.evaluationFormId = evaluationFormId
             self.evaluationFormVersion = evaluationFormVersion
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.evaluationFormId, key: "EvaluationFormId")
+            try container.encode(self.evaluationFormVersion, forKey: .evaluationFormVersion)
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -3710,11 +3874,6 @@ extension Connect {
     }
 
     public struct DeleteContactEvaluationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "evaluationId", location: .uri("EvaluationId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// A unique identifier for the contact evaluation.
         public let evaluationId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -3723,6 +3882,13 @@ extension Connect {
         public init(evaluationId: String, instanceId: String) {
             self.evaluationId = evaluationId
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.evaluationId, key: "EvaluationId")
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -3736,11 +3902,6 @@ extension Connect {
     }
 
     public struct DeleteContactFlowModuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactFlowModuleId", location: .uri("ContactFlowModuleId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the flow module.
         public let contactFlowModuleId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -3749,6 +3910,13 @@ extension Connect {
         public init(contactFlowModuleId: String, instanceId: String) {
             self.contactFlowModuleId = contactFlowModuleId
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactFlowModuleId, key: "ContactFlowModuleId")
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -3766,11 +3934,6 @@ extension Connect {
     }
 
     public struct DeleteContactFlowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactFlowId", location: .uri("ContactFlowId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the flow.
         public let contactFlowId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -3779,6 +3942,13 @@ extension Connect {
         public init(contactFlowId: String, instanceId: String) {
             self.contactFlowId = contactFlowId
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactFlowId, key: "ContactFlowId")
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -3795,12 +3965,6 @@ extension Connect {
     }
 
     public struct DeleteEvaluationFormRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "evaluationFormId", location: .uri("EvaluationFormId")),
-            AWSMemberEncoding(label: "evaluationFormVersion", location: .querystring("version")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The unique identifier for the evaluation form.
         public let evaluationFormId: String
         /// The unique identifier for the evaluation form.
@@ -3812,6 +3976,14 @@ extension Connect {
             self.evaluationFormId = evaluationFormId
             self.evaluationFormVersion = evaluationFormVersion
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.evaluationFormId, key: "EvaluationFormId")
+            request.encodeQuery(self.evaluationFormVersion, key: "version")
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -3826,11 +3998,6 @@ extension Connect {
     }
 
     public struct DeleteHoursOfOperationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hoursOfOperationId", location: .uri("HoursOfOperationId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier for the hours of operation.
         public let hoursOfOperationId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -3839,6 +4006,13 @@ extension Connect {
         public init(hoursOfOperationId: String, instanceId: String) {
             self.hoursOfOperationId = hoursOfOperationId
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.hoursOfOperationId, key: "HoursOfOperationId")
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -3850,15 +4024,17 @@ extension Connect {
     }
 
     public struct DeleteInstanceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         public init(instanceId: String) {
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -3870,11 +4046,6 @@ extension Connect {
     }
 
     public struct DeleteIntegrationAssociationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "integrationAssociationId", location: .uri("IntegrationAssociationId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the integration association.
@@ -3883,6 +4054,13 @@ extension Connect {
         public init(instanceId: String, integrationAssociationId: String) {
             self.instanceId = instanceId
             self.integrationAssociationId = integrationAssociationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.integrationAssociationId, key: "IntegrationAssociationId")
         }
 
         public func validate(name: String) throws {
@@ -3896,11 +4074,6 @@ extension Connect {
     }
 
     public struct DeletePromptRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "promptId", location: .uri("PromptId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A unique identifier for the prompt.
@@ -3909,6 +4082,13 @@ extension Connect {
         public init(instanceId: String, promptId: String) {
             self.instanceId = instanceId
             self.promptId = promptId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.promptId, key: "PromptId")
         }
 
         public func validate(name: String) throws {
@@ -3922,11 +4102,6 @@ extension Connect {
     }
 
     public struct DeleteQuickConnectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "quickConnectId", location: .uri("QuickConnectId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the quick connect.
@@ -3935,6 +4110,13 @@ extension Connect {
         public init(instanceId: String, quickConnectId: String) {
             self.instanceId = instanceId
             self.quickConnectId = quickConnectId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.quickConnectId, key: "QuickConnectId")
         }
 
         public func validate(name: String) throws {
@@ -3946,11 +4128,6 @@ extension Connect {
     }
 
     public struct DeleteRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "ruleId", location: .uri("RuleId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A unique identifier for the rule.
@@ -3959,6 +4136,13 @@ extension Connect {
         public init(instanceId: String, ruleId: String) {
             self.instanceId = instanceId
             self.ruleId = ruleId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.ruleId, key: "RuleId")
         }
 
         public func validate(name: String) throws {
@@ -3972,11 +4156,6 @@ extension Connect {
     }
 
     public struct DeleteSecurityProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "securityProfileId", location: .uri("SecurityProfileId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the security profle.
@@ -3985,6 +4164,13 @@ extension Connect {
         public init(instanceId: String, securityProfileId: String) {
             self.instanceId = instanceId
             self.securityProfileId = securityProfileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.securityProfileId, key: "SecurityProfileId")
         }
 
         public func validate(name: String) throws {
@@ -3996,11 +4182,6 @@ extension Connect {
     }
 
     public struct DeleteTaskTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "taskTemplateId", location: .uri("TaskTemplateId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A unique identifier for the task template.
@@ -4009,6 +4190,13 @@ extension Connect {
         public init(instanceId: String, taskTemplateId: String) {
             self.instanceId = instanceId
             self.taskTemplateId = taskTemplateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.taskTemplateId, key: "TaskTemplateId")
         }
 
         public func validate(name: String) throws {
@@ -4026,10 +4214,6 @@ extension Connect {
     }
 
     public struct DeleteTrafficDistributionGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trafficDistributionGroupId", location: .uri("TrafficDistributionGroupId"))
-        ]
-
         /// The identifier of the traffic distribution group.
         /// This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created.
         /// The ARN must be provided if the call is from the replicated Region.
@@ -4037,6 +4221,12 @@ extension Connect {
 
         public init(trafficDistributionGroupId: String) {
             self.trafficDistributionGroupId = trafficDistributionGroupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.trafficDistributionGroupId, key: "TrafficDistributionGroupId")
         }
 
         public func validate(name: String) throws {
@@ -4051,12 +4241,6 @@ extension Connect {
     }
 
     public struct DeleteUseCaseRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "integrationAssociationId", location: .uri("IntegrationAssociationId")),
-            AWSMemberEncoding(label: "useCaseId", location: .uri("UseCaseId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the integration association.
@@ -4068,6 +4252,14 @@ extension Connect {
             self.instanceId = instanceId
             self.integrationAssociationId = integrationAssociationId
             self.useCaseId = useCaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.integrationAssociationId, key: "IntegrationAssociationId")
+            request.encodePath(self.useCaseId, key: "UseCaseId")
         }
 
         public func validate(name: String) throws {
@@ -4083,11 +4275,6 @@ extension Connect {
     }
 
     public struct DeleteUserHierarchyGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hierarchyGroupId", location: .uri("HierarchyGroupId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the hierarchy group.
         public let hierarchyGroupId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -4096,6 +4283,13 @@ extension Connect {
         public init(hierarchyGroupId: String, instanceId: String) {
             self.hierarchyGroupId = hierarchyGroupId
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.hierarchyGroupId, key: "HierarchyGroupId")
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -4107,11 +4301,6 @@ extension Connect {
     }
 
     public struct DeleteUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the user.
@@ -4120,6 +4309,13 @@ extension Connect {
         public init(instanceId: String, userId: String) {
             self.instanceId = instanceId
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.userId, key: "UserId")
         }
 
         public func validate(name: String) throws {
@@ -4131,11 +4327,6 @@ extension Connect {
     }
 
     public struct DeleteVocabularyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "vocabularyId", location: .uri("VocabularyId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the custom vocabulary.
@@ -4144,6 +4335,13 @@ extension Connect {
         public init(instanceId: String, vocabularyId: String) {
             self.instanceId = instanceId
             self.vocabularyId = vocabularyId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.vocabularyId, key: "VocabularyId")
         }
 
         public func validate(name: String) throws {
@@ -4178,11 +4376,6 @@ extension Connect {
     }
 
     public struct DescribeAgentStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "agentStatusId", location: .uri("AgentStatusId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier for the agent status.
         public let agentStatusId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -4191,6 +4384,13 @@ extension Connect {
         public init(agentStatusId: String, instanceId: String) {
             self.agentStatusId = agentStatusId
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.agentStatusId, key: "AgentStatusId")
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -4215,11 +4415,6 @@ extension Connect {
     }
 
     public struct DescribeContactEvaluationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "evaluationId", location: .uri("EvaluationId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// A unique identifier for the contact evaluation.
         public let evaluationId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -4228,6 +4423,13 @@ extension Connect {
         public init(evaluationId: String, instanceId: String) {
             self.evaluationId = evaluationId
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.evaluationId, key: "EvaluationId")
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -4258,11 +4460,6 @@ extension Connect {
     }
 
     public struct DescribeContactFlowModuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactFlowModuleId", location: .uri("ContactFlowModuleId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the flow module.
         public let contactFlowModuleId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -4271,6 +4468,13 @@ extension Connect {
         public init(contactFlowModuleId: String, instanceId: String) {
             self.contactFlowModuleId = contactFlowModuleId
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactFlowModuleId, key: "ContactFlowModuleId")
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -4297,11 +4501,6 @@ extension Connect {
     }
 
     public struct DescribeContactFlowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactFlowId", location: .uri("ContactFlowId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the flow.
         public let contactFlowId: String
         /// The identifier of the Amazon Connect instance.
@@ -4310,6 +4509,13 @@ extension Connect {
         public init(contactFlowId: String, instanceId: String) {
             self.contactFlowId = contactFlowId
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactFlowId, key: "ContactFlowId")
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -4335,11 +4541,6 @@ extension Connect {
     }
 
     public struct DescribeContactRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactId", location: .uri("ContactId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the contact.
         public let contactId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -4348,6 +4549,13 @@ extension Connect {
         public init(contactId: String, instanceId: String) {
             self.contactId = contactId
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactId, key: "ContactId")
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -4374,12 +4582,6 @@ extension Connect {
     }
 
     public struct DescribeEvaluationFormRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "evaluationFormId", location: .uri("EvaluationFormId")),
-            AWSMemberEncoding(label: "evaluationFormVersion", location: .querystring("version")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// A unique identifier for the contact evaluation.
         public let evaluationFormId: String
         /// A version of the evaluation form.
@@ -4391,6 +4593,14 @@ extension Connect {
             self.evaluationFormId = evaluationFormId
             self.evaluationFormVersion = evaluationFormVersion
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.evaluationFormId, key: "EvaluationFormId")
+            request.encodeQuery(self.evaluationFormVersion, key: "version")
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -4418,11 +4628,6 @@ extension Connect {
     }
 
     public struct DescribeHoursOfOperationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hoursOfOperationId", location: .uri("HoursOfOperationId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier for the hours of operation.
         public let hoursOfOperationId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -4431,6 +4636,13 @@ extension Connect {
         public init(hoursOfOperationId: String, instanceId: String) {
             self.hoursOfOperationId = hoursOfOperationId
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.hoursOfOperationId, key: "HoursOfOperationId")
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -4455,11 +4667,6 @@ extension Connect {
     }
 
     public struct DescribeInstanceAttributeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributeType", location: .uri("AttributeType")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The type of attribute.
         public let attributeType: InstanceAttributeType
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -4468,6 +4675,13 @@ extension Connect {
         public init(attributeType: InstanceAttributeType, instanceId: String) {
             self.attributeType = attributeType
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attributeType, key: "AttributeType")
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -4492,15 +4706,17 @@ extension Connect {
     }
 
     public struct DescribeInstanceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         public init(instanceId: String) {
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -4525,12 +4741,6 @@ extension Connect {
     }
 
     public struct DescribeInstanceStorageConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "associationId", location: .uri("AssociationId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
-        ]
-
         /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
         public let associationId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -4542,6 +4752,14 @@ extension Connect {
             self.associationId = associationId
             self.instanceId = instanceId
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.associationId, key: "AssociationId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.resourceType, key: "resourceType")
         }
 
         public func validate(name: String) throws {
@@ -4568,15 +4786,17 @@ extension Connect {
     }
 
     public struct DescribePhoneNumberRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "phoneNumberId", location: .uri("PhoneNumberId"))
-        ]
-
         /// A unique identifier for the phone number.
         public let phoneNumberId: String
 
         public init(phoneNumberId: String) {
             self.phoneNumberId = phoneNumberId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.phoneNumberId, key: "PhoneNumberId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4596,11 +4816,6 @@ extension Connect {
     }
 
     public struct DescribePromptRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "promptId", location: .uri("PromptId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A unique identifier for the prompt.
@@ -4609,6 +4824,13 @@ extension Connect {
         public init(instanceId: String, promptId: String) {
             self.instanceId = instanceId
             self.promptId = promptId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.promptId, key: "PromptId")
         }
 
         public func validate(name: String) throws {
@@ -4635,11 +4857,6 @@ extension Connect {
     }
 
     public struct DescribeQueueRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "queueId", location: .uri("QueueId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the queue.
@@ -4648,6 +4865,13 @@ extension Connect {
         public init(instanceId: String, queueId: String) {
             self.instanceId = instanceId
             self.queueId = queueId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.queueId, key: "QueueId")
         }
 
         public func validate(name: String) throws {
@@ -4672,11 +4896,6 @@ extension Connect {
     }
 
     public struct DescribeQuickConnectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "quickConnectId", location: .uri("QuickConnectId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the quick connect.
@@ -4685,6 +4904,13 @@ extension Connect {
         public init(instanceId: String, quickConnectId: String) {
             self.instanceId = instanceId
             self.quickConnectId = quickConnectId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.quickConnectId, key: "QuickConnectId")
         }
 
         public func validate(name: String) throws {
@@ -4709,11 +4935,6 @@ extension Connect {
     }
 
     public struct DescribeRoutingProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "routingProfileId", location: .uri("RoutingProfileId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the routing profile.
@@ -4722,6 +4943,13 @@ extension Connect {
         public init(instanceId: String, routingProfileId: String) {
             self.instanceId = instanceId
             self.routingProfileId = routingProfileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.routingProfileId, key: "RoutingProfileId")
         }
 
         public func validate(name: String) throws {
@@ -4746,11 +4974,6 @@ extension Connect {
     }
 
     public struct DescribeRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "ruleId", location: .uri("RuleId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A unique identifier for the rule.
@@ -4759,6 +4982,13 @@ extension Connect {
         public init(instanceId: String, ruleId: String) {
             self.instanceId = instanceId
             self.ruleId = ruleId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.ruleId, key: "RuleId")
         }
 
         public func validate(name: String) throws {
@@ -4785,11 +5015,6 @@ extension Connect {
     }
 
     public struct DescribeSecurityProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "securityProfileId", location: .uri("SecurityProfileId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the security profle.
@@ -4798,6 +5023,13 @@ extension Connect {
         public init(instanceId: String, securityProfileId: String) {
             self.instanceId = instanceId
             self.securityProfileId = securityProfileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.securityProfileId, key: "SecurityProfileId")
         }
 
         public func validate(name: String) throws {
@@ -4822,10 +5054,6 @@ extension Connect {
     }
 
     public struct DescribeTrafficDistributionGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trafficDistributionGroupId", location: .uri("TrafficDistributionGroupId"))
-        ]
-
         /// The identifier of the traffic distribution group.
         /// This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created.
         /// The ARN must be provided if the call is from the replicated Region.
@@ -4833,6 +5061,12 @@ extension Connect {
 
         public init(trafficDistributionGroupId: String) {
             self.trafficDistributionGroupId = trafficDistributionGroupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.trafficDistributionGroupId, key: "TrafficDistributionGroupId")
         }
 
         public func validate(name: String) throws {
@@ -4856,11 +5090,6 @@ extension Connect {
     }
 
     public struct DescribeUserHierarchyGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hierarchyGroupId", location: .uri("HierarchyGroupId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the hierarchy group.
         public let hierarchyGroupId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -4869,6 +5098,13 @@ extension Connect {
         public init(hierarchyGroupId: String, instanceId: String) {
             self.hierarchyGroupId = hierarchyGroupId
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.hierarchyGroupId, key: "HierarchyGroupId")
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -4893,15 +5129,17 @@ extension Connect {
     }
 
     public struct DescribeUserHierarchyStructureRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         public init(instanceId: String) {
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -4926,11 +5164,6 @@ extension Connect {
     }
 
     public struct DescribeUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the user account.
@@ -4939,6 +5172,13 @@ extension Connect {
         public init(instanceId: String, userId: String) {
             self.instanceId = instanceId
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.userId, key: "UserId")
         }
 
         public func validate(name: String) throws {
@@ -4963,11 +5203,6 @@ extension Connect {
     }
 
     public struct DescribeVocabularyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "vocabularyId", location: .uri("VocabularyId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the custom vocabulary.
@@ -4976,6 +5211,13 @@ extension Connect {
         public init(instanceId: String, vocabularyId: String) {
             self.instanceId = instanceId
             self.vocabularyId = vocabularyId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.vocabularyId, key: "VocabularyId")
         }
 
         public func validate(name: String) throws {
@@ -5022,11 +5264,6 @@ extension Connect {
     }
 
     public struct DisassociateApprovedOriginRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "origin", location: .querystring("origin"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The domain URL of the integrated application.
@@ -5035,6 +5272,13 @@ extension Connect {
         public init(instanceId: String, origin: String) {
             self.instanceId = instanceId
             self.origin = origin
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.origin, key: "origin")
         }
 
         public func validate(name: String) throws {
@@ -5047,10 +5291,6 @@ extension Connect {
     }
 
     public struct DisassociateBotRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         public let lexBot: LexBot?
@@ -5061,6 +5301,14 @@ extension Connect {
             self.instanceId = instanceId
             self.lexBot = lexBot
             self.lexV2Bot = lexV2Bot
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.lexBot, forKey: .lexBot)
+            try container.encodeIfPresent(self.lexV2Bot, forKey: .lexV2Bot)
         }
 
         public func validate(name: String) throws {
@@ -5077,12 +5325,6 @@ extension Connect {
     }
 
     public struct DisassociateInstanceStorageConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "associationId", location: .uri("AssociationId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
-        ]
-
         /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
         public let associationId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -5096,6 +5338,14 @@ extension Connect {
             self.resourceType = resourceType
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.associationId, key: "AssociationId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.resourceType, key: "resourceType")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.associationId, name: "associationId", parent: name, max: 100)
             try self.validate(self.associationId, name: "associationId", parent: name, min: 1)
@@ -5107,11 +5357,6 @@ extension Connect {
     }
 
     public struct DisassociateLambdaFunctionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionArn", location: .querystring("functionArn")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the Lambda function being disassociated.
         public let functionArn: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance..
@@ -5120,6 +5365,13 @@ extension Connect {
         public init(functionArn: String, instanceId: String) {
             self.functionArn = functionArn
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.functionArn, key: "functionArn")
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -5133,12 +5385,6 @@ extension Connect {
     }
 
     public struct DisassociateLexBotRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botName", location: .querystring("botName")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "lexRegion", location: .querystring("lexRegion"))
-        ]
-
         /// The name of the Amazon Lex bot. Maximum character limit of 50.
         public let botName: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -5152,6 +5398,14 @@ extension Connect {
             self.lexRegion = lexRegion
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.botName, key: "botName")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.lexRegion, key: "lexRegion")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.botName, name: "botName", parent: name, max: 50)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
@@ -5163,11 +5417,6 @@ extension Connect {
     }
 
     public struct DisassociatePhoneNumberContactFlowRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .querystring("instanceId")),
-            AWSMemberEncoding(label: "phoneNumberId", location: .uri("PhoneNumberId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A unique identifier for the phone number.
@@ -5176,6 +5425,13 @@ extension Connect {
         public init(instanceId: String, phoneNumberId: String) {
             self.instanceId = instanceId
             self.phoneNumberId = phoneNumberId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.instanceId, key: "instanceId")
+            request.encodePath(self.phoneNumberId, key: "PhoneNumberId")
         }
 
         public func validate(name: String) throws {
@@ -5187,11 +5443,6 @@ extension Connect {
     }
 
     public struct DisassociateQueueQuickConnectsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "queueId", location: .uri("QueueId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the queue.
@@ -5203,6 +5454,14 @@ extension Connect {
             self.instanceId = instanceId
             self.queueId = queueId
             self.quickConnectIds = quickConnectIds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.queueId, key: "QueueId")
+            try container.encode(self.quickConnectIds, forKey: .quickConnectIds)
         }
 
         public func validate(name: String) throws {
@@ -5218,11 +5477,6 @@ extension Connect {
     }
 
     public struct DisassociateRoutingProfileQueuesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "routingProfileId", location: .uri("RoutingProfileId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The queues to disassociate from this routing profile.
@@ -5236,6 +5490,14 @@ extension Connect {
             self.routingProfileId = routingProfileId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.queueReferences, forKey: .queueReferences)
+            request.encodePath(self.routingProfileId, key: "RoutingProfileId")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
@@ -5247,11 +5509,6 @@ extension Connect {
     }
 
     public struct DisassociateSecurityKeyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "associationId", location: .uri("AssociationId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
         public let associationId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -5260,6 +5517,13 @@ extension Connect {
         public init(associationId: String, instanceId: String) {
             self.associationId = associationId
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.associationId, key: "AssociationId")
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -5273,11 +5537,6 @@ extension Connect {
     }
 
     public struct DismissUserContactRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
-        ]
-
         /// The identifier of the contact.
         public let contactId: String
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -5289,6 +5548,14 @@ extension Connect {
             self.contactId = contactId
             self.instanceId = instanceId
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.contactId, forKey: .contactId)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.userId, key: "UserId")
         }
 
         public func validate(name: String) throws {
@@ -6098,11 +6365,6 @@ extension Connect {
     }
 
     public struct GetContactAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "initialContactId", location: .uri("InitialContactId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the initial contact.
         public let initialContactId: String
         /// The identifier of the Amazon Connect instance.
@@ -6111,6 +6373,13 @@ extension Connect {
         public init(initialContactId: String, instanceId: String) {
             self.initialContactId = initialContactId
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.initialContactId, key: "InitialContactId")
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -6137,10 +6406,6 @@ extension Connect {
     }
 
     public struct GetCurrentMetricDataRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of all the metrics, see Real-time Metrics Definitions in the Amazon Connect Administrator Guide.  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT Name in real-time metrics report: ACW   AGENTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Available   AGENTS_ERROR  Unit: COUNT Name in real-time metrics report: Error   AGENTS_NON_PRODUCTIVE  Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time)   AGENTS_ON_CALL  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ON_CONTACT  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ONLINE  Unit: COUNT Name in real-time metrics report: Online   AGENTS_STAFFED  Unit: COUNT Name in real-time metrics report: Staffed   CONTACTS_IN_QUEUE  Unit: COUNT Name in real-time metrics report: In queue   CONTACTS_SCHEDULED  Unit: COUNT Name in real-time metrics report: Scheduled   OLDEST_CONTACT_AGE  Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS.  When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:  { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. Name in real-time metrics report: Oldest   SLOTS_ACTIVE  Unit: COUNT Name in real-time metrics report: Active   SLOTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Availability
         public let currentMetrics: [CurrentMetric]
         /// The filters to apply to returned metrics. You can filter up to the following limits:   Queues: 100   Routing profiles: 100   Channels: 3 (VOICE, CHAT, and TASK channels are supported.)   Metric data is retrieved only for the resources associated with the queues or routing profiles, and by any channels included in the filter. (You cannot filter by both queue AND routing profile.) You can include both resource IDs and resource ARNs in the same request.  Currently tagging is only supported on the resources that are passed in the filter.
@@ -6165,6 +6430,18 @@ extension Connect {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sortCriteria = sortCriteria
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.currentMetrics, forKey: .currentMetrics)
+            try container.encode(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.groupings, forKey: .groupings)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.sortCriteria, forKey: .sortCriteria)
         }
 
         public func validate(name: String) throws {
@@ -6213,10 +6490,6 @@ extension Connect {
     }
 
     public struct GetCurrentUserDataRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The filters to apply to returned user data. You can filter up to the following limits:   Queues: 100   Routing profiles: 100   Agents: 100   Contact states: 9   User hierarchy groups: 1   The user data is retrieved for only the specified values/resources in the filter. A maximum of one filter can be passed from queues, routing profiles, agents, and user hierarchy groups.  Currently tagging is only supported on the resources that are passed in the filter.
         public let filters: UserDataFilters
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -6232,6 +6505,15 @@ extension Connect {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.filters, forKey: .filters)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
         }
 
         public func validate(name: String) throws {
@@ -6271,15 +6553,17 @@ extension Connect {
     }
 
     public struct GetFederationTokenRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         public init(instanceId: String) {
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -6316,10 +6600,6 @@ extension Connect {
     }
 
     public struct GetMetricDataRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be specified using an interval of 5 minutes, such as 11:00, 11:05, 11:10, and must be later than the start time timestamp. The time range between the start and end time must be less than 24 hours.
         public let endTime: Date
         /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. VOICE, CHAT, and TASK channels are supported.  To filter by Queues, enter the queue ID/ARN, not the name of the queue.
@@ -6347,6 +6627,19 @@ extension Connect {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.startTime = startTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.endTime, forKey: .endTime)
+            try container.encode(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.groupings, forKey: .groupings)
+            try container.encode(self.historicalMetrics, forKey: .historicalMetrics)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encode(self.startTime, forKey: .startTime)
         }
 
         public func validate(name: String) throws {
@@ -6462,11 +6755,6 @@ extension Connect {
     }
 
     public struct GetPromptFileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "promptId", location: .uri("PromptId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A unique identifier for the prompt.
@@ -6475,6 +6763,13 @@ extension Connect {
         public init(instanceId: String, promptId: String) {
             self.instanceId = instanceId
             self.promptId = promptId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.promptId, key: "PromptId")
         }
 
         public func validate(name: String) throws {
@@ -6501,12 +6796,6 @@ extension Connect {
     }
 
     public struct GetTaskTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "snapshotVersion", location: .querystring("snapshotVersion")),
-            AWSMemberEncoding(label: "taskTemplateId", location: .uri("TaskTemplateId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The system generated version of a task template that is associated with a task, when the task is created.
@@ -6518,6 +6807,14 @@ extension Connect {
             self.instanceId = instanceId
             self.snapshotVersion = snapshotVersion
             self.taskTemplateId = taskTemplateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.snapshotVersion, key: "snapshotVersion")
+            request.encodePath(self.taskTemplateId, key: "TaskTemplateId")
         }
 
         public func validate(name: String) throws {
@@ -6594,15 +6891,17 @@ extension Connect {
     }
 
     public struct GetTrafficDistributionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identifier of the traffic distribution group.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -7390,13 +7689,6 @@ extension Connect {
     }
 
     public struct ListAgentStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "agentStatusTypes", location: .querystring("AgentStatusTypes")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// Available agent status types.
         public let agentStatusTypes: [AgentStatusType]?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -7412,6 +7704,15 @@ extension Connect {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.agentStatusTypes, key: "AgentStatusTypes")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -7443,12 +7744,6 @@ extension Connect {
     }
 
     public struct ListApprovedOriginsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
@@ -7461,6 +7756,14 @@ extension Connect {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -7491,13 +7794,6 @@ extension Connect {
     }
 
     public struct ListBotsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "lexVersion", location: .querystring("lexVersion")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The version of Amazon Lex or Amazon Lex V2.
@@ -7513,6 +7809,15 @@ extension Connect {
             self.lexVersion = lexVersion
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.lexVersion, key: "lexVersion")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -7543,12 +7848,6 @@ extension Connect {
     }
 
     public struct ListContactEvaluationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactId", location: .querystring("contactId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the contact in this instance of Amazon Connect.
         public let contactId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -7561,6 +7860,14 @@ extension Connect {
             self.contactId = contactId
             self.instanceId = instanceId
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.contactId, key: "contactId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -7591,13 +7898,6 @@ extension Connect {
     }
 
     public struct ListContactFlowModulesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactFlowModuleState", location: .querystring("state")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The state of the flow module.
         public let contactFlowModuleState: ContactFlowModuleState?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -7613,6 +7913,15 @@ extension Connect {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.contactFlowModuleState, key: "state")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -7643,13 +7952,6 @@ extension Connect {
     }
 
     public struct ListContactFlowsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactFlowTypes", location: .querystring("contactFlowTypes")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The type of flow.
         public let contactFlowTypes: [ContactFlowType]?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -7665,6 +7967,15 @@ extension Connect {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.contactFlowTypes, key: "contactFlowTypes")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -7696,13 +8007,6 @@ extension Connect {
     }
 
     public struct ListContactReferencesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactId", location: .uri("ContactId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "referenceTypes", location: .querystring("referenceTypes"))
-        ]
-
         /// The identifier of the initial contact.
         public let contactId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -7718,6 +8022,15 @@ extension Connect {
             self.instanceId = instanceId
             self.nextToken = nextToken
             self.referenceTypes = referenceTypes
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactId, key: "ContactId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.referenceTypes, key: "referenceTypes")
         }
 
         public func validate(name: String) throws {
@@ -7749,10 +8062,6 @@ extension Connect {
     }
 
     public struct ListDefaultVocabulariesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see
@@ -7769,6 +8078,15 @@ extension Connect {
             self.languageCode = languageCode
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.languageCode, forKey: .languageCode)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
         }
 
         public func validate(name: String) throws {
@@ -7806,13 +8124,6 @@ extension Connect {
     }
 
     public struct ListEvaluationFormVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "evaluationFormId", location: .uri("EvaluationFormId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique identifier for the evaluation form.
         public let evaluationFormId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -7828,6 +8139,15 @@ extension Connect {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.evaluationFormId, key: "EvaluationFormId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -7860,12 +8180,6 @@ extension Connect {
     }
 
     public struct ListEvaluationFormsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
@@ -7878,6 +8192,14 @@ extension Connect {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -7908,12 +8230,6 @@ extension Connect {
     }
 
     public struct ListHoursOfOperationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -7926,6 +8242,14 @@ extension Connect {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -7956,12 +8280,6 @@ extension Connect {
     }
 
     public struct ListInstanceAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
@@ -7974,6 +8292,14 @@ extension Connect {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -8004,13 +8330,6 @@ extension Connect {
     }
 
     public struct ListInstanceStorageConfigsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
@@ -8026,6 +8345,15 @@ extension Connect {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.resourceType, key: "resourceType")
         }
 
         public func validate(name: String) throws {
@@ -8056,11 +8384,6 @@ extension Connect {
     }
 
     public struct ListInstancesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous
@@ -8070,6 +8393,13 @@ extension Connect {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -8098,13 +8428,6 @@ extension Connect {
     }
 
     public struct ListIntegrationAssociationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "integrationType", location: .querystring("integrationType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The integration type.
@@ -8120,6 +8443,15 @@ extension Connect {
             self.integrationType = integrationType
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.integrationType, key: "integrationType")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -8150,12 +8482,6 @@ extension Connect {
     }
 
     public struct ListLambdaFunctionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
@@ -8168,6 +8494,14 @@ extension Connect {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -8198,12 +8532,6 @@ extension Connect {
     }
 
     public struct ListLexBotsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. If no value is specified, the default is 10.
@@ -8216,6 +8544,14 @@ extension Connect {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -8246,14 +8582,6 @@ extension Connect {
     }
 
     public struct ListPhoneNumbersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "phoneNumberCountryCodes", location: .querystring("phoneNumberCountryCodes")),
-            AWSMemberEncoding(label: "phoneNumberTypes", location: .querystring("phoneNumberTypes"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -8272,6 +8600,16 @@ extension Connect {
             self.nextToken = nextToken
             self.phoneNumberCountryCodes = phoneNumberCountryCodes
             self.phoneNumberTypes = phoneNumberTypes
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.phoneNumberCountryCodes, key: "phoneNumberCountryCodes")
+            request.encodeQuery(self.phoneNumberTypes, key: "phoneNumberTypes")
         }
 
         public func validate(name: String) throws {
@@ -8398,12 +8736,6 @@ extension Connect {
     }
 
     public struct ListPromptsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -8415,6 +8747,14 @@ extension Connect {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -8445,13 +8785,6 @@ extension Connect {
     }
 
     public struct ListQueueQuickConnectsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "queueId", location: .uri("QueueId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -8467,6 +8800,15 @@ extension Connect {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.queueId = queueId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.queueId, key: "QueueId")
         }
 
         public func validate(name: String) throws {
@@ -8497,13 +8839,6 @@ extension Connect {
     }
 
     public struct ListQueuesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "queueTypes", location: .querystring("queueTypes"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -8519,6 +8854,15 @@ extension Connect {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.queueTypes = queueTypes
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.queueTypes, key: "queueTypes")
         }
 
         public func validate(name: String) throws {
@@ -8550,13 +8894,6 @@ extension Connect {
     }
 
     public struct ListQuickConnectsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "quickConnectTypes", location: .querystring("QuickConnectTypes"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -8572,6 +8909,15 @@ extension Connect {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.quickConnectTypes = quickConnectTypes
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.quickConnectTypes, key: "QuickConnectTypes")
         }
 
         public func validate(name: String) throws {
@@ -8603,13 +8949,6 @@ extension Connect {
     }
 
     public struct ListRoutingProfileQueuesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "routingProfileId", location: .uri("RoutingProfileId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -8625,6 +8964,15 @@ extension Connect {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.routingProfileId = routingProfileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.routingProfileId, key: "RoutingProfileId")
         }
 
         public func validate(name: String) throws {
@@ -8655,12 +9003,6 @@ extension Connect {
     }
 
     public struct ListRoutingProfilesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -8673,6 +9015,14 @@ extension Connect {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -8703,14 +9053,6 @@ extension Connect {
     }
 
     public struct ListRulesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventSourceName", location: .querystring("eventSourceName")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "publishStatus", location: .querystring("publishStatus"))
-        ]
-
         /// The name of the event source.
         public let eventSourceName: EventSourceName?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -8729,6 +9071,16 @@ extension Connect {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.publishStatus = publishStatus
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.eventSourceName, key: "eventSourceName")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.publishStatus, key: "publishStatus")
         }
 
         public func validate(name: String) throws {
@@ -8759,12 +9111,6 @@ extension Connect {
     }
 
     public struct ListSecurityKeysRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
@@ -8777,6 +9123,14 @@ extension Connect {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -8807,13 +9161,6 @@ extension Connect {
     }
 
     public struct ListSecurityProfilePermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "securityProfileId", location: .uri("SecurityProfileId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
@@ -8829,6 +9176,15 @@ extension Connect {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.securityProfileId = securityProfileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.securityProfileId, key: "SecurityProfileId")
         }
 
         public func validate(name: String) throws {
@@ -8859,12 +9215,6 @@ extension Connect {
     }
 
     public struct ListSecurityProfilesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -8877,6 +9227,14 @@ extension Connect {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -8907,15 +9265,17 @@ extension Connect {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource. All Amazon Connect resources (instances, queues, flows, routing profiles, etc) have an ARN. To locate the ARN for an instance, for example, see Find your Amazon Connect instance ID/ARN.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8935,14 +9295,6 @@ extension Connect {
     }
 
     public struct ListTaskTemplatesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "name", location: .querystring("name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.  It is not expected that you set this.
@@ -8963,6 +9315,16 @@ extension Connect {
             self.name = name
             self.nextToken = nextToken
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.name, key: "name")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -8995,12 +9357,6 @@ extension Connect {
     }
 
     public struct ListTrafficDistributionGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .querystring("instanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String?
         /// The maximum number of results to return per page.
@@ -9013,6 +9369,14 @@ extension Connect {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.instanceId, key: "instanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -9044,13 +9408,6 @@ extension Connect {
     }
 
     public struct ListUseCasesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "integrationAssociationId", location: .uri("IntegrationAssociationId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the integration association.
@@ -9066,6 +9423,15 @@ extension Connect {
             self.integrationAssociationId = integrationAssociationId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.integrationAssociationId, key: "IntegrationAssociationId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -9098,12 +9464,6 @@ extension Connect {
     }
 
     public struct ListUserHierarchyGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -9116,6 +9476,14 @@ extension Connect {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -9146,12 +9514,6 @@ extension Connect {
     }
 
     public struct ListUsersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -9164,6 +9526,14 @@ extension Connect {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -9689,11 +10059,6 @@ extension Connect {
     }
 
     public struct PutUserStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
-        ]
-
         /// The identifier of the agent status.
         public let agentStatusId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -9705,6 +10070,14 @@ extension Connect {
             self.agentStatusId = agentStatusId
             self.instanceId = instanceId
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.agentStatusId, forKey: .agentStatusId)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.userId, key: "UserId")
         }
 
         public func validate(name: String) throws {
@@ -10044,11 +10417,6 @@ extension Connect {
     }
 
     public struct ReleasePhoneNumberRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "phoneNumberId", location: .uri("PhoneNumberId"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// A unique identifier for the phone number.
@@ -10059,6 +10427,13 @@ extension Connect {
             self.phoneNumberId = phoneNumberId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.phoneNumberId, key: "PhoneNumberId")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
         }
@@ -10067,10 +10442,6 @@ extension Connect {
     }
 
     public struct ReplicateInstanceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You can provide the InstanceId, or the entire ARN.
@@ -10085,6 +10456,15 @@ extension Connect {
             self.instanceId = instanceId
             self.replicaAlias = replicaAlias
             self.replicaRegion = replicaRegion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.replicaAlias, forKey: .replicaAlias)
+            try container.encode(self.replicaRegion, forKey: .replicaRegion)
         }
 
         public func validate(name: String) throws {
@@ -11032,10 +11412,6 @@ extension Connect {
     }
 
     public struct SearchVocabulariesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see
@@ -11058,6 +11434,17 @@ extension Connect {
             self.nameStartsWith = nameStartsWith
             self.nextToken = nextToken
             self.state = state
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.languageCode, forKey: .languageCode)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nameStartsWith, forKey: .nameStartsWith)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.state, forKey: .state)
         }
 
         public func validate(name: String) throws {
@@ -11413,10 +11800,6 @@ extension Connect {
     }
 
     public struct StartContactEvaluationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The identifier of the contact in this instance of Amazon Connect.
@@ -11431,6 +11814,15 @@ extension Connect {
             self.contactId = contactId
             self.evaluationFormId = evaluationFormId
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.contactId, forKey: .contactId)
+            try container.encode(self.evaluationFormId, forKey: .evaluationFormId)
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -11860,11 +12252,6 @@ extension Connect {
     }
 
     public struct SubmitContactEvaluationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "evaluationId", location: .uri("EvaluationId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// A map of question identifiers to answer value.
         public let answers: [String: EvaluationAnswerInput]?
         /// A unique identifier for the contact evaluation.
@@ -11879,6 +12266,15 @@ extension Connect {
             self.evaluationId = evaluationId
             self.instanceId = instanceId
             self.notes = notes
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.answers, forKey: .answers)
+            request.encodePath(self.evaluationId, key: "EvaluationId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.notes, forKey: .notes)
         }
 
         public func validate(name: String) throws {
@@ -11975,10 +12371,6 @@ extension Connect {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
@@ -11987,6 +12379,13 @@ extension Connect {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -12402,11 +12801,6 @@ extension Connect {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tag keys.
@@ -12415,6 +12809,13 @@ extension Connect {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -12431,11 +12832,6 @@ extension Connect {
     }
 
     public struct UpdateAgentStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "agentStatusId", location: .uri("AgentStatusId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the agent status.
         public let agentStatusId: String
         /// The description of the agent status.
@@ -12459,6 +12855,18 @@ extension Connect {
             self.name = name
             self.resetOrderNumber = resetOrderNumber
             self.state = state
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.agentStatusId, key: "AgentStatusId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.displayOrder, forKey: .displayOrder)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.resetOrderNumber, forKey: .resetOrderNumber)
+            try container.encodeIfPresent(self.state, forKey: .state)
         }
 
         public func validate(name: String) throws {
@@ -12518,11 +12926,6 @@ extension Connect {
     }
 
     public struct UpdateContactEvaluationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "evaluationId", location: .uri("EvaluationId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// A map of question identifiers to answer value.
         public let answers: [String: EvaluationAnswerInput]?
         /// A unique identifier for the contact evaluation.
@@ -12537,6 +12940,15 @@ extension Connect {
             self.evaluationId = evaluationId
             self.instanceId = instanceId
             self.notes = notes
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.answers, forKey: .answers)
+            request.encodePath(self.evaluationId, key: "EvaluationId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.notes, forKey: .notes)
         }
 
         public func validate(name: String) throws {
@@ -12582,11 +12994,6 @@ extension Connect {
     }
 
     public struct UpdateContactFlowContentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactFlowId", location: .uri("ContactFlowId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the flow.
         public let contactFlowId: String
         /// The JSON string that represents flow's content. For an example, see Example contact flow in Amazon Connect Flow language.
@@ -12598,6 +13005,14 @@ extension Connect {
             self.contactFlowId = contactFlowId
             self.content = content
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactFlowId, key: "ContactFlowId")
+            try container.encode(self.content, forKey: .content)
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -12616,11 +13031,6 @@ extension Connect {
     }
 
     public struct UpdateContactFlowMetadataRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactFlowId", location: .uri("ContactFlowId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the flow.
         public let contactFlowId: String
         /// The state of flow.
@@ -12638,6 +13048,16 @@ extension Connect {
             self.description = description
             self.instanceId = instanceId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactFlowId, key: "ContactFlowId")
+            try container.encodeIfPresent(self.contactFlowState, forKey: .contactFlowState)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -12659,11 +13079,6 @@ extension Connect {
     }
 
     public struct UpdateContactFlowModuleContentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactFlowModuleId", location: .uri("ContactFlowModuleId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the flow module.
         public let contactFlowModuleId: String
         /// The content of the flow module.
@@ -12675,6 +13090,14 @@ extension Connect {
             self.contactFlowModuleId = contactFlowModuleId
             self.content = content
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactFlowModuleId, key: "ContactFlowModuleId")
+            try container.encode(self.content, forKey: .content)
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -12696,11 +13119,6 @@ extension Connect {
     }
 
     public struct UpdateContactFlowModuleMetadataRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactFlowModuleId", location: .uri("ContactFlowModuleId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the flow module.
         public let contactFlowModuleId: String
         /// The description of the flow module.
@@ -12718,6 +13136,16 @@ extension Connect {
             self.instanceId = instanceId
             self.name = name
             self.state = state
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactFlowModuleId, key: "ContactFlowModuleId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.state, forKey: .state)
         }
 
         public func validate(name: String) throws {
@@ -12744,11 +13172,6 @@ extension Connect {
     }
 
     public struct UpdateContactFlowNameRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactFlowId", location: .uri("ContactFlowId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the flow.
         public let contactFlowId: String
         /// The description of the flow.
@@ -12763,6 +13186,15 @@ extension Connect {
             self.description = description
             self.instanceId = instanceId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactFlowId, key: "ContactFlowId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -12783,11 +13215,6 @@ extension Connect {
     }
 
     public struct UpdateContactRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactId", location: .uri("ContactId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with your contact center.
         public let contactId: String
         /// The description of the contact.
@@ -12805,6 +13232,16 @@ extension Connect {
             self.instanceId = instanceId
             self.name = name
             self.references = references
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactId, key: "ContactId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.references, forKey: .references)
         }
 
         public func validate(name: String) throws {
@@ -12865,11 +13302,6 @@ extension Connect {
     }
 
     public struct UpdateEvaluationFormRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "evaluationFormId", location: .uri("EvaluationFormId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// A flag indicating whether the operation must create a new version.
@@ -12899,6 +13331,20 @@ extension Connect {
             self.items = items
             self.scoringStrategy = scoringStrategy
             self.title = title
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.createNewVersion, forKey: .createNewVersion)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.evaluationFormId, key: "EvaluationFormId")
+            try container.encode(self.evaluationFormVersion, forKey: .evaluationFormVersion)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.items, forKey: .items)
+            try container.encodeIfPresent(self.scoringStrategy, forKey: .scoringStrategy)
+            try container.encode(self.title, forKey: .title)
         }
 
         public func validate(name: String) throws {
@@ -12951,11 +13397,6 @@ extension Connect {
     }
 
     public struct UpdateHoursOfOperationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hoursOfOperationId", location: .uri("HoursOfOperationId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// Configuration information of the hours of operation.
         public let config: [HoursOfOperationConfig]?
         /// The description of the hours of operation.
@@ -12976,6 +13417,17 @@ extension Connect {
             self.instanceId = instanceId
             self.name = name
             self.timeZone = timeZone
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.config, forKey: .config)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.hoursOfOperationId, key: "HoursOfOperationId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.timeZone, forKey: .timeZone)
         }
 
         public func validate(name: String) throws {
@@ -12999,11 +13451,6 @@ extension Connect {
     }
 
     public struct UpdateInstanceAttributeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributeType", location: .uri("AttributeType")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The type of attribute.  Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for allowlisting.
         public let attributeType: InstanceAttributeType
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -13015,6 +13462,14 @@ extension Connect {
             self.attributeType = attributeType
             self.instanceId = instanceId
             self.value = value
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attributeType, key: "AttributeType")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.value, forKey: .value)
         }
 
         public func validate(name: String) throws {
@@ -13030,12 +13485,6 @@ extension Connect {
     }
 
     public struct UpdateInstanceStorageConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "associationId", location: .uri("AssociationId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
-        ]
-
         /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
         public let associationId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -13049,6 +13498,15 @@ extension Connect {
             self.instanceId = instanceId
             self.resourceType = resourceType
             self.storageConfig = storageConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.associationId, key: "AssociationId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.resourceType, key: "resourceType")
+            try container.encode(self.storageConfig, forKey: .storageConfig)
         }
 
         public func validate(name: String) throws {
@@ -13065,11 +13523,6 @@ extension Connect {
     }
 
     public struct UpdateParticipantRoleConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contactId", location: .uri("ContactId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The Amazon Connect channel you want to configure.
         public let channelConfiguration: UpdateParticipantRoleConfigChannelInfo
         /// The identifier of the contact in this instance of Amazon Connect.
@@ -13081,6 +13534,14 @@ extension Connect {
             self.channelConfiguration = channelConfiguration
             self.contactId = contactId
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.channelConfiguration, forKey: .channelConfiguration)
+            request.encodePath(self.contactId, key: "ContactId")
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -13101,10 +13562,6 @@ extension Connect {
     }
 
     public struct UpdatePhoneNumberRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "phoneNumberId", location: .uri("PhoneNumberId"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// A unique identifier for the phone number.
@@ -13116,6 +13573,14 @@ extension Connect {
             self.clientToken = clientToken
             self.phoneNumberId = phoneNumberId
             self.targetArn = targetArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.phoneNumberId, key: "PhoneNumberId")
+            try container.encode(self.targetArn, forKey: .targetArn)
         }
 
         public func validate(name: String) throws {
@@ -13146,11 +13611,6 @@ extension Connect {
     }
 
     public struct UpdatePromptRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "promptId", location: .uri("PromptId"))
-        ]
-
         /// A description of the prompt.
         public let description: String?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -13168,6 +13628,16 @@ extension Connect {
             self.name = name
             self.promptId = promptId
             self.s3Uri = s3Uri
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.promptId, key: "PromptId")
+            try container.encodeIfPresent(self.s3Uri, forKey: .s3Uri)
         }
 
         public func validate(name: String) throws {
@@ -13209,11 +13679,6 @@ extension Connect {
     }
 
     public struct UpdateQueueHoursOfOperationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "queueId", location: .uri("QueueId"))
-        ]
-
         /// The identifier for the hours of operation.
         public let hoursOfOperationId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -13227,6 +13692,14 @@ extension Connect {
             self.queueId = queueId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.hoursOfOperationId, forKey: .hoursOfOperationId)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.queueId, key: "QueueId")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
@@ -13238,11 +13711,6 @@ extension Connect {
     }
 
     public struct UpdateQueueMaxContactsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "queueId", location: .uri("QueueId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of contacts that can be in the queue before it is considered full.
@@ -13254,6 +13722,14 @@ extension Connect {
             self.instanceId = instanceId
             self.maxContacts = maxContacts
             self.queueId = queueId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.maxContacts, forKey: .maxContacts)
+            request.encodePath(self.queueId, key: "QueueId")
         }
 
         public func validate(name: String) throws {
@@ -13268,11 +13744,6 @@ extension Connect {
     }
 
     public struct UpdateQueueNameRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "queueId", location: .uri("QueueId"))
-        ]
-
         /// The description of the queue.
         public let description: String?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -13287,6 +13758,15 @@ extension Connect {
             self.instanceId = instanceId
             self.name = name
             self.queueId = queueId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.queueId, key: "QueueId")
         }
 
         public func validate(name: String) throws {
@@ -13305,11 +13785,6 @@ extension Connect {
     }
 
     public struct UpdateQueueOutboundCallerConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "queueId", location: .uri("QueueId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The outbound caller ID name, number, and outbound whisper flow.
@@ -13321,6 +13796,14 @@ extension Connect {
             self.instanceId = instanceId
             self.outboundCallerConfig = outboundCallerConfig
             self.queueId = queueId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.outboundCallerConfig, forKey: .outboundCallerConfig)
+            request.encodePath(self.queueId, key: "QueueId")
         }
 
         public func validate(name: String) throws {
@@ -13335,11 +13818,6 @@ extension Connect {
     }
 
     public struct UpdateQueueStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "queueId", location: .uri("QueueId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the queue.
@@ -13353,6 +13831,14 @@ extension Connect {
             self.status = status
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.queueId, key: "QueueId")
+            try container.encode(self.status, forKey: .status)
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
@@ -13364,11 +13850,6 @@ extension Connect {
     }
 
     public struct UpdateQuickConnectConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "quickConnectId", location: .uri("QuickConnectId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// Information about the configuration settings for the quick connect.
@@ -13380,6 +13861,14 @@ extension Connect {
             self.instanceId = instanceId
             self.quickConnectConfig = quickConnectConfig
             self.quickConnectId = quickConnectId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.quickConnectConfig, forKey: .quickConnectConfig)
+            request.encodePath(self.quickConnectId, key: "QuickConnectId")
         }
 
         public func validate(name: String) throws {
@@ -13394,11 +13883,6 @@ extension Connect {
     }
 
     public struct UpdateQuickConnectNameRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "quickConnectId", location: .uri("QuickConnectId"))
-        ]
-
         /// The description of the quick connect.
         public let description: String?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -13413,6 +13897,15 @@ extension Connect {
             self.instanceId = instanceId
             self.name = name
             self.quickConnectId = quickConnectId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.quickConnectId, key: "QuickConnectId")
         }
 
         public func validate(name: String) throws {
@@ -13430,11 +13923,6 @@ extension Connect {
     }
 
     public struct UpdateRoutingProfileConcurrencyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "routingProfileId", location: .uri("RoutingProfileId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The channels that agents can handle in the Contact Control Panel (CCP).
@@ -13446,6 +13934,14 @@ extension Connect {
             self.instanceId = instanceId
             self.mediaConcurrencies = mediaConcurrencies
             self.routingProfileId = routingProfileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.mediaConcurrencies, forKey: .mediaConcurrencies)
+            request.encodePath(self.routingProfileId, key: "RoutingProfileId")
         }
 
         public func validate(name: String) throws {
@@ -13462,11 +13958,6 @@ extension Connect {
     }
 
     public struct UpdateRoutingProfileDefaultOutboundQueueRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "routingProfileId", location: .uri("RoutingProfileId"))
-        ]
-
         /// The identifier for the default outbound queue.
         public let defaultOutboundQueueId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -13480,6 +13971,14 @@ extension Connect {
             self.routingProfileId = routingProfileId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.defaultOutboundQueueId, forKey: .defaultOutboundQueueId)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.routingProfileId, key: "RoutingProfileId")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
@@ -13491,11 +13990,6 @@ extension Connect {
     }
 
     public struct UpdateRoutingProfileNameRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "routingProfileId", location: .uri("RoutingProfileId"))
-        ]
-
         /// The description of the routing profile. Must not be more than 250 characters.
         public let description: String?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -13510,6 +14004,15 @@ extension Connect {
             self.instanceId = instanceId
             self.name = name
             self.routingProfileId = routingProfileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.routingProfileId, key: "RoutingProfileId")
         }
 
         public func validate(name: String) throws {
@@ -13528,11 +14031,6 @@ extension Connect {
     }
 
     public struct UpdateRoutingProfileQueuesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "routingProfileId", location: .uri("RoutingProfileId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The queues to be updated for this routing profile. Queues must first be associated to the routing profile. You can do this using AssociateRoutingProfileQueues.
@@ -13544,6 +14042,14 @@ extension Connect {
             self.instanceId = instanceId
             self.queueConfigs = queueConfigs
             self.routingProfileId = routingProfileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.queueConfigs, forKey: .queueConfigs)
+            request.encodePath(self.routingProfileId, key: "RoutingProfileId")
         }
 
         public func validate(name: String) throws {
@@ -13562,11 +14068,6 @@ extension Connect {
     }
 
     public struct UpdateRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "ruleId", location: .uri("RuleId"))
-        ]
-
         /// A list of actions to be run when the rule is triggered.
         public let actions: [RuleAction]
         /// The conditions of the rule.
@@ -13587,6 +14088,17 @@ extension Connect {
             self.name = name
             self.publishStatus = publishStatus
             self.ruleId = ruleId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.actions, forKey: .actions)
+            try container.encode(self.function, forKey: .function)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.publishStatus, forKey: .publishStatus)
+            request.encodePath(self.ruleId, key: "RuleId")
         }
 
         public func validate(name: String) throws {
@@ -13611,11 +14123,6 @@ extension Connect {
     }
 
     public struct UpdateSecurityProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "securityProfileId", location: .uri("SecurityProfileId"))
-        ]
-
         /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
         public let allowedAccessControlTags: [String: String]?
         /// The description of the security profile.
@@ -13636,6 +14143,17 @@ extension Connect {
             self.permissions = permissions
             self.securityProfileId = securityProfileId
             self.tagRestrictedResources = tagRestrictedResources
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.allowedAccessControlTags, forKey: .allowedAccessControlTags)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.permissions, forKey: .permissions)
+            request.encodePath(self.securityProfileId, key: "SecurityProfileId")
+            try container.encodeIfPresent(self.tagRestrictedResources, forKey: .tagRestrictedResources)
         }
 
         public func validate(name: String) throws {
@@ -13669,11 +14187,6 @@ extension Connect {
     }
 
     public struct UpdateTaskTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "taskTemplateId", location: .uri("TaskTemplateId"))
-        ]
-
         /// Constraints that are applicable to the fields listed.
         public let constraints: TaskTemplateConstraints?
         /// The identifier of the flow that runs by default when a task is created by referencing this template.
@@ -13705,6 +14218,20 @@ extension Connect {
             self.name = name
             self.status = status
             self.taskTemplateId = taskTemplateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.constraints, forKey: .constraints)
+            try container.encodeIfPresent(self.contactFlowId, forKey: .contactFlowId)
+            try container.encodeIfPresent(self.defaults, forKey: .defaults)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.fields, forKey: .fields)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.status, forKey: .status)
+            request.encodePath(self.taskTemplateId, key: "TaskTemplateId")
         }
 
         public func validate(name: String) throws {
@@ -13795,10 +14322,6 @@ extension Connect {
     }
 
     public struct UpdateTrafficDistributionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identifier of the traffic distribution group.
         /// This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created.
         /// The ARN must be provided if the call is from the replicated Region.
@@ -13809,6 +14332,13 @@ extension Connect {
         public init(id: String, telephonyConfig: TelephonyConfig? = nil) {
             self.id = id
             self.telephonyConfig = telephonyConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            try container.encodeIfPresent(self.telephonyConfig, forKey: .telephonyConfig)
         }
 
         public func validate(name: String) throws {
@@ -13826,11 +14356,6 @@ extension Connect {
     }
 
     public struct UpdateUserHierarchyGroupNameRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hierarchyGroupId", location: .uri("HierarchyGroupId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The identifier of the hierarchy group.
         public let hierarchyGroupId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -13844,6 +14369,14 @@ extension Connect {
             self.name = name
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.hierarchyGroupId, key: "HierarchyGroupId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.name, forKey: .name)
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
@@ -13855,11 +14388,6 @@ extension Connect {
     }
 
     public struct UpdateUserHierarchyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
-        ]
-
         /// The identifier of the hierarchy group.
         public let hierarchyGroupId: String?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -13873,6 +14401,14 @@ extension Connect {
             self.userId = userId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.hierarchyGroupId, forKey: .hierarchyGroupId)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.userId, key: "UserId")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
@@ -13884,10 +14420,6 @@ extension Connect {
     }
 
     public struct UpdateUserHierarchyStructureRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
-        ]
-
         /// The hierarchy levels to update.
         public let hierarchyStructure: HierarchyStructureUpdate
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -13896,6 +14428,13 @@ extension Connect {
         public init(hierarchyStructure: HierarchyStructureUpdate, instanceId: String) {
             self.hierarchyStructure = hierarchyStructure
             self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.hierarchyStructure, forKey: .hierarchyStructure)
+            request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
@@ -13909,11 +14448,6 @@ extension Connect {
     }
 
     public struct UpdateUserIdentityInfoRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
-        ]
-
         /// The identity information for the user.
         public let identityInfo: UserIdentityInfo
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -13925,6 +14459,14 @@ extension Connect {
             self.identityInfo = identityInfo
             self.instanceId = instanceId
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.identityInfo, forKey: .identityInfo)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.userId, key: "UserId")
         }
 
         public func validate(name: String) throws {
@@ -13939,11 +14481,6 @@ extension Connect {
     }
 
     public struct UpdateUserPhoneConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// Information about phone configuration settings for the user.
@@ -13955,6 +14492,14 @@ extension Connect {
             self.instanceId = instanceId
             self.phoneConfig = phoneConfig
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.phoneConfig, forKey: .phoneConfig)
+            request.encodePath(self.userId, key: "UserId")
         }
 
         public func validate(name: String) throws {
@@ -13969,11 +14514,6 @@ extension Connect {
     }
 
     public struct UpdateUserRoutingProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the routing profile for the user.
@@ -13987,6 +14527,14 @@ extension Connect {
             self.userId = userId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.routingProfileId, forKey: .routingProfileId)
+            request.encodePath(self.userId, key: "UserId")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
@@ -13998,11 +14546,6 @@ extension Connect {
     }
 
     public struct UpdateUserSecurityProfilesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
-            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
-        ]
-
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifiers of the security profiles for the user.
@@ -14014,6 +14557,14 @@ extension Connect {
             self.instanceId = instanceId
             self.securityProfileIds = securityProfileIds
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.securityProfileIds, forKey: .securityProfileIds)
+            request.encodePath(self.userId, key: "UserId")
         }
 
         public func validate(name: String) throws {
