@@ -14,27 +14,11 @@
 
 import Dispatch
 import Foundation
+import NIOCore
 @testable import SotoCore
 import XCTest
 
-extension EventLoopFuture {
-    /// When EventLoopFuture has any result the callback is called with the Result. The callback returns an EventLoopFuture<>
-    /// which should be completed before result is passed on
-    func flatAlways<NewValue>(file: StaticString = #file, line: UInt = #line, _ callback: @escaping (Result<Value, Error>) -> EventLoopFuture<NewValue>) -> EventLoopFuture<NewValue> {
-        let next = eventLoop.makePromise(of: NewValue.self)
-        self.whenComplete { result in
-            switch result {
-            case .success:
-                callback(result).cascade(to: next)
-            case .failure(let error):
-                _ = callback(result).always { _ in next.fail(error) }
-            }
-        }
-        return next.futureResult
-    }
-}
-
-@available(*, noasync, message: "runAndWait() can block indefinitely")
+@available(*, noasync, message: "runThrowingTask() can block indefinitely")
 func runThrowingTask<T>(on eventLoop: EventLoop, _ task: @escaping @Sendable () async throws -> T) throws -> T {
     let promise = eventLoop.makePromise(of: T.self)
     Task {
@@ -48,7 +32,7 @@ func runThrowingTask<T>(on eventLoop: EventLoop, _ task: @escaping @Sendable () 
     return try promise.futureResult.wait()
 }
 
-@available(*, noasync, message: "runAndWait() can block indefinitely")
+@available(*, noasync, message: "runTask() can block indefinitely")
 func runTask<T>(on eventLoop: EventLoop, _ task: @escaping @Sendable () async -> T) -> T {
     let promise = eventLoop.makePromise(of: T.self)
     Task {
