@@ -110,6 +110,29 @@ extension S3Tests {
         }
     }
 
+    func testMultipartUploadBuffer() async throws {
+        let s3 = Self.s3.with(timeout: .minutes(2))
+        let buffer = Self.randomBytes!
+        let name = TestEnvironment.generateResourceName()
+        let filename = "testMultipartUploadBuffer"
+
+        try await testBucket(name) { name in
+            let request = S3.CreateMultipartUploadRequest(bucket: name, key: filename)
+            _ = try await s3.multipartUpload(
+                request,
+                partSize: 5 * 1024 * 1024,
+                buffer: buffer,
+                logger: TestEnvironment.logger
+            ) {
+                print("Progress \($0 * 100)%")
+            }
+
+            let getResponse = try await s3.getObject(.init(bucket: name, key: filename))
+            let responseBody = try await getResponse.body.collect(upTo: .max)
+            XCTAssertEqual(responseBody, buffer)
+        }
+    }
+
     func testResumeMultipartUpload() async throws {
         struct CancelError: Error {}
         let s3 = Self.s3.with(timeout: .minutes(2))
