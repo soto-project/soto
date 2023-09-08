@@ -194,6 +194,41 @@ extension S3 {
         return downloaded
     }
 
+    /// Multipart upload of ByteBuffer to S3.
+    ///
+    /// Uploads buffer using multipart upload commands. If you want the function to not abort the multipart upload when it
+    /// receives an error then set `abortOnFail` to false. With this you can then use `resumeMultipartUpload` to resume
+    /// the failed upload. If you set `abortOnFail` to false but don't call `resumeMultipartUpload` on failure you will have
+    /// to call `abortMultipartUpload` yourself.
+    ///
+    /// - parameters:
+    ///     - input: The CreateMultipartUploadRequest structure that contains the details about the upload
+    ///     - partSize: Size of each part to upload. This has to be at least 5MB
+    ///     - filename: Full path of file to upload
+    ///     - abortOnFail: Whether should abort multipart upload if it fails. If you want to attempt to resume after
+    ///         a fail this should be set to false
+    ///     - logger: logger
+    ///     - progress: Callback that returns the progress of the upload. It is called after each part and is called with how
+    ///         many bytes have been uploaded so far.
+    /// - returns: Output from CompleteMultipartUpload.
+    public func multipartUpload(
+        _ input: CreateMultipartUploadRequest,
+        partSize: Int = 5 * 1024 * 1024,
+        buffer: ByteBuffer,
+        abortOnFail: Bool = true,
+        logger: Logger = AWSClient.loggingDisabled,
+        progress: (@Sendable (Int) throws -> Void)? = nil
+    ) async throws -> CompleteMultipartUploadOutput {
+        try await self.multipartUpload(
+            input,
+            partSize: partSize,
+            bufferSequence: buffer.asyncSequence(chunkSize: partSize),
+            abortOnFail: abortOnFail,
+            logger: logger,
+            progress: progress
+        )
+    }
+
     /// Multipart upload of file to S3.
     ///
     /// Uploads file using multipart upload commands. If you want the function to not abort the multipart upload when it receives
@@ -248,6 +283,36 @@ extension S3 {
                 progress: percentProgress
             )
         }
+    }
+
+    ///  Resume upload of failed multipart upload
+    ///
+    /// - Parameters:
+    ///   - input: The CreateMultipartUploadRequest structure that contains the details about the upload
+    ///   - partSize: Size of each part to upload. Should be the same as the original upload
+    ///   - bufferSequence: Sequence of ByteBuffers to upload
+    ///   - abortOnFail: Whether should abort multipart upload if it fails. If you want to attempt to resume after
+    ///         a fail this should be set to false
+    ///   - logger: logger
+    ///   - progress: Callback that returns the progress of the upload. It is called after each part and is called with how
+    ///         many bytes have been uploaded so far.
+    /// - Returns: Output from CompleteMultipartUpload.
+    public func resumeMultipartUpload(
+        _ input: ResumeMultipartUploadRequest,
+        partSize: Int = 5 * 1024 * 1024,
+        buffer: ByteBuffer,
+        abortOnFail: Bool = true,
+        logger: Logger = AWSClient.loggingDisabled,
+        progress: (@Sendable (Int) throws -> Void)? = nil
+    ) async throws -> CompleteMultipartUploadOutput {
+        try await self.resumeMultipartUpload(
+            input,
+            partSize: partSize,
+            bufferSequence: buffer.asyncSequence(chunkSize: partSize),
+            abortOnFail: abortOnFail,
+            logger: logger,
+            progress: progress
+        )
     }
 
     /// Resume multipart upload of file to S3.
@@ -375,38 +440,7 @@ extension S3 {
     }
 }
 
-extension S3 {
-    /// Do all the work for opening a file and closing it for MultiUpload function
-    func openFileForMultipartUpload(
-        filename: String,
-        logger: Logger,
-        on eventLoop: EventLoop,
-        threadPoolProvider: ThreadPoolProvider = .createNew,
-        uploadCallback: @escaping (NIOFileHandle, FileRegion, NonBlockingFileIO) async throws -> CompleteMultipartUploadOutput
-    ) async throws -> CompleteMultipartUploadOutput {
-        let threadPool = threadPoolProvider.create()
-        let fileIO = NonBlockingFileIO(threadPool: threadPool)
-        let (fileHandle, fileRegion) = try await fileIO.openFile(path: filename, eventLoop: eventLoop).get()
-
-        logger.debug("Open file \(filename)")
-
-        let uploadOutput: CompleteMultipartUploadOutput
-        do {
-            uploadOutput = try await uploadCallback(fileHandle, fileRegion, fileIO)
-        } catch {
-            try fileHandle.close()
-            // ignore errors from thread pool provider shutdown, as we want to throw the original error
-            try? await threadPoolProvider.destroy(threadPool)
-            throw error
-        }
-        try fileHandle.close()
-        try await threadPoolProvider.destroy(threadPool)
-        return uploadOutput
-    }
-}
-
 /// AsyncSequence version of multipart upload
-@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension S3 {
     /// Multipart upload of AsyncSequence to S3.
     ///
@@ -598,6 +632,37 @@ extension S3 {
             _ = try await self.abortMultipartUpload(request, logger: logger)
             throw error
         }
+    }
+}
+
+// Internal functions used by multipart upload
+extension S3 {
+    /// Do all the work for opening a file and closing it for MultiUpload function
+    func openFileForMultipartUpload(
+        filename: String,
+        logger: Logger,
+        on eventLoop: EventLoop,
+        threadPoolProvider: ThreadPoolProvider = .createNew,
+        uploadCallback: @escaping (NIOFileHandle, FileRegion, NonBlockingFileIO) async throws -> CompleteMultipartUploadOutput
+    ) async throws -> CompleteMultipartUploadOutput {
+        let threadPool = threadPoolProvider.create()
+        let fileIO = NonBlockingFileIO(threadPool: threadPool)
+        let (fileHandle, fileRegion) = try await fileIO.openFile(path: filename, eventLoop: eventLoop).get()
+
+        logger.debug("Open file \(filename)")
+
+        let uploadOutput: CompleteMultipartUploadOutput
+        do {
+            uploadOutput = try await uploadCallback(fileHandle, fileRegion, fileIO)
+        } catch {
+            try fileHandle.close()
+            // ignore errors from thread pool provider shutdown, as we want to throw the original error
+            try? await threadPoolProvider.destroy(threadPool)
+            throw error
+        }
+        try fileHandle.close()
+        try await threadPoolProvider.destroy(threadPool)
+        return uploadOutput
     }
 
     /// Used internally in multipartUpload, loads all the parts once the multipart upload has been initiated
