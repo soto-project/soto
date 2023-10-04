@@ -170,7 +170,7 @@ extension LookoutVision {
             AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
         ]
 
-        /// ClientToken is an idempotency token that ensures a call to CreateModel completes only once.  You choose the value to pass. For example, An issue might prevent you from getting a response from CreateModel. In this case, safely retry your call to CreateModel by using the same ClientToken parameter value.  If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from starting multiple training jobs. You'll need to provide your own value for other use cases.    An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to CreateModel. An idempotency token is active for 8 hours.
+        /// ClientToken is an idempotency token that ensures a call to CreateModel completes only once.  You choose the value to pass. For example, An issue might prevent you from getting a response from CreateModel. In this case, safely retry your call to CreateModel by using the same ClientToken parameter value.  If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from starting multiple training jobs. You'll need to provide your own value for other use cases.  An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to CreateModel. An idempotency token is active for 8 hours.
         public let clientToken: String?
         /// A description for the version of the model.
         public let description: String?
@@ -238,7 +238,7 @@ extension LookoutVision {
             AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token"))
         ]
 
-        /// ClientToken is an idempotency token that ensures a call to CreateProject completes only once.  You choose the value to pass. For example, An issue might prevent you from  getting a response from CreateProject. In this case, safely retry your call to CreateProject by using the same ClientToken parameter value.  If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple project creation requests. You'll need to provide your own value for other use cases.        An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to CreateProject. An idempotency token is active for 8 hours.
+        /// ClientToken is an idempotency token that ensures a call to CreateProject completes only once.  You choose the value to pass. For example, An issue might prevent you from  getting a response from CreateProject. In this case, safely retry your call to CreateProject by using the same ClientToken parameter value.  If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple project creation requests. You'll need to provide your own value for other use cases.  An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to CreateProject. An idempotency token is active for 8 hours.
         public let clientToken: String?
         /// The name for the project.
         public let projectName: String
@@ -403,7 +403,7 @@ extension LookoutVision {
             AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
         ]
 
-        /// ClientToken is an idempotency token that ensures a call to DeleteDataset completes only once.  You choose the value to pass. For example, An issue might prevent you from getting a response from DeleteDataset. In this case, safely retry your call to DeleteDataset by using the same ClientToken parameter value.  If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple deletetion requests. You'll need to provide your own value for other use cases.         An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to DeleteDataset. An idempotency token is active for 8 hours.
+        /// ClientToken is an idempotency token that ensures a call to DeleteDataset completes only once.  You choose the value to pass. For example, An issue might prevent you from getting a response from DeleteDataset. In this case, safely retry your call to DeleteDataset by using the same ClientToken parameter value.  If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple deletetion requests. You'll need to provide your own value for other use cases.  An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to DeleteDataset. An idempotency token is active for 8 hours.
         public let clientToken: String?
         /// The type of the dataset to delete. Specify train to delete the training dataset. Specify test to delete the test dataset. To delete the dataset in a single dataset project,  specify train.
         public let datasetType: String
@@ -442,7 +442,7 @@ extension LookoutVision {
             AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
         ]
 
-        /// ClientToken is an idempotency token that ensures a call to DeleteModel completes only once.  You choose the value to pass. For example, an issue might prevent you from getting a response from DeleteModel. In this case, safely retry your call to DeleteModel by using the same ClientToken parameter value. If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple model deletion requests. You'll need to provide your own value for other use cases.   An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to DeleteModel. An idempotency token is active for 8 hours.
+        /// ClientToken is an idempotency token that ensures a call to DeleteModel completes only once.  You choose the value to pass. For example, an issue might prevent you from getting a response from DeleteModel. In this case, safely retry your call to DeleteModel by using the same ClientToken parameter value. If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple model deletion requests. You'll need to provide your own value for other use cases.  An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to DeleteModel. An idempotency token is active for 8 hours.
         public let clientToken: String?
         /// The version of the model that you want to delete.
         public let modelVersion: String
@@ -765,7 +765,7 @@ extension LookoutVision {
     }
 
     public struct GreengrassConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Additional compiler options for the Greengrass component. Currently,  only NVIDIA Graphics Processing Units (GPU) and CPU accelerators are supported.  If you specify TargetDevice, don't specify CompilerOptions.    For more information, see  Compiler options in the  Amazon Lookout for Vision Developer Guide.
+        /// Additional compiler options for the Greengrass component. Currently,  only NVIDIA Graphics Processing Units (GPU) and CPU accelerators are supported.  If you specify TargetDevice, don't specify CompilerOptions. For more information, see  Compiler options in the  Amazon Lookout for Vision Developer Guide.
         public let compilerOptions: String?
         ///  A description for the AWS IoT Greengrass component.
         public let componentDescription: String?
@@ -1600,7 +1600,7 @@ extension LookoutVision {
             AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
         ]
 
-        /// ClientToken is an idempotency token that ensures a call to StartModel completes only once.  You choose the value to pass. For example, An issue might prevent  you from getting a response from StartModel. In this case, safely retry your call to StartModel by using the same ClientToken parameter value.  If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple start requests. You'll need to provide your own value for other use cases.   An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to StartModel. An idempotency token is active for 8 hours.
+        /// ClientToken is an idempotency token that ensures a call to StartModel completes only once.  You choose the value to pass. For example, An issue might prevent  you from getting a response from StartModel. In this case, safely retry your call to StartModel by using the same ClientToken parameter value.  If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple start requests. You'll need to provide your own value for other use cases.  An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to StartModel. An idempotency token is active for 8 hours.
         public let clientToken: String?
         /// The maximum number of inference units to use for auto-scaling the model. If you don't specify a value, Amazon Lookout for Vision doesn't auto-scale the model.
         public let maxInferenceUnits: Int?

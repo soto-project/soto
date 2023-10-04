@@ -813,8 +813,11 @@ extension CloudWatch {
         /// The names of the alarms to retrieve information about.
         @OptionalCustomCoding<StandardArrayCoder>
         public var alarmNames: [String]?
-        /// Use this parameter to specify whether you want the operation to return metric alarms or composite alarms. If you omit this parameter,
-        /// 		only metric alarms are returned.
+        /// Use this parameter to specify whether you want the operation to return metric alarms or composite alarms. If you
+        /// 			omit this parameter,
+        /// 		only metric alarms are returned, even if composite alarms exist in the account. For example, if you omit this parameter or specify MetricAlarms, the operation returns only a list of metric
+        /// 		alarms. It does not return any composite alarms, even if composite alarms exist in the account. If you specify CompositeAlarms, the operation returns only a list of composite
+        /// 			alarms, and does not return any metric alarms.
         @OptionalCustomCoding<StandardArrayCoder>
         public var alarmTypes: [AlarmType]?
         /// If you use this parameter and specify the name of a composite alarm, the operation returns
@@ -1252,7 +1255,7 @@ extension CloudWatch {
         /// 					by the rule's Value, during that period.    SampleCount -- the number of data points matched by the rule.    Sum -- the sum of the values from all contributors during the time period represented by that data point.    Minimum -- the minimum value from a single observation during the time period represented by that data point.    Maximum -- the maximum value from a single observation during the time period represented by that data point.    Average -- the average value from all contributors during the time period represented by that data point.
         @OptionalCustomCoding<StandardArrayCoder>
         public var metrics: [String]?
-        /// Determines what statistic to use to rank the contributors. Valid values are SUM and MAXIMUM.
+        /// Determines what statistic to use to rank the contributors. Valid values are Sum and Maximum.
         public let orderBy: String?
         /// The period, in seconds, to use for the statistics in the InsightRuleMetricDatapoint results.
         public let period: Int
@@ -2056,7 +2059,7 @@ extension CloudWatch {
     public struct ListTagsForResourceInput: AWSEncodableShape {
         /// The ARN of the CloudWatch resource that you want to view tags for. The ARN format of an alarm is
         /// 			arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN format of a Contributor Insights rule is
-        /// 			arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name   For more information about ARN format, see  Resource
+        /// 			arn:aws:cloudwatch:Region:account-id:insight-rule/insight-rule-name   For more information about ARN format, see  Resource
         /// 				Types Defined by Amazon CloudWatch in the Amazon Web Services General
         /// 			Reference.
         public let resourceARN: String
@@ -3215,10 +3218,16 @@ extension CloudWatch {
         /// 			alarm, this value is the N. An alarm's total current evaluation period can
         /// 			be no longer than one day, so this number multiplied by Period cannot be more than 86,400 seconds.
         public let evaluationPeriods: Int
-        /// The percentile statistic for the metric specified in MetricName. Specify a value
-        /// 			between p0.0 and p100. When you call PutMetricAlarm and specify
+        /// The extended statistic for the metric specified in MetricName. When you
+        /// 			call PutMetricAlarm and specify
         /// 			a MetricName, you must
-        /// 			specify either Statistic or ExtendedStatistic, but not both.
+        /// 			specify either Statistic or ExtendedStatistic but not both. If you specify ExtendedStatistic, the following are valid values:    p90     tm90     tc90     ts90     wm90     IQM     PR(n:m) where n and m are values
+        /// 			of the metric    TC(X%:X%) where X is between
+        /// 				10 and 90 inclusive.    TM(X%:X%) where X is between
+        /// 				10 and 90 inclusive.    TS(X%:X%) where X is between
+        /// 				10 and 90 inclusive.    WM(X%:X%) where X is between
+        /// 				10 and 90 inclusive.   For more information about these extended statistics, see
+        /// 			CloudWatch statistics definitions.
         public let extendedStatistic: String?
         /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state.
         /// 			Each action is specified as an Amazon Resource Name (ARN). Valid values:  EC2 actions:     arn:aws:automate:region:ec2:stop     arn:aws:automate:region:ec2:terminate     arn:aws:automate:region:ec2:reboot     arn:aws:automate:region:ec2:recover     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0     Autoscaling action:     arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name      SNS notification action:     arn:aws:sns:region:account-id:sns-topic-name:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name      SSM integration actions:     arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name      arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
@@ -3261,7 +3270,9 @@ extension CloudWatch {
         /// 			a MetricName, you must
         /// 		specify either Statistic or ExtendedStatistic, but not both.
         public let statistic: Statistic?
-        /// A list of key-value pairs to associate with the alarm. You can associate as many as 50 tags with an alarm. Tags can help you organize and categorize your resources. You can also use them to scope user
+        /// A list of key-value pairs to associate with the alarm. You can associate as many as 50 tags with an alarm.
+        /// 		To be able to associate tags with the alarm when you create the alarm, you must
+        /// 		have the cloudwatch:TagResource permission. Tags can help you organize and categorize your resources. You can also use them to scope user
         /// 			permissions by granting a user
         /// 			permission to access or change only resources with certain tag values. If you are using this operation to update an existing alarm, any tags
         /// 			you specify in this parameter are ignored. To change the tags of an existing alarm, use
@@ -3735,7 +3746,7 @@ extension CloudWatch {
     public struct TagResourceInput: AWSEncodableShape {
         /// The ARN of the CloudWatch resource that you're adding tags to. The ARN format of an alarm is
         /// 			arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN format of a Contributor Insights rule is
-        /// 			arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name   For more information about ARN format, see  Resource
+        /// 			arn:aws:cloudwatch:Region:account-id:insight-rule/insight-rule-name   For more information about ARN format, see  Resource
         /// 				Types Defined by Amazon CloudWatch in the Amazon Web Services General
         /// 			Reference.
         public let resourceARN: String
@@ -3769,7 +3780,7 @@ extension CloudWatch {
     public struct UntagResourceInput: AWSEncodableShape {
         /// The ARN of the CloudWatch resource that you're removing tags from. The ARN format of an alarm is
         /// 			arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN format of a Contributor Insights rule is
-        /// 			arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name   For more information about ARN format, see  Resource
+        /// 			arn:aws:cloudwatch:Region:account-id:insight-rule/insight-rule-name   For more information about ARN format, see  Resource
         /// 				Types Defined by Amazon CloudWatch in the Amazon Web Services General
         /// 			Reference.
         public let resourceARN: String

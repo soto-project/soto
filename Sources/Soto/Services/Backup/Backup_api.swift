@@ -93,6 +93,11 @@ public struct Backup: AWSService {
         return self.client.execute(operation: "CreateLegalHold", path: "/legal-holds", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// This request creates a logical container to where backups may be copied. This request includes a name, the Region, the maximum number of retention days, the  minimum number of retention days, and optionally can include tags and a creator request  ID.  Do not include sensitive data, such as passport numbers, in the name of a backup vault.
+    public func createLogicallyAirGappedBackupVault(_ input: CreateLogicallyAirGappedBackupVaultInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLogicallyAirGappedBackupVaultOutput> {
+        return self.client.execute(operation: "CreateLogicallyAirGappedBackupVault", path: "/logically-air-gapped-backup-vaults/{BackupVaultName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a report plan. A report plan is a document that contains information about the contents of the report and where Backup will deliver it. If you call CreateReportPlan with a plan that already exists, you receive an AlreadyExistsException exception.
     public func createReportPlan(_ input: CreateReportPlanInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateReportPlanOutput> {
         return self.client.execute(operation: "CreateReportPlan", path: "/audit/report-plans", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -306,6 +311,11 @@ public struct Backup: AWSService {
     /// Returns an array of resources successfully backed up by Backup, including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
     public func listProtectedResources(_ input: ListProtectedResourcesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProtectedResourcesOutput> {
         return self.client.execute(operation: "ListProtectedResources", path: "/resources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// This request lists the protected resources corresponding to each backup vault.
+    public func listProtectedResourcesByBackupVault(_ input: ListProtectedResourcesByBackupVaultInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProtectedResourcesByBackupVaultOutput> {
+        return self.client.execute(operation: "ListProtectedResourcesByBackupVault", path: "/backup-vaults/{BackupVaultName}/resources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns detailed information about the recovery points stored in a backup vault.
@@ -966,6 +976,59 @@ extension Backup {
         )
     }
 
+    /// This request lists the protected resources corresponding to each backup vault.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listProtectedResourcesByBackupVaultPaginator<Result>(
+        _ input: ListProtectedResourcesByBackupVaultInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListProtectedResourcesByBackupVaultOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listProtectedResourcesByBackupVault,
+            inputKey: \ListProtectedResourcesByBackupVaultInput.nextToken,
+            outputKey: \ListProtectedResourcesByBackupVaultOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listProtectedResourcesByBackupVaultPaginator(
+        _ input: ListProtectedResourcesByBackupVaultInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListProtectedResourcesByBackupVaultOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listProtectedResourcesByBackupVault,
+            inputKey: \ListProtectedResourcesByBackupVaultInput.nextToken,
+            outputKey: \ListProtectedResourcesByBackupVaultOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// Returns detailed information about the recovery points stored in a backup vault.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1399,6 +1462,8 @@ extension Backup.ListBackupSelectionsInput: AWSPaginateToken {
 extension Backup.ListBackupVaultsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListBackupVaultsInput {
         return .init(
+            byShared: self.byShared,
+            byVaultType: self.byVaultType,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -1442,6 +1507,17 @@ extension Backup.ListLegalHoldsInput: AWSPaginateToken {
     }
 }
 
+extension Backup.ListProtectedResourcesByBackupVaultInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Backup.ListProtectedResourcesByBackupVaultInput {
+        return .init(
+            backupVaultAccountId: self.backupVaultAccountId,
+            backupVaultName: self.backupVaultName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Backup.ListProtectedResourcesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListProtectedResourcesInput {
         return .init(
@@ -1454,6 +1530,7 @@ extension Backup.ListProtectedResourcesInput: AWSPaginateToken {
 extension Backup.ListRecoveryPointsByBackupVaultInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListRecoveryPointsByBackupVaultInput {
         return .init(
+            backupVaultAccountId: self.backupVaultAccountId,
             backupVaultName: self.backupVaultName,
             byBackupPlanId: self.byBackupPlanId,
             byCreatedAfter: self.byCreatedAfter,

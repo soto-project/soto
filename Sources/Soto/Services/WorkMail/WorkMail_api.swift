@@ -204,6 +204,11 @@ public struct WorkMail: AWSService {
         return self.client.execute(operation: "DescribeEmailMonitoringConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns basic details about an entity in WorkMail.
+    public func describeEntity(_ input: DescribeEntityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEntityResponse> {
+        return self.client.execute(operation: "DescribeEntity", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns the data available for the group.
     public func describeGroup(_ input: DescribeGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeGroupResponse> {
         return self.client.execute(operation: "DescribeGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -307,6 +312,11 @@ public struct WorkMail: AWSService {
     /// Returns summaries of the organization's groups.
     public func listGroups(_ input: ListGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGroupsResponse> {
         return self.client.execute(operation: "ListGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns all the groups to which an entity belongs.
+    public func listGroupsForEntity(_ input: ListGroupsForEntityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGroupsForEntityResponse> {
+        return self.client.execute(operation: "ListGroupsForEntity", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists all the impersonation roles for the given WorkMail organization.
@@ -419,7 +429,7 @@ public struct WorkMail: AWSService {
         return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Performs a test on an availability provider to ensure that access is allowed. For EWS, it verifies the provided credentials can be used to successfully log in. For Lambda, it verifies that the Lambda function can be invoked and that the resource access policy was configured to deny anonymous access. An anonymous invocation is one done without providing either a SourceArn or SourceAccount header.    The request must contain either one provider definition (EwsProvider or LambdaProvider) or the DomainName parameter. If the DomainName parameter is provided, the configuration stored under the DomainName will be tested.
+    /// Performs a test on an availability provider to ensure that access is allowed. For EWS, it verifies the provided credentials can be used to successfully log in. For Lambda, it verifies that the Lambda function can be invoked and that the resource access policy was configured to deny anonymous access. An anonymous invocation is one done without providing either a SourceArn or SourceAccount header.  The request must contain either one provider definition (EwsProvider or LambdaProvider) or the DomainName parameter. If the DomainName parameter is provided, the configuration stored under the DomainName will be tested.
     public func testAvailabilityConfiguration(_ input: TestAvailabilityConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TestAvailabilityConfigurationResponse> {
         return self.client.execute(operation: "TestAvailabilityConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -437,6 +447,11 @@ public struct WorkMail: AWSService {
     /// Updates the default mail domain for an organization. The default mail domain is used by the WorkMail AWS Console to suggest an email address when enabling a mail user. You can only have one default domain.
     public func updateDefaultMailDomain(_ input: UpdateDefaultMailDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDefaultMailDomainResponse> {
         return self.client.execute(operation: "UpdateDefaultMailDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates attibutes in a group.
+    public func updateGroup(_ input: UpdateGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateGroupResponse> {
+        return self.client.execute(operation: "UpdateGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates an impersonation role for the given WorkMail organization.
@@ -462,6 +477,11 @@ public struct WorkMail: AWSService {
     /// Updates data for the resource. To have the latest information, it must be preceded by a DescribeResource call. The dataset in the request should be the one expected when performing another DescribeResource call.
     public func updateResource(_ input: UpdateResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateResourceResponse> {
         return self.client.execute(operation: "UpdateResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates data for the user. To have the latest information, it must be preceded by a DescribeUser call. The dataset in the request should be the one expected when performing another DescribeUser call.
+    public func updateUser(_ input: UpdateUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateUserResponse> {
+        return self.client.execute(operation: "UpdateUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 
@@ -684,6 +704,59 @@ extension WorkMail {
             command: self.listGroups,
             inputKey: \ListGroupsRequest.nextToken,
             outputKey: \ListGroupsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Returns all the groups to which an entity belongs.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listGroupsForEntityPaginator<Result>(
+        _ input: ListGroupsForEntityRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListGroupsForEntityResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listGroupsForEntity,
+            inputKey: \ListGroupsForEntityRequest.nextToken,
+            outputKey: \ListGroupsForEntityResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listGroupsForEntityPaginator(
+        _ input: ListGroupsForEntityRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListGroupsForEntityResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listGroupsForEntity,
+            inputKey: \ListGroupsForEntityRequest.nextToken,
+            outputKey: \ListGroupsForEntityResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1199,9 +1272,22 @@ extension WorkMail.ListGroupMembersRequest: AWSPaginateToken {
     }
 }
 
+extension WorkMail.ListGroupsForEntityRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WorkMail.ListGroupsForEntityRequest {
+        return .init(
+            entityId: self.entityId,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            organizationId: self.organizationId
+        )
+    }
+}
+
 extension WorkMail.ListGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkMail.ListGroupsRequest {
         return .init(
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
             organizationId: self.organizationId
@@ -1285,6 +1371,7 @@ extension WorkMail.ListResourceDelegatesRequest: AWSPaginateToken {
 extension WorkMail.ListResourcesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkMail.ListResourcesRequest {
         return .init(
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
             organizationId: self.organizationId
@@ -1295,6 +1382,7 @@ extension WorkMail.ListResourcesRequest: AWSPaginateToken {
 extension WorkMail.ListUsersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkMail.ListUsersRequest {
         return .init(
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
             organizationId: self.organizationId

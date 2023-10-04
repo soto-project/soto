@@ -21,7 +21,7 @@ import SotoCore
 extension ServiceQuotas {
     // MARK: Async API Calls
 
-    /// Associates your quota request template with your organization. When a new account is created in your organization, the quota increase requests in the template are automatically applied to the account. You can add a quota increase request for any adjustable quota to your template.
+    /// Associates your quota request template with your organization. When a new Amazon Web Services account is created in your organization, the quota increase requests in the template are automatically applied to the account. You can add a quota increase request for any adjustable quota to your template.
     public func associateServiceQuotaTemplate(_ input: AssociateServiceQuotaTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateServiceQuotaTemplateResponse {
         return try await self.client.execute(operation: "AssociateServiceQuotaTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -31,7 +31,7 @@ extension ServiceQuotas {
         return try await self.client.execute(operation: "DeleteServiceQuotaIncreaseRequestFromTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disables your quota request template. After a template is disabled, the quota increase requests in the template are not applied to new accounts in your organization. Disabling a quota request template does not apply its quota increase requests.
+    /// Disables your quota request template. After a template is disabled, the quota increase requests in the template are not applied to new Amazon Web Services accounts in your organization. Disabling a quota request template does not apply its quota increase requests.
     public func disassociateServiceQuotaTemplate(_ input: DisassociateServiceQuotaTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisassociateServiceQuotaTemplateResponse {
         return try await self.client.execute(operation: "DisassociateServiceQuotaTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -61,12 +61,12 @@ extension ServiceQuotas {
         return try await self.client.execute(operation: "GetServiceQuotaIncreaseRequestFromTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the default values for the quotas for the specified AWS service. A default value does not reflect any quota increases.
+    /// Lists the default values for the quotas for the specified Amazon Web Service. A default value does not reflect any quota increases.
     public func listAWSDefaultServiceQuotas(_ input: ListAWSDefaultServiceQuotasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAWSDefaultServiceQuotasResponse {
         return try await self.client.execute(operation: "ListAWSDefaultServiceQuotas", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the quota increase requests for the specified service.
+    /// Retrieves the quota increase requests for the specified Amazon Web Service.
     public func listRequestedServiceQuotaChangeHistory(_ input: ListRequestedServiceQuotaChangeHistoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListRequestedServiceQuotaChangeHistoryResponse {
         return try await self.client.execute(operation: "ListRequestedServiceQuotaChangeHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -81,12 +81,12 @@ extension ServiceQuotas {
         return try await self.client.execute(operation: "ListServiceQuotaIncreaseRequestsInTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the applied quota values for the specified AWS service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
+    /// Lists the applied quota values for the specified Amazon Web Service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
     public func listServiceQuotas(_ input: ListServiceQuotasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListServiceQuotasResponse {
         return try await self.client.execute(operation: "ListServiceQuotas", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the names and codes for the services integrated with Service Quotas.
+    /// Lists the names and codes for the Amazon Web Services integrated with Service Quotas.
     public func listServices(_ input: ListServicesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListServicesResponse {
         return try await self.client.execute(operation: "ListServices", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -121,7 +121,7 @@ extension ServiceQuotas {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ServiceQuotas {
-    /// Lists the default values for the quotas for the specified AWS service. A default value does not reflect any quota increases.
+    /// Lists the default values for the quotas for the specified Amazon Web Service. A default value does not reflect any quota increases.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -143,7 +143,7 @@ extension ServiceQuotas {
         )
     }
 
-    /// Retrieves the quota increase requests for the specified service.
+    /// Retrieves the quota increase requests for the specified Amazon Web Service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -209,7 +209,7 @@ extension ServiceQuotas {
         )
     }
 
-    /// Lists the applied quota values for the specified AWS service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
+    /// Lists the applied quota values for the specified Amazon Web Service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -231,7 +231,7 @@ extension ServiceQuotas {
         )
     }
 
-    /// Lists the names and codes for the services integrated with Service Quotas.
+    /// Lists the names and codes for the Amazon Web Services integrated with Service Quotas.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

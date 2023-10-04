@@ -203,6 +203,14 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum FindingDetailsErrorCode: String, CustomStringConvertible, Codable, Sendable {
+        case accessDenied = "ACCESS_DENIED"
+        case findingDetailsNotFound = "FINDING_DETAILS_NOT_FOUND"
+        case internalError = "INTERNAL_ERROR"
+        case invalidInput = "INVALID_INPUT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FindingStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case closed = "CLOSED"
@@ -1266,6 +1274,46 @@ extension Inspector2 {
         }
     }
 
+    public struct BatchGetFindingDetailsRequest: AWSEncodableShape {
+        /// A list of finding ARNs.
+        public let findingArns: [String]
+
+        public init(findingArns: [String]) {
+            self.findingArns = findingArns
+        }
+
+        public func validate(name: String) throws {
+            try self.findingArns.forEach {
+                try validate($0, name: "findingArns[]", parent: name, max: 100)
+                try validate($0, name: "findingArns[]", parent: name, min: 1)
+                try validate($0, name: "findingArns[]", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:finding/[a-f0-9]{32}$")
+            }
+            try self.validate(self.findingArns, name: "findingArns", parent: name, max: 10)
+            try self.validate(self.findingArns, name: "findingArns", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingArns = "findingArns"
+        }
+    }
+
+    public struct BatchGetFindingDetailsResponse: AWSDecodableShape {
+        /// Error information for findings that details could not be returned for.
+        public let errors: [FindingDetailsError]?
+        /// A finding's vulnerability details.
+        public let findingDetails: [FindingDetail]?
+
+        public init(errors: [FindingDetailsError]? = nil, findingDetails: [FindingDetail]? = nil) {
+            self.errors = errors
+            self.findingDetails = findingDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+            case findingDetails = "findingDetails"
+        }
+    }
+
     public struct BatchGetFreeTrialInfoRequest: AWSEncodableShape {
         /// The account IDs to get free trial status for.
         public let accountIds: [String]
@@ -2188,7 +2236,7 @@ extension Inspector2 {
     public struct Destination: AWSEncodableShape & AWSDecodableShape {
         /// The name of the Amazon S3 bucket to export findings to.
         public let bucketName: String
-        /// The prefix of the Amazon S3 bucket used to export findings.
+        /// The prefix that the findings will be written under.
         public let keyPrefix: String?
         /// The ARN of the KMS key used to encrypt data when exporting findings.
         public let kmsKeyArn: String
@@ -2620,6 +2668,27 @@ extension Inspector2 {
         }
     }
 
+    public struct Evidence: AWSDecodableShape {
+        /// The evidence details.
+        public let evidenceDetail: String?
+        /// The evidence rule.
+        public let evidenceRule: String?
+        /// The evidence severity.
+        public let severity: String?
+
+        public init(evidenceDetail: String? = nil, evidenceRule: String? = nil, severity: String? = nil) {
+            self.evidenceDetail = evidenceDetail
+            self.evidenceRule = evidenceRule
+            self.severity = severity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evidenceDetail = "evidenceDetail"
+            case evidenceRule = "evidenceRule"
+            case severity = "severity"
+        }
+    }
+
     public struct ExploitObserved: AWSDecodableShape {
         /// The date an time when the exploit was first seen.
         public let firstSeen: Date?
@@ -2808,7 +2877,7 @@ extension Inspector2 {
         public let lambdaFunctionRuntime: [StringFilter]?
         /// Details on the date and time a finding was last seen used to filter findings.
         public let lastObservedAt: [DateFilter]?
-        /// Details on the ingress source addresses used to filter findings.
+        /// Details on network protocol used to filter findings.
         public let networkProtocol: [StringFilter]?
         /// Details on the port ranges used to filter findings.
         public let portRange: [PortRangeFilter]?
@@ -3208,6 +3277,74 @@ extension Inspector2 {
             case title = "title"
             case type = "type"
             case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct FindingDetail: AWSDecodableShape {
+        public let cisaData: CisaData?
+        /// The Common Weakness Enumerations (CWEs) associated with the vulnerability.
+        public let cwes: [String]?
+        /// The Exploit Prediction Scoring System (EPSS) score of the vulnerability.
+        public let epssScore: Double?
+        /// Information on the evidence of the vulnerability.
+        public let evidences: [Evidence]?
+        public let exploitObserved: ExploitObserved?
+        /// The finding ARN that the vulnerability details are associated with.
+        public let findingArn: String?
+        /// The reference URLs for the vulnerability data.
+        public let referenceUrls: [String]?
+        /// The risk score of the vulnerability.
+        public let riskScore: Int?
+        /// The known malware tools or kits that can exploit the vulnerability.
+        public let tools: [String]?
+        /// The MITRE adversary tactics, techniques, or procedures (TTPs) associated with the vulnerability.
+        public let ttps: [String]?
+
+        public init(cisaData: CisaData? = nil, cwes: [String]? = nil, epssScore: Double? = nil, evidences: [Evidence]? = nil, exploitObserved: ExploitObserved? = nil, findingArn: String? = nil, referenceUrls: [String]? = nil, riskScore: Int? = nil, tools: [String]? = nil, ttps: [String]? = nil) {
+            self.cisaData = cisaData
+            self.cwes = cwes
+            self.epssScore = epssScore
+            self.evidences = evidences
+            self.exploitObserved = exploitObserved
+            self.findingArn = findingArn
+            self.referenceUrls = referenceUrls
+            self.riskScore = riskScore
+            self.tools = tools
+            self.ttps = ttps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cisaData = "cisaData"
+            case cwes = "cwes"
+            case epssScore = "epssScore"
+            case evidences = "evidences"
+            case exploitObserved = "exploitObserved"
+            case findingArn = "findingArn"
+            case referenceUrls = "referenceUrls"
+            case riskScore = "riskScore"
+            case tools = "tools"
+            case ttps = "ttps"
+        }
+    }
+
+    public struct FindingDetailsError: AWSDecodableShape {
+        /// The error code.
+        public let errorCode: FindingDetailsErrorCode
+        /// The error message.
+        public let errorMessage: String
+        /// The finding ARN that returned an error.
+        public let findingArn: String
+
+        public init(errorCode: FindingDetailsErrorCode, errorMessage: String, findingArn: String) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.findingArn = findingArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case findingArn = "findingArn"
         }
     }
 

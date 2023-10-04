@@ -76,6 +76,7 @@ public struct STS: AWSService {
                 "eu-west-1": "sts.eu-west-1.amazonaws.com",
                 "eu-west-2": "sts.eu-west-2.amazonaws.com",
                 "eu-west-3": "sts.eu-west-3.amazonaws.com",
+                "il-central-1": "sts.il-central-1.amazonaws.com",
                 "me-central-1": "sts.me-central-1.amazonaws.com",
                 "me-south-1": "sts.me-south-1.amazonaws.com",
                 "sa-east-1": "sts.sa-east-1.amazonaws.com",

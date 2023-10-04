@@ -2421,6 +2421,58 @@ extension IAM {
         }
     }
 
+    public struct GetMFADeviceRequest: AWSEncodableShape {
+        /// Serial number that uniquely identifies the MFA device. For this API, we only accept FIDO security key ARNs.
+        public let serialNumber: String
+        /// The friendly name identifying the user.
+        public let userName: String?
+
+        public init(serialNumber: String, userName: String? = nil) {
+            self.serialNumber = serialNumber
+            self.userName = userName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serialNumber, name: "serialNumber", parent: name, max: 256)
+            try self.validate(self.serialNumber, name: "serialNumber", parent: name, min: 9)
+            try self.validate(self.serialNumber, name: "serialNumber", parent: name, pattern: "^[\\w+=/:,.@-]+$")
+            try self.validate(self.userName, name: "userName", parent: name, max: 64)
+            try self.validate(self.userName, name: "userName", parent: name, min: 1)
+            try self.validate(self.userName, name: "userName", parent: name, pattern: "^[\\w+=,.@-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serialNumber = "SerialNumber"
+            case userName = "UserName"
+        }
+    }
+
+    public struct GetMFADeviceResponse: AWSDecodableShape {
+        /// The certifications of a specified user's MFA device. We currently provide FIPS-140-2, FIPS-140-3, and FIDO certification levels obtained from  FIDO Alliance Metadata Service (MDS).
+        @OptionalCustomCoding<StandardDictionaryCoder>
+        public var certifications: [String: String]?
+        /// The date that a specified user's MFA device was first enabled.
+        public let enableDate: Date?
+        /// Serial number that uniquely identifies the MFA device. For this API, we only accept FIDO security key ARNs.
+        public let serialNumber: String
+        /// The friendly name identifying the user.
+        public let userName: String?
+
+        public init(certifications: [String: String]? = nil, enableDate: Date? = nil, serialNumber: String, userName: String? = nil) {
+            self.certifications = certifications
+            self.enableDate = enableDate
+            self.serialNumber = serialNumber
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certifications = "Certifications"
+            case enableDate = "EnableDate"
+            case serialNumber = "SerialNumber"
+            case userName = "UserName"
+        }
+    }
+
     public struct GetOpenIDConnectProviderRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the OIDC provider resource object in IAM to get information for. You can get a list of OIDC provider resource ARNs by using the ListOpenIDConnectProviders operation. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let openIDConnectProviderArn: String
@@ -5382,7 +5434,7 @@ extension IAM {
     public struct PutGroupPolicyRequest: AWSEncodableShape {
         /// The name of the group to associate the policy with. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-.
         public let groupName: String
-        /// The policy document. You must provide policies in JSON format in IAM. However, for CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to = IAM. The regex pattern  used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII  character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and  Latin-1 Supplement character set  (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and  carriage return (\u000D)
+        /// The policy document. You must provide policies in JSON format in IAM. However, for CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern  used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII  character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and  Latin-1 Supplement character set  (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and  carriage return (\u000D)
         public let policyDocument: String
         /// The name of the policy document. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let policyName: String

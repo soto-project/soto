@@ -49,6 +49,12 @@ extension ElasticLoadBalancingV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum: String, CustomStringConvertible, Codable, Sendable {
+        case off = "off"
+        case on = "on"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IpAddressType: String, CustomStringConvertible, Codable, Sendable {
         case dualstack = "dualstack"
         case ipv4 = "ipv4"
@@ -485,7 +491,7 @@ extension ElasticLoadBalancingV2 {
         public let name: String
         /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can route requests only from clients with access to the VPC for the load balancer. The default is an Internet-facing load balancer. You cannot specify a scheme for a Gateway Load Balancer.
         public let scheme: LoadBalancerSchemeEnum?
-        /// [Application Load Balancers] The IDs of the security groups for the load balancer.
+        /// [Application Load Balancers and Network Load Balancers] The IDs of the security groups for the load balancer.
         @OptionalCustomCoding<StandardArrayCoder>
         public var securityGroups: [String]?
         /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings, but not both. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones. You cannot specify Elastic IP addresses for your subnets.
@@ -1435,6 +1441,8 @@ extension ElasticLoadBalancingV2 {
         public let customerOwnedIpv4Pool: String?
         /// The public DNS name of the load balancer.
         public let dnsName: String?
+        /// Indicates whether to evaluate inbound security group rules for traffic sent to a  Network Load Balancer through Amazon Web Services PrivateLink.
+        public let enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: String?
         /// The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
         public let ipAddressType: IpAddressType?
         /// The Amazon Resource Name (ARN) of the load balancer.
@@ -1453,12 +1461,13 @@ extension ElasticLoadBalancingV2 {
         /// The ID of the VPC for the load balancer.
         public let vpcId: String?
 
-        public init(availabilityZones: [AvailabilityZone]? = nil, canonicalHostedZoneId: String? = nil, createdTime: Date? = nil, customerOwnedIpv4Pool: String? = nil, dnsName: String? = nil, ipAddressType: IpAddressType? = nil, loadBalancerArn: String? = nil, loadBalancerName: String? = nil, scheme: LoadBalancerSchemeEnum? = nil, securityGroups: [String]? = nil, state: LoadBalancerState? = nil, type: LoadBalancerTypeEnum? = nil, vpcId: String? = nil) {
+        public init(availabilityZones: [AvailabilityZone]? = nil, canonicalHostedZoneId: String? = nil, createdTime: Date? = nil, customerOwnedIpv4Pool: String? = nil, dnsName: String? = nil, enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: String? = nil, ipAddressType: IpAddressType? = nil, loadBalancerArn: String? = nil, loadBalancerName: String? = nil, scheme: LoadBalancerSchemeEnum? = nil, securityGroups: [String]? = nil, state: LoadBalancerState? = nil, type: LoadBalancerTypeEnum? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.canonicalHostedZoneId = canonicalHostedZoneId
             self.createdTime = createdTime
             self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
             self.dnsName = dnsName
+            self.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTraffic
             self.ipAddressType = ipAddressType
             self.loadBalancerArn = loadBalancerArn
             self.loadBalancerName = loadBalancerName
@@ -1475,6 +1484,7 @@ extension ElasticLoadBalancingV2 {
             case createdTime = "CreatedTime"
             case customerOwnedIpv4Pool = "CustomerOwnedIpv4Pool"
             case dnsName = "DNSName"
+            case enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = "EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic"
             case ipAddressType = "IpAddressType"
             case loadBalancerArn = "LoadBalancerArn"
             case loadBalancerName = "LoadBalancerName"
@@ -2097,7 +2107,7 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct SetIpAddressTypeInput: AWSEncodableShape {
-        /// The IP address type. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener.
+        /// The IP address type. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).  You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener.
         public let ipAddressType: IpAddressType
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
@@ -2161,39 +2171,47 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct SetSecurityGroupsInput: AWSEncodableShape {
+        /// Indicates whether to evaluate inbound security group rules for traffic sent to a  Network Load Balancer through Amazon Web Services PrivateLink. The default is on.
+        public let enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum?
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
         /// The IDs of the security groups.
         @CustomCoding<StandardArrayCoder>
         public var securityGroups: [String]
 
-        public init(loadBalancerArn: String, securityGroups: [String]) {
+        public init(enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum? = nil, loadBalancerArn: String, securityGroups: [String]) {
+            self.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTraffic
             self.loadBalancerArn = loadBalancerArn
             self.securityGroups = securityGroups
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = "EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic"
             case loadBalancerArn = "LoadBalancerArn"
             case securityGroups = "SecurityGroups"
         }
     }
 
     public struct SetSecurityGroupsOutput: AWSDecodableShape {
+        /// Indicates whether to evaluate inbound security group rules for traffic sent to a  Network Load Balancer through Amazon Web Services PrivateLink.
+        public let enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum?
         /// The IDs of the security groups associated with the load balancer.
         @OptionalCustomCoding<StandardArrayCoder>
         public var securityGroupIds: [String]?
 
-        public init(securityGroupIds: [String]? = nil) {
+        public init(enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum? = nil, securityGroupIds: [String]? = nil) {
+            self.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTraffic
             self.securityGroupIds = securityGroupIds
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = "EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic"
             case securityGroupIds = "SecurityGroupIds"
         }
     }
 
     public struct SetSubnetsInput: AWSEncodableShape {
-        /// [Network Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener. .
+        /// [Network Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener.
         public let ipAddressType: IpAddressType?
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
@@ -2352,7 +2370,7 @@ extension ElasticLoadBalancingV2 {
         public let availabilityZone: String?
         /// The ID of the target. If the target type of the target group is instance, specify an instance ID. If the target type is ip, specify an IP address. If the target type is lambda, specify the ARN of the Lambda function. If the target type is alb, specify the ARN of the Application Load Balancer target.
         public let id: String
-        /// The port on which the target is listening. If the target group protocol is GENEVE, the supported port is 6081. If the target type is alb, the targeted Application Load Balancer must have at least one listener whose port matches the target group port. Not used if the target is a Lambda function.
+        /// The port on which the target is listening. If the target group protocol is GENEVE, the supported port is 6081. If the target type is alb, the targeted Application Load Balancer must have at least one listener whose port matches the target group port. This  parameter is not used if the target is a Lambda function.
         public let port: Int?
 
         public init(availabilityZone: String? = nil, id: String, port: Int? = nil) {
@@ -2390,12 +2408,12 @@ extension ElasticLoadBalancingV2 {
         public let healthyThresholdCount: Int?
         /// The type of IP address used for this target group. The possible values are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address type defaults to ipv4.
         public let ipAddressType: TargetGroupIpAddressTypeEnum?
-        /// The Amazon Resource Names (ARN) of the load balancers that route traffic to this target group.
+        /// The Amazon Resource Name (ARN) of the load balancer that routes traffic to this target group. You can use each target group with only one load balancer.
         @OptionalCustomCoding<StandardArrayCoder>
         public var loadBalancerArns: [String]?
         /// The HTTP or gRPC codes to use when checking for a successful response from a target.
         public let matcher: Matcher?
-        /// The port on which the targets are listening. Not used if the target is a Lambda function.
+        /// The port on which the targets are listening. This parameter is not used if the target is  a Lambda function.
         public let port: Int?
         /// The protocol to use for routing traffic to the targets.
         public let `protocol`: ProtocolEnum?
@@ -2456,7 +2474,7 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct TargetGroupAttribute: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the attribute. The following attributes are supported by all load balancers:    deregistration_delay.timeout_seconds - The amount of time, in seconds, for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds. If the target is a Lambda function, this attribute is not supported.    stickiness.enabled - Indicates whether target stickiness is enabled. The value is true or false. The default is false.    stickiness.type - Indicates the type of stickiness. The possible values are:    lb_cookie and app_cookie for Application Load Balancers.    source_ip for Network Load Balancers.    source_ip_dest_ip and source_ip_dest_ip_proto for Gateway Load Balancers.     The following attributes are supported by Application Load Balancers and  Network Load Balancers:    load_balancing.cross_zone.enabled - Indicates whether cross zone load  balancing is enabled. The value is true, false or  use_load_balancer_configuration. The default is  use_load_balancer_configuration.    target_group_health.dns_failover.minimum_healthy_targets.count -  The minimum number of targets that must be healthy. If the number of healthy targets is below this value, mark the zone as unhealthy in DNS, so that traffic is routed only to healthy zones. The possible values are off or an integer from 1 to the maximum number of targets. The default is off.    target_group_health.dns_failover.minimum_healthy_targets.percentage -  The minimum percentage of targets that must be healthy. If the percentage of healthy targets is below this value, mark the zone as unhealthy in DNS, so that traffic is routed only to healthy zones. The possible values are off or an integer from 1 to 100. The default is off.    target_group_health.unhealthy_state_routing.minimum_healthy_targets.count -  The minimum number of targets that must be healthy.   If the number of healthy targets is below this value, send traffic to all targets, including unhealthy targets. The possible values are 1 to the maximum number of targets. The default is 1.    target_group_health.unhealthy_state_routing.minimum_healthy_targets.percentage -  The minimum percentage of targets that must be healthy.  If the percentage of healthy targets is below this value, send traffic to all targets, including unhealthy targets. The possible values are off or an integer from 1 to 100. The default is off.   The following attributes are supported only if the load balancer is an Application Load Balancer and the target is an instance or an IP address:    load_balancing.algorithm.type - The load balancing algorithm determines how the load balancer selects targets when routing requests. The value is round_robin or least_outstanding_requests. The default is round_robin.    slow_start.duration_seconds - The time period, in seconds, during which a newly registered target receives an increasing share of the traffic to the target group. After this time period ends, the target receives its full share of traffic. The range is 30-900 seconds (15 minutes). The default is 0 seconds (disabled).    stickiness.app_cookie.cookie_name - Indicates the name of the application-based cookie. Names that start with the following prefixes are not allowed: AWSALB, AWSALBAPP, and AWSALBTG; they're reserved for use by the load balancer.    stickiness.app_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the application-based cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).    The following attribute is supported only if the load balancer is an Application Load Balancer and the target is a Lambda function:    lambda.multi_value_headers.enabled - Indicates whether the request and response headers that are exchanged between the load balancer and the Lambda function include arrays of values or strings. The value is true or false. The default is false. If the value is false and the request contains a duplicate header field name or query parameter key, the load balancer uses the last value sent by the client.   The following attributes are supported only by Network Load Balancers:    deregistration_delay.connection_termination.enabled - Indicates whether the load balancer terminates connections at the end of the deregistration timeout. The value is true or false. The default is false.    preserve_client_ip.enabled - Indicates whether client IP preservation is enabled. The value is true or false. The default is disabled if the target group type is IP address and the target group protocol is TCP or TLS. Otherwise, the default is enabled. Client IP preservation cannot be disabled for UDP and TCP_UDP target groups.    proxy_protocol_v2.enabled - Indicates whether Proxy Protocol version 2 is enabled. The value is true or false. The default is false.    The following attributes are supported only by Gateway Load Balancers:    target_failover.on_deregistration - Indicates how the Gateway Load Balancer handles existing flows when a target is deregistered. The possible values are rebalance and no_rebalance. The default is no_rebalance. The two attributes (target_failover.on_deregistration and target_failover.on_unhealthy) can't be set independently. The value you set for both attributes must be the same.      target_failover.on_unhealthy - Indicates how the Gateway Load Balancer handles existing flows when a target is unhealthy. The possible values are rebalance and no_rebalance. The default is no_rebalance. The two attributes (target_failover.on_deregistration and target_failover.on_unhealthy) cannot be set independently. The value you set for both attributes must be the same.
+        /// The name of the attribute. The following attributes are supported by all load balancers:    deregistration_delay.timeout_seconds - The amount of time, in seconds, for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds. If the target is a Lambda function, this attribute is not supported.    stickiness.enabled - Indicates whether target stickiness is enabled. The value is true or false. The default is false.    stickiness.type - Indicates the type of stickiness. The possible values are:    lb_cookie and app_cookie for Application Load Balancers.    source_ip for Network Load Balancers.    source_ip_dest_ip and source_ip_dest_ip_proto for Gateway Load Balancers.     The following attributes are supported by Application Load Balancers and  Network Load Balancers:    load_balancing.cross_zone.enabled - Indicates whether cross zone load  balancing is enabled. The value is true, false or  use_load_balancer_configuration. The default is  use_load_balancer_configuration.    target_group_health.dns_failover.minimum_healthy_targets.count -  The minimum number of targets that must be healthy. If the number of healthy targets is below this value, mark the zone as unhealthy in DNS, so that traffic is routed only to healthy zones. The possible values are off or an integer from 1 to the maximum number of targets. The default is off.    target_group_health.dns_failover.minimum_healthy_targets.percentage -  The minimum percentage of targets that must be healthy. If the percentage of healthy targets is below this value, mark the zone as unhealthy in DNS, so that traffic is routed only to healthy zones. The possible values are off or an integer from 1 to 100. The default is off.    target_group_health.unhealthy_state_routing.minimum_healthy_targets.count -  The minimum number of targets that must be healthy.   If the number of healthy targets is below this value, send traffic to all targets, including unhealthy targets. The possible values are 1 to the maximum number of targets. The default is 1.    target_group_health.unhealthy_state_routing.minimum_healthy_targets.percentage -  The minimum percentage of targets that must be healthy.  If the percentage of healthy targets is below this value, send traffic to all targets, including unhealthy targets. The possible values are off or an integer from 1 to 100. The default is off.   The following attributes are supported only if the load balancer is an Application Load Balancer and the target is an instance or an IP address:    load_balancing.algorithm.type - The load balancing algorithm determines how the load balancer selects targets when routing requests. The value is round_robin or least_outstanding_requests. The default is round_robin.    slow_start.duration_seconds - The time period, in seconds, during which a newly registered target receives an increasing share of the traffic to the target group. After this time period ends, the target receives its full share of traffic. The range is 30-900 seconds (15 minutes). The default is 0 seconds (disabled).    stickiness.app_cookie.cookie_name - Indicates the name of the application-based cookie. Names that start with the following prefixes are not allowed: AWSALB, AWSALBAPP, and AWSALBTG; they're reserved for use by the load balancer.    stickiness.app_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the application-based cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).    The following attribute is supported only if the load balancer is an Application Load Balancer and the target is a Lambda function:    lambda.multi_value_headers.enabled - Indicates whether the request and response headers that are exchanged between the load balancer and the Lambda function include arrays of values or strings. The value is true or false. The default is false. If the value is false and the request contains a duplicate header field name or query parameter key, the load balancer uses the last value sent by the client.   The following attributes are supported only by Network Load Balancers:    deregistration_delay.connection_termination.enabled - Indicates whether the load balancer terminates connections at the end of the deregistration timeout. The value is true or false. For new UDP/TCP_UDP target groups the  default is true. Otherwise, the default is false.    preserve_client_ip.enabled - Indicates whether client IP preservation is enabled. The value is true or false. The default is disabled if the target group type is IP address and the target group protocol is TCP or TLS. Otherwise, the default is enabled. Client IP preservation cannot be disabled for UDP and TCP_UDP target groups.    proxy_protocol_v2.enabled - Indicates whether Proxy Protocol version 2 is enabled. The value is true or false. The default is false.     target_health_state.unhealthy.connection_termination.enabled - Indicates whether  the load balancer terminates connections to unhealthy targets. The value is true  or false. The default is true.   The following attributes are supported only by Gateway Load Balancers:    target_failover.on_deregistration - Indicates how the Gateway Load Balancer handles existing flows when a target is deregistered. The possible values are rebalance and no_rebalance. The default is no_rebalance. The two attributes (target_failover.on_deregistration and target_failover.on_unhealthy) can't be set independently. The value you set for both attributes must be the same.      target_failover.on_unhealthy - Indicates how the Gateway Load Balancer handles existing flows when a target is unhealthy. The possible values are rebalance and no_rebalance. The default is no_rebalance. The two attributes (target_failover.on_deregistration and target_failover.on_unhealthy) cannot be set independently. The value you set for both attributes must be the same.
         public let key: String?
         /// The value of the attribute.
         public let value: String?

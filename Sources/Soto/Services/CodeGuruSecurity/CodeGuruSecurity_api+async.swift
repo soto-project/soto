@@ -61,7 +61,7 @@ extension CodeGuruSecurity {
         return try await self.client.execute(operation: "ListFindingsMetrics", path: "/metrics/findings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of all the scans in an account.
+    /// Returns a list of all the standard scans in an account. Does not return express scans.
     public func listScans(_ input: ListScansRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListScansResponse {
         return try await self.client.execute(operation: "ListScans", path: "/scans", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -135,7 +135,7 @@ extension CodeGuruSecurity {
         )
     }
 
-    /// Returns a list of all the scans in an account.
+    /// Returns a list of all the standard scans in an account. Does not return express scans.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

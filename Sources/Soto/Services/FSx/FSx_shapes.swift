@@ -30,9 +30,12 @@ extension FSx {
         case fileSystemAliasAssociation = "FILE_SYSTEM_ALIAS_ASSOCIATION"
         case fileSystemAliasDisassociation = "FILE_SYSTEM_ALIAS_DISASSOCIATION"
         case fileSystemUpdate = "FILE_SYSTEM_UPDATE"
+        case iopsOptimization = "IOPS_OPTIMIZATION"
         case releaseNfsV3Locks = "RELEASE_NFS_V3_LOCKS"
         case snapshotUpdate = "SNAPSHOT_UPDATE"
         case storageOptimization = "STORAGE_OPTIMIZATION"
+        case storageTypeOptimization = "STORAGE_TYPE_OPTIMIZATION"
+        case throughputOptimization = "THROUGHPUT_OPTIMIZATION"
         case volumeRestore = "VOLUME_RESTORE"
         case volumeUpdate = "VOLUME_UPDATE"
         public var description: String { return self.rawValue }
@@ -52,6 +55,16 @@ extension FSx {
         case newChanged = "NEW_CHANGED"
         case newChangedDeleted = "NEW_CHANGED_DELETED"
         case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutocommitPeriodType: String, CustomStringConvertible, Codable, Sendable {
+        case days = "DAYS"
+        case hours = "HOURS"
+        case minutes = "MINUTES"
+        case months = "MONTHS"
+        case none = "NONE"
+        case years = "YEARS"
         public var description: String { return self.rawValue }
     }
 
@@ -260,6 +273,7 @@ extension FSx {
     }
 
     public enum OpenZFSDeploymentType: String, CustomStringConvertible, Codable, Sendable {
+        case multiAz1 = "MULTI_AZ_1"
         case singleAz1 = "SINGLE_AZ_1"
         case singleAz2 = "SINGLE_AZ_2"
         public var description: String { return self.rawValue }
@@ -268,6 +282,13 @@ extension FSx {
     public enum OpenZFSQuotaType: String, CustomStringConvertible, Codable, Sendable {
         case group = "GROUP"
         case user = "USER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PrivilegedDelete: String, CustomStringConvertible, Codable, Sendable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        case permanentlyDisabled = "PERMANENTLY_DISABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -293,10 +314,28 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
+    public enum RetentionPeriodType: String, CustomStringConvertible, Codable, Sendable {
+        case days = "DAYS"
+        case hours = "HOURS"
+        case infinite = "INFINITE"
+        case minutes = "MINUTES"
+        case months = "MONTHS"
+        case seconds = "SECONDS"
+        case unspecified = "UNSPECIFIED"
+        case years = "YEARS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SecurityStyle: String, CustomStringConvertible, Codable, Sendable {
         case mixed = "MIXED"
         case ntfs = "NTFS"
         case unix = "UNIX"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SnaplockType: String, CustomStringConvertible, Codable, Sendable {
+        case compliance = "COMPLIANCE"
+        case enterprise = "ENTERPRISE"
         public var description: String { return self.rawValue }
     }
 
@@ -364,6 +403,11 @@ extension FSx {
         case auto = "AUTO"
         case none = "NONE"
         case snapshotOnly = "SNAPSHOT_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Unit: String, CustomStringConvertible, Codable, Sendable {
+        case days = "DAYS"
         public var description: String { return self.rawValue }
     }
 
@@ -573,6 +617,28 @@ extension FSx {
 
         private enum CodingKeys: String, CodingKey {
             case events = "Events"
+        }
+    }
+
+    public struct AutocommitPeriod: AWSEncodableShape & AWSDecodableShape {
+        /// Defines the type of time for the autocommit period of a file in an FSx for ONTAP SnapLock volume.  Setting this value to NONE disables autocommit. The default value is NONE.
+        public let type: AutocommitPeriodType
+        /// Defines the amount of time for the autocommit period of a file in an FSx for ONTAP SnapLock volume.  The following ranges are valid:     Minutes: 5 - 65,535    Hours: 1 - 65,535    Days: 1 - 3,650    Months: 1 - 120    Years: 1 - 10
+        public let value: Int?
+
+        public init(type: AutocommitPeriodType, value: Int? = nil) {
+            self.type = type
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 65535)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+            case value = "Value"
         }
     }
 
@@ -921,19 +987,22 @@ extension FSx {
         public let capacityToRelease: Int64?
         public let clientRequestToken: String?
         public let fileSystemId: String
-        /// A list of paths for the data repository task to use when the task is processed. If a path that you provide isn't valid, the task fails.   For export tasks, the list contains paths on the Amazon FSx file system from which the files are exported to the Amazon S3 bucket. The default path is the file system root directory. The paths you provide need to be relative to the mount point of the file system. If the mount point is /mnt/fsx and /mnt/fsx/path1 is a directory or file on the file system you want to export, then the path to provide is path1.   For import tasks, the list contains paths in the Amazon S3 bucket from which POSIX metadata changes are imported to the Amazon FSx file system. The path can be an S3 bucket or prefix in the format s3://myBucket/myPrefix (where myPrefix is optional).
+        /// A list of paths for the data repository task to use when the task is processed. If a path that you provide isn't valid, the task fails. If you don't provide paths, the default behavior is to export all files to S3 (for export tasks), import all files from S3 (for import tasks), or release all exported files that meet the last accessed time criteria (for release tasks).   For export tasks, the list contains paths on the FSx for Lustre file system from which the files are exported to the Amazon S3 bucket. The default path is the file system root directory. The paths you provide need to be relative to the mount point of the file system. If the mount point is /mnt/fsx and /mnt/fsx/path1 is a directory or file on the file system you want to export, then the path to provide is path1.   For import tasks, the list contains paths in the Amazon S3 bucket from which POSIX metadata changes are imported to the FSx for Lustre file system. The path can be an S3 bucket or prefix in the format s3://myBucket/myPrefix (where myPrefix is optional).    For release tasks, the list contains directory or file paths on the FSx for Lustre file system from which to release exported files. If a directory is specified, files within the directory are released. If a file path is specified, only that file is released. To release all exported files in the file system, specify a forward slash (/) as the path.  A file must also meet the last accessed time criteria specified in  for the file to be released.
         public let paths: [String]?
+        /// The configuration that specifies the last accessed time criteria for files that will be released from an Amazon FSx for Lustre file system.
+        public let releaseConfiguration: ReleaseConfiguration?
         /// Defines whether or not Amazon FSx provides a CompletionReport once the task has completed.  A CompletionReport provides a detailed  report on the files that Amazon FSx processed that meet the criteria specified by the  Scope parameter. For more information, see  Working with Task Completion Reports.
         public let report: CompletionReport
         public let tags: [Tag]?
-        /// Specifies the type of data repository task to create.
+        /// Specifies the type of data repository task to create.    EXPORT_TO_REPOSITORY tasks export from your Amazon FSx for Lustre file system to a linked data repository.    IMPORT_METADATA_FROM_REPOSITORY tasks import metadata changes from a linked S3 bucket to your Amazon FSx for Lustre file system.    RELEASE_DATA_FROM_FILESYSTEM tasks release files in your Amazon FSx for Lustre file system that have been exported to a linked S3 bucket and that meet your specified release criteria.    AUTO_RELEASE_DATA tasks automatically release files from an Amazon File Cache resource.
         public let type: DataRepositoryTaskType
 
-        public init(capacityToRelease: Int64? = nil, clientRequestToken: String? = CreateDataRepositoryTaskRequest.idempotencyToken(), fileSystemId: String, paths: [String]? = nil, report: CompletionReport, tags: [Tag]? = nil, type: DataRepositoryTaskType) {
+        public init(capacityToRelease: Int64? = nil, clientRequestToken: String? = CreateDataRepositoryTaskRequest.idempotencyToken(), fileSystemId: String, paths: [String]? = nil, releaseConfiguration: ReleaseConfiguration? = nil, report: CompletionReport, tags: [Tag]? = nil, type: DataRepositoryTaskType) {
             self.capacityToRelease = capacityToRelease
             self.clientRequestToken = clientRequestToken
             self.fileSystemId = fileSystemId
             self.paths = paths
+            self.releaseConfiguration = releaseConfiguration
             self.report = report
             self.tags = tags
             self.type = type
@@ -953,6 +1022,7 @@ extension FSx {
                 try validate($0, name: "paths[]", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{0,4096}$")
             }
             try self.validate(self.paths, name: "paths", parent: name, max: 100)
+            try self.releaseConfiguration?.validate(name: "\(name).releaseConfiguration")
             try self.report.validate(name: "\(name).report")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -966,6 +1036,7 @@ extension FSx {
             case clientRequestToken = "ClientRequestToken"
             case fileSystemId = "FileSystemId"
             case paths = "Paths"
+            case releaseConfiguration = "ReleaseConfiguration"
             case report = "Report"
             case tags = "Tags"
             case type = "Type"
@@ -1122,7 +1193,7 @@ extension FSx {
         public let backupId: String
         /// A string of up to 63 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
         public let clientRequestToken: String?
-        /// Sets the version for the Amazon FSx for Lustre file system that you're creating from a backup. Valid values are 2.10 and 2.12. You don't need to specify FileSystemTypeVersion because it will be applied using the backup's FileSystemTypeVersion setting. If you choose to specify FileSystemTypeVersion when creating from backup, the value must match the backup's FileSystemTypeVersion setting.
+        /// Sets the version for the Amazon FSx for Lustre file system that you're creating from a backup. Valid values are 2.10, 2.12, and 2.15. You don't need to specify FileSystemTypeVersion because it will be applied using the backup's FileSystemTypeVersion setting. If you choose to specify FileSystemTypeVersion when creating from backup, the value must match the backup's FileSystemTypeVersion setting.
         public let fileSystemTypeVersion: String?
         public let kmsKeyId: String?
         public let lustreConfiguration: CreateFileSystemLustreConfiguration?
@@ -1322,7 +1393,7 @@ extension FSx {
         public let fsxAdminPassword: String?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
         public let preferredSubnetId: String?
-        /// (Multi-AZ only) Specifies the virtual private cloud (VPC) route tables in which your file system's endpoints will be created. You should specify all VPC route tables associated with the subnets in which your clients are located. By default, Amazon FSx selects your VPC's default route table.
+        /// (Multi-AZ only) Specifies the route tables in which Amazon FSx  creates the rules for routing traffic to the correct file server. You should specify all virtual private cloud (VPC) route tables associated with the subnets in which your clients are located. By default, Amazon FSx  selects your VPC's default route table.
         public let routeTableIds: [String]?
         /// Sets the throughput capacity for the file system that you're creating. Valid values are 128, 256, 512, 1024, 2048, and 4096 MBps.
         public let throughputCapacity: Int
@@ -1391,23 +1462,32 @@ extension FSx {
         /// A Boolean value indicating whether tags for the file system should be copied to volumes. This value defaults to false. If it's set to true, all tags for the file system are copied to volumes where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to volumes. If you specify one or more tags when creating the volume, no tags are copied from the file system, regardless of this value.
         public let copyTagsToVolumes: Bool?
         public let dailyAutomaticBackupStartTime: String?
-        /// Specifies the file system deployment type. Single AZ deployment types are configured for redundancy within a single Availability Zone in an Amazon Web Services Region . Valid values are the following:    SINGLE_AZ_1- (Default) Creates file systems with throughput capacities of 64 - 4,096 MBps. Single_AZ_1 is available in all Amazon Web Services Regions where Amazon FSx  for OpenZFS is available.    SINGLE_AZ_2- Creates file systems with throughput capacities of 160 - 10,240 MB/s using an NVMe L2ARC cache. Single_AZ_2 is available only in the US East (N. Virginia), US East (Ohio),  US West (Oregon), and Europe (Ireland) Amazon Web Services Regions.   For more information, see: Deployment type availability and File system performance in the Amazon FSx for OpenZFS User Guide.
+        /// Specifies the file system deployment type. Single AZ deployment types are configured for redundancy within a single Availability Zone in an Amazon Web Services Region . Valid values are the following:    MULTI_AZ_1- Creates file systems with high availability that are configured for Multi-AZ redundancy to tolerate temporary unavailability in Availability Zones (AZs). Multi_AZ_1 is available only in the US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Tokyo), and Europe (Ireland) Amazon Web Services Regions.    SINGLE_AZ_1- Creates file systems with throughput capacities of 64 - 4,096 MB/s. Single_AZ_1 is available in all Amazon Web Services Regions where Amazon FSx  for OpenZFS is available.    SINGLE_AZ_2- Creates file systems with throughput capacities of 160 - 10,240 MB/s using an NVMe L2ARC cache. Single_AZ_2 is available only in the US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Tokyo), and Europe (Ireland) Amazon Web Services Regions.   For more information, see Deployment type availability and File system performance in the Amazon FSx for OpenZFS User Guide.
         public let deploymentType: OpenZFSDeploymentType
         public let diskIopsConfiguration: DiskIopsConfiguration?
+        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx  API and Amazon FSx console, Amazon FSx selects an available /28 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables.
+        public let endpointIpAddressRange: String?
+        /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
+        public let preferredSubnetId: String?
         /// The configuration Amazon FSx uses when creating the root value of the Amazon FSx for OpenZFS file system. All volumes are children of the root volume.
         public let rootVolumeConfiguration: OpenZFSCreateRootVolumeConfiguration?
-        /// Specifies the throughput of an Amazon FSx for OpenZFS file system, measured in megabytes per second (MBps). Valid values depend on the DeploymentType you choose, as follows:   For SINGLE_AZ_1, valid values are 64, 128, 256, 512, 1024, 2048, 3072, or 4096 MBps.   For SINGLE_AZ_2, valid values are 160, 320, 640, 1280, 2560, 3840, 5120, 7680, or 10240 MBps.   You pay for additional throughput capacity that you provision.
+        /// (Multi-AZ only) Specifies the route tables in which Amazon FSx  creates the rules for routing traffic to the correct file server. You should specify all virtual private cloud (VPC) route tables associated with the subnets in which your clients are located. By default, Amazon FSx  selects your VPC's default route table.
+        public let routeTableIds: [String]?
+        /// Specifies the throughput of an Amazon FSx for OpenZFS file system, measured in megabytes per second (MBps). Valid values depend on the DeploymentType you choose, as follows:   For MULTI_AZ_1 and SINGLE_AZ_2, valid values are 160, 320, 640, 1280, 2560, 3840, 5120, 7680, or 10240 MBps.   For SINGLE_AZ_1, valid values are 64, 128, 256, 512, 1024, 2048, 3072, or 4096 MBps.   You pay for additional throughput capacity that you provision.
         public let throughputCapacity: Int
         public let weeklyMaintenanceStartTime: String?
 
-        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, copyTagsToVolumes: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: OpenZFSDeploymentType, diskIopsConfiguration: DiskIopsConfiguration? = nil, rootVolumeConfiguration: OpenZFSCreateRootVolumeConfiguration? = nil, throughputCapacity: Int, weeklyMaintenanceStartTime: String? = nil) {
+        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, copyTagsToVolumes: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: OpenZFSDeploymentType, diskIopsConfiguration: DiskIopsConfiguration? = nil, endpointIpAddressRange: String? = nil, preferredSubnetId: String? = nil, rootVolumeConfiguration: OpenZFSCreateRootVolumeConfiguration? = nil, routeTableIds: [String]? = nil, throughputCapacity: Int, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.copyTagsToVolumes = copyTagsToVolumes
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.deploymentType = deploymentType
             self.diskIopsConfiguration = diskIopsConfiguration
+            self.endpointIpAddressRange = endpointIpAddressRange
+            self.preferredSubnetId = preferredSubnetId
             self.rootVolumeConfiguration = rootVolumeConfiguration
+            self.routeTableIds = routeTableIds
             self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
@@ -1419,7 +1499,19 @@ extension FSx {
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, min: 5)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
             try self.diskIopsConfiguration?.validate(name: "\(name).diskIopsConfiguration")
+            try self.validate(self.endpointIpAddressRange, name: "endpointIpAddressRange", parent: name, max: 17)
+            try self.validate(self.endpointIpAddressRange, name: "endpointIpAddressRange", parent: name, min: 9)
+            try self.validate(self.endpointIpAddressRange, name: "endpointIpAddressRange", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{9,17}$")
+            try self.validate(self.preferredSubnetId, name: "preferredSubnetId", parent: name, max: 24)
+            try self.validate(self.preferredSubnetId, name: "preferredSubnetId", parent: name, min: 15)
+            try self.validate(self.preferredSubnetId, name: "preferredSubnetId", parent: name, pattern: "^(subnet-[0-9a-f]{8,})$")
             try self.rootVolumeConfiguration?.validate(name: "\(name).rootVolumeConfiguration")
+            try self.routeTableIds?.forEach {
+                try validate($0, name: "routeTableIds[]", parent: name, max: 21)
+                try validate($0, name: "routeTableIds[]", parent: name, min: 12)
+                try validate($0, name: "routeTableIds[]", parent: name, pattern: "^(rtb-[0-9a-f]{8,})$")
+            }
+            try self.validate(self.routeTableIds, name: "routeTableIds", parent: name, max: 50)
             try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 100000)
             try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, min: 8)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, max: 7)
@@ -1434,7 +1526,10 @@ extension FSx {
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case deploymentType = "DeploymentType"
             case diskIopsConfiguration = "DiskIopsConfiguration"
+            case endpointIpAddressRange = "EndpointIpAddressRange"
+            case preferredSubnetId = "PreferredSubnetId"
             case rootVolumeConfiguration = "RootVolumeConfiguration"
+            case routeTableIds = "RouteTableIds"
             case throughputCapacity = "ThroughputCapacity"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
         }
@@ -1445,7 +1540,7 @@ extension FSx {
         public let clientRequestToken: String?
         /// The type of Amazon FSx file system to create. Valid values are WINDOWS, LUSTRE, ONTAP, and OPENZFS.
         public let fileSystemType: FileSystemType
-        /// (Optional) For FSx for Lustre file systems, sets the Lustre version for the file system that you're creating. Valid values are 2.10 and 2.12:   2.10 is supported by the Scratch and Persistent_1 Lustre deployment types.   2.12 is supported by all Lustre deployment types. 2.12 is  required when setting FSx for Lustre DeploymentType to  PERSISTENT_2.   Default value = 2.10, except when DeploymentType is set to  PERSISTENT_2, then the default is 2.12.  If you set FileSystemTypeVersion to 2.10 for a    PERSISTENT_2 Lustre deployment type, the CreateFileSystem  operation fails.
+        /// (Optional) For FSx for Lustre file systems, sets the Lustre version for the file system that you're creating. Valid values are 2.10,  2.12, and 2.15:   2.10 is supported by the Scratch and Persistent_1 Lustre deployment types.   2.12 and 2.15 are supported by all Lustre deployment types. 2.12 or 2.15 is required when setting FSx for Lustre DeploymentType to PERSISTENT_2.   Default value = 2.10, except when DeploymentType is set to  PERSISTENT_2, then the default is 2.12.  If you set FileSystemTypeVersion to 2.10 for a    PERSISTENT_2 Lustre deployment type, the CreateFileSystem  operation fails.
         public let fileSystemTypeVersion: String?
         public let kmsKeyId: String?
         public let lustreConfiguration: CreateFileSystemLustreConfiguration?
@@ -1561,6 +1656,8 @@ extension FSx {
         public let dailyAutomaticBackupStartTime: String?
         /// Specifies the file system deployment type, valid values are the following:    MULTI_AZ_1 - Deploys a high availability file system that is configured  for Multi-AZ redundancy to tolerate temporary Availability Zone (AZ) unavailability. You  can only deploy a Multi-AZ file system in Amazon Web Services Regions that have a minimum of three Availability Zones. Also  supports HDD storage type    SINGLE_AZ_1 - (Default) Choose to deploy a file system that is configured for single AZ redundancy.    SINGLE_AZ_2 - The latest generation Single AZ file system.  Specifies a file system that is configured for single AZ redundancy and supports HDD storage type.   For more information, see   Availability and Durability: Single-AZ and Multi-AZ File Systems.
         public let deploymentType: WindowsDeploymentType?
+        /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for Windows file system. By default, Amazon FSx automatically provisions 3 IOPS per GiB of storage capacity. You can provision additional IOPS per GiB of storage, up to the maximum limit associated with your chosen throughput capacity.
+        public let diskIopsConfiguration: DiskIopsConfiguration?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet  in which you want the preferred file server to be located. For in-Amazon Web Services applications, we recommend that you launch  your clients in the same Availability Zone (AZ) as your preferred file server to reduce cross-AZ  data transfer costs and minimize latency.
         public let preferredSubnetId: String?
         public let selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfiguration?
@@ -1569,7 +1666,7 @@ extension FSx {
         /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(activeDirectoryId: String? = nil, aliases: [String]? = nil, auditLogConfiguration: WindowsAuditLogCreateConfiguration? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, preferredSubnetId: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfiguration? = nil, throughputCapacity: Int, weeklyMaintenanceStartTime: String? = nil) {
+        public init(activeDirectoryId: String? = nil, aliases: [String]? = nil, auditLogConfiguration: WindowsAuditLogCreateConfiguration? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, preferredSubnetId: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfiguration? = nil, throughputCapacity: Int, weeklyMaintenanceStartTime: String? = nil) {
             self.activeDirectoryId = activeDirectoryId
             self.aliases = aliases
             self.auditLogConfiguration = auditLogConfiguration
@@ -1577,6 +1674,7 @@ extension FSx {
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.deploymentType = deploymentType
+            self.diskIopsConfiguration = diskIopsConfiguration
             self.preferredSubnetId = preferredSubnetId
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
             self.throughputCapacity = throughputCapacity
@@ -1599,6 +1697,7 @@ extension FSx {
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, max: 5)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, min: 5)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
+            try self.diskIopsConfiguration?.validate(name: "\(name).diskIopsConfiguration")
             try self.validate(self.preferredSubnetId, name: "preferredSubnetId", parent: name, max: 24)
             try self.validate(self.preferredSubnetId, name: "preferredSubnetId", parent: name, min: 15)
             try self.validate(self.preferredSubnetId, name: "preferredSubnetId", parent: name, pattern: "^(subnet-[0-9a-f]{8,})$")
@@ -1618,6 +1717,7 @@ extension FSx {
             case copyTagsToBackups = "CopyTagsToBackups"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case deploymentType = "DeploymentType"
+            case diskIopsConfiguration = "DiskIopsConfiguration"
             case preferredSubnetId = "PreferredSubnetId"
             case selfManagedActiveDirectoryConfiguration = "SelfManagedActiveDirectoryConfiguration"
             case throughputCapacity = "ThroughputCapacity"
@@ -1634,8 +1734,10 @@ extension FSx {
         public let ontapVolumeType: InputOntapVolumeType?
         /// Specifies the security style for the volume. If a volume's security style is not specified,  it is automatically set to the root volume's security style. The security style determines the type of permissions  that FSx for ONTAP uses to control data access. For more information, see  Volume security style  in the Amazon FSx for NetApp ONTAP User Guide. Specify one of the following values:    UNIX if the file system is managed by a UNIX administrator, the majority of users are NFS clients, and an application accessing the data uses a UNIX user as the service account.     NTFS if the file system is managed by a Windows administrator, the majority of users are SMB clients, and an application accessing the data uses a Windows user as the service account.    MIXED if the file system is managed by both UNIX and Windows administrators and users consist of both NFS and SMB clients.
         public let securityStyle: SecurityStyle?
-        /// Specifies the size of the volume, in megabytes (MB), that you are creating. Provide any whole number in the range of 20–104857600 to specify the size of the volume.
+        /// Specifies the size of the volume, in megabytes (MB), that you are creating.
         public let sizeInMegabytes: Int
+        /// Specifies the SnapLock configuration for an FSx for ONTAP volume.
+        public let snaplockConfiguration: CreateSnaplockConfiguration?
         /// Specifies the snapshot policy for the volume. There are three built-in snapshot policies:    default: This is the default policy. A maximum of six hourly snapshots taken five minutes past  the hour. A maximum of two daily snapshots taken Monday through Saturday at 10 minutes after midnight. A maximum of two weekly snapshots taken every Sunday at 15 minutes after midnight.    default-1weekly: This policy is the same as the default policy except  that it only retains one snapshot from the weekly schedule.    none: This policy does not take any snapshots. This policy can be assigned to volumes to  prevent automatic snapshots from being taken.   You can also provide the name of a custom policy that you created with the ONTAP CLI or REST API. For more information, see Snapshot policies  in the Amazon FSx for NetApp ONTAP User Guide.
         public let snapshotPolicy: String?
         /// Set to true to enable deduplication, compression, and compaction storage efficiency features on the volume, or set to false to disable them. This parameter is required.
@@ -1644,12 +1746,13 @@ extension FSx {
         public let storageVirtualMachineId: String
         public let tieringPolicy: TieringPolicy?
 
-        public init(copyTagsToBackups: Bool? = nil, junctionPath: String? = nil, ontapVolumeType: InputOntapVolumeType? = nil, securityStyle: SecurityStyle? = nil, sizeInMegabytes: Int, snapshotPolicy: String? = nil, storageEfficiencyEnabled: Bool? = nil, storageVirtualMachineId: String, tieringPolicy: TieringPolicy? = nil) {
+        public init(copyTagsToBackups: Bool? = nil, junctionPath: String? = nil, ontapVolumeType: InputOntapVolumeType? = nil, securityStyle: SecurityStyle? = nil, sizeInMegabytes: Int, snaplockConfiguration: CreateSnaplockConfiguration? = nil, snapshotPolicy: String? = nil, storageEfficiencyEnabled: Bool? = nil, storageVirtualMachineId: String, tieringPolicy: TieringPolicy? = nil) {
             self.copyTagsToBackups = copyTagsToBackups
             self.junctionPath = junctionPath
             self.ontapVolumeType = ontapVolumeType
             self.securityStyle = securityStyle
             self.sizeInMegabytes = sizeInMegabytes
+            self.snaplockConfiguration = snaplockConfiguration
             self.snapshotPolicy = snapshotPolicy
             self.storageEfficiencyEnabled = storageEfficiencyEnabled
             self.storageVirtualMachineId = storageVirtualMachineId
@@ -1660,8 +1763,9 @@ extension FSx {
             try self.validate(self.junctionPath, name: "junctionPath", parent: name, max: 255)
             try self.validate(self.junctionPath, name: "junctionPath", parent: name, min: 1)
             try self.validate(self.junctionPath, name: "junctionPath", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,255}$")
-            try self.validate(self.sizeInMegabytes, name: "sizeInMegabytes", parent: name, max: 2147483647)
+            try self.validate(self.sizeInMegabytes, name: "sizeInMegabytes", parent: name, max: 314572800)
             try self.validate(self.sizeInMegabytes, name: "sizeInMegabytes", parent: name, min: 0)
+            try self.snaplockConfiguration?.validate(name: "\(name).snaplockConfiguration")
             try self.validate(self.snapshotPolicy, name: "snapshotPolicy", parent: name, max: 255)
             try self.validate(self.snapshotPolicy, name: "snapshotPolicy", parent: name, min: 1)
             try self.validate(self.storageVirtualMachineId, name: "storageVirtualMachineId", parent: name, max: 21)
@@ -1676,6 +1780,7 @@ extension FSx {
             case ontapVolumeType = "OntapVolumeType"
             case securityStyle = "SecurityStyle"
             case sizeInMegabytes = "SizeInMegabytes"
+            case snaplockConfiguration = "SnaplockConfiguration"
             case snapshotPolicy = "SnapshotPolicy"
             case storageEfficiencyEnabled = "StorageEfficiencyEnabled"
             case storageVirtualMachineId = "StorageVirtualMachineId"
@@ -1772,6 +1877,44 @@ extension FSx {
             case storageCapacityQuotaGiB = "StorageCapacityQuotaGiB"
             case storageCapacityReservationGiB = "StorageCapacityReservationGiB"
             case userAndGroupQuotas = "UserAndGroupQuotas"
+        }
+    }
+
+    public struct CreateSnaplockConfiguration: AWSEncodableShape {
+        /// Enables or disables the audit log volume for an FSx for ONTAP SnapLock volume. The default  value is false. If you set AuditLogVolume to true, the SnapLock volume is  created as an audit log volume. The minimum retention period for an audit log volume is six months.  For more information, see   SnapLock audit log volumes.
+        public let auditLogVolume: Bool?
+        /// The configuration object for setting the autocommit period of files in an FSx for ONTAP SnapLock volume.
+        public let autocommitPeriod: AutocommitPeriod?
+        /// Enables, disables, or permanently disables privileged delete on an FSx for ONTAP SnapLock  Enterprise volume. Enabling privileged delete allows SnapLock administrators to delete WORM files even  if they have active retention periods. PERMANENTLY_DISABLED is a terminal state.  If privileged delete is permanently disabled on a SnapLock volume, you can't re-enable it. The default  value is DISABLED.  For more information, see  Privileged delete.
+        public let privilegedDelete: PrivilegedDelete?
+        /// Specifies the retention period of an FSx for ONTAP  SnapLock volume.
+        public let retentionPeriod: SnaplockRetentionPeriod?
+        /// Specifies the retention mode of an FSx for ONTAP SnapLock volume.  After it is set, it can't be changed.  You can choose one of the following retention modes:     COMPLIANCE: Files transitioned to write once, read many (WORM) on a Compliance volume can't be deleted  until their retention periods expire. This retention mode is used to address government or industry-specific mandates or to protect  against ransomware attacks. For more information,  see SnapLock Compliance.     ENTERPRISE: Files transitioned to WORM on an Enterprise volume can be deleted by authorized users  before their retention periods expire using privileged delete. This retention mode is used to advance an organization's data integrity  and internal compliance or to test retention settings before using SnapLock Compliance. For more information, see  SnapLock Enterprise.
+        public let snaplockType: SnaplockType
+        /// Enables or disables volume-append mode  on an FSx for ONTAP SnapLock volume. Volume-append mode allows you to  create WORM-appendable files and write data to them incrementally. The default value is false.  For more information, see Volume-append mode.
+        public let volumeAppendModeEnabled: Bool?
+
+        public init(auditLogVolume: Bool? = nil, autocommitPeriod: AutocommitPeriod? = nil, privilegedDelete: PrivilegedDelete? = nil, retentionPeriod: SnaplockRetentionPeriod? = nil, snaplockType: SnaplockType, volumeAppendModeEnabled: Bool? = nil) {
+            self.auditLogVolume = auditLogVolume
+            self.autocommitPeriod = autocommitPeriod
+            self.privilegedDelete = privilegedDelete
+            self.retentionPeriod = retentionPeriod
+            self.snaplockType = snaplockType
+            self.volumeAppendModeEnabled = volumeAppendModeEnabled
+        }
+
+        public func validate(name: String) throws {
+            try self.autocommitPeriod?.validate(name: "\(name).autocommitPeriod")
+            try self.retentionPeriod?.validate(name: "\(name).retentionPeriod")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditLogVolume = "AuditLogVolume"
+            case autocommitPeriod = "AutocommitPeriod"
+            case privilegedDelete = "PrivilegedDelete"
+            case retentionPeriod = "RetentionPeriod"
+            case snaplockType = "SnaplockType"
+            case volumeAppendModeEnabled = "VolumeAppendModeEnabled"
         }
     }
 
@@ -2164,6 +2307,8 @@ extension FSx {
         public let lifecycle: DataRepositoryTaskLifecycle
         /// An array of paths that specify the data for the data repository task to process.  For example, in an EXPORT_TO_REPOSITORY task, the paths specify which data to export to the linked data repository. (Default) If Paths is not specified, Amazon FSx uses the file system root directory.
         public let paths: [String]?
+        /// The configuration that specifies the last accessed time criteria for files that will be released from an Amazon FSx for Lustre file system.
+        public let releaseConfiguration: ReleaseConfiguration?
         public let report: CompletionReport?
         public let resourceARN: String?
         /// The time the system began processing the task.
@@ -2173,10 +2318,10 @@ extension FSx {
         public let tags: [Tag]?
         /// The system-generated, unique 17-digit ID of the data repository task.
         public let taskId: String
-        /// The type of data repository task.    EXPORT_TO_REPOSITORY tasks export from your Amazon FSx for Lustre file system to a linked data repository.    IMPORT_METADATA_FROM_REPOSITORY tasks import metadata changes from a linked S3 bucket to your Amazon FSx for Lustre file system.    AUTO_RELEASE_DATA tasks automatically release files from an Amazon File Cache resource.    RELEASE_DATA_FROM_FILESYSTEM tasks are not supported.
+        /// The type of data repository task.    EXPORT_TO_REPOSITORY tasks export from your Amazon FSx for Lustre file system to a linked data repository.    IMPORT_METADATA_FROM_REPOSITORY tasks import metadata changes from a linked S3 bucket to your Amazon FSx for Lustre file system.    RELEASE_DATA_FROM_FILESYSTEM tasks release files in your Amazon FSx for Lustre file system that have been exported to a linked S3 bucket and that meet your specified release criteria.    AUTO_RELEASE_DATA tasks automatically release files from an Amazon File Cache resource.
         public let type: DataRepositoryTaskType
 
-        public init(capacityToRelease: Int64? = nil, creationTime: Date, endTime: Date? = nil, failureDetails: DataRepositoryTaskFailureDetails? = nil, fileCacheId: String? = nil, fileSystemId: String? = nil, lifecycle: DataRepositoryTaskLifecycle, paths: [String]? = nil, report: CompletionReport? = nil, resourceARN: String? = nil, startTime: Date? = nil, status: DataRepositoryTaskStatus? = nil, tags: [Tag]? = nil, taskId: String, type: DataRepositoryTaskType) {
+        public init(capacityToRelease: Int64? = nil, creationTime: Date, endTime: Date? = nil, failureDetails: DataRepositoryTaskFailureDetails? = nil, fileCacheId: String? = nil, fileSystemId: String? = nil, lifecycle: DataRepositoryTaskLifecycle, paths: [String]? = nil, releaseConfiguration: ReleaseConfiguration? = nil, report: CompletionReport? = nil, resourceARN: String? = nil, startTime: Date? = nil, status: DataRepositoryTaskStatus? = nil, tags: [Tag]? = nil, taskId: String, type: DataRepositoryTaskType) {
             self.capacityToRelease = capacityToRelease
             self.creationTime = creationTime
             self.endTime = endTime
@@ -2185,6 +2330,7 @@ extension FSx {
             self.fileSystemId = fileSystemId
             self.lifecycle = lifecycle
             self.paths = paths
+            self.releaseConfiguration = releaseConfiguration
             self.report = report
             self.resourceARN = resourceARN
             self.startTime = startTime
@@ -2203,6 +2349,7 @@ extension FSx {
             case fileSystemId = "FileSystemId"
             case lifecycle = "Lifecycle"
             case paths = "Paths"
+            case releaseConfiguration = "ReleaseConfiguration"
             case report = "Report"
             case resourceARN = "ResourceARN"
             case startTime = "StartTime"
@@ -2695,11 +2842,14 @@ extension FSx {
     }
 
     public struct DeleteVolumeOntapConfiguration: AWSEncodableShape {
+        /// Setting this to true allows a SnapLock administrator to delete an FSx for ONTAP SnapLock Enterprise volume  with unexpired write once, read many (WORM) files. The IAM permission fsx:BypassSnaplockEnterpriseRetention is also  required to delete SnapLock Enterprise volumes with unexpired WORM files. The default value is false.  For more information, see   Deleting a SnapLock volume.
+        public let bypassSnaplockEnterpriseRetention: Bool?
         public let finalBackupTags: [Tag]?
         /// Set to true if you want to skip taking a final backup of the volume  you are deleting.
         public let skipFinalBackup: Bool?
 
-        public init(finalBackupTags: [Tag]? = nil, skipFinalBackup: Bool? = nil) {
+        public init(bypassSnaplockEnterpriseRetention: Bool? = nil, finalBackupTags: [Tag]? = nil, skipFinalBackup: Bool? = nil) {
+            self.bypassSnaplockEnterpriseRetention = bypassSnaplockEnterpriseRetention
             self.finalBackupTags = finalBackupTags
             self.skipFinalBackup = skipFinalBackup
         }
@@ -2713,6 +2863,7 @@ extension FSx {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bypassSnaplockEnterpriseRetention = "BypassSnaplockEnterpriseRetention"
             case finalBackupTags = "FinalBackupTags"
             case skipFinalBackup = "SkipFinalBackup"
         }
@@ -3377,6 +3528,27 @@ extension FSx {
         }
     }
 
+    public struct DurationSinceLastAccess: AWSEncodableShape & AWSDecodableShape {
+        /// The unit of time used by the Value parameter to determine if a file can be released, based on when it was last accessed. DAYS is the only supported value. This is a required parameter.
+        public let unit: Unit?
+        /// An integer that represents the minimum amount of time (in days) since a file was last accessed in the file system. Only exported files with a MAX(atime, ctime, mtime) timestamp that is more than this amount of time in the past (relative to the task create time) will be released. The default of Value is 0. This is a required parameter.  If an exported file meets the last accessed time criteria, its file or directory path must also be specified in the Paths parameter of the  operation in order for the file to be released.
+        public let value: Int64?
+
+        public init(unit: Unit? = nil, value: Int64? = nil) {
+            self.unit = unit
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unit = "Unit"
+            case value = "Value"
+        }
+    }
+
     public struct FileCache: AWSDecodableShape {
         public let creationTime: Date?
         /// A list of IDs of data repository associations that are associated with this cache.
@@ -3660,7 +3832,7 @@ extension FSx {
         public let fileSystemId: String?
         /// The type of Amazon FSx file system, which can be LUSTRE, WINDOWS, ONTAP, or OPENZFS.
         public let fileSystemType: FileSystemType?
-        /// The Lustre version of the Amazon FSx for Lustre file system, either 2.10 or 2.12.
+        /// The Lustre version of the Amazon FSx for Lustre file system, which can be 2.10, 2.12, or 2.15.
         public let fileSystemTypeVersion: String?
         /// The ID of the Key Management Service (KMS) key used to encrypt Amazon FSx file system data. Used as follows with Amazon FSx file system types:   Amazon FSx for Lustre PERSISTENT_1 and PERSISTENT_2 deployment types only.  SCRATCH_1 and SCRATCH_2 types are encrypted using  the Amazon FSx service KMS key for your account.   Amazon FSx for NetApp ONTAP   Amazon FSx for OpenZFS   Amazon FSx for Windows File Server
         public let kmsKeyId: String?
@@ -3880,7 +4052,7 @@ extension FSx {
         /// The data compression configuration for the file system. DataCompressionType can have the following values:    NONE - Data compression is turned off for the file system.    LZ4 - Data compression is turned on with the LZ4 algorithm.   For more information, see Lustre data compression.
         public let dataCompressionType: DataCompressionType?
         public let dataRepositoryConfiguration: DataRepositoryConfiguration?
-        /// The deployment type of the FSx for Lustre file system.  Scratch deployment type is designed for temporary storage and shorter-term processing of data.  SCRATCH_1 and SCRATCH_2 deployment types are best suited  for when you need temporary storage and shorter-term processing of data. The  SCRATCH_2 deployment type provides in-transit encryption of data and higher burst  throughput capacity than SCRATCH_1. The PERSISTENT_1 and PERSISTENT_2 deployment type is used for longer-term storage and workloads and encryption of data in transit. PERSISTENT_2 is built on Lustre v2.12 and offers higher PerUnitStorageThroughput (up to 1000 MB/s/TiB) along with a lower minimum storage capacity requirement (600 GiB). To learn more about FSx for Lustre deployment types, see  FSx for Lustre deployment options. The default is SCRATCH_1.
+        /// The deployment type of the FSx for Lustre file system.  Scratch deployment type is designed for temporary storage and shorter-term processing of data.  SCRATCH_1 and SCRATCH_2 deployment types are best suited  for when you need temporary storage and shorter-term processing of data. The  SCRATCH_2 deployment type provides in-transit encryption of data and higher burst  throughput capacity than SCRATCH_1. The PERSISTENT_1 and PERSISTENT_2 deployment type is used for longer-term storage and workloads and encryption of data in transit. PERSISTENT_2 offers higher PerUnitStorageThroughput (up to 1000 MB/s/TiB) along with a lower minimum storage capacity requirement (600 GiB). To learn more about FSx for Lustre deployment types, see  FSx for Lustre deployment options. The default is SCRATCH_1.
         public let deploymentType: LustreDeploymentType?
         /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when StorageType is HDD. When set to READ the file system has an SSD storage cache that is sized to 20% of the file system's storage capacity. This improves the performance for frequently accessed files by caching up to 20% of the total storage capacity. This parameter is required when StorageType is set to HDD.
         public let driveCacheType: DriveCacheType?
@@ -4077,6 +4249,8 @@ extension FSx {
         public let securityStyle: SecurityStyle?
         /// The configured size of the volume, in megabytes (MBs).
         public let sizeInMegabytes: Int?
+        /// The SnapLock configuration object for an FSx for ONTAP SnapLock volume.
+        public let snaplockConfiguration: SnaplockConfiguration?
         /// Specifies the snapshot policy for the volume. There are three built-in snapshot policies:    default: This is the default policy. A maximum of six hourly snapshots taken five minutes past  the hour. A maximum of two daily snapshots taken Monday through Saturday at 10 minutes after midnight. A maximum of two weekly snapshots taken every Sunday at 15 minutes after midnight.    default-1weekly: This policy is the same as the default policy except  that it only retains one snapshot from the weekly schedule.    none: This policy does not take any snapshots. This policy can be assigned to volumes to  prevent automatic snapshots from being taken.   You can also provide the name of a custom policy that you created with the ONTAP CLI or REST API. For more information, see Snapshot policies  in the Amazon FSx for NetApp ONTAP User Guide.
         public let snapshotPolicy: String?
         /// The volume's storage efficiency setting.
@@ -4090,13 +4264,14 @@ extension FSx {
         /// The volume's universally unique identifier (UUID).
         public let uuid: String?
 
-        public init(copyTagsToBackups: Bool? = nil, flexCacheEndpointType: FlexCacheEndpointType? = nil, junctionPath: String? = nil, ontapVolumeType: OntapVolumeType? = nil, securityStyle: SecurityStyle? = nil, sizeInMegabytes: Int? = nil, snapshotPolicy: String? = nil, storageEfficiencyEnabled: Bool? = nil, storageVirtualMachineId: String? = nil, storageVirtualMachineRoot: Bool? = nil, tieringPolicy: TieringPolicy? = nil, uuid: String? = nil) {
+        public init(copyTagsToBackups: Bool? = nil, flexCacheEndpointType: FlexCacheEndpointType? = nil, junctionPath: String? = nil, ontapVolumeType: OntapVolumeType? = nil, securityStyle: SecurityStyle? = nil, sizeInMegabytes: Int? = nil, snaplockConfiguration: SnaplockConfiguration? = nil, snapshotPolicy: String? = nil, storageEfficiencyEnabled: Bool? = nil, storageVirtualMachineId: String? = nil, storageVirtualMachineRoot: Bool? = nil, tieringPolicy: TieringPolicy? = nil, uuid: String? = nil) {
             self.copyTagsToBackups = copyTagsToBackups
             self.flexCacheEndpointType = flexCacheEndpointType
             self.junctionPath = junctionPath
             self.ontapVolumeType = ontapVolumeType
             self.securityStyle = securityStyle
             self.sizeInMegabytes = sizeInMegabytes
+            self.snaplockConfiguration = snaplockConfiguration
             self.snapshotPolicy = snapshotPolicy
             self.storageEfficiencyEnabled = storageEfficiencyEnabled
             self.storageVirtualMachineId = storageVirtualMachineId
@@ -4112,6 +4287,7 @@ extension FSx {
             case ontapVolumeType = "OntapVolumeType"
             case securityStyle = "SecurityStyle"
             case sizeInMegabytes = "SizeInMegabytes"
+            case snaplockConfiguration = "SnaplockConfiguration"
             case snapshotPolicy = "SnapshotPolicy"
             case storageEfficiencyEnabled = "StorageEfficiencyEnabled"
             case storageVirtualMachineId = "StorageVirtualMachineId"
@@ -4204,23 +4380,35 @@ extension FSx {
         /// A Boolean value indicating whether tags for the volume should be copied to snapshots. This value defaults to false. If it's set to true, all tags for the volume are copied to snapshots where the user doesn't specify tags. If this value is true and you specify one or more tags, only the specified tags are copied to snapshots. If you specify one or more tags when creating the snapshot, no tags are copied from the volume, regardless of this value.
         public let copyTagsToVolumes: Bool?
         public let dailyAutomaticBackupStartTime: String?
-        /// Specifies the file-system deployment type. Amazon FSx for OpenZFS supports  SINGLE_AZ_1 and SINGLE_AZ_2.
+        /// Specifies the file-system deployment type. Amazon FSx for OpenZFS supports  MULTI_AZ_1, SINGLE_AZ_1, and SINGLE_AZ_2.
         public let deploymentType: OpenZFSDeploymentType?
         public let diskIopsConfiguration: DiskIopsConfiguration?
+        /// The IP address of the endpoint that is used to access data or to manage the file system.
+        public let endpointIpAddress: String?
+        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx  API and Amazon FSx console, Amazon FSx selects an available /28 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables.
+        public let endpointIpAddressRange: String?
+        /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
+        public let preferredSubnetId: String?
         /// The ID of the root volume of the OpenZFS file system.
         public let rootVolumeId: String?
+        /// (Multi-AZ only) The VPC route tables in which your file system's endpoints are created.
+        public let routeTableIds: [String]?
         /// The throughput of an Amazon FSx file system, measured in megabytes per second (MBps).
         public let throughputCapacity: Int?
         public let weeklyMaintenanceStartTime: String?
 
-        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, copyTagsToVolumes: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: OpenZFSDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, rootVolumeId: String? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, copyTagsToVolumes: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: OpenZFSDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, endpointIpAddress: String? = nil, endpointIpAddressRange: String? = nil, preferredSubnetId: String? = nil, rootVolumeId: String? = nil, routeTableIds: [String]? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.copyTagsToVolumes = copyTagsToVolumes
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.deploymentType = deploymentType
             self.diskIopsConfiguration = diskIopsConfiguration
+            self.endpointIpAddress = endpointIpAddress
+            self.endpointIpAddressRange = endpointIpAddressRange
+            self.preferredSubnetId = preferredSubnetId
             self.rootVolumeId = rootVolumeId
+            self.routeTableIds = routeTableIds
             self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
@@ -4232,7 +4420,11 @@ extension FSx {
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case deploymentType = "DeploymentType"
             case diskIopsConfiguration = "DiskIopsConfiguration"
+            case endpointIpAddress = "EndpointIpAddress"
+            case endpointIpAddressRange = "EndpointIpAddressRange"
+            case preferredSubnetId = "PreferredSubnetId"
             case rootVolumeId = "RootVolumeId"
+            case routeTableIds = "RouteTableIds"
             case throughputCapacity = "ThroughputCapacity"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
         }
@@ -4367,6 +4559,23 @@ extension FSx {
         }
     }
 
+    public struct ReleaseConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Defines the point-in-time since an exported file was last accessed, in order for that file to be eligible for release. Only files that were last accessed before this point-in-time are eligible to be released from the file system.
+        public let durationSinceLastAccess: DurationSinceLastAccess?
+
+        public init(durationSinceLastAccess: DurationSinceLastAccess? = nil) {
+            self.durationSinceLastAccess = durationSinceLastAccess
+        }
+
+        public func validate(name: String) throws {
+            try self.durationSinceLastAccess?.validate(name: "\(name).durationSinceLastAccess")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationSinceLastAccess = "DurationSinceLastAccess"
+        }
+    }
+
     public struct ReleaseFileSystemNfsV3LocksRequest: AWSEncodableShape {
         public let clientRequestToken: String?
         public let fileSystemId: String
@@ -4458,6 +4667,28 @@ extension FSx {
             case administrativeActions = "AdministrativeActions"
             case lifecycle = "Lifecycle"
             case volumeId = "VolumeId"
+        }
+    }
+
+    public struct RetentionPeriod: AWSEncodableShape & AWSDecodableShape {
+        /// Defines the type of time for the retention period of an FSx for ONTAP SnapLock volume.  Set it to  one of the valid types. If you set it to INFINITE, the files are retained forever. If you set it to  UNSPECIFIED, the files are retained until you set an explicit retention period.
+        public let type: RetentionPeriodType
+        /// Defines the amount of time for the retention period of an FSx for ONTAP SnapLock volume.  You can't set a value for INFINITE or UNSPECIFIED. For all other options, the  following ranges are valid:     Seconds: 0 - 65,535    Minutes: 0 - 65,535    Hours: 0 - 24    Days: 0 - 365    Months: 0 - 12    Years: 0 - 100
+        public let value: Int?
+
+        public init(type: RetentionPeriodType, value: Int? = nil) {
+            self.type = type
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 65535)
+            try self.validate(self.value, name: "value", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+            case value = "Value"
         }
     }
 
@@ -4625,6 +4856,66 @@ extension FSx {
             case organizationalUnitDistinguishedName = "OrganizationalUnitDistinguishedName"
             case password = "Password"
             case userName = "UserName"
+        }
+    }
+
+    public struct SnaplockConfiguration: AWSDecodableShape {
+        /// Enables or disables the audit log volume for an FSx for ONTAP SnapLock volume. The default  value is false. If you set AuditLogVolume to true, the SnapLock volume is  created as an audit log volume. The minimum retention period for an audit log volume is six months.  For more information, see   SnapLock audit log volumes.
+        public let auditLogVolume: Bool?
+        /// The configuration object for setting the autocommit period of files in an FSx for ONTAP SnapLock volume.
+        public let autocommitPeriod: AutocommitPeriod?
+        /// Enables, disables, or permanently disables privileged delete on an FSx for ONTAP SnapLock  Enterprise volume. Enabling privileged delete allows SnapLock administrators to delete write once, read  many (WORM) files even  if they have active retention periods. PERMANENTLY_DISABLED is a terminal state.  If privileged delete is permanently disabled on a SnapLock volume, you can't re-enable it. The default  value is DISABLED.  For more information, see Privileged delete.
+        public let privilegedDelete: PrivilegedDelete?
+        /// Specifies the retention period of an FSx for ONTAP SnapLock volume.
+        public let retentionPeriod: SnaplockRetentionPeriod?
+        /// Specifies the retention mode of an FSx for ONTAP SnapLock volume.  After it is set, it can't be changed.  You can choose one of the following retention modes:     COMPLIANCE: Files transitioned to write once, read many (WORM) on a Compliance volume can't be deleted  until their retention periods expire. This retention mode is used to address government or industry-specific mandates or to protect  against ransomware attacks. For more information,  see SnapLock Compliance.     ENTERPRISE: Files transitioned to WORM on an Enterprise volume can be deleted by authorized users  before their retention periods expire using privileged delete. This retention mode is used to advance an organization's data integrity  and internal compliance or to test retention settings before using SnapLock Compliance. For more information, see  SnapLock Enterprise.
+        public let snaplockType: SnaplockType?
+        /// Enables or disables volume-append mode  on an FSx for ONTAP SnapLock volume. Volume-append mode allows you to  create WORM-appendable files and write data to them incrementally.  The default value is false.  For more information, see Volume-append mode.
+        public let volumeAppendModeEnabled: Bool?
+
+        public init(auditLogVolume: Bool? = nil, autocommitPeriod: AutocommitPeriod? = nil, privilegedDelete: PrivilegedDelete? = nil, retentionPeriod: SnaplockRetentionPeriod? = nil, snaplockType: SnaplockType? = nil, volumeAppendModeEnabled: Bool? = nil) {
+            self.auditLogVolume = auditLogVolume
+            self.autocommitPeriod = autocommitPeriod
+            self.privilegedDelete = privilegedDelete
+            self.retentionPeriod = retentionPeriod
+            self.snaplockType = snaplockType
+            self.volumeAppendModeEnabled = volumeAppendModeEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditLogVolume = "AuditLogVolume"
+            case autocommitPeriod = "AutocommitPeriod"
+            case privilegedDelete = "PrivilegedDelete"
+            case retentionPeriod = "RetentionPeriod"
+            case snaplockType = "SnaplockType"
+            case volumeAppendModeEnabled = "VolumeAppendModeEnabled"
+        }
+    }
+
+    public struct SnaplockRetentionPeriod: AWSEncodableShape & AWSDecodableShape {
+        /// The retention period assigned to a write once, read many (WORM) file by default if an explicit retention period is not set for an  FSx for ONTAP SnapLock volume. The default retention period must be greater than or equal to  the minimum retention period and less than or equal to the maximum retention period.
+        public let defaultRetention: RetentionPeriod
+        /// The longest retention period that can be assigned to a WORM file on  an FSx for ONTAP SnapLock volume.
+        public let maximumRetention: RetentionPeriod
+        /// The shortest retention period that can be assigned to a WORM file on an FSx for ONTAP SnapLock volume.
+        public let minimumRetention: RetentionPeriod
+
+        public init(defaultRetention: RetentionPeriod, maximumRetention: RetentionPeriod, minimumRetention: RetentionPeriod) {
+            self.defaultRetention = defaultRetention
+            self.maximumRetention = maximumRetention
+            self.minimumRetention = minimumRetention
+        }
+
+        public func validate(name: String) throws {
+            try self.defaultRetention.validate(name: "\(name).defaultRetention")
+            try self.maximumRetention.validate(name: "\(name).maximumRetention")
+            try self.minimumRetention.validate(name: "\(name).minimumRetention")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultRetention = "DefaultRetention"
+            case maximumRetention = "MaximumRetention"
+            case minimumRetention = "MinimumRetention"
         }
     }
 
@@ -5175,6 +5466,8 @@ extension FSx {
     }
 
     public struct UpdateFileSystemOpenZFSConfiguration: AWSEncodableShape {
+        /// (Multi-AZ only) A list of IDs of new virtual private cloud (VPC) route tables to associate (add) with your Amazon FSx for OpenZFS file system.
+        public let addRouteTableIds: [String]?
         public let automaticBackupRetentionDays: Int?
         /// A Boolean value indicating whether tags for the file system should be copied to backups. This value defaults to false. If it's set to true, all tags for the file system are copied to all automatic and user-initiated backups where the user doesn't specify tags. If this value is true and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value.
         public let copyTagsToBackups: Bool?
@@ -5182,27 +5475,43 @@ extension FSx {
         public let copyTagsToVolumes: Bool?
         public let dailyAutomaticBackupStartTime: String?
         public let diskIopsConfiguration: DiskIopsConfiguration?
-        /// The throughput of an Amazon FSx for OpenZFS file system, measured in megabytes per second  (MB/s). Valid values depend on the DeploymentType you choose, as follows:   For SINGLE_AZ_1, valid values are 64, 128, 256, 512, 1024, 2048, 3072, or 4096 MB/s.   For SINGLE_AZ_2, valid values are 160, 320, 640, 1280, 2560, 3840, 5120, 7680, or 10240 MB/s.
+        /// (Multi-AZ only) A list of IDs of existing virtual private cloud (VPC) route tables to disassociate (remove) from your Amazon FSx for OpenZFS file system. You can use the  API operation to retrieve the list of VPC route table IDs for a file system.
+        public let removeRouteTableIds: [String]?
+        /// The throughput of an Amazon FSx for OpenZFS file system, measured in megabytes per second  (MB/s). Valid values depend on the DeploymentType you choose, as follows:   For MULTI_AZ_1 and SINGLE_AZ_2, valid values are 160, 320, 640, 1280, 2560, 3840, 5120, 7680, or 10240 MBps.   For SINGLE_AZ_1, valid values are 64, 128, 256, 512, 1024, 2048, 3072, or 4096 MB/s.
         public let throughputCapacity: Int?
         public let weeklyMaintenanceStartTime: String?
 
-        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, copyTagsToVolumes: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(addRouteTableIds: [String]? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, copyTagsToVolumes: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, removeRouteTableIds: [String]? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+            self.addRouteTableIds = addRouteTableIds
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.copyTagsToVolumes = copyTagsToVolumes
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.diskIopsConfiguration = diskIopsConfiguration
+            self.removeRouteTableIds = removeRouteTableIds
             self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
 
         public func validate(name: String) throws {
+            try self.addRouteTableIds?.forEach {
+                try validate($0, name: "addRouteTableIds[]", parent: name, max: 21)
+                try validate($0, name: "addRouteTableIds[]", parent: name, min: 12)
+                try validate($0, name: "addRouteTableIds[]", parent: name, pattern: "^(rtb-[0-9a-f]{8,})$")
+            }
+            try self.validate(self.addRouteTableIds, name: "addRouteTableIds", parent: name, max: 50)
             try self.validate(self.automaticBackupRetentionDays, name: "automaticBackupRetentionDays", parent: name, max: 90)
             try self.validate(self.automaticBackupRetentionDays, name: "automaticBackupRetentionDays", parent: name, min: 0)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, max: 5)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, min: 5)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
             try self.diskIopsConfiguration?.validate(name: "\(name).diskIopsConfiguration")
+            try self.removeRouteTableIds?.forEach {
+                try validate($0, name: "removeRouteTableIds[]", parent: name, max: 21)
+                try validate($0, name: "removeRouteTableIds[]", parent: name, min: 12)
+                try validate($0, name: "removeRouteTableIds[]", parent: name, pattern: "^(rtb-[0-9a-f]{8,})$")
+            }
+            try self.validate(self.removeRouteTableIds, name: "removeRouteTableIds", parent: name, max: 50)
             try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 100000)
             try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, min: 8)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, max: 7)
@@ -5211,11 +5520,13 @@ extension FSx {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case addRouteTableIds = "AddRouteTableIds"
             case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
             case copyTagsToBackups = "CopyTagsToBackups"
             case copyTagsToVolumes = "CopyTagsToVolumes"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case diskIopsConfiguration = "DiskIopsConfiguration"
+            case removeRouteTableIds = "RemoveRouteTableIds"
             case throughputCapacity = "ThroughputCapacity"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
         }
@@ -5232,16 +5543,18 @@ extension FSx {
         public let openZFSConfiguration: UpdateFileSystemOpenZFSConfiguration?
         /// Use this parameter to increase the storage capacity of an FSx for Windows File Server, FSx for Lustre, FSx for OpenZFS, or FSx for ONTAP file system. Specifies the storage capacity target value, in GiB, to increase the storage capacity for the file system that you're updating.   You can't make a storage capacity increase request if there is an existing storage capacity increase request in progress.  For Lustre file systems, the storage capacity target value can be the following:   For SCRATCH_2, PERSISTENT_1, and PERSISTENT_2 SSD deployment types, valid values are in multiples of 2400 GiB. The value must be greater than the current storage capacity.   For PERSISTENT HDD file systems, valid values are multiples of 6000 GiB for 12-MBps throughput per TiB file systems and multiples of 1800 GiB for 40-MBps throughput per TiB file systems. The values must be greater than the current storage capacity.   For SCRATCH_1 file systems, you can't increase the storage capacity.   For more information, see Managing storage and throughput capacity in the FSx for Lustre User Guide. For FSx for OpenZFS file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see Managing storage capacity in the FSx for OpenZFS User Guide. For Windows file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. To increase storage capacity, the file system must have at least 16 MBps of throughput capacity. For more information, see Managing storage capacity in the Amazon FSxfor Windows File Server User Guide. For ONTAP file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value.  For more information, see Managing storage capacity and provisioned IOPS in the Amazon FSx for NetApp ONTAP User Guide.
         public let storageCapacity: Int?
+        public let storageType: StorageType?
         /// The configuration updates for an Amazon FSx for Windows File Server file system.
         public let windowsConfiguration: UpdateFileSystemWindowsConfiguration?
 
-        public init(clientRequestToken: String? = UpdateFileSystemRequest.idempotencyToken(), fileSystemId: String, lustreConfiguration: UpdateFileSystemLustreConfiguration? = nil, ontapConfiguration: UpdateFileSystemOntapConfiguration? = nil, openZFSConfiguration: UpdateFileSystemOpenZFSConfiguration? = nil, storageCapacity: Int? = nil, windowsConfiguration: UpdateFileSystemWindowsConfiguration? = nil) {
+        public init(clientRequestToken: String? = UpdateFileSystemRequest.idempotencyToken(), fileSystemId: String, lustreConfiguration: UpdateFileSystemLustreConfiguration? = nil, ontapConfiguration: UpdateFileSystemOntapConfiguration? = nil, openZFSConfiguration: UpdateFileSystemOpenZFSConfiguration? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, windowsConfiguration: UpdateFileSystemWindowsConfiguration? = nil) {
             self.clientRequestToken = clientRequestToken
             self.fileSystemId = fileSystemId
             self.lustreConfiguration = lustreConfiguration
             self.ontapConfiguration = ontapConfiguration
             self.openZFSConfiguration = openZFSConfiguration
             self.storageCapacity = storageCapacity
+            self.storageType = storageType
             self.windowsConfiguration = windowsConfiguration
         }
 
@@ -5267,6 +5580,7 @@ extension FSx {
             case ontapConfiguration = "OntapConfiguration"
             case openZFSConfiguration = "OpenZFSConfiguration"
             case storageCapacity = "StorageCapacity"
+            case storageType = "StorageType"
             case windowsConfiguration = "WindowsConfiguration"
         }
     }
@@ -5291,6 +5605,8 @@ extension FSx {
         public let automaticBackupRetentionDays: Int?
         /// The preferred time to start the daily automatic backup, in the UTC time zone, for example, 02:00
         public let dailyAutomaticBackupStartTime: String?
+        /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for Windows file system. By default, Amazon FSx automatically provisions 3 IOPS per GiB of storage capacity. You can provision additional IOPS per GiB of storage, up to the maximum limit associated with your chosen throughput capacity.
+        public let diskIopsConfiguration: DiskIopsConfiguration?
         /// The configuration Amazon FSx uses to join the Windows File Server instance to the self-managed Microsoft AD directory. You cannot make a self-managed Microsoft AD update request if there is an existing self-managed Microsoft AD update request in progress.
         public let selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfigurationUpdates?
         /// Sets the target value for a file system's throughput capacity, in MB/s, that you are updating the file system to. Valid values are  8, 16, 32, 64, 128, 256, 512, 1024, 2048. You cannot make a throughput capacity update request if there is an existing throughput capacity update request in progress. For more information,  see Managing Throughput Capacity.
@@ -5298,10 +5614,11 @@ extension FSx {
         /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. Where d is the weekday number, from 1 through 7, with 1 = Monday and 7 = Sunday.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(auditLogConfiguration: WindowsAuditLogCreateConfiguration? = nil, automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfigurationUpdates? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(auditLogConfiguration: WindowsAuditLogCreateConfiguration? = nil, automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfigurationUpdates? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.auditLogConfiguration = auditLogConfiguration
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
+            self.diskIopsConfiguration = diskIopsConfiguration
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
             self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
@@ -5314,6 +5631,7 @@ extension FSx {
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, max: 5)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, min: 5)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
+            try self.diskIopsConfiguration?.validate(name: "\(name).diskIopsConfiguration")
             try self.selfManagedActiveDirectoryConfiguration?.validate(name: "\(name).selfManagedActiveDirectoryConfiguration")
             try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 100000)
             try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, min: 8)
@@ -5326,6 +5644,7 @@ extension FSx {
             case auditLogConfiguration = "AuditLogConfiguration"
             case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
+            case diskIopsConfiguration = "DiskIopsConfiguration"
             case selfManagedActiveDirectoryConfiguration = "SelfManagedActiveDirectoryConfiguration"
             case throughputCapacity = "ThroughputCapacity"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
@@ -5337,10 +5656,12 @@ extension FSx {
         public let copyTagsToBackups: Bool?
         /// Specifies the location in the SVM's namespace where the volume is mounted.  The JunctionPath must have a leading forward slash, such as /vol3.
         public let junctionPath: String?
-        /// The security style for the volume, which can be UNIX. NTFS, or MIXED.
+        /// The security style for the volume, which can be UNIX, NTFS, or MIXED.
         public let securityStyle: SecurityStyle?
         /// Specifies the size of the volume in megabytes.
         public let sizeInMegabytes: Int?
+        /// The configuration object for updating the SnapLock configuration of an FSx for ONTAP SnapLock volume.
+        public let snaplockConfiguration: UpdateSnaplockConfiguration?
         /// Specifies the snapshot policy for the volume. There are three built-in snapshot policies:    default: This is the default policy. A maximum of six hourly snapshots taken five minutes past  the hour. A maximum of two daily snapshots taken Monday through Saturday at 10 minutes after midnight. A maximum of two weekly snapshots taken every Sunday at 15 minutes after midnight.    default-1weekly: This policy is the same as the default policy except  that it only retains one snapshot from the weekly schedule.    none: This policy does not take any snapshots. This policy can be assigned to volumes to  prevent automatic snapshots from being taken.   You can also provide the name of a custom policy that you created with the ONTAP CLI or REST API. For more information, see Snapshot policies  in the Amazon FSx for NetApp ONTAP User Guide.
         public let snapshotPolicy: String?
         /// Default is false. Set to true to enable the deduplication, compression, and compaction storage efficiency features on the volume.
@@ -5348,11 +5669,12 @@ extension FSx {
         /// Update the volume's data tiering policy.
         public let tieringPolicy: TieringPolicy?
 
-        public init(copyTagsToBackups: Bool? = nil, junctionPath: String? = nil, securityStyle: SecurityStyle? = nil, sizeInMegabytes: Int? = nil, snapshotPolicy: String? = nil, storageEfficiencyEnabled: Bool? = nil, tieringPolicy: TieringPolicy? = nil) {
+        public init(copyTagsToBackups: Bool? = nil, junctionPath: String? = nil, securityStyle: SecurityStyle? = nil, sizeInMegabytes: Int? = nil, snaplockConfiguration: UpdateSnaplockConfiguration? = nil, snapshotPolicy: String? = nil, storageEfficiencyEnabled: Bool? = nil, tieringPolicy: TieringPolicy? = nil) {
             self.copyTagsToBackups = copyTagsToBackups
             self.junctionPath = junctionPath
             self.securityStyle = securityStyle
             self.sizeInMegabytes = sizeInMegabytes
+            self.snaplockConfiguration = snaplockConfiguration
             self.snapshotPolicy = snapshotPolicy
             self.storageEfficiencyEnabled = storageEfficiencyEnabled
             self.tieringPolicy = tieringPolicy
@@ -5362,8 +5684,9 @@ extension FSx {
             try self.validate(self.junctionPath, name: "junctionPath", parent: name, max: 255)
             try self.validate(self.junctionPath, name: "junctionPath", parent: name, min: 1)
             try self.validate(self.junctionPath, name: "junctionPath", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,255}$")
-            try self.validate(self.sizeInMegabytes, name: "sizeInMegabytes", parent: name, max: 2147483647)
+            try self.validate(self.sizeInMegabytes, name: "sizeInMegabytes", parent: name, max: 314572800)
             try self.validate(self.sizeInMegabytes, name: "sizeInMegabytes", parent: name, min: 0)
+            try self.snaplockConfiguration?.validate(name: "\(name).snaplockConfiguration")
             try self.validate(self.snapshotPolicy, name: "snapshotPolicy", parent: name, max: 255)
             try self.validate(self.snapshotPolicy, name: "snapshotPolicy", parent: name, min: 1)
             try self.tieringPolicy?.validate(name: "\(name).tieringPolicy")
@@ -5374,6 +5697,7 @@ extension FSx {
             case junctionPath = "JunctionPath"
             case securityStyle = "SecurityStyle"
             case sizeInMegabytes = "SizeInMegabytes"
+            case snaplockConfiguration = "SnaplockConfiguration"
             case snapshotPolicy = "SnapshotPolicy"
             case storageEfficiencyEnabled = "StorageEfficiencyEnabled"
             case tieringPolicy = "TieringPolicy"
@@ -5431,6 +5755,40 @@ extension FSx {
             case storageCapacityQuotaGiB = "StorageCapacityQuotaGiB"
             case storageCapacityReservationGiB = "StorageCapacityReservationGiB"
             case userAndGroupQuotas = "UserAndGroupQuotas"
+        }
+    }
+
+    public struct UpdateSnaplockConfiguration: AWSEncodableShape {
+        /// Enables or disables the audit log volume for an FSx for ONTAP SnapLock volume. The default  value is false. If you set AuditLogVolume to true, the SnapLock volume is  created as an audit log volume. The minimum retention period for an audit log volume is six months.  For more information, see   SnapLock audit log volumes.
+        public let auditLogVolume: Bool?
+        /// The configuration object for setting the autocommit period of files in an FSx for ONTAP SnapLock volume.
+        public let autocommitPeriod: AutocommitPeriod?
+        /// Enables, disables, or permanently disables privileged delete on an FSx for ONTAP SnapLock  Enterprise volume. Enabling privileged delete allows SnapLock administrators to delete write once, read  many (WORM) files even  if they have active retention periods. PERMANENTLY_DISABLED is a terminal state.  If privileged delete is permanently disabled on a SnapLock volume, you can't re-enable it. The default  value is DISABLED.  For more information, see  Privileged delete.
+        public let privilegedDelete: PrivilegedDelete?
+        /// Specifies the retention period of an FSx for ONTAP SnapLock volume.
+        public let retentionPeriod: SnaplockRetentionPeriod?
+        /// Enables or disables volume-append mode  on an FSx for ONTAP SnapLock volume. Volume-append mode allows you to  create WORM-appendable files and write data to them incrementally. The default value is false.  For more information, see Volume-append mode.
+        public let volumeAppendModeEnabled: Bool?
+
+        public init(auditLogVolume: Bool? = nil, autocommitPeriod: AutocommitPeriod? = nil, privilegedDelete: PrivilegedDelete? = nil, retentionPeriod: SnaplockRetentionPeriod? = nil, volumeAppendModeEnabled: Bool? = nil) {
+            self.auditLogVolume = auditLogVolume
+            self.autocommitPeriod = autocommitPeriod
+            self.privilegedDelete = privilegedDelete
+            self.retentionPeriod = retentionPeriod
+            self.volumeAppendModeEnabled = volumeAppendModeEnabled
+        }
+
+        public func validate(name: String) throws {
+            try self.autocommitPeriod?.validate(name: "\(name).autocommitPeriod")
+            try self.retentionPeriod?.validate(name: "\(name).retentionPeriod")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditLogVolume = "AuditLogVolume"
+            case autocommitPeriod = "AutocommitPeriod"
+            case privilegedDelete = "PrivilegedDelete"
+            case retentionPeriod = "RetentionPeriod"
+            case volumeAppendModeEnabled = "VolumeAppendModeEnabled"
         }
     }
 
@@ -5685,7 +6043,7 @@ extension FSx {
     }
 
     public struct WindowsAuditLogConfiguration: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) for the destination of the audit logs. The destination can be any Amazon CloudWatch Logs log group ARN or Amazon Kinesis Data Firehose delivery stream ARN. The name of the Amazon CloudWatch Logs log group must begin with the /aws/fsx prefix. The name of the Amazon Kinesis Data Firehouse delivery stream must begin with the aws-fsx prefix. The destination ARN (either CloudWatch Logs log group or Kinesis Data Firehose delivery stream) must be in the same Amazon Web Services partition, Amazon Web Services Region, and Amazon Web Services account as your Amazon FSx file system.
+        /// The Amazon Resource Name (ARN) for the destination of the audit logs. The destination can be any Amazon CloudWatch Logs log group ARN or Amazon Kinesis Data Firehose delivery stream ARN. The name of the Amazon CloudWatch Logs log group must begin with the /aws/fsx prefix. The name of the Amazon Kinesis Data Firehose delivery stream must begin with the aws-fsx prefix. The destination ARN (either CloudWatch Logs log group or Kinesis Data Firehose delivery stream) must be in the same Amazon Web Services partition, Amazon Web Services Region, and Amazon Web Services account as your Amazon FSx file system.
         public let auditLogDestination: String?
         /// Sets which attempt type is logged by Amazon FSx for file and folder accesses.    SUCCESS_ONLY - only successful attempts to access files or folders are logged.    FAILURE_ONLY - only failed attempts to access files or folders are logged.    SUCCESS_AND_FAILURE - both successful attempts and failed attempts to access files or folders are logged.    DISABLED - access auditing of files and folders is turned off.
         public let fileAccessAuditLogLevel: WindowsAccessAuditLogLevel
@@ -5706,7 +6064,7 @@ extension FSx {
     }
 
     public struct WindowsAuditLogCreateConfiguration: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that specifies the destination of the audit logs. The destination can be any Amazon CloudWatch Logs log group ARN or Amazon Kinesis Data Firehose delivery stream ARN, with the following requirements:   The destination ARN that you provide (either CloudWatch Logs log group or Kinesis Data Firehose delivery stream) must be in the same Amazon Web Services partition, Amazon Web Services Region, and Amazon Web Services account as your Amazon FSx file system.   The name of the Amazon CloudWatch Logs log group must begin with the /aws/fsx prefix. The name of the Amazon Kinesis Data Firehouse delivery stream must begin with the aws-fsx prefix.   If you do not provide a destination in AuditLogDestination, Amazon FSx will create and use a log stream in the CloudWatch Logs /aws/fsx/windows log group.   If AuditLogDestination is provided and the resource does not exist, the request will fail with a BadRequest error.   If FileAccessAuditLogLevel and FileShareAccessAuditLogLevel are both set to DISABLED, you cannot specify a destination in AuditLogDestination.
+        /// The Amazon Resource Name (ARN) that specifies the destination of the audit logs. The destination can be any Amazon CloudWatch Logs log group ARN or Amazon Kinesis Data Firehose delivery stream ARN, with the following requirements:   The destination ARN that you provide (either CloudWatch Logs log group or Kinesis Data Firehose delivery stream) must be in the same Amazon Web Services partition, Amazon Web Services Region, and Amazon Web Services account as your Amazon FSx file system.   The name of the Amazon CloudWatch Logs log group must begin with the /aws/fsx prefix. The name of the Amazon Kinesis Data Firehose delivery stream must begin with the aws-fsx prefix.   If you do not provide a destination in AuditLogDestination, Amazon FSx will create and use a log stream in the CloudWatch Logs /aws/fsx/windows log group.   If AuditLogDestination is provided and the resource does not exist, the request will fail with a BadRequest error.   If FileAccessAuditLogLevel and FileShareAccessAuditLogLevel are both set to DISABLED, you cannot specify a destination in AuditLogDestination.
         public let auditLogDestination: String?
         /// Sets which attempt type is logged by Amazon FSx for file and folder accesses.    SUCCESS_ONLY - only successful attempts to access files or folders are logged.    FAILURE_ONLY - only failed attempts to access files or folders are logged.    SUCCESS_AND_FAILURE - both successful attempts and failed attempts to access files or folders are logged.    DISABLED - access auditing of files and folders is turned off.
         public let fileAccessAuditLogLevel: WindowsAccessAuditLogLevel
@@ -5746,6 +6104,8 @@ extension FSx {
         public let dailyAutomaticBackupStartTime: String?
         /// Specifies the file system deployment type, valid values are the following:    MULTI_AZ_1 - Specifies a high availability file system that is configured for Multi-AZ  redundancy to tolerate temporary Availability Zone (AZ) unavailability, and supports SSD and HDD storage.    SINGLE_AZ_1 - (Default) Specifies a file system that is configured for single AZ redundancy,  only supports SSD storage.    SINGLE_AZ_2 - Latest generation Single AZ file system.  Specifies a file system that is configured for single AZ redundancy and supports SSD and HDD storage.   For more information, see  Single-AZ and Multi-AZ File Systems.
         public let deploymentType: WindowsDeploymentType?
+        /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for Windows file system. By default, Amazon FSx automatically provisions 3 IOPS per GiB of storage capacity. You can provision additional IOPS per GiB of storage, up to the maximum limit associated with your chosen throughput capacity.
+        public let diskIopsConfiguration: DiskIopsConfiguration?
         /// The list of maintenance operations in progress for this file system.
         public let maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]?
         /// For MULTI_AZ_1 deployment types, the IP address of the primary, or preferred, file server. Use this IP address when mounting the file system on Linux SMB clients or Windows SMB clients that  are not joined to a Microsoft Active Directory.  Applicable for all Windows file system deployment types.  This IP address is temporarily unavailable  when the file system is undergoing maintenance. For Linux and Windows  SMB clients that are joined to an Active Directory, use the file system's DNSName instead. For more information on mapping and mounting file shares, see  Accessing File Shares.
@@ -5760,7 +6120,7 @@ extension FSx {
         /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(activeDirectoryId: String? = nil, aliases: [Alias]? = nil, auditLogConfiguration: WindowsAuditLogConfiguration? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]? = nil, preferredFileServerIp: String? = nil, preferredSubnetId: String? = nil, remoteAdministrationEndpoint: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryAttributes? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(activeDirectoryId: String? = nil, aliases: [Alias]? = nil, auditLogConfiguration: WindowsAuditLogConfiguration? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]? = nil, preferredFileServerIp: String? = nil, preferredSubnetId: String? = nil, remoteAdministrationEndpoint: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryAttributes? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.activeDirectoryId = activeDirectoryId
             self.aliases = aliases
             self.auditLogConfiguration = auditLogConfiguration
@@ -5768,6 +6128,7 @@ extension FSx {
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.deploymentType = deploymentType
+            self.diskIopsConfiguration = diskIopsConfiguration
             self.maintenanceOperationsInProgress = maintenanceOperationsInProgress
             self.preferredFileServerIp = preferredFileServerIp
             self.preferredSubnetId = preferredSubnetId
@@ -5785,6 +6146,7 @@ extension FSx {
             case copyTagsToBackups = "CopyTagsToBackups"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case deploymentType = "DeploymentType"
+            case diskIopsConfiguration = "DiskIopsConfiguration"
             case maintenanceOperationsInProgress = "MaintenanceOperationsInProgress"
             case preferredFileServerIp = "PreferredFileServerIp"
             case preferredSubnetId = "PreferredSubnetId"

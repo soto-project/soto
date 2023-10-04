@@ -243,6 +243,11 @@ public struct Mgn: AWSService {
         return self.client.execute(operation: "ListImports", path: "/ListImports", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// List Managed Accounts.
+    public func listManagedAccounts(_ input: ListManagedAccountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListManagedAccountsResponse> {
+        return self.client.execute(operation: "ListManagedAccounts", path: "/ListManagedAccounts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// List source server post migration custom actions.
     public func listSourceServerActions(_ input: ListSourceServerActionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSourceServerActionsResponse> {
         return self.client.execute(operation: "ListSourceServerActions", path: "/ListSourceServerActions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -268,6 +273,11 @@ public struct Mgn: AWSService {
         return self.client.execute(operation: "MarkAsArchived", path: "/MarkAsArchived", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Pause Replication.
+    public func pauseReplication(_ input: PauseReplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SourceServer> {
+        return self.client.execute(operation: "PauseReplication", path: "/PauseReplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Put source server post migration custom action.
     public func putSourceServerAction(_ input: PutSourceServerActionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SourceServerActionDocument> {
         return self.client.execute(operation: "PutSourceServerAction", path: "/PutSourceServerAction", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -286,6 +296,11 @@ public struct Mgn: AWSService {
     /// Remove template post migration custom action.
     public func removeTemplateAction(_ input: RemoveTemplateActionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveTemplateActionResponse> {
         return self.client.execute(operation: "RemoveTemplateAction", path: "/RemoveTemplateAction", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Resume Replication.
+    public func resumeReplication(_ input: ResumeReplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SourceServer> {
+        return self.client.execute(operation: "ResumeReplication", path: "/ResumeReplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Causes the data replication initiation sequence to begin immediately upon next Handshake for specified SourceServer IDs, regardless of when the previous initiation started. This command will not work if the SourceServer is not stalled or is in a DISCONNECTED or STOPPED state.
@@ -316,6 +331,11 @@ public struct Mgn: AWSService {
     /// Launches a Test Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartTest and changes the SourceServer.lifeCycle.state property to TESTING.
     public func startTest(_ input: StartTestRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartTestResponse> {
         return self.client.execute(operation: "StartTest", path: "/StartTest", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Stop Replication.
+    public func stopReplication(_ input: StopReplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SourceServer> {
+        return self.client.execute(operation: "StopReplication", path: "/StopReplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Adds or overwrites only the specified tags for the specified Application Migration Service resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
@@ -974,6 +994,59 @@ extension Mgn {
         )
     }
 
+    /// List Managed Accounts.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listManagedAccountsPaginator<Result>(
+        _ input: ListManagedAccountsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListManagedAccountsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listManagedAccounts,
+            inputKey: \ListManagedAccountsRequest.nextToken,
+            outputKey: \ListManagedAccountsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listManagedAccountsPaginator(
+        _ input: ListManagedAccountsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListManagedAccountsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listManagedAccounts,
+            inputKey: \ListManagedAccountsRequest.nextToken,
+            outputKey: \ListManagedAccountsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// List source server post migration custom actions.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1137,6 +1210,7 @@ extension Mgn {
 extension Mgn.DescribeJobLogItemsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Mgn.DescribeJobLogItemsRequest {
         return .init(
+            accountID: self.accountID,
             jobID: self.jobID,
             maxResults: self.maxResults,
             nextToken: token
@@ -1147,6 +1221,7 @@ extension Mgn.DescribeJobLogItemsRequest: AWSPaginateToken {
 extension Mgn.DescribeJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Mgn.DescribeJobsRequest {
         return .init(
+            accountID: self.accountID,
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
@@ -1177,6 +1252,7 @@ extension Mgn.DescribeReplicationConfigurationTemplatesRequest: AWSPaginateToken
 extension Mgn.DescribeSourceServersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Mgn.DescribeSourceServersRequest {
         return .init(
+            accountID: self.accountID,
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
@@ -1196,6 +1272,7 @@ extension Mgn.DescribeVcenterClientsRequest: AWSPaginateToken {
 extension Mgn.ListApplicationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Mgn.ListApplicationsRequest {
         return .init(
+            accountID: self.accountID,
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
@@ -1243,9 +1320,19 @@ extension Mgn.ListImportsRequest: AWSPaginateToken {
     }
 }
 
+extension Mgn.ListManagedAccountsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Mgn.ListManagedAccountsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Mgn.ListSourceServerActionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Mgn.ListSourceServerActionsRequest {
         return .init(
+            accountID: self.accountID,
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
@@ -1268,6 +1355,7 @@ extension Mgn.ListTemplateActionsRequest: AWSPaginateToken {
 extension Mgn.ListWavesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Mgn.ListWavesRequest {
         return .init(
+            accountID: self.accountID,
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token

@@ -809,25 +809,25 @@ extension Kendra {
     }
 
     public final class AttributeFilter: AWSEncodableShape {
-        /// Performs a logical AND operation on all supplied filters.
+        /// Performs a logical AND operation on all filters that you specify.
         public let andAllFilters: [AttributeFilter]?
-        /// Returns true when a document contains all of the specified document attributes or metadata fields. This filter is only applicable to StringListValue metadata.
+        /// Returns true when a document contains all of the specified document attributes/fields.  This filter is only applicable to StringListValue.
         public let containsAll: DocumentAttribute?
-        /// Returns true when a document contains any of the specified document attributes or metadata fields. This filter is only applicable to StringListValue metadata.
+        /// Returns true when a document contains any of the specified document attributes/fields.  This filter is only applicable to StringListValue.
         public let containsAny: DocumentAttribute?
-        /// Performs an equals operation on two document attributes or metadata fields.
+        /// Performs an equals operation on document attributes/fields and their values.
         public let equalsTo: DocumentAttribute?
-        /// Performs a greater than operation on two document attributes or metadata fields. Use with a document attribute of type Date or Long.
+        /// Performs a greater than operation on document attributes/fields and their  values. Use with the document attribute  type Date or Long.
         public let greaterThan: DocumentAttribute?
-        /// Performs a greater or equals than operation on two document attributes or metadata fields. Use with a document attribute of type Date or Long.
+        /// Performs a greater or equals than operation on document attributes/fields and  their values. Use with the document attribute  type Date or Long.
         public let greaterThanOrEquals: DocumentAttribute?
-        /// Performs a less than operation on two document attributes or metadata fields. Use with a document attribute of type Date or Long.
+        /// Performs a less than operation on document attributes/fields and their values.  Use with the document attribute  type Date or Long.
         public let lessThan: DocumentAttribute?
-        /// Performs a less than or equals operation on two document attributes or metadata fields. Use with a document attribute of type Date or Long.
+        /// Performs a less than or equals operation on document attributes/fields and  their values. Use with the document attribute  type Date or Long.
         public let lessThanOrEquals: DocumentAttribute?
-        /// Performs a logical NOT operation on all supplied filters.
+        /// Performs a logical NOT operation on all filters that you specify.
         public let notFilter: AttributeFilter?
-        /// Performs a logical OR operation on all supplied filters.
+        /// Performs a logical OR operation on all filters that you specify.
         public let orAllFilters: [AttributeFilter]?
 
         public init(andAllFilters: [AttributeFilter]? = nil, containsAll: DocumentAttribute? = nil, containsAny: DocumentAttribute? = nil, equalsTo: DocumentAttribute? = nil, greaterThan: DocumentAttribute? = nil, greaterThanOrEquals: DocumentAttribute? = nil, lessThan: DocumentAttribute? = nil, lessThanOrEquals: DocumentAttribute? = nil, notFilter: AttributeFilter? = nil, orAllFilters: [AttributeFilter]? = nil) {
@@ -1247,7 +1247,7 @@ extension Kendra {
     }
 
     public struct BatchPutDocumentResponse: AWSDecodableShape {
-        /// A list of documents that were not added to the index because the document failed a validation check. Each document contains an error message that indicates why the document couldn't be added to the index. If there was an error adding a document to an index the error is reported in your Amazon Web Services CloudWatch log. For more information, see Monitoring Amazon Kendra with Amazon CloudWatch Logs
+        /// A list of documents that were not added to the index because the document failed a validation check. Each document contains an error message that indicates why the document couldn't be added to the index. If there was an error adding a document to an index the error is reported in your Amazon Web Services CloudWatch log. For more information, see Monitoring  Amazon Kendra with Amazon CloudWatch logs.
         public let failedDocuments: [BatchPutDocumentResponseFailedDocument]?
 
         public init(failedDocuments: [BatchPutDocumentResponseFailedDocument]? = nil) {
@@ -2844,11 +2844,11 @@ extension Kendra {
     }
 
     public struct DataSourceToIndexFieldMapping: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the column or attribute in the data source.
+        /// The name of the field in the data source. You must first create the index field  using the UpdateIndex API.
         public let dataSourceFieldName: String
-        /// The type of data stored in the column or attribute.
+        /// The format for date fields in the data source. If the field specified in  DataSourceFieldName is a date field, you must specify the date  format. If the field is not a date field, an exception is thrown.
         public let dateFieldFormat: String?
-        /// The name of the field in the index.
+        /// The name of the index field to map to the data source field. The index field type  must match the data source field type.
         public let indexFieldName: String
 
         public init(dataSourceFieldName: String, dateFieldFormat: String? = nil, indexFieldName: String) {
@@ -4217,11 +4217,11 @@ extension Kendra {
     }
 
     public struct DocumentAttributeValueCountPair: AWSDecodableShape {
-        /// The number of documents in the response that have the attribute value for the key.
+        /// The number of documents in the response that have the attribute/field value for  the key.
         public let count: Int?
-        /// The value of the attribute. For example, "HR".
+        /// The value of the attribute/field. For example, "HR".
         public let documentAttributeValue: DocumentAttributeValue?
-        /// Contains the results of a document attribute that is a nested facet. A FacetResult contains the counts for each facet nested within a facet. For example, the document attribute or facet "Department" includes a value called "Engineering". In addition, the document attribute or facet "SubDepartment" includes the values "Frontend" and "Backend" for documents assigned to "Engineering". You can display nested facets in the search results so that documents can be searched not only by department but also by a sub department within a department. The counts for documents that belong to "Frontend" and "Backend" within "Engineering" are returned for a query.
+        /// Contains the results of a document attribute/field that is a nested facet. A FacetResult contains the counts for each facet nested within a facet. For example, the document attribute or facet "Department" includes a value called "Engineering". In addition, the document attribute or facet "SubDepartment" includes the values "Frontend" and "Backend" for documents assigned to "Engineering". You can display nested facets in the search results so that documents can be searched not only by department but also by a sub department within a department. The counts for documents that belong to "Frontend" and "Backend" within "Engineering" are returned for a query.
         public let facetResults: [FacetResult]?
 
         public init(count: Int? = nil, documentAttributeValue: DocumentAttributeValue? = nil, facetResults: [FacetResult]? = nil) {
@@ -7097,14 +7097,17 @@ extension Kendra {
         public let documentURI: String?
         /// The identifier of the relevant passage result.
         public let id: String?
+        /// The confidence score bucket for a retrieved passage result. The confidence  bucket provides a relative ranking that indicates how confident Amazon Kendra  is that the response is relevant to the query.
+        public let scoreAttributes: ScoreAttributes?
 
-        public init(content: String? = nil, documentAttributes: [DocumentAttribute]? = nil, documentId: String? = nil, documentTitle: String? = nil, documentURI: String? = nil, id: String? = nil) {
+        public init(content: String? = nil, documentAttributes: [DocumentAttribute]? = nil, documentId: String? = nil, documentTitle: String? = nil, documentURI: String? = nil, id: String? = nil, scoreAttributes: ScoreAttributes? = nil) {
             self.content = content
             self.documentAttributes = documentAttributes
             self.documentId = documentId
             self.documentTitle = documentTitle
             self.documentURI = documentURI
             self.id = id
+            self.scoreAttributes = scoreAttributes
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7114,6 +7117,7 @@ extension Kendra {
             case documentTitle = "DocumentTitle"
             case documentURI = "DocumentURI"
             case id = "Id"
+            case scoreAttributes = "ScoreAttributes"
         }
     }
 

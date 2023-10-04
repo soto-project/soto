@@ -135,10 +135,25 @@ extension RDS {
         public var description: String { return self.rawValue }
     }
 
+    public enum GlobalClusterMemberSynchronizationStatus: String, CustomStringConvertible, Codable, Sendable {
+        case connected = "connected"
+        case pendingResync = "pending-resync"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IAMAuthMode: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case required = "REQUIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LocalWriteForwardingStatus: String, CustomStringConvertible, Codable, Sendable {
+        case disabled = "disabled"
+        case disabling = "disabling"
+        case enabled = "enabled"
+        case enabling = "enabling"
+        case requested = "requested"
         public var description: String { return self.rawValue }
     }
 
@@ -466,17 +481,17 @@ extension RDS {
     public struct BlueGreenDeployment: AWSDecodableShape {
         public struct _TagListEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The system-generated identifier of the blue/green deployment.
+        /// The unique identifier of the blue/green deployment.
         public let blueGreenDeploymentIdentifier: String?
         /// The user-supplied name of the blue/green deployment.
         public let blueGreenDeploymentName: String?
-        /// Specifies the time when the blue/green deployment was created, in Universal Coordinated Time (UTC).
+        /// The time when the blue/green deployment was created, in Universal Coordinated Time (UTC).
         public let createTime: Date?
-        /// Specifies the time when the blue/green deployment was deleted, in Universal Coordinated Time (UTC).
+        /// The time when the blue/green deployment was deleted, in Universal Coordinated Time (UTC).
         public let deleteTime: Date?
         /// The source database for the blue/green deployment. Before switchover, the source database is the production database in the blue environment.
         public let source: String?
-        /// The status of the blue/green deployment. Values:    PROVISIONING - Resources are being created in the green environment.    AVAILABLE - Resources are available in the green environment.    SWITCHOVER_IN_PROGRESS - The deployment is being switched from the blue environment to the  green environment.    SWITCHOVER_COMPLETED - Switchover from the blue environment to the green environment is complete.    INVALID_CONFIGURATION - Resources in the green environment are invalid, so switchover isn't possible.    SWITCHOVER_FAILED - Switchover was attempted but failed.    DELETING - The blue/green deployment is being deleted.
+        /// The status of the blue/green deployment. Valid Values:    PROVISIONING - Resources are being created in the green environment.    AVAILABLE - Resources are available in the green environment.    SWITCHOVER_IN_PROGRESS - The deployment is being switched from the blue environment to the  green environment.    SWITCHOVER_COMPLETED - Switchover from the blue environment to the green environment is complete.    INVALID_CONFIGURATION - Resources in the green environment are invalid, so switchover isn't possible.    SWITCHOVER_FAILED - Switchover was attempted but failed.    DELETING - The blue/green deployment is being deleted.
         public let status: String?
         /// Additional information about the status of the blue/green deployment.
         public let statusDetails: String?
@@ -523,7 +538,7 @@ extension RDS {
     public struct BlueGreenDeploymentTask: AWSDecodableShape {
         /// The name of the blue/green deployment task.
         public let name: String?
-        /// The status of the blue/green deployment task. Values:    PENDING - The resources are being prepared for deployment.    IN_PROGRESS - The resource is being deployed.    COMPLETED - The resource has been deployed.    FAILED - Deployment of the resource failed.
+        /// The status of the blue/green deployment task. Valid Values:    PENDING - The resource is being prepared for deployment.    IN_PROGRESS - The resource is being deployed.    COMPLETED - The resource has been deployed.    FAILED - Deployment of the resource failed.
         public let status: String?
 
         public init(name: String? = nil, status: String? = nil) {
@@ -614,16 +629,20 @@ extension RDS {
         /// The list of Certificate objects for the Amazon Web Services account.
         @OptionalCustomCoding<ArrayCoder<_CertificatesEncoding, Certificate>>
         public var certificates: [Certificate]?
+        /// The default root CA for new databases created by your Amazon Web Services account. This is either the root CA override  set on your Amazon Web Services account or the system default CA for the Region if no override exists. To override the default CA, use the  ModifyCertificates operation.
+        public let defaultCertificateForNewLaunches: String?
         /// An optional pagination token provided by a previous DescribeCertificates request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
 
-        public init(certificates: [Certificate]? = nil, marker: String? = nil) {
+        public init(certificates: [Certificate]? = nil, defaultCertificateForNewLaunches: String? = nil, marker: String? = nil) {
             self.certificates = certificates
+            self.defaultCertificateForNewLaunches = defaultCertificateForNewLaunches
             self.marker = marker
         }
 
         private enum CodingKeys: String, CodingKey {
             case certificates = "Certificates"
+            case defaultCertificateForNewLaunches = "DefaultCertificateForNewLaunches"
             case marker = "Marker"
         }
     }
@@ -1076,10 +1095,14 @@ extension RDS {
         public let kmsKeyId: String?
         /// The CEV manifest, which is a JSON document that describes the installation .zip files stored in Amazon S3.  Specify the name/value pairs in a file or a quoted string. RDS Custom applies the patches in the order in which  they are listed. The following JSON fields are valid:  MediaImportTemplateVersion  Version of the CEV manifest. The date is in the format YYYY-MM-DD.  databaseInstallationFileNames  Ordered list of installation files for the CEV.  opatchFileNames  Ordered list of OPatch installers used for the Oracle DB engine.  psuRuPatchFileNames  The PSU and RU patches for this CEV.  OtherPatchFileNames  The patches that are not in the list of PSU and RU patches.  Amazon RDS applies these patches after applying the PSU and RU patches.   For more information, see  Creating the CEV manifest in the Amazon RDS User Guide.
         public let manifest: String?
+        /// Reserved for future use.
+        public let sourceCustomDbEngineVersionIdentifier: String?
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
+        /// Reserved for future use.
+        public let useAwsProvidedLatestImage: Bool?
 
-        public init(databaseInstallationFilesS3BucketName: String? = nil, databaseInstallationFilesS3Prefix: String? = nil, description: String? = nil, engine: String, engineVersion: String, imageId: String? = nil, kmsKeyId: String? = nil, manifest: String? = nil, tags: [Tag]? = nil) {
+        public init(databaseInstallationFilesS3BucketName: String? = nil, databaseInstallationFilesS3Prefix: String? = nil, description: String? = nil, engine: String, engineVersion: String, imageId: String? = nil, kmsKeyId: String? = nil, manifest: String? = nil, sourceCustomDbEngineVersionIdentifier: String? = nil, tags: [Tag]? = nil, useAwsProvidedLatestImage: Bool? = nil) {
             self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
             self.databaseInstallationFilesS3Prefix = databaseInstallationFilesS3Prefix
             self.description = description
@@ -1088,7 +1111,9 @@ extension RDS {
             self.imageId = imageId
             self.kmsKeyId = kmsKeyId
             self.manifest = manifest
+            self.sourceCustomDbEngineVersionIdentifier = sourceCustomDbEngineVersionIdentifier
             self.tags = tags
+            self.useAwsProvidedLatestImage = useAwsProvidedLatestImage
         }
 
         public func validate(name: String) throws {
@@ -1116,6 +1141,9 @@ extension RDS {
             try self.validate(self.manifest, name: "manifest", parent: name, max: 51000)
             try self.validate(self.manifest, name: "manifest", parent: name, min: 1)
             try self.validate(self.manifest, name: "manifest", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.sourceCustomDbEngineVersionIdentifier, name: "sourceCustomDbEngineVersionIdentifier", parent: name, max: 255)
+            try self.validate(self.sourceCustomDbEngineVersionIdentifier, name: "sourceCustomDbEngineVersionIdentifier", parent: name, min: 1)
+            try self.validate(self.sourceCustomDbEngineVersionIdentifier, name: "sourceCustomDbEngineVersionIdentifier", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1127,7 +1155,9 @@ extension RDS {
             case imageId = "ImageId"
             case kmsKeyId = "KMSKeyId"
             case manifest = "Manifest"
+            case sourceCustomDbEngineVersionIdentifier = "SourceCustomDbEngineVersionIdentifier"
             case tags = "Tags"
+            case useAwsProvidedLatestImage = "UseAwsProvidedLatestImage"
         }
     }
 
@@ -1216,6 +1246,8 @@ extension RDS {
         public let enableHttpEndpoint: Bool?
         /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see   IAM Database Authentication in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only
         public let enableIAMDatabaseAuthentication: Bool?
+        /// Specifies whether read replicas can forward write operations to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
+        public let enableLocalWriteForwarding: Bool?
         /// Specifies whether to turn on Performance Insights for the DB cluster. For more information, see  Using Amazon Performance Insights in the Amazon RDS User Guide. Valid for Cluster Type: Multi-AZ DB clusters only
         public let enablePerformanceInsights: Bool?
         /// The database engine to use for this DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: aurora-mysql | aurora-postgresql | mysql | postgres
@@ -1267,7 +1299,7 @@ extension RDS {
         public let serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration?
         /// Specifies whether the DB cluster is encrypted. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let storageEncrypted: Bool?
-        /// The storage type to associate with the DB cluster. For information on storage types for Aurora DB clusters, see Storage configurations for Amazon Aurora DB clusters. For information on storage types for Multi-AZ DB clusters, see Settings for creating Multi-AZ DB clusters. This setting is required to create a Multi-AZ DB cluster. When specified for a Multi-AZ DB cluster, a value for the Iops parameter is required. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values:   Aurora DB clusters - aurora | aurora-iopt1    Multi-AZ DB clusters - io1    Default:   Aurora DB clusters - aurora    Multi-AZ DB clusters - io1
+        /// The storage type to associate with the DB cluster. For information on storage types for Aurora DB clusters, see Storage configurations for Amazon Aurora DB clusters. For information on storage types for Multi-AZ DB clusters, see Settings for creating Multi-AZ DB clusters. This setting is required to create a Multi-AZ DB cluster. When specified for a Multi-AZ DB cluster, a value for the Iops parameter is required. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values:   Aurora DB clusters - aurora | aurora-iopt1    Multi-AZ DB clusters - io1    Default:   Aurora DB clusters - aurora    Multi-AZ DB clusters - io1     When you create an Aurora DB cluster with the storage type set to aurora-iopt1, the storage type is returned in the response. The storage type isn't returned when you set it to aurora.
         public let storageType: String?
         /// Tags to assign to the DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -1276,7 +1308,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZones: [String]? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dbClusterIdentifier: String, dbClusterInstanceClass: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, dbSystemId: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableGlobalWriteForwarding: Bool? = nil, enableHttpEndpoint: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineMode: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, manageMasterUserPassword: Bool? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, publiclyAccessible: Bool? = nil, replicationSourceIdentifier: String? = nil, scalingConfiguration: ScalingConfiguration? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZones: [String]? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dbClusterIdentifier: String, dbClusterInstanceClass: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, dbSystemId: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableGlobalWriteForwarding: Bool? = nil, enableHttpEndpoint: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enableLocalWriteForwarding: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineMode: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, manageMasterUserPassword: Bool? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, publiclyAccessible: Bool? = nil, replicationSourceIdentifier: String? = nil, scalingConfiguration: ScalingConfiguration? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZones = availabilityZones
@@ -1297,6 +1329,7 @@ extension RDS {
             self.enableGlobalWriteForwarding = enableGlobalWriteForwarding
             self.enableHttpEndpoint = enableHttpEndpoint
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
+            self.enableLocalWriteForwarding = enableLocalWriteForwarding
             self.enablePerformanceInsights = enablePerformanceInsights
             self.engine = engine
             self.engineMode = engineMode
@@ -1349,6 +1382,7 @@ extension RDS {
             case enableGlobalWriteForwarding = "EnableGlobalWriteForwarding"
             case enableHttpEndpoint = "EnableHttpEndpoint"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
+            case enableLocalWriteForwarding = "EnableLocalWriteForwarding"
             case enablePerformanceInsights = "EnablePerformanceInsights"
             case engine = "Engine"
             case engineMode = "EngineMode"
@@ -1475,7 +1509,7 @@ extension RDS {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
-        /// The amount of storage in gibibytes (GiB) to allocate for the DB instance. This setting doesn't apply to Amazon Aurora DB instances. Aurora cluster volumes automatically grow as the amount of data in your  database increases, though you are only charged for the space that you use in an Aurora cluster volume.  Amazon RDS Custom RDS for MariaDB RDS for MySQL RDS for Oracle RDS for PostgreSQL RDS for SQL Server  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 40 to 65536 for RDS Custom for Oracle,  16384 for RDS Custom for SQL Server.   Provisioned IOPS storage (io1): Must be an integer from 40 to 65536 for RDS Custom for Oracle,  16384 for RDS Custom for SQL Server.     Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.     Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.     Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 10 to 3072.     Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.     Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3):   Enterprise and Standard editions: Must be an integer from 20 to 16384.   Web and Express editions: Must be an integer from 20 to 16384.     Provisioned IOPS storage (io1):   Enterprise and Standard editions: Must be an integer from 100 to 16384.   Web and Express editions: Must be an integer from 100 to 16384.     Magnetic storage (standard):   Enterprise and Standard editions: Must be an integer from 20 to 1024.   Web and Express editions: Must be an integer from 20 to 1024.
+        /// The amount of storage in gibibytes (GiB) to allocate for the DB instance. This setting doesn't apply to Amazon Aurora DB instances. Aurora cluster volumes automatically grow as the amount of data in your  database increases, though you are only charged for the space that you use in an Aurora cluster volume.  Amazon RDS Custom  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 40 to 65536 for RDS Custom for Oracle,  16384 for RDS Custom for SQL Server.   Provisioned IOPS storage (io1): Must be an integer from 40 to 65536 for RDS Custom for Oracle,  16384 for RDS Custom for SQL Server.    RDS for MariaDB  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    RDS for MySQL  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    RDS for Oracle  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 10 to 3072.    RDS for PostgreSQL  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    RDS for SQL Server  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3):   Enterprise and Standard editions: Must be an integer from 20 to 16384.   Web and Express editions: Must be an integer from 20 to 16384.     Provisioned IOPS storage (io1):   Enterprise and Standard editions: Must be an integer from 100 to 16384.   Web and Express editions: Must be an integer from 100 to 16384.     Magnetic storage (standard):   Enterprise and Standard editions: Must be an integer from 20 to 1024.   Web and Express editions: Must be an integer from 20 to 1024.
         public let allocatedStorage: Int?
         /// Specifies whether minor engine upgrades are applied automatically to the DB instance during the maintenance window.  By default, minor engine upgrades are applied automatically. If you create an RDS Custom DB instance, you must set AutoMinorVersionUpgrade to  false.
         public let autoMinorVersionUpgrade: Bool?
@@ -1489,7 +1523,7 @@ extension RDS {
         public let caCertificateIdentifier: String?
         /// For supported engines, the character set (CharacterSet) to associate the DB instance with. This setting doesn't apply to the following DB instances:   Amazon Aurora - The character set is managed by the DB cluster. For more information, see CreateDBCluster.   RDS Custom - However, if you need to change the character set,  you can change it on the database itself.
         public let characterSetName: String?
-        /// Spcifies whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied. This setting doesn't apply to Amazon Aurora DB instances. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting.
+        /// Specifies whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied. This setting doesn't apply to Amazon Aurora DB instances. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting.
         public let copyTagsToSnapshot: Bool?
         /// The instance profile associated with the underlying Amazon EC2 instance of an  RDS Custom DB instance. This setting is required for RDS Custom. Constraints:   The profile must exist in your account.   The profile must have an IAM role that Amazon EC2 has permissions to assume.   The instance profile name and the associated IAM role name must start with the prefix AWSRDSCustom.   For the list of permissions required for the IAM role, see   Configure IAM and your VPC in the Amazon RDS User Guide.
         public let customIamInstanceProfile: String?
@@ -1499,7 +1533,7 @@ extension RDS {
         public let dbInstanceClass: String
         /// The identifier for this DB instance. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance
         public let dbInstanceIdentifier: String
-        /// The meaning of this parameter differs depending on the database engine.  Amazon Aurora MySQL Amazon Aurora PostgreSQL Amazon RDS Custom for Oracle Amazon RDS Custom for SQL Server RDS for MariaDB RDS for MySQL RDS for Oracle RDS for PostgreSQL RDS for SQL Server  The name of the database to create when the primary DB instance of the Aurora MySQL DB cluster is created. If you don't specify a value, Amazon RDS doesn't create a database in the DB cluster. Constraints:   Must contain 1 to 64 alphanumeric characters.   Can't be a word reserved by the database engine.     The name of the database to create when the primary DB instance of the Aurora PostgreSQL DB cluster is created. Default: postgres  Constraints:   Must contain 1 to 63 alphanumeric characters.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0 to 9).   Can't be a word reserved by the database engine.     The Oracle System ID (SID) of the created RDS Custom DB instance. Default: ORCL  Constraints:   Must contain 1 to 8 alphanumeric characters.   Must contain a letter.   Can't be a word reserved by the database engine.     Not applicable. Must be null.   The name of the database to create when the DB instance is created. If you don't specify a value, Amazon RDS doesn't create a database in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the database engine.     The name of the database to create when the DB instance is created. If you don't specify a value, Amazon RDS doesn't create a database in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the database engine.     The Oracle System ID (SID) of the created DB instance. Default: ORCL  Constraints:   Can't be longer than 8 characters.   Can't be a word reserved by the database engine, such as the string NULL.     The name of the database to create when the DB instance is created. Default: postgres  Constraints:   Must contain 1 to 63 letters, numbers, or underscores.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the database engine.     Not applicable. Must be null.
+        /// The meaning of this parameter differs according to the database engine you use.  MySQL  The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine    MariaDB  The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine    PostgreSQL  The name of the database to create when the DB instance is created. If this parameter isn't specified, a database named postgres  is created in the DB instance. Constraints:   Must contain 1 to 63 letters, numbers, or underscores.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine    Oracle  The Oracle System ID (SID) of the created DB instance. If you don't specify a value,  the default value is ORCL. You can't specify the  string null, or any other reserved word, for DBName. Default: ORCL  Constraints:   Can't be longer than 8 characters    Amazon RDS Custom for Oracle  The Oracle System ID (SID) of the created RDS Custom DB instance. If you don't specify a value, the default value is ORCL for non-CDBs and RDSCDB for CDBs. Default: ORCL  Constraints:   It must contain 1 to 8 alphanumeric characters.   It must contain a letter.   It can't be a word reserved by the database engine.    Amazon RDS Custom for SQL Server  Not applicable. Must be null.  SQL Server  Not applicable. Must be null.  Amazon Aurora MySQL  The name of the database to create when the primary DB instance of the Aurora MySQL DB cluster is created. If this parameter isn't specified for an Aurora MySQL DB cluster, no database is created  in the DB cluster. Constraints:   It must contain 1 to 64 alphanumeric characters.   It can't be a word reserved by the database engine.    Amazon Aurora PostgreSQL  The name of the database to create when the primary DB instance of the Aurora PostgreSQL DB cluster is created. If this parameter isn't specified for an Aurora PostgreSQL DB cluster,  a database named postgres is created in the DB cluster. Constraints:   It must contain 1 to 63 alphanumeric characters.   It must begin with a letter. Subsequent characters can be letters, underscores, or digits (0 to 9).   It can't be a word reserved by the database engine.
         public let dbName: String?
         /// The name of the DB parameter group to associate with this DB instance. If you don't specify a value, then  Amazon RDS uses the default DB parameter group for the specified DB engine and version. This setting doesn't apply to RDS Custom DB instances. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   The first character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.
         public let dbParameterGroupName: String?
@@ -1508,12 +1542,23 @@ extension RDS {
         public var dbSecurityGroups: [String]?
         /// A DB subnet group to associate with this DB instance. Constraints:   Must match the name of an existing DB subnet group.   Must not be default.   Example: mydbsubnetgroup
         public let dbSubnetGroupName: String?
+        /// The Oracle system identifier (SID), which is the name of the Oracle database instance that  manages your database files. In this context, the term "Oracle database instance" refers exclusively  to the system global area (SGA) and Oracle background processes. If you don't specify a SID,  the value defaults to RDSCDB. The Oracle SID is also the name of your CDB.
+        public let dbSystemId: String?
         /// Specifies whether the DB instance has deletion protection enabled.  The database can't be deleted when deletion protection is enabled. By default,  deletion protection isn't enabled. For more information, see   Deleting a DB Instance. This setting doesn't apply to Amazon Aurora DB instances. You can enable or disable deletion protection for the DB cluster.  For more information, see CreateDBCluster. DB instances in a DB  cluster can be deleted even when deletion protection is enabled for the DB cluster.
         public let deletionProtection: Bool?
         /// The Active Directory directory ID to create the DB instance in. Currently, only Microsoft SQL  Server, MySQL, Oracle, and PostgreSQL DB instances can be created in an Active Directory Domain. For more information, see  Kerberos Authentication in the Amazon RDS User Guide. This setting doesn't apply to the following DB instances:   Amazon Aurora (The domain is managed by the DB cluster.)   RDS Custom
         public let domain: String?
+        /// The ARN for the Secrets Manager secret with the credentials for the user joining the domain. Example: arn:aws:secretsmanager:region:account-number:secret:myselfmanagedADtestsecret-123456
+        public let domainAuthSecretArn: String?
+        /// The IPv4 DNS IP addresses of your primary and secondary Active Directory domain controllers. Constraints:   Two IP addresses must be provided.  If there isn't a secondary domain controller, use the IP address of the primary domain controller for both entries in the list.   Example: 123.124.125.126,234.235.236.237
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var domainDnsIps: [String]?
+        /// The fully qualified domain name (FQDN) of an Active Directory domain. Constraints:   Can't be longer than 64 characters.   Example: mymanagedADtest.mymanagedAD.mydomain
+        public let domainFqdn: String?
         /// The name of the IAM role to use when making API calls to the Directory Service. This setting doesn't apply to the following DB instances:   Amazon Aurora (The domain is managed by the DB cluster.)   RDS Custom
         public let domainIAMRoleName: String?
+        /// The Active Directory organizational unit for your DB instance to join. Constraints:   Must be in the distinguished name format.   Can't be longer than 64 characters.   Example: OU=mymanagedADtestOU,DC=mymanagedADtest,DC=mymanagedAD,DC=mydomain
+        public let domainOu: String?
         /// The list of log types that need to be enabled for exporting to CloudWatch Logs. For more information, see   Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. This setting doesn't apply to the following DB instances:   Amazon Aurora (CloudWatch Logs exports are managed by the DB cluster.)   RDS Custom   The following values are valid for each DB engine:   RDS for MariaDB - audit | error | general | slowquery    RDS for Microsoft SQL Server - agent | error    RDS for MySQL - audit | error | general | slowquery    RDS for Oracle - alert | audit | listener | trace | oemagent    RDS for PostgreSQL - postgresql | upgrade
         @OptionalCustomCoding<StandardArrayCoder>
         public var enableCloudwatchLogsExports: [String]?
@@ -1525,7 +1570,7 @@ extension RDS {
         public let enablePerformanceInsights: Bool?
         /// The database engine to use for this DB instance. Not every database engine is available in every Amazon Web Services Region. Valid Values:    aurora-mysql (for Aurora MySQL DB instances)    aurora-postgresql (for Aurora PostgreSQL DB instances)    custom-oracle-ee (for RDS Custom for Oracle DB instances)    custom-oracle-ee-cdb (for RDS Custom for Oracle DB instances)    custom-sqlserver-ee (for RDS Custom for SQL Server DB instances)    custom-sqlserver-se (for RDS Custom for SQL Server DB instances)    custom-sqlserver-web (for RDS Custom for SQL Server DB instances)    mariadb     mysql     oracle-ee     oracle-ee-cdb     oracle-se2     oracle-se2-cdb     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web
         public let engine: String
-        /// The version number of the database engine to use. This setting doesn't apply to Amazon Aurora DB instances. The version number of the database engine the DB instance uses is managed by the DB cluster. For a list of valid engine versions, use the DescribeDBEngineVersions operation. The following are the database engines and links to information about the major and minor versions that are available with  Amazon RDS. Not every database engine is available for every Amazon Web Services Region.  Amazon RDS Custom for Oracle Amazon RDS Custom for SQL Server RDS for MariaDB RDS for Microsoft SQL Server RDS for MySQL RDS for Oracle RDS for PostgreSQL  A custom engine version (CEV) that you have previously created. This setting is required for RDS Custom for Oracle. The CEV  name has the following format: 19.customized_string. A valid CEV name is   19.my_cev1. For more information, see  Creating an RDS Custom for Oracle DB instance in the Amazon RDS User Guide.   See RDS Custom for SQL Server general requirements  in the Amazon RDS User Guide.   For information, see MariaDB on Amazon RDS versions in the  Amazon RDS User Guide.   For information, see Microsoft SQL Server versions on Amazon RDS in the  Amazon RDS User Guide.   For information, see MySQL on Amazon RDS versions in the  Amazon RDS User Guide.   For information, see Oracle Database Engine release notes in the  Amazon RDS User Guide.   For information, see Amazon RDS for PostgreSQL versions and extensions in the  Amazon RDS User Guide.
+        /// The version number of the database engine to use. This setting doesn't apply to Amazon Aurora DB instances. The version number of the database engine the DB instance uses is managed by the DB cluster. For a list of valid engine versions, use the DescribeDBEngineVersions operation. The following are the database engines and links to information about the major and minor versions that are available with  Amazon RDS. Not every database engine is available for every Amazon Web Services Region.  Amazon RDS Custom for Oracle  A custom engine version (CEV) that you have previously created. This setting is required for RDS Custom for Oracle. The CEV  name has the following format: 19.customized_string. A valid CEV name is   19.my_cev1. For more information, see  Creating an RDS Custom for Oracle DB instance in the Amazon RDS User Guide.  Amazon RDS Custom for SQL Server  See RDS Custom for SQL Server general requirements  in the Amazon RDS User Guide.  RDS for MariaDB  For information, see MariaDB on Amazon RDS versions in the  Amazon RDS User Guide.  RDS for Microsoft SQL Server  For information, see Microsoft SQL Server versions on Amazon RDS in the  Amazon RDS User Guide.  RDS for MySQL  For information, see MySQL on Amazon RDS versions in the  Amazon RDS User Guide.  RDS for Oracle  For information, see Oracle Database Engine release notes in the  Amazon RDS User Guide.  RDS for PostgreSQL  For information, see Amazon RDS for PostgreSQL versions and extensions in the  Amazon RDS User Guide.
         public let engineVersion: String?
         /// The amount of Provisioned IOPS (input/output operations per second) to initially allocate for the DB instance. For information about valid IOPS values, see  Amazon RDS DB instance storage  in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora DB instances. Storage is managed by the DB cluster. Constraints:   For RDS for MariaDB, MySQL, Oracle, and PostgreSQL - Must be a multiple between .5 and 50  of the storage amount for the DB instance.   For RDS for SQL Server - Must be a multiple between 1 and 50 of the storage amount for the DB instance.
         public let iops: Int?
@@ -1591,7 +1636,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbClusterIdentifier: String? = nil, dbInstanceClass: String, dbInstanceIdentifier: String, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, ncharCharacterSetName: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, storageEncrypted: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbClusterIdentifier: String? = nil, dbInstanceClass: String, dbInstanceIdentifier: String, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, dbSystemId: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, ncharCharacterSetName: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, storageEncrypted: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -1608,9 +1653,14 @@ extension RDS {
             self.dbParameterGroupName = dbParameterGroupName
             self.dbSecurityGroups = dbSecurityGroups
             self.dbSubnetGroupName = dbSubnetGroupName
+            self.dbSystemId = dbSystemId
             self.deletionProtection = deletionProtection
             self.domain = domain
+            self.domainAuthSecretArn = domainAuthSecretArn
+            self.domainDnsIps = domainDnsIps
+            self.domainFqdn = domainFqdn
             self.domainIAMRoleName = domainIAMRoleName
+            self.domainOu = domainOu
             self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
             self.enableCustomerOwnedIp = enableCustomerOwnedIp
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
@@ -1666,9 +1716,14 @@ extension RDS {
             case dbParameterGroupName = "DBParameterGroupName"
             case dbSecurityGroups = "DBSecurityGroups"
             case dbSubnetGroupName = "DBSubnetGroupName"
+            case dbSystemId = "DBSystemId"
             case deletionProtection = "DeletionProtection"
             case domain = "Domain"
+            case domainAuthSecretArn = "DomainAuthSecretArn"
+            case domainDnsIps = "DomainDnsIps"
+            case domainFqdn = "DomainFqdn"
             case domainIAMRoleName = "DomainIAMRoleName"
+            case domainOu = "DomainOu"
             case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
             case enableCustomerOwnedIp = "EnableCustomerOwnedIp"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
@@ -1735,8 +1790,17 @@ extension RDS {
         public let deletionProtection: Bool?
         /// The Active Directory directory ID to create the DB instance in. Currently, only MySQL, Microsoft SQL  Server, Oracle, and PostgreSQL DB instances can be created in an Active Directory Domain. For more information, see  Kerberos Authentication in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
         public let domain: String?
+        /// The ARN for the Secrets Manager secret with the credentials for the user joining the domain. Example: arn:aws:secretsmanager:region:account-number:secret:myselfmanagedADtestsecret-123456
+        public let domainAuthSecretArn: String?
+        /// The IPv4 DNS IP addresses of your primary and secondary Active Directory domain controllers. Constraints:   Two IP addresses must be provided.  If there isn't a secondary domain controller, use the IP address of the primary domain controller for both entries in the list.   Example: 123.124.125.126,234.235.236.237
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var domainDnsIps: [String]?
+        /// The fully qualified domain name (FQDN) of an Active Directory domain. Constraints:   Can't be longer than 64 characters.   Example: mymanagedADtest.mymanagedAD.mydomain
+        public let domainFqdn: String?
         /// The name of the IAM role to be used when making API calls to the Directory Service. This setting doesn't apply to RDS Custom.
         public let domainIAMRoleName: String?
+        /// The Active Directory organizational unit for your DB instance to join. Constraints:   Must be in the distinguished name format.   Can't be longer than 64 characters.   Example: OU=mymanagedADtestOU,DC=mymanagedADtest,DC=mymanagedAD,DC=mydomain
+        public let domainOu: String?
         /// The list of logs that the new DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see  Publishing Database Logs to Amazon CloudWatch Logs  in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enableCloudwatchLogsExports: [String]?
@@ -1793,7 +1857,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String, dbParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preSignedUrl: String? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, replicaMode: ReplicaMode? = nil, sourceDBClusterIdentifier: String? = nil, sourceDBInstanceIdentifier: String? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String, dbParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preSignedUrl: String? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, replicaMode: ReplicaMode? = nil, sourceDBClusterIdentifier: String? = nil, sourceDBInstanceIdentifier: String? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -1805,7 +1869,11 @@ extension RDS {
             self.dbSubnetGroupName = dbSubnetGroupName
             self.deletionProtection = deletionProtection
             self.domain = domain
+            self.domainAuthSecretArn = domainAuthSecretArn
+            self.domainDnsIps = domainDnsIps
+            self.domainFqdn = domainFqdn
             self.domainIAMRoleName = domainIAMRoleName
+            self.domainOu = domainOu
             self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
             self.enableCustomerOwnedIp = enableCustomerOwnedIp
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
@@ -1846,7 +1914,11 @@ extension RDS {
             case dbSubnetGroupName = "DBSubnetGroupName"
             case deletionProtection = "DeletionProtection"
             case domain = "Domain"
+            case domainAuthSecretArn = "DomainAuthSecretArn"
+            case domainDnsIps = "DomainDnsIps"
+            case domainFqdn = "DomainFqdn"
             case domainIAMRoleName = "DomainIAMRoleName"
+            case domainOu = "DomainOu"
             case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
             case enableCustomerOwnedIp = "EnableCustomerOwnedIp"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
@@ -2236,19 +2308,19 @@ extension RDS {
     }
 
     public struct CreateGlobalClusterMessage: AWSEncodableShape {
-        /// The name for your database of up to 64 alphanumeric characters. If you do not provide a name, Amazon Aurora will not create a database in the global database cluster you are creating.
+        /// The name for your database of up to 64 alphanumeric characters. If you don't specify a name, Amazon Aurora doesn't create a database in the global database cluster. Constraints:   Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the database name from the source DB cluster.
         public let databaseName: String?
-        /// The deletion protection setting for the new global database. The global database can't be deleted when deletion protection is enabled.
+        /// Specifies whether to enable deletion protection for the new global database cluster. The global database can't be deleted when deletion protection is enabled.
         public let deletionProtection: Bool?
-        /// The name of the database engine to be used for this DB cluster.
+        /// The database engine to use for this global database cluster. Valid Values: aurora-mysql | aurora-postgresql  Constraints:   Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the engine of the source DB cluster.
         public let engine: String?
-        /// The engine version of the Aurora global database.
+        /// The engine version to use for this global database cluster. Constraints:   Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the engine version of the source DB cluster.
         public let engineVersion: String?
-        /// The cluster identifier of the new global database cluster. This parameter is stored as a lowercase string.
+        /// The cluster identifier for this global database cluster. This parameter is stored as a lowercase string.
         public let globalClusterIdentifier: String?
-        /// The Amazon Resource Name (ARN) to use as the primary cluster of the global database. This parameter is optional.
+        /// The Amazon Resource Name (ARN) to use as the primary cluster of the global database. If you provide a value for this parameter, don't specify values for the following settings because Amazon Aurora uses the values from the specified source DB cluster:    DatabaseName     Engine     EngineVersion     StorageEncrypted
         public let sourceDBClusterIdentifier: String?
-        /// The storage encryption setting for the new global database cluster.
+        /// Specifies whether to enable storage encryption for the new global database cluster. Constraints:   Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the setting from the source DB cluster.
         public let storageEncrypted: Bool?
 
         public init(databaseName: String? = nil, deletionProtection: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, sourceDBClusterIdentifier: String? = nil, storageEncrypted: Bool? = nil) {
@@ -2375,6 +2447,8 @@ extension RDS {
         /// The list of Availability Zones (AZs) where instances in the DB cluster can be created.
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
         public var availabilityZones: [String]?
+        /// The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup.
+        public let awsBackupRecoveryPointArn: String?
         /// The number of change records stored for Backtrack.
         public let backtrackConsumedChangeRecords: Int64?
         /// The target backtrack window, in seconds. If this value is set to 0, backtracking is disabled for the DB cluster. Otherwise, backtracking is enabled.
@@ -2456,6 +2530,8 @@ extension RDS {
         public let kmsKeyId: String?
         /// The latest time to which a database can be restored with point-in-time restore.
         public let latestRestorableTime: Date?
+        /// Specifies whether an Aurora DB cluster has in-cluster write forwarding enabled, not enabled, requested, or is in the process  of enabling it.
+        public let localWriteForwardingStatus: LocalWriteForwardingStatus?
         /// The master username for the DB cluster.
         public let masterUsername: String?
         /// The secret managed by RDS in Amazon Web Services Secrets Manager for the master user password. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide and Password management with Amazon Web Services Secrets Manager  in the Amazon Aurora User Guide.
@@ -2507,7 +2583,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamStatus: ActivityStreamStatus? = nil, allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, automaticRestartTime: Date? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZones: [String]? = nil, backtrackConsumedChangeRecords: Int64? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, capacity: Int? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, customEndpoints: [String]? = nil, databaseName: String? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterInstanceClass: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, dbSystemId: String? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, earliestBacktrackTime: Date? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, globalWriteForwardingRequested: Bool? = nil, globalWriteForwardingStatus: WriteForwardingStatus? = nil, hostedZoneId: String? = nil, httpEndpointEnabled: Bool? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, ioOptimizedNextAllowedModificationTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, masterUserSecret: MasterUserSecret? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, pendingModifiedValues: ClusterPendingModifiedValues? = nil, percentProgress: String? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, scalingConfigurationInfo: ScalingConfigurationInfo? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfigurationInfo? = nil, status: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tagList: [Tag]? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamStatus: ActivityStreamStatus? = nil, allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, automaticRestartTime: Date? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZones: [String]? = nil, awsBackupRecoveryPointArn: String? = nil, backtrackConsumedChangeRecords: Int64? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, capacity: Int? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, customEndpoints: [String]? = nil, databaseName: String? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterInstanceClass: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, dbSystemId: String? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, earliestBacktrackTime: Date? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, globalWriteForwardingRequested: Bool? = nil, globalWriteForwardingStatus: WriteForwardingStatus? = nil, hostedZoneId: String? = nil, httpEndpointEnabled: Bool? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, ioOptimizedNextAllowedModificationTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, localWriteForwardingStatus: LocalWriteForwardingStatus? = nil, masterUsername: String? = nil, masterUserSecret: MasterUserSecret? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, pendingModifiedValues: ClusterPendingModifiedValues? = nil, percentProgress: String? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, scalingConfigurationInfo: ScalingConfigurationInfo? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfigurationInfo? = nil, status: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tagList: [Tag]? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.activityStreamKinesisStreamName = activityStreamKinesisStreamName
             self.activityStreamKmsKeyId = activityStreamKmsKeyId
             self.activityStreamMode = activityStreamMode
@@ -2517,6 +2593,7 @@ extension RDS {
             self.automaticRestartTime = automaticRestartTime
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZones = availabilityZones
+            self.awsBackupRecoveryPointArn = awsBackupRecoveryPointArn
             self.backtrackConsumedChangeRecords = backtrackConsumedChangeRecords
             self.backtrackWindow = backtrackWindow
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -2555,6 +2632,7 @@ extension RDS {
             self.iops = iops
             self.kmsKeyId = kmsKeyId
             self.latestRestorableTime = latestRestorableTime
+            self.localWriteForwardingStatus = localWriteForwardingStatus
             self.masterUsername = masterUsername
             self.masterUserSecret = masterUserSecret
             self.monitoringInterval = monitoringInterval
@@ -2592,6 +2670,7 @@ extension RDS {
             case automaticRestartTime = "AutomaticRestartTime"
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case availabilityZones = "AvailabilityZones"
+            case awsBackupRecoveryPointArn = "AwsBackupRecoveryPointArn"
             case backtrackConsumedChangeRecords = "BacktrackConsumedChangeRecords"
             case backtrackWindow = "BacktrackWindow"
             case backupRetentionPeriod = "BackupRetentionPeriod"
@@ -2630,6 +2709,7 @@ extension RDS {
             case iops = "Iops"
             case kmsKeyId = "KmsKeyId"
             case latestRestorableTime = "LatestRestorableTime"
+            case localWriteForwardingStatus = "LocalWriteForwardingStatus"
             case masterUsername = "MasterUsername"
             case masterUserSecret = "MasterUserSecret"
             case monitoringInterval = "MonitoringInterval"
@@ -2655,6 +2735,133 @@ extension RDS {
             case storageType = "StorageType"
             case tagList = "TagList"
             case vpcSecurityGroups = "VpcSecurityGroups"
+        }
+    }
+
+    public struct DBClusterAutomatedBackup: AWSDecodableShape {
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
+
+        /// For all database engines except Amazon Aurora, AllocatedStorage specifies the allocated storage size in gibibytes (GiB).  For Aurora, AllocatedStorage always returns 1, because Aurora DB cluster storage size isn't fixed, but instead automatically adjusts as needed.
+        public let allocatedStorage: Int?
+        /// The Availability Zones where instances in the DB cluster can be created. For information on Amazon Web Services Regions and Availability Zones, see  Regions and Availability Zones.
+        @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
+        public var availabilityZones: [String]?
+        /// The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup.
+        public let awsBackupRecoveryPointArn: String?
+        /// The retention period for the automated backups.
+        public let backupRetentionPeriod: Int?
+        /// The time when the DB cluster was created, in Universal Coordinated Time (UTC).
+        public let clusterCreateTime: Date?
+        /// The Amazon Resource Name (ARN) for the source DB cluster.
+        public let dbClusterArn: String?
+        /// The Amazon Resource Name (ARN) for the automated backups.
+        public let dbClusterAutomatedBackupsArn: String?
+        /// The identifier for the source DB cluster, which can't be changed and which is unique to an Amazon Web Services Region.
+        public let dbClusterIdentifier: String?
+        /// The resource ID for the source DB cluster, which can't be changed and which is unique to an Amazon Web Services Region.
+        public let dbClusterResourceId: String?
+        /// The name of the database engine for this automated backup.
+        public let engine: String?
+        /// The engine mode of the database engine for the automated backup.
+        public let engineMode: String?
+        /// The version of the database engine for the automated backup.
+        public let engineVersion: String?
+        /// True if mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts is enabled, and  otherwise false.
+        public let iamDatabaseAuthenticationEnabled: Bool?
+        /// The IOPS (I/O operations per second) value for the automated backup. This setting is only for non-Aurora Multi-AZ DB clusters.
+        public let iops: Int?
+        /// The Amazon Web Services KMS key ID for an automated backup. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.
+        public let kmsKeyId: String?
+        /// The license model information for this DB cluster automated backup.
+        public let licenseModel: String?
+        /// The master user name of the automated backup.
+        public let masterUsername: String?
+        /// The port number that the automated backup used for connections. Default: Inherits from the source DB cluster Valid Values: 1150-65535
+        public let port: Int?
+        /// The Amazon Web Services Region associated with the automated backup.
+        public let region: String?
+        public let restoreWindow: RestoreWindow?
+        /// A list of status information for an automated backup:    retained - Automated backups for deleted clusters.
+        public let status: String?
+        /// Specifies whether the source DB cluster is encrypted.
+        public let storageEncrypted: Bool?
+        /// The storage type associated with the DB cluster. This setting is only for non-Aurora Multi-AZ DB clusters.
+        public let storageType: String?
+        /// The VPC ID associated with the DB cluster.
+        public let vpcId: String?
+
+        public init(allocatedStorage: Int? = nil, availabilityZones: [String]? = nil, awsBackupRecoveryPointArn: String? = nil, backupRetentionPeriod: Int? = nil, clusterCreateTime: Date? = nil, dbClusterArn: String? = nil, dbClusterAutomatedBackupsArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterResourceId: String? = nil, engine: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, port: Int? = nil, region: String? = nil, restoreWindow: RestoreWindow? = nil, status: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, vpcId: String? = nil) {
+            self.allocatedStorage = allocatedStorage
+            self.availabilityZones = availabilityZones
+            self.awsBackupRecoveryPointArn = awsBackupRecoveryPointArn
+            self.backupRetentionPeriod = backupRetentionPeriod
+            self.clusterCreateTime = clusterCreateTime
+            self.dbClusterArn = dbClusterArn
+            self.dbClusterAutomatedBackupsArn = dbClusterAutomatedBackupsArn
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbClusterResourceId = dbClusterResourceId
+            self.engine = engine
+            self.engineMode = engineMode
+            self.engineVersion = engineVersion
+            self.iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled
+            self.iops = iops
+            self.kmsKeyId = kmsKeyId
+            self.licenseModel = licenseModel
+            self.masterUsername = masterUsername
+            self.port = port
+            self.region = region
+            self.restoreWindow = restoreWindow
+            self.status = status
+            self.storageEncrypted = storageEncrypted
+            self.storageType = storageType
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocatedStorage = "AllocatedStorage"
+            case availabilityZones = "AvailabilityZones"
+            case awsBackupRecoveryPointArn = "AwsBackupRecoveryPointArn"
+            case backupRetentionPeriod = "BackupRetentionPeriod"
+            case clusterCreateTime = "ClusterCreateTime"
+            case dbClusterArn = "DBClusterArn"
+            case dbClusterAutomatedBackupsArn = "DBClusterAutomatedBackupsArn"
+            case dbClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterResourceId = "DbClusterResourceId"
+            case engine = "Engine"
+            case engineMode = "EngineMode"
+            case engineVersion = "EngineVersion"
+            case iamDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
+            case iops = "Iops"
+            case kmsKeyId = "KmsKeyId"
+            case licenseModel = "LicenseModel"
+            case masterUsername = "MasterUsername"
+            case port = "Port"
+            case region = "Region"
+            case restoreWindow = "RestoreWindow"
+            case status = "Status"
+            case storageEncrypted = "StorageEncrypted"
+            case storageType = "StorageType"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct DBClusterAutomatedBackupMessage: AWSDecodableShape {
+        public struct _DBClusterAutomatedBackupsEncoding: ArrayCoderProperties { public static let member = "DBClusterAutomatedBackup" }
+
+        /// A list of DBClusterAutomatedBackup backups.
+        @OptionalCustomCoding<ArrayCoder<_DBClusterAutomatedBackupsEncoding, DBClusterAutomatedBackup>>
+        public var dbClusterAutomatedBackups: [DBClusterAutomatedBackup]?
+        /// The pagination token provided in the previous request. If this parameter is specified the response includes only  records beyond the marker, up to MaxRecords.
+        public let marker: String?
+
+        public init(dbClusterAutomatedBackups: [DBClusterAutomatedBackup]? = nil, marker: String? = nil) {
+            self.dbClusterAutomatedBackups = dbClusterAutomatedBackups
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbClusterAutomatedBackups = "DBClusterAutomatedBackups"
+            case marker = "Marker"
         }
     }
 
@@ -2985,7 +3192,9 @@ extension RDS {
         public let clusterCreateTime: Date?
         /// Specifies the DB cluster identifier of the DB cluster that this DB cluster snapshot was created from.
         public let dbClusterIdentifier: String?
-        /// The Amazon Resource Name (ARN) for the DB cluster snapshot.
+        /// Specifies the resource ID of the DB cluster that this DB cluster snapshot was created from.
+        public let dbClusterResourceId: String?
+        /// Specifies the Amazon Resource Name (ARN) for the DB cluster snapshot.
         public let dbClusterSnapshotArn: String?
         /// Specifies the identifier for the DB cluster snapshot.
         public let dbClusterSnapshotIdentifier: String?
@@ -3026,11 +3235,12 @@ extension RDS {
         /// Provides the VPC ID associated with the DB cluster snapshot.
         public let vpcId: String?
 
-        public init(allocatedStorage: Int? = nil, availabilityZones: [String]? = nil, clusterCreateTime: Date? = nil, dbClusterIdentifier: String? = nil, dbClusterSnapshotArn: String? = nil, dbClusterSnapshotIdentifier: String? = nil, dbSystemId: String? = nil, engine: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, percentProgress: Int? = nil, port: Int? = nil, snapshotCreateTime: Date? = nil, snapshotType: String? = nil, sourceDBClusterSnapshotArn: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tagList: [Tag]? = nil, vpcId: String? = nil) {
+        public init(allocatedStorage: Int? = nil, availabilityZones: [String]? = nil, clusterCreateTime: Date? = nil, dbClusterIdentifier: String? = nil, dbClusterResourceId: String? = nil, dbClusterSnapshotArn: String? = nil, dbClusterSnapshotIdentifier: String? = nil, dbSystemId: String? = nil, engine: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, percentProgress: Int? = nil, port: Int? = nil, snapshotCreateTime: Date? = nil, snapshotType: String? = nil, sourceDBClusterSnapshotArn: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tagList: [Tag]? = nil, vpcId: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZones = availabilityZones
             self.clusterCreateTime = clusterCreateTime
             self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbClusterResourceId = dbClusterResourceId
             self.dbClusterSnapshotArn = dbClusterSnapshotArn
             self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
             self.dbSystemId = dbSystemId
@@ -3058,6 +3268,7 @@ extension RDS {
             case availabilityZones = "AvailabilityZones"
             case clusterCreateTime = "ClusterCreateTime"
             case dbClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterResourceId = "DbClusterResourceId"
             case dbClusterSnapshotArn = "DBClusterSnapshotArn"
             case dbClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
             case dbSystemId = "DBSystemId"
@@ -3207,6 +3418,8 @@ extension RDS {
         public let supportsCertificateRotationWithoutRestart: Bool?
         /// A value that indicates whether you can use Aurora global databases with a specific DB engine version.
         public let supportsGlobalDatabases: Bool?
+        /// A value that indicates whether the DB engine version supports forwarding write operations from reader DB instances  to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
+        public let supportsLocalWriteForwarding: Bool?
         /// A value that indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
         public let supportsLogExportsToCloudwatchLogs: Bool?
         /// A value that indicates whether you can use Aurora parallel query with a specific DB engine version.
@@ -3219,7 +3432,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_ValidUpgradeTargetEncoding, UpgradeTarget>>
         public var validUpgradeTarget: [UpgradeTarget]?
 
-        public init(createTime: Date? = nil, customDBEngineVersionManifest: String? = nil, databaseInstallationFilesS3BucketName: String? = nil, databaseInstallationFilesS3Prefix: String? = nil, dbEngineDescription: String? = nil, dbEngineMediaType: String? = nil, dbEngineVersionArn: String? = nil, dbEngineVersionDescription: String? = nil, dbParameterGroupFamily: String? = nil, defaultCharacterSet: CharacterSet? = nil, engine: String? = nil, engineVersion: String? = nil, exportableLogTypes: [String]? = nil, image: CustomDBEngineVersionAMI? = nil, kmsKeyId: String? = nil, majorEngineVersion: String? = nil, status: String? = nil, supportedCACertificateIdentifiers: [String]? = nil, supportedCharacterSets: [CharacterSet]? = nil, supportedEngineModes: [String]? = nil, supportedFeatureNames: [String]? = nil, supportedNcharCharacterSets: [CharacterSet]? = nil, supportedTimezones: [Timezone]? = nil, supportsBabelfish: Bool? = nil, supportsCertificateRotationWithoutRestart: Bool? = nil, supportsGlobalDatabases: Bool? = nil, supportsLogExportsToCloudwatchLogs: Bool? = nil, supportsParallelQuery: Bool? = nil, supportsReadReplica: Bool? = nil, tagList: [Tag]? = nil, validUpgradeTarget: [UpgradeTarget]? = nil) {
+        public init(createTime: Date? = nil, customDBEngineVersionManifest: String? = nil, databaseInstallationFilesS3BucketName: String? = nil, databaseInstallationFilesS3Prefix: String? = nil, dbEngineDescription: String? = nil, dbEngineMediaType: String? = nil, dbEngineVersionArn: String? = nil, dbEngineVersionDescription: String? = nil, dbParameterGroupFamily: String? = nil, defaultCharacterSet: CharacterSet? = nil, engine: String? = nil, engineVersion: String? = nil, exportableLogTypes: [String]? = nil, image: CustomDBEngineVersionAMI? = nil, kmsKeyId: String? = nil, majorEngineVersion: String? = nil, status: String? = nil, supportedCACertificateIdentifiers: [String]? = nil, supportedCharacterSets: [CharacterSet]? = nil, supportedEngineModes: [String]? = nil, supportedFeatureNames: [String]? = nil, supportedNcharCharacterSets: [CharacterSet]? = nil, supportedTimezones: [Timezone]? = nil, supportsBabelfish: Bool? = nil, supportsCertificateRotationWithoutRestart: Bool? = nil, supportsGlobalDatabases: Bool? = nil, supportsLocalWriteForwarding: Bool? = nil, supportsLogExportsToCloudwatchLogs: Bool? = nil, supportsParallelQuery: Bool? = nil, supportsReadReplica: Bool? = nil, tagList: [Tag]? = nil, validUpgradeTarget: [UpgradeTarget]? = nil) {
             self.createTime = createTime
             self.customDBEngineVersionManifest = customDBEngineVersionManifest
             self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
@@ -3246,6 +3459,7 @@ extension RDS {
             self.supportsBabelfish = supportsBabelfish
             self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
             self.supportsGlobalDatabases = supportsGlobalDatabases
+            self.supportsLocalWriteForwarding = supportsLocalWriteForwarding
             self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
             self.supportsParallelQuery = supportsParallelQuery
             self.supportsReadReplica = supportsReadReplica
@@ -3280,6 +3494,7 @@ extension RDS {
             case supportsBabelfish = "SupportsBabelfish"
             case supportsCertificateRotationWithoutRestart = "SupportsCertificateRotationWithoutRestart"
             case supportsGlobalDatabases = "SupportsGlobalDatabases"
+            case supportsLocalWriteForwarding = "SupportsLocalWriteForwarding"
             case supportsLogExportsToCloudwatchLogs = "SupportsLogExportsToCloudwatchLogs"
             case supportsParallelQuery = "SupportsParallelQuery"
             case supportsReadReplica = "SupportsReadReplica"
@@ -3382,7 +3597,7 @@ extension RDS {
         public let dbInstanceStatus: String?
         /// The Amazon Web Services Region-unique, immutable identifier for the DB instance. This identifier is found in Amazon Web Services CloudTrail log  entries whenever the Amazon Web Services KMS key for the DB instance is accessed.
         public let dbiResourceId: String?
-        /// The meaning of this parameter differs depending on the database engine.   For RDS for MariaDB, Microsoft SQL Server, MySQL, and PostgreSQL - The name of the initial database specified for this DB instance when it was created, if one was provided. This same name is returned for the life of the DB instance.   For RDS for Oracle - The Oracle System ID (SID) of the created DB instance. This value is only returned when the object returned is an Oracle DB instance.
+        /// Contains the initial database name that you provided (if required) when you created the DB instance. This name is returned for the life of your DB instance. For an RDS for Oracle CDB instance, the name identifies the PDB rather than the CDB.
         public let dbName: String?
         /// The list of DB parameter groups applied to this DB instance.
         @OptionalCustomCoding<ArrayCoder<_DBParameterGroupsEncoding, DBParameterGroupStatus>>
@@ -3445,6 +3660,8 @@ extension RDS {
         public var optionGroupMemberships: [OptionGroupMembership]?
         /// Information about pending changes to the DB instance. This information is returned only when there are pending changes. Specific changes are identified by subelements.
         public let pendingModifiedValues: PendingModifiedValues?
+        /// The progress of the storage optimization operation as a percentage.
+        public let percentProgress: String?
         /// Indicates whether Performance Insights is enabled for the DB instance.
         public let performanceInsightsEnabled: Bool?
         /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.
@@ -3497,7 +3714,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(activityStreamEngineNativeAuditFieldsIncluded: Bool? = nil, activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamPolicyStatus: ActivityStreamPolicyStatus? = nil, activityStreamStatus: ActivityStreamStatus? = nil, allocatedStorage: Int? = nil, associatedRoles: [DBInstanceRole]? = nil, automaticRestartTime: Date? = nil, automationMode: AutomationMode? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, awsBackupRecoveryPointArn: String? = nil, backupRetentionPeriod: Int? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, certificateDetails: CertificateDetails? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, customerOwnedIpEnabled: Bool? = nil, customIamInstanceProfile: String? = nil, dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceAutomatedBackupsReplications: [DBInstanceAutomatedBackupsReplication]? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dbInstanceStatus: String? = nil, dbiResourceId: String? = nil, dbName: String? = nil, dbParameterGroups: [DBParameterGroupStatus]? = nil, dbSecurityGroups: [DBSecurityGroupMembership]? = nil, dbSubnetGroup: DBSubnetGroup? = nil, dbSystemId: String? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, licenseModel: String? = nil, listenerEndpoint: Endpoint? = nil, masterUsername: String? = nil, masterUserSecret: MasterUserSecret? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, ncharCharacterSetName: String? = nil, networkType: String? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBClusterIdentifier: String? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, replicaMode: ReplicaMode? = nil, resumeFullAutomationModeTime: Date? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tagList: [Tag]? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(activityStreamEngineNativeAuditFieldsIncluded: Bool? = nil, activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamPolicyStatus: ActivityStreamPolicyStatus? = nil, activityStreamStatus: ActivityStreamStatus? = nil, allocatedStorage: Int? = nil, associatedRoles: [DBInstanceRole]? = nil, automaticRestartTime: Date? = nil, automationMode: AutomationMode? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, awsBackupRecoveryPointArn: String? = nil, backupRetentionPeriod: Int? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, certificateDetails: CertificateDetails? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, customerOwnedIpEnabled: Bool? = nil, customIamInstanceProfile: String? = nil, dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceAutomatedBackupsReplications: [DBInstanceAutomatedBackupsReplication]? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dbInstanceStatus: String? = nil, dbiResourceId: String? = nil, dbName: String? = nil, dbParameterGroups: [DBParameterGroupStatus]? = nil, dbSecurityGroups: [DBSecurityGroupMembership]? = nil, dbSubnetGroup: DBSubnetGroup? = nil, dbSystemId: String? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, licenseModel: String? = nil, listenerEndpoint: Endpoint? = nil, masterUsername: String? = nil, masterUserSecret: MasterUserSecret? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, ncharCharacterSetName: String? = nil, networkType: String? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, percentProgress: String? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBClusterIdentifier: String? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, replicaMode: ReplicaMode? = nil, resumeFullAutomationModeTime: Date? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tagList: [Tag]? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.activityStreamEngineNativeAuditFieldsIncluded = activityStreamEngineNativeAuditFieldsIncluded
             self.activityStreamKinesisStreamName = activityStreamKinesisStreamName
             self.activityStreamKmsKeyId = activityStreamKmsKeyId
@@ -3556,6 +3773,7 @@ extension RDS {
             self.networkType = networkType
             self.optionGroupMemberships = optionGroupMemberships
             self.pendingModifiedValues = pendingModifiedValues
+            self.percentProgress = percentProgress
             self.performanceInsightsEnabled = performanceInsightsEnabled
             self.performanceInsightsKMSKeyId = performanceInsightsKMSKeyId
             self.performanceInsightsRetentionPeriod = performanceInsightsRetentionPeriod
@@ -3640,6 +3858,7 @@ extension RDS {
             case networkType = "NetworkType"
             case optionGroupMemberships = "OptionGroupMemberships"
             case pendingModifiedValues = "PendingModifiedValues"
+            case percentProgress = "PercentProgress"
             case performanceInsightsEnabled = "PerformanceInsightsEnabled"
             case performanceInsightsKMSKeyId = "PerformanceInsightsKMSKeyId"
             case performanceInsightsRetentionPeriod = "PerformanceInsightsRetentionPeriod"
@@ -3673,6 +3892,8 @@ extension RDS {
         public let allocatedStorage: Int?
         /// The Availability Zone that the automated backup was created in. For information on Amazon Web Services Regions and Availability Zones, see  Regions and Availability Zones.
         public let availabilityZone: String?
+        /// The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup.
+        public let awsBackupRecoveryPointArn: String?
         /// The retention period for the automated backups.
         public let backupRetentionPeriod: Int?
         /// Specifies where automated backups are stored: Amazon Web Services Outposts or the Amazon Web Services Region.
@@ -3684,9 +3905,9 @@ extension RDS {
         /// The list of replications to different Amazon Web Services Regions associated with the automated backup.
         @OptionalCustomCoding<ArrayCoder<_DBInstanceAutomatedBackupsReplicationsEncoding, DBInstanceAutomatedBackupsReplication>>
         public var dbInstanceAutomatedBackupsReplications: [DBInstanceAutomatedBackupsReplication]?
-        /// The customer id of the instance that is/was associated with the automated backup.
-        public let dbInstanceIdentifier: String?
         /// The identifier for the source DB instance, which can't be changed and which is unique to an Amazon Web Services Region.
+        public let dbInstanceIdentifier: String?
+        /// The resource ID for the source DB instance, which can't be changed and which is unique to an Amazon Web Services Region.
         public let dbiResourceId: String?
         /// Specifies whether the automated backup is encrypted.
         public let encrypted: Bool?
@@ -3704,7 +3925,7 @@ extension RDS {
         public let kmsKeyId: String?
         /// License model information for the automated backup.
         public let licenseModel: String?
-        /// The license model of an automated backup.
+        /// The master user name of an automated backup.
         public let masterUsername: String?
         /// The option group the automated backup is associated with. If omitted, the default option group for the engine specified is used.
         public let optionGroupName: String?
@@ -3714,7 +3935,7 @@ extension RDS {
         public let region: String?
         /// Earliest and latest time an instance can be restored to.
         public let restoreWindow: RestoreWindow?
-        /// Provides a list of status information for an automated backup:    active - automated backups for current instances    retained - automated backups for deleted instances    creating - automated backups that are waiting for the first automated snapshot to be available.
+        /// Provides a list of status information for an automated backup:    active - Automated backups for current instances.    retained - Automated backups for deleted instances.    creating - Automated backups that are waiting for the first automated snapshot to be available.
         public let status: String?
         /// Specifies the storage throughput for the automated backup.
         public let storageThroughput: Int?
@@ -3727,9 +3948,10 @@ extension RDS {
         /// Provides the VPC ID associated with the DB instance.
         public let vpcId: String?
 
-        public init(allocatedStorage: Int? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, backupTarget: String? = nil, dbInstanceArn: String? = nil, dbInstanceAutomatedBackupsArn: String? = nil, dbInstanceAutomatedBackupsReplications: [DBInstanceAutomatedBackupsReplication]? = nil, dbInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, encrypted: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, optionGroupName: String? = nil, port: Int? = nil, region: String? = nil, restoreWindow: RestoreWindow? = nil, status: String? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcId: String? = nil) {
+        public init(allocatedStorage: Int? = nil, availabilityZone: String? = nil, awsBackupRecoveryPointArn: String? = nil, backupRetentionPeriod: Int? = nil, backupTarget: String? = nil, dbInstanceArn: String? = nil, dbInstanceAutomatedBackupsArn: String? = nil, dbInstanceAutomatedBackupsReplications: [DBInstanceAutomatedBackupsReplication]? = nil, dbInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, encrypted: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, optionGroupName: String? = nil, port: Int? = nil, region: String? = nil, restoreWindow: RestoreWindow? = nil, status: String? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcId: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZone = availabilityZone
+            self.awsBackupRecoveryPointArn = awsBackupRecoveryPointArn
             self.backupRetentionPeriod = backupRetentionPeriod
             self.backupTarget = backupTarget
             self.dbInstanceArn = dbInstanceArn
@@ -3761,6 +3983,7 @@ extension RDS {
         private enum CodingKeys: String, CodingKey {
             case allocatedStorage = "AllocatedStorage"
             case availabilityZone = "AvailabilityZone"
+            case awsBackupRecoveryPointArn = "AwsBackupRecoveryPointArn"
             case backupRetentionPeriod = "BackupRetentionPeriod"
             case backupTarget = "BackupTarget"
             case dbInstanceArn = "DBInstanceArn"
@@ -4288,6 +4511,8 @@ extension RDS {
         public let dbSnapshotArn: String?
         /// Specifies the identifier for the DB snapshot.
         public let dbSnapshotIdentifier: String?
+        /// The Oracle system identifier (SID), which is the name of the Oracle database instance that  manages your database files. The Oracle SID is also the name of your CDB.
+        public let dbSystemId: String?
         /// Specifies whether the DB snapshot is encrypted.
         public let encrypted: Bool?
         /// Specifies the name of the database engine.
@@ -4344,13 +4569,14 @@ extension RDS {
         /// Provides the VPC ID associated with the DB snapshot.
         public let vpcId: String?
 
-        public init(allocatedStorage: Int? = nil, availabilityZone: String? = nil, dbInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, dbSnapshotArn: String? = nil, dbSnapshotIdentifier: String? = nil, encrypted: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, optionGroupName: String? = nil, originalSnapshotCreateTime: Date? = nil, percentProgress: Int? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, snapshotCreateTime: Date? = nil, snapshotDatabaseTime: Date? = nil, snapshotTarget: String? = nil, snapshotType: String? = nil, sourceDBSnapshotIdentifier: String? = nil, sourceRegion: String? = nil, status: String? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tagList: [Tag]? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcId: String? = nil) {
+        public init(allocatedStorage: Int? = nil, availabilityZone: String? = nil, dbInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, dbSnapshotArn: String? = nil, dbSnapshotIdentifier: String? = nil, dbSystemId: String? = nil, encrypted: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, optionGroupName: String? = nil, originalSnapshotCreateTime: Date? = nil, percentProgress: Int? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, snapshotCreateTime: Date? = nil, snapshotDatabaseTime: Date? = nil, snapshotTarget: String? = nil, snapshotType: String? = nil, sourceDBSnapshotIdentifier: String? = nil, sourceRegion: String? = nil, status: String? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tagList: [Tag]? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcId: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZone = availabilityZone
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.dbiResourceId = dbiResourceId
             self.dbSnapshotArn = dbSnapshotArn
             self.dbSnapshotIdentifier = dbSnapshotIdentifier
+            self.dbSystemId = dbSystemId
             self.encrypted = encrypted
             self.engine = engine
             self.engineVersion = engineVersion
@@ -4387,6 +4613,7 @@ extension RDS {
             case dbiResourceId = "DbiResourceId"
             case dbSnapshotArn = "DBSnapshotArn"
             case dbSnapshotIdentifier = "DBSnapshotIdentifier"
+            case dbSystemId = "DBSystemId"
             case encrypted = "Encrypted"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
@@ -4539,9 +4766,9 @@ extension RDS {
     }
 
     public struct DeleteBlueGreenDeploymentRequest: AWSEncodableShape {
-        /// The blue/green deployment identifier of the deployment to be deleted. This parameter isn't case-sensitive. Constraints:    Must match an existing blue/green deployment identifier.
+        /// The unique identifier of the blue/green deployment to delete. This parameter isn't case-sensitive. Constraints:    Must match an existing blue/green deployment identifier.
         public let blueGreenDeploymentIdentifier: String
-        /// A value that indicates whether to delete the resources in the green environment. You can't specify this option if the blue/green deployment status is SWITCHOVER_COMPLETED.
+        /// Specifies whether to delete the resources in the green environment. You can't specify this option if the blue/green deployment status is SWITCHOVER_COMPLETED.
         public let deleteTarget: Bool?
 
         public init(blueGreenDeploymentIdentifier: String, deleteTarget: Bool? = nil) {
@@ -4599,6 +4826,31 @@ extension RDS {
         }
     }
 
+    public struct DeleteDBClusterAutomatedBackupMessage: AWSEncodableShape {
+        /// The identifier for the source DB cluster, which can't be changed and which is unique to an Amazon Web Services Region.
+        public let dbClusterResourceId: String
+
+        public init(dbClusterResourceId: String) {
+            self.dbClusterResourceId = dbClusterResourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbClusterResourceId = "DbClusterResourceId"
+        }
+    }
+
+    public struct DeleteDBClusterAutomatedBackupResult: AWSDecodableShape {
+        public let dbClusterAutomatedBackup: DBClusterAutomatedBackup?
+
+        public init(dbClusterAutomatedBackup: DBClusterAutomatedBackup? = nil) {
+            self.dbClusterAutomatedBackup = dbClusterAutomatedBackup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbClusterAutomatedBackup = "DBClusterAutomatedBackup"
+        }
+    }
+
     public struct DeleteDBClusterEndpointMessage: AWSEncodableShape {
         /// The identifier associated with the custom endpoint. This parameter is stored as a lowercase string.
         public let dbClusterEndpointIdentifier: String
@@ -4615,19 +4867,23 @@ extension RDS {
     public struct DeleteDBClusterMessage: AWSEncodableShape {
         /// The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case-sensitive. Constraints:   Must match an existing DBClusterIdentifier.
         public let dbClusterIdentifier: String
+        /// A value that indicates whether to remove automated backups immediately after the DB cluster is deleted. This parameter isn't case-sensitive. The default is to remove  automated backups immediately after the DB cluster is deleted.
+        public let deleteAutomatedBackups: Bool?
         /// The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is disabled.  Specifying this parameter and also skipping the creation of a final DB cluster snapshot  with the SkipFinalShapshot parameter results in an error.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens
         public let finalDBSnapshotIdentifier: String?
         /// A value that indicates whether to skip the creation of a final DB cluster snapshot before the DB cluster is deleted. If skip is specified, no DB cluster snapshot is created. If skip isn't specified, a DB cluster snapshot  is created before the DB cluster is deleted. By default, skip isn't specified, and the DB cluster snapshot is created.  By default, this parameter is disabled.  You must specify a FinalDBSnapshotIdentifier parameter if SkipFinalSnapshot is disabled.
         public let skipFinalSnapshot: Bool?
 
-        public init(dbClusterIdentifier: String, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil) {
+        public init(dbClusterIdentifier: String, deleteAutomatedBackups: Bool? = nil, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
+            self.deleteAutomatedBackups = deleteAutomatedBackups
             self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
             self.skipFinalSnapshot = skipFinalSnapshot
         }
 
         private enum CodingKeys: String, CodingKey {
             case dbClusterIdentifier = "DBClusterIdentifier"
+            case deleteAutomatedBackups = "DeleteAutomatedBackups"
             case finalDBSnapshotIdentifier = "FinalDBSnapshotIdentifier"
             case skipFinalSnapshot = "SkipFinalSnapshot"
         }
@@ -4972,14 +5228,14 @@ extension RDS {
     public struct DescribeBlueGreenDeploymentsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
-        /// The blue/green deployment identifier. If this parameter is specified, information from only the  specific blue/green deployment is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match an existing blue/green deployment identifier.
+        /// The blue/green deployment identifier. If you specify this parameter, the response only includes information about the specific blue/green deployment. This parameter isn't case-sensitive. Constraints:   Must match an existing blue/green deployment identifier.
         public let blueGreenDeploymentIdentifier: String?
-        /// A filter that specifies one or more blue/green deployments to describe. Supported filters:    blue-green-deployment-identifier - Accepts system-generated identifiers for blue/green deployments. The results list only includes information about the blue/green deployments with the specified identifiers.    blue-green-deployment-name - Accepts user-supplied names for blue/green deployments.  The results list only includes information about the blue/green deployments with the  specified names.    source - Accepts source databases for a blue/green deployment.  The results list only includes information about the blue/green deployments with  the specified source databases.    target - Accepts target databases for a blue/green deployment.  The results list only includes information about the blue/green deployments with  the specified target databases.
+        /// A filter that specifies one or more blue/green deployments to describe. Valid Values:    blue-green-deployment-identifier - Accepts system-generated identifiers for blue/green deployments. The results list only includes information about the blue/green deployments with the specified identifiers.    blue-green-deployment-name - Accepts user-supplied names for blue/green deployments.  The results list only includes information about the blue/green deployments with the  specified names.    source - Accepts source databases for a blue/green deployment.  The results list only includes information about the blue/green deployments with  the specified source databases.    target - Accepts target databases for a blue/green deployment.  The results list only includes information about the blue/green deployments with  the specified target databases.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// An optional pagination token provided by a previous DescribeBlueGreenDeployments request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        /// An optional pagination token provided by a previous DescribeBlueGreenDeployments request. If you specify this parameter, the response only includes records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results. Default: 100 Constraints: Minimum 20, maximum 100.
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results. Default: 100 Constraints:   Must be a minimum of 20.   Can't exceed 100.
         public let maxRecords: Int?
 
         public init(blueGreenDeploymentIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
@@ -5006,7 +5262,7 @@ extension RDS {
     }
 
     public struct DescribeBlueGreenDeploymentsResponse: AWSDecodableShape {
-        /// Contains a list of blue/green deployments for the user.
+        /// A list of blue/green deployments in the current account and Amazon Web Services Region.
         @OptionalCustomCoding<StandardArrayCoder>
         public var blueGreenDeployments: [BlueGreenDeployment]?
         /// A pagination token that can be used in a later DescribeBlueGreenDeployments request.
@@ -5045,6 +5301,38 @@ extension RDS {
 
         private enum CodingKeys: String, CodingKey {
             case certificateIdentifier = "CertificateIdentifier"
+            case filters = "Filters"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
+    public struct DescribeDBClusterAutomatedBackupsMessage: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// (Optional) The user-supplied DB cluster identifier. If this parameter is specified, it must match the identifier of an existing DB cluster. It returns information from the specific DB cluster's automated backup. This parameter isn't case-sensitive.
+        public let dbClusterIdentifier: String?
+        /// The resource ID of the DB cluster that is the source of the automated backup. This parameter isn't case-sensitive.
+        public let dbClusterResourceId: String?
+        /// A filter that specifies which resources to return based on status. Supported filters are the following:    status     retained - Automated backups for deleted clusters and after backup replication is stopped.      db-cluster-id - Accepts DB cluster identifiers and Amazon Resource Names (ARNs).  The results list includes only information about the DB cluster automated backups identified by these ARNs.    db-cluster-resource-id - Accepts DB resource identifiers and Amazon Resource Names (ARNs).  The results list includes only information about the DB cluster resources identified by these ARNs.   Returns all resources by default. The status for each resource is specified in the response.
+        @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The pagination token provided in the previous request. If this parameter is specified the response includes only  records beyond the marker, up to MaxRecords.
+        public let marker: String?
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords  value, a pagination token called a marker is included in the response so that you can retrieve the remaining results.
+        public let maxRecords: Int?
+
+        public init(dbClusterIdentifier: String? = nil, dbClusterResourceId: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbClusterResourceId = dbClusterResourceId
+            self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterResourceId = "DbClusterResourceId"
             case filters = "Filters"
             case marker = "Marker"
             case maxRecords = "MaxRecords"
@@ -5205,6 +5493,8 @@ extension RDS {
 
         /// The ID of the DB cluster to retrieve the list of DB cluster snapshots for.  This parameter can't be used in conjunction with the DBClusterSnapshotIdentifier parameter. This parameter isn't case-sensitive. Constraints:   If supplied, must match the identifier of an existing DBCluster.
         public let dbClusterIdentifier: String?
+        /// A specific DB cluster resource ID to describe.
+        public let dbClusterResourceId: String?
         /// A specific DB cluster snapshot identifier to describe.  This parameter can't be used in conjunction with the DBClusterIdentifier parameter.             This value is stored as a lowercase string. Constraints:   If supplied, must match the identifier of an existing DBClusterSnapshot.   If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.
         public let dbClusterSnapshotIdentifier: String?
         /// A filter that specifies one or more DB cluster snapshots to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB  cluster Amazon Resource Names (ARNs).    db-cluster-snapshot-id - Accepts DB cluster snapshot identifiers.    snapshot-type - Accepts types of DB cluster snapshots.    engine - Accepts names of database engines.
@@ -5221,8 +5511,9 @@ extension RDS {
         /// The type of DB cluster snapshots to be returned. You can specify one of the following values:    automated - Return all DB cluster snapshots that have been automatically taken by  Amazon RDS for my Amazon Web Services account.    manual - Return all DB cluster snapshots that have been taken by my Amazon Web Services account.    shared - Return all manual DB cluster snapshots that have been shared to my Amazon Web Services account.    public - Return all DB cluster snapshots that have been marked as public.   If you don't specify a SnapshotType value, then both automated and manual DB cluster snapshots are returned. You can include shared DB cluster snapshots with these results by enabling the IncludeShared parameter. You can include public DB cluster snapshots with these results by enabling the  IncludePublic parameter. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
         public let snapshotType: String?
 
-        public init(dbClusterIdentifier: String? = nil, dbClusterSnapshotIdentifier: String? = nil, filters: [Filter]? = nil, includePublic: Bool? = nil, includeShared: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil, snapshotType: String? = nil) {
+        public init(dbClusterIdentifier: String? = nil, dbClusterResourceId: String? = nil, dbClusterSnapshotIdentifier: String? = nil, filters: [Filter]? = nil, includePublic: Bool? = nil, includeShared: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil, snapshotType: String? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbClusterResourceId = dbClusterResourceId
             self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
             self.filters = filters
             self.includePublic = includePublic
@@ -5234,6 +5525,7 @@ extension RDS {
 
         private enum CodingKeys: String, CodingKey {
             case dbClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterResourceId = "DbClusterResourceId"
             case dbClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
             case filters = "Filters"
             case includePublic = "IncludePublic"
@@ -5333,11 +5625,11 @@ extension RDS {
 
         /// The Amazon Resource Name (ARN) of the replicated automated backups, for example, arn:aws:rds:us-east-1:123456789012:auto-backup:ab-L2IJCEXJP7XQ7HOJ4SIEXAMPLE. This setting doesn't apply to RDS Custom.
         public let dbInstanceAutomatedBackupsArn: String?
-        /// (Optional) The user-supplied instance identifier. If this parameter is specified, it must match the identifier of an existing DB instance. It returns information from the specific DB instance' automated backup. This parameter isn't case-sensitive.
+        /// (Optional) The user-supplied instance identifier. If this parameter is specified, it must match the identifier of an existing DB instance. It returns information from the specific DB instance's automated backup. This parameter isn't case-sensitive.
         public let dbInstanceIdentifier: String?
         /// The resource ID of the DB instance that is the source of  the automated backup. This parameter isn't case-sensitive.
         public let dbiResourceId: String?
-        /// A filter that specifies which resources to return based on status. Supported filters are the following:    status     active - automated backups for current instances    retained - automated backups for deleted instances and after backup replication is stopped    creating - automated backups that are waiting for the first automated snapshot to be available      db-instance-id - Accepts DB instance identifiers and Amazon Resource Names (ARNs).  The results list includes only information about the DB instance automated backups identified by these ARNs.    dbi-resource-id - Accepts DB resource identifiers and Amazon Resource Names (ARNs).  The results list includes only information about the DB instance resources identified by these ARNs.   Returns all resources by default. The status for each resource is specified in the response.
+        /// A filter that specifies which resources to return based on status. Supported filters are the following:    status     active - Automated backups for current instances.    creating - Automated backups that are waiting for the first automated snapshot to be available.    retained - Automated backups for deleted instances and after backup replication is stopped.      db-instance-id - Accepts DB instance identifiers and Amazon Resource Names (ARNs).  The results list includes only information about the DB instance automated backups identified by these ARNs.    dbi-resource-id - Accepts DB resource identifiers and Amazon Resource Names (ARNs).  The results list includes only information about the DB instance resources identified by these ARNs.   Returns all resources by default. The status for each resource is specified in the response.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The pagination token provided in the previous request. If this parameter is specified the response  includes only records beyond the marker, up to MaxRecords.
@@ -6433,26 +6725,39 @@ extension RDS {
     }
 
     public struct DomainMembership: AWSDecodableShape {
+        /// The ARN for the Secrets Manager secret with the credentials for the user that's a member of the domain.
+        public let authSecretArn: String?
+        /// The IPv4 DNS IP addresses of the primary and secondary Active Directory domain controllers.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var dnsIps: [String]?
         /// The identifier of the Active Directory Domain.
         public let domain: String?
-        /// The fully qualified domain name of the Active Directory Domain.
+        /// The fully qualified domain name (FQDN) of the Active Directory Domain.
         public let fqdn: String?
-        /// The name of the IAM role to be used when making API calls to the Directory Service.
+        /// The name of the IAM role used when making API calls to the Directory Service.
         public let iamRoleName: String?
+        /// The Active Directory organizational unit for the DB instance or cluster.
+        public let ou: String?
         /// The status of the Active Directory Domain membership for the DB instance or cluster. Values include joined, pending-join, failed, and so on.
         public let status: String?
 
-        public init(domain: String? = nil, fqdn: String? = nil, iamRoleName: String? = nil, status: String? = nil) {
+        public init(authSecretArn: String? = nil, dnsIps: [String]? = nil, domain: String? = nil, fqdn: String? = nil, iamRoleName: String? = nil, ou: String? = nil, status: String? = nil) {
+            self.authSecretArn = authSecretArn
+            self.dnsIps = dnsIps
             self.domain = domain
             self.fqdn = fqdn
             self.iamRoleName = iamRoleName
+            self.ou = ou
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authSecretArn = "AuthSecretArn"
+            case dnsIps = "DnsIps"
             case domain = "Domain"
             case fqdn = "FQDN"
             case iamRoleName = "IAMRoleName"
+            case ou = "OU"
             case status = "Status"
         }
     }
@@ -6880,13 +7185,19 @@ extension RDS {
     }
 
     public struct FailoverGlobalClusterMessage: AWSEncodableShape {
-        /// Identifier of the Aurora global database (GlobalCluster) that should be failed over. The identifier is the unique key assigned by the user when the Aurora global database was created. In other words, it's the name of the Aurora global database that you want to fail over. Constraints:   Must match the identifier of an existing GlobalCluster (Aurora global database).
+        /// Specifies whether to allow data loss for this global database cluster operation. Allowing data loss triggers a global failover operation. If you don't specify AllowDataLoss, the global database cluster operation defaults to a switchover. Constraints:   Can't be specified together with the Switchover parameter.
+        public let allowDataLoss: Bool?
+        /// The identifier of the global database cluster (Aurora global database) this operation should apply to.  The identifier is the unique key assigned by the user when the Aurora global database is created. In other words, it's the name of the Aurora global database. Constraints:   Must match the identifier of an existing global database cluster.
         public let globalClusterIdentifier: String
-        /// Identifier of the secondary Aurora DB cluster that you want to promote to primary for the Aurora global database (GlobalCluster.) Use the Amazon Resource Name (ARN) for the identifier so that Aurora can locate the cluster in its Amazon Web Services Region.
+        /// Specifies whether to switch over this global database cluster. Constraints:   Can't be specified together with the AllowDataLoss parameter.
+        public let switchover: Bool?
+        /// The identifier of the secondary Aurora DB cluster that you want to promote to the primary for the global database cluster. Use the Amazon Resource Name (ARN) for the identifier so that Aurora can locate the cluster in its Amazon Web Services Region.
         public let targetDbClusterIdentifier: String
 
-        public init(globalClusterIdentifier: String, targetDbClusterIdentifier: String) {
+        public init(allowDataLoss: Bool? = nil, globalClusterIdentifier: String, switchover: Bool? = nil, targetDbClusterIdentifier: String) {
+            self.allowDataLoss = allowDataLoss
             self.globalClusterIdentifier = globalClusterIdentifier
+            self.switchover = switchover
             self.targetDbClusterIdentifier = targetDbClusterIdentifier
         }
 
@@ -6900,7 +7211,9 @@ extension RDS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowDataLoss = "AllowDataLoss"
             case globalClusterIdentifier = "GlobalClusterIdentifier"
+            case switchover = "Switchover"
             case targetDbClusterIdentifier = "TargetDbClusterIdentifier"
         }
     }
@@ -6920,19 +7233,23 @@ extension RDS {
     public struct FailoverState: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the Aurora DB cluster that is currently being demoted, and which is associated with this state.
         public let fromDbClusterArn: String?
-        /// The current status of the Aurora global database (GlobalCluster). Possible values are as follows:   pending  A request to fail over the Aurora global database (GlobalCluster) has been received by the service. The GlobalCluster's primary DB cluster and the specified secondary DB cluster are being verified before the failover process can start.   failing-over  This status covers the range of Aurora internal operations that take place during the failover process, such as demoting the primary Aurora DB cluster, promoting the secondary Aurora DB, and synchronizing replicas.   cancelling  The request to fail over the Aurora global database (GlobalCluster) was cancelled and the primary Aurora DB cluster and the selected secondary Aurora DB cluster are returning to their previous states.
+        /// Indicates whether the operation is a global switchover or a global failover. If data loss is allowed, then the operation is a global failover.  Otherwise, it's a switchover.
+        public let isDataLossAllowed: Bool?
+        /// The current status of the global cluster. Possible values are as follows:   pending  The service received a request to switch over or fail over the global cluster. The global cluster's primary DB cluster and the specified secondary DB cluster are being verified before the operation starts.   failing-over  This status covers the range of Aurora internal operations that take place during the switchover or failover process, such as demoting the primary Aurora DB cluster, promoting the secondary Aurora DB cluster, and synchronizing replicas.   cancelling  The request to switch over or fail over the global cluster was cancelled and the primary Aurora DB cluster and the selected secondary Aurora DB cluster are returning to their previous states.
         public let status: FailoverStatus?
         /// The Amazon Resource Name (ARN) of the Aurora DB cluster that is currently being promoted, and which is associated with this state.
         public let toDbClusterArn: String?
 
-        public init(fromDbClusterArn: String? = nil, status: FailoverStatus? = nil, toDbClusterArn: String? = nil) {
+        public init(fromDbClusterArn: String? = nil, isDataLossAllowed: Bool? = nil, status: FailoverStatus? = nil, toDbClusterArn: String? = nil) {
             self.fromDbClusterArn = fromDbClusterArn
+            self.isDataLossAllowed = isDataLossAllowed
             self.status = status
             self.toDbClusterArn = toDbClusterArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case fromDbClusterArn = "FromDbClusterArn"
+            case isDataLossAllowed = "IsDataLossAllowed"
             case status = "Status"
             case toDbClusterArn = "ToDbClusterArn"
         }
@@ -6969,7 +7286,7 @@ extension RDS {
         public let engine: String?
         /// Indicates the database engine version.
         public let engineVersion: String?
-        /// A data object containing all properties for the current state of an in-process or pending failover process for this Aurora global database. This object is empty unless the FailoverGlobalCluster API operation has been called on this Aurora global database (GlobalCluster).
+        /// A data object containing all properties for the current state of an in-process or pending switchover or failover process for this global cluster (Aurora global database). This object is empty unless the SwitchoverGlobalCluster or FailoverGlobalCluster operation was called on this global cluster.
         public let failoverState: FailoverState?
         /// The Amazon Resource Name (ARN) for the global database cluster.
         public let globalClusterArn: String?
@@ -7015,21 +7332,24 @@ extension RDS {
     }
 
     public struct GlobalClusterMember: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) for each Aurora cluster.
+        /// The Amazon Resource Name (ARN) for each Aurora DB cluster in the global cluster.
         public let dbClusterArn: String?
-        /// Specifies whether a secondary cluster in an Aurora global database has write forwarding enabled, not enabled, or is in the process of enabling it.
+        /// Specifies whether a secondary cluster in the global cluster has write forwarding enabled, not enabled, or is in the process of enabling it.
         public let globalWriteForwardingStatus: WriteForwardingStatus?
-        /// Specifies whether the Aurora cluster is the primary cluster (that is, has read-write capability) for the Aurora global database with which it is associated.
+        /// Specifies whether the Aurora DB cluster is the primary cluster (that is, has read-write capability) for the global cluster with which it is associated.
         public let isWriter: Bool?
-        /// The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the Aurora global database.
+        /// The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the global cluster.
         @OptionalCustomCoding<StandardArrayCoder>
         public var readers: [String]?
+        /// The status of synchronization of each Aurora DB cluster in the global cluster.
+        public let synchronizationStatus: GlobalClusterMemberSynchronizationStatus?
 
-        public init(dbClusterArn: String? = nil, globalWriteForwardingStatus: WriteForwardingStatus? = nil, isWriter: Bool? = nil, readers: [String]? = nil) {
+        public init(dbClusterArn: String? = nil, globalWriteForwardingStatus: WriteForwardingStatus? = nil, isWriter: Bool? = nil, readers: [String]? = nil, synchronizationStatus: GlobalClusterMemberSynchronizationStatus? = nil) {
             self.dbClusterArn = dbClusterArn
             self.globalWriteForwardingStatus = globalWriteForwardingStatus
             self.isWriter = isWriter
             self.readers = readers
+            self.synchronizationStatus = synchronizationStatus
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7037,6 +7357,7 @@ extension RDS {
             case globalWriteForwardingStatus = "GlobalWriteForwardingStatus"
             case isWriter = "IsWriter"
             case readers = "Readers"
+            case synchronizationStatus = "SynchronizationStatus"
         }
     }
 
@@ -7310,12 +7631,14 @@ extension RDS {
         public let allocatedStorage: Int?
         /// Specifies whether engine mode changes from serverless to provisioned  are allowed. Valid for Cluster Type: Aurora Serverless v1 DB clusters only Constraints:   You must allow engine mode changes when specifying a different value for the EngineMode parameter from the DB cluster's current engine mode.
         public let allowEngineModeChange: Bool?
-        /// Specifies whether major version upgrades are allowed. Valid for Cluster Type: Aurora DB clusters only Constraints:   You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version.
+        /// Specifies whether major version upgrades are allowed. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:   You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version.
         public let allowMajorVersionUpgrade: Bool?
         /// Specifies whether the modifications in this request and any pending modifications are  asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting  for the DB cluster. If this parameter is disabled, changes to the DB cluster are applied during the next  maintenance window. Most modifications can be applied immediately or during the next scheduled maintenance window. Some  modifications, such as turning on deletion protection and changing the master password, are applied  immediately—regardless of when you choose to apply them. By default, this parameter is disabled. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let applyImmediately: Bool?
         /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window.  By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Multi-AZ DB clusters only
         public let autoMinorVersionUpgrade: Bool?
+        /// The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup.
+        public let awsBackupRecoveryPointArn: String?
         /// The target backtrack window, in seconds. To disable backtracking, set this value to 0. Valid for Cluster Type: Aurora MySQL DB clusters only Default: 0  Constraints:   If specified, this value must be set to a number from 0 to 259,200 (72 hours).
         public let backtrackWindow: Int64?
         /// The number of days for which automated backups are retained. Specify a minimum value of 1. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Default: 1  Constraints:   Must be a value from 1 to 35.
@@ -7344,6 +7667,8 @@ extension RDS {
         public let enableHttpEndpoint: Bool?
         /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see   IAM Database Authentication in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only
         public let enableIAMDatabaseAuthentication: Bool?
+        /// Specifies whether read replicas can forward write operations to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
+        public let enableLocalWriteForwarding: Bool?
         /// Specifies whether to turn on Performance Insights for the DB cluster. For more information, see  Using Amazon Performance Insights in the Amazon RDS User Guide. Valid for Cluster Type: Multi-AZ DB clusters only
         public let enablePerformanceInsights: Bool?
         /// The DB engine mode of the DB cluster, either provisioned or serverless.  The DB engine mode can be modified only from serverless to provisioned.  For more information, see  CreateDBCluster. Valid for Cluster Type: Aurora DB clusters only
@@ -7389,12 +7714,13 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int? = nil, allowEngineModeChange: Bool? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String, dbClusterInstanceClass: String? = nil, dbClusterParameterGroupName: String? = nil, dbInstanceParameterGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableGlobalWriteForwarding: Bool? = nil, enableHttpEndpoint: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineMode: String? = nil, engineVersion: String? = nil, iops: Int? = nil, manageMasterUserPassword: Bool? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, networkType: String? = nil, newDBClusterIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, rotateMasterUserPassword: Bool? = nil, scalingConfiguration: ScalingConfiguration? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, storageType: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, allowEngineModeChange: Bool? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, awsBackupRecoveryPointArn: String? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String, dbClusterInstanceClass: String? = nil, dbClusterParameterGroupName: String? = nil, dbInstanceParameterGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableGlobalWriteForwarding: Bool? = nil, enableHttpEndpoint: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enableLocalWriteForwarding: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineMode: String? = nil, engineVersion: String? = nil, iops: Int? = nil, manageMasterUserPassword: Bool? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, networkType: String? = nil, newDBClusterIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, rotateMasterUserPassword: Bool? = nil, scalingConfiguration: ScalingConfiguration? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, storageType: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.allowEngineModeChange = allowEngineModeChange
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.awsBackupRecoveryPointArn = awsBackupRecoveryPointArn
             self.backtrackWindow = backtrackWindow
             self.backupRetentionPeriod = backupRetentionPeriod
             self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
@@ -7409,6 +7735,7 @@ extension RDS {
             self.enableGlobalWriteForwarding = enableGlobalWriteForwarding
             self.enableHttpEndpoint = enableHttpEndpoint
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
+            self.enableLocalWriteForwarding = enableLocalWriteForwarding
             self.enablePerformanceInsights = enablePerformanceInsights
             self.engineMode = engineMode
             self.engineVersion = engineVersion
@@ -7433,12 +7760,19 @@ extension RDS {
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.awsBackupRecoveryPointArn, name: "awsBackupRecoveryPointArn", parent: name, max: 350)
+            try self.validate(self.awsBackupRecoveryPointArn, name: "awsBackupRecoveryPointArn", parent: name, min: 43)
+            try self.validate(self.awsBackupRecoveryPointArn, name: "awsBackupRecoveryPointArn", parent: name, pattern: "^arn:aws[a-z-]*:backup:[-a-z0-9]+:[0-9]{12}:[-a-z]+:([a-z0-9\\-]+:)?[a-z][a-z0-9\\-]{0,255}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case allocatedStorage = "AllocatedStorage"
             case allowEngineModeChange = "AllowEngineModeChange"
             case allowMajorVersionUpgrade = "AllowMajorVersionUpgrade"
             case applyImmediately = "ApplyImmediately"
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case awsBackupRecoveryPointArn = "AwsBackupRecoveryPointArn"
             case backtrackWindow = "BacktrackWindow"
             case backupRetentionPeriod = "BackupRetentionPeriod"
             case cloudwatchLogsExportConfiguration = "CloudwatchLogsExportConfiguration"
@@ -7453,6 +7787,7 @@ extension RDS {
             case enableGlobalWriteForwarding = "EnableGlobalWriteForwarding"
             case enableHttpEndpoint = "EnableHttpEndpoint"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
+            case enableLocalWriteForwarding = "EnableLocalWriteForwarding"
             case enablePerformanceInsights = "EnablePerformanceInsights"
             case engineMode = "EngineMode"
             case engineVersion = "EngineVersion"
@@ -7571,7 +7906,7 @@ extension RDS {
         public let awsBackupRecoveryPointArn: String?
         /// The number of days to retain automated backups. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups.  Enabling and disabling backups can result in a brief I/O suspension that lasts from a few seconds to a few minutes, depending on the size and class of your DB instance.  These changes are applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. If you change the parameter from one non-zero value to another non-zero value, the change is asynchronously applied as soon as possible. This setting doesn't apply to Amazon Aurora DB instances. The retention period for automated backups is managed by the DB cluster. For more information, see ModifyDBCluster. Default: Uses existing setting Constraints:   Must be a value from 0 to 35.   Can't be set to 0 if the DB instance is a source to  read replicas.   Can't be set to 0 for an RDS Custom for Oracle DB instance.
         public let backupRetentionPeriod: Int?
-        /// The CA certificate identifier to use for the DB instance6's server certificate. This setting doesn't apply to RDS Custom DB instances. For more information, see Using SSL/TLS to encrypt a connection to a DB  instance in the Amazon RDS User Guide and   Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora  User Guide.
+        /// The CA certificate identifier to use for the DB instance's server certificate. This setting doesn't apply to RDS Custom DB instances. For more information, see Using SSL/TLS to encrypt a connection to a DB  instance in the Amazon RDS User Guide and   Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora  User Guide.
         public let caCertificateIdentifier: String?
         /// Specifies whether the DB instance is restarted when you rotate your  SSL/TLS certificate. By default, the DB instance is restarted when you rotate your SSL/TLS certificate. The certificate  is not updated until the DB instance is restarted.  Set this parameter only if you are not using SSL/TLS to connect to the DB instance.  If you are using SSL/TLS to connect to the DB instance, follow the appropriate instructions for your  DB engine to rotate your SSL/TLS certificate:   For more information about rotating your SSL/TLS certificate for RDS DB engines, see   Rotating Your SSL/TLS Certificate. in the Amazon RDS User Guide.    For more information about rotating your SSL/TLS certificate for Aurora DB engines, see   Rotating Your SSL/TLS Certificate in the Amazon Aurora User Guide.   This setting doesn't apply to RDS Custom DB instances.
         public let certificateRotationRestart: Bool?
@@ -7579,7 +7914,7 @@ extension RDS {
         public let cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration?
         /// Specifies whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags aren't copied. This setting doesn't apply to Amazon Aurora DB instances. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting. For more information, see ModifyDBCluster.
         public let copyTagsToSnapshot: Bool?
-        /// The new compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the  Amazon RDS User Guide or  Aurora DB instance classes in the Amazon Aurora User Guide. For RDS Custom, see DB instance class support for RDS Custom for Oracle and  DB instance class support for RDS Custom for SQL Server. If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless you specify ApplyImmediately in your request.  Default: Uses existing setting
+        /// The new compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the  Amazon RDS User Guide or  Aurora DB instance classes in the Amazon Aurora User Guide. For RDS Custom, see DB instance class support for RDS Custom for Oracle and  DB instance class support for RDS Custom for SQL Server. If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless you specify ApplyImmediately in your request.  Default: Uses existing setting Constraints:   If you are modifying the DB instance class and upgrading the engine version at the same time, the currently running engine version must be supported on the  specified DB instance class. Otherwise, the operation returns an error. In this case, first run the operation to modify the DB instance class,  and then run it again to upgrade the engine version.
         public let dbInstanceClass: String?
         /// The identifier of DB instance to modify. This value is stored as a lowercase string. Constraints:   Must match the identifier of an existing DB instance.
         public let dbInstanceIdentifier: String
@@ -7594,10 +7929,21 @@ extension RDS {
         public let dbSubnetGroupName: String?
         /// Specifies whether the DB instance has deletion protection enabled.  The database can't be deleted when deletion protection is enabled. By default,  deletion protection isn't enabled. For more information, see   Deleting a DB Instance.
         public let deletionProtection: Bool?
+        /// Specifies whether to remove the DB instance from the Active Directory domain.
+        public let disableDomain: Bool?
         /// The Active Directory directory ID to move the DB instance to.   Specify none to remove the instance from its current domain. You must create the domain before this operation. Currently, you can create only MySQL, Microsoft SQL  Server, Oracle, and PostgreSQL DB instances in an Active Directory Domain. For more information, see  Kerberos Authentication in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom DB instances.
         public let domain: String?
+        /// The ARN for the Secrets Manager secret with the credentials for the user joining the domain. Example: arn:aws:secretsmanager:region:account-number:secret:myselfmanagedADtestsecret-123456
+        public let domainAuthSecretArn: String?
+        /// The IPv4 DNS IP addresses of your primary and secondary Active Directory domain controllers. Constraints:   Two IP addresses must be provided.  If there isn't a secondary domain controller, use the IP address of the primary domain controller for both entries in the list.   Example: 123.124.125.126,234.235.236.237
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var domainDnsIps: [String]?
+        /// The fully qualified domain name (FQDN) of an Active Directory domain. Constraints:   Can't be longer than 64 characters.   Example: mymanagedADtest.mymanagedAD.mydomain
+        public let domainFqdn: String?
         /// The name of the IAM role to use when making API calls to the Directory Service. This setting doesn't apply to RDS Custom DB instances.
         public let domainIAMRoleName: String?
+        /// The Active Directory organizational unit for your DB instance to join. Constraints:   Must be in the distinguished name format.   Can't be longer than 64 characters.   Example: OU=mymanagedADtestOU,DC=mymanagedADtest,DC=mymanagedAD,DC=mydomain
+        public let domainOu: String?
         /// Specifies whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. For more information about RDS on Outposts, see Working with Amazon RDS on Amazon Web Services Outposts  in the Amazon RDS User Guide. For more information about CoIPs, see Customer-owned IP addresses  in the Amazon Web Services Outposts User Guide.
         public let enableCustomerOwnedIp: Bool?
         /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. This setting doesn't apply to Amazon Aurora. Mapping Amazon Web Services IAM accounts to database accounts is managed by the DB cluster. For more information about IAM database authentication, see   IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide.  This setting doesn't apply to RDS Custom DB instances.
@@ -7606,7 +7952,7 @@ extension RDS {
         public let enablePerformanceInsights: Bool?
         /// The target Oracle DB engine when you convert a non-CDB to a CDB. This intermediate step is necessary to upgrade an Oracle Database 19c non-CDB to an Oracle Database 21c CDB. Note the following requirements:   Make sure that you specify oracle-ee-cdb or oracle-se2-cdb.   Make sure that your DB engine runs Oracle Database 19c with an April 2021 or later RU.   Note the following limitations:   You can't convert a CDB to a non-CDB.   You can't convert a replica database.   You can't convert a non-CDB to a CDB and upgrade the engine version in the same command.   You can't convert the existing custom parameter or option group when it has options or parameters that are permanent or persistent. In this situation, the DB instance reverts to the default option and parameter group. To avoid reverting to the default, specify a new parameter group with --db-parameter-group-name and a new option group with --option-group-name.
         public let engine: String?
-        /// The version number of the database engine to upgrade to.  Changing this parameter results in an outage and the change  is applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. For major version upgrades, if a nondefault DB parameter group is currently in use, a new DB parameter group in the DB parameter group family for the new engine version must be specified. The new DB parameter group can be the default for that DB parameter group family. If you specify only a major version, Amazon RDS updates the DB instance to the  default minor version if the current minor version is lower. For information about valid engine versions, see CreateDBInstance,  or call DescribeDBEngineVersions. If the instance that you're modifying is acting as a read replica, the engine version that you specify must be the same or higher than the version that the source DB instance or cluster is running. In RDS Custom for Oracle, this parameter is supported for read replicas only if they are in the  PATCH_DB_FAILURE lifecycle.
+        /// The version number of the database engine to upgrade to.  Changing this parameter results in an outage and the change  is applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. For major version upgrades, if a nondefault DB parameter group is currently in use, a new DB parameter group in the DB parameter group family for the new engine version must be specified. The new DB parameter group can be the default for that DB parameter group family. If you specify only a major version, Amazon RDS updates the DB instance to the  default minor version if the current minor version is lower. For information about valid engine versions, see CreateDBInstance,  or call DescribeDBEngineVersions. If the instance that you're modifying is acting as a read replica, the engine version that you specify must be the same or higher than the version that the source DB instance or cluster is running. In RDS Custom for Oracle, this parameter is supported for read replicas only if they are in the  PATCH_DB_FAILURE lifecycle. Constraints:   If you are upgrading the engine version and modifying the DB instance class at the same time, the currently running engine version must be supported on the  specified DB instance class. Otherwise, the operation returns an error. In this case, first run the operation to modify the DB instance class,  and then run it again to upgrade the engine version.
         public let engineVersion: String?
         /// The new Provisioned IOPS (I/O operations per second) value for the RDS instance. Changing this setting doesn't result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. If you are migrating from Provisioned IOPS to standard storage, set this value to 0.  The DB instance will require a reboot for the change in storage type to take effect. If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a read replica for the instance, and creating a DB snapshot of the instance. Constraints:   For RDS for MariaDB, RDS for MySQL, RDS for Oracle, and RDS for PostgreSQL - The value supplied must be at least 10% greater than the current value.  Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value.   Default: Uses existing setting
         public let iops: Int?
@@ -7667,7 +8013,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, automationMode: AutomationMode? = nil, autoMinorVersionUpgrade: Bool? = nil, awsBackupRecoveryPointArn: String? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, certificateRotationRestart: Bool? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String, dbParameterGroupName: String? = nil, dbPortNumber: Int? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, replicaMode: ReplicaMode? = nil, resumeFullAutomationModeMinutes: Int? = nil, rotateMasterUserPassword: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, automationMode: AutomationMode? = nil, autoMinorVersionUpgrade: Bool? = nil, awsBackupRecoveryPointArn: String? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, certificateRotationRestart: Bool? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String, dbParameterGroupName: String? = nil, dbPortNumber: Int? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, disableDomain: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, replicaMode: ReplicaMode? = nil, resumeFullAutomationModeMinutes: Int? = nil, rotateMasterUserPassword: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
@@ -7686,8 +8032,13 @@ extension RDS {
             self.dbSecurityGroups = dbSecurityGroups
             self.dbSubnetGroupName = dbSubnetGroupName
             self.deletionProtection = deletionProtection
+            self.disableDomain = disableDomain
             self.domain = domain
+            self.domainAuthSecretArn = domainAuthSecretArn
+            self.domainDnsIps = domainDnsIps
+            self.domainFqdn = domainFqdn
             self.domainIAMRoleName = domainIAMRoleName
+            self.domainOu = domainOu
             self.enableCustomerOwnedIp = enableCustomerOwnedIp
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
             self.enablePerformanceInsights = enablePerformanceInsights
@@ -7748,8 +8099,13 @@ extension RDS {
             case dbSecurityGroups = "DBSecurityGroups"
             case dbSubnetGroupName = "DBSubnetGroupName"
             case deletionProtection = "DeletionProtection"
+            case disableDomain = "DisableDomain"
             case domain = "Domain"
+            case domainAuthSecretArn = "DomainAuthSecretArn"
+            case domainDnsIps = "DomainDnsIps"
+            case domainFqdn = "DomainFqdn"
             case domainIAMRoleName = "DomainIAMRoleName"
+            case domainOu = "DomainOu"
             case enableCustomerOwnedIp = "EnableCustomerOwnedIp"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
             case enablePerformanceInsights = "EnablePerformanceInsights"
@@ -8112,15 +8468,15 @@ extension RDS {
     }
 
     public struct ModifyGlobalClusterMessage: AWSEncodableShape {
-        /// A value that indicates whether major version upgrades are allowed. Constraints: You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version. If you upgrade the major version of a global database, the cluster and DB instance parameter groups are set to the default parameter groups for the new version. Apply any custom parameter groups after completing the upgrade.
+        /// Specifies whether to allow major version upgrades. Constraints: Must be enabled if you specify a value for the EngineVersion parameter that's a different major version than the global cluster's current version. If you upgrade the major version of a global database, the cluster and DB instance parameter groups are set to the default parameter groups for the new version. Apply any custom parameter groups after completing the upgrade.
         public let allowMajorVersionUpgrade: Bool?
-        /// Indicates if the global database cluster has deletion protection enabled. The global database cluster can't be deleted when deletion protection is enabled.
+        /// Specifies whether to enable deletion protection for the global database cluster. The global database cluster can't be deleted when deletion protection is enabled.
         public let deletionProtection: Bool?
-        /// The version number of the database engine to which you want to upgrade.  Changing this parameter results in an outage. The change is applied during the next maintenance window unless ApplyImmediately is enabled. To list all of the available engine versions for aurora-mysql (for MySQL-based Aurora global databases), use the following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query '*[]|[?SupportsGlobalDatabases == `true`].[EngineVersion]'  To list all of the available engine versions for aurora-postgresql (for PostgreSQL-based Aurora global databases), use the following command:  aws rds describe-db-engine-versions --engine aurora-postgresql --query '*[]|[?SupportsGlobalDatabases == `true`].[EngineVersion]'
+        /// The version number of the database engine to which you want to upgrade.   To list all of the available engine versions for aurora-mysql (for MySQL-based Aurora global databases), use the following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query '*[]|[?SupportsGlobalDatabases == `true`].[EngineVersion]'  To list all of the available engine versions for aurora-postgresql (for PostgreSQL-based Aurora global databases), use the following command:  aws rds describe-db-engine-versions --engine aurora-postgresql --query '*[]|[?SupportsGlobalDatabases == `true`].[EngineVersion]'
         public let engineVersion: String?
-        /// The DB cluster identifier for the global cluster being modified. This parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing global database cluster.
+        /// The cluster identifier for the global cluster to modify. This parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing global database cluster.
         public let globalClusterIdentifier: String?
-        /// The new cluster identifier for the global database cluster when modifying a global database cluster. This value is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   The first character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-cluster2
+        /// The new cluster identifier for the global database cluster. This value is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: my-cluster2
         public let newGlobalClusterIdentifier: String?
 
         public init(allowMajorVersionUpgrade: Bool? = nil, deletionProtection: Bool? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, newGlobalClusterIdentifier: String? = nil) {
@@ -9634,7 +9990,7 @@ extension RDS {
         public let enableIAMDatabaseAuthentication: Bool?
         /// The name of the database engine to be used for this DB cluster. Valid Values: aurora-mysql (for Aurora MySQL)
         public let engine: String
-        /// The version number of the database engine to use. To list all of the available engine versions for aurora-mysql (Aurora MySQL), use the following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"   Aurora MySQL  Examples: 5.7.mysql_aurora.2.07.1, 8.0.mysql_aurora.3.02.0
+        /// The version number of the database engine to use. To list all of the available engine versions for aurora-mysql (Aurora MySQL), use the following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"   Aurora MySQL  Examples: 5.7.mysql_aurora.2.12.0, 8.0.mysql_aurora.3.04.0
         public let engineVersion: String?
         /// The Amazon Web Services KMS key identifier for an encrypted DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If the StorageEncrypted parameter is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default KMS key. There is a   default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
         public let kmsKeyId: String?
@@ -9665,7 +10021,7 @@ extension RDS {
         public let serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration?
         /// The identifier for the database engine that was backed up to create the files stored in the Amazon S3 bucket. Valid values: mysql
         public let sourceEngine: String
-        /// The version of the database that the backup files were created from. MySQL versions 5.5, 5.6, and 5.7 are supported. Example: 5.6.40, 5.7.28
+        /// The version of the database that the backup files were created from. MySQL versions 5.7 and 8.0 are supported. Example: 5.7.40, 8.0.28
         public let sourceEngineVersion: String
         /// A value that indicates whether the restored DB cluster is encrypted.
         public let storageEncrypted: Bool?
@@ -9918,9 +10274,9 @@ extension RDS {
         public let copyTagsToSnapshot: Bool?
         /// The name of the new DB cluster to be created. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Valid for: Aurora DB clusters and Multi-AZ DB clusters
         public let dbClusterIdentifier: String
-        /// The compute and memory capacity of the each DB instance in the Multi-AZ DB cluster, for example db.m6gd.xlarge. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB instance class in the Amazon RDS User Guide.  Valid for: Multi-AZ DB clusters only
+        /// The compute and memory capacity of the each DB instance in the Multi-AZ DB cluster, for example db.m6gd.xlarge. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see  DB instance class in the  Amazon RDS User Guide. Valid for: Multi-AZ DB clusters only
         public let dbClusterInstanceClass: String?
-        /// The name of the DB cluster parameter group to associate with this DB cluster.  If this argument is omitted, the default DB cluster parameter group for the specified engine is used. Constraints:   If supplied, must match the name of an existing DB cluster parameter group.   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Valid for: Aurora DB clusters and Multi-AZ DB clusters
+        /// The name of the custom DB cluster parameter group to associate with this DB cluster. If the DBClusterParameterGroupName parameter is omitted, the default DB cluster parameter group for the specified engine is used. Constraints:   If supplied, must match the name of an existing DB cluster parameter group.   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Valid for: Aurora DB clusters and Multi-AZ DB clusters
         public let dbClusterParameterGroupName: String?
         /// The DB subnet group name to use for the new DB cluster. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mydbsubnetgroup  Valid for: Aurora DB clusters and Multi-AZ DB clusters
         public let dbSubnetGroupName: String?
@@ -9957,7 +10313,9 @@ extension RDS {
         public let scalingConfiguration: ScalingConfiguration?
         public let serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration?
         /// The identifier of the source DB cluster from which to restore. Constraints:   Must match the identifier of an existing DBCluster.   Valid for: Aurora DB clusters and Multi-AZ DB clusters
-        public let sourceDBClusterIdentifier: String
+        public let sourceDBClusterIdentifier: String?
+        /// The resource ID of the source DB cluster from which to restore.
+        public let sourceDbClusterResourceId: String?
         /// Specifies the storage type to be associated with the DB cluster. When specified for a Multi-AZ DB cluster, a value for the Iops parameter is required. Valid values: aurora, aurora-iopt1 (Aurora DB clusters); io1 (Multi-AZ DB clusters) Default: aurora (Aurora DB clusters); io1 (Multi-AZ DB clusters) Valid for: Aurora DB clusters and Multi-AZ DB clusters
         public let storageType: String?
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -9968,7 +10326,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(backtrackWindow: Int64? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String, dbClusterInstanceClass: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineMode: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, restoreToTime: Date? = nil, restoreType: String? = nil, scalingConfiguration: ScalingConfiguration? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, sourceDBClusterIdentifier: String, storageType: String? = nil, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(backtrackWindow: Int64? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String, dbClusterInstanceClass: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineMode: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, restoreToTime: Date? = nil, restoreType: String? = nil, scalingConfiguration: ScalingConfiguration? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, sourceDBClusterIdentifier: String? = nil, sourceDbClusterResourceId: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.backtrackWindow = backtrackWindow
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.dbClusterIdentifier = dbClusterIdentifier
@@ -9992,6 +10350,7 @@ extension RDS {
             self.scalingConfiguration = scalingConfiguration
             self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
             self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
+            self.sourceDbClusterResourceId = sourceDbClusterResourceId
             self.storageType = storageType
             self.tags = tags
             self.useLatestRestorableTime = useLatestRestorableTime
@@ -10022,6 +10381,7 @@ extension RDS {
             case scalingConfiguration = "ScalingConfiguration"
             case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
             case sourceDBClusterIdentifier = "SourceDBClusterIdentifier"
+            case sourceDbClusterResourceId = "SourceDbClusterResourceId"
             case storageType = "StorageType"
             case tags = "Tags"
             case useLatestRestorableTime = "UseLatestRestorableTime"
@@ -10076,8 +10436,17 @@ extension RDS {
         public let deletionProtection: Bool?
         /// Specify the Active Directory directory ID to restore the DB instance in. The domain/ must be created prior to this operation. Currently, you can create only MySQL, Microsoft SQL  Server, Oracle, and PostgreSQL DB instances in an Active Directory Domain. For more information, see  Kerberos Authentication in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
         public let domain: String?
-        /// Specify the name of the IAM role to be used when making API calls to the Directory Service. This setting doesn't apply to RDS Custom.
+        /// The ARN for the Secrets Manager secret with the credentials for the user joining the domain. Constraints: Example: arn:aws:secretsmanager:region:account-number:secret:myselfmanagedADtestsecret-123456
+        public let domainAuthSecretArn: String?
+        /// The IPv4 DNS IP addresses of your primary and secondary Active Directory domain controllers. Constraints:   Two IP addresses must be provided.  If there isn't a secondary domain controller, use the IP address of the primary domain controller for both entries in the list.   Example: 123.124.125.126,234.235.236.237
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var domainDnsIps: [String]?
+        /// The fully qualified domain name (FQDN) of an Active Directory domain. Constraints:   Can't be longer than 64 characters.   Example: mymanagedADtest.mymanagedAD.mydomain
+        public let domainFqdn: String?
+        /// The name of the IAM role to use when making API calls to the Directory Service. This setting doesn't apply to RDS Custom DB instances.
         public let domainIAMRoleName: String?
+        /// The Active Directory organizational unit for your DB instance to join. Constraints:   Must be in the distinguished name format.   Can't be longer than 64 characters.   Example: OU=mymanagedADtestOU,DC=mymanagedADtest,DC=mymanagedAD,DC=mydomain
+        public let domainOu: String?
         /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see  Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enableCloudwatchLogsExports: [String]?
@@ -10120,7 +10489,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupTarget: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbClusterSnapshotIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSnapshotIdentifier: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, iops: Int? = nil, licenseModel: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupTarget: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbClusterSnapshotIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSnapshotIdentifier: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, iops: Int? = nil, licenseModel: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -10136,7 +10505,11 @@ extension RDS {
             self.dbSubnetGroupName = dbSubnetGroupName
             self.deletionProtection = deletionProtection
             self.domain = domain
+            self.domainAuthSecretArn = domainAuthSecretArn
+            self.domainDnsIps = domainDnsIps
+            self.domainFqdn = domainFqdn
             self.domainIAMRoleName = domainIAMRoleName
+            self.domainOu = domainOu
             self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
             self.enableCustomerOwnedIp = enableCustomerOwnedIp
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
@@ -10174,7 +10547,11 @@ extension RDS {
             case dbSubnetGroupName = "DBSubnetGroupName"
             case deletionProtection = "DeletionProtection"
             case domain = "Domain"
+            case domainAuthSecretArn = "DomainAuthSecretArn"
+            case domainDnsIps = "DomainDnsIps"
+            case domainFqdn = "DomainFqdn"
             case domainIAMRoleName = "DomainIAMRoleName"
+            case domainOu = "DomainOu"
             case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
             case enableCustomerOwnedIp = "EnableCustomerOwnedIp"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
@@ -10439,73 +10816,82 @@ extension RDS {
 
         /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance.  Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
         public let allocatedStorage: Int?
-        /// A value that indicates whether minor version upgrades are applied automatically to the  DB instance during the maintenance window. This setting doesn't apply to RDS Custom.
+        /// Specifies whether minor version upgrades are applied automatically to the  DB instance during the maintenance window. This setting doesn't apply to RDS Custom.
         public let autoMinorVersionUpgrade: Bool?
-        /// The Availability Zone (AZ) where the DB instance will be created. Default: A random, system-chosen Availability Zone. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. Example: us-east-1a
+        /// The Availability Zone (AZ) where the DB instance will be created. Default: A random, system-chosen Availability Zone. Constraints:   You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment.   Example: us-east-1a
         public let availabilityZone: String?
         /// Specifies where automated backups and manual snapshots are stored for the restored DB instance. Possible values are outposts (Amazon Web Services Outposts) and region (Amazon Web Services Region). The default is region. For more information, see Working  with Amazon RDS on Amazon Web Services Outposts in the Amazon RDS User Guide.
         public let backupTarget: String?
-        /// A value that indicates whether to copy all tags from the restored DB instance to snapshots of the DB instance. By default, tags are not copied.
+        /// Specifies whether to copy all tags from the restored DB instance to snapshots of the DB instance. By default, tags are not copied.
         public let copyTagsToSnapshot: Bool?
         /// The instance profile associated with the underlying Amazon EC2 instance of an  RDS Custom DB instance. The instance profile must meet the following requirements:   The profile must exist in your account.   The profile must have an IAM role that Amazon EC2 has permissions to assume.   The instance profile name and the associated IAM role name must start with the prefix AWSRDSCustom.   For the list of permissions required for the IAM role, see   Configure IAM and your VPC in the Amazon RDS User Guide. This setting is required for RDS Custom.
         public let customIamInstanceProfile: String?
-        /// The compute and memory capacity of the Amazon RDS DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide. Default: The same DBInstanceClass as the original DB instance.
+        /// The compute and memory capacity of the Amazon RDS DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide. Default: The same DB instance class as the original DB instance.
         public let dbInstanceClass: String?
         /// The database name for the restored DB instance.  This parameter isn't supported for the MySQL or MariaDB engines. It also doesn't apply to RDS Custom.
         public let dbName: String?
-        /// The name of the DB parameter group to associate with this DB instance. If you do not specify a value for DBParameterGroupName, then the default DBParameterGroup  for the specified DB engine is used. This setting doesn't apply to RDS Custom. Constraints:   If supplied, must match the name of an existing DBParameterGroup.   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.
+        /// The name of the DB parameter group to associate with this DB instance. If you do not specify a value for DBParameterGroupName, then the default DBParameterGroup  for the specified DB engine is used. This setting doesn't apply to RDS Custom. Constraints:   If supplied, must match the name of an existing DB parameter group.   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.
         public let dbParameterGroupName: String?
-        /// The DB subnet group name to use for the new instance. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mydbsubnetgroup
+        /// The DB subnet group name to use for the new instance. Constraints:   If supplied, must match the name of an existing DB subnet group.   Example: mydbsubnetgroup
         public let dbSubnetGroupName: String?
-        /// A value that indicates whether the DB instance has deletion protection enabled.  The database can't be deleted when deletion protection is enabled. By default,  deletion protection isn't enabled. For more information, see   Deleting a DB Instance.
+        /// Specifies whether the DB instance has deletion protection enabled.  The database can't be deleted when deletion protection is enabled. By default,  deletion protection isn't enabled. For more information, see   Deleting a DB Instance.
         public let deletionProtection: Bool?
-        /// Specify the Active Directory directory ID to restore the DB instance in. Create the domain before running this command. Currently, you can create only the MySQL, Microsoft SQL  Server, Oracle, and PostgreSQL DB instances in an Active Directory Domain. This setting doesn't apply to RDS Custom. For more information, see  Kerberos Authentication in the Amazon RDS User Guide.
+        /// The Active Directory directory ID to restore the DB instance in. Create the domain before running this command. Currently, you can create only the MySQL, Microsoft SQL  Server, Oracle, and PostgreSQL DB instances in an Active Directory Domain. This setting doesn't apply to RDS Custom. For more information, see  Kerberos Authentication in the Amazon RDS User Guide.
         public let domain: String?
-        /// Specify the name of the IAM role to be used when making API calls to the Directory Service. This setting doesn't apply to RDS Custom.
+        /// The ARN for the Secrets Manager secret with the credentials for the user joining the domain. Constraints:   Can't be longer than 64 characters.   Example: arn:aws:secretsmanager:region:account-number:secret:myselfmanagedADtestsecret-123456
+        public let domainAuthSecretArn: String?
+        /// The IPv4 DNS IP addresses of your primary and secondary Active Directory domain controllers. Constraints:   Two IP addresses must be provided.  If there isn't a secondary domain controller, use the IP address of the primary domain controller for both entries in the list.   Example: 123.124.125.126,234.235.236.237
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var domainDnsIps: [String]?
+        /// The fully qualified domain name (FQDN) of an Active Directory domain. Constraints:   Can't be longer than 64 characters.   Example: mymanagedADtest.mymanagedAD.mydomain
+        public let domainFqdn: String?
+        /// The name of the IAM role to use when making API calls to the Directory Service. This setting doesn't apply to RDS Custom DB instances.
         public let domainIAMRoleName: String?
+        /// The Active Directory organizational unit for your DB instance to join. Constraints:   Must be in the distinguished name format.   Can't be longer than 64 characters.   Example: OU=mymanagedADtestOU,DC=mymanagedADtest,DC=mymanagedAD,DC=mydomain
+        public let domainOu: String?
         /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see  Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enableCloudwatchLogsExports: [String]?
-        /// A value that indicates whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. This setting doesn't apply to RDS Custom. For more information about RDS on Outposts, see Working with Amazon RDS on Amazon Web Services Outposts  in the Amazon RDS User Guide. For more information about CoIPs, see Customer-owned IP addresses  in the Amazon Web Services Outposts User Guide.
+        /// Specifies whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. This setting doesn't apply to RDS Custom. For more information about RDS on Outposts, see Working with Amazon RDS on Amazon Web Services Outposts  in the Amazon RDS User Guide. For more information about CoIPs, see Customer-owned IP addresses  in the Amazon Web Services Outposts User Guide.
         public let enableCustomerOwnedIp: Bool?
-        /// A value that indicates whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. This setting doesn't apply to RDS Custom. For more information about IAM database authentication, see   IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide.
+        /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. This setting doesn't apply to RDS Custom. For more information about IAM database authentication, see   IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide.
         public let enableIAMDatabaseAuthentication: Bool?
-        /// The database engine to use for the new instance. This setting doesn't apply to RDS Custom. Default: The same as source Constraint: Must be compatible with the engine of the source Valid Values:    mariadb     mysql     oracle-ee     oracle-ee-cdb     oracle-se2     oracle-se2-cdb     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web
+        /// The database engine to use for the new instance. This setting doesn't apply to RDS Custom. Valid Values:    mariadb     mysql     oracle-ee     oracle-ee-cdb     oracle-se2     oracle-se2-cdb     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web    Default: The same as source Constraints:   Must be compatible with the engine of the source.
         public let engine: String?
-        /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance. Constraints: Must be an integer greater than 1000.  SQL Server  Setting the IOPS value for the SQL Server database engine isn't supported.
+        /// The amount of Provisioned IOPS (input/output operations per second) to initially allocate for the DB instance. This setting doesn't apply to SQL Server. Constraints:   Must be an integer greater than 1000.
         public let iops: Int?
-        /// License model information for the restored DB instance. This setting doesn't apply to RDS Custom. Default: Same as source. Valid values:  license-included | bring-your-own-license | general-public-license
+        /// The license model information for the restored DB instance. This setting doesn't apply to RDS Custom. Valid Values: license-included | bring-your-own-license | general-public-license  Default: Same as the source.
         public let licenseModel: String?
         /// The upper limit in gibibytes (GiB) to which Amazon RDS can automatically scale the storage of the DB instance. For more information about this setting, including limitations that apply to it, see   Managing capacity automatically with Amazon RDS storage autoscaling  in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
         public let maxAllocatedStorage: Int?
-        /// A value that indicates whether the DB instance is a Multi-AZ deployment. This setting doesn't apply to RDS Custom. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a  Multi-AZ deployment.
+        /// Secifies whether the DB instance is a Multi-AZ deployment. This setting doesn't apply to RDS Custom. Constraints:   You can't specify the AvailabilityZone parameter if the DB instance is a  Multi-AZ deployment.
         public let multiAZ: Bool?
-        /// The network type of the DB instance. Valid values:    IPV4     DUAL    The network type is determined by the DBSubnetGroup specified for the DB instance.  A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6  protocols (DUAL). For more information, see  Working with a DB instance in a VPC in the  Amazon RDS User Guide.
+        /// The network type of the DB instance. The network type is determined by the DBSubnetGroup specified for the DB instance.  A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6  protocols (DUAL). For more information, see  Working with a DB instance in a VPC in the  Amazon RDS User Guide.  Valid Values:    IPV4     DUAL
         public let networkType: String?
-        /// The name of the option group to be used for the restored DB instance. Permanent options, such as the TDE option for Oracle Advanced Security TDE, can't be removed from an  option group, and that option group can't be removed from a DB instance after it is associated with a DB instance This setting doesn't apply to RDS Custom.
+        /// The name of the option group to use for the restored DB instance. Permanent options, such as the TDE option for Oracle Advanced Security TDE, can't be removed from an  option group, and that option group can't be removed from a DB instance after it is associated with a DB instance This setting doesn't apply to RDS Custom.
         public let optionGroupName: String?
-        /// The port number on which the database accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB instance.
+        /// The port number on which the database accepts connections. Default: The same port as the original DB instance. Constraints:   The value must be 1150-65535.
         public let port: Int?
         /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance. This setting doesn't apply to RDS Custom.
         @OptionalCustomCoding<ArrayCoder<_ProcessorFeaturesEncoding, ProcessorFeature>>
         public var processorFeatures: [ProcessorFeature]?
-        /// A value that indicates whether the DB instance is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see CreateDBInstance.
+        /// Specifies whether the DB instance is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see CreateDBInstance.
         public let publiclyAccessible: Bool?
-        /// The date and time to restore from. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints:   Must be before the latest restorable time for the DB instance   Can't be specified if the UseLatestRestorableTime parameter is enabled   Example: 2009-09-07T23:45:00Z
+        /// The date and time to restore from. Constraints:   Must be a time in Universal Coordinated Time (UTC) format.   Must be before the latest restorable time for the DB instance.   Can't be specified if the UseLatestRestorableTime parameter is enabled.   Example: 2009-09-07T23:45:00Z
         public let restoreTime: Date?
-        /// The Amazon Resource Name (ARN) of the replicated automated backups from which to restore, for example,  arn:aws:rds:useast-1:123456789012:auto-backup:ab-L2IJCEXJP7XQ7HOJ4SIEXAMPLE. This setting doesn't apply to RDS Custom.
+        /// The Amazon Resource Name (ARN) of the replicated automated backups from which to restore, for example,  arn:aws:rds:us-east-1:123456789012:auto-backup:ab-L2IJCEXJP7XQ7HOJ4SIEXAMPLE. This setting doesn't apply to RDS Custom.
         public let sourceDBInstanceAutomatedBackupsArn: String?
         /// The identifier of the source DB instance from which to restore. Constraints:   Must match the identifier of an existing DB instance.
         public let sourceDBInstanceIdentifier: String?
         /// The resource ID of the source DB instance from which to restore.
         public let sourceDbiResourceId: String?
-        /// Specifies the storage throughput value for the DB instance. This setting doesn't apply to RDS Custom or Amazon Aurora.
+        /// The storage throughput value for the DB instance. This setting doesn't apply to RDS Custom or Amazon Aurora.
         public let storageThroughput: Int?
-        /// Specifies the storage type to be associated with the DB instance. Valid values: gp2 | gp3 | io1 | standard  If you specify io1 or gp3, you must also include a value for the Iops parameter. Default: io1 if the Iops parameter is specified, otherwise gp2
+        /// The storage type to associate with the DB instance. Valid Values: gp2 | gp3 | io1 | standard  Default: io1, if the Iops parameter is specified. Otherwise, gp2. Constraints:   If you specify io1 or gp3, you must also include a value for the Iops parameter.
         public let storageType: String?
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
-        /// The name of the new DB instance to be created. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens
+        /// The name of the new DB instance to create. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.
         public let targetDBInstanceIdentifier: String
         /// The ARN from the key store with which to associate the instance for TDE encryption. This setting doesn't apply to RDS Custom.
         public let tdeCredentialArn: String?
@@ -10513,13 +10899,13 @@ extension RDS {
         public let tdeCredentialPassword: String?
         /// A value that indicates whether the DB instance class of the DB instance uses its default processor features. This setting doesn't apply to RDS Custom.
         public let useDefaultProcessorFeatures: Bool?
-        /// A value that indicates whether the DB instance is restored from the latest backup time. By default, the DB instance  isn't restored from the latest backup time. Constraints: Can't be specified if the RestoreTime parameter is provided.
+        /// Specifies whether the DB instance is restored from the latest backup time. By default, the DB instance  isn't restored from the latest backup time. Constraints:   Can't be specified if the RestoreTime parameter is provided.
         public let useLatestRestorableTime: Bool?
         /// A list of EC2 VPC security groups to associate with this DB instance. Default: The default EC2 VPC security group for the DB subnet group's VPC.
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupTarget: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbInstanceClass: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, iops: Int? = nil, licenseModel: String? = nil, maxAllocatedStorage: Int? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, restoreTime: Date? = nil, sourceDBInstanceAutomatedBackupsArn: String? = nil, sourceDBInstanceIdentifier: String? = nil, sourceDbiResourceId: String? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, targetDBInstanceIdentifier: String, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupTarget: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbInstanceClass: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, iops: Int? = nil, licenseModel: String? = nil, maxAllocatedStorage: Int? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, restoreTime: Date? = nil, sourceDBInstanceAutomatedBackupsArn: String? = nil, sourceDBInstanceIdentifier: String? = nil, sourceDbiResourceId: String? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, targetDBInstanceIdentifier: String, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -10532,7 +10918,11 @@ extension RDS {
             self.dbSubnetGroupName = dbSubnetGroupName
             self.deletionProtection = deletionProtection
             self.domain = domain
+            self.domainAuthSecretArn = domainAuthSecretArn
+            self.domainDnsIps = domainDnsIps
+            self.domainFqdn = domainFqdn
             self.domainIAMRoleName = domainIAMRoleName
+            self.domainOu = domainOu
             self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
             self.enableCustomerOwnedIp = enableCustomerOwnedIp
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
@@ -10574,7 +10964,11 @@ extension RDS {
             case dbSubnetGroupName = "DBSubnetGroupName"
             case deletionProtection = "DeletionProtection"
             case domain = "Domain"
+            case domainAuthSecretArn = "DomainAuthSecretArn"
+            case domainDnsIps = "DomainDnsIps"
+            case domainFqdn = "DomainFqdn"
             case domainIAMRoleName = "DomainIAMRoleName"
+            case domainOu = "DomainOu"
             case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
             case enableCustomerOwnedIp = "EnableCustomerOwnedIp"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
@@ -11148,9 +11542,9 @@ extension RDS {
     }
 
     public struct SwitchoverBlueGreenDeploymentRequest: AWSEncodableShape {
-        /// The blue/green deployment identifier. Constraints:   Must match an existing blue/green deployment identifier.
+        /// The unique identifier of the blue/green deployment. Constraints:   Must match an existing blue/green deployment identifier.
         public let blueGreenDeploymentIdentifier: String
-        /// The amount of time, in seconds, for the switchover to complete. The default is 300. If the switchover takes longer than the specified duration, then any changes are rolled back,  and no changes are made to the environments.
+        /// The amount of time, in seconds, for the switchover to complete. Default: 300 If the switchover takes longer than the specified duration, then any changes are rolled back,  and no changes are made to the environments.
         public let switchoverTimeout: Int?
 
         public init(blueGreenDeploymentIdentifier: String, switchoverTimeout: Int? = nil) {
@@ -11201,6 +11595,44 @@ extension RDS {
             case sourceMember = "SourceMember"
             case status = "Status"
             case targetMember = "TargetMember"
+        }
+    }
+
+    public struct SwitchoverGlobalClusterMessage: AWSEncodableShape {
+        /// The identifier of the global database cluster to switch over. This parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing global database cluster (Aurora global database).
+        public let globalClusterIdentifier: String
+        /// The identifier of the secondary Aurora DB cluster to promote to the new primary for the global database cluster. Use the Amazon Resource Name (ARN) for the identifier so that Aurora can locate the cluster in its Amazon Web Services Region.
+        public let targetDbClusterIdentifier: String
+
+        public init(globalClusterIdentifier: String, targetDbClusterIdentifier: String) {
+            self.globalClusterIdentifier = globalClusterIdentifier
+            self.targetDbClusterIdentifier = targetDbClusterIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "^[A-Za-z][0-9A-Za-z-:._]*$")
+            try self.validate(self.targetDbClusterIdentifier, name: "targetDbClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.targetDbClusterIdentifier, name: "targetDbClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.targetDbClusterIdentifier, name: "targetDbClusterIdentifier", parent: name, pattern: "^[A-Za-z][0-9A-Za-z-:._]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalClusterIdentifier = "GlobalClusterIdentifier"
+            case targetDbClusterIdentifier = "TargetDbClusterIdentifier"
+        }
+    }
+
+    public struct SwitchoverGlobalClusterResult: AWSDecodableShape {
+        public let globalCluster: GlobalCluster?
+
+        public init(globalCluster: GlobalCluster? = nil) {
+            self.globalCluster = globalCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalCluster = "GlobalCluster"
         }
     }
 
@@ -11314,10 +11746,12 @@ extension RDS {
         public let supportsBabelfish: Bool?
         /// A value that indicates whether you can use Aurora global databases with the target engine version.
         public let supportsGlobalDatabases: Bool?
+        /// A value that indicates whether the target engine version supports forwarding write operations from reader DB instances  to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
+        public let supportsLocalWriteForwarding: Bool?
         /// A value that indicates whether you can use Aurora parallel query with the target engine version.
         public let supportsParallelQuery: Bool?
 
-        public init(autoUpgrade: Bool? = nil, description: String? = nil, engine: String? = nil, engineVersion: String? = nil, isMajorVersionUpgrade: Bool? = nil, supportedEngineModes: [String]? = nil, supportsBabelfish: Bool? = nil, supportsGlobalDatabases: Bool? = nil, supportsParallelQuery: Bool? = nil) {
+        public init(autoUpgrade: Bool? = nil, description: String? = nil, engine: String? = nil, engineVersion: String? = nil, isMajorVersionUpgrade: Bool? = nil, supportedEngineModes: [String]? = nil, supportsBabelfish: Bool? = nil, supportsGlobalDatabases: Bool? = nil, supportsLocalWriteForwarding: Bool? = nil, supportsParallelQuery: Bool? = nil) {
             self.autoUpgrade = autoUpgrade
             self.description = description
             self.engine = engine
@@ -11326,6 +11760,7 @@ extension RDS {
             self.supportedEngineModes = supportedEngineModes
             self.supportsBabelfish = supportsBabelfish
             self.supportsGlobalDatabases = supportsGlobalDatabases
+            self.supportsLocalWriteForwarding = supportsLocalWriteForwarding
             self.supportsParallelQuery = supportsParallelQuery
         }
 
@@ -11338,6 +11773,7 @@ extension RDS {
             case supportedEngineModes = "SupportedEngineModes"
             case supportsBabelfish = "SupportsBabelfish"
             case supportsGlobalDatabases = "SupportsGlobalDatabases"
+            case supportsLocalWriteForwarding = "SupportsLocalWriteForwarding"
             case supportsParallelQuery = "SupportsParallelQuery"
         }
     }
@@ -11514,6 +11950,8 @@ public struct RDSErrorType: AWSErrorType {
         case customDBEngineVersionNotFoundFault = "CustomDBEngineVersionNotFoundFault"
         case customDBEngineVersionQuotaExceededFault = "CustomDBEngineVersionQuotaExceededFault"
         case dbClusterAlreadyExistsFault = "DBClusterAlreadyExistsFault"
+        case dbClusterAutomatedBackupNotFoundFault = "DBClusterAutomatedBackupNotFoundFault"
+        case dbClusterAutomatedBackupQuotaExceededFault = "DBClusterAutomatedBackupQuotaExceededFault"
         case dbClusterBacktrackNotFoundFault = "DBClusterBacktrackNotFoundFault"
         case dbClusterEndpointAlreadyExistsFault = "DBClusterEndpointAlreadyExistsFault"
         case dbClusterEndpointNotFoundFault = "DBClusterEndpointNotFoundFault"
@@ -11576,6 +12014,7 @@ public struct RDSErrorType: AWSErrorType {
         case insufficientStorageClusterCapacityFault = "InsufficientStorageClusterCapacity"
         case invalidBlueGreenDeploymentStateFault = "InvalidBlueGreenDeploymentStateFault"
         case invalidCustomDBEngineVersionStateFault = "InvalidCustomDBEngineVersionStateFault"
+        case invalidDBClusterAutomatedBackupStateFault = "InvalidDBClusterAutomatedBackupStateFault"
         case invalidDBClusterCapacityFault = "InvalidDBClusterCapacityFault"
         case invalidDBClusterEndpointStateFault = "InvalidDBClusterEndpointStateFault"
         case invalidDBClusterSnapshotStateFault = "InvalidDBClusterSnapshotStateFault"
@@ -11672,6 +12111,10 @@ public struct RDSErrorType: AWSErrorType {
     public static var customDBEngineVersionQuotaExceededFault: Self { .init(.customDBEngineVersionQuotaExceededFault) }
     /// The user already has a DB cluster with the given identifier.
     public static var dbClusterAlreadyExistsFault: Self { .init(.dbClusterAlreadyExistsFault) }
+    /// No automated backup for this DB cluster was found.
+    public static var dbClusterAutomatedBackupNotFoundFault: Self { .init(.dbClusterAutomatedBackupNotFoundFault) }
+    /// The quota for retained automated backups was exceeded. This prevents you from retaining any additional automated  backups. The retained automated backups quota is the same as your DB cluster quota.
+    public static var dbClusterAutomatedBackupQuotaExceededFault: Self { .init(.dbClusterAutomatedBackupQuotaExceededFault) }
     ///  BacktrackIdentifier doesn't refer to an existing backtrack.
     public static var dbClusterBacktrackNotFoundFault: Self { .init(.dbClusterBacktrackNotFoundFault) }
     /// The specified custom endpoint can't be created because it already exists.
@@ -11700,7 +12143,7 @@ public struct RDSErrorType: AWSErrorType {
     public static var dbInstanceAlreadyExistsFault: Self { .init(.dbInstanceAlreadyExistsFault) }
     /// No automated backup for this DB instance was found.
     public static var dbInstanceAutomatedBackupNotFoundFault: Self { .init(.dbInstanceAutomatedBackupNotFoundFault) }
-    /// The quota for retained automated backups was exceeded. This prevents you from retaining any additional automated backups. The retained automated backups  quota is the same as your DB Instance quota.
+    /// The quota for retained automated backups was exceeded. This prevents you from retaining any additional automated backups. The retained automated backups  quota is the same as your DB instance quota.
     public static var dbInstanceAutomatedBackupQuotaExceededFault: Self { .init(.dbInstanceAutomatedBackupQuotaExceededFault) }
     ///  DBInstanceIdentifier doesn't refer to an existing DB instance.
     public static var dbInstanceNotFoundFault: Self { .init(.dbInstanceNotFoundFault) }
@@ -11796,6 +12239,8 @@ public struct RDSErrorType: AWSErrorType {
     public static var invalidBlueGreenDeploymentStateFault: Self { .init(.invalidBlueGreenDeploymentStateFault) }
     /// You can't delete the CEV.
     public static var invalidCustomDBEngineVersionStateFault: Self { .init(.invalidCustomDBEngineVersionStateFault) }
+    /// The automated backup is in an invalid state.  For example, this automated backup is associated with an active cluster.
+    public static var invalidDBClusterAutomatedBackupStateFault: Self { .init(.invalidDBClusterAutomatedBackupStateFault) }
     ///  Capacity isn't a valid Aurora Serverless DB cluster capacity. Valid capacity values are 2, 4, 8, 16,  32, 64, 128, and 256.
     public static var invalidDBClusterCapacityFault: Self { .init(.invalidDBClusterCapacityFault) }
     /// The requested operation can't be performed on the endpoint while the endpoint is in this state.

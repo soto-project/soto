@@ -76,6 +76,11 @@ extension Grafana {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists available versions of Grafana. These are available when calling  CreateWorkspace. Optionally, include a workspace to list the versions  to which it can be upgraded.
+    public func listVersions(_ input: ListVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListVersionsResponse {
+        return try await self.client.execute(operation: "ListVersions", path: "/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns a list of Amazon Managed Grafana workspaces in the account, with some information about each workspace. For more complete information about one workspace, use DescribeWorkspace.
     public func listWorkspaces(_ input: ListWorkspacesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListWorkspacesResponse {
         return try await self.client.execute(operation: "ListWorkspaces", path: "/workspaces", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -133,6 +138,28 @@ extension Grafana {
             command: self.listPermissions,
             inputKey: \ListPermissionsRequest.nextToken,
             outputKey: \ListPermissionsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists available versions of Grafana. These are available when calling  CreateWorkspace. Optionally, include a workspace to list the versions  to which it can be upgraded.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listVersionsPaginator(
+        _ input: ListVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListVersionsRequest, ListVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listVersions,
+            inputKey: \ListVersionsRequest.nextToken,
+            outputKey: \ListVersionsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

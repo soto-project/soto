@@ -298,6 +298,11 @@ public struct CloudFormation: AWSService {
         return self.client.execute(operation: "ListImports", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns drift information for resources in a stack instance.   ListStackInstanceResourceDrifts returns drift information for the most recent drift detection operation. If an operation is in progress, it may only return partial results.
+    public func listStackInstanceResourceDrifts(_ input: ListStackInstanceResourceDriftsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStackInstanceResourceDriftsOutput> {
+        return self.client.execute(operation: "ListStackInstanceResourceDrifts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns summary information about stack instances that are associated with the specified stack set. You can filter for stack instances that are associated with a specific Amazon Web Services account name or Region, or that have a specific status.
     public func listStackInstances(_ input: ListStackInstancesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStackInstancesOutput> {
         return self.client.execute(operation: "ListStackInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

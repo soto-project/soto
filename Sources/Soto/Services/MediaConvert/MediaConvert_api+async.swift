@@ -81,7 +81,7 @@ extension MediaConvert {
         return try await self.client.execute(operation: "DisassociateCertificate", path: "/2017-08-29/certificates/{Arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieve the JSON for a specific completed transcoding job.
+    /// Retrieve the JSON for a specific transcoding job.
     public func getJob(_ input: GetJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetJobResponse {
         return try await self.client.execute(operation: "GetJob", path: "/2017-08-29/jobs/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

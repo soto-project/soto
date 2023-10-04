@@ -73,6 +73,11 @@ public struct AppStream: AWSService {
 
     // MARK: API Calls
 
+    /// Associates the specified app block builder with the specified app block.
+    public func associateAppBlockBuilderAppBlock(_ input: AssociateAppBlockBuilderAppBlockRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateAppBlockBuilderAppBlockResult> {
+        return self.client.execute(operation: "AssociateAppBlockBuilderAppBlock", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Associates the specified application with the specified fleet. This is only supported for Elastic fleets.
     public func associateApplicationFleet(_ input: AssociateApplicationFleetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateApplicationFleetResult> {
         return self.client.execute(operation: "AssociateApplicationFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -106,6 +111,16 @@ public struct AppStream: AWSService {
     /// Creates an app block. App blocks are an Amazon AppStream 2.0 resource that stores the details about the virtual hard disk in an S3 bucket. It also stores the setup script with details about how to mount the virtual hard disk. The virtual hard disk includes the application binaries and other files necessary to launch your applications. Multiple applications can be assigned to a single app block. This is only supported for Elastic fleets.
     public func createAppBlock(_ input: CreateAppBlockRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAppBlockResult> {
         return self.client.execute(operation: "CreateAppBlock", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates an app block builder.
+    public func createAppBlockBuilder(_ input: CreateAppBlockBuilderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAppBlockBuilderResult> {
+        return self.client.execute(operation: "CreateAppBlockBuilder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a URL to start a create app block builder streaming session.
+    public func createAppBlockBuilderStreamingURL(_ input: CreateAppBlockBuilderStreamingURLRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAppBlockBuilderStreamingURLResult> {
+        return self.client.execute(operation: "CreateAppBlockBuilderStreamingURL", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates an application. Applications are an Amazon AppStream 2.0 resource that stores the details about how to launch applications on Elastic fleet streaming instances. An application consists of the launch details, icon, and display name. Applications are associated with an app block that contains the application binaries and other files. The applications assigned to an Elastic fleet are the applications users can launch.  This is only supported for Elastic fleets.
@@ -168,6 +183,11 @@ public struct AppStream: AWSService {
         return self.client.execute(operation: "DeleteAppBlock", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes an app block builder. An app block builder can only be deleted when it has no association with an app block.
+    public func deleteAppBlockBuilder(_ input: DeleteAppBlockBuilderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAppBlockBuilderResult> {
+        return self.client.execute(operation: "DeleteAppBlockBuilder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes an application.
     public func deleteApplication(_ input: DeleteApplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteApplicationResult> {
         return self.client.execute(operation: "DeleteApplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -216,6 +236,16 @@ public struct AppStream: AWSService {
     /// Deletes a user from the user pool.
     public func deleteUser(_ input: DeleteUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteUserResult> {
         return self.client.execute(operation: "DeleteUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves a list that describes one or more app block builder associations.
+    public func describeAppBlockBuilderAppBlockAssociations(_ input: DescribeAppBlockBuilderAppBlockAssociationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAppBlockBuilderAppBlockAssociationsResult> {
+        return self.client.execute(operation: "DescribeAppBlockBuilderAppBlockAssociations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves a list that describes one or more app block builders.
+    public func describeAppBlockBuilders(_ input: DescribeAppBlockBuildersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAppBlockBuildersResult> {
+        return self.client.execute(operation: "DescribeAppBlockBuilders", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves a list that describes one or more app blocks.
@@ -293,6 +323,11 @@ public struct AppStream: AWSService {
         return self.client.execute(operation: "DisableUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Disassociates a specified app block builder from a specified app block.
+    public func disassociateAppBlockBuilderAppBlock(_ input: DisassociateAppBlockBuilderAppBlockRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateAppBlockBuilderAppBlockResult> {
+        return self.client.execute(operation: "DisassociateAppBlockBuilderAppBlock", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Disassociates the specified application from the fleet.
     public func disassociateApplicationFleet(_ input: DisassociateApplicationFleetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateApplicationFleetResult> {
         return self.client.execute(operation: "DisassociateApplicationFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -338,6 +373,11 @@ public struct AppStream: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Starts an app block builder. An app block builder can only be started when it's associated with an app block. Starting an app block builder starts a new instance, which is equivalent to an elastic fleet instance with application builder assistance functionality.
+    public func startAppBlockBuilder(_ input: StartAppBlockBuilderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartAppBlockBuilderResult> {
+        return self.client.execute(operation: "StartAppBlockBuilder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Starts the specified fleet.
     public func startFleet(_ input: StartFleetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartFleetResult> {
         return self.client.execute(operation: "StartFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -346,6 +386,11 @@ public struct AppStream: AWSService {
     /// Starts the specified image builder.
     public func startImageBuilder(_ input: StartImageBuilderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartImageBuilderResult> {
         return self.client.execute(operation: "StartImageBuilder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Stops an app block builder. Stopping an app block builder terminates the instance, and the instance state is not persisted.
+    public func stopAppBlockBuilder(_ input: StopAppBlockBuilderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopAppBlockBuilderResult> {
+        return self.client.execute(operation: "StopAppBlockBuilder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Stops the specified fleet.
@@ -366,6 +411,11 @@ public struct AppStream: AWSService {
     /// Disassociates one or more specified tags from the specified AppStream 2.0 resource. To list the current tags for your resources, use ListTagsForResource. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
         return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates an app block builder. If the app block builder is in the STARTING or STOPPING state, you can't update it. If the app block builder is in the RUNNING state, you can only update the DisplayName and Description. If the app block builder is in the STOPPED state, you can update any attribute except the Name.
+    public func updateAppBlockBuilder(_ input: UpdateAppBlockBuilderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAppBlockBuilderResult> {
+        return self.client.execute(operation: "UpdateAppBlockBuilder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the specified application.
@@ -411,6 +461,112 @@ extension AppStream {
 // MARK: Paginators
 
 extension AppStream {
+    /// Retrieves a list that describes one or more app block builder associations.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeAppBlockBuilderAppBlockAssociationsPaginator<Result>(
+        _ input: DescribeAppBlockBuilderAppBlockAssociationsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeAppBlockBuilderAppBlockAssociationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeAppBlockBuilderAppBlockAssociations,
+            inputKey: \DescribeAppBlockBuilderAppBlockAssociationsRequest.nextToken,
+            outputKey: \DescribeAppBlockBuilderAppBlockAssociationsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeAppBlockBuilderAppBlockAssociationsPaginator(
+        _ input: DescribeAppBlockBuilderAppBlockAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeAppBlockBuilderAppBlockAssociationsResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeAppBlockBuilderAppBlockAssociations,
+            inputKey: \DescribeAppBlockBuilderAppBlockAssociationsRequest.nextToken,
+            outputKey: \DescribeAppBlockBuilderAppBlockAssociationsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Retrieves a list that describes one or more app block builders.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeAppBlockBuildersPaginator<Result>(
+        _ input: DescribeAppBlockBuildersRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeAppBlockBuildersResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeAppBlockBuilders,
+            inputKey: \DescribeAppBlockBuildersRequest.nextToken,
+            outputKey: \DescribeAppBlockBuildersResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeAppBlockBuildersPaginator(
+        _ input: DescribeAppBlockBuildersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeAppBlockBuildersResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeAppBlockBuilders,
+            inputKey: \DescribeAppBlockBuildersRequest.nextToken,
+            outputKey: \DescribeAppBlockBuildersResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// Retrieves a list that describes the permissions for shared AWS account IDs on a private image that you own.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -514,6 +670,27 @@ extension AppStream {
             outputKey: \DescribeImagesResult.nextToken,
             on: eventLoop,
             onPage: onPage
+        )
+    }
+}
+
+extension AppStream.DescribeAppBlockBuilderAppBlockAssociationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AppStream.DescribeAppBlockBuilderAppBlockAssociationsRequest {
+        return .init(
+            appBlockArn: self.appBlockArn,
+            appBlockBuilderName: self.appBlockBuilderName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension AppStream.DescribeAppBlockBuildersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AppStream.DescribeAppBlockBuildersRequest {
+        return .init(
+            maxResults: self.maxResults,
+            names: self.names,
+            nextToken: token
         )
     }
 }

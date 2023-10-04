@@ -110,6 +110,7 @@ extension AppRunner {
     }
 
     public enum ProviderType: String, CustomStringConvertible, Codable, Sendable {
+        case bitbucket = "BITBUCKET"
         case github = "GITHUB"
         public var description: String { return self.rawValue }
     }
@@ -260,6 +261,10 @@ extension AppRunner {
         public let createdAt: Date?
         /// The time when the auto scaling configuration was deleted. It's in Unix time stamp format.
         public let deletedAt: Date?
+        /// Indicates if this auto scaling configuration has an App Runner service associated with it. A value of true indicates one or more services are associated. A value of false indicates no services are associated.
+        public let hasAssociatedService: Bool?
+        /// Indicates if this auto scaling configuration should be used as the default for a new App Runner service that does not have an auto scaling configuration ARN specified during creation. Each account can have only one default AutoScalingConfiguration per region. The default AutoScalingConfiguration can be any revision under  the same AutoScalingConfigurationName.
+        public let isDefault: Bool?
         /// It's set to true for the configuration with the highest Revision among all configurations that share the same AutoScalingConfigurationName. It's set to false otherwise.
         public let latest: Bool?
         /// The maximum number of concurrent requests that an instance processes. If the number of concurrent requests exceeds this limit, App Runner scales the service up.
@@ -271,12 +276,14 @@ extension AppRunner {
         /// The current state of the auto scaling configuration. If the status of a configuration revision is INACTIVE, it was deleted and can't be used. Inactive configuration revisions are permanently removed some time after they are deleted.
         public let status: AutoScalingConfigurationStatus?
 
-        public init(autoScalingConfigurationArn: String? = nil, autoScalingConfigurationName: String? = nil, autoScalingConfigurationRevision: Int? = nil, createdAt: Date? = nil, deletedAt: Date? = nil, latest: Bool? = nil, maxConcurrency: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, status: AutoScalingConfigurationStatus? = nil) {
+        public init(autoScalingConfigurationArn: String? = nil, autoScalingConfigurationName: String? = nil, autoScalingConfigurationRevision: Int? = nil, createdAt: Date? = nil, deletedAt: Date? = nil, hasAssociatedService: Bool? = nil, isDefault: Bool? = nil, latest: Bool? = nil, maxConcurrency: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, status: AutoScalingConfigurationStatus? = nil) {
             self.autoScalingConfigurationArn = autoScalingConfigurationArn
             self.autoScalingConfigurationName = autoScalingConfigurationName
             self.autoScalingConfigurationRevision = autoScalingConfigurationRevision
             self.createdAt = createdAt
             self.deletedAt = deletedAt
+            self.hasAssociatedService = hasAssociatedService
+            self.isDefault = isDefault
             self.latest = latest
             self.maxConcurrency = maxConcurrency
             self.maxSize = maxSize
@@ -290,6 +297,8 @@ extension AppRunner {
             case autoScalingConfigurationRevision = "AutoScalingConfigurationRevision"
             case createdAt = "CreatedAt"
             case deletedAt = "DeletedAt"
+            case hasAssociatedService = "HasAssociatedService"
+            case isDefault = "IsDefault"
             case latest = "Latest"
             case maxConcurrency = "MaxConcurrency"
             case maxSize = "MaxSize"
@@ -305,17 +314,33 @@ extension AppRunner {
         public let autoScalingConfigurationName: String?
         /// The revision of this auto scaling configuration. It's unique among all the active configurations ("Status": "ACTIVE") with the same AutoScalingConfigurationName.
         public let autoScalingConfigurationRevision: Int?
+        /// The time when the auto scaling configuration was created. It's in Unix time stamp format.
+        public let createdAt: Date?
+        /// Indicates if this auto scaling configuration has an App Runner service associated with it. A value of true indicates one or more services are associated. A value of false indicates no services are associated.
+        public let hasAssociatedService: Bool?
+        /// Indicates if this auto scaling configuration should be used as the default for a new App Runner service that does not have an auto scaling configuration ARN specified during creation. Each account can have only one default AutoScalingConfiguration per region. The default AutoScalingConfiguration can be any revision under  the same AutoScalingConfigurationName.
+        public let isDefault: Bool?
+        /// The current state of the auto scaling configuration. If the status of a configuration revision is INACTIVE, it was deleted and can't be used. Inactive configuration revisions are permanently removed some time after they are deleted.
+        public let status: AutoScalingConfigurationStatus?
 
-        public init(autoScalingConfigurationArn: String? = nil, autoScalingConfigurationName: String? = nil, autoScalingConfigurationRevision: Int? = nil) {
+        public init(autoScalingConfigurationArn: String? = nil, autoScalingConfigurationName: String? = nil, autoScalingConfigurationRevision: Int? = nil, createdAt: Date? = nil, hasAssociatedService: Bool? = nil, isDefault: Bool? = nil, status: AutoScalingConfigurationStatus? = nil) {
             self.autoScalingConfigurationArn = autoScalingConfigurationArn
             self.autoScalingConfigurationName = autoScalingConfigurationName
             self.autoScalingConfigurationRevision = autoScalingConfigurationRevision
+            self.createdAt = createdAt
+            self.hasAssociatedService = hasAssociatedService
+            self.isDefault = isDefault
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case autoScalingConfigurationArn = "AutoScalingConfigurationArn"
             case autoScalingConfigurationName = "AutoScalingConfigurationName"
             case autoScalingConfigurationRevision = "AutoScalingConfigurationRevision"
+            case createdAt = "CreatedAt"
+            case hasAssociatedService = "HasAssociatedService"
+            case isDefault = "IsDefault"
+            case status = "Status"
         }
     }
 
@@ -372,7 +397,7 @@ extension AppRunner {
         public let port: String?
         /// A runtime environment type for building and running an App Runner service. It represents a programming language runtime.
         public let runtime: Runtime
-        /// An array of key-value pairs representing the secrets and parameters that get referenced to your service as an environment variable.   The supported values are either the full Amazon Resource Name (ARN) of the Secrets Manager secret or the full ARN of the parameter in the Amazon Web Services Systems Manager Parameter Store.     If the Amazon Web Services Systems Manager Parameter Store parameter exists in the same Amazon Web Services Region as the service that you're launching,  you can use either the full ARN or name of the secret. If the parameter exists in a different Region, then the full ARN must be specified.     Currently, cross account referencing of Amazon Web Services Systems Manager Parameter Store parameter is not supported.
+        /// An array of key-value pairs representing the secrets and parameters that get referenced to your service as an environment variable. The supported values are either the full Amazon Resource Name (ARN) of the Secrets Manager secret or the full ARN of the parameter in the Amazon Web Services Systems Manager Parameter Store.    If the Amazon Web Services Systems Manager Parameter Store parameter exists in the same Amazon Web Services Region as the service that you're launching, you can use either the full ARN or name of the secret. If the parameter exists in a different Region, then the full ARN must be specified.    Currently, cross account referencing of Amazon Web Services Systems Manager Parameter Store parameter is not supported.
         public let runtimeEnvironmentSecrets: [String: String]?
         /// The environment variables that are available to your running App Runner service. An array of key-value pairs.
         public let runtimeEnvironmentVariables: [String: String]?
@@ -425,11 +450,14 @@ extension AppRunner {
         public let repositoryUrl: String
         /// The version that should be used within the source code repository.
         public let sourceCodeVersion: SourceCodeVersion
+        /// The path of the directory that stores source code and configuration files. The build and start commands also execute from here. The path is absolute from root and, if not specified, defaults to the repository root.
+        public let sourceDirectory: String?
 
-        public init(codeConfiguration: CodeConfiguration? = nil, repositoryUrl: String, sourceCodeVersion: SourceCodeVersion) {
+        public init(codeConfiguration: CodeConfiguration? = nil, repositoryUrl: String, sourceCodeVersion: SourceCodeVersion, sourceDirectory: String? = nil) {
             self.codeConfiguration = codeConfiguration
             self.repositoryUrl = repositoryUrl
             self.sourceCodeVersion = sourceCodeVersion
+            self.sourceDirectory = sourceDirectory
         }
 
         public func validate(name: String) throws {
@@ -437,12 +465,16 @@ extension AppRunner {
             try self.validate(self.repositoryUrl, name: "repositoryUrl", parent: name, max: 51200)
             try self.validate(self.repositoryUrl, name: "repositoryUrl", parent: name, pattern: ".*")
             try self.sourceCodeVersion.validate(name: "\(name).sourceCodeVersion")
+            try self.validate(self.sourceDirectory, name: "sourceDirectory", parent: name, max: 4096)
+            try self.validate(self.sourceDirectory, name: "sourceDirectory", parent: name, min: 1)
+            try self.validate(self.sourceDirectory, name: "sourceDirectory", parent: name, pattern: "^[^\\x00]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case codeConfiguration = "CodeConfiguration"
             case repositoryUrl = "RepositoryUrl"
             case sourceCodeVersion = "SourceCodeVersion"
+            case sourceDirectory = "SourceDirectory"
         }
     }
 
@@ -505,7 +537,7 @@ extension AppRunner {
     }
 
     public struct CreateAutoScalingConfigurationRequest: AWSEncodableShape {
-        /// A name for the auto scaling configuration. When you use it for the first time in an Amazon Web Services Region, App Runner creates revision number 1 of this name. When you use the same name in subsequent calls, App Runner creates incremental revisions of the configuration.  The name DefaultConfiguration is reserved (it's the configuration that App Runner uses if you don't provide a custome one). You can't use it to create a new auto scaling configuration, and you can't create a revision of it. When you want to use your own auto scaling configuration for your App Runner service, create a configuration with a different name, and then provide it when you create or update your service.
+        /// A name for the auto scaling configuration. When you use it for the first time in an Amazon Web Services Region, App Runner creates revision number 1 of this name. When you use the same name in subsequent calls, App Runner creates incremental revisions of the configuration.  Prior to the release of Auto scale configuration enhancements, the name DefaultConfiguration was reserved.  This restriction is no longer in place. You can now manage DefaultConfiguration the same way you manage your custom auto scaling configurations. This means you can do the following with the DefaultConfiguration that App Runner provides:   Create new revisions of the DefaultConfiguration.   Delete the revisions of the DefaultConfiguration.   Delete the auto scaling configuration for which the App Runner DefaultConfiguration was created.   If you delete the auto scaling configuration you can create another custom auto scaling configuration with the same DefaultConfiguration name. The original DefaultConfiguration resource provided by App Runner remains in your account unless you make changes to it.
         public let autoScalingConfigurationName: String
         /// The maximum number of concurrent requests that you want an instance to process. If the number of concurrent requests exceeds this limit, App Runner scales up your service. Default: 100
         public let maxConcurrency: Int?
@@ -860,9 +892,12 @@ extension AppRunner {
     public struct DeleteAutoScalingConfigurationRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want to delete. The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either .../name or .../name/revision . If a revision isn't specified, the latest active revision is deleted.
         public let autoScalingConfigurationArn: String
+        /// Set to true to delete all of the revisions associated with the AutoScalingConfigurationArn parameter value. When DeleteAllRevisions is set to true, the only valid value for the Amazon Resource Name (ARN) is a partial ARN ending with: .../name.
+        public let deleteAllRevisions: Bool?
 
-        public init(autoScalingConfigurationArn: String) {
+        public init(autoScalingConfigurationArn: String, deleteAllRevisions: Bool? = nil) {
             self.autoScalingConfigurationArn = autoScalingConfigurationArn
+            self.deleteAllRevisions = deleteAllRevisions
         }
 
         public func validate(name: String) throws {
@@ -873,6 +908,7 @@ extension AppRunner {
 
         private enum CodingKeys: String, CodingKey {
             case autoScalingConfigurationArn = "AutoScalingConfigurationArn"
+            case deleteAllRevisions = "DeleteAllRevisions"
         }
     }
 
@@ -1413,7 +1449,7 @@ extension AppRunner {
     public struct ImageConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The port that your application listens to in the container. Default: 8080
         public let port: String?
-        /// An array of key-value pairs representing the secrets and parameters that get referenced to your service as an environment variable.   The supported values are either the full Amazon Resource Name (ARN) of the Secrets Manager secret or the full ARN of the parameter in the Amazon Web Services Systems Manager Parameter Store.     If the Amazon Web Services Systems Manager Parameter Store parameter exists in the same Amazon Web Services Region as the service that you're launching,  you can use either the full ARN or name of the secret. If the parameter exists in a different Region, then the full ARN must be specified.     Currently, cross account referencing of Amazon Web Services Systems Manager Parameter Store parameter is not supported.
+        /// An array of key-value pairs representing the secrets and parameters that get referenced to your service as an environment variable. The supported values are either the full Amazon Resource Name (ARN) of the Secrets Manager secret or the full ARN of the parameter in the Amazon Web Services Systems Manager Parameter Store.    If the Amazon Web Services Systems Manager Parameter Store parameter exists in the same Amazon Web Services Region as the service that you're launching, you can use either the full ARN or name of the secret. If the parameter exists in a different Region, then the full ARN must be specified.    Currently, cross account referencing of Amazon Web Services Systems Manager Parameter Store parameter is not supported.
         public let runtimeEnvironmentSecrets: [String: String]?
         /// Environment variables that are available to your running App Runner service. An array of key-value pairs.
         public let runtimeEnvironmentVariables: [String: String]?
@@ -1752,6 +1788,55 @@ extension AppRunner {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case operationSummaryList = "OperationSummaryList"
+        }
+    }
+
+    public struct ListServicesForAutoScalingConfigurationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want to list the services for. The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either .../name or .../name/revision . If a revision isn't specified, the latest active revision is used.
+        public let autoScalingConfigurationArn: String
+        /// The maximum number of results to include in each response (result page). It's used for a paginated request. If you don't specify MaxResults, the request retrieves all available results in a single response.
+        public let maxResults: Int?
+        /// A token from a previous result page. It's used for a paginated request. The request retrieves the next result page. All other parameter values must be identical to the ones specified in the initial request. If you don't specify NextToken, the request retrieves the first result page.
+        public let nextToken: String?
+
+        public init(autoScalingConfigurationArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.autoScalingConfigurationArn = autoScalingConfigurationArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autoScalingConfigurationArn, name: "autoScalingConfigurationArn", parent: name, max: 1011)
+            try self.validate(self.autoScalingConfigurationArn, name: "autoScalingConfigurationArn", parent: name, min: 1)
+            try self.validate(self.autoScalingConfigurationArn, name: "autoScalingConfigurationArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingConfigurationArn = "AutoScalingConfigurationArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListServicesForAutoScalingConfigurationResponse: AWSDecodableShape {
+        /// The token that you can pass in a subsequent request to get the next result page. It's returned in a paginated request.
+        public let nextToken: String?
+        /// A list of service ARN records. In a paginated request, the request returns up to MaxResults records for each call.
+        public let serviceArnList: [String]
+
+        public init(nextToken: String? = nil, serviceArnList: [String]) {
+            self.nextToken = nextToken
+            self.serviceArnList = serviceArnList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case serviceArnList = "ServiceArnList"
         }
     }
 
@@ -2161,7 +2246,7 @@ extension AppRunner {
         public let serviceUrl: String?
         /// The source deployed to the App Runner service. It can be a code or an image repository.
         public let sourceConfiguration: SourceConfiguration
-        /// The current state of the App Runner service. These particular values mean the following.    CREATE_FAILED – The service failed to create. To troubleshoot this failure, read the failure events and logs, change any parameters that need to be fixed, and retry the call to create the service. The failed service isn't usable, and still counts towards your service quota. When you're done analyzing the failure, delete the service.    DELETE_FAILED – The service failed to delete and can't be successfully recovered. Retry the service deletion call to ensure that all related resources are removed.
+        /// The current state of the App Runner service. These particular values mean the following.    CREATE_FAILED – The service failed to create. The failed service isn't usable, and still counts towards your service quota. To troubleshoot this failure, read the failure events and logs, change any parameters that need to be fixed, and rebuild your service using UpdateService.    DELETE_FAILED – The service failed to delete and can't be successfully recovered. Retry the service deletion call to ensure that all related resources are removed.
         public let status: ServiceStatus
         /// The time when the App Runner service was last updated at. It's in the Unix time stamp format.
         public let updatedAt: Date
@@ -2237,7 +2322,7 @@ extension AppRunner {
         public let serviceName: String?
         /// A subdomain URL that App Runner generated for this service. You can use this URL to access your service web application.
         public let serviceUrl: String?
-        /// The current state of the App Runner service. These particular values mean the following.    CREATE_FAILED – The service failed to create. Read the failure events and logs, change any parameters that need to be fixed, and retry the call to create the service. The failed service isn't usable, and still counts towards your service quota. When you're done analyzing the failure, delete the service.    DELETE_FAILED – The service failed to delete and can't be successfully recovered. Retry the service deletion call to ensure that all related resources are removed.
+        /// The current state of the App Runner service. These particular values mean the following.    CREATE_FAILED – The service failed to create. The failed service isn't usable, and still counts towards your service quota. To troubleshoot this failure, read the failure events and logs, change any parameters that need to be fixed, and rebuild your service using UpdateService.    DELETE_FAILED – The service failed to delete and can't be successfully recovered. Retry the service deletion call to ensure that all related resources are removed.
         public let status: ServiceStatus?
         /// The time when the App Runner service was last updated. It's in theUnix time stamp format.
         public let updatedAt: Date?
@@ -2446,6 +2531,38 @@ extension AppRunner {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateDefaultAutoScalingConfigurationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want to set as the default. The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either .../name or .../name/revision . If a revision isn't specified, the latest active revision is set as the default.
+        public let autoScalingConfigurationArn: String
+
+        public init(autoScalingConfigurationArn: String) {
+            self.autoScalingConfigurationArn = autoScalingConfigurationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autoScalingConfigurationArn, name: "autoScalingConfigurationArn", parent: name, max: 1011)
+            try self.validate(self.autoScalingConfigurationArn, name: "autoScalingConfigurationArn", parent: name, min: 1)
+            try self.validate(self.autoScalingConfigurationArn, name: "autoScalingConfigurationArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingConfigurationArn = "AutoScalingConfigurationArn"
+        }
+    }
+
+    public struct UpdateDefaultAutoScalingConfigurationResponse: AWSDecodableShape {
+        /// A description of the App Runner auto scaling configuration that was set as default.
+        public let autoScalingConfiguration: AutoScalingConfiguration
+
+        public init(autoScalingConfiguration: AutoScalingConfiguration) {
+            self.autoScalingConfiguration = autoScalingConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingConfiguration = "AutoScalingConfiguration"
+        }
     }
 
     public struct UpdateServiceRequest: AWSEncodableShape {

@@ -36,7 +36,7 @@ extension PrivateNetworks {
         return try await self.client.execute(operation: "ActivateNetworkSite", path: "/v1/network-sites/activate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Configures the specified network resource.    Use this action to specify the geographic position of the hardware. You must provide Certified Professional Installer (CPI) credentials in the request so that we can obtain spectrum grants. For more information, see Radio units in the Amazon Web Services Private 5G User Guide.
+    /// Configures the specified network resource.  Use this action to specify the geographic position of the hardware. You must provide Certified Professional Installer (CPI) credentials in the request so that we can obtain spectrum grants. For more information, see Radio units in the Amazon Web Services Private 5G User Guide.
     public func configureAccessPoint(_ input: ConfigureAccessPointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ConfigureAccessPointResponse {
         return try await self.client.execute(operation: "ConfigureAccessPoint", path: "/v1/network-resources/configure", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -56,7 +56,7 @@ extension PrivateNetworks {
         return try await self.client.execute(operation: "DeactivateDeviceIdentifier", path: "/v1/device-identifiers/deactivate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified network. You must delete network sites before you delete the network. For more information, see  DeleteNetworkSite in the  API Reference for Amazon Web Services Private 5G.
+    /// Deletes the specified network. You must delete network sites before you delete the network. For more information, see DeleteNetworkSite in the API Reference for Amazon Web Services Private 5G.
     public func deleteNetwork(_ input: DeleteNetworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteNetworkResponse {
         return try await self.client.execute(operation: "DeleteNetwork", path: "/v1/networks/{networkArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -91,29 +91,29 @@ extension PrivateNetworks {
         return try await self.client.execute(operation: "GetOrder", path: "/v1/orders/{orderArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists device identifiers. Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order,  the status of device identifiers, or the ARN of the traffic group. If you specify multiple filters, filters are joined with an OR, and the request
+    /// Lists device identifiers. Add filters to your request to return a more specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order, the status of device identifiers, or the ARN of the traffic group. If you specify multiple filters, filters are joined with an OR, and the request
     /// returns results that match all of the specified filters.
     public func listDeviceIdentifiers(_ input: ListDeviceIdentifiersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListDeviceIdentifiersResponse {
         return try await self.client.execute(operation: "ListDeviceIdentifiers", path: "/v1/device-identifiers/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists network resources.  Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order or   the status of network resources. If you specify multiple filters, filters are joined with an OR, and the request
+    /// Lists network resources. Add filters to your request to return a more specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order or the status of network resources. If you specify multiple filters, filters are joined with an OR, and the request
     /// returns results that match all of the specified filters.
     public func listNetworkResources(_ input: ListNetworkResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListNetworkResourcesResponse {
         return try await self.client.execute(operation: "ListNetworkResources", path: "/v1/network-resources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists network sites. Add filters to your request to return a more  specific list of results. Use filters to match the status of the network site.
+    /// Lists network sites. Add filters to your request to return a more specific list of results. Use filters to match the status of the network site.
     public func listNetworkSites(_ input: ListNetworkSitesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListNetworkSitesResponse {
         return try await self.client.execute(operation: "ListNetworkSites", path: "/v1/network-sites/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists networks. Add filters to your request to return a more  specific list of results. Use filters to match the status of the network.
+    /// Lists networks. Add filters to your request to return a more specific list of results. Use filters to match the status of the network.
     public func listNetworks(_ input: ListNetworksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListNetworksResponse {
         return try await self.client.execute(operation: "ListNetworks", path: "/v1/networks/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists orders.  Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of the network site or   the status of the order. If you specify multiple filters, filters are joined with an OR, and the request
+    /// Lists orders. Add filters to your request to return a more specific list of results. Use filters to match the Amazon Resource Name (ARN) of the network site or the status of the order. If you specify multiple filters, filters are joined with an OR, and the request
     /// returns results that match all of the specified filters.
     public func listOrders(_ input: ListOrdersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListOrdersResponse {
         return try await self.client.execute(operation: "ListOrders", path: "/v1/orders/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -129,7 +129,7 @@ extension PrivateNetworks {
         return try await self.client.execute(operation: "Ping", path: "/ping", httpMethod: .GET, serviceConfig: self.config, logger: logger, on: eventLoop)
     }
 
-    /// Starts an update of the specified network resource. After you submit a request to replace or return a network resource, the status of the network resource is CREATING_SHIPPING_LABEL. The shipping label  is available when the status of the network resource is PENDING_RETURN.  After the network resource is successfully returned, its status is DELETED.  For more information, see Return a radio unit.
+    /// Use this action to do the following tasks:   Update the duration and renewal status of the commitment period for a radio unit. The update goes into effect immediately.   Request a replacement for a network resource.   Request that you return a network resource.   After you submit a request to replace or return a network resource, the status of the network resource changes to CREATING_SHIPPING_LABEL. The shipping label is available when the status of the network resource is PENDING_RETURN. After the network resource is successfully returned, its status changes to DELETED. For more information, see Return a radio unit.
     public func startNetworkResourceUpdate(_ input: StartNetworkResourceUpdateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartNetworkResourceUpdateResponse {
         return try await self.client.execute(operation: "StartNetworkResourceUpdate", path: "/v1/network-resources/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -159,7 +159,7 @@ extension PrivateNetworks {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension PrivateNetworks {
-    /// Lists device identifiers. Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order,  the status of device identifiers, or the ARN of the traffic group. If you specify multiple filters, filters are joined with an OR, and the request
+    /// Lists device identifiers. Add filters to your request to return a more specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order, the status of device identifiers, or the ARN of the traffic group. If you specify multiple filters, filters are joined with an OR, and the request
     /// returns results that match all of the specified filters.
     /// Return PaginatorSequence for operation.
     ///
@@ -182,7 +182,7 @@ extension PrivateNetworks {
         )
     }
 
-    /// Lists network resources.  Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order or   the status of network resources. If you specify multiple filters, filters are joined with an OR, and the request
+    /// Lists network resources. Add filters to your request to return a more specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order or the status of network resources. If you specify multiple filters, filters are joined with an OR, and the request
     /// returns results that match all of the specified filters.
     /// Return PaginatorSequence for operation.
     ///
@@ -205,7 +205,7 @@ extension PrivateNetworks {
         )
     }
 
-    /// Lists network sites. Add filters to your request to return a more  specific list of results. Use filters to match the status of the network site.
+    /// Lists network sites. Add filters to your request to return a more specific list of results. Use filters to match the status of the network site.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -227,7 +227,7 @@ extension PrivateNetworks {
         )
     }
 
-    /// Lists networks. Add filters to your request to return a more  specific list of results. Use filters to match the status of the network.
+    /// Lists networks. Add filters to your request to return a more specific list of results. Use filters to match the status of the network.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -249,7 +249,7 @@ extension PrivateNetworks {
         )
     }
 
-    /// Lists orders.  Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of the network site or   the status of the order. If you specify multiple filters, filters are joined with an OR, and the request
+    /// Lists orders. Add filters to your request to return a more specific list of results. Use filters to match the Amazon Resource Name (ARN) of the network site or the status of the order. If you specify multiple filters, filters are joined with an OR, and the request
     /// returns results that match all of the specified filters.
     /// Return PaginatorSequence for operation.
     ///

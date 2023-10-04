@@ -1000,7 +1000,7 @@ extension ElasticsearchService {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
-            try self.validate(self.elasticsearchVersion, name: "elasticsearchVersion", parent: name, pattern: "^[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$")
+            try self.validate(self.elasticsearchVersion, name: "elasticsearchVersion", parent: name, pattern: "^[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$|^OS_[0-9]{1,2}\\.[0-9]{1,2}$")
             try self.encryptionAtRestOptions?.validate(name: "\(name).encryptionAtRestOptions")
             try self.tagList?.forEach {
                 try $0.validate(name: "\(name).tagList[]")
@@ -1549,7 +1549,7 @@ extension ElasticsearchService {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
-            try self.validate(self.elasticsearchVersion, name: "elasticsearchVersion", parent: name, pattern: "^[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$")
+            try self.validate(self.elasticsearchVersion, name: "elasticsearchVersion", parent: name, pattern: "^[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$|^OS_[0-9]{1,2}\\.[0-9]{1,2}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2812,7 +2812,7 @@ extension ElasticsearchService {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
-            try self.validate(self.elasticsearchVersion, name: "elasticsearchVersion", parent: name, pattern: "^[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$")
+            try self.validate(self.elasticsearchVersion, name: "elasticsearchVersion", parent: name, pattern: "^[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$|^OS_[0-9]{1,2}\\.[0-9]{1,2}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
         }
 
@@ -4034,7 +4034,7 @@ extension ElasticsearchService {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
-            try self.validate(self.targetVersion, name: "targetVersion", parent: name, pattern: "^[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$")
+            try self.validate(self.targetVersion, name: "targetVersion", parent: name, pattern: "^[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$|^OS_[0-9]{1,2}\\.[0-9]{1,2}$")
         }
 
         private enum CodingKeys: String, CodingKey {

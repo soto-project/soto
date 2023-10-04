@@ -49,6 +49,12 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
+    public enum CreationType: String, CustomStringConvertible, Codable, Sendable {
+        case `import` = "IMPORT"
+        case upload = "UPLOAD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable {
         /// KMS
         case kms = "KMS"
@@ -201,6 +207,14 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceOwner: String, CustomStringConvertible, Codable, Sendable {
+        /// The resource owner is an account other than the caller
+        case other = "OTHER"
+        /// The resource owner is the calling account
+        case _self = "SELF"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RunExport: String, CustomStringConvertible, Codable, Sendable {
         case definition = "DEFINITION"
         public var description: String { return self.rawValue }
@@ -211,6 +225,12 @@ extension Omics {
         case error = "ERROR"
         case fatal = "FATAL"
         case off = "OFF"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RunRetentionMode: String, CustomStringConvertible, Codable, Sendable {
+        case remove = "REMOVE"
+        case retain = "RETAIN"
         public var description: String { return self.rawValue }
     }
 
@@ -239,6 +259,22 @@ extension Omics {
         case long = "LONG"
         /// STRING type
         case string = "STRING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ShareStatus: String, CustomStringConvertible, Codable, Sendable {
+        /// The share is activated
+        case activating = "ACTIVATING"
+        /// The share is active and can be used
+        case active = "ACTIVE"
+        /// The share has been deleted
+        case deleted = "DELETED"
+        /// The share is being deleted
+        case deleting = "DELETING"
+        /// The share has failed to activate or delete
+        case failed = "FAILED"
+        /// The share has been created but is not yet active
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -277,7 +313,22 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
+    public enum VersionStatus: String, CustomStringConvertible, Codable, Sendable {
+        /// The Version is active
+        case active = "ACTIVE"
+        /// The Version is being created
+        case creating = "CREATING"
+        /// The Version is deleting
+        case deleting = "DELETING"
+        /// The Version creation failed
+        case failed = "FAILED"
+        /// The Version is updating
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum WorkflowEngine: String, CustomStringConvertible, Codable, Sendable {
+        case cwl = "CWL"
         case nextflow = "NEXTFLOW"
         case wdl = "WDL"
         public var description: String { return self.rawValue }
@@ -386,6 +437,34 @@ extension Omics {
 
     public struct AbortMultipartReadSetUploadResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct AcceptShareRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "shareId", location: .uri("shareId"))
+        ]
+
+        /// The ID for a share offer for analytics store data.
+        public let shareId: String
+
+        public init(shareId: String) {
+            self.shareId = shareId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct AcceptShareResponse: AWSDecodableShape {
+        /// The status of an analytics store share.
+        public let status: ShareStatus?
+
+        public init(status: ShareStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
     }
 
     public struct ActivateReadSetFilter: AWSEncodableShape {
@@ -515,8 +594,10 @@ extension Omics {
         /// When the job was updated.
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
+        /// The name of the annotation store version.
+        public let versionName: String
 
-        public init(annotationFields: [String: String]? = nil, completionTime: Date? = nil, creationTime: Date, destinationName: String, id: String, roleArn: String, runLeftNormalization: Bool? = nil, status: JobStatus, updateTime: Date) {
+        public init(annotationFields: [String: String]? = nil, completionTime: Date? = nil, creationTime: Date, destinationName: String, id: String, roleArn: String, runLeftNormalization: Bool? = nil, status: JobStatus, updateTime: Date, versionName: String) {
             self.annotationFields = annotationFields
             self.completionTime = completionTime
             self.creationTime = creationTime
@@ -526,6 +607,7 @@ extension Omics {
             self.runLeftNormalization = runLeftNormalization
             self.status = status
             self.updateTime = updateTime
+            self.versionName = versionName
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -538,6 +620,7 @@ extension Omics {
             case runLeftNormalization = "runLeftNormalization"
             case status = "status"
             case updateTime = "updateTime"
+            case versionName = "versionName"
         }
     }
 
@@ -597,6 +680,61 @@ extension Omics {
             case storeFormat = "storeFormat"
             case storeSizeBytes = "storeSizeBytes"
             case updateTime = "updateTime"
+        }
+    }
+
+    public struct AnnotationStoreVersionItem: AWSDecodableShape {
+        /// The time stamp for when an annotation store version was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var creationTime: Date
+        /// The description of an annotation store version.
+        public let description: String
+        /// The annotation store version ID.
+        public let id: String
+        /// A name given to an annotation store version to distinguish it from others.
+        public let name: String
+        /// The status of an annotation store version.
+        public let status: VersionStatus
+        /// The status of an annotation store version.
+        public let statusMessage: String
+        /// The store ID for an annotation store version.
+        public let storeId: String
+        /// The time stamp for when an annotation store version was updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updateTime: Date
+        /// The Arn for an annotation store version.
+        public let versionArn: String
+        /// The name of an annotation store version.
+        public let versionName: String
+        /// The size of an annotation store version in Bytes.
+        public let versionSizeBytes: Int64
+
+        public init(creationTime: Date, description: String, id: String, name: String, status: VersionStatus, statusMessage: String, storeId: String, updateTime: Date, versionArn: String, versionName: String, versionSizeBytes: Int64) {
+            self.creationTime = creationTime
+            self.description = description
+            self.id = id
+            self.name = name
+            self.status = status
+            self.statusMessage = statusMessage
+            self.storeId = storeId
+            self.updateTime = updateTime
+            self.versionArn = versionArn
+            self.versionName = versionName
+            self.versionSizeBytes = versionSizeBytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case storeId = "storeId"
+            case updateTime = "updateTime"
+            case versionArn = "versionArn"
+            case versionName = "versionName"
+            case versionSizeBytes = "versionSizeBytes"
         }
     }
 
@@ -795,8 +933,10 @@ extension Omics {
         public let storeOptions: StoreOptions?
         /// Tags for the store.
         public let tags: [String: String]?
+        /// The name given to an annotation store version to distinguish it from other versions.
+        public let versionName: String?
 
-        public init(description: String? = nil, name: String? = nil, reference: ReferenceItem? = nil, sseConfig: SseConfig? = nil, storeFormat: StoreFormat, storeOptions: StoreOptions? = nil, tags: [String: String]? = nil) {
+        public init(description: String? = nil, name: String? = nil, reference: ReferenceItem? = nil, sseConfig: SseConfig? = nil, storeFormat: StoreFormat, storeOptions: StoreOptions? = nil, tags: [String: String]? = nil, versionName: String? = nil) {
             self.description = description
             self.name = name
             self.reference = reference
@@ -804,10 +944,14 @@ extension Omics {
             self.storeFormat = storeFormat
             self.storeOptions = storeOptions
             self.tags = tags
+            self.versionName = versionName
         }
 
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 500)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([a-z]){1}([a-z0-9_]){2,254}$")
             try self.reference?.validate(name: "\(name).reference")
             try self.storeOptions?.validate(name: "\(name).storeOptions")
             try self.tags?.forEach {
@@ -815,6 +959,9 @@ extension Omics {
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
+            try self.validate(self.versionName, name: "versionName", parent: name, max: 255)
+            try self.validate(self.versionName, name: "versionName", parent: name, min: 3)
+            try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^([a-z]){1}([a-z0-9_]){2,254}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -825,6 +972,7 @@ extension Omics {
             case storeFormat = "storeFormat"
             case storeOptions = "storeOptions"
             case tags = "tags"
+            case versionName = "versionName"
         }
     }
 
@@ -844,8 +992,10 @@ extension Omics {
         public let storeFormat: StoreFormat?
         /// The store's file parsing options.
         public let storeOptions: StoreOptions?
+        /// The name given to an annotation store version to distinguish it from other versions.
+        public let versionName: String
 
-        public init(creationTime: Date, id: String, name: String, reference: ReferenceItem? = nil, status: StoreStatus, storeFormat: StoreFormat? = nil, storeOptions: StoreOptions? = nil) {
+        public init(creationTime: Date, id: String, name: String, reference: ReferenceItem? = nil, status: StoreStatus, storeFormat: StoreFormat? = nil, storeOptions: StoreOptions? = nil, versionName: String) {
             self.creationTime = creationTime
             self.id = id
             self.name = name
@@ -853,6 +1003,7 @@ extension Omics {
             self.status = status
             self.storeFormat = storeFormat
             self.storeOptions = storeOptions
+            self.versionName = versionName
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -863,6 +1014,93 @@ extension Omics {
             case status = "status"
             case storeFormat = "storeFormat"
             case storeOptions = "storeOptions"
+            case versionName = "versionName"
+        }
+    }
+
+    public struct CreateAnnotationStoreVersionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri("name"))
+        ]
+
+        /// The description of an annotation store version.
+        public let description: String?
+        /// The name of an annotation store version from which versions are being created.
+        public let name: String
+        /// Any tags added to annotation store version.
+        public let tags: [String: String]?
+        /// The name given to an annotation store version to distinguish it from other versions.
+        public let versionName: String
+        /// The options for an annotation store version.
+        public let versionOptions: VersionOptions?
+
+        public init(description: String? = nil, name: String, tags: [String: String]? = nil, versionName: String, versionOptions: VersionOptions? = nil) {
+            self.description = description
+            self.name = name
+            self.tags = tags
+            self.versionName = versionName
+            self.versionOptions = versionOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 500)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([a-z]){1}([a-z0-9_]){2,254}$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.versionName, name: "versionName", parent: name, max: 255)
+            try self.validate(self.versionName, name: "versionName", parent: name, min: 3)
+            try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^([a-z]){1}([a-z0-9_]){2,254}$")
+            try self.versionOptions?.validate(name: "\(name).versionOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case tags = "tags"
+            case versionName = "versionName"
+            case versionOptions = "versionOptions"
+        }
+    }
+
+    public struct CreateAnnotationStoreVersionResponse: AWSDecodableShape {
+        /// The time stamp for the creation of an annotation store version.
+        @CustomCoding<ISO8601DateCoder>
+        public var creationTime: Date
+        /// A generated ID for the annotation store
+        public let id: String
+        /// The name given to an annotation store version to distinguish it from other versions.
+        public let name: String
+        /// The status of a annotation store version.
+        public let status: VersionStatus
+        /// The ID for the annotation store from which new versions are being created.
+        public let storeId: String
+        /// The name given to an annotation store version to distinguish it from other versions.
+        public let versionName: String
+        /// The options for an annotation store version.
+        public let versionOptions: VersionOptions?
+
+        public init(creationTime: Date, id: String, name: String, status: VersionStatus, storeId: String, versionName: String, versionOptions: VersionOptions? = nil) {
+            self.creationTime = creationTime
+            self.id = id
+            self.name = name
+            self.status = status
+            self.storeId = storeId
+            self.versionName = versionName
+            self.versionOptions = versionOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+            case storeId = "storeId"
+            case versionName = "versionName"
+            case versionOptions = "versionOptions"
         }
     }
 
@@ -1242,6 +1480,54 @@ extension Omics {
         }
     }
 
+    public struct CreateShareRequest: AWSEncodableShape {
+        ///  The principal subscriber is the account being given access to the analytics store data through the share offer.
+        public let principalSubscriber: String
+        ///  The resource ARN for the analytics store to be shared.
+        public let resourceArn: String
+        ///  A name given to the share.
+        public let shareName: String?
+
+        public init(principalSubscriber: String, resourceArn: String, shareName: String? = nil) {
+            self.principalSubscriber = principalSubscriber
+            self.resourceArn = resourceArn
+            self.shareName = shareName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.shareName, name: "shareName", parent: name, max: 256)
+            try self.validate(self.shareName, name: "shareName", parent: name, min: 1)
+            try self.validate(self.shareName, name: "shareName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case principalSubscriber = "principalSubscriber"
+            case resourceArn = "resourceArn"
+            case shareName = "shareName"
+        }
+    }
+
+    public struct CreateShareResponse: AWSDecodableShape {
+        ///  An ID generated for the share.
+        public let shareId: String?
+        ///  A name given to the share.
+        public let shareName: String?
+        ///  The status of a share.
+        public let status: ShareStatus?
+
+        public init(shareId: String? = nil, shareName: String? = nil, status: ShareStatus? = nil) {
+            self.shareId = shareId
+            self.shareName = shareName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case shareId = "shareId"
+            case shareName = "shareName"
+            case status = "status"
+        }
+    }
+
     public struct CreateVariantStoreRequest: AWSEncodableShape {
         /// A description for the store.
         public let description: String?
@@ -1264,6 +1550,9 @@ extension Omics {
 
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 500)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([a-z]){1}([a-z0-9_]){2,254}$")
             try self.reference.validate(name: "\(name).reference")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -1452,6 +1741,53 @@ extension Omics {
         }
     }
 
+    public struct DeleteAnnotationStoreVersionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "force", location: .querystring("force")),
+            AWSMemberEncoding(label: "name", location: .uri("name"))
+        ]
+
+        /// Forces the deletion of an annotation store version when imports are in-progress..
+        public let force: Bool?
+        /// The name of the annotation store from which versions are being deleted.
+        public let name: String
+        /// The versions of an annotation store to be deleted.
+        public let versions: [String]
+
+        public init(force: Bool? = nil, name: String, versions: [String]) {
+            self.force = force
+            self.name = name
+            self.versions = versions
+        }
+
+        public func validate(name: String) throws {
+            try self.versions.forEach {
+                try validate($0, name: "versions[]", parent: name, max: 255)
+                try validate($0, name: "versions[]", parent: name, min: 3)
+                try validate($0, name: "versions[]", parent: name, pattern: "^([a-z]){1}([a-z0-9_]){2,254}$")
+            }
+            try self.validate(self.versions, name: "versions", parent: name, max: 10)
+            try self.validate(self.versions, name: "versions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case versions = "versions"
+        }
+    }
+
+    public struct DeleteAnnotationStoreVersionsResponse: AWSDecodableShape {
+        /// Any errors that occur when attempting to delete an annotation store version.
+        public let errors: [VersionDeleteError]?
+
+        public init(errors: [VersionDeleteError]? = nil) {
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+        }
+    }
+
     public struct DeleteReferenceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri("id")),
@@ -1574,6 +1910,34 @@ extension Omics {
 
     public struct DeleteSequenceStoreResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteShareRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "shareId", location: .uri("shareId"))
+        ]
+
+        ///  The ID for the share request to be deleted.
+        public let shareId: String
+
+        public init(shareId: String) {
+            self.shareId = shareId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteShareResponse: AWSDecodableShape {
+        ///  The status of the share being deleted.
+        public let status: ShareStatus?
+
+        public init(status: ShareStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
     }
 
     public struct DeleteVariantStoreRequest: AWSEncodableShape {
@@ -1744,6 +2108,28 @@ extension Omics {
         }
     }
 
+    public struct Filter: AWSEncodableShape {
+        /// The Amazon Resource Number (Arn) for an analytics store.
+        public let resourceArns: [String]?
+        /// The status of an annotation store version.
+        public let status: [ShareStatus]?
+
+        public init(resourceArns: [String]? = nil, status: [ShareStatus]? = nil) {
+            self.resourceArns = resourceArns
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArns, name: "resourceArns", parent: name, max: 10)
+            try self.validate(self.resourceArns, name: "resourceArns", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArns = "resourceArns"
+            case status = "status"
+        }
+    }
+
     public struct GetAnnotationImportRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
@@ -1790,8 +2176,10 @@ extension Omics {
         /// When the job was updated.
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
+        /// The name of the annotation store version.
+        public let versionName: String
 
-        public init(annotationFields: [String: String]? = nil, completionTime: Date, creationTime: Date, destinationName: String, formatOptions: FormatOptions, id: String, items: [AnnotationImportItemDetail], roleArn: String, runLeftNormalization: Bool, status: JobStatus, statusMessage: String, updateTime: Date) {
+        public init(annotationFields: [String: String]? = nil, completionTime: Date, creationTime: Date, destinationName: String, formatOptions: FormatOptions, id: String, items: [AnnotationImportItemDetail], roleArn: String, runLeftNormalization: Bool, status: JobStatus, statusMessage: String, updateTime: Date, versionName: String) {
             self.annotationFields = annotationFields
             self.completionTime = completionTime
             self.creationTime = creationTime
@@ -1804,6 +2192,7 @@ extension Omics {
             self.status = status
             self.statusMessage = statusMessage
             self.updateTime = updateTime
+            self.versionName = versionName
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1819,6 +2208,7 @@ extension Omics {
             case status = "status"
             case statusMessage = "statusMessage"
             case updateTime = "updateTime"
+            case versionName = "versionName"
         }
     }
 
@@ -1847,6 +2237,8 @@ extension Omics {
         public let id: String
         /// The store's name.
         public let name: String
+        /// An integer indicating how many versions of an annotation store exist.
+        public let numVersions: Int
         /// The store's genome reference.
         public let reference: ReferenceItem
         /// The store's server-side encryption (SSE) settings.
@@ -1869,11 +2261,12 @@ extension Omics {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
-        public init(creationTime: Date, description: String, id: String, name: String, reference: ReferenceItem, sseConfig: SseConfig, status: StoreStatus, statusMessage: String, storeArn: String, storeFormat: StoreFormat? = nil, storeOptions: StoreOptions? = nil, storeSizeBytes: Int64, tags: [String: String], updateTime: Date) {
+        public init(creationTime: Date, description: String, id: String, name: String, numVersions: Int, reference: ReferenceItem, sseConfig: SseConfig, status: StoreStatus, statusMessage: String, storeArn: String, storeFormat: StoreFormat? = nil, storeOptions: StoreOptions? = nil, storeSizeBytes: Int64, tags: [String: String], updateTime: Date) {
             self.creationTime = creationTime
             self.description = description
             self.id = id
             self.name = name
+            self.numVersions = numVersions
             self.reference = reference
             self.sseConfig = sseConfig
             self.status = status
@@ -1891,6 +2284,7 @@ extension Omics {
             case description = "description"
             case id = "id"
             case name = "name"
+            case numVersions = "numVersions"
             case reference = "reference"
             case sseConfig = "sseConfig"
             case status = "status"
@@ -1901,6 +2295,88 @@ extension Omics {
             case storeSizeBytes = "storeSizeBytes"
             case tags = "tags"
             case updateTime = "updateTime"
+        }
+    }
+
+    public struct GetAnnotationStoreVersionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri("name")),
+            AWSMemberEncoding(label: "versionName", location: .uri("versionName"))
+        ]
+
+        /// The name given to an annotation store version to distinguish it from others.
+        public let name: String
+        /// The name given to an annotation store version to distinguish it from others.
+        public let versionName: String
+
+        public init(name: String, versionName: String) {
+            self.name = name
+            self.versionName = versionName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAnnotationStoreVersionResponse: AWSDecodableShape {
+        /// The time stamp for when an annotation store version was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var creationTime: Date
+        /// The description for an annotation store version.
+        public let description: String
+        /// The annotation store version ID.
+        public let id: String
+        /// The name of the annotation store.
+        public let name: String
+        /// The status of an annotation store version.
+        public let status: VersionStatus
+        /// The status of an annotation store version.
+        public let statusMessage: String
+        /// The store ID for annotation store version.
+        public let storeId: String
+        /// Any tags associated with an annotation store version.
+        public let tags: [String: String]
+        /// The time stamp for when an annotation store version was updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updateTime: Date
+        /// The Arn for the annotation store.
+        public let versionArn: String
+        /// The name given to an annotation store version to distinguish it from others.
+        public let versionName: String
+        /// The options for an annotation store version.
+        public let versionOptions: VersionOptions?
+        /// The size of the annotation store version in Bytes.
+        public let versionSizeBytes: Int64
+
+        public init(creationTime: Date, description: String, id: String, name: String, status: VersionStatus, statusMessage: String, storeId: String, tags: [String: String], updateTime: Date, versionArn: String, versionName: String, versionOptions: VersionOptions? = nil, versionSizeBytes: Int64) {
+            self.creationTime = creationTime
+            self.description = description
+            self.id = id
+            self.name = name
+            self.status = status
+            self.statusMessage = statusMessage
+            self.storeId = storeId
+            self.tags = tags
+            self.updateTime = updateTime
+            self.versionArn = versionArn
+            self.versionName = versionName
+            self.versionOptions = versionOptions
+            self.versionSizeBytes = versionSizeBytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case storeId = "storeId"
+            case tags = "tags"
+            case updateTime = "updateTime"
+            case versionArn = "versionArn"
+            case versionName = "versionName"
+            case versionOptions = "versionOptions"
+            case versionSizeBytes = "versionSizeBytes"
         }
     }
 
@@ -2140,6 +2616,8 @@ extension Omics {
         public let arn: String
         /// When the read set was created.
         public let creationTime: Date
+        ///  The creation type of the read set.
+        public let creationType: CreationType?
         /// The read set's description.
         public let description: String?
         /// The read set's files.
@@ -2165,9 +2643,10 @@ extension Omics {
         /// The read set's subject ID.
         public let subjectId: String?
 
-        public init(arn: String, creationTime: Date, description: String? = nil, files: ReadSetFiles? = nil, fileType: FileType, id: String, name: String? = nil, referenceArn: String? = nil, sampleId: String? = nil, sequenceInformation: SequenceInformation? = nil, sequenceStoreId: String, status: ReadSetStatus, statusMessage: String? = nil, subjectId: String? = nil) {
+        public init(arn: String, creationTime: Date, creationType: CreationType? = nil, description: String? = nil, files: ReadSetFiles? = nil, fileType: FileType, id: String, name: String? = nil, referenceArn: String? = nil, sampleId: String? = nil, sequenceInformation: SequenceInformation? = nil, sequenceStoreId: String, status: ReadSetStatus, statusMessage: String? = nil, subjectId: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
+            self.creationType = creationType
             self.description = description
             self.files = files
             self.fileType = fileType
@@ -2185,6 +2664,7 @@ extension Omics {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case creationTime = "creationTime"
+            case creationType = "creationType"
             case description = "description"
             case files = "files"
             case fileType = "fileType"
@@ -2630,6 +3110,8 @@ extension Omics {
         public let priority: Int?
         /// The run's resource digests.
         public let resourceDigests: [String: String]?
+        /// The run's retention mode.
+        public let retentionMode: RunRetentionMode?
         /// The run's service role ARN.
         public let roleArn: String?
         /// The run's group ID.
@@ -2657,7 +3139,7 @@ extension Omics {
         /// The run's workflow type.
         public let workflowType: WorkflowType?
 
-        public init(accelerators: Accelerators? = nil, arn: String? = nil, creationTime: Date? = nil, definition: String? = nil, digest: String? = nil, id: String? = nil, logLevel: RunLogLevel? = nil, name: String? = nil, outputUri: String? = nil, parameters: String? = nil, priority: Int? = nil, resourceDigests: [String: String]? = nil, roleArn: String? = nil, runGroupId: String? = nil, runId: String? = nil, startedBy: String? = nil, startTime: Date? = nil, status: RunStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, tags: [String: String]? = nil, workflowId: String? = nil, workflowType: WorkflowType? = nil) {
+        public init(accelerators: Accelerators? = nil, arn: String? = nil, creationTime: Date? = nil, definition: String? = nil, digest: String? = nil, id: String? = nil, logLevel: RunLogLevel? = nil, name: String? = nil, outputUri: String? = nil, parameters: String? = nil, priority: Int? = nil, resourceDigests: [String: String]? = nil, retentionMode: RunRetentionMode? = nil, roleArn: String? = nil, runGroupId: String? = nil, runId: String? = nil, startedBy: String? = nil, startTime: Date? = nil, status: RunStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, tags: [String: String]? = nil, workflowId: String? = nil, workflowType: WorkflowType? = nil) {
             self.accelerators = accelerators
             self.arn = arn
             self.creationTime = creationTime
@@ -2670,6 +3152,7 @@ extension Omics {
             self.parameters = parameters
             self.priority = priority
             self.resourceDigests = resourceDigests
+            self.retentionMode = retentionMode
             self.roleArn = roleArn
             self.runGroupId = runGroupId
             self.runId = runId
@@ -2697,6 +3180,7 @@ extension Omics {
             case parameters = "parameters"
             case priority = "priority"
             case resourceDigests = "resourceDigests"
+            case retentionMode = "retentionMode"
             case roleArn = "roleArn"
             case runGroupId = "runGroupId"
             case runId = "runId"
@@ -2748,6 +3232,8 @@ extension Omics {
         public var creationTime: Date?
         ///  The number of Graphics Processing Units (GPU) specified in the task.
         public let gpus: Int?
+        ///  The instance type for a task.
+        public let instanceType: String?
         /// The task's log stream.
         public let logStream: String?
         /// The task's memory use in gigabytes.
@@ -2767,10 +3253,11 @@ extension Omics {
         /// The task's ID.
         public let taskId: String?
 
-        public init(cpus: Int? = nil, creationTime: Date? = nil, gpus: Int? = nil, logStream: String? = nil, memory: Int? = nil, name: String? = nil, startTime: Date? = nil, status: TaskStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, taskId: String? = nil) {
+        public init(cpus: Int? = nil, creationTime: Date? = nil, gpus: Int? = nil, instanceType: String? = nil, logStream: String? = nil, memory: Int? = nil, name: String? = nil, startTime: Date? = nil, status: TaskStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, taskId: String? = nil) {
             self.cpus = cpus
             self.creationTime = creationTime
             self.gpus = gpus
+            self.instanceType = instanceType
             self.logStream = logStream
             self.memory = memory
             self.name = name
@@ -2785,6 +3272,7 @@ extension Omics {
             case cpus = "cpus"
             case creationTime = "creationTime"
             case gpus = "gpus"
+            case instanceType = "instanceType"
             case logStream = "logStream"
             case memory = "memory"
             case name = "name"
@@ -2851,6 +3339,34 @@ extension Omics {
             case id = "id"
             case name = "name"
             case sseConfig = "sseConfig"
+        }
+    }
+
+    public struct GetShareRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "shareId", location: .uri("shareId"))
+        ]
+
+        ///  The generated ID for a share.
+        public let shareId: String
+
+        public init(shareId: String) {
+            self.shareId = shareId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetShareResponse: AWSDecodableShape {
+        ///  An analytic store share details object. contains status, resourceArn, ownerId, etc.
+        public let share: ShareDetails?
+
+        public init(share: ShareDetails? = nil) {
+            self.share = share
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case share = "share"
         }
     }
 
@@ -3334,7 +3850,7 @@ extension Omics {
         public let ids: [String]?
         /// The maximum number of jobs to return in one page of results.
         public let maxResults: Int?
-        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        /// Specifies the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
         public init(filter: ListAnnotationImportJobsFilter? = nil, ids: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -3360,7 +3876,7 @@ extension Omics {
     public struct ListAnnotationImportJobsResponse: AWSDecodableShape {
         /// A list of jobs.
         public let annotationImportJobs: [AnnotationImportJobItem]?
-        /// A pagination token that's included if more results are available.
+        /// Specifies the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
         public init(annotationImportJobs: [AnnotationImportJobItem]? = nil, nextToken: String? = nil) {
@@ -3370,6 +3886,64 @@ extension Omics {
 
         private enum CodingKeys: String, CodingKey {
             case annotationImportJobs = "annotationImportJobs"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAnnotationStoreVersionsFilter: AWSEncodableShape {
+        /// The status of an annotation store version.
+        public let status: VersionStatus?
+
+        public init(status: VersionStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
+    public struct ListAnnotationStoreVersionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "name", location: .uri("name")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// A filter to apply to the list of annotation store versions.
+        public let filter: ListAnnotationStoreVersionsFilter?
+        /// The maximum number of annotation store versions to return in one page of results.
+        public let maxResults: Int?
+        /// The name of an annotation store.
+        public let name: String
+        /// Specifies the pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(filter: ListAnnotationStoreVersionsFilter? = nil, maxResults: Int? = nil, name: String, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.name = name
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "filter"
+        }
+    }
+
+    public struct ListAnnotationStoreVersionsResponse: AWSDecodableShape {
+        /// Lists all versions of an annotation store.
+        public let annotationStoreVersions: [AnnotationStoreVersionItem]?
+        /// Specifies the pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(annotationStoreVersions: [AnnotationStoreVersionItem]? = nil, nextToken: String? = nil) {
+            self.annotationStoreVersions = annotationStoreVersions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case annotationStoreVersions = "annotationStoreVersions"
             case nextToken = "nextToken"
         }
     }
@@ -4137,6 +4711,55 @@ extension Omics {
         }
     }
 
+    public struct ListSharesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        ///  Attributes used to filter for a specific subset of shares.
+        public let filter: Filter?
+        ///  The maximum number of shares to return in one page of results.
+        public let maxResults: Int?
+        ///  Next token returned in the response of a previous ListReadSetUploadPartsRequest call. Used to get the next page of results.
+        public let nextToken: String?
+        ///  The account that owns the analytics store shared.
+        public let resourceOwner: ResourceOwner
+
+        public init(filter: Filter? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceOwner: ResourceOwner) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceOwner = resourceOwner
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "filter"
+            case resourceOwner = "resourceOwner"
+        }
+    }
+
+    public struct ListSharesResponse: AWSDecodableShape {
+        /// Next token returned in the response of a previous ListSharesResponse call. Used to get the next page of results.
+        public let nextToken: String?
+        ///  The shares available and their meta details.
+        public let shares: [ShareDetails]
+
+        public init(nextToken: String? = nil, shares: [ShareDetails]) {
+            self.nextToken = nextToken
+            self.shares = shares
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case shares = "shares"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
@@ -4518,6 +5141,8 @@ extension Omics {
         public let createdAfter: Date?
         /// The filter's end date.
         public let createdBefore: Date?
+        ///  The creation type of the read set.
+        public let creationType: CreationType?
         ///  Where the source originated.
         public let generatedFrom: String?
         /// A name to filter on.
@@ -4531,9 +5156,10 @@ extension Omics {
         ///  The read set source's subject ID.
         public let subjectId: String?
 
-        public init(createdAfter: Date? = nil, createdBefore: Date? = nil, generatedFrom: String? = nil, name: String? = nil, referenceArn: String? = nil, sampleId: String? = nil, status: ReadSetStatus? = nil, subjectId: String? = nil) {
+        public init(createdAfter: Date? = nil, createdBefore: Date? = nil, creationType: CreationType? = nil, generatedFrom: String? = nil, name: String? = nil, referenceArn: String? = nil, sampleId: String? = nil, status: ReadSetStatus? = nil, subjectId: String? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
+            self.creationType = creationType
             self.generatedFrom = generatedFrom
             self.name = name
             self.referenceArn = referenceArn
@@ -4563,6 +5189,7 @@ extension Omics {
         private enum CodingKeys: String, CodingKey {
             case createdAfter = "createdAfter"
             case createdBefore = "createdBefore"
+            case creationType = "creationType"
             case generatedFrom = "generatedFrom"
             case name = "name"
             case referenceArn = "referenceArn"
@@ -4577,6 +5204,8 @@ extension Omics {
         public let arn: String
         /// When the read set was created.
         public let creationTime: Date
+        ///  The creation type of the read set.
+        public let creationType: CreationType?
         /// The read set's description.
         public let description: String?
         /// The read set's file type.
@@ -4599,9 +5228,10 @@ extension Omics {
         /// The read set's subject ID.
         public let subjectId: String?
 
-        public init(arn: String, creationTime: Date, description: String? = nil, fileType: FileType, id: String, name: String? = nil, referenceArn: String? = nil, sampleId: String? = nil, sequenceInformation: SequenceInformation? = nil, sequenceStoreId: String, status: ReadSetStatus, statusMessage: String? = nil, subjectId: String? = nil) {
+        public init(arn: String, creationTime: Date, creationType: CreationType? = nil, description: String? = nil, fileType: FileType, id: String, name: String? = nil, referenceArn: String? = nil, sampleId: String? = nil, sequenceInformation: SequenceInformation? = nil, sequenceStoreId: String, status: ReadSetStatus, statusMessage: String? = nil, subjectId: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
+            self.creationType = creationType
             self.description = description
             self.fileType = fileType
             self.id = id
@@ -4618,6 +5248,7 @@ extension Omics {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case creationTime = "creationTime"
+            case creationType = "creationType"
             case description = "description"
             case fileType = "fileType"
             case id = "id"
@@ -5021,6 +5652,53 @@ extension Omics {
         }
     }
 
+    public struct ShareDetails: AWSDecodableShape {
+        ///  The timestamp for when the share was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
+        ///  The account ID for the data owner. The owner creates the share offer.
+        public let ownerId: String?
+        ///  The principal subscriber is the account the analytics store data is being shared with.
+        public let principalSubscriber: String?
+        ///  The resource Arn of the analytics store being shared.
+        public let resourceArn: String?
+        ///  The ID for a share offer for an analytics store .
+        public let shareId: String?
+        ///  The name of the share.
+        public let shareName: String?
+        ///  The status of a share.
+        public let status: ShareStatus?
+        ///  The status message for a share. It provides more details on the status of the share.
+        public let statusMessage: String?
+        ///  The timestamp of the share update.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updateTime: Date?
+
+        public init(creationTime: Date? = nil, ownerId: String? = nil, principalSubscriber: String? = nil, resourceArn: String? = nil, shareId: String? = nil, shareName: String? = nil, status: ShareStatus? = nil, statusMessage: String? = nil, updateTime: Date? = nil) {
+            self.creationTime = creationTime
+            self.ownerId = ownerId
+            self.principalSubscriber = principalSubscriber
+            self.resourceArn = resourceArn
+            self.shareId = shareId
+            self.shareName = shareName
+            self.status = status
+            self.statusMessage = statusMessage
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case ownerId = "ownerId"
+            case principalSubscriber = "principalSubscriber"
+            case resourceArn = "resourceArn"
+            case shareId = "shareId"
+            case shareName = "shareName"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case updateTime = "updateTime"
+        }
+    }
+
     public struct SourceFiles: AWSEncodableShape & AWSDecodableShape {
         /// The location of the first file in Amazon S3.
         public let source1: String
@@ -5073,14 +5751,17 @@ extension Omics {
         public let roleArn: String
         /// The job's left normalization setting.
         public let runLeftNormalization: Bool?
+        /// The name of the annotation store version.
+        public let versionName: String?
 
-        public init(annotationFields: [String: String]? = nil, destinationName: String, formatOptions: FormatOptions? = nil, items: [AnnotationImportItemSource], roleArn: String, runLeftNormalization: Bool? = nil) {
+        public init(annotationFields: [String: String]? = nil, destinationName: String, formatOptions: FormatOptions? = nil, items: [AnnotationImportItemSource], roleArn: String, runLeftNormalization: Bool? = nil, versionName: String? = nil) {
             self.annotationFields = annotationFields
             self.destinationName = destinationName
             self.formatOptions = formatOptions
             self.items = items
             self.roleArn = roleArn
             self.runLeftNormalization = runLeftNormalization
+            self.versionName = versionName
         }
 
         public func validate(name: String) throws {
@@ -5095,6 +5776,9 @@ extension Omics {
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:([^:\n]*):([^:\n]*):([^:\n]*):([0-9]{12}):([^:\n]*)$")
+            try self.validate(self.versionName, name: "versionName", parent: name, max: 255)
+            try self.validate(self.versionName, name: "versionName", parent: name, min: 3)
+            try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^([a-z]){1}([a-z0-9_]){2,254}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5104,6 +5788,7 @@ extension Omics {
             case items = "items"
             case roleArn = "roleArn"
             case runLeftNormalization = "runLeftNormalization"
+            case versionName = "versionName"
         }
     }
 
@@ -5546,11 +6231,13 @@ extension Omics {
         public let priority: Int?
         /// To ensure that requests don't run multiple times, specify a unique ID for each request.
         public let requestId: String
+        /// The retention mode for the run.
+        public let retentionMode: RunRetentionMode?
         /// A service role for the run.
         public let roleArn: String
         /// The run's group ID.
         public let runGroupId: String?
-        /// The run's ID.
+        /// The ID of a run to duplicate.
         public let runId: String?
         /// A storage capacity for the run in gigabytes.
         public let storageCapacity: Int?
@@ -5558,16 +6245,17 @@ extension Omics {
         public let tags: [String: String]?
         /// The run's workflow ID.
         public let workflowId: String?
-        /// The run's workflows type.
+        /// The run's workflow type.
         public let workflowType: WorkflowType?
 
-        public init(logLevel: RunLogLevel? = nil, name: String? = nil, outputUri: String? = nil, parameters: String? = nil, priority: Int? = nil, requestId: String = StartRunRequest.idempotencyToken(), roleArn: String, runGroupId: String? = nil, runId: String? = nil, storageCapacity: Int? = nil, tags: [String: String]? = nil, workflowId: String? = nil, workflowType: WorkflowType? = nil) {
+        public init(logLevel: RunLogLevel? = nil, name: String? = nil, outputUri: String? = nil, parameters: String? = nil, priority: Int? = nil, requestId: String = StartRunRequest.idempotencyToken(), retentionMode: RunRetentionMode? = nil, roleArn: String, runGroupId: String? = nil, runId: String? = nil, storageCapacity: Int? = nil, tags: [String: String]? = nil, workflowId: String? = nil, workflowType: WorkflowType? = nil) {
             self.logLevel = logLevel
             self.name = name
             self.outputUri = outputUri
             self.parameters = parameters
             self.priority = priority
             self.requestId = requestId
+            self.retentionMode = retentionMode
             self.roleArn = roleArn
             self.runGroupId = runGroupId
             self.runId = runId
@@ -5613,6 +6301,7 @@ extension Omics {
             case parameters = "parameters"
             case priority = "priority"
             case requestId = "requestId"
+            case retentionMode = "retentionMode"
             case roleArn = "roleArn"
             case runGroupId = "runGroupId"
             case runId = "runId"
@@ -5746,6 +6435,8 @@ extension Omics {
         public var creationTime: Date?
         ///  The number of Graphics Processing Units (GPU) specified for the task.
         public let gpus: Int?
+        ///  The instance type for a task.
+        public let instanceType: String?
         /// The task's memory use in gigabyes.
         public let memory: Int?
         /// The task's name.
@@ -5761,10 +6452,11 @@ extension Omics {
         /// The task's ID.
         public let taskId: String?
 
-        public init(cpus: Int? = nil, creationTime: Date? = nil, gpus: Int? = nil, memory: Int? = nil, name: String? = nil, startTime: Date? = nil, status: TaskStatus? = nil, stopTime: Date? = nil, taskId: String? = nil) {
+        public init(cpus: Int? = nil, creationTime: Date? = nil, gpus: Int? = nil, instanceType: String? = nil, memory: Int? = nil, name: String? = nil, startTime: Date? = nil, status: TaskStatus? = nil, stopTime: Date? = nil, taskId: String? = nil) {
             self.cpus = cpus
             self.creationTime = creationTime
             self.gpus = gpus
+            self.instanceType = instanceType
             self.memory = memory
             self.name = name
             self.startTime = startTime
@@ -5777,6 +6469,7 @@ extension Omics {
             case cpus = "cpus"
             case creationTime = "creationTime"
             case gpus = "gpus"
+            case instanceType = "instanceType"
             case memory = "memory"
             case name = "name"
             case startTime = "startTime"
@@ -5809,6 +6502,34 @@ extension Omics {
         /// The store's header key to column name mapping.
         public let formatToHeader: [FormatToHeaderKey: String]?
         /// The store's schema.
+        public let schema: [[String: SchemaValueType]]?
+
+        public init(annotationType: AnnotationType? = nil, formatToHeader: [FormatToHeaderKey: String]? = nil, schema: [[String: SchemaValueType]]? = nil) {
+            self.annotationType = annotationType
+            self.formatToHeader = formatToHeader
+            self.schema = schema
+        }
+
+        public func validate(name: String) throws {
+            try self.schema?.forEach {
+                try validate($0, name: "schema[]", parent: name, max: 1)
+                try validate($0, name: "schema[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case annotationType = "annotationType"
+            case formatToHeader = "formatToHeader"
+            case schema = "schema"
+        }
+    }
+
+    public struct TsvVersionOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The store version's annotation type.
+        public let annotationType: AnnotationType?
+        /// The annotation store version's header key to column name mapping.
+        public let formatToHeader: [FormatToHeaderKey: String]?
+        /// The TSV schema for an annotation store version.
         public let schema: [[String: SchemaValueType]]?
 
         public init(annotationType: AnnotationType? = nil, formatToHeader: [FormatToHeaderKey: String]? = nil, schema: [[String: SchemaValueType]]? = nil) {
@@ -5933,6 +6654,77 @@ extension Omics {
             case storeFormat = "storeFormat"
             case storeOptions = "storeOptions"
             case updateTime = "updateTime"
+        }
+    }
+
+    public struct UpdateAnnotationStoreVersionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri("name")),
+            AWSMemberEncoding(label: "versionName", location: .uri("versionName"))
+        ]
+
+        /// The description of an annotation store.
+        public let description: String?
+        /// The name of an annotation store.
+        public let name: String
+        /// The name of an annotation store version.
+        public let versionName: String
+
+        public init(description: String? = nil, name: String, versionName: String) {
+            self.description = description
+            self.name = name
+            self.versionName = versionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 500)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+        }
+    }
+
+    public struct UpdateAnnotationStoreVersionResponse: AWSDecodableShape {
+        /// The time stamp for when an annotation store version was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var creationTime: Date
+        /// The description of an annotation store version.
+        public let description: String
+        /// The annotation store version ID.
+        public let id: String
+        /// The name of an annotation store.
+        public let name: String
+        /// The status of an annotation store version.
+        public let status: VersionStatus
+        /// The annotation store ID.
+        public let storeId: String
+        /// The time stamp for when an annotation store version was updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updateTime: Date
+        /// The name of an annotation store version.
+        public let versionName: String
+
+        public init(creationTime: Date, description: String, id: String, name: String, status: VersionStatus, storeId: String, updateTime: Date, versionName: String) {
+            self.creationTime = creationTime
+            self.description = description
+            self.id = id
+            self.name = name
+            self.status = status
+            self.storeId = storeId
+            self.updateTime = updateTime
+            self.versionName = versionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+            case storeId = "storeId"
+            case updateTime = "updateTime"
+            case versionName = "versionName"
         }
     }
 
@@ -6293,6 +7085,23 @@ extension Omics {
         }
     }
 
+    public struct VersionDeleteError: AWSDecodableShape {
+        /// The message explaining the error in annotation store deletion.
+        public let message: String
+        /// The name given to an annotation store version.
+        public let versionName: String
+
+        public init(message: String, versionName: String) {
+            self.message = message
+            self.versionName = versionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case versionName = "versionName"
+        }
+    }
+
     public struct WorkflowListItem: AWSDecodableShape {
         /// The workflow's ARN.
         public let arn: String?
@@ -6390,6 +7199,23 @@ extension Omics {
 
         private enum CodingKeys: String, CodingKey {
             case tsvStoreOptions = "tsvStoreOptions"
+        }
+    }
+
+    public struct VersionOptions: AWSEncodableShape & AWSDecodableShape {
+        /// File settings for a version of a TSV store.
+        public let tsvVersionOptions: TsvVersionOptions?
+
+        public init(tsvVersionOptions: TsvVersionOptions? = nil) {
+            self.tsvVersionOptions = tsvVersionOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.tsvVersionOptions?.validate(name: "\(name).tsvVersionOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tsvVersionOptions = "tsvVersionOptions"
         }
     }
 }

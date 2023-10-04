@@ -85,12 +85,12 @@ extension Route53 {
     /// 			create, delete, or update, such as weighted, alias, or failover. The XML elements in
     /// 			your request must appear in the order listed in the syntax.  For an example for each type of resource record set, see "Examples." Don't refer to the syntax in the "Parameter Syntax" section, which includes
     /// 			all of the elements for every kind of resource record set that you can create, delete,
-    /// 			or update by using ChangeResourceRecordSets.   Change Propagation to Route 53 DNS Servers  When you submit a ChangeResourceRecordSets request, Route 53 propagates
-    /// 			your changes to all of the Route 53 authoritative DNS servers. While your changes are
-    /// 			propagating, GetChange returns a status of PENDING. When
-    /// 			propagation is complete, GetChange returns a status of INSYNC.
-    /// 			Changes generally propagate to all Route 53 name servers within 60 seconds. For more
-    /// 			information, see GetChange.  Limits on ChangeResourceRecordSets Requests  For information about the limits on a ChangeResourceRecordSets request,
+    /// 			or update by using ChangeResourceRecordSets.   Change Propagation to Route 53 DNS Servers  When you submit a ChangeResourceRecordSets request, Route 53 propagates your
+    /// 			changes to all of the Route 53 authoritative DNS servers managing the hosted zone. While
+    /// 			your changes are propagating, GetChange returns a status of
+    /// 				PENDING. When propagation is complete, GetChange returns a
+    /// 			status of INSYNC. Changes generally propagate to all Route 53 name servers
+    /// 			managing the hosted zone within 60 seconds. For more information, see GetChange.  Limits on ChangeResourceRecordSets Requests  For information about the limits on a ChangeResourceRecordSets request,
     /// 			see Limits in the Amazon Route 53 Developer Guide.
     public func changeResourceRecordSets(_ input: ChangeResourceRecordSetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ChangeResourceRecordSetsResponse {
         return try await self.client.execute(operation: "ChangeResourceRecordSets", path: "/2013-04-01/hostedzone/{HostedZoneId}/rrset", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -446,9 +446,9 @@ extension Route53 {
 
     /// Returns the current status of a change batch request. The status is one of the
     /// 			following values:    PENDING indicates that the changes in this request have not
-    /// 					propagated to all Amazon Route 53 DNS servers. This is the initial status of all
+    /// 					propagated to all Amazon Route 53 DNS servers managing the hosted zone. This is the initial status of all
     /// 					change batch requests.    INSYNC indicates that the changes have propagated to all Route 53
-    /// 					DNS servers.
+    /// 					DNS servers managing the hosted zone.
     public func getChange(_ input: GetChangeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetChangeResponse {
         return try await self.client.execute(operation: "GetChange", path: "/2013-04-01/change/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -771,7 +771,10 @@ extension Route53 {
 
     /// Gets the value that Amazon Route 53 returns in response to a DNS request for a
     /// 			specified record name and type. You can optionally specify the IP address of a DNS
-    /// 			resolver, an EDNS0 client subnet IP address, and a subnet mask.  This call only supports querying public hosted zones.
+    /// 			resolver, an EDNS0 client subnet IP address, and a subnet mask.  This call only supports querying public hosted zones.  The TestDnsAnswer  returns information similar to what you would expect from the answer
+    /// 			section of the dig command. Therefore, if you query for the name
+    /// 			servers of a subdomain that point to the parent name servers, those will not be
+    /// 			returned.
     public func testDNSAnswer(_ input: TestDNSAnswerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TestDNSAnswerResponse {
         return try await self.client.execute(operation: "TestDNSAnswer", path: "/2013-04-01/testdnsanswer", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

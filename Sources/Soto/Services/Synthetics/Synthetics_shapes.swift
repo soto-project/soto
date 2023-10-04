@@ -1393,7 +1393,7 @@ extension Synthetics {
             AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
-        /// The ARN of the canary or group that you're removing tags from. The ARN format of a canary is arn:aws:synthetics:Region:account-id:canary:canary-name .  The ARN format of a group is arn:aws:synthetics:Region:account-id:group:group-name
+        /// The ARN of the canary or group that you're removing tags from. The ARN format of a canary is arn:aws:synthetics:Region:account-id:canary:canary-name . The ARN format of a group is arn:aws:synthetics:Region:account-id:group:group-name
         public let resourceArn: String
         /// The list of tag keys to remove from the resource.
         public let tagKeys: [String]

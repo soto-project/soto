@@ -79,6 +79,7 @@ public struct ECR: AWSService {
                 "eu-west-1": "api.ecr.eu-west-1.amazonaws.com",
                 "eu-west-2": "api.ecr.eu-west-2.amazonaws.com",
                 "eu-west-3": "api.ecr.eu-west-3.amazonaws.com",
+                "il-central-1": "api.ecr.il-central-1.amazonaws.com",
                 "me-central-1": "api.ecr.me-central-1.amazonaws.com",
                 "me-south-1": "api.ecr.me-south-1.amazonaws.com",
                 "sa-east-1": "api.ecr.sa-east-1.amazonaws.com",
@@ -114,6 +115,7 @@ public struct ECR: AWSService {
                     "eu-west-1": "ecr-fips.eu-west-1.amazonaws.com",
                     "eu-west-2": "ecr-fips.eu-west-2.amazonaws.com",
                     "eu-west-3": "ecr-fips.eu-west-3.amazonaws.com",
+                    "il-central-1": "ecr-fips.il-central-1.amazonaws.com",
                     "me-central-1": "ecr-fips.me-central-1.amazonaws.com",
                     "me-south-1": "ecr-fips.me-south-1.amazonaws.com",
                     "sa-east-1": "ecr-fips.sa-east-1.amazonaws.com",
@@ -275,7 +277,7 @@ public struct ECR: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates or updates the image manifest and tags associated with an image. When an image is pushed and all new image layers have been uploaded, the PutImage API is called once to create or update the image manifest and the tags associated with the image.   This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
+    /// Creates or updates the image manifest and tags associated with an image. When an image is pushed and all new image layers have been uploaded, the PutImage API is called once to create or update the image manifest and the tags associated with the image.  This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     public func putImage(_ input: PutImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutImageResponse> {
         return self.client.execute(operation: "PutImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

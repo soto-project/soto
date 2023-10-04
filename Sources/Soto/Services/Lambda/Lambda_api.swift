@@ -78,6 +78,7 @@ public struct Lambda: AWSService {
                     "eu-west-1": "lambda.eu-west-1.api.aws",
                     "eu-west-2": "lambda.eu-west-2.api.aws",
                     "eu-west-3": "lambda.eu-west-3.api.aws",
+                    "il-central-1": "lambda.il-central-1.api.aws",
                     "me-central-1": "lambda.me-central-1.api.aws",
                     "me-south-1": "lambda.me-south-1.api.aws",
                     "sa-east-1": "lambda.sa-east-1.api.aws",
@@ -156,7 +157,7 @@ public struct Lambda: AWSService {
         return self.client.execute(operation: "DeleteEventSourceMapping", path: "/2015-03-31/event-source-mappings/{UUID}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a Lambda function. To delete a specific function version, use the Qualifier parameter. Otherwise, all versions and aliases are deleted. To delete Lambda event source mappings that invoke a function, use DeleteEventSourceMapping. For Amazon Web Services and resources that invoke your function directly, delete the trigger in the service where you originally configured it.
+    /// Deletes a Lambda function. To delete a specific function version, use the Qualifier parameter. Otherwise, all versions and aliases are deleted. This doesn't require the user to have explicit permissions for DeleteAlias. To delete Lambda event source mappings that invoke a function, use DeleteEventSourceMapping. For Amazon Web Services and resources that invoke your function directly, delete the trigger in the service where you originally configured it.
     @discardableResult public func deleteFunction(_ input: DeleteFunctionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteFunction", path: "/2015-03-31/functions/{FunctionName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

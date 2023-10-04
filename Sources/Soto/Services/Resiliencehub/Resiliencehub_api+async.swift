@@ -26,7 +26,12 @@ extension Resiliencehub {
         return try await self.client.execute(operation: "AddDraftAppVersionResourceMappings", path: "/add-draft-app-version-resource-mappings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe an Resilience Hub application, you provide an application name, resources from one or more CloudFormation stacks, Resource Groups, Terraform state files, AppRegistry applications, and an appropriate resiliency policy. For more information about the number of resources supported per application, see Service Quotas. After you create an Resilience Hub application, you publish it so that you can run a resiliency assessment on it. You can then use recommendations from the assessment to improve resiliency by running another assessment, comparing results, and then iterating the process until you achieve your goals for recovery time objective (RTO) and recovery point objective (RPO).
+    /// Enables you to include or exclude one or more operational recommendations.
+    public func batchUpdateRecommendationStatus(_ input: BatchUpdateRecommendationStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchUpdateRecommendationStatusResponse {
+        return try await self.client.execute(operation: "BatchUpdateRecommendationStatus", path: "/batch-update-recommendation-status", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Resilience Hub application, you provide an application name, resources from one or more CloudFormation stacks, Resource Groups, Terraform state files, AppRegistry applications, and an appropriate resiliency policy. In addition, you can also add resources that are located on Amazon Elastic Kubernetes Service (Amazon EKS) clusters as optional resources. For more information about the number of resources supported per application, see Service quotas. After you create an Resilience Hub application, you publish it so that you can run a resiliency assessment on it. You can then use recommendations from the assessment to improve resiliency by running another assessment, comparing results, and then iterating the process until you achieve your goals for recovery time objective (RTO) and recovery point objective (RPO).
     public func createApp(_ input: CreateAppRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateAppResponse {
         return try await self.client.execute(operation: "CreateApp", path: "/create-app", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -139,6 +144,11 @@ extension Resiliencehub {
     /// Lists the alarm recommendations for an Resilience Hub application.
     public func listAlarmRecommendations(_ input: ListAlarmRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAlarmRecommendationsResponse {
         return try await self.client.execute(operation: "ListAlarmRecommendations", path: "/list-alarm-recommendations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List of compliance drifts that were detected while running an assessment.
+    public func listAppAssessmentComplianceDrifts(_ input: ListAppAssessmentComplianceDriftsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAppAssessmentComplianceDriftsResponse {
+        return try await self.client.execute(operation: "ListAppAssessmentComplianceDrifts", path: "/list-app-assessment-compliance-drifts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the assessments for an Resilience Hub application. You can use request parameters to refine the results for the response object.
@@ -303,6 +313,28 @@ extension Resiliencehub {
             command: self.listAlarmRecommendations,
             inputKey: \ListAlarmRecommendationsRequest.nextToken,
             outputKey: \ListAlarmRecommendationsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// List of compliance drifts that were detected while running an assessment.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listAppAssessmentComplianceDriftsPaginator(
+        _ input: ListAppAssessmentComplianceDriftsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListAppAssessmentComplianceDriftsRequest, ListAppAssessmentComplianceDriftsResponse> {
+        return .init(
+            input: input,
+            command: self.listAppAssessmentComplianceDrifts,
+            inputKey: \ListAppAssessmentComplianceDriftsRequest.nextToken,
+            outputKey: \ListAppAssessmentComplianceDriftsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

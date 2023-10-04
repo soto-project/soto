@@ -55,6 +55,14 @@ extension Proton {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeploymentTargetResourceType: String, CustomStringConvertible, Codable, Sendable {
+        case component = "COMPONENT"
+        case environment = "ENVIRONMENT"
+        case serviceInstance = "SERVICE_INSTANCE"
+        case servicePipeline = "SERVICE_PIPELINE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeploymentUpdateType: String, CustomStringConvertible, Codable, Sendable {
         case currentVersion = "CURRENT_VERSION"
         case majorVersion = "MAJOR_VERSION"
@@ -201,6 +209,49 @@ extension Proton {
         case registrationFailed = "REGISTRATION_FAILED"
         case registrationInProgress = "REGISTRATION_IN_PROGRESS"
         public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentState: AWSDecodableShape, Sendable {
+        /// The state of the component associated with the deployment.
+        case component(ComponentState)
+        /// The state of the environment associated with the deployment.
+        case environment(EnvironmentState)
+        /// The state of the service instance associated with the deployment.
+        case serviceInstance(ServiceInstanceState)
+        /// The state of the service pipeline associated with the deployment.
+        case servicePipeline(ServicePipelineState)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .component:
+                let value = try container.decode(ComponentState.self, forKey: .component)
+                self = .component(value)
+            case .environment:
+                let value = try container.decode(EnvironmentState.self, forKey: .environment)
+                self = .environment(value)
+            case .serviceInstance:
+                let value = try container.decode(ServiceInstanceState.self, forKey: .serviceInstance)
+                self = .serviceInstance(value)
+            case .servicePipeline:
+                let value = try container.decode(ServicePipelineState.self, forKey: .servicePipeline)
+                self = .servicePipeline(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case component = "component"
+            case environment = "environment"
+            case serviceInstance = "serviceInstance"
+            case servicePipeline = "servicePipeline"
+        }
     }
 
     // MARK: Shapes
@@ -447,6 +498,8 @@ extension Proton {
         public let description: String?
         /// The name of the Proton environment that this component is associated with.
         public let environmentName: String
+        /// The ID of the last attempted deployment of this component.
+        public let lastAttemptedDeploymentId: String?
         /// The last token the client requested.
         public let lastClientRequestToken: String?
         /// The time when a deployment of the component was last attempted.
@@ -455,6 +508,8 @@ extension Proton {
         public let lastDeploymentSucceededAt: Date?
         /// The time when the component was last modified.
         public let lastModifiedAt: Date
+        /// The ID of the last successful deployment of this component.
+        public let lastSucceededDeploymentId: String?
         /// The name of the component.
         public let name: String
         /// The name of the service instance that this component is attached to. Provided when a component is attached to a service instance.
@@ -464,17 +519,19 @@ extension Proton {
         /// The service spec that the component uses to access service inputs. Provided when a component is attached to a service instance.
         public let serviceSpec: String?
 
-        public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, description: String? = nil, environmentName: String, lastClientRequestToken: String? = nil, lastDeploymentAttemptedAt: Date? = nil, lastDeploymentSucceededAt: Date? = nil, lastModifiedAt: Date, name: String, serviceInstanceName: String? = nil, serviceName: String? = nil, serviceSpec: String? = nil) {
+        public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, description: String? = nil, environmentName: String, lastAttemptedDeploymentId: String? = nil, lastClientRequestToken: String? = nil, lastDeploymentAttemptedAt: Date? = nil, lastDeploymentSucceededAt: Date? = nil, lastModifiedAt: Date, lastSucceededDeploymentId: String? = nil, name: String, serviceInstanceName: String? = nil, serviceName: String? = nil, serviceSpec: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.deploymentStatus = deploymentStatus
             self.deploymentStatusMessage = deploymentStatusMessage
             self.description = description
             self.environmentName = environmentName
+            self.lastAttemptedDeploymentId = lastAttemptedDeploymentId
             self.lastClientRequestToken = lastClientRequestToken
             self.lastDeploymentAttemptedAt = lastDeploymentAttemptedAt
             self.lastDeploymentSucceededAt = lastDeploymentSucceededAt
             self.lastModifiedAt = lastModifiedAt
+            self.lastSucceededDeploymentId = lastSucceededDeploymentId
             self.name = name
             self.serviceInstanceName = serviceInstanceName
             self.serviceName = serviceName
@@ -488,14 +545,41 @@ extension Proton {
             case deploymentStatusMessage = "deploymentStatusMessage"
             case description = "description"
             case environmentName = "environmentName"
+            case lastAttemptedDeploymentId = "lastAttemptedDeploymentId"
             case lastClientRequestToken = "lastClientRequestToken"
             case lastDeploymentAttemptedAt = "lastDeploymentAttemptedAt"
             case lastDeploymentSucceededAt = "lastDeploymentSucceededAt"
             case lastModifiedAt = "lastModifiedAt"
+            case lastSucceededDeploymentId = "lastSucceededDeploymentId"
             case name = "name"
             case serviceInstanceName = "serviceInstanceName"
             case serviceName = "serviceName"
             case serviceSpec = "serviceSpec"
+        }
+    }
+
+    public struct ComponentState: AWSDecodableShape {
+        /// The name of the service instance that this component is attached to. Provided when a component is attached to a service instance.
+        public let serviceInstanceName: String?
+        /// The name of the service that serviceInstanceName is associated with. Provided when a component is attached to a service instance.
+        public let serviceName: String?
+        /// The service spec that the component uses to access service inputs. Provided when a component is attached to a service instance.
+        public let serviceSpec: String?
+        /// The template file used.
+        public let templateFile: String?
+
+        public init(serviceInstanceName: String? = nil, serviceName: String? = nil, serviceSpec: String? = nil, templateFile: String? = nil) {
+            self.serviceInstanceName = serviceInstanceName
+            self.serviceName = serviceName
+            self.serviceSpec = serviceSpec
+            self.templateFile = templateFile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceInstanceName = "serviceInstanceName"
+            case serviceName = "serviceName"
+            case serviceSpec = "serviceSpec"
+            case templateFile = "templateFile"
         }
     }
 
@@ -510,12 +594,16 @@ extension Proton {
         public let deploymentStatusMessage: String?
         /// The name of the Proton environment that this component is associated with.
         public let environmentName: String
+        /// The ID of the last attempted deployment of this component.
+        public let lastAttemptedDeploymentId: String?
         /// The time when a deployment of the component was last attempted.
         public let lastDeploymentAttemptedAt: Date?
         /// The time when the component was last deployed successfully.
         public let lastDeploymentSucceededAt: Date?
         /// The time when the component was last modified.
         public let lastModifiedAt: Date
+        /// The ID of the last successful deployment of this component.
+        public let lastSucceededDeploymentId: String?
         /// The name of the component.
         public let name: String
         /// The name of the service instance that this component is attached to. Provided when a component is attached to a service instance.
@@ -523,15 +611,17 @@ extension Proton {
         /// The name of the service that serviceInstanceName is associated with. Provided when a component is attached to a service instance.
         public let serviceName: String?
 
-        public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, environmentName: String, lastDeploymentAttemptedAt: Date? = nil, lastDeploymentSucceededAt: Date? = nil, lastModifiedAt: Date, name: String, serviceInstanceName: String? = nil, serviceName: String? = nil) {
+        public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, environmentName: String, lastAttemptedDeploymentId: String? = nil, lastDeploymentAttemptedAt: Date? = nil, lastDeploymentSucceededAt: Date? = nil, lastModifiedAt: Date, lastSucceededDeploymentId: String? = nil, name: String, serviceInstanceName: String? = nil, serviceName: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.deploymentStatus = deploymentStatus
             self.deploymentStatusMessage = deploymentStatusMessage
             self.environmentName = environmentName
+            self.lastAttemptedDeploymentId = lastAttemptedDeploymentId
             self.lastDeploymentAttemptedAt = lastDeploymentAttemptedAt
             self.lastDeploymentSucceededAt = lastDeploymentSucceededAt
             self.lastModifiedAt = lastModifiedAt
+            self.lastSucceededDeploymentId = lastSucceededDeploymentId
             self.name = name
             self.serviceInstanceName = serviceInstanceName
             self.serviceName = serviceName
@@ -543,9 +633,11 @@ extension Proton {
             case deploymentStatus = "deploymentStatus"
             case deploymentStatusMessage = "deploymentStatusMessage"
             case environmentName = "environmentName"
+            case lastAttemptedDeploymentId = "lastAttemptedDeploymentId"
             case lastDeploymentAttemptedAt = "lastDeploymentAttemptedAt"
             case lastDeploymentSucceededAt = "lastDeploymentSucceededAt"
             case lastModifiedAt = "lastModifiedAt"
+            case lastSucceededDeploymentId = "lastSucceededDeploymentId"
             case name = "name"
             case serviceInstanceName = "serviceInstanceName"
             case serviceName = "serviceName"
@@ -1485,6 +1577,36 @@ extension Proton {
         }
     }
 
+    public struct DeleteDeploymentInput: AWSEncodableShape {
+        /// The ID of the deployment to delete.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+        }
+    }
+
+    public struct DeleteDeploymentOutput: AWSDecodableShape {
+        /// The detailed data of the deployment being deleted.
+        public let deployment: Deployment?
+
+        public init(deployment: Deployment? = nil) {
+            self.deployment = deployment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deployment = "deployment"
+        }
+    }
+
     public struct DeleteEnvironmentAccountConnectionInput: AWSEncodableShape {
         /// The ID of the environment account connection to delete.
         public let id: String
@@ -1839,6 +1961,156 @@ extension Proton {
         }
     }
 
+    public struct Deployment: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the deployment.
+        public let arn: String
+        /// The date and time the deployment was completed.
+        public let completedAt: Date?
+        /// The name of the component associated with this deployment.
+        public let componentName: String?
+        /// The date and time the deployment was created.
+        public let createdAt: Date
+        /// The status of the deployment.
+        public let deploymentStatus: DeploymentStatus
+        /// The deployment status message.
+        public let deploymentStatusMessage: String?
+        /// The name of the environment associated with this deployment.
+        public let environmentName: String
+        /// The ID of the deployment.
+        public let id: String
+        /// The initial state of the target resource at the time of the deployment.
+        public let initialState: DeploymentState?
+        /// The ID of the last attempted deployment.
+        public let lastAttemptedDeploymentId: String?
+        /// The date and time the deployment was last modified.
+        public let lastModifiedAt: Date
+        /// The ID of the last successful deployment.
+        public let lastSucceededDeploymentId: String?
+        /// The name of the deployment's service instance.
+        public let serviceInstanceName: String?
+        /// The name of the service in this deployment.
+        public let serviceName: String?
+        /// The Amazon Resource Name (ARN) of the target of the deployment.
+        public let targetArn: String
+        /// The date and time the depoyment target was created.
+        public let targetResourceCreatedAt: Date
+        /// The resource type of the deployment target. It can be an environment, service, service instance, or component.
+        public let targetResourceType: DeploymentTargetResourceType
+        /// The target state of the target resource at the time of the deployment.
+        public let targetState: DeploymentState?
+
+        public init(arn: String, completedAt: Date? = nil, componentName: String? = nil, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, environmentName: String, id: String, initialState: DeploymentState? = nil, lastAttemptedDeploymentId: String? = nil, lastModifiedAt: Date, lastSucceededDeploymentId: String? = nil, serviceInstanceName: String? = nil, serviceName: String? = nil, targetArn: String, targetResourceCreatedAt: Date, targetResourceType: DeploymentTargetResourceType, targetState: DeploymentState? = nil) {
+            self.arn = arn
+            self.completedAt = completedAt
+            self.componentName = componentName
+            self.createdAt = createdAt
+            self.deploymentStatus = deploymentStatus
+            self.deploymentStatusMessage = deploymentStatusMessage
+            self.environmentName = environmentName
+            self.id = id
+            self.initialState = initialState
+            self.lastAttemptedDeploymentId = lastAttemptedDeploymentId
+            self.lastModifiedAt = lastModifiedAt
+            self.lastSucceededDeploymentId = lastSucceededDeploymentId
+            self.serviceInstanceName = serviceInstanceName
+            self.serviceName = serviceName
+            self.targetArn = targetArn
+            self.targetResourceCreatedAt = targetResourceCreatedAt
+            self.targetResourceType = targetResourceType
+            self.targetState = targetState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case completedAt = "completedAt"
+            case componentName = "componentName"
+            case createdAt = "createdAt"
+            case deploymentStatus = "deploymentStatus"
+            case deploymentStatusMessage = "deploymentStatusMessage"
+            case environmentName = "environmentName"
+            case id = "id"
+            case initialState = "initialState"
+            case lastAttemptedDeploymentId = "lastAttemptedDeploymentId"
+            case lastModifiedAt = "lastModifiedAt"
+            case lastSucceededDeploymentId = "lastSucceededDeploymentId"
+            case serviceInstanceName = "serviceInstanceName"
+            case serviceName = "serviceName"
+            case targetArn = "targetArn"
+            case targetResourceCreatedAt = "targetResourceCreatedAt"
+            case targetResourceType = "targetResourceType"
+            case targetState = "targetState"
+        }
+    }
+
+    public struct DeploymentSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the deployment.
+        public let arn: String
+        /// The date and time the deployment was completed.
+        public let completedAt: Date?
+        /// The name of the component associated with the deployment.
+        public let componentName: String?
+        /// The date and time the deployment was created.
+        public let createdAt: Date
+        /// The current status of the deployment.
+        public let deploymentStatus: DeploymentStatus
+        /// The name of the environment associated with the deployment.
+        public let environmentName: String
+        /// The ID of the deployment.
+        public let id: String
+        /// The ID of the last attempted deployment.
+        public let lastAttemptedDeploymentId: String?
+        /// The date and time the deployment was last modified.
+        public let lastModifiedAt: Date
+        /// The ID of the last successful deployment.
+        public let lastSucceededDeploymentId: String?
+        /// The name of the service instance associated with the deployment.
+        public let serviceInstanceName: String?
+        /// The name of the service associated with the deployment.
+        public let serviceName: String?
+        /// The Amazon Resource Name (ARN) of the target of the deployment.
+        public let targetArn: String
+        /// The date and time the target resource was created.
+        public let targetResourceCreatedAt: Date
+        /// The resource type of the deployment target. It can be an environment, service, service instance, or component.
+        public let targetResourceType: DeploymentTargetResourceType
+
+        public init(arn: String, completedAt: Date? = nil, componentName: String? = nil, createdAt: Date, deploymentStatus: DeploymentStatus, environmentName: String, id: String, lastAttemptedDeploymentId: String? = nil, lastModifiedAt: Date, lastSucceededDeploymentId: String? = nil, serviceInstanceName: String? = nil, serviceName: String? = nil, targetArn: String, targetResourceCreatedAt: Date, targetResourceType: DeploymentTargetResourceType) {
+            self.arn = arn
+            self.completedAt = completedAt
+            self.componentName = componentName
+            self.createdAt = createdAt
+            self.deploymentStatus = deploymentStatus
+            self.environmentName = environmentName
+            self.id = id
+            self.lastAttemptedDeploymentId = lastAttemptedDeploymentId
+            self.lastModifiedAt = lastModifiedAt
+            self.lastSucceededDeploymentId = lastSucceededDeploymentId
+            self.serviceInstanceName = serviceInstanceName
+            self.serviceName = serviceName
+            self.targetArn = targetArn
+            self.targetResourceCreatedAt = targetResourceCreatedAt
+            self.targetResourceType = targetResourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case completedAt = "completedAt"
+            case componentName = "componentName"
+            case createdAt = "createdAt"
+            case deploymentStatus = "deploymentStatus"
+            case environmentName = "environmentName"
+            case id = "id"
+            case lastAttemptedDeploymentId = "lastAttemptedDeploymentId"
+            case lastModifiedAt = "lastModifiedAt"
+            case lastSucceededDeploymentId = "lastSucceededDeploymentId"
+            case serviceInstanceName = "serviceInstanceName"
+            case serviceName = "serviceName"
+            case targetArn = "targetArn"
+            case targetResourceCreatedAt = "targetResourceCreatedAt"
+            case targetResourceType = "targetResourceType"
+        }
+    }
+
     public struct Environment: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the environment.
         public let arn: String
@@ -1858,10 +2130,14 @@ extension Proton {
         public let environmentAccountConnectionId: String?
         /// The ID of the environment account that the environment infrastructure resources are provisioned in.
         public let environmentAccountId: String?
+        /// The ID of the last attempted deployment of this environment.
+        public let lastAttemptedDeploymentId: String?
         /// The time when a deployment of the environment was last attempted.
         public let lastDeploymentAttemptedAt: Date
         /// The time when the environment was last deployed successfully.
         public let lastDeploymentSucceededAt: Date
+        /// The ID of the last successful deployment of this environment.
+        public let lastSucceededDeploymentId: String?
         /// The name of the environment.
         public let name: String
         /// The Amazon Resource Name (ARN) of the Proton service role that allows Proton to make calls to other services on your behalf.
@@ -1879,7 +2155,7 @@ extension Proton {
         /// The Amazon Resource Name (ARN) of the environment template.
         public let templateName: String
 
-        public init(arn: String, codebuildRoleArn: String? = nil, componentRoleArn: String? = nil, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, description: String? = nil, environmentAccountConnectionId: String? = nil, environmentAccountId: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, name: String, protonServiceRoleArn: String? = nil, provisioning: Provisioning? = nil, provisioningRepository: RepositoryBranch? = nil, spec: String? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
+        public init(arn: String, codebuildRoleArn: String? = nil, componentRoleArn: String? = nil, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, description: String? = nil, environmentAccountConnectionId: String? = nil, environmentAccountId: String? = nil, lastAttemptedDeploymentId: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, lastSucceededDeploymentId: String? = nil, name: String, protonServiceRoleArn: String? = nil, provisioning: Provisioning? = nil, provisioningRepository: RepositoryBranch? = nil, spec: String? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
             self.arn = arn
             self.codebuildRoleArn = codebuildRoleArn
             self.componentRoleArn = componentRoleArn
@@ -1889,8 +2165,10 @@ extension Proton {
             self.description = description
             self.environmentAccountConnectionId = environmentAccountConnectionId
             self.environmentAccountId = environmentAccountId
+            self.lastAttemptedDeploymentId = lastAttemptedDeploymentId
             self.lastDeploymentAttemptedAt = lastDeploymentAttemptedAt
             self.lastDeploymentSucceededAt = lastDeploymentSucceededAt
+            self.lastSucceededDeploymentId = lastSucceededDeploymentId
             self.name = name
             self.protonServiceRoleArn = protonServiceRoleArn
             self.provisioning = provisioning
@@ -1911,8 +2189,10 @@ extension Proton {
             case description = "description"
             case environmentAccountConnectionId = "environmentAccountConnectionId"
             case environmentAccountId = "environmentAccountId"
+            case lastAttemptedDeploymentId = "lastAttemptedDeploymentId"
             case lastDeploymentAttemptedAt = "lastDeploymentAttemptedAt"
             case lastDeploymentSucceededAt = "lastDeploymentSucceededAt"
+            case lastSucceededDeploymentId = "lastSucceededDeploymentId"
             case name = "name"
             case protonServiceRoleArn = "protonServiceRoleArn"
             case provisioning = "provisioning"
@@ -2026,6 +2306,31 @@ extension Proton {
         }
     }
 
+    public struct EnvironmentState: AWSDecodableShape {
+        /// The environment spec that was used to create the environment.
+        public let spec: String?
+        /// The major version of the environment template that was used to create the environment.
+        public let templateMajorVersion: String
+        /// The minor version of the environment template that was used to create the environment.
+        public let templateMinorVersion: String
+        /// The name of the environment template that was used to create the environment.
+        public let templateName: String
+
+        public init(spec: String? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
+            self.spec = spec
+            self.templateMajorVersion = templateMajorVersion
+            self.templateMinorVersion = templateMinorVersion
+            self.templateName = templateName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case spec = "spec"
+            case templateMajorVersion = "templateMajorVersion"
+            case templateMinorVersion = "templateMinorVersion"
+            case templateName = "templateName"
+        }
+    }
+
     public struct EnvironmentSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the environment.
         public let arn: String
@@ -2043,10 +2348,14 @@ extension Proton {
         public let environmentAccountConnectionId: String?
         /// The ID of the environment account that the environment infrastructure resources are provisioned in.
         public let environmentAccountId: String?
+        /// The ID of the last attempted deployment of this environment.
+        public let lastAttemptedDeploymentId: String?
         /// The time when a deployment of the environment was last attempted.
         public let lastDeploymentAttemptedAt: Date
         /// The time when the environment was last deployed successfully.
         public let lastDeploymentSucceededAt: Date
+        /// The ID of the last successful deployment of this environment.
+        public let lastSucceededDeploymentId: String?
         /// The name of the environment.
         public let name: String
         /// The Amazon Resource Name (ARN) of the Proton service role that allows Proton to make calls to other services on your behalf.
@@ -2060,7 +2369,7 @@ extension Proton {
         /// The name of the environment template.
         public let templateName: String
 
-        public init(arn: String, componentRoleArn: String? = nil, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, description: String? = nil, environmentAccountConnectionId: String? = nil, environmentAccountId: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, name: String, protonServiceRoleArn: String? = nil, provisioning: Provisioning? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
+        public init(arn: String, componentRoleArn: String? = nil, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, description: String? = nil, environmentAccountConnectionId: String? = nil, environmentAccountId: String? = nil, lastAttemptedDeploymentId: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, lastSucceededDeploymentId: String? = nil, name: String, protonServiceRoleArn: String? = nil, provisioning: Provisioning? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
             self.arn = arn
             self.componentRoleArn = componentRoleArn
             self.createdAt = createdAt
@@ -2069,8 +2378,10 @@ extension Proton {
             self.description = description
             self.environmentAccountConnectionId = environmentAccountConnectionId
             self.environmentAccountId = environmentAccountId
+            self.lastAttemptedDeploymentId = lastAttemptedDeploymentId
             self.lastDeploymentAttemptedAt = lastDeploymentAttemptedAt
             self.lastDeploymentSucceededAt = lastDeploymentSucceededAt
+            self.lastSucceededDeploymentId = lastSucceededDeploymentId
             self.name = name
             self.protonServiceRoleArn = protonServiceRoleArn
             self.provisioning = provisioning
@@ -2088,8 +2399,10 @@ extension Proton {
             case description = "description"
             case environmentAccountConnectionId = "environmentAccountConnectionId"
             case environmentAccountId = "environmentAccountId"
+            case lastAttemptedDeploymentId = "lastAttemptedDeploymentId"
             case lastDeploymentAttemptedAt = "lastDeploymentAttemptedAt"
             case lastDeploymentSucceededAt = "lastDeploymentSucceededAt"
+            case lastSucceededDeploymentId = "lastSucceededDeploymentId"
             case name = "name"
             case protonServiceRoleArn = "protonServiceRoleArn"
             case provisioning = "provisioning"
@@ -2359,6 +2672,64 @@ extension Proton {
 
         private enum CodingKeys: String, CodingKey {
             case component = "component"
+        }
+    }
+
+    public struct GetDeploymentInput: AWSEncodableShape {
+        /// The name of a component that you want to get the detailed data for.
+        public let componentName: String?
+        /// The name of a environment that you want to get the detailed data for.
+        public let environmentName: String?
+        /// The ID of the deployment that you want to get the detailed data for.
+        public let id: String
+        /// The name of the service instance associated with the given deployment ID. serviceName must be specified to identify the service instance.
+        public let serviceInstanceName: String?
+        /// The name of the service associated with the given deployment ID.
+        public let serviceName: String?
+
+        public init(componentName: String? = nil, environmentName: String? = nil, id: String, serviceInstanceName: String? = nil, serviceName: String? = nil) {
+            self.componentName = componentName
+            self.environmentName = environmentName
+            self.id = id
+            self.serviceInstanceName = serviceInstanceName
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.componentName, name: "componentName", parent: name, max: 100)
+            try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
+            try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.environmentName, name: "environmentName", parent: name, max: 100)
+            try self.validate(self.environmentName, name: "environmentName", parent: name, min: 1)
+            try self.validate(self.environmentName, name: "environmentName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, max: 100)
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, min: 1)
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 100)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case componentName = "componentName"
+            case environmentName = "environmentName"
+            case id = "id"
+            case serviceInstanceName = "serviceInstanceName"
+            case serviceName = "serviceName"
+        }
+    }
+
+    public struct GetDeploymentOutput: AWSDecodableShape {
+        /// The detailed data of the requested deployment.
+        public let deployment: Deployment?
+
+        public init(deployment: Deployment? = nil) {
+            self.deployment = deployment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deployment = "deployment"
         }
     }
 
@@ -2958,11 +3329,14 @@ extension Proton {
     public struct ListComponentOutputsInput: AWSEncodableShape {
         /// The name of the component whose outputs you want.
         public let componentName: String
+        /// The ID of the deployment whose outputs you want.
+        public let deploymentId: String?
         /// A token that indicates the location of the next output in the array of outputs, after the list of outputs that was previously requested.
         public let nextToken: String?
 
-        public init(componentName: String, nextToken: String? = nil) {
+        public init(componentName: String, deploymentId: String? = nil, nextToken: String? = nil) {
             self.componentName = componentName
+            self.deploymentId = deploymentId
             self.nextToken = nextToken
         }
 
@@ -2970,11 +3344,13 @@ extension Proton {
             try self.validate(self.componentName, name: "componentName", parent: name, max: 100)
             try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
             try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.deploymentId, name: "deploymentId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case componentName = "componentName"
+            case deploymentId = "deploymentId"
             case nextToken = "nextToken"
         }
     }
@@ -3098,6 +3474,74 @@ extension Proton {
         }
     }
 
+    public struct ListDeploymentsInput: AWSEncodableShape {
+        /// The name of a component for result list filtering. Proton returns deployments associated with that component.
+        public let componentName: String?
+        /// The name of an environment for result list filtering. Proton returns deployments associated with the environment.
+        public let environmentName: String?
+        /// The maximum number of deployments to list.
+        public let maxResults: Int?
+        /// A token that indicates the location of the next deployment in the array of deployment, after the list of deployment that was previously requested.
+        public let nextToken: String?
+        /// The name of a service instance for result list filtering. Proton returns the deployments associated with the service instance.
+        public let serviceInstanceName: String?
+        /// The name of a service for result list filtering. Proton returns deployments associated with service instances of the service.
+        public let serviceName: String?
+
+        public init(componentName: String? = nil, environmentName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceInstanceName: String? = nil, serviceName: String? = nil) {
+            self.componentName = componentName
+            self.environmentName = environmentName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.serviceInstanceName = serviceInstanceName
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.componentName, name: "componentName", parent: name, max: 100)
+            try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
+            try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.environmentName, name: "environmentName", parent: name, max: 100)
+            try self.validate(self.environmentName, name: "environmentName", parent: name, min: 1)
+            try self.validate(self.environmentName, name: "environmentName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+=/]+$")
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, max: 100)
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, min: 1)
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 100)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case componentName = "componentName"
+            case environmentName = "environmentName"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case serviceInstanceName = "serviceInstanceName"
+            case serviceName = "serviceName"
+        }
+    }
+
+    public struct ListDeploymentsOutput: AWSDecodableShape {
+        /// An array of deployment with summary data.
+        public let deployments: [DeploymentSummary]
+        /// A token that indicates the location of the next deployment in the array of deployment, after the current requested list of deployment.
+        public let nextToken: String?
+
+        public init(deployments: [DeploymentSummary], nextToken: String? = nil) {
+            self.deployments = deployments
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deployments = "deployments"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListEnvironmentAccountConnectionsInput: AWSEncodableShape {
         /// The environment name that's associated with each listed environment account connection.
         public let environmentName: String?
@@ -3154,17 +3598,21 @@ extension Proton {
     }
 
     public struct ListEnvironmentOutputsInput: AWSEncodableShape {
+        /// The ID of the deployment whose outputs you want.
+        public let deploymentId: String?
         /// The environment name.
         public let environmentName: String
         /// A token that indicates the location of the next environment output in the array of environment outputs, after the list of environment outputs that was previously requested.
         public let nextToken: String?
 
-        public init(environmentName: String, nextToken: String? = nil) {
+        public init(deploymentId: String? = nil, environmentName: String, nextToken: String? = nil) {
+            self.deploymentId = deploymentId
             self.environmentName = environmentName
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.deploymentId, name: "deploymentId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 100)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 1)
             try self.validate(self.environmentName, name: "environmentName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
@@ -3172,6 +3620,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deploymentId = "deploymentId"
             case environmentName = "environmentName"
             case nextToken = "nextToken"
         }
@@ -3466,6 +3915,8 @@ extension Proton {
     }
 
     public struct ListServiceInstanceOutputsInput: AWSEncodableShape {
+        /// The ID of the deployment whose outputs you want.
+        public let deploymentId: String?
         /// A token that indicates the location of the next output in the array of outputs, after the list of outputs that was previously requested.
         public let nextToken: String?
         /// The name of the service instance whose outputs you want.
@@ -3473,13 +3924,15 @@ extension Proton {
         /// The name of the service that serviceInstanceName is associated to.
         public let serviceName: String
 
-        public init(nextToken: String? = nil, serviceInstanceName: String, serviceName: String) {
+        public init(deploymentId: String? = nil, nextToken: String? = nil, serviceInstanceName: String, serviceName: String) {
+            self.deploymentId = deploymentId
             self.nextToken = nextToken
             self.serviceInstanceName = serviceInstanceName
             self.serviceName = serviceName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.deploymentId, name: "deploymentId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 0)
             try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, max: 100)
             try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, min: 1)
@@ -3490,6 +3943,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deploymentId = "deploymentId"
             case nextToken = "nextToken"
             case serviceInstanceName = "serviceInstanceName"
             case serviceName = "serviceName"
@@ -3638,17 +4092,21 @@ extension Proton {
     }
 
     public struct ListServicePipelineOutputsInput: AWSEncodableShape {
+        /// The ID of the deployment you want the outputs for.
+        public let deploymentId: String?
         /// A token that indicates the location of the next output in the array of outputs, after the list of outputs that was previously requested.
         public let nextToken: String?
         /// The name of the service whose pipeline's outputs you want.
         public let serviceName: String
 
-        public init(nextToken: String? = nil, serviceName: String) {
+        public init(deploymentId: String? = nil, nextToken: String? = nil, serviceName: String) {
+            self.deploymentId = deploymentId
             self.nextToken = nextToken
             self.serviceName = serviceName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.deploymentId, name: "deploymentId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 0)
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 100)
             try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
@@ -3656,6 +4114,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deploymentId = "deploymentId"
             case nextToken = "nextToken"
             case serviceName = "serviceName"
         }
@@ -4411,12 +4870,16 @@ extension Proton {
         public let deploymentStatusMessage: String?
         /// The name of the environment that the service instance was deployed into.
         public let environmentName: String
+        /// The ID of the last attempted deployment of this service instance.
+        public let lastAttemptedDeploymentId: String?
         /// The last client request token received.
         public let lastClientRequestToken: String?
         /// The time when a deployment of the service instance was last attempted.
         public let lastDeploymentAttemptedAt: Date
         /// The time when the service instance was last deployed successfully.
         public let lastDeploymentSucceededAt: Date
+        /// The ID of the last successful deployment of this service instance.
+        public let lastSucceededDeploymentId: String?
         /// The name of the service instance.
         public let name: String
         /// The name of the service that the service instance belongs to.
@@ -4430,15 +4893,17 @@ extension Proton {
         /// The name of the service template that was used to create the service instance.
         public let templateName: String
 
-        public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, environmentName: String, lastClientRequestToken: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, name: String, serviceName: String, spec: String? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
+        public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, environmentName: String, lastAttemptedDeploymentId: String? = nil, lastClientRequestToken: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, lastSucceededDeploymentId: String? = nil, name: String, serviceName: String, spec: String? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
             self.arn = arn
             self.createdAt = createdAt
             self.deploymentStatus = deploymentStatus
             self.deploymentStatusMessage = deploymentStatusMessage
             self.environmentName = environmentName
+            self.lastAttemptedDeploymentId = lastAttemptedDeploymentId
             self.lastClientRequestToken = lastClientRequestToken
             self.lastDeploymentAttemptedAt = lastDeploymentAttemptedAt
             self.lastDeploymentSucceededAt = lastDeploymentSucceededAt
+            self.lastSucceededDeploymentId = lastSucceededDeploymentId
             self.name = name
             self.serviceName = serviceName
             self.spec = spec
@@ -4453,11 +4918,50 @@ extension Proton {
             case deploymentStatus = "deploymentStatus"
             case deploymentStatusMessage = "deploymentStatusMessage"
             case environmentName = "environmentName"
+            case lastAttemptedDeploymentId = "lastAttemptedDeploymentId"
             case lastClientRequestToken = "lastClientRequestToken"
             case lastDeploymentAttemptedAt = "lastDeploymentAttemptedAt"
             case lastDeploymentSucceededAt = "lastDeploymentSucceededAt"
+            case lastSucceededDeploymentId = "lastSucceededDeploymentId"
             case name = "name"
             case serviceName = "serviceName"
+            case spec = "spec"
+            case templateMajorVersion = "templateMajorVersion"
+            case templateMinorVersion = "templateMinorVersion"
+            case templateName = "templateName"
+        }
+    }
+
+    public struct ServiceInstanceState: AWSDecodableShape {
+        /// The IDs for the last successful components deployed for this service instance.
+        public let lastSuccessfulComponentDeploymentIds: [String]?
+        /// The ID for the last successful environment deployed for this service instance.
+        public let lastSuccessfulEnvironmentDeploymentId: String?
+        /// The ID for the last successful service pipeline deployed for this service instance.
+        public let lastSuccessfulServicePipelineDeploymentId: String?
+        /// The service spec that was used to create the service instance.
+        public let spec: String
+        /// The major version of the service template that was used to create the service pipeline.
+        public let templateMajorVersion: String
+        /// The minor version of the service template that was used to create the service pipeline.
+        public let templateMinorVersion: String
+        /// The name of the service template that was used to create the service instance.
+        public let templateName: String
+
+        public init(lastSuccessfulComponentDeploymentIds: [String]? = nil, lastSuccessfulEnvironmentDeploymentId: String? = nil, lastSuccessfulServicePipelineDeploymentId: String? = nil, spec: String, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
+            self.lastSuccessfulComponentDeploymentIds = lastSuccessfulComponentDeploymentIds
+            self.lastSuccessfulEnvironmentDeploymentId = lastSuccessfulEnvironmentDeploymentId
+            self.lastSuccessfulServicePipelineDeploymentId = lastSuccessfulServicePipelineDeploymentId
+            self.spec = spec
+            self.templateMajorVersion = templateMajorVersion
+            self.templateMinorVersion = templateMinorVersion
+            self.templateName = templateName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastSuccessfulComponentDeploymentIds = "lastSuccessfulComponentDeploymentIds"
+            case lastSuccessfulEnvironmentDeploymentId = "lastSuccessfulEnvironmentDeploymentId"
+            case lastSuccessfulServicePipelineDeploymentId = "lastSuccessfulServicePipelineDeploymentId"
             case spec = "spec"
             case templateMajorVersion = "templateMajorVersion"
             case templateMinorVersion = "templateMinorVersion"
@@ -4476,10 +4980,14 @@ extension Proton {
         public let deploymentStatusMessage: String?
         /// The name of the environment that the service instance was deployed into.
         public let environmentName: String
+        /// The ID of the last attempted deployment of this service instance.
+        public let lastAttemptedDeploymentId: String?
         /// The time when a deployment of the service was last attempted.
         public let lastDeploymentAttemptedAt: Date
         /// The time when the service was last deployed successfully.
         public let lastDeploymentSucceededAt: Date
+        /// The ID of the last successful deployment of this service instance.
+        public let lastSucceededDeploymentId: String?
         /// The name of the service instance.
         public let name: String
         /// The name of the service that the service instance belongs to.
@@ -4491,14 +4999,16 @@ extension Proton {
         /// The name of the service template.
         public let templateName: String
 
-        public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, environmentName: String, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, name: String, serviceName: String, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
+        public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, environmentName: String, lastAttemptedDeploymentId: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, lastSucceededDeploymentId: String? = nil, name: String, serviceName: String, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
             self.arn = arn
             self.createdAt = createdAt
             self.deploymentStatus = deploymentStatus
             self.deploymentStatusMessage = deploymentStatusMessage
             self.environmentName = environmentName
+            self.lastAttemptedDeploymentId = lastAttemptedDeploymentId
             self.lastDeploymentAttemptedAt = lastDeploymentAttemptedAt
             self.lastDeploymentSucceededAt = lastDeploymentSucceededAt
+            self.lastSucceededDeploymentId = lastSucceededDeploymentId
             self.name = name
             self.serviceName = serviceName
             self.templateMajorVersion = templateMajorVersion
@@ -4512,8 +5022,10 @@ extension Proton {
             case deploymentStatus = "deploymentStatus"
             case deploymentStatusMessage = "deploymentStatusMessage"
             case environmentName = "environmentName"
+            case lastAttemptedDeploymentId = "lastAttemptedDeploymentId"
             case lastDeploymentAttemptedAt = "lastDeploymentAttemptedAt"
             case lastDeploymentSucceededAt = "lastDeploymentSucceededAt"
+            case lastSucceededDeploymentId = "lastSucceededDeploymentId"
             case name = "name"
             case serviceName = "serviceName"
             case templateMajorVersion = "templateMajorVersion"
@@ -4531,10 +5043,14 @@ extension Proton {
         public let deploymentStatus: DeploymentStatus
         /// A service pipeline deployment status message.
         public let deploymentStatusMessage: String?
+        /// The ID of the last attempted deployment of this service pipeline.
+        public let lastAttemptedDeploymentId: String?
         /// The time when a deployment of the service pipeline was last attempted.
         public let lastDeploymentAttemptedAt: Date
         /// The time when the service pipeline was last deployed successfully.
         public let lastDeploymentSucceededAt: Date
+        /// The ID of the last successful deployment of this service pipeline.
+        public let lastSucceededDeploymentId: String?
         /// The service spec that was used to create the service pipeline.
         public let spec: String?
         /// The major version of the service template that was used to create the service pipeline.
@@ -4544,13 +5060,15 @@ extension Proton {
         /// The name of the service template that was used to create the service pipeline.
         public let templateName: String
 
-        public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, spec: String? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
+        public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, lastAttemptedDeploymentId: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, lastSucceededDeploymentId: String? = nil, spec: String? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
             self.arn = arn
             self.createdAt = createdAt
             self.deploymentStatus = deploymentStatus
             self.deploymentStatusMessage = deploymentStatusMessage
+            self.lastAttemptedDeploymentId = lastAttemptedDeploymentId
             self.lastDeploymentAttemptedAt = lastDeploymentAttemptedAt
             self.lastDeploymentSucceededAt = lastDeploymentSucceededAt
+            self.lastSucceededDeploymentId = lastSucceededDeploymentId
             self.spec = spec
             self.templateMajorVersion = templateMajorVersion
             self.templateMinorVersion = templateMinorVersion
@@ -4562,8 +5080,35 @@ extension Proton {
             case createdAt = "createdAt"
             case deploymentStatus = "deploymentStatus"
             case deploymentStatusMessage = "deploymentStatusMessage"
+            case lastAttemptedDeploymentId = "lastAttemptedDeploymentId"
             case lastDeploymentAttemptedAt = "lastDeploymentAttemptedAt"
             case lastDeploymentSucceededAt = "lastDeploymentSucceededAt"
+            case lastSucceededDeploymentId = "lastSucceededDeploymentId"
+            case spec = "spec"
+            case templateMajorVersion = "templateMajorVersion"
+            case templateMinorVersion = "templateMinorVersion"
+            case templateName = "templateName"
+        }
+    }
+
+    public struct ServicePipelineState: AWSDecodableShape {
+        /// The service spec that was used to create the service pipeline.
+        public let spec: String?
+        /// The major version of the service template that was used to create the service pipeline.
+        public let templateMajorVersion: String
+        /// The minor version of the service template that was used to create the service pipeline.
+        public let templateMinorVersion: String
+        /// The name of the service template that was used to create the service pipeline.
+        public let templateName: String
+
+        public init(spec: String? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
+            self.spec = spec
+            self.templateMajorVersion = templateMajorVersion
+            self.templateMinorVersion = templateMinorVersion
+            self.templateName = templateName
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case spec = "spec"
             case templateMajorVersion = "templateMajorVersion"
             case templateMinorVersion = "templateMinorVersion"

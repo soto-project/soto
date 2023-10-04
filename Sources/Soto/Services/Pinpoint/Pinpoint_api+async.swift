@@ -476,7 +476,7 @@ extension Pinpoint {
         return try await self.client.execute(operation: "PutEvents", path: "/v1/apps/{ApplicationId}/events", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes one or more attributes, of the same attribute type, from all the endpoints that are associated with an application.
+    /// Removes one or more custom attributes, of the same attribute type, from the application. Existing endpoints still have the attributes but Amazon Pinpoint will stop capturing new or changed values for these attributes.
     public func removeAttributes(_ input: RemoveAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RemoveAttributesResponse {
         return try await self.client.execute(operation: "RemoveAttributes", path: "/v1/apps/{ApplicationId}/attributes/{AttributeType}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

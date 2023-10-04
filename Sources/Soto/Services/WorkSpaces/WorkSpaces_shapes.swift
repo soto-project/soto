@@ -216,6 +216,36 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum WorkspaceImageErrorDetailCode: String, CustomStringConvertible, Codable, Sendable {
+        case additionalDrivesAttached = "AdditionalDrivesAttached"
+        case antiVirusInstalled = "AntiVirusInstalled"
+        case autoLogonEnabled = "AutoLogonEnabled"
+        case autoMountDisabled = "AutoMountDisabled"
+        case azureDomainJoined = "AzureDomainJoined"
+        case dhcpDisabled = "DHCPDisabled"
+        case diskFreeSpace = "DiskFreeSpace"
+        case diskSizeExceeded = "DiskSizeExceeded"
+        case domainJoined = "DomainJoined"
+        case firewallEnabled = "FirewallEnabled"
+        case inPlaceUpgrade = "InPlaceUpgrade"
+        case incompatiblePartitioning = "IncompatiblePartitioning"
+        case multipleBootPartition = "MultipleBootPartition"
+        case officeInstalled = "OfficeInstalled"
+        case osNotSupported = "OSNotSupported"
+        case outdatedPowershellVersion = "OutdatedPowershellVersion"
+        case pcoipAgentInstalled = "PCoIPAgentInstalled"
+        case pendingReboot = "PendingReboot"
+        case realtimeUniversalDisabled = "RealTimeUniversalDisabled"
+        case sixtyFourBitOs = "Requires64BitOS"
+        case uefiNotSupported = "UEFINotSupported"
+        case vmwareToolsInstalled = "VMWareToolsInstalled"
+        case windowsUpdatesEnabled = "WindowsUpdatesEnabled"
+        case workspacesByolAccountDisabled = "WorkspacesBYOLAccountDisabled"
+        case workspacesByolAccountNotFound = "WorkspacesBYOLAccountNotFound"
+        case zeroRearmCount = "ZeroRearmCount"
+        public var description: String { return self.rawValue }
+    }
+
     public enum WorkspaceImageIngestionProcess: String, CustomStringConvertible, Codable, Sendable {
         case byolGraphics = "BYOL_GRAPHICS"
         case byolGraphicsG4Dn = "BYOL_GRAPHICS_G4DN"
@@ -2139,6 +2169,23 @@ extension WorkSpaces {
         public init() {}
     }
 
+    public struct ErrorDetails: AWSDecodableShape {
+        /// Indicates the error code returned.
+        public let errorCode: WorkspaceImageErrorDetailCode?
+        /// The text of the error message related the error code.
+        public let errorMessage: String?
+
+        public init(errorCode: WorkspaceImageErrorDetailCode? = nil, errorMessage: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+        }
+    }
+
     public struct FailedCreateStandbyWorkspacesRequest: AWSDecodableShape {
         /// The error code that is returned if the standby WorkSpace could not be created.
         public let errorCode: String?
@@ -3597,7 +3644,7 @@ extension WorkSpaces {
         public let userName: String?
         /// Indicates whether the data stored on the user volume is encrypted.
         public let userVolumeEncryptionEnabled: Bool?
-        /// The symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric KMS keys.
+        /// The ARN of the symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric KMS keys.
         public let volumeEncryptionKey: String?
         /// The identifier of the WorkSpace.
         public let workspaceId: String?
@@ -3893,6 +3940,8 @@ extension WorkSpaces {
         public let description: String?
         /// The error code that is returned for the image.
         public let errorCode: String?
+        /// The details of the error returned for the image.
+        public let errorDetails: [ErrorDetails]?
         /// The text of the error message that is returned for the image.
         public let errorMessage: String?
         /// The identifier of the image.
@@ -3910,10 +3959,11 @@ extension WorkSpaces {
         /// The updates (if any) that are available for the specified image.
         public let updates: UpdateResult?
 
-        public init(created: Date? = nil, description: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, imageId: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, ownerAccountId: String? = nil, requiredTenancy: WorkspaceImageRequiredTenancy? = nil, state: WorkspaceImageState? = nil, updates: UpdateResult? = nil) {
+        public init(created: Date? = nil, description: String? = nil, errorCode: String? = nil, errorDetails: [ErrorDetails]? = nil, errorMessage: String? = nil, imageId: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, ownerAccountId: String? = nil, requiredTenancy: WorkspaceImageRequiredTenancy? = nil, state: WorkspaceImageState? = nil, updates: UpdateResult? = nil) {
             self.created = created
             self.description = description
             self.errorCode = errorCode
+            self.errorDetails = errorDetails
             self.errorMessage = errorMessage
             self.imageId = imageId
             self.name = name
@@ -3928,6 +3978,7 @@ extension WorkSpaces {
             case created = "Created"
             case description = "Description"
             case errorCode = "ErrorCode"
+            case errorDetails = "ErrorDetails"
             case errorMessage = "ErrorMessage"
             case imageId = "ImageId"
             case name = "Name"
@@ -3985,7 +4036,7 @@ extension WorkSpaces {
         public let userName: String
         /// Indicates whether the data stored on the user volume is encrypted.
         public let userVolumeEncryptionEnabled: Bool?
-        /// The symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric KMS keys.
+        /// The ARN of the symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric KMS keys.
         public let volumeEncryptionKey: String?
         /// The WorkSpace properties.
         public let workspaceProperties: WorkspaceProperties?

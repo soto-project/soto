@@ -32,9 +32,24 @@ extension SageMakerFeatureStoreRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExpirationTimeResponse: String, CustomStringConvertible, Codable, Sendable {
+        case disabled = "Disabled"
+        case enabled = "Enabled"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TargetStore: String, CustomStringConvertible, Codable, Sendable {
         case offlineStore = "OfflineStore"
         case onlineStore = "OnlineStore"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TtlDurationUnit: String, CustomStringConvertible, Codable, Sendable {
+        case days = "Days"
+        case hours = "Hours"
+        case minutes = "Minutes"
+        case seconds = "Seconds"
+        case weeks = "Weeks"
         public var description: String { return self.rawValue }
     }
 
@@ -66,7 +81,7 @@ extension SageMakerFeatureStoreRuntime {
     }
 
     public struct BatchGetRecordIdentifier: AWSEncodableShape & AWSDecodableShape {
-        /// A FeatureGroupName containing Records you are retrieving in a batch.
+        /// The name or Amazon Resource Name (ARN) of the FeatureGroup containing the records you are retrieving in a batch.
         public let featureGroupName: String
         /// List of names of Features to be retrieved. If not specified, the latest value for all the Features are returned.
         public let featureNames: [String]?
@@ -80,9 +95,9 @@ extension SageMakerFeatureStoreRuntime {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 150)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
-            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}$")
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:feature-group/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63})$")
             try self.featureNames?.forEach {
                 try validate($0, name: "featureNames[]", parent: name, max: 64)
                 try validate($0, name: "featureNames[]", parent: name, min: 1)
@@ -105,10 +120,13 @@ extension SageMakerFeatureStoreRuntime {
     }
 
     public struct BatchGetRecordRequest: AWSEncodableShape {
-        /// A list of FeatureGroup names, with their corresponding RecordIdentifier value, and Feature name that have been requested to be retrieved in batch.
+        /// Parameter to request ExpiresAt in response. If Enabled, BatchGetRecord will return the value of ExpiresAt, if it is not null. If Disabled and null, BatchGetRecord will return null.
+        public let expirationTimeResponse: ExpirationTimeResponse?
+        /// A list containing the name or Amazon Resource Name (ARN) of the FeatureGroup, the list of names of Features to be retrieved, and the corresponding RecordIdentifier values as strings.
         public let identifiers: [BatchGetRecordIdentifier]
 
-        public init(identifiers: [BatchGetRecordIdentifier]) {
+        public init(expirationTimeResponse: ExpirationTimeResponse? = nil, identifiers: [BatchGetRecordIdentifier]) {
+            self.expirationTimeResponse = expirationTimeResponse
             self.identifiers = identifiers
         }
 
@@ -121,6 +139,7 @@ extension SageMakerFeatureStoreRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case expirationTimeResponse = "ExpirationTimeResponse"
             case identifiers = "Identifiers"
         }
     }
@@ -147,6 +166,8 @@ extension SageMakerFeatureStoreRuntime {
     }
 
     public struct BatchGetRecordResultDetail: AWSDecodableShape {
+        /// The ExpiresAt ISO string of the requested record.
+        public let expiresAt: String?
         /// The FeatureGroupName containing Records you retrieved in a batch.
         public let featureGroupName: String
         /// The Record retrieved.
@@ -154,13 +175,15 @@ extension SageMakerFeatureStoreRuntime {
         /// The value of the record identifier in string format.
         public let recordIdentifierValueAsString: String
 
-        public init(featureGroupName: String, record: [FeatureValue], recordIdentifierValueAsString: String) {
+        public init(expiresAt: String? = nil, featureGroupName: String, record: [FeatureValue], recordIdentifierValueAsString: String) {
+            self.expiresAt = expiresAt
             self.featureGroupName = featureGroupName
             self.record = record
             self.recordIdentifierValueAsString = recordIdentifierValueAsString
         }
 
         private enum CodingKeys: String, CodingKey {
+            case expiresAt = "ExpiresAt"
             case featureGroupName = "FeatureGroupName"
             case record = "Record"
             case recordIdentifierValueAsString = "RecordIdentifierValueAsString"
@@ -180,7 +203,7 @@ extension SageMakerFeatureStoreRuntime {
         public let deletionMode: DeletionMode?
         /// Timestamp indicating when the deletion event occurred. EventTime can be used to query data at a certain point in time.
         public let eventTime: String
-        /// The name of the feature group to delete the record from.
+        /// The name or Amazon Resource Name (ARN) of the feature group to delete the record from.
         public let featureGroupName: String
         /// The value for the RecordIdentifier that uniquely identifies the record, in string format.
         public let recordIdentifierValueAsString: String
@@ -198,9 +221,9 @@ extension SageMakerFeatureStoreRuntime {
         public func validate(name: String) throws {
             try self.validate(self.eventTime, name: "eventTime", parent: name, max: 358400)
             try self.validate(self.eventTime, name: "eventTime", parent: name, pattern: ".*")
-            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 150)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
-            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}$")
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:feature-group/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63})$")
             try self.validate(self.recordIdentifierValueAsString, name: "recordIdentifierValueAsString", parent: name, max: 358400)
             try self.validate(self.recordIdentifierValueAsString, name: "recordIdentifierValueAsString", parent: name, pattern: ".*")
             try self.validate(self.targetStores, name: "targetStores", parent: name, max: 2)
@@ -213,12 +236,15 @@ extension SageMakerFeatureStoreRuntime {
     public struct FeatureValue: AWSEncodableShape & AWSDecodableShape {
         /// The name of a feature that a feature value corresponds to.
         public let featureName: String
-        /// The value associated with a feature, in string format. Note that features types can be String, Integral, or Fractional. This value represents all three types as a string.
-        public let valueAsString: String
+        /// The value in string format associated with a feature. Used when your CollectionType is None. Note that features types can be String, Integral, or Fractional. This value represents all three types as a string.
+        public let valueAsString: String?
+        /// The list of values in string format associated with a feature. Used when your CollectionType is a List, Set, or Vector. Note that features types can be String, Integral, or Fractional. These values represents all three types as a string.
+        public let valueAsStringList: [String]?
 
-        public init(featureName: String, valueAsString: String) {
+        public init(featureName: String, valueAsString: String? = nil, valueAsStringList: [String]? = nil) {
             self.featureName = featureName
             self.valueAsString = valueAsString
+            self.valueAsStringList = valueAsStringList
         }
 
         public func validate(name: String) throws {
@@ -227,38 +253,48 @@ extension SageMakerFeatureStoreRuntime {
             try self.validate(self.featureName, name: "featureName", parent: name, pattern: "^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}$")
             try self.validate(self.valueAsString, name: "valueAsString", parent: name, max: 358400)
             try self.validate(self.valueAsString, name: "valueAsString", parent: name, pattern: ".*")
+            try self.valueAsStringList?.forEach {
+                try validate($0, name: "valueAsStringList[]", parent: name, max: 358400)
+                try validate($0, name: "valueAsStringList[]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.valueAsStringList, name: "valueAsStringList", parent: name, max: 358400)
         }
 
         private enum CodingKeys: String, CodingKey {
             case featureName = "FeatureName"
             case valueAsString = "ValueAsString"
+            case valueAsStringList = "ValueAsStringList"
         }
     }
 
     public struct GetRecordRequest: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "expirationTimeResponse", location: .querystring("ExpirationTimeResponse")),
             AWSMemberEncoding(label: "featureGroupName", location: .uri("FeatureGroupName")),
             AWSMemberEncoding(label: "featureNames", location: .querystring("FeatureName")),
             AWSMemberEncoding(label: "recordIdentifierValueAsString", location: .querystring("RecordIdentifierValueAsString"))
         ]
 
-        /// The name of the feature group from which you want to retrieve a record.
+        /// Parameter to request ExpiresAt in response. If Enabled, GetRecord will return the value of ExpiresAt, if it is not null. If Disabled and null, GetRecord will return null.
+        public let expirationTimeResponse: ExpirationTimeResponse?
+        /// The name or Amazon Resource Name (ARN) of the feature group from which you want to retrieve a record.
         public let featureGroupName: String
         /// List of names of Features to be retrieved. If not specified, the latest value for all the Features are returned.
         public let featureNames: [String]?
         /// The value that corresponds to RecordIdentifier type and uniquely identifies the record in the FeatureGroup.
         public let recordIdentifierValueAsString: String
 
-        public init(featureGroupName: String, featureNames: [String]? = nil, recordIdentifierValueAsString: String) {
+        public init(expirationTimeResponse: ExpirationTimeResponse? = nil, featureGroupName: String, featureNames: [String]? = nil, recordIdentifierValueAsString: String) {
+            self.expirationTimeResponse = expirationTimeResponse
             self.featureGroupName = featureGroupName
             self.featureNames = featureNames
             self.recordIdentifierValueAsString = recordIdentifierValueAsString
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 150)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
-            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}$")
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:feature-group/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63})$")
             try self.featureNames?.forEach {
                 try validate($0, name: "featureNames[]", parent: name, max: 64)
                 try validate($0, name: "featureNames[]", parent: name, min: 1)
@@ -273,14 +309,18 @@ extension SageMakerFeatureStoreRuntime {
     }
 
     public struct GetRecordResponse: AWSDecodableShape {
+        /// The ExpiresAt ISO string of the requested record.
+        public let expiresAt: String?
         /// The record you requested. A list of FeatureValues.
         public let record: [FeatureValue]?
 
-        public init(record: [FeatureValue]? = nil) {
+        public init(expiresAt: String? = nil, record: [FeatureValue]? = nil) {
+            self.expiresAt = expiresAt
             self.record = record
         }
 
         private enum CodingKeys: String, CodingKey {
+            case expiresAt = "ExpiresAt"
             case record = "Record"
         }
     }
@@ -290,34 +330,60 @@ extension SageMakerFeatureStoreRuntime {
             AWSMemberEncoding(label: "featureGroupName", location: .uri("FeatureGroupName"))
         ]
 
-        /// The name of the feature group that you want to insert the record into.
+        /// The name or Amazon Resource Name (ARN) of the feature group that you want to insert the record into.
         public let featureGroupName: String
         /// List of FeatureValues to be inserted. This will be a full over-write. If you only want to update few of the feature values, do the following:   Use GetRecord to retrieve the latest record.   Update the record returned from GetRecord.    Use PutRecord to update feature values.
         public let record: [FeatureValue]
         /// A list of stores to which you're adding the record. By default, Feature Store adds the record to all of the stores that you're using for the FeatureGroup.
         public let targetStores: [TargetStore]?
+        /// Time to live duration, where the record is hard deleted after the expiration time is reached; ExpiresAt = EventTime + TtlDuration. For information on HardDelete, see the DeleteRecord API in the Amazon SageMaker API Reference guide.
+        public let ttlDuration: TtlDuration?
 
-        public init(featureGroupName: String, record: [FeatureValue], targetStores: [TargetStore]? = nil) {
+        public init(featureGroupName: String, record: [FeatureValue], targetStores: [TargetStore]? = nil, ttlDuration: TtlDuration? = nil) {
             self.featureGroupName = featureGroupName
             self.record = record
             self.targetStores = targetStores
+            self.ttlDuration = ttlDuration
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 150)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
-            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}$")
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:feature-group/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63})$")
             try self.record.forEach {
                 try $0.validate(name: "\(name).record[]")
             }
             try self.validate(self.record, name: "record", parent: name, min: 1)
             try self.validate(self.targetStores, name: "targetStores", parent: name, max: 2)
             try self.validate(self.targetStores, name: "targetStores", parent: name, min: 1)
+            try self.ttlDuration?.validate(name: "\(name).ttlDuration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case record = "Record"
             case targetStores = "TargetStores"
+            case ttlDuration = "TtlDuration"
+        }
+    }
+
+    public struct TtlDuration: AWSEncodableShape {
+        ///  TtlDuration time unit.
+        public let unit: TtlDurationUnit
+        ///  TtlDuration time value.
+        public let value: Int
+
+        public init(unit: TtlDurationUnit, value: Int) {
+            self.unit = unit
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unit = "Unit"
+            case value = "Value"
         }
     }
 }

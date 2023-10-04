@@ -513,9 +513,9 @@ extension ACMPCA {
         /// 			authorities.
         public let idempotencyToken: String?
         /// Specifies a cryptographic key management compliance standard used for handling CA
-        /// 			keys. Default: FIPS_140_2_LEVEL_3_OR_HIGHER  Some Amazon Web Services Regions do not support the default. When creating a CA in these Regions, you
-        /// 				must provide FIPS_140_2_LEVEL_2_OR_HIGHER as the argument for
-        /// 					KeyStorageSecurityStandard. Failure to do this results in an
+        /// 			keys. Default: FIPS_140_2_LEVEL_3_OR_HIGHER  Some Amazon Web Services Regions do not support the default. When creating a CA in these
+        /// 				Regions, you must provide FIPS_140_2_LEVEL_2_OR_HIGHER as the argument
+        /// 				for KeyStorageSecurityStandard. Failure to do this results in an
         /// 					InvalidArgsException with the message, "A certificate authority
         /// 				cannot be created in this region with the specified security standard." For information about security standard support in various Regions, see Storage
         /// 					and security compliance of Amazon Web Services Private CA private keys.
@@ -1321,15 +1321,15 @@ extension ACMPCA {
         /// 				subject alternative name or the request will be rejected.
         ///
         public let csr: AWSBase64Data
-        /// Alphanumeric string that can be used to distinguish between calls to the IssueCertificate action. Idempotency tokens for IssueCertificate time out after one minute. Therefore, if you
-        /// 			call IssueCertificate multiple times with the same
-        /// 			idempotency token within one minute, Amazon Web Services Private CA recognizes that you are requesting only
-        /// 			one certificate and will issue only one. If you change the idempotency token for each
-        /// 			call, Amazon Web Services Private CA recognizes that you are requesting multiple certificates.
+        /// Alphanumeric string that can be used to distinguish between calls to the IssueCertificate action. Idempotency tokens for IssueCertificate time out after five  minutes. Therefore, if
+        /// 			you call IssueCertificate multiple times with the same
+        /// 			idempotency token within five minutes, Amazon Web Services Private CA recognizes that you are requesting
+        /// 			only one certificate and will issue only one. If you change the idempotency token for
+        /// 			each call, Amazon Web Services Private CA recognizes that you are requesting multiple certificates.
         public let idempotencyToken: String?
         /// The name of the algorithm that will be used to sign the certificate to be issued.  This parameter should not be confused with the SigningAlgorithm parameter
-        /// 			used to sign a CSR in the CreateCertificateAuthority action.  The specified signing algorithm family (RSA or ECDSA) must match the algorithm family of
-        /// 				the CA's secret key.
+        /// 			used to sign a CSR in the CreateCertificateAuthority action.  The specified signing algorithm family (RSA or ECDSA) must match the algorithm
+        /// 				family of the CA's secret key.
         public let signingAlgorithm: SigningAlgorithm
         /// Specifies a custom configuration template to use when issuing a certificate. If this
         /// 			parameter is not provided, Amazon Web Services Private CA defaults to the

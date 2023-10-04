@@ -161,7 +161,7 @@ public struct CodeDeploy: AWSService {
         return self.client.execute(operation: "DeleteGitHubAccountToken", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes resources linked to an external ID.
+    /// Deletes resources linked to an external ID. This action only applies if you have configured blue/green deployments through CloudFormation.   It is not necessary to call this action directly. CloudFormation calls it on your behalf when it needs to delete stack resources. This action is offered publicly in case you need to delete resources to comply with General Data Protection Regulation (GDPR) requirements.
     public func deleteResourcesByExternalId(_ input: DeleteResourcesByExternalIdInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteResourcesByExternalIdOutput> {
         return self.client.execute(operation: "DeleteResourcesByExternalId", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -217,22 +217,22 @@ public struct CodeDeploy: AWSService {
         return self.client.execute(operation: "ListApplicationRevisions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the applications registered with the IAM user or Amazon Web Services account.
+    /// Lists the applications registered with the user or Amazon Web Services account.
     public func listApplications(_ input: ListApplicationsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListApplicationsOutput> {
         return self.client.execute(operation: "ListApplications", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the deployment configurations with the IAM user or Amazon Web Services account.
+    /// Lists the deployment configurations with the user or Amazon Web Services account.
     public func listDeploymentConfigs(_ input: ListDeploymentConfigsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDeploymentConfigsOutput> {
         return self.client.execute(operation: "ListDeploymentConfigs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the deployment groups for an application registered with the IAM user or Amazon Web Services account.
+    /// Lists the deployment groups for an application registered with the Amazon Web Services user or Amazon Web Services account.
     public func listDeploymentGroups(_ input: ListDeploymentGroupsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDeploymentGroupsOutput> {
         return self.client.execute(operation: "ListDeploymentGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or Lambda.   Lists the instance for a deployment associated with the IAM user or Amazon Web Services account.
+    ///  The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or Lambda.   Lists the instance for a deployment associated with the user or Amazon Web Services account.
     @available(*, deprecated, message: "This operation is deprecated, use ListDeploymentTargets instead.")
     public func listDeploymentInstances(_ input: ListDeploymentInstancesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDeploymentInstancesOutput> {
         return self.client.execute(operation: "ListDeploymentInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -243,7 +243,7 @@ public struct CodeDeploy: AWSService {
         return self.client.execute(operation: "ListDeploymentTargets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the deployments in a deployment group for an application registered with the IAM user or Amazon Web Services account.
+    /// Lists the deployments in a deployment group for an application registered with the user or Amazon Web Services account.
     public func listDeployments(_ input: ListDeploymentsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDeploymentsOutput> {
         return self.client.execute(operation: "ListDeployments", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -380,7 +380,7 @@ extension CodeDeploy {
         )
     }
 
-    /// Lists the applications registered with the IAM user or Amazon Web Services account.
+    /// Lists the applications registered with the user or Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -433,7 +433,7 @@ extension CodeDeploy {
         )
     }
 
-    /// Lists the deployment configurations with the IAM user or Amazon Web Services account.
+    /// Lists the deployment configurations with the user or Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -486,7 +486,7 @@ extension CodeDeploy {
         )
     }
 
-    /// Lists the deployment groups for an application registered with the IAM user or Amazon Web Services account.
+    /// Lists the deployment groups for an application registered with the Amazon Web Services user or Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -539,7 +539,7 @@ extension CodeDeploy {
         )
     }
 
-    ///  The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or Lambda.   Lists the instance for a deployment associated with the IAM user or Amazon Web Services account.
+    ///  The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or Lambda.   Lists the instance for a deployment associated with the user or Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -594,7 +594,7 @@ extension CodeDeploy {
         )
     }
 
-    /// Lists the deployments in a deployment group for an application registered with the IAM user or Amazon Web Services account.
+    /// Lists the deployments in a deployment group for an application registered with the user or Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

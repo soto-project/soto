@@ -522,7 +522,7 @@ extension CodeDeploy {
     }
 
     public struct BatchGetDeploymentGroupsInput: AWSEncodableShape {
-        /// The name of an CodeDeploy application associated with the applicable IAM or Amazon Web Services account.
+        /// The name of an CodeDeploy application associated with the applicable user or Amazon Web Services account.
         public let applicationName: String
         /// The names of the deployment groups.
         public let deploymentGroupNames: [String]
@@ -704,9 +704,7 @@ extension CodeDeploy {
     public struct BlueInstanceTerminationOption: AWSEncodableShape & AWSDecodableShape {
         /// The action to take on instances in the original environment after a successful blue/green deployment.    TERMINATE: Instances are terminated after a specified wait time.    KEEP_ALIVE: Instances are left running after they are deregistered from the load balancer and removed from the deployment group.
         public let action: InstanceAction?
-        /// For an Amazon EC2 deployment, the number of minutes to wait after a successful blue/green deployment before terminating instances from the original environment.
-        ///  For an Amazon ECS deployment, the number of minutes before deleting the original (blue) task set. During an Amazon ECS deployment, CodeDeploy shifts traffic from the original (blue) task set to a replacement (green) task set.
-        ///  The maximum setting is 2880 minutes (2 days).
+        /// For an Amazon EC2 deployment, the number of minutes to wait after a successful blue/green deployment before terminating instances from the original environment. For an Amazon ECS deployment, the number of minutes before deleting the original (blue) task set. During an Amazon ECS deployment, CodeDeploy shifts traffic from the original (blue) task set to a replacement (green) task set.  The maximum setting is 2880 minutes (2 days).
         public let terminationWaitTimeInMinutes: Int?
 
         public init(action: InstanceAction? = nil, terminationWaitTimeInMinutes: Int? = nil) {
@@ -775,7 +773,7 @@ extension CodeDeploy {
     }
 
     public struct CreateApplicationInput: AWSEncodableShape {
-        /// The name of the application. This name must be unique with the applicable IAM or Amazon Web Services account.
+        /// The name of the application. This name must be unique with the applicable user or Amazon Web Services account.
         public let applicationName: String
         ///  The destination platform type for the deployment (Lambda, Server, or ECS).
         public let computePlatform: ComputePlatform?
@@ -859,7 +857,7 @@ extension CodeDeploy {
     public struct CreateDeploymentGroupInput: AWSEncodableShape {
         /// Information to add about Amazon CloudWatch alarms when the deployment group is created.
         public let alarmConfiguration: AlarmConfiguration?
-        /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
+        /// The name of an CodeDeploy application associated with the user or Amazon Web Services account.
         public let applicationName: String
         /// Configuration information for an automatic rollback that is added when a deployment group is created.
         public let autoRollbackConfiguration: AutoRollbackConfiguration?
@@ -960,11 +958,11 @@ extension CodeDeploy {
     }
 
     public struct CreateDeploymentInput: AWSEncodableShape {
-        /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
+        /// The name of an CodeDeploy application associated with the user or Amazon Web Services account.
         public let applicationName: String
         /// Configuration information for an automatic rollback that is added when a deployment is created.
         public let autoRollbackConfiguration: AutoRollbackConfiguration?
-        /// The name of a deployment configuration associated with the IAM user or Amazon Web Services account. If not specified, the value configured in the deployment group is used as the default. If the deployment group does not have a deployment configuration associated with it, CodeDeployDefault.OneAtATime is used by default.
+        /// The name of a deployment configuration associated with the user or Amazon Web Services account. If not specified, the value configured in the deployment group is used as the default. If the deployment group does not have a deployment configuration associated with it, CodeDeployDefault.OneAtATime is used by default.
         public let deploymentConfigName: String?
         /// The name of the deployment group.
         public let deploymentGroupName: String?
@@ -972,10 +970,7 @@ extension CodeDeploy {
         public let description: String?
         /// Information about how CodeDeploy handles files that already exist in a deployment target location but weren't part of the previous successful deployment. The fileExistsBehavior parameter takes any of the following values:   DISALLOW: The deployment fails. This is also the default behavior if no option is specified.   OVERWRITE: The version of the file from the application revision currently being deployed replaces the version already on the instance.   RETAIN: The version of the file already on the instance is kept and used as part of the new deployment.
         public let fileExistsBehavior: FileExistsBehavior?
-        ///  If true, then if an ApplicationStop, BeforeBlockTraffic, or AfterBlockTraffic deployment lifecycle event to an instance fails, then the deployment continues to the next deployment lifecycle event. For example, if ApplicationStop fails, the deployment continues with DownloadBundle. If BeforeBlockTraffic fails, the deployment continues with BlockTraffic. If AfterBlockTraffic fails, the deployment continues with ApplicationStop.
-        ///  If false or not specified, then if a lifecycle event fails during a deployment to an instance, that deployment fails. If deployment to that instance is part of an overall deployment and the number of healthy hosts is not less than the minimum number of healthy hosts, then a deployment to the next instance is attempted.
-        ///  During a deployment, the CodeDeploy agent runs the scripts specified for ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic in the AppSpec file from the previous successful deployment. (All other scripts are run from the AppSpec file in the current deployment.) If one of these scripts contains an error and does not run successfully, the deployment can fail.
-        ///  If the cause of the failure is a script from the last successful deployment that will never run successfully, create a new deployment and use ignoreApplicationStopFailures to specify that the ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic failures should be ignored.
+        ///  If true, then if an ApplicationStop, BeforeBlockTraffic, or AfterBlockTraffic deployment lifecycle event to an instance fails, then the deployment continues to the next deployment lifecycle event. For example, if ApplicationStop fails, the deployment continues with DownloadBundle. If BeforeBlockTraffic fails, the deployment continues with BlockTraffic. If AfterBlockTraffic fails, the deployment continues with ApplicationStop.  If false or not specified, then if a lifecycle event fails during a deployment to an instance, that deployment fails. If deployment to that instance is part of an overall deployment and the number of healthy hosts is not less than the minimum number of healthy hosts, then a deployment to the next instance is attempted.  During a deployment, the CodeDeploy agent runs the scripts specified for ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic in the AppSpec file from the previous successful deployment. (All other scripts are run from the AppSpec file in the current deployment.) If one of these scripts contains an error and does not run successfully, the deployment can fail.  If the cause of the failure is a script from the last successful deployment that will never run successfully, create a new deployment and use ignoreApplicationStopFailures to specify that the ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic failures should be ignored.
         public let ignoreApplicationStopFailures: Bool?
         /// Allows you to specify information about alarms associated with a deployment. The alarm configuration that you specify here will override the alarm configuration at the deployment group level. Consider overriding the alarm configuration if you have set up alarms at the deployment group level that are causing deployment failures. In this case, you would call CreateDeployment to create a new deployment that uses a previous application revision that is known to work, and set its alarm configuration to turn off alarm polling. Turning off alarm polling ensures that the new deployment proceeds without being blocked by the alarm that was generated by the previous, failed, deployment.  If you specify an overrideAlarmConfiguration, you need the UpdateDeploymentGroup IAM permission when calling CreateDeployment.
         public let overrideAlarmConfiguration: AlarmConfiguration?
@@ -1038,7 +1033,7 @@ extension CodeDeploy {
     }
 
     public struct DeleteApplicationInput: AWSEncodableShape {
-        /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
+        /// The name of an CodeDeploy application associated with the user or Amazon Web Services account.
         public let applicationName: String
 
         public init(applicationName: String) {
@@ -1056,7 +1051,7 @@ extension CodeDeploy {
     }
 
     public struct DeleteDeploymentConfigInput: AWSEncodableShape {
-        /// The name of a deployment configuration associated with the IAM user or Amazon Web Services account.
+        /// The name of a deployment configuration associated with the user or Amazon Web Services account.
         public let deploymentConfigName: String
 
         public init(deploymentConfigName: String) {
@@ -1074,7 +1069,7 @@ extension CodeDeploy {
     }
 
     public struct DeleteDeploymentGroupInput: AWSEncodableShape {
-        /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
+        /// The name of an CodeDeploy application associated with the user or Amazon Web Services account.
         public let applicationName: String
         /// The name of a deployment group for the specified application.
         public let deploymentGroupName: String
@@ -1320,10 +1315,7 @@ extension CodeDeploy {
         public let externalId: String?
         /// Information about how CodeDeploy handles files that already exist in a deployment target location but weren't part of the previous successful deployment.    DISALLOW: The deployment fails. This is also the default behavior if no option is specified.    OVERWRITE: The version of the file from the application revision currently being deployed replaces the version already on the instance.    RETAIN: The version of the file already on the instance is kept and used as part of the new deployment.
         public let fileExistsBehavior: FileExistsBehavior?
-        ///  If true, then if an ApplicationStop, BeforeBlockTraffic, or AfterBlockTraffic deployment lifecycle event to an instance fails, then the deployment continues to the next deployment lifecycle event. For example, if ApplicationStop fails, the deployment continues with DownloadBundle. If BeforeBlockTraffic fails, the deployment continues with BlockTraffic. If AfterBlockTraffic fails, the deployment continues with ApplicationStop.
-        ///  If false or not specified, then if a lifecycle event fails during a deployment to an instance, that deployment fails. If deployment to that instance is part of an overall deployment and the number of healthy hosts is not less than the minimum number of healthy hosts, then a deployment to the next instance is attempted.
-        ///  During a deployment, the CodeDeploy agent runs the scripts specified for ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic in the AppSpec file from the previous successful deployment. (All other scripts are run from the AppSpec file in the current deployment.) If one of these scripts contains an error and does not run successfully, the deployment can fail.
-        ///  If the cause of the failure is a script from the last successful deployment that will never run successfully, create a new deployment and use ignoreApplicationStopFailures to specify that the ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic failures should be ignored.
+        ///  If true, then if an ApplicationStop, BeforeBlockTraffic, or AfterBlockTraffic deployment lifecycle event to an instance fails, then the deployment continues to the next deployment lifecycle event. For example, if ApplicationStop fails, the deployment continues with DownloadBundle. If BeforeBlockTraffic fails, the deployment continues with BlockTraffic. If AfterBlockTraffic fails, the deployment continues with ApplicationStop.  If false or not specified, then if a lifecycle event fails during a deployment to an instance, that deployment fails. If deployment to that instance is part of an overall deployment and the number of healthy hosts is not less than the minimum number of healthy hosts, then a deployment to the next instance is attempted.  During a deployment, the CodeDeploy agent runs the scripts specified for ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic in the AppSpec file from the previous successful deployment. (All other scripts are run from the AppSpec file in the current deployment.) If one of these scripts contains an error and does not run successfully, the deployment can fail.  If the cause of the failure is a script from the last successful deployment that will never run successfully, create a new deployment and use ignoreApplicationStopFailures to specify that the ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic failures should be ignored.
         public let ignoreApplicationStopFailures: Bool?
         /// Indicates whether the wait period set for the termination of instances in the original environment has started. Status is 'false' if the KEEP_ALIVE option is specified. Otherwise, 'true' as soon as the termination wait period starts.
         public let instanceTerminationWaitTimeStarted: Bool?
@@ -1676,7 +1668,7 @@ extension CodeDeploy {
     }
 
     public struct ELBInfo: AWSEncodableShape & AWSDecodableShape {
-        /// For blue/green deployments, the name of the load balancer that is used to route traffic from original instances to replacement instances in a blue/green deployment. For in-place deployments, the name of the load balancer that instances are deregistered from so they are not serving traffic during a deployment, and then re-registered with after the deployment is complete.
+        /// For blue/green deployments, the name of the Classic Load Balancer that is used to route traffic from original instances to replacement instances in a blue/green deployment. For in-place deployments, the name of the Classic Load Balancer that instances are deregistered from so they are not serving traffic during a deployment, and then re-registered with after the deployment is complete.
         public let name: String?
 
         public init(name: String? = nil) {
@@ -1735,7 +1727,7 @@ extension CodeDeploy {
     }
 
     public struct GetApplicationInput: AWSEncodableShape {
-        /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
+        /// The name of an CodeDeploy application associated with the user or Amazon Web Services account.
         public let applicationName: String
 
         public init(applicationName: String) {
@@ -1809,7 +1801,7 @@ extension CodeDeploy {
     }
 
     public struct GetDeploymentConfigInput: AWSEncodableShape {
-        /// The name of a deployment configuration associated with the IAM user or Amazon Web Services account.
+        /// The name of a deployment configuration associated with the user or Amazon Web Services account.
         public let deploymentConfigName: String
 
         public init(deploymentConfigName: String) {
@@ -1840,7 +1832,7 @@ extension CodeDeploy {
     }
 
     public struct GetDeploymentGroupInput: AWSEncodableShape {
-        /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
+        /// The name of an CodeDeploy application associated with the user or Amazon Web Services account.
         public let applicationName: String
         /// The name of a deployment group for the specified application.
         public let deploymentGroupName: String
@@ -1877,7 +1869,7 @@ extension CodeDeploy {
     }
 
     public struct GetDeploymentInput: AWSEncodableShape {
-        ///  The unique ID of a deployment associated with the IAM user or Amazon Web Services account.
+        ///  The unique ID of a deployment associated with the user or Amazon Web Services account.
         public let deploymentId: String
 
         public init(deploymentId: String) {
@@ -2023,7 +2015,7 @@ extension CodeDeploy {
         public let deregisterTime: Date?
         /// The ARN of the IAM session associated with the on-premises instance.
         public let iamSessionArn: String?
-        /// The IAM user ARN associated with the on-premises instance.
+        /// The user ARN associated with the on-premises instance.
         public let iamUserArn: String?
         /// The ARN of the on-premises instance.
         public let instanceArn: String?
@@ -2246,7 +2238,7 @@ extension CodeDeploy {
     }
 
     public struct ListApplicationRevisionsInput: AWSEncodableShape {
-        ///  The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
+        ///  The name of an CodeDeploy application associated with the user or Amazon Web Services account.
         public let applicationName: String
         ///  Whether to list revisions based on whether the revision is the target revision of a deployment group:     include: List revisions that are target revisions of a deployment group.    exclude: Do not list revisions that are target revisions of a deployment group.    ignore: List all revisions.
         public let deployed: ListStateFilterAction?
@@ -2365,7 +2357,7 @@ extension CodeDeploy {
     }
 
     public struct ListDeploymentGroupsInput: AWSEncodableShape {
-        /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
+        /// The name of an CodeDeploy application associated with the user or Amazon Web Services account.
         public let applicationName: String
         /// An identifier returned from the previous list deployment groups call. It can be used to return the next set of deployment groups in the list.
         public let nextToken: String?
@@ -2488,7 +2480,7 @@ extension CodeDeploy {
     }
 
     public struct ListDeploymentsInput: AWSEncodableShape {
-        /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.  If applicationName is specified, then deploymentGroupName must be specified. If it is not specified, then deploymentGroupName must not be specified.
+        /// The name of an CodeDeploy application associated with the user or Amazon Web Services account.  If applicationName is specified, then deploymentGroupName must be specified. If it is not specified, then deploymentGroupName must not be specified.
         public let applicationName: String?
         /// A time range (start and end) for returning a subset of the list of deployments.
         public let createTimeRange: TimeRange?
@@ -2652,9 +2644,9 @@ extension CodeDeploy {
     }
 
     public struct LoadBalancerInfo: AWSEncodableShape & AWSDecodableShape {
-        /// An array that contains information about the load balancer to use for load balancing in a deployment. In Elastic Load Balancing, load balancers are used with Classic Load Balancers.  Adding more than one load balancer to the array is not supported.
+        /// An array that contains information about the load balancers to use for load balancing in a deployment. If you're using Classic Load Balancers, specify those load balancers in this array.   You can add up to 10 load balancers to the array.   If you're using Application Load Balancers or Network Load Balancers, use the targetGroupInfoList array instead of this one.
         public let elbInfoList: [ELBInfo]?
-        /// An array that contains information about the target group to use for load balancing in a deployment. In Elastic Load Balancing, target groups are used with Application Load Balancers.  Adding more than one target group to the array is not supported.
+        /// An array that contains information about the target groups to use for load balancing in a deployment. If you're using Application Load Balancers and Network Load Balancers, specify their associated target groups in this array.  You can add up to 10 target groups to the array.   If you're using Classic Load Balancers, use the elbInfoList array instead of this one.
         public let targetGroupInfoList: [TargetGroupInfo]?
         ///  The target group pair information. This is an array of TargeGroupPairInfo objects with a maximum size of one.
         public let targetGroupPairInfoList: [TargetGroupPairInfo]?
@@ -2754,7 +2746,7 @@ extension CodeDeploy {
     }
 
     public struct RegisterApplicationRevisionInput: AWSEncodableShape {
-        /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
+        /// The name of an CodeDeploy application associated with the user or Amazon Web Services account.
         public let applicationName: String
         /// A comment about the revision.
         public let description: String?
@@ -2782,7 +2774,7 @@ extension CodeDeploy {
     public struct RegisterOnPremisesInstanceInput: AWSEncodableShape {
         /// The ARN of the IAM session to associate with the on-premises instance.
         public let iamSessionArn: String?
-        /// The ARN of the IAM user to associate with the on-premises instance.
+        /// The ARN of the user to associate with the on-premises instance.
         public let iamUserArn: String?
         /// The name of the on-premises instance to register.
         public let instanceName: String
@@ -2904,7 +2896,7 @@ extension CodeDeploy {
     public struct S3Location: AWSEncodableShape & AWSDecodableShape {
         /// The name of the Amazon S3 bucket where the application revision is stored.
         public let bucket: String?
-        /// The file type of the application revision. Must be one of the following:    tar: A tar archive file.    tgz: A compressed tar archive file.    zip: A zip archive file.
+        /// The file type of the application revision. Must be one of the following:    tar: A tar archive file.    tgz: A compressed tar archive file.    zip: A zip archive file.    YAML: A YAML-formatted file.    JSON: A JSON-formatted file.
         public let bundleType: BundleType?
         /// The ETag of the Amazon S3 object that represents the bundled artifacts for the application revision. If the ETag is not specified as an input parameter, ETag validation of the object is skipped.
         public let eTag: String?
@@ -3494,9 +3486,9 @@ public struct CodeDeployErrorType: AWSErrorType {
 
     /// The maximum number of alarms for a deployment group (10) was exceeded.
     public static var alarmsLimitExceededException: Self { .init(.alarmsLimitExceededException) }
-    /// An application with the specified name with the IAM user or Amazon Web Services account already exists.
+    /// An application with the specified name with the user or Amazon Web Services account already exists.
     public static var applicationAlreadyExistsException: Self { .init(.applicationAlreadyExistsException) }
-    /// The application does not exist with the IAM user or Amazon Web Services account.
+    /// The application does not exist with the user or Amazon Web Services account.
     public static var applicationDoesNotExistException: Self { .init(.applicationDoesNotExistException) }
     /// More applications were attempted to be created than are allowed.
     public static var applicationLimitExceededException: Self { .init(.applicationLimitExceededException) }
@@ -3510,9 +3502,9 @@ public struct CodeDeployErrorType: AWSErrorType {
     public static var bucketNameFilterRequiredException: Self { .init(.bucketNameFilterRequiredException) }
     /// The deployment is already complete.
     public static var deploymentAlreadyCompletedException: Self { .init(.deploymentAlreadyCompletedException) }
-    /// A deployment configuration with the specified name with the IAM user or Amazon Web Services account already exists.
+    /// A deployment configuration with the specified name with the user or Amazon Web Services account already exists.
     public static var deploymentConfigAlreadyExistsException: Self { .init(.deploymentConfigAlreadyExistsException) }
-    /// The deployment configuration does not exist with the IAM user or Amazon Web Services account.
+    /// The deployment configuration does not exist with the user or Amazon Web Services account.
     public static var deploymentConfigDoesNotExistException: Self { .init(.deploymentConfigDoesNotExistException) }
     /// The deployment configuration is still in use.
     public static var deploymentConfigInUseException: Self { .init(.deploymentConfigInUseException) }
@@ -3520,11 +3512,11 @@ public struct CodeDeployErrorType: AWSErrorType {
     public static var deploymentConfigLimitExceededException: Self { .init(.deploymentConfigLimitExceededException) }
     /// The deployment configuration name was not specified.
     public static var deploymentConfigNameRequiredException: Self { .init(.deploymentConfigNameRequiredException) }
-    /// The deployment with the IAM user or Amazon Web Services account does not exist.
+    /// The deployment with the user or Amazon Web Services account does not exist.
     public static var deploymentDoesNotExistException: Self { .init(.deploymentDoesNotExistException) }
-    /// A deployment group with the specified name with the IAM user or Amazon Web Services account already exists.
+    /// A deployment group with the specified name with the user or Amazon Web Services account already exists.
     public static var deploymentGroupAlreadyExistsException: Self { .init(.deploymentGroupAlreadyExistsException) }
-    /// The named deployment group with the IAM user or Amazon Web Services account does not exist.
+    /// The named deployment group with the user or Amazon Web Services account does not exist.
     public static var deploymentGroupDoesNotExistException: Self { .init(.deploymentGroupDoesNotExistException) }
     ///  The deployment groups limit was exceeded.
     public static var deploymentGroupLimitExceededException: Self { .init(.deploymentGroupLimitExceededException) }
@@ -3552,13 +3544,13 @@ public struct CodeDeployErrorType: AWSErrorType {
     public static var gitHubAccountTokenDoesNotExistException: Self { .init(.gitHubAccountTokenDoesNotExistException) }
     /// The call is missing a required GitHub account connection name.
     public static var gitHubAccountTokenNameRequiredException: Self { .init(.gitHubAccountTokenNameRequiredException) }
-    /// No IAM ARN was included in the request. You must use an IAM session ARN or IAM user ARN in the request.
+    /// No IAM ARN was included in the request. You must use an IAM session ARN or user ARN in the request.
     public static var iamArnRequiredException: Self { .init(.iamArnRequiredException) }
     /// The request included an IAM session ARN that has already been used to register a different instance.
     public static var iamSessionArnAlreadyRegisteredException: Self { .init(.iamSessionArnAlreadyRegisteredException) }
-    /// The specified IAM user ARN is already registered with an on-premises instance.
+    /// The specified user ARN is already registered with an on-premises instance.
     public static var iamUserArnAlreadyRegisteredException: Self { .init(.iamUserArnAlreadyRegisteredException) }
-    /// An IAM user ARN was not specified.
+    /// An user ARN was not specified.
     public static var iamUserArnRequiredException: Self { .init(.iamUserArnRequiredException) }
     /// The specified instance does not exist in the deployment group.
     public static var instanceDoesNotExistException: Self { .init(.instanceDoesNotExistException) }
@@ -3622,7 +3614,7 @@ public struct CodeDeployErrorType: AWSErrorType {
     public static var invalidGitHubAccountTokenNameException: Self { .init(.invalidGitHubAccountTokenNameException) }
     /// The IAM session ARN was specified in an invalid format.
     public static var invalidIamSessionArnException: Self { .init(.invalidIamSessionArnException) }
-    /// The IAM user ARN was specified in an invalid format.
+    /// The user ARN was specified in an invalid format.
     public static var invalidIamUserArnException: Self { .init(.invalidIamUserArnException) }
     /// The IgnoreApplicationStopFailures value is invalid. For Lambda deployments, false is expected. For EC2/On-premises deployments, true or false is expected.
     public static var invalidIgnoreApplicationStopFailuresValueException: Self { .init(.invalidIgnoreApplicationStopFailuresValueException) }
@@ -3684,7 +3676,7 @@ public struct CodeDeployErrorType: AWSErrorType {
     public static var lifecycleEventAlreadyCompletedException: Self { .init(.lifecycleEventAlreadyCompletedException) }
     /// The limit for lifecycle hooks was exceeded.
     public static var lifecycleHookLimitExceededException: Self { .init(.lifecycleHookLimitExceededException) }
-    /// Both an IAM user ARN and an IAM session ARN were included in the request. Use only one ARN type.
+    /// Both an user ARN and an IAM session ARN were included in the request. Use only one ARN type.
     public static var multipleIamArnsProvidedException: Self { .init(.multipleIamArnsProvidedException) }
     /// The API used does not support the deployment.
     public static var operationNotSupportedException: Self { .init(.operationNotSupportedException) }
@@ -3692,7 +3684,7 @@ public struct CodeDeployErrorType: AWSErrorType {
     public static var resourceArnRequiredException: Self { .init(.resourceArnRequiredException) }
     /// The specified resource could not be validated.
     public static var resourceValidationException: Self { .init(.resourceValidationException) }
-    /// The named revision does not exist with the IAM user or Amazon Web Services account.
+    /// The named revision does not exist with the user or Amazon Web Services account.
     public static var revisionDoesNotExistException: Self { .init(.revisionDoesNotExistException) }
     /// The revision ID was not specified.
     public static var revisionRequiredException: Self { .init(.revisionRequiredException) }

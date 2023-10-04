@@ -612,6 +612,134 @@ extension Kafka {
         }
     }
 
+    public struct ClusterOperationV2: AWSDecodableShape {
+        /// ARN of the cluster.
+        public let clusterArn: String?
+        /// Type of the backend cluster.
+        public let clusterType: ClusterType?
+        /// The time at which the operation finished.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
+        /// If cluster operation failed from an error, it describes the error.
+        public let errorInfo: ErrorInfo?
+        /// ARN of the cluster operation.
+        public let operationArn: String?
+        /// State of the cluster operation.
+        public let operationState: String?
+        /// Type of the cluster operation.
+        public let operationType: String?
+        /// Properties of a provisioned cluster.
+        public let provisioned: ClusterOperationV2Provisioned?
+        /// Properties of a serverless cluster.
+        public let serverless: ClusterOperationV2Serverless?
+        /// The time at which operation was started.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
+
+        public init(clusterArn: String? = nil, clusterType: ClusterType? = nil, endTime: Date? = nil, errorInfo: ErrorInfo? = nil, operationArn: String? = nil, operationState: String? = nil, operationType: String? = nil, provisioned: ClusterOperationV2Provisioned? = nil, serverless: ClusterOperationV2Serverless? = nil, startTime: Date? = nil) {
+            self.clusterArn = clusterArn
+            self.clusterType = clusterType
+            self.endTime = endTime
+            self.errorInfo = errorInfo
+            self.operationArn = operationArn
+            self.operationState = operationState
+            self.operationType = operationType
+            self.provisioned = provisioned
+            self.serverless = serverless
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case clusterType = "clusterType"
+            case endTime = "endTime"
+            case errorInfo = "errorInfo"
+            case operationArn = "operationArn"
+            case operationState = "operationState"
+            case operationType = "operationType"
+            case provisioned = "provisioned"
+            case serverless = "serverless"
+            case startTime = "startTime"
+        }
+    }
+
+    public struct ClusterOperationV2Provisioned: AWSDecodableShape {
+        /// Steps completed during the operation.
+        public let operationSteps: [ClusterOperationStep]?
+        /// Information about cluster attributes before a cluster is updated.
+        public let sourceClusterInfo: MutableClusterInfo?
+        /// Information about cluster attributes after a cluster is updated.
+        public let targetClusterInfo: MutableClusterInfo?
+        /// Description of the VPC connection for CreateVpcConnection and DeleteVpcConnection operations.
+        public let vpcConnectionInfo: VpcConnectionInfo?
+
+        public init(operationSteps: [ClusterOperationStep]? = nil, sourceClusterInfo: MutableClusterInfo? = nil, targetClusterInfo: MutableClusterInfo? = nil, vpcConnectionInfo: VpcConnectionInfo? = nil) {
+            self.operationSteps = operationSteps
+            self.sourceClusterInfo = sourceClusterInfo
+            self.targetClusterInfo = targetClusterInfo
+            self.vpcConnectionInfo = vpcConnectionInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationSteps = "operationSteps"
+            case sourceClusterInfo = "sourceClusterInfo"
+            case targetClusterInfo = "targetClusterInfo"
+            case vpcConnectionInfo = "vpcConnectionInfo"
+        }
+    }
+
+    public struct ClusterOperationV2Serverless: AWSDecodableShape {
+        /// Description of the VPC connection for CreateVpcConnection and DeleteVpcConnection operations.
+        public let vpcConnectionInfo: VpcConnectionInfoServerless?
+
+        public init(vpcConnectionInfo: VpcConnectionInfoServerless? = nil) {
+            self.vpcConnectionInfo = vpcConnectionInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcConnectionInfo = "vpcConnectionInfo"
+        }
+    }
+
+    public struct ClusterOperationV2Summary: AWSDecodableShape {
+        /// ARN of the cluster.
+        public let clusterArn: String?
+        /// Type of the backend cluster.
+        public let clusterType: ClusterType?
+        /// The time at which the operation finished.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
+        /// ARN of the cluster operation.
+        public let operationArn: String?
+        /// State of the cluster operation.
+        public let operationState: String?
+        /// Type of the cluster operation.
+        public let operationType: String?
+        /// The time at which operation was started.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
+
+        public init(clusterArn: String? = nil, clusterType: ClusterType? = nil, endTime: Date? = nil, operationArn: String? = nil, operationState: String? = nil, operationType: String? = nil, startTime: Date? = nil) {
+            self.clusterArn = clusterArn
+            self.clusterType = clusterType
+            self.endTime = endTime
+            self.operationArn = operationArn
+            self.operationState = operationState
+            self.operationType = operationType
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case clusterType = "clusterType"
+            case endTime = "endTime"
+            case operationArn = "operationArn"
+            case operationState = "operationState"
+            case operationType = "operationType"
+            case startTime = "startTime"
+        }
+    }
+
     public struct CompatibleKafkaVersion: AWSDecodableShape {
         /// An Apache Kafka version.
         public let sourceVersion: String?
@@ -1135,6 +1263,34 @@ extension Kafka {
         public let clusterOperationInfo: ClusterOperationInfo?
 
         public init(clusterOperationInfo: ClusterOperationInfo? = nil) {
+            self.clusterOperationInfo = clusterOperationInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterOperationInfo = "clusterOperationInfo"
+        }
+    }
+
+    public struct DescribeClusterOperationV2Request: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterOperationArn", location: .uri("ClusterOperationArn"))
+        ]
+
+        /// ARN of the cluster operation to describe.
+        public let clusterOperationArn: String
+
+        public init(clusterOperationArn: String) {
+            self.clusterOperationArn = clusterOperationArn
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeClusterOperationV2Response: AWSDecodableShape {
+        /// Cluster operation information
+        public let clusterOperationInfo: ClusterOperationV2?
+
+        public init(clusterOperationInfo: ClusterOperationV2? = nil) {
             self.clusterOperationInfo = clusterOperationInfo
         }
 
@@ -1721,6 +1877,51 @@ extension Kafka {
         public let nextToken: String?
 
         public init(clusterOperationInfoList: [ClusterOperationInfo]? = nil, nextToken: String? = nil) {
+            self.clusterOperationInfoList = clusterOperationInfoList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterOperationInfoList = "clusterOperationInfoList"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListClusterOperationsV2Request: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The arn of the cluster whose operations are being requested.
+        public let clusterArn: String
+        /// The maxResults of the query.
+        public let maxResults: Int?
+        /// The nextToken of the query.
+        public let nextToken: String?
+
+        public init(clusterArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.clusterArn = clusterArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListClusterOperationsV2Response: AWSDecodableShape {
+        /// An array of cluster operation information objects.
+        public let clusterOperationInfoList: [ClusterOperationV2Summary]?
+        /// If the response of ListClusterOperationsV2 is truncated, it returns a NextToken in the response. This NextToken should be sent in the subsequent request to ListClusterOperationsV2.
+        public let nextToken: String?
+
+        public init(clusterOperationInfoList: [ClusterOperationV2Summary]? = nil, nextToken: String? = nil) {
             self.clusterOperationInfoList = clusterOperationInfoList
             self.nextToken = nextToken
         }
@@ -3272,6 +3473,32 @@ extension Kafka {
     }
 
     public struct VpcConnectionInfo: AWSDecodableShape {
+        /// The time when Amazon MSK creates the VPC Connnection.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
+        /// The owner of the VPC Connection.
+        public let owner: String?
+        /// Description of the requester that calls the API operation.
+        public let userIdentity: UserIdentity?
+        /// The Amazon Resource Name (ARN) of the VPC connection.
+        public let vpcConnectionArn: String?
+
+        public init(creationTime: Date? = nil, owner: String? = nil, userIdentity: UserIdentity? = nil, vpcConnectionArn: String? = nil) {
+            self.creationTime = creationTime
+            self.owner = owner
+            self.userIdentity = userIdentity
+            self.vpcConnectionArn = vpcConnectionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case owner = "owner"
+            case userIdentity = "userIdentity"
+            case vpcConnectionArn = "vpcConnectionArn"
+        }
+    }
+
+    public struct VpcConnectionInfoServerless: AWSDecodableShape {
         /// The time when Amazon MSK creates the VPC Connnection.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationTime: Date?

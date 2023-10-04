@@ -38,6 +38,23 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
+    public enum AzureAccessTier: String, CustomStringConvertible, Codable, Sendable {
+        case archive = "ARCHIVE"
+        case cool = "COOL"
+        case hot = "HOT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AzureBlobAuthenticationType: String, CustomStringConvertible, Codable, Sendable {
+        case sas = "SAS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AzureBlobType: String, CustomStringConvertible, Codable, Sendable {
+        case block = "BLOCK"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DiscoveryJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case completedWithIssues = "COMPLETED_WITH_ISSUES"
@@ -154,6 +171,12 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
+    public enum ObjectVersionIds: String, CustomStringConvertible, Codable, Sendable {
+        case include = "INCLUDE"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Operator: String, CustomStringConvertible, Codable, Sendable {
         case `in` = "In"
         case beginsWith = "BeginsWith"
@@ -204,6 +227,18 @@ extension DataSync {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportLevel: String, CustomStringConvertible, Codable, Sendable {
+        case errorsOnly = "ERRORS_ONLY"
+        case successesAndErrors = "SUCCESSES_AND_ERRORS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportOutputType: String, CustomStringConvertible, Codable, Sendable {
+        case standard = "STANDARD"
+        case summaryOnly = "SUMMARY_ONLY"
         public var description: String { return self.rawValue }
     }
 
@@ -298,7 +333,7 @@ extension DataSync {
     // MARK: Shapes
 
     public struct AddStorageSystemRequest: AWSEncodableShape {
-        /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that connects to and reads from your on-premises storage system's management interface.
+        /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that connects to and reads from your on-premises storage system's management interface. You can only specify one ARN.
         public let agentArns: [String]
         /// Specifies a client token to make sure requests with this API operation are idempotent. If you don't specify a client token, DataSync generates one for you automatically.
         public let clientToken: String
@@ -393,6 +428,25 @@ extension DataSync {
         }
     }
 
+    public struct AzureBlobSasConfiguration: AWSEncodableShape {
+        /// Specifies a SAS token that provides permissions to access your Azure Blob Storage. The token is part of the SAS URI string that comes after the storage resource URI and a question mark. A token looks something like this:  sp=r&st=2023-12-20T14:54:52Z&se=2023-12-20T22:54:52Z&spr=https&sv=2021-06-08&sr=c&sig=aBBKDWQvyuVcTPH9EBp%2FXTI9E%2F%2Fmq171%2BZU178wcwqU%3D
+        public let token: String
+
+        public init(token: String) {
+            self.token = token
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.token, name: "token", parent: name, max: 255)
+            try self.validate(self.token, name: "token", parent: name, min: 1)
+            try self.validate(self.token, name: "token", parent: name, pattern: "^.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case token = "Token"
+        }
+    }
+
     public struct CancelTaskExecutionRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the task execution to stop.
         public let taskExecutionArn: String
@@ -416,6 +470,8 @@ extension DataSync {
     }
 
     public struct Capacity: AWSDecodableShape {
+        /// The amount of space in the cluster that's in cloud storage (for example, if you're using data tiering).
+        public let clusterCloudStorageUsed: Int64?
         /// The amount of space that's being used in a storage system resource without accounting for compression or deduplication.
         public let logicalUsed: Int64?
         /// The total amount of space available in a storage system resource.
@@ -423,13 +479,15 @@ extension DataSync {
         /// The amount of space that's being used in a storage system resource.
         public let used: Int64?
 
-        public init(logicalUsed: Int64? = nil, provisioned: Int64? = nil, used: Int64? = nil) {
+        public init(clusterCloudStorageUsed: Int64? = nil, logicalUsed: Int64? = nil, provisioned: Int64? = nil, used: Int64? = nil) {
+            self.clusterCloudStorageUsed = clusterCloudStorageUsed
             self.logicalUsed = logicalUsed
             self.provisioned = provisioned
             self.used = used
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clusterCloudStorageUsed = "ClusterCloudStorageUsed"
             case logicalUsed = "LogicalUsed"
             case provisioned = "Provisioned"
             case used = "Used"
@@ -437,17 +495,17 @@ extension DataSync {
     }
 
     public struct CreateAgentRequest: AWSEncodableShape {
-        /// Your agent activation key. You can get the activation key either by sending an HTTP GET request with redirects that enable you to get the agent IP address (port 80). Alternatively, you can get it from the DataSync console. The redirect URL returned in the response provides you the activation key for your agent in the query string parameter activationKey. It might also include other activation-related parameters; however, these are merely defaults. The arguments you pass to this API call determine the actual configuration of your agent. For more information, see Activating an Agent in the DataSync User Guide.
+        /// Specifies your DataSync agent's activation key. If you don't have an activation key, see Activate your agent.
         public let activationKey: String
-        /// The name you configured for your agent. This value is a text reference that is used to identify the agent in the console.
+        /// Specifies a name for your agent. You can see this name in the DataSync console.
         public let agentName: String?
-        /// The ARNs of the security groups used to protect your data transfer task subnets. See SecurityGroupArns.
+        /// Specifies the Amazon Resource Name (ARN) of the security group that protects your task's network interfaces when using a virtual private cloud (VPC) endpoint. You can only specify one ARN.
         public let securityGroupArns: [String]?
-        /// The Amazon Resource Names (ARNs) of the subnets in which DataSync will create elastic network interfaces for each data transfer task. The agent that runs a task must be private. When you start a task that is associated with an agent created in a VPC, or one that has access to an IP address in a VPC, then the task is also private. In this case, DataSync creates four network interfaces for each task in your subnet. For a data transfer to work, the agent must be able to route to all these four network interfaces.
+        /// Specifies the ARN of the subnet where you want to run your DataSync task when using a VPC endpoint. This is the subnet where DataSync creates and manages the network interfaces for your transfer. You can only specify one ARN.
         public let subnetArns: [String]?
-        /// The key-value pair that represents the tag that you want to associate with the agent. The value can be an empty string. This value helps you manage, filter, and search for your agents.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @.
+        /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least one tag for your agent.
         public let tags: [TagListEntry]?
-        /// The ID of the VPC (virtual private cloud) endpoint that the agent has access to. This is the client-side VPC endpoint, also called a PrivateLink. If you don't have a PrivateLink VPC endpoint, see Creating a VPC Endpoint Service Configuration in the Amazon VPC User Guide. VPC endpoint ID looks like this: vpce-01234d5aff67890e1.
+        /// Specifies the ID of the VPC endpoint that you want your agent to connect to. For example, a VPC endpoint ID looks like vpce-01234d5aff67890e1.  The VPC endpoint you use must include the DataSync service name (for example, com.amazonaws.us-east-2.datasync).
         public let vpcEndpointId: String?
 
         public init(activationKey: String, agentName: String? = nil, securityGroupArns: [String]? = nil, subnetArns: [String]? = nil, tags: [TagListEntry]? = nil, vpcEndpointId: String? = nil) {
@@ -495,7 +553,7 @@ extension DataSync {
     }
 
     public struct CreateAgentResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the agent. Use the ListAgents operation to return a list of agents for your account and Amazon Web Services Region.
+        /// The ARN of the agent that you just activated. Use the ListAgents operation to return a list of agents in your Amazon Web Services account and Amazon Web Services Region.
         public let agentArn: String?
 
         public init(agentArn: String? = nil) {
@@ -504,6 +562,78 @@ extension DataSync {
 
         private enum CodingKeys: String, CodingKey {
             case agentArn = "AgentArn"
+        }
+    }
+
+    public struct CreateLocationAzureBlobRequest: AWSEncodableShape {
+        /// Specifies the access tier that you want your objects or files transferred into. This only applies when using the location as a transfer destination. For more information, see Access tiers.
+        public let accessTier: AzureAccessTier?
+        /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect with your Azure Blob Storage container. You can specify more than one agent. For more information, see Using multiple agents for your transfer.
+        public let agentArns: [String]
+        /// Specifies the authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS).
+        public let authenticationType: AzureBlobAuthenticationType
+        /// Specifies the type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the Azure Blob Storage documentation.
+        public let blobType: AzureBlobType?
+        /// Specifies the URL of the Azure Blob Storage container involved in your transfer.
+        public let containerUrl: String
+        /// Specifies the SAS configuration that allows DataSync to access your Azure Blob Storage.
+        public let sasConfiguration: AzureBlobSasConfiguration?
+        /// Specifies path segments if you want to limit your transfer to a virtual directory in your container (for example, /my/images).
+        public let subdirectory: String?
+        /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your transfer location.
+        public let tags: [TagListEntry]?
+
+        public init(accessTier: AzureAccessTier? = nil, agentArns: [String], authenticationType: AzureBlobAuthenticationType, blobType: AzureBlobType? = nil, containerUrl: String, sasConfiguration: AzureBlobSasConfiguration? = nil, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
+            self.accessTier = accessTier
+            self.agentArns = agentArns
+            self.authenticationType = authenticationType
+            self.blobType = blobType
+            self.containerUrl = containerUrl
+            self.sasConfiguration = sasConfiguration
+            self.subdirectory = subdirectory
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.agentArns.forEach {
+                try validate($0, name: "agentArns[]", parent: name, max: 128)
+                try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
+            }
+            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
+            try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
+            try self.validate(self.containerUrl, name: "containerUrl", parent: name, max: 325)
+            try self.validate(self.containerUrl, name: "containerUrl", parent: name, pattern: "^https:\\/\\/[A-Za-z0-9]((\\.|-+)?[A-Za-z0-9]){0,252}\\/[a-z0-9](-?[a-z0-9]){2,62}$")
+            try self.sasConfiguration?.validate(name: "\(name).sasConfiguration")
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 1024)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}\\p{C}]*$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessTier = "AccessTier"
+            case agentArns = "AgentArns"
+            case authenticationType = "AuthenticationType"
+            case blobType = "BlobType"
+            case containerUrl = "ContainerUrl"
+            case sasConfiguration = "SasConfiguration"
+            case subdirectory = "Subdirectory"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateLocationAzureBlobResponse: AWSDecodableShape {
+        /// The ARN of the Azure Blob Storage transfer location that you created.
+        public let locationArn: String?
+
+        public init(locationArn: String? = nil) {
+            self.locationArn = locationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
         }
     }
 
@@ -760,7 +890,7 @@ extension DataSync {
         public let subdirectory: String?
         /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
         public let tags: [TagListEntry]?
-        /// Specifies the user who has the permissions to access files and folders in the file system. For information about choosing a user name that ensures sufficient permissions to files, folders, and metadata, see user.
+        /// Specifies the user who has the permissions to access files, folders, and metadata in your file system. For information about choosing a user with sufficient permissions, see Required permissions.
         public let user: String
 
         public init(domain: String? = nil, fsxFilesystemArn: String, password: String, securityGroupArns: [String], subdirectory: String? = nil, tags: [TagListEntry]? = nil, user: String) {
@@ -929,15 +1059,15 @@ extension DataSync {
     }
 
     public struct CreateLocationNfsRequest: AWSEncodableShape {
-        /// The NFS mount options that DataSync can use to mount your NFS share.
+        /// Specifies the options that DataSync can use to mount your NFS file server.
         public let mountOptions: NfsMountOptions?
-        /// Contains a list of Amazon Resource Names (ARNs) of agents that are used to connect to an NFS server.  If you are copying data to or from your Snowcone device, see NFS Server on Snowcone for more information.
+        /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that want to connect to your NFS file server. You can specify more than one agent. For more information, see Using multiple agents for transfers.
         public let onPremConfig: OnPremConfig
-        /// The name of the NFS server. This value is the IP address or Domain Name Service (DNS) name of the NFS server. An agent that is installed on-premises uses this hostname to mount the NFS server in a network.  If you are copying data to or from your Snowcone device, see NFS Server on Snowcone for more information.  This name must either be DNS-compliant or must be an IP version 4 (IPv4) address.
+        /// Specifies the Domain Name System (DNS) name or IP version 4 address of the NFS file server that your DataSync agent connects to.
         public let serverHostname: String
-        /// The subdirectory in the NFS file system that is used to read data from the NFS source location or write data to the NFS destination. The NFS path should be a path that's exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network.  To see all the paths exported by your NFS server, run "showmount -e nfs-server-name" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication.  To transfer all the data in the folder you specified, DataSync needs to have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the permissions for all of the files that you want DataSync allow read access for all users. Doing either enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. If you are copying data to or from your Snowcone device, see NFS Server on Snowcone for more information. For information about NFS export configuration, see 18.7. The /etc/exports Configuration File in the Red Hat Enterprise Linux documentation.
+        /// Specifies the export path in your NFS file server that you want DataSync to mount. This path (or a subdirectory of the path) is where DataSync transfers data to or from. For information on configuring an export for DataSync, see Accessing NFS file servers.
         public let subdirectory: String
-        /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
+        /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
         public let tags: [TagListEntry]?
 
         public init(mountOptions: NfsMountOptions? = nil, onPremConfig: OnPremConfig, serverHostname: String, subdirectory: String, tags: [TagListEntry]? = nil) {
@@ -970,7 +1100,7 @@ extension DataSync {
     }
 
     public struct CreateLocationNfsResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the source NFS file system location that is created.
+        /// The ARN of the transfer location that you created for your NFS file server.
         public let locationArn: String?
 
         public init(locationArn: String? = nil) {
@@ -991,7 +1121,7 @@ extension DataSync {
         public let bucketName: String
         /// Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server.
         public let secretKey: String?
-        /// Specifies a certificate to authenticate with an object storage system that uses a private or self-signed certificate authority (CA). You must specify a Base64-encoded .pem file (for example, file:///home/user/.ssh/storage_sys_certificate.pem). The certificate can be up to 32768 bytes (before Base64 encoding). To use this parameter, configure ServerProtocol to HTTPS.
+        /// Specifies a file with the certificates that are used to sign the object storage server's certificate (for example, file:///home/user/.ssh/storage_sys_certificate.pem). The file you specify must include the following:   The certificate of the signing certificate authority (CA)   Any intermediate certificates   base64 encoding   A .pem extension   The file can be up to 32768 bytes (before base64 encoding). To use this parameter, configure ServerProtocol to HTTPS.
         public let serverCertificate: AWSBase64Data?
         /// Specifies the domain name or IP address of the object storage server. A DataSync agent uses this hostname to mount the object storage server in a network.
         public let serverHostname: String
@@ -1232,8 +1362,10 @@ extension DataSync {
         public let sourceLocationArn: String
         /// Specifies the tags that you want to apply to the Amazon Resource Name (ARN) representing the task.  Tags are key-value pairs that help you manage, filter, and search for your DataSync resources.
         public let tags: [TagListEntry]?
+        /// Specifies how you want to configure a task report, which provides detailed information about for your DataSync transfer.
+        public let taskReportConfig: TaskReportConfig?
 
-        public init(cloudWatchLogGroupArn: String? = nil, destinationLocationArn: String, excludes: [FilterRule]? = nil, includes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, sourceLocationArn: String, tags: [TagListEntry]? = nil) {
+        public init(cloudWatchLogGroupArn: String? = nil, destinationLocationArn: String, excludes: [FilterRule]? = nil, includes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, sourceLocationArn: String, tags: [TagListEntry]? = nil, taskReportConfig: TaskReportConfig? = nil) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.destinationLocationArn = destinationLocationArn
             self.excludes = excludes
@@ -1243,6 +1375,7 @@ extension DataSync {
             self.schedule = schedule
             self.sourceLocationArn = sourceLocationArn
             self.tags = tags
+            self.taskReportConfig = taskReportConfig
         }
 
         public func validate(name: String) throws {
@@ -1269,6 +1402,7 @@ extension DataSync {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.taskReportConfig?.validate(name: "\(name).taskReportConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1281,6 +1415,7 @@ extension DataSync {
             case schedule = "Schedule"
             case sourceLocationArn = "SourceLocationArn"
             case tags = "Tags"
+            case taskReportConfig = "TaskReportConfig"
         }
     }
 
@@ -1490,6 +1625,61 @@ extension DataSync {
             case jobStartTime = "JobStartTime"
             case status = "Status"
             case storageSystemArn = "StorageSystemArn"
+        }
+    }
+
+    public struct DescribeLocationAzureBlobRequest: AWSEncodableShape {
+        /// Specifies the Amazon Resource Name (ARN) of your Azure Blob Storage transfer location.
+        public let locationArn: String
+
+        public init(locationArn: String) {
+            self.locationArn = locationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
+            try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+        }
+    }
+
+    public struct DescribeLocationAzureBlobResponse: AWSDecodableShape {
+        /// The access tier that you want your objects or files transferred into. This only applies when using the location as a transfer destination. For more information, see Access tiers.
+        public let accessTier: AzureAccessTier?
+        /// The ARNs of the DataSync agents that can connect with your Azure Blob Storage container.
+        public let agentArns: [String]?
+        /// The authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS).
+        public let authenticationType: AzureBlobAuthenticationType?
+        /// The type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the Azure Blob Storage documentation.
+        public let blobType: AzureBlobType?
+        /// The time that your Azure Blob Storage transfer location was created.
+        public let creationTime: Date?
+        /// The ARN of your Azure Blob Storage transfer location.
+        public let locationArn: String?
+        /// The URL of the Azure Blob Storage container involved in your transfer.
+        public let locationUri: String?
+
+        public init(accessTier: AzureAccessTier? = nil, agentArns: [String]? = nil, authenticationType: AzureBlobAuthenticationType? = nil, blobType: AzureBlobType? = nil, creationTime: Date? = nil, locationArn: String? = nil, locationUri: String? = nil) {
+            self.accessTier = accessTier
+            self.agentArns = agentArns
+            self.authenticationType = authenticationType
+            self.blobType = blobType
+            self.creationTime = creationTime
+            self.locationArn = locationArn
+            self.locationUri = locationUri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessTier = "AccessTier"
+            case agentArns = "AgentArns"
+            case authenticationType = "AuthenticationType"
+            case blobType = "BlobType"
+            case creationTime = "CreationTime"
+            case locationArn = "LocationArn"
+            case locationUri = "LocationUri"
         }
     }
 
@@ -1818,7 +2008,7 @@ extension DataSync {
     }
 
     public struct DescribeLocationNfsRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the NFS location to describe.
+        /// Specifies the Amazon Resource Name (ARN) of the NFS location that you want information about.
         public let locationArn: String
 
         public init(locationArn: String) {
@@ -1836,13 +2026,13 @@ extension DataSync {
     }
 
     public struct DescribeLocationNfsResponse: AWSDecodableShape {
-        /// The time that the NFS location was created.
+        /// The time when the NFS location was created.
         public let creationTime: Date?
-        /// The Amazon Resource Name (ARN) of the NFS location that was described.
+        /// The ARN of the NFS location.
         public let locationArn: String?
-        /// The URL of the source NFS location that was described.
+        /// The URL of the NFS location.
         public let locationUri: String?
-        /// The NFS mount options that DataSync used to mount your NFS share.
+        /// The mount options that DataSync uses to mount your NFS file server.
         public let mountOptions: NfsMountOptions?
         public let onPremConfig: OnPremConfig?
 
@@ -2223,7 +2413,7 @@ extension DataSync {
     }
 
     public struct DescribeTaskExecutionRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the task that is being executed.
+        /// Specifies the Amazon Resource Name (ARN) of the task execution that you want information about.
         public let taskExecutionArn: String
 
         public init(taskExecutionArn: String) {
@@ -2245,42 +2435,60 @@ extension DataSync {
         public let bytesCompressed: Int64?
         /// The total number of bytes that are involved in the transfer. For the number of bytes sent over the network, see BytesCompressed.
         public let bytesTransferred: Int64?
-        /// The number of logical bytes written to the destination Amazon Web Services storage resource.
+        /// The number of logical bytes written to the destination location.
         public let bytesWritten: Int64?
-        /// The estimated physical number of bytes that is to be transferred over the network.
+        /// The estimated physical number of bytes that will transfer over the network.
         public let estimatedBytesToTransfer: Int64?
-        /// The expected number of files that is to be transferred over the network. This value is calculated during the PREPARING phase before the TRANSFERRING phase of the task execution. This value is the expected number of files to be transferred. It's calculated based on comparing the content of the source and destination locations and finding the delta that needs to be transferred.
+        /// The expected number of files, objects, and directories that DataSync will delete in your destination location.  If you don't configure your task to delete data in the destination that isn't in the source, the value is always 0.
+        public let estimatedFilesToDelete: Int64?
+        /// The expected number of files, objects, and directories that DataSync will transfer over the network. This value is calculated during the task execution's PREPARING phase before the TRANSFERRING phase. The calculation is based on comparing the content of the source and destination locations and finding the difference that needs to be transferred.
         public let estimatedFilesToTransfer: Int64?
         /// A list of filter rules that exclude specific data during your transfer. For more information and examples, see Filtering data transferred by DataSync.
         public let excludes: [FilterRule]?
-        /// The actual number of files that was transferred over the network. This value is calculated and updated on an ongoing basis during the TRANSFERRING phase of the task execution. It's updated periodically when each file is read from the source and sent over the network.  If failures occur during a transfer, this value can be less than EstimatedFilesToTransfer. In some cases, this value can also be greater than EstimatedFilesToTransfer. This element is implementation-specific for some location types, so don't use it as an indicator for a correct file number or to monitor your task execution.
+        /// The number of files, objects, and directories that DataSync deleted in your destination location. If you don't configure your task to delete data in the destination that isn't in the source, the value is always 0.
+        public let filesDeleted: Int64?
+        /// The number of files, objects, and directories that DataSync skipped during your transfer.
+        public let filesSkipped: Int64?
+        /// The actual number of files, objects, and directories that DataSync transferred over the network. This value is updated periodically during the task execution's TRANSFERRING phase when something is read from the source and sent over the network. If DataSync fails to transfer something, this value can be less than EstimatedFilesToTransfer. In some cases, this value can also be greater than EstimatedFilesToTransfer. This element is implementation-specific for some location types, so don't use it as an exact indication of what transferred or to monitor your task execution.
         public let filesTransferred: Int64?
+        /// The number of files, objects, and directories that DataSync verified during your transfer.
+        public let filesVerified: Int64?
         /// A list of filter rules that include specific data during your transfer. For more information and examples, see Filtering data transferred by DataSync.
         public let includes: [FilterRule]?
         public let options: Options?
+        /// Indicates whether DataSync generated a complete task report for your transfer.
+        public let reportResult: ReportResult?
         /// The result of the task execution.
         public let result: TaskExecutionResultDetail?
-        /// The time that the task execution was started.
+        /// The time when the task execution started.
         public let startTime: Date?
-        /// The status of the task execution.  For detailed information about task execution statuses, see Understanding Task Statuses in the DataSync User Guide.
+        /// The status of the task execution.
         public let status: TaskExecutionStatus?
-        /// The Amazon Resource Name (ARN) of the task execution that was described. TaskExecutionArn is hierarchical and includes TaskArn for the task that was executed.  For example, a TaskExecution value with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2/execution/exec-08ef1e88ec491019b executed the task with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2.
+        /// The ARN of the task execution that you wanted information about. TaskExecutionArn is hierarchical and includes TaskArn for the task that was executed.  For example, a TaskExecution value with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2/execution/exec-08ef1e88ec491019b executed the task with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2.
         public let taskExecutionArn: String?
+        /// The configuration of your task report, which provides detailed information about for your DataSync transfer.
+        public let taskReportConfig: TaskReportConfig?
 
-        public init(bytesCompressed: Int64? = nil, bytesTransferred: Int64? = nil, bytesWritten: Int64? = nil, estimatedBytesToTransfer: Int64? = nil, estimatedFilesToTransfer: Int64? = nil, excludes: [FilterRule]? = nil, filesTransferred: Int64? = nil, includes: [FilterRule]? = nil, options: Options? = nil, result: TaskExecutionResultDetail? = nil, startTime: Date? = nil, status: TaskExecutionStatus? = nil, taskExecutionArn: String? = nil) {
+        public init(bytesCompressed: Int64? = nil, bytesTransferred: Int64? = nil, bytesWritten: Int64? = nil, estimatedBytesToTransfer: Int64? = nil, estimatedFilesToDelete: Int64? = nil, estimatedFilesToTransfer: Int64? = nil, excludes: [FilterRule]? = nil, filesDeleted: Int64? = nil, filesSkipped: Int64? = nil, filesTransferred: Int64? = nil, filesVerified: Int64? = nil, includes: [FilterRule]? = nil, options: Options? = nil, reportResult: ReportResult? = nil, result: TaskExecutionResultDetail? = nil, startTime: Date? = nil, status: TaskExecutionStatus? = nil, taskExecutionArn: String? = nil, taskReportConfig: TaskReportConfig? = nil) {
             self.bytesCompressed = bytesCompressed
             self.bytesTransferred = bytesTransferred
             self.bytesWritten = bytesWritten
             self.estimatedBytesToTransfer = estimatedBytesToTransfer
+            self.estimatedFilesToDelete = estimatedFilesToDelete
             self.estimatedFilesToTransfer = estimatedFilesToTransfer
             self.excludes = excludes
+            self.filesDeleted = filesDeleted
+            self.filesSkipped = filesSkipped
             self.filesTransferred = filesTransferred
+            self.filesVerified = filesVerified
             self.includes = includes
             self.options = options
+            self.reportResult = reportResult
             self.result = result
             self.startTime = startTime
             self.status = status
             self.taskExecutionArn = taskExecutionArn
+            self.taskReportConfig = taskReportConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2288,20 +2496,26 @@ extension DataSync {
             case bytesTransferred = "BytesTransferred"
             case bytesWritten = "BytesWritten"
             case estimatedBytesToTransfer = "EstimatedBytesToTransfer"
+            case estimatedFilesToDelete = "EstimatedFilesToDelete"
             case estimatedFilesToTransfer = "EstimatedFilesToTransfer"
             case excludes = "Excludes"
+            case filesDeleted = "FilesDeleted"
+            case filesSkipped = "FilesSkipped"
             case filesTransferred = "FilesTransferred"
+            case filesVerified = "FilesVerified"
             case includes = "Includes"
             case options = "Options"
+            case reportResult = "ReportResult"
             case result = "Result"
             case startTime = "StartTime"
             case status = "Status"
             case taskExecutionArn = "TaskExecutionArn"
+            case taskReportConfig = "TaskReportConfig"
         }
     }
 
     public struct DescribeTaskRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the task to describe.
+        /// Specifies the Amazon Resource Name (ARN) of the transfer task.
         public let taskArn: String
 
         public init(taskArn: String) {
@@ -2351,8 +2565,10 @@ extension DataSync {
         public let status: TaskStatus?
         /// The Amazon Resource Name (ARN) of the task that was described.
         public let taskArn: String?
+        /// The configuration of your task report. For more information, see Creating a task report.
+        public let taskReportConfig: TaskReportConfig?
 
-        public init(cloudWatchLogGroupArn: String? = nil, creationTime: Date? = nil, currentTaskExecutionArn: String? = nil, destinationLocationArn: String? = nil, destinationNetworkInterfaceArns: [String]? = nil, errorCode: String? = nil, errorDetail: String? = nil, excludes: [FilterRule]? = nil, includes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, sourceLocationArn: String? = nil, sourceNetworkInterfaceArns: [String]? = nil, status: TaskStatus? = nil, taskArn: String? = nil) {
+        public init(cloudWatchLogGroupArn: String? = nil, creationTime: Date? = nil, currentTaskExecutionArn: String? = nil, destinationLocationArn: String? = nil, destinationNetworkInterfaceArns: [String]? = nil, errorCode: String? = nil, errorDetail: String? = nil, excludes: [FilterRule]? = nil, includes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, sourceLocationArn: String? = nil, sourceNetworkInterfaceArns: [String]? = nil, status: TaskStatus? = nil, taskArn: String? = nil, taskReportConfig: TaskReportConfig? = nil) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.creationTime = creationTime
             self.currentTaskExecutionArn = currentTaskExecutionArn
@@ -2369,6 +2585,7 @@ extension DataSync {
             self.sourceNetworkInterfaceArns = sourceNetworkInterfaceArns
             self.status = status
             self.taskArn = taskArn
+            self.taskReportConfig = taskReportConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2388,6 +2605,7 @@ extension DataSync {
             case sourceNetworkInterfaceArns = "SourceNetworkInterfaceArns"
             case status = "Status"
             case taskArn = "TaskArn"
+            case taskReportConfig = "TaskReportConfig"
         }
     }
 
@@ -3081,8 +3299,12 @@ extension DataSync {
         public let clusterBlockStorageSize: Int64?
         /// The storage space that's being used in a cluster.
         public let clusterBlockStorageUsed: Int64?
+        /// The amount of space in the cluster that's in cloud storage (for example, if you're using data tiering).
+        public let clusterCloudStorageUsed: Int64?
         /// The name of the cluster.
         public let clusterName: String?
+        /// The number of LUNs (logical unit numbers) in the cluster.
+        public let lunCount: Int64?
         /// The performance data that DataSync Discovery collects about the cluster.
         public let maxP95Performance: MaxP95Performance?
         /// The number of NFS volumes in the cluster.
@@ -3094,12 +3316,14 @@ extension DataSync {
         /// The universally unique identifier (UUID) of the cluster.
         public let resourceId: String?
 
-        public init(cifsShareCount: Int64? = nil, clusterBlockStorageLogicalUsed: Int64? = nil, clusterBlockStorageSize: Int64? = nil, clusterBlockStorageUsed: Int64? = nil, clusterName: String? = nil, maxP95Performance: MaxP95Performance? = nil, nfsExportedVolumes: Int64? = nil, recommendations: [Recommendation]? = nil, recommendationStatus: RecommendationStatus? = nil, resourceId: String? = nil) {
+        public init(cifsShareCount: Int64? = nil, clusterBlockStorageLogicalUsed: Int64? = nil, clusterBlockStorageSize: Int64? = nil, clusterBlockStorageUsed: Int64? = nil, clusterCloudStorageUsed: Int64? = nil, clusterName: String? = nil, lunCount: Int64? = nil, maxP95Performance: MaxP95Performance? = nil, nfsExportedVolumes: Int64? = nil, recommendations: [Recommendation]? = nil, recommendationStatus: RecommendationStatus? = nil, resourceId: String? = nil) {
             self.cifsShareCount = cifsShareCount
             self.clusterBlockStorageLogicalUsed = clusterBlockStorageLogicalUsed
             self.clusterBlockStorageSize = clusterBlockStorageSize
             self.clusterBlockStorageUsed = clusterBlockStorageUsed
+            self.clusterCloudStorageUsed = clusterCloudStorageUsed
             self.clusterName = clusterName
+            self.lunCount = lunCount
             self.maxP95Performance = maxP95Performance
             self.nfsExportedVolumes = nfsExportedVolumes
             self.recommendations = recommendations
@@ -3112,7 +3336,9 @@ extension DataSync {
             case clusterBlockStorageLogicalUsed = "ClusterBlockStorageLogicalUsed"
             case clusterBlockStorageSize = "ClusterBlockStorageSize"
             case clusterBlockStorageUsed = "ClusterBlockStorageUsed"
+            case clusterCloudStorageUsed = "ClusterCloudStorageUsed"
             case clusterName = "ClusterName"
+            case lunCount = "LunCount"
             case maxP95Performance = "MaxP95Performance"
             case nfsExportedVolumes = "NfsExportedVolumes"
             case recommendations = "Recommendations"
@@ -3128,6 +3354,8 @@ extension DataSync {
         public let clusterUuid: String?
         /// The data transfer protocols (such as NFS) configured for the SVM.
         public let enabledProtocols: [String]?
+        /// The number of LUNs (logical unit numbers) in the SVM.
+        public let lunCount: Int64?
         /// The performance data that DataSync Discovery collects about the SVM.
         public let maxP95Performance: MaxP95Performance?
         /// The number of NFS volumes in the SVM.
@@ -3149,10 +3377,11 @@ extension DataSync {
         /// The amount of storage in the SVM that's being used for snapshots.
         public let totalSnapshotCapacityUsed: Int64?
 
-        public init(cifsShareCount: Int64? = nil, clusterUuid: String? = nil, enabledProtocols: [String]? = nil, maxP95Performance: MaxP95Performance? = nil, nfsExportedVolumes: Int64? = nil, recommendations: [Recommendation]? = nil, recommendationStatus: RecommendationStatus? = nil, resourceId: String? = nil, svmName: String? = nil, totalCapacityProvisioned: Int64? = nil, totalCapacityUsed: Int64? = nil, totalLogicalCapacityUsed: Int64? = nil, totalSnapshotCapacityUsed: Int64? = nil) {
+        public init(cifsShareCount: Int64? = nil, clusterUuid: String? = nil, enabledProtocols: [String]? = nil, lunCount: Int64? = nil, maxP95Performance: MaxP95Performance? = nil, nfsExportedVolumes: Int64? = nil, recommendations: [Recommendation]? = nil, recommendationStatus: RecommendationStatus? = nil, resourceId: String? = nil, svmName: String? = nil, totalCapacityProvisioned: Int64? = nil, totalCapacityUsed: Int64? = nil, totalLogicalCapacityUsed: Int64? = nil, totalSnapshotCapacityUsed: Int64? = nil) {
             self.cifsShareCount = cifsShareCount
             self.clusterUuid = clusterUuid
             self.enabledProtocols = enabledProtocols
+            self.lunCount = lunCount
             self.maxP95Performance = maxP95Performance
             self.nfsExportedVolumes = nfsExportedVolumes
             self.recommendations = recommendations
@@ -3169,6 +3398,7 @@ extension DataSync {
             case cifsShareCount = "CifsShareCount"
             case clusterUuid = "ClusterUuid"
             case enabledProtocols = "EnabledProtocols"
+            case lunCount = "LunCount"
             case maxP95Performance = "MaxP95Performance"
             case nfsExportedVolumes = "NfsExportedVolumes"
             case recommendations = "Recommendations"
@@ -3191,6 +3421,8 @@ extension DataSync {
         public let cifsShareCount: Int64?
         /// The storage space that's being used in the volume without accounting for compression or deduplication.
         public let logicalCapacityUsed: Int64?
+        /// The number of LUNs (logical unit numbers) in the volume.
+        public let lunCount: Int64?
         /// The performance data that DataSync Discovery collects about the volume.
         public let maxP95Performance: MaxP95Performance?
         /// The number of NFS volumes in the volume.
@@ -3212,11 +3444,12 @@ extension DataSync {
         /// The name of the volume.
         public let volumeName: String?
 
-        public init(capacityProvisioned: Int64? = nil, capacityUsed: Int64? = nil, cifsShareCount: Int64? = nil, logicalCapacityUsed: Int64? = nil, maxP95Performance: MaxP95Performance? = nil, nfsExported: Bool? = nil, recommendations: [Recommendation]? = nil, recommendationStatus: RecommendationStatus? = nil, resourceId: String? = nil, securityStyle: String? = nil, snapshotCapacityUsed: Int64? = nil, svmName: String? = nil, svmUuid: String? = nil, volumeName: String? = nil) {
+        public init(capacityProvisioned: Int64? = nil, capacityUsed: Int64? = nil, cifsShareCount: Int64? = nil, logicalCapacityUsed: Int64? = nil, lunCount: Int64? = nil, maxP95Performance: MaxP95Performance? = nil, nfsExported: Bool? = nil, recommendations: [Recommendation]? = nil, recommendationStatus: RecommendationStatus? = nil, resourceId: String? = nil, securityStyle: String? = nil, snapshotCapacityUsed: Int64? = nil, svmName: String? = nil, svmUuid: String? = nil, volumeName: String? = nil) {
             self.capacityProvisioned = capacityProvisioned
             self.capacityUsed = capacityUsed
             self.cifsShareCount = cifsShareCount
             self.logicalCapacityUsed = logicalCapacityUsed
+            self.lunCount = lunCount
             self.maxP95Performance = maxP95Performance
             self.nfsExported = nfsExported
             self.recommendations = recommendations
@@ -3234,6 +3467,7 @@ extension DataSync {
             case capacityUsed = "CapacityUsed"
             case cifsShareCount = "CifsShareCount"
             case logicalCapacityUsed = "LogicalCapacityUsed"
+            case lunCount = "LunCount"
             case maxP95Performance = "MaxP95Performance"
             case nfsExported = "NfsExported"
             case recommendations = "Recommendations"
@@ -3261,7 +3495,7 @@ extension DataSync {
     }
 
     public struct OnPremConfig: AWSEncodableShape & AWSDecodableShape {
-        /// ARNs of the agents to use for an NFS location.
+        /// The Amazon Resource Names (ARNs) of the agents connecting to a transfer location.
         public let agentArns: [String]
 
         public init(agentArns: [String]) {
@@ -3305,7 +3539,7 @@ extension DataSync {
         public let preserveDevices: PreserveDevices?
         /// Specifies which components of the SMB security descriptor are copied from source to destination objects.  This value is only used for transfers between SMB and Amazon FSx for Windows File Server locations or between two FSx for Windows File Server locations. For more information, see how DataSync handles metadata. Default value: OWNER_DACL   OWNER_DACL: For each copied object, DataSync copies the following metadata:   The object owner.   NTFS discretionary access control lists (DACLs), which determine whether to grant access to an object. DataSync won't copy NTFS system access control lists (SACLs) with this option.    OWNER_DACL_SACL: For each copied object, DataSync copies the following metadata:   The object owner.   NTFS discretionary access control lists (DACLs), which determine whether to grant access to an object.   SACLs, which are used by administrators to log attempts to access a secured object. Copying SACLs requires granting additional permissions to the Windows user that DataSync uses to access your SMB location. For information about choosing a user that ensures sufficient permissions to files, folders, and metadata, see user.    NONE: None of the SMB security descriptor components are copied. Destination objects are owned by the user that was provided for accessing the destination location. DACLs and SACLs are set based on the destination server’s configuration.
         public let securityDescriptorCopyFlags: SmbSecurityDescriptorCopyFlags?
-        /// Specifies whether tasks should be queued before executing the tasks. The default is ENABLED, which means the tasks will be queued. If you use the same agent to run multiple tasks, you can enable the tasks to run in series. For more information, see Queueing task executions.
+        /// Specifies whether your transfer tasks should be put into a queue during certain scenarios when running multiple tasks. This is ENABLED by default.
         public let taskQueueing: TaskQueueing?
         /// Determines whether DataSync transfers only the data and metadata that differ between the source and the destination location or transfers all the content from the source (without comparing what's in the destination).  CHANGED: DataSync copies only data or metadata that is new or different content from the source location to the destination location.  ALL: DataSync copies all source location content to the destination (without comparing what's in the destination).
         public let transferMode: TransferMode?
@@ -3377,13 +3611,13 @@ extension DataSync {
     }
 
     public struct PrivateLinkConfig: AWSDecodableShape {
-        /// The private endpoint that is configured for an agent that has access to IP addresses in a PrivateLink. An agent that is configured with this endpoint will not be accessible over the public internet.
+        /// Specifies the VPC endpoint provided by Amazon Web Services PrivateLink that your agent connects to.
         public let privateLinkEndpoint: String?
-        /// The Amazon Resource Names (ARNs) of the security groups that are configured for the EC2 resource that hosts an agent activated in a VPC or an agent that has access to a VPC endpoint.
+        /// Specifies the Amazon Resource Names (ARN) of the security group that provides DataSync access to your VPC endpoint. You can only specify one ARN.
         public let securityGroupArns: [String]?
-        /// The Amazon Resource Names (ARNs) of the subnets that are configured for an agent activated in a VPC or an agent that has access to a VPC endpoint.
+        /// Specifies the ARN of the subnet where your VPC endpoint is located. You can only specify one ARN.
         public let subnetArns: [String]?
-        /// The ID of the VPC endpoint that is configured for an agent. An agent that is configured with a VPC endpoint will not be accessible over the public internet.
+        /// Specifies the ID of the VPC endpoint that your agent connects to.
         public let vpcEndpointId: String?
 
         public init(privateLinkEndpoint: String? = nil, securityGroupArns: [String]? = nil, subnetArns: [String]? = nil, vpcEndpointId: String? = nil) {
@@ -3459,6 +3693,112 @@ extension DataSync {
 
     public struct RemoveStorageSystemResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ReportDestination: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the Amazon S3 bucket where DataSync uploads your task report.
+        public let s3: ReportDestinationS3?
+
+        public init(s3: ReportDestinationS3? = nil) {
+            self.s3 = s3
+        }
+
+        public func validate(name: String) throws {
+            try self.s3?.validate(name: "\(name).s3")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "S3"
+        }
+    }
+
+    public struct ReportDestinationS3: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the Amazon Resource Name (ARN) of the IAM policy that allows DataSync to upload a task report to your S3 bucket. For more information, see Allowing DataSync to upload a task report to an Amazon S3 bucket.
+        public let bucketAccessRoleArn: String
+        /// Specifies the ARN of the S3 bucket where DataSync uploads your report.
+        public let s3BucketArn: String
+        /// Specifies a bucket prefix for your report.
+        public let subdirectory: String?
+
+        public init(bucketAccessRoleArn: String, s3BucketArn: String, subdirectory: String? = nil) {
+            self.bucketAccessRoleArn = bucketAccessRoleArn
+            self.s3BucketArn = s3BucketArn
+            self.subdirectory = subdirectory
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketAccessRoleArn, name: "bucketAccessRoleArn", parent: name, max: 2048)
+            try self.validate(self.bucketAccessRoleArn, name: "bucketAccessRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):iam::[0-9]{12}:role/.*$")
+            try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, max: 156)
+            try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(s3|s3-outposts):[a-z\\-0-9]*:[0-9]*:.*$")
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\p{Zs}]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketAccessRoleArn = "BucketAccessRoleArn"
+            case s3BucketArn = "S3BucketArn"
+            case subdirectory = "Subdirectory"
+        }
+    }
+
+    public struct ReportOverride: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether your task report includes errors only or successes and errors. For example, your report might mostly include only what didn't go well in your transfer (ERRORS_ONLY). At the same time, you want to verify that your task filter is working correctly. In this situation, you can get a list of what files DataSync successfully skipped and if something transferred that you didn't to transfer (SUCCESSES_AND_ERRORS).
+        public let reportLevel: ReportLevel?
+
+        public init(reportLevel: ReportLevel? = nil) {
+            self.reportLevel = reportLevel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportLevel = "ReportLevel"
+        }
+    }
+
+    public struct ReportOverrides: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the level of reporting for the files, objects, and directories that DataSync attempted to delete in your destination location. This only applies if you configure your task to delete data in the destination that isn't in the source.
+        public let deleted: ReportOverride?
+        /// Specifies the level of reporting for the files, objects, and directories that DataSync attempted to skip during your transfer.
+        public let skipped: ReportOverride?
+        /// Specifies the level of reporting for the files, objects, and directories that DataSync attempted to transfer.
+        public let transferred: ReportOverride?
+        /// Specifies the level of reporting for the files, objects, and directories that DataSync attempted to verify at the end of your transfer.
+        public let verified: ReportOverride?
+
+        public init(deleted: ReportOverride? = nil, skipped: ReportOverride? = nil, transferred: ReportOverride? = nil, verified: ReportOverride? = nil) {
+            self.deleted = deleted
+            self.skipped = skipped
+            self.transferred = transferred
+            self.verified = verified
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleted = "Deleted"
+            case skipped = "Skipped"
+            case transferred = "Transferred"
+            case verified = "Verified"
+        }
+    }
+
+    public struct ReportResult: AWSDecodableShape {
+        /// Indicates the code associated with the error if DataSync can't create a complete report.
+        public let errorCode: String?
+        /// Provides details about issues creating a report.
+        public let errorDetail: String?
+        /// Indicates whether DataSync is still working on your report, created a report, or can't create a complete report.
+        public let status: PhaseStatus?
+
+        public init(errorCode: String? = nil, errorDetail: String? = nil, status: PhaseStatus? = nil) {
+            self.errorCode = errorCode
+            self.errorDetail = errorDetail
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorDetail = "ErrorDetail"
+            case status = "Status"
+        }
     }
 
     public struct ResourceDetails: AWSDecodableShape {
@@ -3602,13 +3942,16 @@ extension DataSync {
         public let tags: [TagListEntry]?
         /// Specifies the Amazon Resource Name (ARN) of the task that you want to start.
         public let taskArn: String
+        /// Specifies how you want to configure a task report, which provides detailed information about for your DataSync transfer.
+        public let taskReportConfig: TaskReportConfig?
 
-        public init(excludes: [FilterRule]? = nil, includes: [FilterRule]? = nil, overrideOptions: Options? = nil, tags: [TagListEntry]? = nil, taskArn: String) {
+        public init(excludes: [FilterRule]? = nil, includes: [FilterRule]? = nil, overrideOptions: Options? = nil, tags: [TagListEntry]? = nil, taskArn: String, taskReportConfig: TaskReportConfig? = nil) {
             self.excludes = excludes
             self.includes = includes
             self.overrideOptions = overrideOptions
             self.tags = tags
             self.taskArn = taskArn
+            self.taskReportConfig = taskReportConfig
         }
 
         public func validate(name: String) throws {
@@ -3627,6 +3970,7 @@ extension DataSync {
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.taskArn, name: "taskArn", parent: name, max: 128)
             try self.validate(self.taskArn, name: "taskArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}$")
+            try self.taskReportConfig?.validate(name: "\(name).taskReportConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3635,6 +3979,7 @@ extension DataSync {
             case overrideOptions = "OverrideOptions"
             case tags = "Tags"
             case taskArn = "TaskArn"
+            case taskReportConfig = "TaskReportConfig"
         }
     }
 
@@ -3858,6 +4203,39 @@ extension DataSync {
         }
     }
 
+    public struct TaskReportConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the Amazon S3 bucket where DataSync uploads your task report. For more information, see Task reports.
+        public let destination: ReportDestination?
+        /// Specifies whether your task report includes the new version of each object transferred into an S3 bucket. This only applies if you enable versioning on your bucket. Keep in mind that setting this to INCLUDE can increase the duration of your task execution.
+        public let objectVersionIds: ObjectVersionIds?
+        /// Specifies the type of task report that you want:    SUMMARY_ONLY: Provides necessary details about your task, including the number of files, objects, and directories transferred and transfer duration.    STANDARD: Provides complete details about your task, including a full list of files, objects, and directories that were transferred, skipped, verified, and more.
+        public let outputType: ReportOutputType?
+        /// Customizes the reporting level for aspects of your task report. For example, your report might generally only include errors, but you could specify that you want a list of successes and errors just for the files that DataSync attempted to delete in your destination location.
+        public let overrides: ReportOverrides?
+        /// Specifies whether you want your task report to include only what went wrong with your transfer or a list of what succeeded and didn't.    ERRORS_ONLY: A report shows what DataSync was unable to transfer, skip, verify, and delete.    SUCCESSES_AND_ERRORS: A report shows what DataSync was able and unable to transfer, skip, verify, and delete.
+        public let reportLevel: ReportLevel?
+
+        public init(destination: ReportDestination? = nil, objectVersionIds: ObjectVersionIds? = nil, outputType: ReportOutputType? = nil, overrides: ReportOverrides? = nil, reportLevel: ReportLevel? = nil) {
+            self.destination = destination
+            self.objectVersionIds = objectVersionIds
+            self.outputType = outputType
+            self.overrides = overrides
+            self.reportLevel = reportLevel
+        }
+
+        public func validate(name: String) throws {
+            try self.destination?.validate(name: "\(name).destination")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case objectVersionIds = "ObjectVersionIds"
+            case outputType = "OutputType"
+            case overrides = "Overrides"
+            case reportLevel = "ReportLevel"
+        }
+    }
+
     public struct TaskSchedule: AWSEncodableShape & AWSDecodableShape {
         /// A cron expression that specifies when DataSync initiates a scheduled transfer from a source to a destination location.
         public let scheduleExpression: String
@@ -3991,6 +4369,61 @@ extension DataSync {
         public init() {}
     }
 
+    public struct UpdateLocationAzureBlobRequest: AWSEncodableShape {
+        /// Specifies the access tier that you want your objects or files transferred into. This only applies when using the location as a transfer destination. For more information, see Access tiers.
+        public let accessTier: AzureAccessTier?
+        /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect with your Azure Blob Storage container. You can specify more than one agent. For more information, see Using multiple agents for your transfer.
+        public let agentArns: [String]?
+        /// Specifies the authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS).
+        public let authenticationType: AzureBlobAuthenticationType?
+        /// Specifies the type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the Azure Blob Storage documentation.
+        public let blobType: AzureBlobType?
+        /// Specifies the ARN of the Azure Blob Storage transfer location that you're updating.
+        public let locationArn: String
+        /// Specifies the SAS configuration that allows DataSync to access your Azure Blob Storage.
+        public let sasConfiguration: AzureBlobSasConfiguration?
+        /// Specifies path segments if you want to limit your transfer to a virtual directory in your container (for example, /my/images).
+        public let subdirectory: String?
+
+        public init(accessTier: AzureAccessTier? = nil, agentArns: [String]? = nil, authenticationType: AzureBlobAuthenticationType? = nil, blobType: AzureBlobType? = nil, locationArn: String, sasConfiguration: AzureBlobSasConfiguration? = nil, subdirectory: String? = nil) {
+            self.accessTier = accessTier
+            self.agentArns = agentArns
+            self.authenticationType = authenticationType
+            self.blobType = blobType
+            self.locationArn = locationArn
+            self.sasConfiguration = sasConfiguration
+            self.subdirectory = subdirectory
+        }
+
+        public func validate(name: String) throws {
+            try self.agentArns?.forEach {
+                try validate($0, name: "agentArns[]", parent: name, max: 128)
+                try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
+            }
+            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
+            try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
+            try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
+            try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+            try self.sasConfiguration?.validate(name: "\(name).sasConfiguration")
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 1024)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}\\p{C}]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessTier = "AccessTier"
+            case agentArns = "AgentArns"
+            case authenticationType = "AuthenticationType"
+            case blobType = "BlobType"
+            case locationArn = "LocationArn"
+            case sasConfiguration = "SasConfiguration"
+            case subdirectory = "Subdirectory"
+        }
+    }
+
+    public struct UpdateLocationAzureBlobResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateLocationHdfsRequest: AWSEncodableShape {
         /// The ARNs of the agents that are used to connect to the HDFS cluster.
         public let agentArns: [String]?
@@ -4089,11 +4522,11 @@ extension DataSync {
     }
 
     public struct UpdateLocationNfsRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the NFS location to update.
+        /// Specifies the Amazon Resource Name (ARN) of the NFS transfer location that you want to update.
         public let locationArn: String
         public let mountOptions: NfsMountOptions?
         public let onPremConfig: OnPremConfig?
-        /// The subdirectory in the NFS file system that is used to read data from the NFS source location or write data to the NFS destination. The NFS path should be a path that's exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network. To see all the paths exported by your NFS server, run "showmount -e nfs-server-name" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication.  To transfer all the data in the folder that you specified, DataSync must have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the files you want DataSync to access have permissions that allow read access for all users. Doing either option enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. If you are copying data to or from your Snowcone device, see NFS Server on Snowcone for more information. For information about NFS export configuration, see 18.7. The /etc/exports Configuration File in the Red Hat Enterprise Linux documentation.
+        /// Specifies the export path in your NFS file server that you want DataSync to mount. This path (or a subdirectory of the path) is where DataSync transfers data to or from. For information on configuring an export for DataSync, see Accessing NFS file servers.
         public let subdirectory: String?
 
         public init(locationArn: String, mountOptions: NfsMountOptions? = nil, onPremConfig: OnPremConfig? = nil, subdirectory: String? = nil) {
@@ -4250,7 +4683,7 @@ extension DataSync {
     }
 
     public struct UpdateStorageSystemRequest: AWSEncodableShape {
-        /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that connects to and reads your on-premises storage system.
+        /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that connects to and reads your on-premises storage system. You can only specify one ARN.
         public let agentArns: [String]?
         /// Specifies the ARN of the Amazon CloudWatch log group for monitoring and logging discovery job events.
         public let cloudWatchLogGroupArn: String?
@@ -4344,8 +4777,10 @@ extension DataSync {
         public let schedule: TaskSchedule?
         /// The Amazon Resource Name (ARN) of the resource name of the task to update.
         public let taskArn: String
+        /// Specifies how you want to configure a task report, which provides detailed information about for your DataSync transfer.
+        public let taskReportConfig: TaskReportConfig?
 
-        public init(cloudWatchLogGroupArn: String? = nil, excludes: [FilterRule]? = nil, includes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, taskArn: String) {
+        public init(cloudWatchLogGroupArn: String? = nil, excludes: [FilterRule]? = nil, includes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, taskArn: String, taskReportConfig: TaskReportConfig? = nil) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.excludes = excludes
             self.includes = includes
@@ -4353,6 +4788,7 @@ extension DataSync {
             self.options = options
             self.schedule = schedule
             self.taskArn = taskArn
+            self.taskReportConfig = taskReportConfig
         }
 
         public func validate(name: String) throws {
@@ -4373,6 +4809,7 @@ extension DataSync {
             try self.schedule?.validate(name: "\(name).schedule")
             try self.validate(self.taskArn, name: "taskArn", parent: name, max: 128)
             try self.validate(self.taskArn, name: "taskArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}$")
+            try self.taskReportConfig?.validate(name: "\(name).taskReportConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4383,6 +4820,7 @@ extension DataSync {
             case options = "Options"
             case schedule = "Schedule"
             case taskArn = "TaskArn"
+            case taskReportConfig = "TaskReportConfig"
         }
     }
 

@@ -59,6 +59,21 @@ extension Billingconductor {
         public var description: String { return self.rawValue }
     }
 
+    public enum LineItemFilterAttributeName: String, CustomStringConvertible, Codable, Sendable {
+        case lineItemType = "LINE_ITEM_TYPE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LineItemFilterValue: String, CustomStringConvertible, Codable, Sendable {
+        case savingsPlanNegation = "SAVINGS_PLAN_NEGATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MatchOption: String, CustomStringConvertible, Codable, Sendable {
+        case notEqual = "NOT_EQUAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PricingRuleScope: String, CustomStringConvertible, Codable, Sendable {
         case billingEntity = "BILLING_ENTITY"
         case global = "GLOBAL"
@@ -77,13 +92,13 @@ extension Billingconductor {
     // MARK: Shapes
 
     public struct AccountAssociationsListElement: AWSDecodableShape {
-        ///  The Amazon Web Services account email.
+        /// The Amazon Web Services account email.
         public let accountEmail: String?
-        ///  The associating array of account IDs.
+        /// The associating array of account IDs.
         public let accountId: String?
-        ///  The Amazon Web Services account name.
+        /// The Amazon Web Services account name.
         public let accountName: String?
-        ///  The Billing Group Arn that the linked account is associated to.
+        /// The Billing Group Arn that the linked account is associated to.
         public let billingGroupArn: String?
 
         public init(accountEmail: String? = nil, accountId: String? = nil, accountName: String? = nil, billingGroupArn: String? = nil) {
@@ -102,10 +117,14 @@ extension Billingconductor {
     }
 
     public struct AccountGrouping: AWSEncodableShape {
-        ///  The account IDs that make up the billing group. Account IDs must be a part of the consolidated billing family, and not associated with another billing group.
+        /// Specifies if this billing group will automatically associate newly added
+        /// Amazon Web Services accounts that join your consolidated billing family.
+        public let autoAssociate: Bool?
+        /// The account IDs that make up the billing group. Account IDs must be a part of the consolidated billing family, and not associated with another billing group.
         public let linkedAccountIds: [String]
 
-        public init(linkedAccountIds: [String]) {
+        public init(autoAssociate: Bool? = nil, linkedAccountIds: [String]) {
+            self.autoAssociate = autoAssociate
             self.linkedAccountIds = linkedAccountIds
         }
 
@@ -118,6 +137,7 @@ extension Billingconductor {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoAssociate = "AutoAssociate"
             case linkedAccountIds = "LinkedAccountIds"
         }
     }
@@ -201,9 +221,9 @@ extension Billingconductor {
     }
 
     public struct AssociateResourceError: AWSDecodableShape {
-        ///  The reason why the resource association failed.
+        /// The reason why the resource association failed.
         public let message: String?
-        ///  A static error code that's used to classify the type of failure.
+        /// A static error code that's used to classify the type of failure.
         public let reason: AssociateResourceErrorReason?
 
         public init(message: String? = nil, reason: AssociateResourceErrorReason? = nil) {
@@ -218,9 +238,9 @@ extension Billingconductor {
     }
 
     public struct AssociateResourceResponseElement: AWSDecodableShape {
-        ///  The resource ARN that was associated to the custom line item.
+        /// The resource ARN that was associated to the custom line item.
         public let arn: String?
-        ///  An AssociateResourceError that will populate if the resource association fails.
+        /// An AssociateResourceError that will populate if the resource association fails.
         public let error: AssociateResourceError?
 
         public init(arn: String? = nil, error: AssociateResourceError? = nil) {
@@ -335,9 +355,9 @@ extension Billingconductor {
         public let awsCost: String?
         /// The displayed currency.
         public let currency: String?
-        ///  The billing group margin.
+        /// The billing group margin.
         public let margin: String?
-        ///  The percentage of billing group margin.
+        /// The percentage of billing group margin.
         public let marginPercentage: String?
         /// The hypothetical Amazon Web Services charges based on the associated pricing plan of a billing group.
         public let proformaCost: String?
@@ -362,14 +382,17 @@ extension Billingconductor {
     }
 
     public struct BillingGroupListElement: AWSDecodableShape {
+        /// Specifies if the billing group has automatic account
+        /// association (AutoAssociate) enabled.
+        public let accountGrouping: ListBillingGroupAccountGrouping?
         /// The Amazon Resource Number (ARN) that can be used to uniquely identify the billing group.
         public let arn: String?
         public let computationPreference: ComputationPreference?
-        ///  The time when the billing group was created.
+        /// The time when the billing group was created.
         public let creationTime: Int64?
         /// The description of the billing group.
         public let description: String?
-        ///  The most recent time when the billing group was modified.
+        /// The most recent time when the billing group was modified.
         public let lastModifiedTime: Int64?
         /// The name of the billing group.
         public let name: String?
@@ -382,7 +405,8 @@ extension Billingconductor {
         /// The reason why the billing group is in its current status.
         public let statusReason: String?
 
-        public init(arn: String? = nil, computationPreference: ComputationPreference? = nil, creationTime: Int64? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, name: String? = nil, primaryAccountId: String? = nil, size: Int64? = nil, status: BillingGroupStatus? = nil, statusReason: String? = nil) {
+        public init(accountGrouping: ListBillingGroupAccountGrouping? = nil, arn: String? = nil, computationPreference: ComputationPreference? = nil, creationTime: Int64? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, name: String? = nil, primaryAccountId: String? = nil, size: Int64? = nil, status: BillingGroupStatus? = nil, statusReason: String? = nil) {
+            self.accountGrouping = accountGrouping
             self.arn = arn
             self.computationPreference = computationPreference
             self.creationTime = creationTime
@@ -396,6 +420,7 @@ extension Billingconductor {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountGrouping = "AccountGrouping"
             case arn = "Arn"
             case computationPreference = "ComputationPreference"
             case creationTime = "CreationTime"
@@ -431,7 +456,7 @@ extension Billingconductor {
             AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token"))
         ]
 
-        ///  The set of accounts that will be under the billing group. The set of accounts resemble the linked accounts in a consolidated family.
+        ///  The set of accounts that will be under the billing group. The set of accounts resemble the linked accounts in a consolidated billing family.
         public let accountGrouping: AccountGrouping
         ///  The token that is needed to support idempotency. Idempotency isn't currently supported, but will be implemented in a future update.
         public let clientToken: String?
@@ -767,9 +792,9 @@ extension Billingconductor {
     }
 
     public struct CustomLineItemBillingPeriodRange: AWSEncodableShape {
-        ///  The inclusive end billing period that defines a billing period range where a custom line is applied.
+        /// The inclusive end billing period that defines a billing period range where a custom line is applied.
         public let exclusiveEndBillingPeriod: String?
-        ///  The inclusive start billing period that defines a billing period range where a custom line is applied.
+        /// The inclusive start billing period that defines a billing period range where a custom line is applied.
         public let inclusiveStartBillingPeriod: String
 
         public init(exclusiveEndBillingPeriod: String? = nil, inclusiveStartBillingPeriod: String) {
@@ -789,33 +814,41 @@ extension Billingconductor {
     }
 
     public struct CustomLineItemChargeDetails: AWSEncodableShape {
-        ///  A CustomLineItemFlatChargeDetails that describes the charge details of a flat custom line item.
+        /// A CustomLineItemFlatChargeDetails that describes the charge details of a flat custom line item.
         public let flat: CustomLineItemFlatChargeDetails?
-        ///  A CustomLineItemPercentageChargeDetails that describes the charge details of a percentage custom line item.
+        /// A representation of the line item filter.
+        public let lineItemFilters: [LineItemFilter]?
+        /// A CustomLineItemPercentageChargeDetails that describes the charge details of a percentage custom line item.
         public let percentage: CustomLineItemPercentageChargeDetails?
-        ///  The type of the custom line item that indicates whether the charge is a fee or credit.
+        /// The type of the custom line item that indicates whether the charge is a fee or credit.
         public let type: CustomLineItemType
 
-        public init(flat: CustomLineItemFlatChargeDetails? = nil, percentage: CustomLineItemPercentageChargeDetails? = nil, type: CustomLineItemType) {
+        public init(flat: CustomLineItemFlatChargeDetails? = nil, lineItemFilters: [LineItemFilter]? = nil, percentage: CustomLineItemPercentageChargeDetails? = nil, type: CustomLineItemType) {
             self.flat = flat
+            self.lineItemFilters = lineItemFilters
             self.percentage = percentage
             self.type = type
         }
 
         public func validate(name: String) throws {
             try self.flat?.validate(name: "\(name).flat")
+            try self.lineItemFilters?.forEach {
+                try $0.validate(name: "\(name).lineItemFilters[]")
+            }
+            try self.validate(self.lineItemFilters, name: "lineItemFilters", parent: name, max: 1)
             try self.percentage?.validate(name: "\(name).percentage")
         }
 
         private enum CodingKeys: String, CodingKey {
             case flat = "Flat"
+            case lineItemFilters = "LineItemFilters"
             case percentage = "Percentage"
             case type = "Type"
         }
     }
 
     public struct CustomLineItemFlatChargeDetails: AWSEncodableShape {
-        ///  The custom line item's fixed charge value in USD.
+        /// The custom line item's fixed charge value in USD.
         public let chargeValue: Double
 
         public init(chargeValue: Double) {
@@ -833,25 +866,25 @@ extension Billingconductor {
     }
 
     public struct CustomLineItemListElement: AWSDecodableShape {
-        ///  The Amazon Resource Names (ARNs) for custom line items.
+        /// The Amazon Resource Names (ARNs) for custom line items.
         public let arn: String?
-        ///  The number of resources that are associated to the custom line item.
+        /// The number of resources that are associated to the custom line item.
         public let associationSize: Int64?
-        ///  The Amazon Resource Name (ARN) that references the billing group where the custom line item applies to.
+        /// The Amazon Resource Name (ARN) that references the billing group where the custom line item applies to.
         public let billingGroupArn: String?
-        ///  A ListCustomLineItemChargeDetails that describes the charge details of a custom line item.
+        /// A ListCustomLineItemChargeDetails that describes the charge details of a custom line item.
         public let chargeDetails: ListCustomLineItemChargeDetails?
-        ///  The time created.
+        /// The time created.
         public let creationTime: Int64?
-        ///  The custom line item's charge value currency. Only one of the valid values can be used.
+        /// The custom line item's charge value currency. Only one of the valid values can be used.
         public let currencyCode: CurrencyCode?
-        ///  The custom line item's description. This is shown on the Bills page in association with the charge value.
+        /// The custom line item's description. This is shown on the Bills page in association with the charge value.
         public let description: String?
-        ///  The most recent time when the custom line item was modified.
+        /// The most recent time when the custom line item was modified.
         public let lastModifiedTime: Int64?
-        ///  The custom line item's name.
+        /// The custom line item's name.
         public let name: String?
-        ///  The product code that's associated with the custom line item.
+        /// The product code that's associated with the custom line item.
         public let productCode: String?
 
         public init(arn: String? = nil, associationSize: Int64? = nil, billingGroupArn: String? = nil, chargeDetails: ListCustomLineItemChargeDetails? = nil, creationTime: Int64? = nil, currencyCode: CurrencyCode? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, name: String? = nil, productCode: String? = nil) {
@@ -882,9 +915,9 @@ extension Billingconductor {
     }
 
     public struct CustomLineItemPercentageChargeDetails: AWSEncodableShape {
-        ///  A list of resource ARNs to associate to the percentage custom line item.
+        /// A list of resource ARNs to associate to the percentage custom line item.
         public let associatedValues: [String]?
-        ///  The custom line item's percentage value. This will be multiplied against the combined value of its associated resources to determine its charge value.
+        /// The custom line item's percentage value. This will be multiplied against the combined value of its associated resources to determine its charge value.
         public let percentageValue: Double
 
         public init(associatedValues: [String]? = nil, percentageValue: Double) {
@@ -1170,7 +1203,7 @@ extension Billingconductor {
     }
 
     public struct DisassociateResourceResponseElement: AWSDecodableShape {
-        ///  The resource ARN that was disassociated from the custom line item.
+        /// The resource ARN that was disassociated from the custom line item.
         public let arn: String?
         ///  An AssociateResourceError that's shown if the resource disassociation fails.
         public let error: AssociateResourceError?
@@ -1199,8 +1232,34 @@ extension Billingconductor {
         }
     }
 
+    public struct LineItemFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The attribute of the line item filter. This specifies what attribute that you can filter on.
+        public let attribute: LineItemFilterAttributeName
+        /// The match criteria of the line item filter. This parameter specifies whether not to include the resource value from the billing group total cost.
+        public let matchOption: MatchOption
+        /// The values of the line item filter. This specifies the values to filter on. Currently, you can only exclude Savings Plan discounts.
+        public let values: [LineItemFilterValue]
+
+        public init(attribute: LineItemFilterAttributeName, matchOption: MatchOption, values: [LineItemFilterValue]) {
+            self.attribute = attribute
+            self.matchOption = matchOption
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.values, name: "values", parent: name, max: 1)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "Attribute"
+            case matchOption = "MatchOption"
+            case values = "Values"
+        }
+    }
+
     public struct ListAccountAssociationsFilter: AWSEncodableShape {
-        ///  The Amazon Web Services account ID to filter on.
+        /// The Amazon Web Services account ID to filter on.
         public let accountId: String?
         ///  The list of Amazon Web Services IDs to retrieve their associated billing group for a given time range.
         public let accountIds: [String]?
@@ -1270,6 +1329,20 @@ extension Billingconductor {
         private enum CodingKeys: String, CodingKey {
             case linkedAccounts = "LinkedAccounts"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListBillingGroupAccountGrouping: AWSDecodableShape {
+        /// Specifies if this billing group will automatically associate newly added
+        /// Amazon Web Services accounts that join your consolidated billing family.
+        public let autoAssociate: Bool?
+
+        public init(autoAssociate: Bool? = nil) {
+            self.autoAssociate = autoAssociate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoAssociate = "AutoAssociate"
         }
     }
 
@@ -1346,13 +1419,17 @@ extension Billingconductor {
     public struct ListBillingGroupsFilter: AWSEncodableShape {
         /// The list of billing group Amazon Resource Names (ARNs) to retrieve information.
         public let arns: [String]?
+        /// Specifies if this billing group will automatically associate newly added
+        /// Amazon Web Services accounts that join your consolidated billing family.
+        public let autoAssociate: Bool?
         /// The pricing plan Amazon Resource Names (ARNs) to retrieve information.
         public let pricingPlan: String?
         ///  A list of billing groups to retrieve their current status for a specific time range
         public let statuses: [BillingGroupStatus]?
 
-        public init(arns: [String]? = nil, pricingPlan: String? = nil, statuses: [BillingGroupStatus]? = nil) {
+        public init(arns: [String]? = nil, autoAssociate: Bool? = nil, pricingPlan: String? = nil, statuses: [BillingGroupStatus]? = nil) {
             self.arns = arns
+            self.autoAssociate = autoAssociate
             self.pricingPlan = pricingPlan
             self.statuses = statuses
         }
@@ -1370,6 +1447,7 @@ extension Billingconductor {
 
         private enum CodingKeys: String, CodingKey {
             case arns = "Arns"
+            case autoAssociate = "AutoAssociate"
             case pricingPlan = "PricingPlan"
             case statuses = "Statuses"
         }
@@ -1427,19 +1505,23 @@ extension Billingconductor {
     public struct ListCustomLineItemChargeDetails: AWSDecodableShape {
         ///  A ListCustomLineItemFlatChargeDetails that describes the charge details of a flat custom line item.
         public let flat: ListCustomLineItemFlatChargeDetails?
+        /// A representation of the line item filter.
+        public let lineItemFilters: [LineItemFilter]?
         ///  A ListCustomLineItemPercentageChargeDetails that describes the charge details of a percentage custom line item.
         public let percentage: ListCustomLineItemPercentageChargeDetails?
         ///  The type of the custom line item that indicates whether the charge is a fee or credit.
         public let type: CustomLineItemType
 
-        public init(flat: ListCustomLineItemFlatChargeDetails? = nil, percentage: ListCustomLineItemPercentageChargeDetails? = nil, type: CustomLineItemType) {
+        public init(flat: ListCustomLineItemFlatChargeDetails? = nil, lineItemFilters: [LineItemFilter]? = nil, percentage: ListCustomLineItemPercentageChargeDetails? = nil, type: CustomLineItemType) {
             self.flat = flat
+            self.lineItemFilters = lineItemFilters
             self.percentage = percentage
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case flat = "Flat"
+            case lineItemFilters = "LineItemFilters"
             case percentage = "Percentage"
             case type = "Type"
         }
@@ -1560,11 +1642,11 @@ extension Billingconductor {
     }
 
     public struct ListCustomLineItemsFilter: AWSEncodableShape {
-        ///  A list of custom line item ARNs to retrieve information.
+        /// A list of custom line item ARNs to retrieve information.
         public let arns: [String]?
-        ///  The billing group Amazon Resource Names (ARNs) to retrieve information.
+        /// The billing group Amazon Resource Names (ARNs) to retrieve information.
         public let billingGroups: [String]?
-        ///  A list of custom line items to retrieve information.
+        /// A list of custom line items to retrieve information.
         public let names: [String]?
 
         public init(arns: [String]? = nil, billingGroups: [String]? = nil, names: [String]? = nil) {
@@ -1838,7 +1920,7 @@ extension Billingconductor {
     }
 
     public struct ListPricingRulesFilter: AWSEncodableShape {
-        ///  A list containing the pricing rule Amazon Resource Names (ARNs) to include in the API response.
+        /// A list containing the pricing rule Amazon Resource Names (ARNs) to include in the API response.
         public let arns: [String]?
 
         public init(arns: [String]? = nil) {
@@ -2038,15 +2120,15 @@ extension Billingconductor {
     public struct PricingPlanListElement: AWSDecodableShape {
         /// The pricing plan Amazon Resource Names (ARN). This can be used to uniquely identify a pricing plan.
         public let arn: String?
-        ///  The time when the pricing plan was created.
+        /// The time when the pricing plan was created.
         public let creationTime: Int64?
         /// The pricing plan description.
         public let description: String?
-        ///  The most recent time when the pricing plan was modified.
+        /// The most recent time when the pricing plan was modified.
         public let lastModifiedTime: Int64?
         /// The name of a pricing plan.
         public let name: String?
-        ///  The pricing rules count that's currently associated with this pricing plan list element.
+        /// The pricing rules count that's currently associated with this pricing plan list element.
         public let size: Int64?
 
         public init(arn: String? = nil, creationTime: Int64? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, name: String? = nil, size: Int64? = nil) {
@@ -2069,31 +2151,31 @@ extension Billingconductor {
     }
 
     public struct PricingRuleListElement: AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) used to uniquely identify a pricing rule.
+        /// The Amazon Resource Name (ARN) used to uniquely identify a pricing rule.
         public let arn: String?
-        ///  The pricing plans count that this pricing rule is associated with.
+        /// The pricing plans count that this pricing rule is associated with.
         public let associatedPricingPlanCount: Int64?
         ///  The seller of services provided by Amazon Web Services, their affiliates, or third-party providers selling services via Amazon Web Services Marketplace.
         public let billingEntity: String?
-        ///  The time when the pricing rule was created.
+        /// The time when the pricing rule was created.
         public let creationTime: Int64?
-        ///  The pricing rule description.
+        /// The pricing rule description.
         public let description: String?
         ///  The most recent time when the pricing rule was modified.
         public let lastModifiedTime: Int64?
-        ///  A percentage modifier applied on the public pricing rates.
+        /// A percentage modifier applied on the public pricing rates.
         public let modifierPercentage: Double?
-        ///  The name of a pricing rule.
+        /// The name of a pricing rule.
         public let name: String?
         ///  Operation is the specific Amazon Web Services action covered by this line item. This describes the specific usage of the line item.  If the Scope attribute is set to SKU, this attribute indicates which operation the PricingRule is modifying. For example, a value of RunInstances:0202 indicates the operation of running an Amazon EC2 instance.
         public let operation: String?
-        ///  The scope of pricing rule that indicates if it is globally applicable, or if it is service-specific.
+        /// The scope of pricing rule that indicates if it is globally applicable, or if it is service-specific.
         public let scope: PricingRuleScope?
-        ///  If the Scope attribute is SERVICE, this attribute indicates which service the PricingRule is applicable for.
+        /// If the Scope attribute is SERVICE, this attribute indicates which service the PricingRule is applicable for.
         public let service: String?
         ///  The set of tiering configurations for the pricing rule.
         public let tiering: Tiering?
-        ///  The type of pricing rule.
+        /// The type of pricing rule.
         public let type: PricingRuleType?
         ///  Usage type is the unit that each service uses to measure the usage of a specific type of resource. If the Scope attribute is set to SKU, this attribute indicates which usage type the PricingRule is modifying. For example, USW2-BoxUsage:m2.2xlarge describes an M2 High Memory Double Extra Large instance in the US West (Oregon) Region.
         public let usageType: String?
@@ -2216,7 +2298,24 @@ extension Billingconductor {
         public init() {}
     }
 
+    public struct UpdateBillingGroupAccountGrouping: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies if this billing group will automatically associate newly added
+        /// Amazon Web Services accounts that join your consolidated billing family.
+        public let autoAssociate: Bool?
+
+        public init(autoAssociate: Bool? = nil) {
+            self.autoAssociate = autoAssociate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoAssociate = "AutoAssociate"
+        }
+    }
+
     public struct UpdateBillingGroupInput: AWSEncodableShape {
+        /// Specifies if the billing group has automatic account
+        /// association (AutoAssociate) enabled.
+        public let accountGrouping: UpdateBillingGroupAccountGrouping?
         /// The Amazon Resource Name (ARN) of the billing group being updated.
         public let arn: String
         ///  The preferences and settings that will be used to compute the Amazon Web Services charges for a billing group.
@@ -2228,7 +2327,8 @@ extension Billingconductor {
         /// The status of the billing group. Only one of the valid values can be used.
         public let status: BillingGroupStatus?
 
-        public init(arn: String, computationPreference: ComputationPreference? = nil, description: String? = nil, name: String? = nil, status: BillingGroupStatus? = nil) {
+        public init(accountGrouping: UpdateBillingGroupAccountGrouping? = nil, arn: String, computationPreference: ComputationPreference? = nil, description: String? = nil, name: String? = nil, status: BillingGroupStatus? = nil) {
+            self.accountGrouping = accountGrouping
             self.arn = arn
             self.computationPreference = computationPreference
             self.description = description
@@ -2246,6 +2346,7 @@ extension Billingconductor {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountGrouping = "AccountGrouping"
             case arn = "Arn"
             case computationPreference = "ComputationPreference"
             case description = "Description"
@@ -2255,6 +2356,9 @@ extension Billingconductor {
     }
 
     public struct UpdateBillingGroupOutput: AWSDecodableShape {
+        /// Specifies if the billing group has automatic account
+        /// association (AutoAssociate) enabled.
+        public let accountGrouping: UpdateBillingGroupAccountGrouping?
         /// The Amazon Resource Name (ARN) of the billing group that was updated.
         public let arn: String?
         ///  A description of the billing group.
@@ -2274,7 +2378,8 @@ extension Billingconductor {
         ///  The reason why the billing group is in its current status.
         public let statusReason: String?
 
-        public init(arn: String? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, name: String? = nil, pricingPlanArn: String? = nil, primaryAccountId: String? = nil, size: Int64? = nil, status: BillingGroupStatus? = nil, statusReason: String? = nil) {
+        public init(accountGrouping: UpdateBillingGroupAccountGrouping? = nil, arn: String? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, name: String? = nil, pricingPlanArn: String? = nil, primaryAccountId: String? = nil, size: Int64? = nil, status: BillingGroupStatus? = nil, statusReason: String? = nil) {
+            self.accountGrouping = accountGrouping
             self.arn = arn
             self.description = description
             self.lastModifiedTime = lastModifiedTime
@@ -2287,6 +2392,7 @@ extension Billingconductor {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountGrouping = "AccountGrouping"
             case arn = "Arn"
             case description = "Description"
             case lastModifiedTime = "LastModifiedTime"
@@ -2302,21 +2408,29 @@ extension Billingconductor {
     public struct UpdateCustomLineItemChargeDetails: AWSEncodableShape {
         ///  An UpdateCustomLineItemFlatChargeDetails that describes the new charge details of a flat custom line item.
         public let flat: UpdateCustomLineItemFlatChargeDetails?
+        /// A representation of the line item filter.
+        public let lineItemFilters: [LineItemFilter]?
         ///  An UpdateCustomLineItemPercentageChargeDetails that describes the new charge details of a percentage custom line item.
         public let percentage: UpdateCustomLineItemPercentageChargeDetails?
 
-        public init(flat: UpdateCustomLineItemFlatChargeDetails? = nil, percentage: UpdateCustomLineItemPercentageChargeDetails? = nil) {
+        public init(flat: UpdateCustomLineItemFlatChargeDetails? = nil, lineItemFilters: [LineItemFilter]? = nil, percentage: UpdateCustomLineItemPercentageChargeDetails? = nil) {
             self.flat = flat
+            self.lineItemFilters = lineItemFilters
             self.percentage = percentage
         }
 
         public func validate(name: String) throws {
             try self.flat?.validate(name: "\(name).flat")
+            try self.lineItemFilters?.forEach {
+                try $0.validate(name: "\(name).lineItemFilters[]")
+            }
+            try self.validate(self.lineItemFilters, name: "lineItemFilters", parent: name, max: 1)
             try self.percentage?.validate(name: "\(name).percentage")
         }
 
         private enum CodingKeys: String, CodingKey {
             case flat = "Flat"
+            case lineItemFilters = "LineItemFilters"
             case percentage = "Percentage"
         }
     }
@@ -2665,7 +2779,7 @@ public struct BillingconductorErrorType: AWSErrorType {
     public static var serviceLimitExceededException: Self { .init(.serviceLimitExceededException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The input doesn't match with the constraints specified by Amazon Web Services services.
+    /// The input doesn't match with the constraints specified by Amazon Web Services.
     public static var validationException: Self { .init(.validationException) }
 }
 

@@ -57,37 +57,47 @@ public struct ServiceDiscovery: AWSService {
             endpoint: endpoint,
             variantEndpoints: [
                 [.dualstack]: .init(endpoints: [
-                    "af-south-1": "servicediscovery.af-south-1.amazonaws.com",
-                    "ap-east-1": "servicediscovery.ap-east-1.amazonaws.com",
-                    "ap-northeast-1": "servicediscovery.ap-northeast-1.amazonaws.com",
-                    "ap-northeast-2": "servicediscovery.ap-northeast-2.amazonaws.com",
-                    "ap-northeast-3": "servicediscovery.ap-northeast-3.amazonaws.com",
-                    "ap-south-1": "servicediscovery.ap-south-1.amazonaws.com",
-                    "ap-south-2": "servicediscovery.ap-south-2.amazonaws.com",
-                    "ap-southeast-1": "servicediscovery.ap-southeast-1.amazonaws.com",
-                    "ap-southeast-2": "servicediscovery.ap-southeast-2.amazonaws.com",
-                    "ap-southeast-3": "servicediscovery.ap-southeast-3.amazonaws.com",
-                    "ap-southeast-4": "servicediscovery.ap-southeast-4.amazonaws.com",
-                    "ca-central-1": "servicediscovery.ca-central-1.amazonaws.com",
-                    "cn-north-1": "servicediscovery.cn-north-1.amazonaws.com.cn",
-                    "cn-northwest-1": "servicediscovery.cn-northwest-1.amazonaws.com.cn",
-                    "eu-central-1": "servicediscovery.eu-central-1.amazonaws.com",
-                    "eu-central-2": "servicediscovery.eu-central-2.amazonaws.com",
-                    "eu-north-1": "servicediscovery.eu-north-1.amazonaws.com",
-                    "eu-south-1": "servicediscovery.eu-south-1.amazonaws.com",
-                    "eu-south-2": "servicediscovery.eu-south-2.amazonaws.com",
-                    "eu-west-1": "servicediscovery.eu-west-1.amazonaws.com",
-                    "eu-west-2": "servicediscovery.eu-west-2.amazonaws.com",
-                    "eu-west-3": "servicediscovery.eu-west-3.amazonaws.com",
-                    "me-central-1": "servicediscovery.me-central-1.amazonaws.com",
-                    "me-south-1": "servicediscovery.me-south-1.amazonaws.com",
-                    "sa-east-1": "servicediscovery.sa-east-1.amazonaws.com",
-                    "us-east-1": "servicediscovery.us-east-1.amazonaws.com",
-                    "us-east-2": "servicediscovery.us-east-2.amazonaws.com",
-                    "us-gov-east-1": "servicediscovery.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "servicediscovery.us-gov-west-1.amazonaws.com",
-                    "us-west-1": "servicediscovery.us-west-1.amazonaws.com",
-                    "us-west-2": "servicediscovery.us-west-2.amazonaws.com"
+                    "af-south-1": "servicediscovery.af-south-1.api.aws",
+                    "ap-east-1": "servicediscovery.ap-east-1.api.aws",
+                    "ap-northeast-1": "servicediscovery.ap-northeast-1.api.aws",
+                    "ap-northeast-2": "servicediscovery.ap-northeast-2.api.aws",
+                    "ap-northeast-3": "servicediscovery.ap-northeast-3.api.aws",
+                    "ap-south-1": "servicediscovery.ap-south-1.api.aws",
+                    "ap-south-2": "servicediscovery.ap-south-2.api.aws",
+                    "ap-southeast-1": "servicediscovery.ap-southeast-1.api.aws",
+                    "ap-southeast-2": "servicediscovery.ap-southeast-2.api.aws",
+                    "ap-southeast-3": "servicediscovery.ap-southeast-3.api.aws",
+                    "ap-southeast-4": "servicediscovery.ap-southeast-4.api.aws",
+                    "ca-central-1": "servicediscovery.ca-central-1.api.aws",
+                    "cn-north-1": "servicediscovery.cn-north-1.api.amazonwebservices.com.cn",
+                    "cn-northwest-1": "servicediscovery.cn-northwest-1.api.amazonwebservices.com.cn",
+                    "eu-central-1": "servicediscovery.eu-central-1.api.aws",
+                    "eu-central-2": "servicediscovery.eu-central-2.api.aws",
+                    "eu-north-1": "servicediscovery.eu-north-1.api.aws",
+                    "eu-south-1": "servicediscovery.eu-south-1.api.aws",
+                    "eu-south-2": "servicediscovery.eu-south-2.api.aws",
+                    "eu-west-1": "servicediscovery.eu-west-1.api.aws",
+                    "eu-west-2": "servicediscovery.eu-west-2.api.aws",
+                    "eu-west-3": "servicediscovery.eu-west-3.api.aws",
+                    "il-central-1": "servicediscovery.il-central-1.api.aws",
+                    "me-central-1": "servicediscovery.me-central-1.api.aws",
+                    "me-south-1": "servicediscovery.me-south-1.api.aws",
+                    "sa-east-1": "servicediscovery.sa-east-1.api.aws",
+                    "us-east-1": "servicediscovery.us-east-1.api.aws",
+                    "us-east-2": "servicediscovery.us-east-2.api.aws",
+                    "us-gov-east-1": "servicediscovery.us-gov-east-1.api.aws",
+                    "us-gov-west-1": "servicediscovery.us-gov-west-1.api.aws",
+                    "us-west-1": "servicediscovery.us-west-1.api.aws",
+                    "us-west-2": "servicediscovery.us-west-2.api.aws"
+                ]),
+                [.dualstack, .fips]: .init(endpoints: [
+                    "ca-central-1": "servicediscovery-fips.ca-central-1.api.aws",
+                    "us-east-1": "servicediscovery-fips.us-east-1.api.aws",
+                    "us-east-2": "servicediscovery-fips.us-east-2.api.aws",
+                    "us-gov-east-1": "servicediscovery-fips.us-gov-east-1.api.aws",
+                    "us-gov-west-1": "servicediscovery-fips.us-gov-west-1.api.aws",
+                    "us-west-1": "servicediscovery-fips.us-west-1.api.aws",
+                    "us-west-2": "servicediscovery-fips.us-west-2.api.aws"
                 ]),
                 [.fips]: .init(endpoints: [
                     "ca-central-1": "servicediscovery-fips.ca-central-1.amazonaws.com",
@@ -143,9 +153,14 @@ public struct ServiceDiscovery: AWSService {
         return self.client.execute(operation: "DeregisterInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Discovers registered instances for a specified namespace and service. You can use DiscoverInstances to discover instances for any type of namespace. For public and private DNS namespaces, you can also use DNS queries to discover instances.
+    /// Discovers registered instances for a specified namespace and service. You can use DiscoverInstances to discover instances for any type of namespace. DiscoverInstances returns a randomized list of instances allowing customers to distribute traffic evenly across instances. For public and private DNS namespaces, you can also use DNS queries to discover instances.
     public func discoverInstances(_ input: DiscoverInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DiscoverInstancesResponse> {
         return self.client.execute(operation: "DiscoverInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "data-", logger: logger, on: eventLoop)
+    }
+
+    /// Discovers the increasing revision associated with an instance.
+    public func discoverInstancesRevision(_ input: DiscoverInstancesRevisionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DiscoverInstancesRevisionResponse> {
+        return self.client.execute(operation: "DiscoverInstancesRevision", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "data-", logger: logger, on: eventLoop)
     }
 
     /// Gets information about a specified instance.
@@ -163,7 +178,7 @@ public struct ServiceDiscovery: AWSService {
         return self.client.execute(operation: "GetNamespace", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets information about any operation that returns an operation ID in the response, such as a CreateService request.  To get a list of operations that match specified criteria, see ListOperations.
+    /// Gets information about any operation that returns an operation ID in the response, such as a CreateHttpNamespace request.  To get a list of operations that match specified criteria, see ListOperations.
     public func getOperation(_ input: GetOperationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetOperationResponse> {
         return self.client.execute(operation: "GetOperation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

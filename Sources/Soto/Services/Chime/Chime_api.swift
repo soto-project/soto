@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS Chime service.
 ///
-/// The Amazon Chime application programming interface (API) is designed so administrators can perform key tasks, such as creating and managing Amazon Chime accounts, users, and Voice Connectors. This guide provides detailed information about the Amazon Chime API, including operations, types, inputs and outputs, and error codes. You can use an AWS SDK, the AWS Command Line Interface (AWS CLI), or the REST API to make API calls for Amazon Chime. We recommend using an AWS SDK or the  AWS CLI. The page for each API action contains a See Also section that includes links to information about using the action with a language-specific AWS SDK or the AWS CLI.  Using an AWS SDK   You don't need to write code to calculate a signature for request authentication. The SDK clients authenticate your requests by using access keys that you provide. For more information about AWS SDKs, see the  AWS Developer Center.   Using the AWS CLI  Use your access keys with the AWS CLI to make API calls. For information about setting up the AWS CLI, see  Installing the AWS Command Line Interface in the AWS Command Line Interface User Guide. For a list of available Amazon Chime commands, see the  Amazon Chime commands in the  AWS CLI Command Reference.   Using REST APIs  If you use REST to make API calls, you must authenticate your request by providing a signature. Amazon Chime supports Signature Version 4. For more information, see  Signature Version 4 Signing Process in the Amazon Web Services General Reference. When making REST API calls, use the service name chime and REST endpoint https://service.chime.aws.amazon.com.   Administrative permissions are controlled using AWS Identity and Access Management (IAM). For more information, see  Identity and Access Management for Amazon Chime in the Amazon Chime Administration Guide.
+///   Most of these APIs are no longer supported and will not be updated. We recommend using the latest versions in the  Amazon Chime SDK API reference, in the Amazon Chime SDK. Using the latest versions requires migrating to dedicated namespaces. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.  The Amazon Chime application programming interface (API) is designed so administrators can perform key tasks, such as creating and managing Amazon Chime accounts, users, and Voice Connectors. This guide provides detailed information about the Amazon Chime API, including operations, types, inputs and outputs, and error codes. You can use an AWS SDK, the AWS Command Line Interface (AWS CLI), or the REST API to make API calls for Amazon Chime. We recommend using an AWS SDK or the  AWS CLI. The page for each API action contains a See Also section that includes links to information about using the action with a language-specific  AWS SDK or the AWS CLI.  Using an AWS SDK   You don't need to write code to calculate a signature for request authentication. The SDK clients authenticate your requests by using access keys that you provide. For more information about AWS SDKs, see the  AWS Developer Center.   Using the AWS CLI  Use your access keys with the AWS CLI to make API calls. For information about setting up the AWS CLI, see  Installing the AWS Command Line Interface in the AWS Command Line Interface User Guide. For a list of available Amazon Chime commands, see the  Amazon Chime commands in the  AWS CLI Command Reference.   Using REST APIs  If you use REST to make API calls, you must authenticate your request by providing a signature. Amazon Chime supports Signature Version 4. For more information, see  Signature Version 4 Signing Process in the Amazon Web Services General Reference. When making REST API calls, use the service name chime and REST endpoint https://service.chime.aws.amazon.com.   Administrative permissions are controlled using AWS Identity and Access Management (IAM). For more information, see  Identity and Access Management for Amazon Chime in the Amazon Chime Administration Guide.
 public struct Chime: AWSService {
     // MARK: Member variables
 
@@ -72,12 +72,14 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "AssociatePhoneNumberWithUser", path: "/accounts/{AccountId}/users/{UserId}?operation=associate-phone-number", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Associates phone numbers with the specified Amazon Chime Voice Connector.
+    /// Associates phone numbers with the specified Amazon Chime Voice Connector.   This API is is no longer supported and will not be updated. We recommend using the latest version, AssociatePhoneNumbersWithVoiceConnector, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by AssociatePhoneNumbersWithVoiceConnector in the Amazon Chime SDK Voice Namespace")
     public func associatePhoneNumbersWithVoiceConnector(_ input: AssociatePhoneNumbersWithVoiceConnectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociatePhoneNumbersWithVoiceConnectorResponse> {
         return self.client.execute(operation: "AssociatePhoneNumbersWithVoiceConnector", path: "/voice-connectors/{VoiceConnectorId}?operation=associate-phone-numbers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Associates phone numbers with the specified Amazon Chime Voice Connector group.
+    /// Associates phone numbers with the specified Amazon Chime Voice Connector group.   This API is is no longer supported and will not be updated. We recommend using the latest version, AssociatePhoneNumbersWithVoiceConnectorGroup, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by AssociatePhoneNumbersWithVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     public func associatePhoneNumbersWithVoiceConnectorGroup(_ input: AssociatePhoneNumbersWithVoiceConnectorGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociatePhoneNumbersWithVoiceConnectorGroupResponse> {
         return self.client.execute(operation: "AssociatePhoneNumbersWithVoiceConnectorGroup", path: "/voice-connector-groups/{VoiceConnectorGroupId}?operation=associate-phone-numbers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -87,20 +89,22 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "AssociateSigninDelegateGroupsWithAccount", path: "/accounts/{AccountId}?operation=associate-signin-delegate-groups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates up to 100 new attendees for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see
+    /// Creates up to 100 new attendees for an active Amazon Chime SDK meeting.   This API is is no longer supported and will not be updated. We recommend using the latest version, BatchCreateAttendee, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.  For more information about the Amazon Chime SDK, see
     /// Using the Amazon Chime SDK
     /// in the
     /// Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by BatchCreateAttendee in the Amazon Chime SDK Meetings Namespace")
     public func batchCreateAttendee(_ input: BatchCreateAttendeeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchCreateAttendeeResponse> {
         return self.client.execute(operation: "BatchCreateAttendee", path: "/meetings/{MeetingId}/attendees?operation=batch-create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds a specified number of users to a channel.
+    /// Adds a specified number of users to a channel.   This API is is no longer supported and will not be updated. We recommend using the latest version, BatchCreateChannelMembership, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by BatchCreateChannelMembership in the Amazon Chime SDK Messaging Namespace")
     public func batchCreateChannelMembership(_ input: BatchCreateChannelMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchCreateChannelMembershipResponse> {
         return self.client.execute(operation: "BatchCreateChannelMembership", path: "/channels/{ChannelArn}/memberships?operation=batch-create", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    /// Adds up to 50 members to a chat room in an Amazon Chime Enterprise account. Members can be users or bots. The member role designates whether the member is a chat room administrator or a general chat room member.
+    /// Adds up to 50 members to a chat room in an Amazon Chime Enterprise account. Members can be users or bots. The member role designates whether the member is a  chat room administrator or a general chat room member.
     public func batchCreateRoomMembership(_ input: BatchCreateRoomMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchCreateRoomMembershipResponse> {
         return self.client.execute(operation: "BatchCreateRoomMembership", path: "/accounts/{AccountId}/rooms/{RoomId}/memberships?operation=batch-create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -114,17 +118,15 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "BatchDeletePhoneNumber", path: "/phone-numbers?operation=batch-delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Suspends up to 50 users from a Team or EnterpriseLWA Amazon Chime account. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide. Users suspended from a Team account are disassociated from the account,but they can continue to use Amazon Chime as free users. To remove the suspension from suspended Team account users, invite them to the Team account again. You can use the InviteUsers action to do so. Users suspended from an EnterpriseLWA account are immediately signed out of Amazon Chime and can no longer sign in. To remove the suspension from suspended EnterpriseLWA account users, use the BatchUnsuspendUser action.
+    /// Suspends up to 50 users from a Team or EnterpriseLWA Amazon Chime account. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide. Users suspended from a Team account are disassociated from the account,but they can continue to use Amazon Chime as free users. To remove the suspension from suspended Team account users, invite them to the Team account again. You can use the InviteUsers action to do so. Users suspended from an EnterpriseLWA account are immediately signed out of Amazon Chime and can no longer sign in. To remove the suspension from suspended EnterpriseLWA account users, use the  BatchUnsuspendUser action.
     /// To sign out users without suspending them, use the
-    /// LogoutUser
-    /// action.
+    /// LogoutUser action.
     public func batchSuspendUser(_ input: BatchSuspendUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchSuspendUserResponse> {
         return self.client.execute(operation: "BatchSuspendUser", path: "/accounts/{AccountId}/users?operation=suspend", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Removes the suspension from up to 50 previously suspended users for the specified Amazon Chime EnterpriseLWA account. Only users on EnterpriseLWA accounts can be unsuspended using this action. For more information about different account types, see   Managing Your Amazon Chime Accounts in the account types, in the Amazon Chime Administration Guide.
-    ///
-    /// Previously suspended users who are unsuspended using this action are returned to
+    ///  Previously suspended users who are unsuspended using this action are returned to
     /// Registered
     /// status. Users who are not previously suspended are ignored.
     public func batchUnsuspendUser(_ input: BatchUnsuspendUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchUnsuspendUserResponse> {
@@ -141,25 +143,27 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "BatchUpdateUser", path: "/accounts/{AccountId}/users", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an Amazon Chime account under the administrator's AWS account. Only Team account types are currently supported for this action. For more information about different account types, see  Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide.
+    /// Creates an Amazon Chime account under the administrator's AWS account. Only Team account types are currently supported for this action. For more information about different account types, see  Managing Your Amazon Chime Accounts in the Amazon Chime  Administration Guide.
     public func createAccount(_ input: CreateAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAccountResponse> {
         return self.client.execute(operation: "CreateAccount", path: "/accounts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates an Amazon Chime SDK messaging AppInstance under an AWS account. Only SDK messaging customers use this API.
-    /// CreateAppInstance supports idempotency behavior as described in the AWS API Standard.
+    /// CreateAppInstance supports idempotency behavior as described in the AWS API Standard.   This API is is no longer supported and will not be updated. We recommend using the latest version, CreateAppInstance, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateAppInstance in the Amazon Chime SDK Identity Namespace")
     public func createAppInstance(_ input: CreateAppInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAppInstanceResponse> {
         return self.client.execute(operation: "CreateAppInstance", path: "/app-instances", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "identity-", logger: logger, on: eventLoop)
     }
 
-    /// Promotes an AppInstanceUser to an AppInstanceAdmin. The promoted user can perform the following actions.
-    ///     ChannelModerator actions across all channels in the AppInstance.    DeleteChannelMessage actions.   Only an AppInstanceUser can be promoted to an AppInstanceAdmin role.
+    /// Promotes an AppInstanceUser to an AppInstanceAdmin. The promoted user can perform the following actions.    This API is is no longer supported and will not be updated. We recommend using the latest version, CreateAppInstanceAdmin, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.     ChannelModerator actions across all channels in the AppInstance.    DeleteChannelMessage actions.   Only an AppInstanceUser can be promoted to an AppInstanceAdmin role.
+    @available(*, deprecated, message: "Replaced by CreateAppInstanceAdmin in the Amazon Chime SDK Identity Namespace")
     public func createAppInstanceAdmin(_ input: CreateAppInstanceAdminRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAppInstanceAdminResponse> {
         return self.client.execute(operation: "CreateAppInstanceAdmin", path: "/app-instances/{AppInstanceArn}/admins", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "identity-", logger: logger, on: eventLoop)
     }
 
     /// Creates a user under an Amazon Chime AppInstance. The request consists of a unique appInstanceUserId and
-    /// Name for that user.
+    /// Name for that user.   This API is is no longer supported and will not be updated. We recommend using the latest version, CreateAppInstanceUser, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateAppInstanceUser in the Amazon Chime SDK Identity Namespace")
     public func createAppInstanceUser(_ input: CreateAppInstanceUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAppInstanceUserResponse> {
         return self.client.execute(operation: "CreateAppInstanceUser", path: "/app-instance-users", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "identity-", logger: logger, on: eventLoop)
     }
@@ -168,6 +172,8 @@ public struct Chime: AWSService {
     /// Using the Amazon Chime SDK
     /// in the
     /// Amazon Chime SDK Developer Guide.
+    ///    This API is is no longer supported and will not be updated. We recommend using the latest version, CreateAttendee, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateAttendee in the Amazon Chime SDK Meetings Namespace")
     public func createAttendee(_ input: CreateAttendeeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAttendeeResponse> {
         return self.client.execute(operation: "CreateAttendee", path: "/meetings/{MeetingId}/attendees", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -177,46 +183,49 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "CreateBot", path: "/accounts/{AccountId}/bots", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a channel to which you can add users and send messages.  Restriction: You can't change a channel's privacy.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Creates a channel to which you can add users and send messages.  Restriction: You can't change a channel's privacy.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, CreateChannel, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateChannel in the Amazon Chime SDK Messaging Namespace")
     public func createChannel(_ input: CreateChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateChannelResponse> {
         return self.client.execute(operation: "CreateChannel", path: "/channels", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    /// Permanently bans a member from a channel. Moderators can't add banned members to a channel. To undo a ban, you first have to DeleteChannelBan, and then CreateChannelMembership. Bans are cleaned up when you delete users or channels. If you ban a user who is already part of a channel, that user is automatically kicked from the channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Permanently bans a member from a channel. Moderators can't add banned members to a channel. To undo a ban, you first have to DeleteChannelBan, and then CreateChannelMembership. Bans are cleaned up when you delete users or channels. If you ban a user who is already part of a channel, that user is automatically kicked from the channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, CreateChannelBan, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateChannelBan in the Amazon Chime SDK Messaging Namespace")
     public func createChannelBan(_ input: CreateChannelBanRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateChannelBanResponse> {
         return self.client.execute(operation: "CreateChannelBan", path: "/channels/{ChannelArn}/bans", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    /// Adds a user to a channel. The InvitedBy response field is derived from the request header. A channel member can:   List messages   Send messages   Receive messages   Edit their own messages   Leave the channel   Privacy settings impact this action as follows:   Public Channels: You do not need to be a member to list messages, but you must be a member to send messages.   Private Channels: You must be a member to list or send messages.    The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Adds a user to a channel. The InvitedBy response field is derived from the request header. A channel member can:   List messages   Send messages   Receive messages   Edit their own messages   Leave the channel   Privacy settings impact this action as follows:   Public Channels: You do not need to be a member to list messages, but you must be a member to send messages.   Private Channels: You must be a member to list or send messages.    The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, CreateChannelMembership, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateChannelMembership in the Amazon Chime SDK Messaging Namespace")
     public func createChannelMembership(_ input: CreateChannelMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateChannelMembershipResponse> {
         return self.client.execute(operation: "CreateChannelMembership", path: "/channels/{ChannelArn}/memberships", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    /// Creates a new ChannelModerator. A channel moderator can:   Add and remove other members of the channel.   Add and remove other moderators of the channel.   Add and remove user bans for the channel.   Redact messages in the channel.   List messages in the channel.    The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Creates a new ChannelModerator. A channel moderator can:   Add and remove other members of the channel.   Add and remove other moderators of the channel.   Add and remove user bans for the channel.   Redact messages in the channel.   List messages in the channel.    The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, CreateChannelModerator, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateChannelModerator in the Amazon Chime SDK Messaging Namespace")
     public func createChannelModerator(_ input: CreateChannelModeratorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateChannelModeratorResponse> {
         return self.client.execute(operation: "CreateChannelModerator", path: "/channels/{ChannelArn}/moderators", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    /// Creates a media capture pipeline.
+    /// Creates a media capture pipeline.   This API is is no longer supported and will not be updated. We recommend using the latest version, CreateMediaCapturePipeline, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateMediaCapturePipeline in the Amazon Chime SDK Media Pipelines Namespace")
     public func createMediaCapturePipeline(_ input: CreateMediaCapturePipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMediaCapturePipelineResponse> {
         return self.client.execute(operation: "CreateMediaCapturePipeline", path: "/media-capture-pipelines", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about specifying media Regions, see
     /// Amazon Chime SDK Media Regions
-    /// in the
-    /// Amazon Chime SDK Developer Guide
+    /// in the Amazon Chime SDK Developer Guide
     /// . For more information about the Amazon Chime SDK, see
     /// Using the Amazon Chime SDK
-    /// in the
-    /// Amazon Chime SDK Developer Guide
-    /// .
+    /// in the Amazon Chime SDK Developer Guide.   This API is is no longer supported and will not be updated. We recommend using the latest version, CreateMeeting, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateMeeting in the Amazon Chime SDK Meetings Namespace")
     public func createMeeting(_ input: CreateMeetingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMeetingResponse> {
         return self.client.execute(operation: "CreateMeeting", path: "/meetings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Uses the join token and call metadata in a meeting request (From number, To number, and so forth) to initiate an outbound call to a public  switched telephone network (PSTN) and join them into a Chime meeting. Also ensures that the From number belongs to the customer. To play welcome audio or implement an interactive voice response (IVR), use the
-    /// CreateSipMediaApplicationCall action with the corresponding SIP media application ID.
+    /// CreateSipMediaApplicationCall action with the corresponding SIP media application ID.   This API is is not available in a dedicated namespace.
     public func createMeetingDialOut(_ input: CreateMeetingDialOutRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMeetingDialOutResponse> {
         return self.client.execute(operation: "CreateMeetingDialOut", path: "/meetings/{MeetingId}/dial-outs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -230,6 +239,8 @@ public struct Chime: AWSService {
     /// in the
     /// Amazon Chime SDK Developer Guide
     /// .
+    ///    This API is is no longer supported and will not be updated. We recommend using the latest version, CreateMeetingWithAttendees, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateMeetingWithAttendees in the Amazon Chime SDK Meetings Namespace")
     public func createMeetingWithAttendees(_ input: CreateMeetingWithAttendeesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMeetingWithAttendeesResponse> {
         return self.client.execute(operation: "CreateMeetingWithAttendees", path: "/meetings?operation=create-attendees", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -239,7 +250,8 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "CreatePhoneNumberOrder", path: "/phone-number-orders", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a proxy session on the specified Amazon Chime Voice Connector for the specified participant phone numbers.
+    /// Creates a proxy session on the specified Amazon Chime Voice Connector for the specified participant phone numbers.   This API is is no longer supported and will not be updated. We recommend using the latest version, CreateProxySession, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateProxySession in the Amazon Chime SDK Voice Namespace")
     public func createProxySession(_ input: CreateProxySessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProxySessionResponse> {
         return self.client.execute(operation: "CreateProxySession", path: "/voice-connectors/{VoiceConnectorId}/proxy-sessions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -254,18 +266,21 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "CreateRoomMembership", path: "/accounts/{AccountId}/rooms/{RoomId}/memberships", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a SIP media application.
+    /// Creates a SIP media application.   This API is is no longer supported and will not be updated. We recommend using the latest version, CreateSipMediaApplication, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateSipMediaApplication in the Amazon Chime SDK Voice Namespace")
     public func createSipMediaApplication(_ input: CreateSipMediaApplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSipMediaApplicationResponse> {
         return self.client.execute(operation: "CreateSipMediaApplication", path: "/sip-media-applications", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates an outbound call to a phone number from the phone number specified in the request, and it invokes the endpoint of the specified
-    /// sipMediaApplicationId.
+    /// sipMediaApplicationId.   This API is is no longer supported and will not be updated. We recommend using the latest version, CreateSipMediaApplicationCall, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateSipMediaApplicationCall in the Amazon Chime SDK Voice Namespace")
     public func createSipMediaApplicationCall(_ input: CreateSipMediaApplicationCallRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSipMediaApplicationCallResponse> {
         return self.client.execute(operation: "CreateSipMediaApplicationCall", path: "/sip-media-applications/{SipMediaApplicationId}/calls", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a SIP rule which can be used to run a SIP media application as a target for a specific trigger type.
+    /// Creates a SIP rule which can be used to run a SIP media application as a target for a specific trigger type.   This API is is no longer supported and will not be updated. We recommend using the latest version, CreateSipRule, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateSipRule in the Amazon Chime SDK Voice Namespace")
     public func createSipRule(_ input: CreateSipRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSipRuleResponse> {
         return self.client.execute(operation: "CreateSipRule", path: "/sip-rules", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -275,15 +290,16 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "CreateUser", path: "/accounts/{AccountId}/users?operation=create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an Amazon Chime Voice Connector under the administrator's AWS account. You can choose to create an Amazon Chime Voice Connector in a specific AWS Region.
-    /// Enabling
-    /// CreateVoiceConnectorRequest$RequireEncryption
+    /// Creates an Amazon Chime Voice Connector under the administrator's AWS account. You can choose to create an Amazon Chime Voice Connector in a specific AWS Region. Enabling CreateVoiceConnectorRequest$RequireEncryption
     /// configures your Amazon Chime Voice Connector to use TLS transport for SIP signaling and Secure RTP (SRTP) for media. Inbound calls use TLS transport, and unencrypted outbound calls are blocked.
+    ///    This API is is no longer supported and will not be updated. We recommend using the latest version, CreateVoiceConnector, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateVoiceConnector in the Amazon Chime SDK Voice Namespace")
     public func createVoiceConnector(_ input: CreateVoiceConnectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVoiceConnectorResponse> {
         return self.client.execute(operation: "CreateVoiceConnector", path: "/voice-connectors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an Amazon Chime Voice Connector group under the administrator's AWS account. You can associate Amazon Chime Voice Connectors with the Amazon Chime Voice Connector group by including VoiceConnectorItems in the request. You can include Amazon Chime Voice Connectors from different AWS Regions in your group. This creates a fault tolerant mechanism for fallback in case of availability events.
+    /// Creates an Amazon Chime Voice Connector group under the administrator's AWS account. You can associate Amazon Chime Voice Connectors with the Amazon Chime Voice Connector group by including VoiceConnectorItems in the request. You can include Amazon Chime Voice Connectors from different AWS Regions in your group. This creates a fault tolerant mechanism for fallback in case of availability events.   This API is is no longer supported and will not be updated. We recommend using the latest version, CreateVoiceConnectorGroup, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     public func createVoiceConnectorGroup(_ input: CreateVoiceConnectorGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVoiceConnectorGroupResponse> {
         return self.client.execute(operation: "CreateVoiceConnectorGroup", path: "/voice-connector-groups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -294,22 +310,26 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "DeleteAccount", path: "/accounts/{AccountId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes an AppInstance and all associated data asynchronously.
+    /// Deletes an AppInstance and all associated data asynchronously.   This API is is no longer supported and will not be updated. We recommend using the latest version,  DeleteAppInstance, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteAppInstance in the Amazon Chime SDK Identity Namespace")
     @discardableResult public func deleteAppInstance(_ input: DeleteAppInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteAppInstance", path: "/app-instances/{AppInstanceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "identity-", logger: logger, on: eventLoop)
     }
 
-    /// Demotes an AppInstanceAdmin to an AppInstanceUser. This action does not delete the user.
+    /// Demotes an AppInstanceAdmin to an AppInstanceUser. This action does not delete the user.   This API is is no longer supported and will not be updated. We recommend using the latest version,  DeleteAppInstanceAdmin, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteAppInstanceAdmin in the Amazon Chime SDK Identity Namespace")
     @discardableResult public func deleteAppInstanceAdmin(_ input: DeleteAppInstanceAdminRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteAppInstanceAdmin", path: "/app-instances/{AppInstanceArn}/admins/{AppInstanceAdminArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "identity-", logger: logger, on: eventLoop)
     }
 
-    /// Deletes the streaming configurations of an AppInstance.
+    /// Deletes the streaming configurations of an AppInstance.   This API is is no longer supported and will not be updated. We recommend using the latest version, DeleteAppInstanceStreamingConfigurations, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteAppInstanceStreamingConfigurations in the Amazon Chime SDK Messaging Namespace")
     @discardableResult public func deleteAppInstanceStreamingConfigurations(_ input: DeleteAppInstanceStreamingConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteAppInstanceStreamingConfigurations", path: "/app-instances/{AppInstanceArn}/streaming-configurations", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes an AppInstanceUser.
+    /// Deletes an AppInstanceUser.   This API is is no longer supported and will not be updated. We recommend using the latest version, DeleteAppInstanceUser, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteAppInstanceUser in the Amazon Chime SDK Identity Namespace")
     @discardableResult public func deleteAppInstanceUser(_ input: DeleteAppInstanceUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteAppInstanceUser", path: "/app-instance-users/{AppInstanceUserArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "identity-", logger: logger, on: eventLoop)
     }
@@ -317,32 +337,38 @@ public struct Chime: AWSService {
     /// Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their
     /// JoinToken. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted. For more information about the Amazon Chime SDK, see
     /// Using the Amazon Chime SDK
-    /// in the Amazon Chime SDK Developer Guide.
+    /// in the Amazon Chime SDK Developer Guide.   This API is is no longer supported and will not be updated. We recommend using the latest version, DeleteAttendee, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteAttendee in the Amazon Chime SDK Meetings Namespace")
     @discardableResult public func deleteAttendee(_ input: DeleteAttendeeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteAttendee", path: "/meetings/{MeetingId}/attendees/{AttendeeId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Immediately makes a channel and its memberships inaccessible and marks them for deletion. This is an irreversible process.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Immediately makes a channel and its memberships inaccessible and marks them for deletion. This is an irreversible process.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, DeleteChannel, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteChannel in the Amazon Chime SDK Messaging Namespace")
     @discardableResult public func deleteChannel(_ input: DeleteChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteChannel", path: "/channels/{ChannelArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    /// Removes a user from a channel's ban list.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Removes a user from a channel's ban list.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, DeleteChannelBan, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteChannelBan in the Amazon Chime SDK Messaging Namespace")
     @discardableResult public func deleteChannelBan(_ input: DeleteChannelBanRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteChannelBan", path: "/channels/{ChannelArn}/bans/{MemberArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    /// Removes a member from a channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Removes a member from a channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, DeleteChannelMembership, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteChannelMembership in the Amazon Chime SDK Messaging Namespace")
     @discardableResult public func deleteChannelMembership(_ input: DeleteChannelMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteChannelMembership", path: "/channels/{ChannelArn}/memberships/{MemberArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    /// Deletes a channel message. Only admins can perform this action. Deletion makes messages inaccessible immediately. A background process deletes any revisions created by UpdateChannelMessage.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Deletes a channel message. Only admins can perform this action. Deletion makes messages inaccessible immediately. A background process deletes any revisions created by UpdateChannelMessage.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, DeleteChannelMessage, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteChannelMessage in the Amazon Chime SDK Messaging Namespace")
     @discardableResult public func deleteChannelMessage(_ input: DeleteChannelMessageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteChannelMessage", path: "/channels/{ChannelArn}/messages/{MessageId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    /// Deletes a channel moderator.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Deletes a channel moderator.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, DeleteChannelModerator, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteChannelModerator in the Amazon Chime SDK Messaging Namespace")
     @discardableResult public func deleteChannelModerator(_ input: DeleteChannelModeratorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteChannelModerator", path: "/channels/{ChannelArn}/moderators/{ChannelModeratorArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
@@ -352,12 +378,14 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "DeleteEventsConfiguration", path: "/accounts/{AccountId}/bots/{BotId}/events-configuration", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the media capture pipeline.
+    /// Deletes the media capture pipeline.   This API is is no longer supported and will not be updated. We recommend using the latest version,  DeleteMediaCapturePipeline, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteMediaCapturePipeline in the Amazon Chime SDK Media Pipelines Namespace")
     @discardableResult public func deleteMediaCapturePipeline(_ input: DeleteMediaCapturePipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteMediaCapturePipeline", path: "/media-capture-pipelines/{MediaPipelineId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees, disconnects all clients, and prevents new clients from  joining the meeting. For more information about the Amazon Chime SDK, see  Using the Amazon Chime SDK in the  Amazon Chime SDK Developer Guide.
+    /// Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees, disconnects all clients, and prevents new clients from  joining the meeting. For more information about the Amazon Chime SDK, see  Using the Amazon Chime SDK in the  Amazon Chime SDK Developer Guide.   This API is is no longer supported and will not be updated. We recommend using the latest version, DeleteMeeting, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteMeeting in the Amazon Chime SDK Meetings Namespace")
     @discardableResult public func deleteMeeting(_ input: DeleteMeetingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteMeeting", path: "/meetings/{MeetingId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -369,7 +397,8 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "DeletePhoneNumber", path: "/phone-numbers/{PhoneNumberId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified proxy session from the specified Amazon Chime Voice Connector.
+    /// Deletes the specified proxy session from the specified Amazon Chime Voice Connector.   This API is is no longer supported and will not be updated. We recommend using the latest version, DeleteProxySession, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteProxySession in the Amazon Chime SDK Voice Namespace")
     @discardableResult public func deleteProxySession(_ input: DeleteProxySessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteProxySession", path: "/voice-connectors/{VoiceConnectorId}/proxy-sessions/{ProxySessionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -384,99 +413,118 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "DeleteRoomMembership", path: "/accounts/{AccountId}/rooms/{RoomId}/memberships/{MemberId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a SIP media application.
+    /// Deletes a SIP media application.   This API is is no longer supported and will not be updated. We recommend using the latest version, DeleteSipMediaApplication, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteSipMediaApplication in the Amazon Chime SDK Voice Namespace")
     @discardableResult public func deleteSipMediaApplication(_ input: DeleteSipMediaApplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteSipMediaApplication", path: "/sip-media-applications/{SipMediaApplicationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a SIP rule. You must disable a SIP rule before you can delete it.
+    /// Deletes a SIP rule. You must disable a SIP rule before you can delete it.   This API is is no longer supported and will not be updated. We recommend using the latest version, DeleteSipRule, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteSipRule in the Amazon Chime SDK Voice Namespace")
     @discardableResult public func deleteSipRule(_ input: DeleteSipRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteSipRule", path: "/sip-rules/{SipRuleId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified Amazon Chime Voice Connector. Any phone numbers associated with the Amazon Chime Voice Connector must be disassociated from it before it can be deleted.
+    /// Deletes the specified Amazon Chime Voice Connector. Any phone numbers associated with the Amazon Chime Voice Connector must be disassociated from it before it can be deleted.   This API is is no longer supported and will not be updated. We recommend using the latest version, DeleteVoiceConnector, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteVoiceConnector in the Amazon Chime SDK Voice Namespace")
     @discardableResult public func deleteVoiceConnector(_ input: DeleteVoiceConnectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteVoiceConnector", path: "/voice-connectors/{VoiceConnectorId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the emergency calling configuration details from the specified Amazon Chime Voice Connector.
+    /// Deletes the emergency calling configuration details from the specified Amazon Chime Voice Connector.   This API is is no longer supported and will not be updated. We recommend using the latest version, DeleteVoiceConnectorEmergencyCallingConfiguration, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorEmergencyCallingConfiguration in the Amazon Chime SDK Voice Namespace")
     @discardableResult public func deleteVoiceConnectorEmergencyCallingConfiguration(_ input: DeleteVoiceConnectorEmergencyCallingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteVoiceConnectorEmergencyCallingConfiguration", path: "/voice-connectors/{VoiceConnectorId}/emergency-calling-configuration", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the specified Amazon Chime Voice Connector group. Any
     /// VoiceConnectorItems
-    /// and phone numbers associated with the group must be removed before it can be deleted.
+    /// and phone numbers associated with the group must be removed before it can be deleted.   This API is is no longer supported and will not be updated. We recommend using the latest version, DeleteVoiceConnectorGroup, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     @discardableResult public func deleteVoiceConnectorGroup(_ input: DeleteVoiceConnectorGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteVoiceConnectorGroup", path: "/voice-connector-groups/{VoiceConnectorGroupId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the origination settings for the specified Amazon Chime Voice Connector.  If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the origination settings.
+    /// Deletes the origination settings for the specified Amazon Chime Voice Connector.  If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the origination settings.    This API is is no longer supported and will not be updated. We recommend using the latest version, DeleteVoiceConnectorOrigination, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorOrigination in the Amazon Chime SDK Voice Namespace")
     @discardableResult public func deleteVoiceConnectorOrigination(_ input: DeleteVoiceConnectorOriginationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteVoiceConnectorOrigination", path: "/voice-connectors/{VoiceConnectorId}/origination", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the proxy configuration from the specified Amazon Chime Voice Connector.
+    /// Deletes the proxy configuration from the specified Amazon Chime Voice Connector.   This API is is no longer supported and will not be updated. We recommend using the latest version, DeleteVoiceProxy, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorProxy in the Amazon Chime SDK Voice Namespace")
     @discardableResult public func deleteVoiceConnectorProxy(_ input: DeleteVoiceConnectorProxyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteVoiceConnectorProxy", path: "/voice-connectors/{VoiceConnectorId}/programmable-numbers/proxy", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the streaming configuration for the specified Amazon Chime Voice Connector.
+    /// Deletes the streaming configuration for the specified Amazon Chime Voice Connector.   This API is is no longer supported and will not be updated. We recommend using the latest version, DeleteVoiceConnectorStreamingConfiguration, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorStreamingConfiguration in the Amazon Chime SDK Voice Namespace")
     @discardableResult public func deleteVoiceConnectorStreamingConfiguration(_ input: DeleteVoiceConnectorStreamingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteVoiceConnectorStreamingConfiguration", path: "/voice-connectors/{VoiceConnectorId}/streaming-configuration", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the termination settings for the specified Amazon Chime Voice Connector.  If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the termination settings.
+    /// Deletes the termination settings for the specified Amazon Chime Voice Connector.  If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the termination settings.    This API is is no longer supported and will not be updated. We recommend using the latest version, DeleteVoiceConnectorTermination, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorTermination in the Amazon Chime SDK Voice Namespace")
     @discardableResult public func deleteVoiceConnectorTermination(_ input: DeleteVoiceConnectorTerminationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteVoiceConnectorTermination", path: "/voice-connectors/{VoiceConnectorId}/termination", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified SIP credentials used by your equipment to authenticate during call termination.
+    /// Deletes the specified SIP credentials used by your equipment to authenticate during call termination.   This API is is no longer supported and will not be updated. We recommend using the latest version, DeleteVoiceConnectorTerminationCredentials, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorTerminationCredentials in the Amazon Chime SDK Voice Namespace")
     @discardableResult public func deleteVoiceConnectorTerminationCredentials(_ input: DeleteVoiceConnectorTerminationCredentialsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteVoiceConnectorTerminationCredentials", path: "/voice-connectors/{VoiceConnectorId}/termination/credentials?operation=delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns the full details of an AppInstance.
+    /// Returns the full details of an AppInstance.   This API is is no longer supported and will not be updated. We recommend using the latest version, DescribeAppInstance, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DescribeAppInstance in the Amazon Chime SDK Identity Namespace")
     public func describeAppInstance(_ input: DescribeAppInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAppInstanceResponse> {
         return self.client.execute(operation: "DescribeAppInstance", path: "/app-instances/{AppInstanceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "identity-", logger: logger, on: eventLoop)
     }
 
-    /// Returns the full details of an AppInstanceAdmin.
+    /// Returns the full details of an AppInstanceAdmin.   This API is is no longer supported and will not be updated. We recommend using the latest version, DescribeAppInstanceAdmin, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DescribeAppInstanceAdmin in the Amazon Chime SDK Identity Namespace")
     public func describeAppInstanceAdmin(_ input: DescribeAppInstanceAdminRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAppInstanceAdminResponse> {
         return self.client.execute(operation: "DescribeAppInstanceAdmin", path: "/app-instances/{AppInstanceArn}/admins/{AppInstanceAdminArn}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "identity-", logger: logger, on: eventLoop)
     }
 
-    /// Returns the full details of an AppInstanceUser.
+    /// Returns the full details of an AppInstanceUser.   This API is is no longer supported and will not be updated. We recommend using the latest version, DescribeAppInstanceUser, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DescribeAppInstanceUser in the Amazon Chime SDK Identity Namespace")
     public func describeAppInstanceUser(_ input: DescribeAppInstanceUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAppInstanceUserResponse> {
         return self.client.execute(operation: "DescribeAppInstanceUser", path: "/app-instance-users/{AppInstanceUserArn}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "identity-", logger: logger, on: eventLoop)
     }
 
-    /// Returns the full details of a channel in an Amazon Chime AppInstance.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Returns the full details of a channel in an Amazon Chime AppInstance.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, DescribeChannel, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DescribeChannel in the Amazon Chime SDK Messaging Namespace")
     public func describeChannel(_ input: DescribeChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeChannelResponse> {
         return self.client.execute(operation: "DescribeChannel", path: "/channels/{ChannelArn}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    /// Returns the full details of a channel ban.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Returns the full details of a channel ban.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, DescribeChannelBan, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DescribeChannelBan in the Amazon Chime SDK Messaging Namespace")
     public func describeChannelBan(_ input: DescribeChannelBanRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeChannelBanResponse> {
         return self.client.execute(operation: "DescribeChannelBan", path: "/channels/{ChannelArn}/bans/{MemberArn}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    /// Returns the full details of a user's channel membership.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Returns the full details of a user's channel membership.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, DescribeChannelMembership, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DescribeChannelMembership in the Amazon Chime SDK Messaging Namespace")
     public func describeChannelMembership(_ input: DescribeChannelMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeChannelMembershipResponse> {
         return self.client.execute(operation: "DescribeChannelMembership", path: "/channels/{ChannelArn}/memberships/{MemberArn}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    ///  Returns the details of a channel based on the membership of the specified AppInstanceUser.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    ///  Returns the details of a channel based on the membership of the specified AppInstanceUser.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, DescribeChannelMembershipForAppInstanceUser, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DescribeChannelMembershipForAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
     public func describeChannelMembershipForAppInstanceUser(_ input: DescribeChannelMembershipForAppInstanceUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeChannelMembershipForAppInstanceUserResponse> {
         return self.client.execute(operation: "DescribeChannelMembershipForAppInstanceUser", path: "/channels/{ChannelArn}?scope=app-instance-user-membership", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    /// Returns the full details of a channel moderated by the specified AppInstanceUser.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Returns the full details of a channel moderated by the specified AppInstanceUser.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, DescribeChannelModeratedByAppInstanceUser, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DescribeChannelModeratedByAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
     public func describeChannelModeratedByAppInstanceUser(_ input: DescribeChannelModeratedByAppInstanceUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeChannelModeratedByAppInstanceUserResponse> {
         return self.client.execute(operation: "DescribeChannelModeratedByAppInstanceUser", path: "/channels/{ChannelArn}?scope=app-instance-user-moderated-channel", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    /// Returns the full details of a single ChannelModerator.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Returns the full details of a single ChannelModerator.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, DescribeChannelModerator, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DescribeChannelModerator in the Amazon Chime SDK Messaging Namespace")
     public func describeChannelModerator(_ input: DescribeChannelModeratorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeChannelModeratorResponse> {
         return self.client.execute(operation: "DescribeChannelModerator", path: "/channels/{ChannelArn}/moderators/{ChannelModeratorArn}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
@@ -486,12 +534,14 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "DisassociatePhoneNumberFromUser", path: "/accounts/{AccountId}/users/{UserId}?operation=disassociate-phone-number", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disassociates the specified phone numbers from the specified Amazon Chime Voice Connector.
+    /// Disassociates the specified phone numbers from the specified Amazon Chime Voice Connector.   This API is is no longer supported and will not be updated. We recommend using the latest version, DisassociatePhoneNumbersFromVoiceConnector, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DisassociatePhoneNumbersFromVoiceConnector in the Amazon Chime SDK Voice Namespace")
     public func disassociatePhoneNumbersFromVoiceConnector(_ input: DisassociatePhoneNumbersFromVoiceConnectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociatePhoneNumbersFromVoiceConnectorResponse> {
         return self.client.execute(operation: "DisassociatePhoneNumbersFromVoiceConnector", path: "/voice-connectors/{VoiceConnectorId}?operation=disassociate-phone-numbers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disassociates the specified phone numbers from the specified Amazon Chime Voice Connector group.
+    /// Disassociates the specified phone numbers from the specified Amazon Chime Voice Connector group.   This API is is no longer supported and will not be updated. We recommend using the latest version, DisassociatePhoneNumbersFromVoiceConnectorGroup, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DisassociatePhoneNumbersFromVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     public func disassociatePhoneNumbersFromVoiceConnectorGroup(_ input: DisassociatePhoneNumbersFromVoiceConnectorGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociatePhoneNumbersFromVoiceConnectorGroupResponse> {
         return self.client.execute(operation: "DisassociatePhoneNumbersFromVoiceConnectorGroup", path: "/voice-connector-groups/{VoiceConnectorGroupId}?operation=disassociate-phone-numbers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -511,21 +561,23 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "GetAccountSettings", path: "/accounts/{AccountId}/settings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets the retention settings for an AppInstance.
+    /// Gets the retention settings for an AppInstance.   This API is is no longer supported and will not be updated. We recommend using the latest version, GetMessagingRetentionSettings, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetAppInstanceRetentionSettings in the Amazon Chime SDK Identity Namespace")
     public func getAppInstanceRetentionSettings(_ input: GetAppInstanceRetentionSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAppInstanceRetentionSettingsResponse> {
         return self.client.execute(operation: "GetAppInstanceRetentionSettings", path: "/app-instances/{AppInstanceArn}/retention-settings", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "identity-", logger: logger, on: eventLoop)
     }
 
-    /// Gets the streaming settings for an AppInstance.
+    /// Gets the streaming settings for an AppInstance.   This API is is no longer supported and will not be updated. We recommend using the latest version, GetMessagingStreamingConfigurations, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetAppInstanceStreamingConfigurations in the Amazon Chime SDK Messaging Namespace")
     public func getAppInstanceStreamingConfigurations(_ input: GetAppInstanceStreamingConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAppInstanceStreamingConfigurationsResponse> {
         return self.client.execute(operation: "GetAppInstanceStreamingConfigurations", path: "/app-instances/{AppInstanceArn}/streaming-configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For more information about the Amazon Chime SDK, see
     /// Using the Amazon Chime SDK
-    /// in the
-    /// Amazon Chime SDK Developer Guide
-    /// .
+    /// in the Amazon Chime SDK Developer Guide.
+    ///    This API is is no longer supported and will not be updated. We recommend using the latest version, GetAttendee, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetAttendee in the Amazon Chime SDK Meetings Namespace")
     public func getAttendee(_ input: GetAttendeeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAttendeeResponse> {
         return self.client.execute(operation: "GetAttendee", path: "/meetings/{MeetingId}/attendees/{AttendeeId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -535,7 +587,8 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "GetBot", path: "/accounts/{AccountId}/bots/{BotId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets the full details of a channel message.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Gets the full details of a channel message.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, GetChannelMessage, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetChannelMessage in the Amazon Chime SDK Messaging Namespace")
     public func getChannelMessage(_ input: GetChannelMessageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetChannelMessageResponse> {
         return self.client.execute(operation: "GetChannelMessage", path: "/channels/{ChannelArn}/messages/{MessageId}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
@@ -550,21 +603,25 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "GetGlobalSettings", path: "/settings", httpMethod: .GET, serviceConfig: self.config, logger: logger, on: eventLoop)
     }
 
-    /// Gets an existing media capture pipeline.
+    /// Gets an existing media capture pipeline.   This API is is no longer supported and will not be updated. We recommend using the latest version,  GetMediaCapturePipeline, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetMediaCapturePipeline in the Amazon Chime SDK Media Pipelines Namespace")
     public func getMediaCapturePipeline(_ input: GetMediaCapturePipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMediaCapturePipelineResponse> {
         return self.client.execute(operation: "GetMediaCapturePipeline", path: "/media-capture-pipelines/{MediaPipelineId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///   This API is is no longer supported and will not be updated. We recommend using the latest version, GetMeeting, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
     /// Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information about the Amazon Chime SDK, see
     /// Using the Amazon Chime SDK
     /// in the
     /// Amazon Chime SDK Developer Guide
     /// .
+    @available(*, deprecated, message: "Replaced by GetMeeting in the Amazon Chime SDK Meetings Namespace")
     public func getMeeting(_ input: GetMeetingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMeetingResponse> {
         return self.client.execute(operation: "GetMeeting", path: "/meetings/{MeetingId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// The details of the endpoint for the messaging session.
+    /// The details of the endpoint for the messaging session.   This API is is no longer supported and will not be updated. We recommend using the latest version, GetMessagingSessionEndpoint, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetMessagingSessionEndpoint in the Amazon Chime SDK Messaging Namespace")
     public func getMessagingSessionEndpoint(_ input: GetMessagingSessionEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMessagingSessionEndpointResponse> {
         return self.client.execute(operation: "GetMessagingSessionEndpoint", path: "/endpoints/messaging-session", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
@@ -584,7 +641,8 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "GetPhoneNumberSettings", path: "/settings/phone-number", httpMethod: .GET, serviceConfig: self.config, logger: logger, on: eventLoop)
     }
 
-    /// Gets the specified proxy session details for the specified Amazon Chime Voice Connector.
+    /// Gets the specified proxy session details for the specified Amazon Chime Voice Connector.   This API is is no longer supported and will not be updated. We recommend using the latest version, GetProxySession, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetProxySession in the Amazon Chime SDK Voice Namespace")
     public func getProxySession(_ input: GetProxySessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetProxySessionResponse> {
         return self.client.execute(operation: "GetProxySession", path: "/voice-connectors/{VoiceConnectorId}/proxy-sessions/{ProxySessionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -600,17 +658,20 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "GetRoom", path: "/accounts/{AccountId}/rooms/{RoomId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the information for a SIP media application, including name, AWS Region, and endpoints.
+    /// Retrieves the information for a SIP media application, including name, AWS Region, and endpoints.   This API is is no longer supported and will not be updated. We recommend using the latest version, GetSipMediaApplication, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetSipMediaApplication in the Amazon Chime SDK Voice Namespace")
     public func getSipMediaApplication(_ input: GetSipMediaApplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSipMediaApplicationResponse> {
         return self.client.execute(operation: "GetSipMediaApplication", path: "/sip-media-applications/{SipMediaApplicationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns the logging configuration for the specified SIP media application.
+    /// Returns the logging configuration for the specified SIP media application.   This API is is no longer supported and will not be updated. We recommend using the latest version, GetSipMediaApplicationLoggingConfiguration, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetSipMediaApplicationLoggingConfiguration in the Amazon Chime SDK Voice Namespace")
     public func getSipMediaApplicationLoggingConfiguration(_ input: GetSipMediaApplicationLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSipMediaApplicationLoggingConfigurationResponse> {
         return self.client.execute(operation: "GetSipMediaApplicationLoggingConfiguration", path: "/sip-media-applications/{SipMediaApplicationId}/logging-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and target endpoints.
+    /// Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and target endpoints.   This API is is no longer supported and will not be updated. We recommend using the latest version, GetSipRule, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetSipRule in the Amazon Chime SDK Voice Namespace")
     public func getSipRule(_ input: GetSipRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSipRuleResponse> {
         return self.client.execute(operation: "GetSipRule", path: "/sip-rules/{SipRuleId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -627,47 +688,56 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "GetUserSettings", path: "/accounts/{AccountId}/users/{UserId}/settings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves details for the specified Amazon Chime Voice Connector, such as timestamps,name, outbound host, and encryption requirements.
+    /// Retrieves details for the specified Amazon Chime Voice Connector, such as timestamps,name, outbound host, and encryption requirements.   This API is is no longer supported and will not be updated. We recommend using the latest version, GetVoiceConnector, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetVoiceConnector in the Amazon Chime SDK Voice Namespace")
     public func getVoiceConnector(_ input: GetVoiceConnectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceConnectorResponse> {
         return self.client.execute(operation: "GetVoiceConnector", path: "/voice-connectors/{VoiceConnectorId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets the emergency calling configuration details for the specified Amazon Chime Voice Connector.
+    /// Gets the emergency calling configuration details for the specified Amazon Chime Voice Connector.   This API is is no longer supported and will not be updated. We recommend using the latest version, GetVoiceConnectorEmergencyCallingConfiguration, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetVoiceConnectorEmergencyCallingConfiguration in the Amazon Chime SDK Voice Namespace")
     public func getVoiceConnectorEmergencyCallingConfiguration(_ input: GetVoiceConnectorEmergencyCallingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceConnectorEmergencyCallingConfigurationResponse> {
         return self.client.execute(operation: "GetVoiceConnectorEmergencyCallingConfiguration", path: "/voice-connectors/{VoiceConnectorId}/emergency-calling-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves details for the specified Amazon Chime Voice Connector group, such as timestamps,name, and associated VoiceConnectorItems.
+    /// Retrieves details for the specified Amazon Chime Voice Connector group, such as timestamps,name, and associated VoiceConnectorItems.   This API is is no longer supported and will not be updated. We recommend using the latest version, GetVoiceConnectorGroup, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     public func getVoiceConnectorGroup(_ input: GetVoiceConnectorGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceConnectorGroupResponse> {
         return self.client.execute(operation: "GetVoiceConnectorGroup", path: "/voice-connector-groups/{VoiceConnectorGroupId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the logging configuration details for the specified Amazon Chime Voice Connector. Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
+    /// Retrieves the logging configuration details for the specified Amazon Chime Voice Connector. Shows whether SIP message logs are enabled for sending to  Amazon CloudWatch Logs.   This API is is no longer supported and will not be updated. We recommend using the latest version, GetVoiceConnectorLoggingConfiguration, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetVoiceConnectorLoggingConfiguration in the Amazon Chime SDK Voice Namespace")
     public func getVoiceConnectorLoggingConfiguration(_ input: GetVoiceConnectorLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceConnectorLoggingConfigurationResponse> {
         return self.client.execute(operation: "GetVoiceConnectorLoggingConfiguration", path: "/voice-connectors/{VoiceConnectorId}/logging-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves origination setting details for the specified Amazon Chime Voice Connector.
+    /// Retrieves origination setting details for the specified Amazon Chime Voice Connector.   This API is is no longer supported and will not be updated. We recommend using the latest version, GetVoiceConnectorOrigination, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetVoiceConnectorOrigination in the Amazon Chime SDK Voice Namespace")
     public func getVoiceConnectorOrigination(_ input: GetVoiceConnectorOriginationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceConnectorOriginationResponse> {
         return self.client.execute(operation: "GetVoiceConnectorOrigination", path: "/voice-connectors/{VoiceConnectorId}/origination", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets the proxy configuration details for the specified Amazon Chime Voice Connector.
+    /// Gets the proxy configuration details for the specified Amazon Chime Voice Connector.   This API is is no longer supported and will not be updated. We recommend using the latest version, GetVoiceConnectorProxy, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetVoiceConnectorProxy in the Amazon Chime SDK Voice Namespace")
     public func getVoiceConnectorProxy(_ input: GetVoiceConnectorProxyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceConnectorProxyResponse> {
         return self.client.execute(operation: "GetVoiceConnectorProxy", path: "/voice-connectors/{VoiceConnectorId}/programmable-numbers/proxy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the streaming configuration details for the specified Amazon Chime Voice Connector. Shows whether media streaming is enabled for sending to Amazon Kinesis. It also shows the retention period, in hours, for the Amazon Kinesis data.
+    /// Retrieves the streaming configuration details for the specified Amazon Chime Voice Connector. Shows whether media streaming is enabled for sending to Amazon Kinesis. It also shows the retention period, in hours, for the Amazon Kinesis data.   This API is is no longer supported and will not be updated. We recommend using the latest version, GetVoiceConnectorStreamingConfiguration, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetVoiceConnectorStreamingConfiguration in the Amazon Chime SDK Voice Namespace")
     public func getVoiceConnectorStreamingConfiguration(_ input: GetVoiceConnectorStreamingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceConnectorStreamingConfigurationResponse> {
         return self.client.execute(operation: "GetVoiceConnectorStreamingConfiguration", path: "/voice-connectors/{VoiceConnectorId}/streaming-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves termination setting details for the specified Amazon Chime Voice Connector.
+    /// Retrieves termination setting details for the specified Amazon Chime Voice Connector.   This API is is no longer supported and will not be updated. We recommend using the latest version, GetVoiceConnectorTermination, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetVoiceConnectorTermination in the Amazon Chime SDK Voice Namespace")
     public func getVoiceConnectorTermination(_ input: GetVoiceConnectorTerminationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceConnectorTerminationResponse> {
         return self.client.execute(operation: "GetVoiceConnectorTermination", path: "/voice-connectors/{VoiceConnectorId}/termination", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves information about the last time a SIP OPTIONS ping was received from your SIP infrastructure for the specified Amazon Chime Voice Connector.
+    ///   This API is is no longer supported and will not be updated. We recommend using the latest version, GetVoiceConnectorTerminationHealth, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.  Retrieves information about the last time a SIP OPTIONS ping was received from your SIP infrastructure for the specified Amazon Chime Voice Connector.
+    @available(*, deprecated, message: "Replaced by GetVoiceConnectorTerminationHealth in the Amazon Chime SDK Voice Namespace")
     public func getVoiceConnectorTerminationHealth(_ input: GetVoiceConnectorTerminationHealthRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceConnectorTerminationHealthResponse> {
         return self.client.execute(operation: "GetVoiceConnectorTerminationHealth", path: "/voice-connectors/{VoiceConnectorId}/termination/health", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -682,22 +752,26 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "ListAccounts", path: "/accounts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of the administrators in the AppInstance.
+    /// Returns a list of the administrators in the AppInstance.   This API is is no longer supported and will not be updated. We recommend using the latest version, ListAppInstanceAdmins, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListAppInstanceAdmins in the Amazon Chime SDK Identity Namespace")
     public func listAppInstanceAdmins(_ input: ListAppInstanceAdminsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppInstanceAdminsResponse> {
         return self.client.execute(operation: "ListAppInstanceAdmins", path: "/app-instances/{AppInstanceArn}/admins", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "identity-", logger: logger, on: eventLoop)
     }
 
-    /// List all AppInstanceUsers created under a single AppInstance.
+    /// List all AppInstanceUsers created under a single AppInstance.    This API is is no longer supported and will not be updated. We recommend using the latest version, ListAppInstanceUsers, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListAppInstanceUsers in the Amazon Chime SDK Identity Namespace")
     public func listAppInstanceUsers(_ input: ListAppInstanceUsersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppInstanceUsersResponse> {
         return self.client.execute(operation: "ListAppInstanceUsers", path: "/app-instance-users", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "identity-", logger: logger, on: eventLoop)
     }
 
-    /// Lists all Amazon Chime AppInstances created under a single AWS account.
+    /// Lists all Amazon Chime AppInstances created under a single AWS account.   This API is is no longer supported and will not be updated. We recommend using the latest version, ListAppInstances, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListAppInstances in the Amazon Chime SDK Identity Namespace")
     public func listAppInstances(_ input: ListAppInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppInstancesResponse> {
         return self.client.execute(operation: "ListAppInstances", path: "/app-instances", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "identity-", logger: logger, on: eventLoop)
     }
 
-    /// Lists the tags applied to an Amazon Chime SDK attendee resource.
+    /// Lists the tags applied to an Amazon Chime SDK attendee resource.  ListAttendeeTags is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.
+    @available(*, deprecated, message: "Attendee Tags are not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.")
     public func listAttendeeTags(_ input: ListAttendeeTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAttendeeTagsResponse> {
         return self.client.execute(operation: "ListAttendeeTags", path: "/meetings/{MeetingId}/attendees/{AttendeeId}/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -705,6 +779,8 @@ public struct Chime: AWSService {
     /// Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see
     /// Using the Amazon Chime SDK
     /// in the Amazon Chime SDK Developer Guide.
+    ///    This API is is no longer supported and will not be updated. We recommend using the latest version, ListAttendees, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListAttendees in the Amazon Chime SDK Meetings Namespace")
     public func listAttendees(_ input: ListAttendeesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAttendeesResponse> {
         return self.client.execute(operation: "ListAttendees", path: "/meetings/{MeetingId}/attendees", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -714,54 +790,62 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "ListBots", path: "/accounts/{AccountId}/bots", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all the users banned from a particular channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Lists all the users banned from a particular channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, ListChannelBans, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListChannelBans in the Amazon Chime SDK Messaging Namespace")
     public func listChannelBans(_ input: ListChannelBansRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelBansResponse> {
         return self.client.execute(operation: "ListChannelBans", path: "/channels/{ChannelArn}/bans", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    /// Lists all channel memberships in a channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Lists all channel memberships in a channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, ListChannelMemberships, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListChannelMemberships in the Amazon Chime SDK Messaging Namespace")
     public func listChannelMemberships(_ input: ListChannelMembershipsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelMembershipsResponse> {
         return self.client.execute(operation: "ListChannelMemberships", path: "/channels/{ChannelArn}/memberships", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    ///  Lists all channels that a particular AppInstanceUser is a part of. Only an AppInstanceAdmin can call the API with a user ARN that is not their own.   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    ///  Lists all channels that a particular AppInstanceUser is a part of. Only an AppInstanceAdmin can call the API with a user ARN that is not their own.   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, ListChannelMembershipsForAppInstanceUser, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListChannelMembershipsForAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
     public func listChannelMembershipsForAppInstanceUser(_ input: ListChannelMembershipsForAppInstanceUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelMembershipsForAppInstanceUserResponse> {
         return self.client.execute(operation: "ListChannelMembershipsForAppInstanceUser", path: "/channels?scope=app-instance-user-memberships", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    /// List all the messages in a channel. Returns a paginated list of ChannelMessages. By default, sorted by creation timestamp in descending order.  Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// List all the messages in a channel. Returns a paginated list of ChannelMessages. By default, sorted by creation timestamp in descending order.  Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, ListChannelMessages, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListChannelMessages in the Amazon Chime SDK Messaging Namespace")
     public func listChannelMessages(_ input: ListChannelMessagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelMessagesResponse> {
         return self.client.execute(operation: "ListChannelMessages", path: "/channels/{ChannelArn}/messages", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    /// Lists all the moderators for a channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Lists all the moderators for a channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, ListChannelModerators, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListChannelModerators in the Amazon Chime SDK Messaging Namespace")
     public func listChannelModerators(_ input: ListChannelModeratorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelModeratorsResponse> {
         return self.client.execute(operation: "ListChannelModerators", path: "/channels/{ChannelArn}/moderators", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    /// Lists all Channels created under a single Chime App as a paginated list. You can specify filters to narrow results.  Functionality & restrictions    Use privacy = PUBLIC to retrieve all public channels in the account.   Only an AppInstanceAdmin can set privacy = PRIVATE to list the private channels in an account.    The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Lists all Channels created under a single Chime App as a paginated list. You can specify filters to narrow results.  Functionality & restrictions    Use privacy = PUBLIC to retrieve all public channels in the account.   Only an AppInstanceAdmin can set privacy = PRIVATE to list the private channels in an account.    The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, ListChannels, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListChannels in the Amazon Chime SDK Messaging Namespace")
     public func listChannels(_ input: ListChannelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelsResponse> {
         return self.client.execute(operation: "ListChannels", path: "/channels", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    /// A list of the channels moderated by an AppInstanceUser.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// A list of the channels moderated by an AppInstanceUser.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, ListChannelsModeratedByAppInstanceUser, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListChannelsModeratedByAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
     public func listChannelsModeratedByAppInstanceUser(_ input: ListChannelsModeratedByAppInstanceUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelsModeratedByAppInstanceUserResponse> {
         return self.client.execute(operation: "ListChannelsModeratedByAppInstanceUser", path: "/channels?scope=app-instance-user-moderated-channels", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of media capture pipelines.
+    /// Returns a list of media capture pipelines.   This API is is no longer supported and will not be updated. We recommend using the latest version, ListMediaCapturePipelines, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListMediaCapturePipelines in the Amazon Chime SDK Media Pipelines Namespace")
     public func listMediaCapturePipelines(_ input: ListMediaCapturePipelinesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMediaCapturePipelinesResponse> {
         return self.client.execute(operation: "ListMediaCapturePipelines", path: "/media-capture-pipelines", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the tags applied to an Amazon Chime SDK meeting resource.
+    /// Lists the tags applied to an Amazon Chime SDK meeting resource.   This API is is no longer supported and will not be updated. We recommend using the latest version, ListTagsForResource, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Use ListTagsForResource in the Amazon Chime SDK Meetings Namespace.")
     public func listMeetingTags(_ input: ListMeetingTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMeetingTagsResponse> {
         return self.client.execute(operation: "ListMeetingTags", path: "/meetings/{MeetingId}/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon Chime SDK, see
-    /// Using the Amazon Chime SDK
-    /// in the Amazon Chime SDK Developer Guide.
+    /// Lists up to 100 active Amazon Chime SDK meetings.  ListMeetings is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.  For more information about the Amazon Chime SDK, see  Using the Amazon Chime SDK in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "ListMeetings is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.")
     public func listMeetings(_ input: ListMeetingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMeetingsResponse> {
         return self.client.execute(operation: "ListMeetings", path: "/meetings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -776,7 +860,8 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "ListPhoneNumbers", path: "/phone-numbers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the proxy sessions for the specified Amazon Chime Voice Connector.
+    /// Lists the proxy sessions for the specified Amazon Chime Voice Connector.   This API is is no longer supported and will not be updated. We recommend using the latest version, ListProxySessions, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListProxySessions in the Amazon Chime SDK Voice Namespace")
     public func listProxySessions(_ input: ListProxySessionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProxySessionsResponse> {
         return self.client.execute(operation: "ListProxySessions", path: "/voice-connectors/{VoiceConnectorId}/proxy-sessions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -791,12 +876,14 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "ListRooms", path: "/accounts/{AccountId}/rooms", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the SIP media applications under the administrator's AWS account.
+    /// Lists the SIP media applications under the administrator's AWS account.   This API is is no longer supported and will not be updated. We recommend using the latest version, ListSipMediaApplications, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListSipMediaApplications in the Amazon Chime SDK Voice Namespace")
     public func listSipMediaApplications(_ input: ListSipMediaApplicationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSipMediaApplicationsResponse> {
         return self.client.execute(operation: "ListSipMediaApplications", path: "/sip-media-applications", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the SIP rules under the administrator's AWS account.
+    /// Lists the SIP rules under the administrator's AWS account.   This API is is no longer supported and will not be updated. We recommend using the latest version, ListSipRules, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListSipRules in the Amazon Chime SDK Voice Namespace")
     public func listSipRules(_ input: ListSipRulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSipRulesResponse> {
         return self.client.execute(operation: "ListSipRules", path: "/sip-rules", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -806,7 +893,8 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "ListSupportedPhoneNumberCountries", path: "/phone-number-countries", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the tags applied to an Amazon Chime SDK meeting resource.
+    /// Lists the tags applied to an Amazon Chime SDK meeting and messaging resources.   This API is is no longer supported and will not be updated. We recommend using the applicable latest version in the Amazon Chime SDK.   For meetings: ListTagsForResource.   For messaging: ListTagsForResource.   Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListTagsForResource in the Amazon Chime SDK Voice, Amazon Chime SDK Meetings, Amazon Chime SDK Identity, Amazon Chime SDK Messaging, and Amazon Chime SDK Media Pipelines Namespaces")
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -816,17 +904,20 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "ListUsers", path: "/accounts/{AccountId}/users", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the Amazon Chime Voice Connector groups for the administrator's AWS account.
+    /// Lists the Amazon Chime Voice Connector groups for the administrator's AWS account.   This API is is no longer supported and will not be updated. We recommend using the latest version, ListVoiceConnectorGroups, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListVoiceConnectorGroups in the Amazon Chime SDK Voice Namespace")
     public func listVoiceConnectorGroups(_ input: ListVoiceConnectorGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVoiceConnectorGroupsResponse> {
         return self.client.execute(operation: "ListVoiceConnectorGroups", path: "/voice-connector-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the SIP credentials for the specified Amazon Chime Voice Connector.
+    /// Lists the SIP credentials for the specified Amazon Chime Voice Connector.   This API is is no longer supported and will not be updated. We recommend using the latest version, ListVoiceConnectorTerminationCredentials, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListVoiceConnectorTerminationCredentials in the Amazon Chime SDK Voice Namespace")
     public func listVoiceConnectorTerminationCredentials(_ input: ListVoiceConnectorTerminationCredentialsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVoiceConnectorTerminationCredentialsResponse> {
         return self.client.execute(operation: "ListVoiceConnectorTerminationCredentials", path: "/voice-connectors/{VoiceConnectorId}/termination/credentials", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the Amazon Chime Voice Connectors for the administrator's AWS account.
+    /// Lists the Amazon Chime Voice Connectors for the administrator's AWS account.   This API is is no longer supported and will not be updated. We recommend using the latest version, ListVoiceConnectors, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListVoiceConnectors in the Amazon Chime SDK Voice Namespace")
     public func listVoiceConnectors(_ input: ListVoiceConnectorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVoiceConnectorsResponse> {
         return self.client.execute(operation: "ListVoiceConnectors", path: "/voice-connectors", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -836,12 +927,14 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "LogoutUser", path: "/accounts/{AccountId}/users/{UserId}?operation=logout", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Sets the amount of time in days that a given AppInstance retains data.
+    /// Sets the amount of time in days that a given AppInstance retains data.   This API is is no longer supported and will not be updated. We recommend using the latest version, PutAppInstanceRetentionSettings, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by PutAppInstanceRetentionSettings in the Amazon Chime SDK Identity Namespace")
     public func putAppInstanceRetentionSettings(_ input: PutAppInstanceRetentionSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutAppInstanceRetentionSettingsResponse> {
         return self.client.execute(operation: "PutAppInstanceRetentionSettings", path: "/app-instances/{AppInstanceArn}/retention-settings", httpMethod: .PUT, serviceConfig: self.config, input: input, hostPrefix: "identity-", logger: logger, on: eventLoop)
     }
 
-    /// The data streaming configurations of an AppInstance.
+    /// The data streaming configurations of an AppInstance.   This API is is no longer supported and will not be updated. We recommend using the latest version, PutMessagingStreamingConfigurations, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by PutAppInstanceStreamingConfigurations in the Amazon Chime SDK Messaging Namespace")
     public func putAppInstanceStreamingConfigurations(_ input: PutAppInstanceStreamingConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutAppInstanceStreamingConfigurationsResponse> {
         return self.client.execute(operation: "PutAppInstanceStreamingConfigurations", path: "/app-instances/{AppInstanceArn}/streaming-configurations", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -865,47 +958,56 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "PutRetentionSettings", path: "/accounts/{AccountId}/retention-settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the logging configuration for the specified SIP media application.
+    /// Updates the logging configuration for the specified SIP media application.   This API is is no longer supported and will not be updated. We recommend using the latest version, PutSipMediaApplicationLoggingConfiguration, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by PutSipMediaApplicationLoggingConfiguration in the Amazon Chime SDK Voice Namespace")
     public func putSipMediaApplicationLoggingConfiguration(_ input: PutSipMediaApplicationLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutSipMediaApplicationLoggingConfigurationResponse> {
         return self.client.execute(operation: "PutSipMediaApplicationLoggingConfiguration", path: "/sip-media-applications/{SipMediaApplicationId}/logging-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Puts emergency calling configuration details to the specified Amazon Chime Voice Connector, such as emergency phone numbers and calling countries. Origination and termination settings must be enabled for  the Amazon Chime Voice Connector before emergency calling can be configured.
+    /// Puts emergency calling configuration details to the specified Amazon Chime Voice Connector, such as emergency phone numbers and calling countries. Origination and termination settings must be enabled for  the Amazon Chime Voice Connector before emergency calling can be configured.   This API is is no longer supported and will not be updated. We recommend using the latest version, PutVoiceConnectorEmergencyCallingConfiguration, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by PutVoiceConnectorEmergencyCallingConfiguration in the Amazon Chime SDK Voice Namespace")
     public func putVoiceConnectorEmergencyCallingConfiguration(_ input: PutVoiceConnectorEmergencyCallingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutVoiceConnectorEmergencyCallingConfigurationResponse> {
         return self.client.execute(operation: "PutVoiceConnectorEmergencyCallingConfiguration", path: "/voice-connectors/{VoiceConnectorId}/emergency-calling-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds a logging configuration for the specified Amazon Chime Voice Connector. The logging configuration specifies whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
+    /// Adds a logging configuration for the specified Amazon Chime Voice Connector. The logging configuration specifies whether SIP message logs are enabled for sending to  Amazon CloudWatch Logs.   This API is is no longer supported and will not be updated. We recommend using the latest version, PutVoiceConnectorLoggingConfiguration, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by PutVoiceConnectorLoggingConfiguration in the Amazon Chime SDK Voice Namespace")
     public func putVoiceConnectorLoggingConfiguration(_ input: PutVoiceConnectorLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutVoiceConnectorLoggingConfigurationResponse> {
         return self.client.execute(operation: "PutVoiceConnectorLoggingConfiguration", path: "/voice-connectors/{VoiceConnectorId}/logging-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds origination settings for the specified Amazon Chime Voice Connector.  If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off origination settings.
+    /// Adds origination settings for the specified Amazon Chime Voice Connector.  If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off origination settings.    This API is is no longer supported and will not be updated. We recommend using the latest version, PutVoiceConnectorOrigination, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by PutVoiceConnectorOrigination in the Amazon Chime SDK Voice Namespace")
     public func putVoiceConnectorOrigination(_ input: PutVoiceConnectorOriginationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutVoiceConnectorOriginationResponse> {
         return self.client.execute(operation: "PutVoiceConnectorOrigination", path: "/voice-connectors/{VoiceConnectorId}/origination", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Puts the specified proxy configuration to the specified Amazon Chime Voice Connector.
+    /// Puts the specified proxy configuration to the specified Amazon Chime Voice Connector.   This API is is no longer supported and will not be updated. We recommend using the latest version, PutVoiceConnectorProxy, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by PutVoiceConnectorProxy in the Amazon Chime SDK Voice Namespace")
     public func putVoiceConnectorProxy(_ input: PutVoiceConnectorProxyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutVoiceConnectorProxyResponse> {
         return self.client.execute(operation: "PutVoiceConnectorProxy", path: "/voice-connectors/{VoiceConnectorId}/programmable-numbers/proxy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds a streaming configuration for the specified Amazon Chime Voice Connector. The streaming configuration specifies whether media streaming is enabled for sending to Kinesis. It also sets the retention period, in hours, for the Amazon Kinesis data.
+    /// Adds a streaming configuration for the specified Amazon Chime Voice Connector. The streaming configuration specifies whether media streaming is enabled for sending to Kinesis. It also sets the retention period, in hours, for the Amazon Kinesis data.   This API is is no longer supported and will not be updated. We recommend using the latest version, PutVoiceConnectorStreamingConfiguration, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by PutVoiceConnectorStreamingConfiguration in the Amazon Chime SDK Voice Namespace")
     public func putVoiceConnectorStreamingConfiguration(_ input: PutVoiceConnectorStreamingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutVoiceConnectorStreamingConfigurationResponse> {
         return self.client.execute(operation: "PutVoiceConnectorStreamingConfiguration", path: "/voice-connectors/{VoiceConnectorId}/streaming-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds termination settings for the specified Amazon Chime Voice Connector.  If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off termination settings.
+    /// Adds termination settings for the specified Amazon Chime Voice Connector.  If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off termination settings.    This API is is no longer supported and will not be updated. We recommend using the latest version, PutVoiceConnectorTermination, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by PutVoiceConnectorTermination in the Amazon Chime SDK Voice Namespace")
     public func putVoiceConnectorTermination(_ input: PutVoiceConnectorTerminationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutVoiceConnectorTerminationResponse> {
         return self.client.execute(operation: "PutVoiceConnectorTermination", path: "/voice-connectors/{VoiceConnectorId}/termination", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds termination SIP credentials for the specified Amazon Chime Voice Connector.
+    /// Adds termination SIP credentials for the specified Amazon Chime Voice Connector.   This API is is no longer supported and will not be updated. We recommend using the latest version, PutVoiceConnectorTerminationCredentials, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by PutVoiceConnectorTerminationCredentials in the Amazon Chime SDK Voice Namespace")
     @discardableResult public func putVoiceConnectorTerminationCredentials(_ input: PutVoiceConnectorTerminationCredentialsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "PutVoiceConnectorTerminationCredentials", path: "/voice-connectors/{VoiceConnectorId}/termination/credentials?operation=put", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Redacts message content, but not metadata. The message exists in the back end, but the action returns null content, and the state shows as redacted.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Redacts message content, but not metadata. The message exists in the back end, but the action returns null content, and the state shows as redacted.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, RedactChannelMessage, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by RedactChannelMessage in the Amazon Chime SDK Messaging Namespace")
     public func redactChannelMessage(_ input: RedactChannelMessageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RedactChannelMessageResponse> {
         return self.client.execute(operation: "RedactChannelMessage", path: "/channels/{ChannelArn}/messages/{MessageId}?operation=redact", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
@@ -940,47 +1042,56 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "SearchAvailablePhoneNumbers", path: "/search?type=phone-numbers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Sends a message to a particular channel that the member is a part of.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. Also, STANDARD messages can contain 4KB of data and the 1KB of metadata. CONTROL messages can contain 30 bytes of data and no metadata.
+    /// Sends a message to a particular channel that the member is a part of.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. Also, STANDARD messages can contain 4KB of data and the 1KB of metadata. CONTROL messages can contain 30 bytes of data and no metadata.    This API is is no longer supported and will not be updated. We recommend using the latest version, SendChannelMessage, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by SendChannelMessage in the Amazon Chime SDK Messaging Namespace")
     public func sendChannelMessage(_ input: SendChannelMessageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendChannelMessageResponse> {
         return self.client.execute(operation: "SendChannelMessage", path: "/channels/{ChannelArn}/messages", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    /// Starts transcription for the specified meetingId. For more information, refer to  Using Amazon Chime SDK live transcription in the Amazon Chime SDK Developer Guide. If you specify an invalid configuration, a TranscriptFailed event will be sent with the contents of the BadRequestException generated by Amazon Transcribe.   For more information on each parameter and which combinations are valid, refer to the  StartStreamTranscription API in the  Amazon Transcribe Developer Guide.  Amazon Chime SDK live transcription is powered by Amazon Transcribe. Use of Amazon Transcribe is subject to the  AWS Service Terms, including the terms specific to the AWS Machine Learning and Artificial Intelligence Services.
+    /// Starts transcription for the specified meetingId. For more information, refer to  Using Amazon Chime SDK live transcription in the Amazon Chime SDK Developer Guide. If you specify an invalid configuration, a TranscriptFailed event will be sent with the contents of the BadRequestException generated by Amazon Transcribe.   For more information on each parameter and which combinations are valid, refer to the  StartStreamTranscription API in the  Amazon Transcribe Developer Guide.  Amazon Chime SDK live transcription is powered by Amazon Transcribe. Use of Amazon Transcribe is subject to the  AWS Service Terms, including the terms specific to the AWS Machine Learning and Artificial  Intelligence Services.    This API is is no longer supported and will not be updated. We recommend using the latest version, StartMeetingTranscription, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by StartMeetingTranscription in the Amazon Chime SDK Meetings Namespace")
     public func startMeetingTranscription(_ input: StartMeetingTranscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartMeetingTranscriptionResponse> {
         return self.client.execute(operation: "StartMeetingTranscription", path: "/meetings/{MeetingId}/transcription?operation=start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Stops transcription for the specified meetingId.
+    /// Stops transcription for the specified meetingId.   This API is is no longer supported and will not be updated. We recommend using the latest version, StopMeetingTranscription, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by StopMeetingTranscription in the Amazon Chime SDK Meetings Namespace")
     public func stopMeetingTranscription(_ input: StopMeetingTranscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopMeetingTranscriptionResponse> {
         return self.client.execute(operation: "StopMeetingTranscription", path: "/meetings/{MeetingId}/transcription?operation=stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Applies the specified tags to the specified Amazon Chime SDK attendee.
+    /// Applies the specified tags to the specified Amazon Chime attendee.  TagAttendee is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.
+    @available(*, deprecated, message: "Attendee Tags are not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.")
     @discardableResult public func tagAttendee(_ input: TagAttendeeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "TagAttendee", path: "/meetings/{MeetingId}/attendees/{AttendeeId}/tags?operation=add", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Applies the specified tags to the specified Amazon Chime SDK meeting.
+    /// Applies the specified tags to the specified Amazon Chime SDK meeting.   This API is is no longer supported and will not be updated. We recommend using the latest version, TagResource, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Use TagResource in the Amazon Chime SDK Meetings Namespace.")
     @discardableResult public func tagMeeting(_ input: TagMeetingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "TagMeeting", path: "/meetings/{MeetingId}/tags?operation=add", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Applies the specified tags to the specified Amazon Chime SDK meeting resource.
+    /// Applies the specified tags to the specified Amazon Chime SDK meeting resource.   This API is is no longer supported and will not be updated. We recommend using the latest version, TagResource, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by TagResource in the Amazon Chime SDK Voice, Amazon Chime SDK Meetings, Amazon Chime SDK Identity, Amazon Chime SDK Messaging, and Amazon Chime SDK Media Pipelines Namespaces")
     @discardableResult public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "TagResource", path: "/tags?operation=tag-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Untags the specified tags from the specified Amazon Chime SDK attendee.
+    /// Untags the specified tags from the specified Amazon Chime SDK attendee.  UntagAttendee is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.
+    @available(*, deprecated, message: "Attendee Tags are not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.")
     @discardableResult public func untagAttendee(_ input: UntagAttendeeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UntagAttendee", path: "/meetings/{MeetingId}/attendees/{AttendeeId}/tags?operation=delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Untags the specified tags from the specified Amazon Chime SDK meeting.
+    /// Untags the specified tags from the specified Amazon Chime SDK meeting.   This API is is no longer supported and will not be updated. We recommend using the latest version, UntagResource, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Use UntagResource in the Amazon Chime SDK Meetings Namespace.")
     @discardableResult public func untagMeeting(_ input: UntagMeetingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UntagMeeting", path: "/meetings/{MeetingId}/tags?operation=delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Untags the specified tags from the specified Amazon Chime SDK meeting resource.
+    /// Untags the specified tags from the specified Amazon Chime SDK meeting resource. Applies the specified tags to the specified Amazon Chime SDK meeting resource.   This API is is no longer supported and will not be updated. We recommend using the latest version, UntagResource, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UntagResource in the Amazon Chime SDK Voice, Amazon Chime SDK Meetings, Amazon Chime SDK Identity, Amazon Chime SDK Messaging, and Amazon Chime SDK Media Pipelines Namespaces")
     @discardableResult public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UntagResource", path: "/tags?operation=untag-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -995,12 +1106,14 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "UpdateAccountSettings", path: "/accounts/{AccountId}/settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates AppInstance metadata.
+    /// Updates AppInstance metadata.   This API is is no longer supported and will not be updated. We recommend using the latest version, UpdateAppInstance, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UpdateAppInstance in the Amazon Chime SDK Identity Namespace")
     public func updateAppInstance(_ input: UpdateAppInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAppInstanceResponse> {
         return self.client.execute(operation: "UpdateAppInstance", path: "/app-instances/{AppInstanceArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, hostPrefix: "identity-", logger: logger, on: eventLoop)
     }
 
-    /// Updates the details of an AppInstanceUser. You can update names and metadata.
+    /// Updates the details of an AppInstanceUser. You can update names and metadata.   This API is is no longer supported and will not be updated. We recommend using the latest version, UpdateAppInstanceUser, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UpdateAppInstanceUser in the Amazon Chime SDK Identity Namespace")
     public func updateAppInstanceUser(_ input: UpdateAppInstanceUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAppInstanceUserResponse> {
         return self.client.execute(operation: "UpdateAppInstanceUser", path: "/app-instance-users/{AppInstanceUserArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, hostPrefix: "identity-", logger: logger, on: eventLoop)
     }
@@ -1010,17 +1123,20 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "UpdateBot", path: "/accounts/{AccountId}/bots/{BotId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Update a channel's attributes.  Restriction: You can't change a channel's privacy.   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Update a channel's attributes.  Restriction: You can't change a channel's privacy.   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, UpdateChannel, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UpdateChannel in the Amazon Chime SDK Messaging Namespace")
     public func updateChannel(_ input: UpdateChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateChannelResponse> {
         return self.client.execute(operation: "UpdateChannel", path: "/channels/{ChannelArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    /// Updates the content of a message.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Updates the content of a message.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, UpdateChannelMessage, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UpdateChannelMessage in the Amazon Chime SDK Messaging Namespace")
     public func updateChannelMessage(_ input: UpdateChannelMessageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateChannelMessageResponse> {
         return self.client.execute(operation: "UpdateChannelMessage", path: "/channels/{ChannelArn}/messages/{MessageId}", httpMethod: .PUT, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    /// The details of the time when a user last read messages in a channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// The details of the time when a user last read messages in a channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, UpdateChannelReadMarker, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UpdateChannelReadMarker in the Amazon Chime SDK Messaging Namespace")
     public func updateChannelReadMarker(_ input: UpdateChannelReadMarkerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateChannelReadMarkerResponse> {
         return self.client.execute(operation: "UpdateChannelReadMarker", path: "/channels/{ChannelArn}/readMarker", httpMethod: .PUT, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
@@ -1040,7 +1156,8 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "UpdatePhoneNumberSettings", path: "/settings/phone-number", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the specified proxy session details, such as voice or SMS capabilities.
+    /// Updates the specified proxy session details, such as voice or SMS capabilities.   This API is is no longer supported and will not be updated. We recommend using the latest version, UpdateProxySession, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UpdateProxySession in the Amazon Chime SDK Voice Namespace")
     public func updateProxySession(_ input: UpdateProxySessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateProxySessionResponse> {
         return self.client.execute(operation: "UpdateProxySession", path: "/voice-connectors/{VoiceConnectorId}/proxy-sessions/{ProxySessionId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1055,17 +1172,20 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "UpdateRoomMembership", path: "/accounts/{AccountId}/rooms/{RoomId}/memberships/{MemberId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the details of the specified SIP media application.
+    /// Updates the details of the specified SIP media application.   This API is is no longer supported and will not be updated. We recommend using the latest version, UpdateSipMediaApplication, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UpdateSipMediaApplication in the Amazon Chime SDK Voice Namespace")
     public func updateSipMediaApplication(_ input: UpdateSipMediaApplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSipMediaApplicationResponse> {
         return self.client.execute(operation: "UpdateSipMediaApplication", path: "/sip-media-applications/{SipMediaApplicationId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Invokes the AWS Lambda function associated with the SIP media application and transaction ID in an update request. The Lambda function can then return a new set of actions.
+    /// Invokes the AWS Lambda function associated with the SIP media application and transaction ID in an update request.  The Lambda function can then return a new set of actions.   This API is is no longer supported and will not be updated. We recommend using the latest version, UpdateSipMediaApplicationCall, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UpdateSipMediaApplicationCall in the Amazon Chime SDK Voice Namespace")
     public func updateSipMediaApplicationCall(_ input: UpdateSipMediaApplicationCallRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSipMediaApplicationCallResponse> {
         return self.client.execute(operation: "UpdateSipMediaApplicationCall", path: "/sip-media-applications/{SipMediaApplicationId}/calls/{TransactionId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the details of the specified SIP rule.
+    /// Updates the details of the specified SIP rule.   This API is is no longer supported and will not be updated. We recommend using the latest version, UpdateSipRule, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UpdateSipRule in the Amazon Chime SDK Voice Namespace")
     public func updateSipRule(_ input: UpdateSipRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSipRuleResponse> {
         return self.client.execute(operation: "UpdateSipRule", path: "/sip-rules/{SipRuleId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1080,17 +1200,20 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "UpdateUserSettings", path: "/accounts/{AccountId}/users/{UserId}/settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates details for the specified Amazon Chime Voice Connector.
+    /// Updates details for the specified Amazon Chime Voice Connector.   This API is is no longer supported and will not be updated. We recommend using the latest version, UpdateVoiceConnector, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UpdateVoiceConnector in the Amazon Chime SDK Voice Namespace")
     public func updateVoiceConnector(_ input: UpdateVoiceConnectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateVoiceConnectorResponse> {
         return self.client.execute(operation: "UpdateVoiceConnector", path: "/voice-connectors/{VoiceConnectorId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates details of the specified Amazon Chime Voice Connector group, such as the name and Amazon Chime Voice Connector priority ranking.
+    /// Updates details of the specified Amazon Chime Voice Connector group, such as the name and Amazon Chime Voice Connector priority ranking.   This API is is no longer supported and will not be updated. We recommend using the latest version, UpdateVoiceConnectorGroup, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UpdateVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     public func updateVoiceConnectorGroup(_ input: UpdateVoiceConnectorGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateVoiceConnectorGroupResponse> {
         return self.client.execute(operation: "UpdateVoiceConnectorGroup", path: "/voice-connector-groups/{VoiceConnectorGroupId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Validates an address to be used for 911 calls made with Amazon  Chime Voice Connectors. You can use validated addresses  in a Presence Information Data Format Location Object file that you include in SIP requests. That helps ensure that addresses are routed to the appropriate Public Safety Answering Point.
+    /// Validates an address to be used for 911 calls made with Amazon  Chime Voice Connectors. You can use validated addresses  in a Presence Information Data Format Location Object file that you include in SIP requests. That helps ensure that addresses are routed to the appropriate Public Safety Answering Point.   This API is is no longer supported and will not be updated. We recommend using the latest version, ValidateE911Address, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ValidateE911Address in the Amazon Chime SDK Voice Namespace")
     public func validateE911Address(_ input: ValidateE911AddressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ValidateE911AddressResponse> {
         return self.client.execute(operation: "ValidateE911Address", path: "/emergency-calling/address", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1161,7 +1284,7 @@ extension Chime {
         )
     }
 
-    /// Returns a list of the administrators in the AppInstance.
+    /// Returns a list of the administrators in the AppInstance.   This API is is no longer supported and will not be updated. We recommend using the latest version, ListAppInstanceAdmins, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1173,6 +1296,7 @@ extension Chime {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Replaced by ListAppInstanceAdmins in the Amazon Chime SDK Identity Namespace")
     public func listAppInstanceAdminsPaginator<Result>(
         _ input: ListAppInstanceAdminsRequest,
         _ initialValue: Result,
@@ -1198,6 +1322,7 @@ extension Chime {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Replaced by ListAppInstanceAdmins in the Amazon Chime SDK Identity Namespace")
     public func listAppInstanceAdminsPaginator(
         _ input: ListAppInstanceAdminsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -1214,7 +1339,7 @@ extension Chime {
         )
     }
 
-    /// List all AppInstanceUsers created under a single AppInstance.
+    /// List all AppInstanceUsers created under a single AppInstance.    This API is is no longer supported and will not be updated. We recommend using the latest version, ListAppInstanceUsers, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1226,6 +1351,7 @@ extension Chime {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Replaced by ListAppInstanceUsers in the Amazon Chime SDK Identity Namespace")
     public func listAppInstanceUsersPaginator<Result>(
         _ input: ListAppInstanceUsersRequest,
         _ initialValue: Result,
@@ -1251,6 +1377,7 @@ extension Chime {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Replaced by ListAppInstanceUsers in the Amazon Chime SDK Identity Namespace")
     public func listAppInstanceUsersPaginator(
         _ input: ListAppInstanceUsersRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -1267,7 +1394,7 @@ extension Chime {
         )
     }
 
-    /// Lists all Amazon Chime AppInstances created under a single AWS account.
+    /// Lists all Amazon Chime AppInstances created under a single AWS account.   This API is is no longer supported and will not be updated. We recommend using the latest version, ListAppInstances, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1279,6 +1406,7 @@ extension Chime {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Replaced by ListAppInstances in the Amazon Chime SDK Identity Namespace")
     public func listAppInstancesPaginator<Result>(
         _ input: ListAppInstancesRequest,
         _ initialValue: Result,
@@ -1304,6 +1432,7 @@ extension Chime {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Replaced by ListAppInstances in the Amazon Chime SDK Identity Namespace")
     public func listAppInstancesPaginator(
         _ input: ListAppInstancesRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -1323,6 +1452,7 @@ extension Chime {
     /// Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see
     /// Using the Amazon Chime SDK
     /// in the Amazon Chime SDK Developer Guide.
+    ///    This API is is no longer supported and will not be updated. We recommend using the latest version, ListAttendees, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1334,6 +1464,7 @@ extension Chime {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Replaced by ListAttendees in the Amazon Chime SDK Meetings Namespace")
     public func listAttendeesPaginator<Result>(
         _ input: ListAttendeesRequest,
         _ initialValue: Result,
@@ -1359,6 +1490,7 @@ extension Chime {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Replaced by ListAttendees in the Amazon Chime SDK Meetings Namespace")
     public func listAttendeesPaginator(
         _ input: ListAttendeesRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -1428,7 +1560,7 @@ extension Chime {
         )
     }
 
-    /// Lists all the users banned from a particular channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Lists all the users banned from a particular channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, ListChannelBans, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1440,6 +1572,7 @@ extension Chime {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Replaced by ListChannelBans in the Amazon Chime SDK Messaging Namespace")
     public func listChannelBansPaginator<Result>(
         _ input: ListChannelBansRequest,
         _ initialValue: Result,
@@ -1465,6 +1598,7 @@ extension Chime {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Replaced by ListChannelBans in the Amazon Chime SDK Messaging Namespace")
     public func listChannelBansPaginator(
         _ input: ListChannelBansRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -1481,7 +1615,7 @@ extension Chime {
         )
     }
 
-    /// Lists all channel memberships in a channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Lists all channel memberships in a channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, ListChannelMemberships, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1493,6 +1627,7 @@ extension Chime {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Replaced by ListChannelMemberships in the Amazon Chime SDK Messaging Namespace")
     public func listChannelMembershipsPaginator<Result>(
         _ input: ListChannelMembershipsRequest,
         _ initialValue: Result,
@@ -1518,6 +1653,7 @@ extension Chime {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Replaced by ListChannelMemberships in the Amazon Chime SDK Messaging Namespace")
     public func listChannelMembershipsPaginator(
         _ input: ListChannelMembershipsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -1534,7 +1670,7 @@ extension Chime {
         )
     }
 
-    ///  Lists all channels that a particular AppInstanceUser is a part of. Only an AppInstanceAdmin can call the API with a user ARN that is not their own.   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    ///  Lists all channels that a particular AppInstanceUser is a part of. Only an AppInstanceAdmin can call the API with a user ARN that is not their own.   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, ListChannelMembershipsForAppInstanceUser, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1546,6 +1682,7 @@ extension Chime {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Replaced by ListChannelMembershipsForAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
     public func listChannelMembershipsForAppInstanceUserPaginator<Result>(
         _ input: ListChannelMembershipsForAppInstanceUserRequest,
         _ initialValue: Result,
@@ -1571,6 +1708,7 @@ extension Chime {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Replaced by ListChannelMembershipsForAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
     public func listChannelMembershipsForAppInstanceUserPaginator(
         _ input: ListChannelMembershipsForAppInstanceUserRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -1587,7 +1725,7 @@ extension Chime {
         )
     }
 
-    /// List all the messages in a channel. Returns a paginated list of ChannelMessages. By default, sorted by creation timestamp in descending order.  Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// List all the messages in a channel. Returns a paginated list of ChannelMessages. By default, sorted by creation timestamp in descending order.  Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, ListChannelMessages, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1599,6 +1737,7 @@ extension Chime {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Replaced by ListChannelMessages in the Amazon Chime SDK Messaging Namespace")
     public func listChannelMessagesPaginator<Result>(
         _ input: ListChannelMessagesRequest,
         _ initialValue: Result,
@@ -1624,6 +1763,7 @@ extension Chime {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Replaced by ListChannelMessages in the Amazon Chime SDK Messaging Namespace")
     public func listChannelMessagesPaginator(
         _ input: ListChannelMessagesRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -1640,7 +1780,7 @@ extension Chime {
         )
     }
 
-    /// Lists all the moderators for a channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Lists all the moderators for a channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, ListChannelModerators, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1652,6 +1792,7 @@ extension Chime {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Replaced by ListChannelModerators in the Amazon Chime SDK Messaging Namespace")
     public func listChannelModeratorsPaginator<Result>(
         _ input: ListChannelModeratorsRequest,
         _ initialValue: Result,
@@ -1677,6 +1818,7 @@ extension Chime {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Replaced by ListChannelModerators in the Amazon Chime SDK Messaging Namespace")
     public func listChannelModeratorsPaginator(
         _ input: ListChannelModeratorsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -1693,7 +1835,7 @@ extension Chime {
         )
     }
 
-    /// Lists all Channels created under a single Chime App as a paginated list. You can specify filters to narrow results.  Functionality & restrictions    Use privacy = PUBLIC to retrieve all public channels in the account.   Only an AppInstanceAdmin can set privacy = PRIVATE to list the private channels in an account.    The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Lists all Channels created under a single Chime App as a paginated list. You can specify filters to narrow results.  Functionality & restrictions    Use privacy = PUBLIC to retrieve all public channels in the account.   Only an AppInstanceAdmin can set privacy = PRIVATE to list the private channels in an account.    The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, ListChannels, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1705,6 +1847,7 @@ extension Chime {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Replaced by ListChannels in the Amazon Chime SDK Messaging Namespace")
     public func listChannelsPaginator<Result>(
         _ input: ListChannelsRequest,
         _ initialValue: Result,
@@ -1730,6 +1873,7 @@ extension Chime {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Replaced by ListChannels in the Amazon Chime SDK Messaging Namespace")
     public func listChannelsPaginator(
         _ input: ListChannelsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -1746,7 +1890,7 @@ extension Chime {
         )
     }
 
-    /// A list of the channels moderated by an AppInstanceUser.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// A list of the channels moderated by an AppInstanceUser.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.    This API is is no longer supported and will not be updated. We recommend using the latest version, ListChannelsModeratedByAppInstanceUser, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1758,6 +1902,7 @@ extension Chime {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Replaced by ListChannelsModeratedByAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
     public func listChannelsModeratedByAppInstanceUserPaginator<Result>(
         _ input: ListChannelsModeratedByAppInstanceUserRequest,
         _ initialValue: Result,
@@ -1783,6 +1928,7 @@ extension Chime {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Replaced by ListChannelsModeratedByAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
     public func listChannelsModeratedByAppInstanceUserPaginator(
         _ input: ListChannelsModeratedByAppInstanceUserRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -1799,7 +1945,7 @@ extension Chime {
         )
     }
 
-    /// Returns a list of media capture pipelines.
+    /// Returns a list of media capture pipelines.   This API is is no longer supported and will not be updated. We recommend using the latest version, ListMediaCapturePipelines, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1811,6 +1957,7 @@ extension Chime {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Replaced by ListMediaCapturePipelines in the Amazon Chime SDK Media Pipelines Namespace")
     public func listMediaCapturePipelinesPaginator<Result>(
         _ input: ListMediaCapturePipelinesRequest,
         _ initialValue: Result,
@@ -1836,6 +1983,7 @@ extension Chime {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Replaced by ListMediaCapturePipelines in the Amazon Chime SDK Media Pipelines Namespace")
     public func listMediaCapturePipelinesPaginator(
         _ input: ListMediaCapturePipelinesRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -1852,9 +2000,7 @@ extension Chime {
         )
     }
 
-    /// Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon Chime SDK, see
-    /// Using the Amazon Chime SDK
-    /// in the Amazon Chime SDK Developer Guide.
+    /// Lists up to 100 active Amazon Chime SDK meetings.  ListMeetings is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.  For more information about the Amazon Chime SDK, see  Using the Amazon Chime SDK in the Amazon Chime SDK Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1866,6 +2012,7 @@ extension Chime {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "ListMeetings is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.")
     public func listMeetingsPaginator<Result>(
         _ input: ListMeetingsRequest,
         _ initialValue: Result,
@@ -1891,6 +2038,7 @@ extension Chime {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "ListMeetings is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.")
     public func listMeetingsPaginator(
         _ input: ListMeetingsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -2013,7 +2161,7 @@ extension Chime {
         )
     }
 
-    /// Lists the proxy sessions for the specified Amazon Chime Voice Connector.
+    /// Lists the proxy sessions for the specified Amazon Chime Voice Connector.   This API is is no longer supported and will not be updated. We recommend using the latest version, ListProxySessions, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2025,6 +2173,7 @@ extension Chime {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Replaced by ListProxySessions in the Amazon Chime SDK Voice Namespace")
     public func listProxySessionsPaginator<Result>(
         _ input: ListProxySessionsRequest,
         _ initialValue: Result,
@@ -2050,6 +2199,7 @@ extension Chime {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Replaced by ListProxySessions in the Amazon Chime SDK Voice Namespace")
     public func listProxySessionsPaginator(
         _ input: ListProxySessionsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -2172,7 +2322,7 @@ extension Chime {
         )
     }
 
-    /// Lists the SIP media applications under the administrator's AWS account.
+    /// Lists the SIP media applications under the administrator's AWS account.   This API is is no longer supported and will not be updated. We recommend using the latest version, ListSipMediaApplications, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2184,6 +2334,7 @@ extension Chime {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Replaced by ListSipMediaApplications in the Amazon Chime SDK Voice Namespace")
     public func listSipMediaApplicationsPaginator<Result>(
         _ input: ListSipMediaApplicationsRequest,
         _ initialValue: Result,
@@ -2209,6 +2360,7 @@ extension Chime {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Replaced by ListSipMediaApplications in the Amazon Chime SDK Voice Namespace")
     public func listSipMediaApplicationsPaginator(
         _ input: ListSipMediaApplicationsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -2225,7 +2377,7 @@ extension Chime {
         )
     }
 
-    /// Lists the SIP rules under the administrator's AWS account.
+    /// Lists the SIP rules under the administrator's AWS account.   This API is is no longer supported and will not be updated. We recommend using the latest version, ListSipRules, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2237,6 +2389,7 @@ extension Chime {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Replaced by ListSipRules in the Amazon Chime SDK Voice Namespace")
     public func listSipRulesPaginator<Result>(
         _ input: ListSipRulesRequest,
         _ initialValue: Result,
@@ -2262,6 +2415,7 @@ extension Chime {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Replaced by ListSipRules in the Amazon Chime SDK Voice Namespace")
     public func listSipRulesPaginator(
         _ input: ListSipRulesRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -2331,7 +2485,7 @@ extension Chime {
         )
     }
 
-    /// Lists the Amazon Chime Voice Connector groups for the administrator's AWS account.
+    /// Lists the Amazon Chime Voice Connector groups for the administrator's AWS account.   This API is is no longer supported and will not be updated. We recommend using the latest version, ListVoiceConnectorGroups, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2343,6 +2497,7 @@ extension Chime {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Replaced by ListVoiceConnectorGroups in the Amazon Chime SDK Voice Namespace")
     public func listVoiceConnectorGroupsPaginator<Result>(
         _ input: ListVoiceConnectorGroupsRequest,
         _ initialValue: Result,
@@ -2368,6 +2523,7 @@ extension Chime {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Replaced by ListVoiceConnectorGroups in the Amazon Chime SDK Voice Namespace")
     public func listVoiceConnectorGroupsPaginator(
         _ input: ListVoiceConnectorGroupsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -2384,7 +2540,7 @@ extension Chime {
         )
     }
 
-    /// Lists the Amazon Chime Voice Connectors for the administrator's AWS account.
+    /// Lists the Amazon Chime Voice Connectors for the administrator's AWS account.   This API is is no longer supported and will not be updated. We recommend using the latest version, ListVoiceConnectors, in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to   Migrating from the Amazon Chime namespace in the  Amazon Chime SDK Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2396,6 +2552,7 @@ extension Chime {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Replaced by ListVoiceConnectors in the Amazon Chime SDK Voice Namespace")
     public func listVoiceConnectorsPaginator<Result>(
         _ input: ListVoiceConnectorsRequest,
         _ initialValue: Result,
@@ -2421,6 +2578,7 @@ extension Chime {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Replaced by ListVoiceConnectors in the Amazon Chime SDK Voice Namespace")
     public func listVoiceConnectorsPaginator(
         _ input: ListVoiceConnectorsRequest,
         logger: Logger = AWSClient.loggingDisabled,

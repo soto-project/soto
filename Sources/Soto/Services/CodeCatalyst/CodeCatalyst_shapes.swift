@@ -370,6 +370,73 @@ extension CodeCatalyst {
         }
     }
 
+    public struct CreateSourceRepositoryRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri("name")),
+            AWSMemberEncoding(label: "projectName", location: .uri("projectName")),
+            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
+        ]
+
+        /// The description of the source repository.
+        public let description: String?
+        /// The name of the source repository. For more information about name requirements, see Quotas for source repositories.
+        public let name: String
+        /// The name of the project in the space.
+        public let projectName: String
+        /// The name of the space.
+        public let spaceName: String
+
+        public init(description: String? = nil, name: String, projectName: String, spaceName: String) {
+            self.description = description
+            self.name = name
+            self.projectName = projectName
+            self.spaceName = spaceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!.*[.]git$)[\\w\\-.]*$")
+            try self.validate(self.projectName, name: "projectName", parent: name, max: 63)
+            try self.validate(self.projectName, name: "projectName", parent: name, min: 3)
+            try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[a-zA-Z0-9]+(?:[-_\\.][a-zA-Z0-9]+)*$")
+            try self.validate(self.spaceName, name: "spaceName", parent: name, max: 63)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, min: 3)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, pattern: "^[a-zA-Z0-9]+(?:[-_\\.][a-zA-Z0-9]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+        }
+    }
+
+    public struct CreateSourceRepositoryResponse: AWSDecodableShape {
+        /// The description of the source repository.
+        public let description: String?
+        /// The name of the source repository.
+        public let name: String
+        /// The name of the project in the space.
+        public let projectName: String
+        /// The name of the space.
+        public let spaceName: String
+
+        public init(description: String? = nil, name: String, projectName: String, spaceName: String) {
+            self.description = description
+            self.name = name
+            self.projectName = projectName
+            self.spaceName = spaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case projectName = "projectName"
+            case spaceName = "spaceName"
+        }
+    }
+
     public struct DeleteAccessTokenRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri("id"))
@@ -445,6 +512,149 @@ extension CodeCatalyst {
             case id = "id"
             case projectName = "projectName"
             case spaceName = "spaceName"
+        }
+    }
+
+    public struct DeleteProjectRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri("name")),
+            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
+        ]
+
+        /// The name of the project in the space. To retrieve a list of project names, use ListProjects.
+        public let name: String
+        /// The name of the space.
+        public let spaceName: String
+
+        public init(name: String, spaceName: String) {
+            self.name = name
+            self.spaceName = spaceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 63)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9]+(?:[-_\\.][a-zA-Z0-9]+)*$")
+            try self.validate(self.spaceName, name: "spaceName", parent: name, max: 63)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, min: 3)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, pattern: "^[a-zA-Z0-9]+(?:[-_\\.][a-zA-Z0-9]+)*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteProjectResponse: AWSDecodableShape {
+        /// The friendly name displayed to users of the project in Amazon CodeCatalyst.
+        public let displayName: String?
+        /// The name of the project in the space.
+        public let name: String
+        /// The name of the space.
+        public let spaceName: String
+
+        public init(displayName: String? = nil, name: String, spaceName: String) {
+            self.displayName = displayName
+            self.name = name
+            self.spaceName = spaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "displayName"
+            case name = "name"
+            case spaceName = "spaceName"
+        }
+    }
+
+    public struct DeleteSourceRepositoryRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri("name")),
+            AWSMemberEncoding(label: "projectName", location: .uri("projectName")),
+            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
+        ]
+
+        /// The name of the source repository.
+        public let name: String
+        /// The name of the project in the space.
+        public let projectName: String
+        /// The name of the space.
+        public let spaceName: String
+
+        public init(name: String, projectName: String, spaceName: String) {
+            self.name = name
+            self.projectName = projectName
+            self.spaceName = spaceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!.*[.]git$)[\\w\\-.]*$")
+            try self.validate(self.projectName, name: "projectName", parent: name, max: 63)
+            try self.validate(self.projectName, name: "projectName", parent: name, min: 3)
+            try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[a-zA-Z0-9]+(?:[-_\\.][a-zA-Z0-9]+)*$")
+            try self.validate(self.spaceName, name: "spaceName", parent: name, max: 63)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, min: 3)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, pattern: "^[a-zA-Z0-9]+(?:[-_\\.][a-zA-Z0-9]+)*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteSourceRepositoryResponse: AWSDecodableShape {
+        /// The name of the repository.
+        public let name: String
+        /// The name of the project in the space.
+        public let projectName: String
+        /// The name of the space.
+        public let spaceName: String
+
+        public init(name: String, projectName: String, spaceName: String) {
+            self.name = name
+            self.projectName = projectName
+            self.spaceName = spaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case projectName = "projectName"
+            case spaceName = "spaceName"
+        }
+    }
+
+    public struct DeleteSpaceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri("name"))
+        ]
+
+        /// The name of the space.  To retrieve a list of space names, use ListSpaces.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 63)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9]+(?:[-_\\.][a-zA-Z0-9]+)*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteSpaceResponse: AWSDecodableShape {
+        /// The friendly name of the space displayed to users of the space in Amazon CodeCatalyst.
+        public let displayName: String?
+        /// The name of the space.
+        public let name: String
+
+        public init(displayName: String? = nil, name: String) {
+            self.displayName = displayName
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "displayName"
+            case name = "name"
         }
     }
 
@@ -636,6 +846,7 @@ extension CodeCatalyst {
         public let responsePayload: EventPayload?
         /// The IP address of the user whose actions are recorded in the event.
         public let sourceIpAddress: String?
+        /// The user agent whose actions are recorded in the event.
         public let userAgent: String?
         /// The system-generated unique ID of the user whose actions are recorded in the event.
         public let userIdentity: UserIdentity
@@ -712,8 +923,11 @@ extension CodeCatalyst {
     }
 
     public struct Filter: AWSEncodableShape {
+        /// The operator used to compare the fields.
         public let comparisonOperator: String?
+        /// A key that can be used to sort results.
         public let key: String
+        /// The values of the key.
         public let values: [String]
 
         public init(comparisonOperator: String? = nil, key: String, values: [String]) {
@@ -922,6 +1136,76 @@ extension CodeCatalyst {
 
         private enum CodingKeys: String, CodingKey {
             case https = "https"
+        }
+    }
+
+    public struct GetSourceRepositoryRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri("name")),
+            AWSMemberEncoding(label: "projectName", location: .uri("projectName")),
+            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
+        ]
+
+        /// The name of the source repository.
+        public let name: String
+        /// The name of the project in the space.
+        public let projectName: String
+        /// The name of the space.
+        public let spaceName: String
+
+        public init(name: String, projectName: String, spaceName: String) {
+            self.name = name
+            self.projectName = projectName
+            self.spaceName = spaceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!.*[.]git$)[\\w\\-.]*$")
+            try self.validate(self.projectName, name: "projectName", parent: name, max: 63)
+            try self.validate(self.projectName, name: "projectName", parent: name, min: 3)
+            try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[a-zA-Z0-9]+(?:[-_\\.][a-zA-Z0-9]+)*$")
+            try self.validate(self.spaceName, name: "spaceName", parent: name, max: 63)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, min: 3)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, pattern: "^[a-zA-Z0-9]+(?:[-_\\.][a-zA-Z0-9]+)*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetSourceRepositoryResponse: AWSDecodableShape {
+        /// The time the source repository was created, in coordinated universal time (UTC) timestamp format as specified in RFC 3339.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdTime: Date
+        /// The description of the source repository.
+        public let description: String?
+        /// The time the source repository was last updated, in coordinated universal time (UTC) timestamp format as specified in RFC 3339.
+        @CustomCoding<ISO8601DateCoder>
+        public var lastUpdatedTime: Date
+        /// The name of the source repository.
+        public let name: String
+        /// The name of the project in the space.
+        public let projectName: String
+        /// The name of the space.
+        public let spaceName: String
+
+        public init(createdTime: Date, description: String? = nil, lastUpdatedTime: Date, name: String, projectName: String, spaceName: String) {
+            self.createdTime = createdTime
+            self.description = description
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.projectName = projectName
+            self.spaceName = spaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTime = "createdTime"
+            case description = "description"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case name = "name"
+            case projectName = "projectName"
+            case spaceName = "spaceName"
         }
     }
 
@@ -1603,7 +1887,7 @@ extension CodeCatalyst {
         public let comparisonOperator: ComparisonOperator?
         /// A key that can be used to sort results.
         public let key: FilterKey
-        /// The value of the key.
+        /// The values of the key.
         public let values: [String]
 
         public init(comparisonOperator: ComparisonOperator? = nil, key: FilterKey, values: [String]) {
@@ -2049,9 +2333,119 @@ extension CodeCatalyst {
         }
     }
 
+    public struct UpdateProjectRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri("name")),
+            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
+        ]
+
+        /// The description of the project.
+        public let description: String?
+        /// The name of the project.
+        public let name: String
+        /// The name of the space.
+        public let spaceName: String
+
+        public init(description: String? = nil, name: String, spaceName: String) {
+            self.description = description
+            self.name = name
+            self.spaceName = spaceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[a-zA-Z0-9]+(?:[-_a-zA-Z0-9.,;:/\\+=?&$% \n\t\r])*$")
+            try self.validate(self.name, name: "name", parent: name, max: 63)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9]+(?:[-_\\.][a-zA-Z0-9]+)*$")
+            try self.validate(self.spaceName, name: "spaceName", parent: name, max: 63)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, min: 3)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, pattern: "^[a-zA-Z0-9]+(?:[-_\\.][a-zA-Z0-9]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+        }
+    }
+
+    public struct UpdateProjectResponse: AWSDecodableShape {
+        /// The description of the project.
+        public let description: String?
+        /// The friendly name of the project displayed to users in Amazon CodeCatalyst.
+        public let displayName: String?
+        /// The name of the project.
+        public let name: String?
+        /// The name of the space.
+        public let spaceName: String?
+
+        public init(description: String? = nil, displayName: String? = nil, name: String? = nil, spaceName: String? = nil) {
+            self.description = description
+            self.displayName = displayName
+            self.name = name
+            self.spaceName = spaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case displayName = "displayName"
+            case name = "name"
+            case spaceName = "spaceName"
+        }
+    }
+
+    public struct UpdateSpaceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri("name"))
+        ]
+
+        /// The description of the space.
+        public let description: String?
+        /// The name of the space.
+        public let name: String
+
+        public init(description: String? = nil, name: String) {
+            self.description = description
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[a-zA-Z0-9]+(?:[-_a-zA-Z0-9.,;:/\\+=?&$% \n\t\r])*$")
+            try self.validate(self.name, name: "name", parent: name, max: 63)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9]+(?:[-_\\.][a-zA-Z0-9]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+        }
+    }
+
+    public struct UpdateSpaceResponse: AWSDecodableShape {
+        /// The description of the space.
+        public let description: String?
+        /// The friendly name of the space displayed to users in Amazon CodeCatalyst.
+        public let displayName: String?
+        /// The name of the space.
+        public let name: String?
+
+        public init(description: String? = nil, displayName: String? = nil, name: String? = nil) {
+            self.description = description
+            self.displayName = displayName
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case displayName = "displayName"
+            case name = "name"
+        }
+    }
+
     public struct UserIdentity: AWSDecodableShape {
         /// The Amazon Web Services account number of the user in Amazon Web Services, if any.
         public let awsAccountId: String?
+        /// The ID of the Amazon CodeCatalyst service principal.
         public let principalId: String
         /// The display name of the user in Amazon CodeCatalyst.
         public let userName: String?

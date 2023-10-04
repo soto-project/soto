@@ -26,6 +26,12 @@ import SotoCore
 extension CustomerProfiles {
     // MARK: Enums
 
+    public enum AttributeMatchingModel: String, CustomStringConvertible, Codable, Sendable {
+        case manyToMany = "MANY_TO_MANY"
+        case oneToOne = "ONE_TO_ONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConflictResolvingModel: String, CustomStringConvertible, Codable, Sendable {
         case recency = "RECENCY"
         case source = "SOURCE"
@@ -114,6 +120,12 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
+    public enum MatchType: String, CustomStringConvertible, Codable, Sendable {
+        case mlBasedMatching = "ML_BASED_MATCHING"
+        case ruleBasedMatching = "RULE_BASED_MATCHING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Operator: String, CustomStringConvertible, Codable, Sendable {
         case equalTo = "EQUAL_TO"
         case greaterThan = "GREATER_THAN"
@@ -144,6 +156,13 @@ extension CustomerProfiles {
         case business = "BUSINESS"
         case individual = "INDIVIDUAL"
         case other = "OTHER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleBasedMatchingStatus: String, CustomStringConvertible, Codable, Sendable {
+        case active = "ACTIVE"
+        case inProgress = "IN_PROGRESS"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -620,6 +639,52 @@ extension CustomerProfiles {
         }
     }
 
+    public struct AttributeTypesSelector: AWSEncodableShape & AWSDecodableShape {
+        /// The Address type. You can choose from Address, BusinessAddress, MaillingAddress, and ShippingAddress. You only can use the Address type in the MatchingRule. For example, if you want to match profile based on BusinessAddress.City or MaillingAddress.City, you need to choose the BusinessAddress and the MaillingAddress to represent the Address type and specify the Address.City on the matching rule.
+        public let address: [String]?
+        /// Configures the AttributeMatchingModel, you can either choose ONE_TO_ONE or  MANY_TO_MANY.
+        public let attributeMatchingModel: AttributeMatchingModel
+        /// The Email type. You can choose from EmailAddress, BusinessEmailAddress and PersonalEmailAddress. You only can use the EmailAddress type in the MatchingRule. For example, if you want to match profile based on PersonalEmailAddress or BusinessEmailAddress, you need to choose the PersonalEmailAddress and the BusinessEmailAddress to represent the EmailAddress type and only specify the EmailAddress on the matching rule.
+        public let emailAddress: [String]?
+        /// The PhoneNumber type. You can choose from PhoneNumber, HomePhoneNumber, and MobilePhoneNumber. You only can use the PhoneNumber type in the MatchingRule. For example, if you want to match a profile based on Phone or HomePhone, you need to choose the Phone and the HomePhone to represent the PhoneNumber type and only specify the PhoneNumber on the matching rule.
+        public let phoneNumber: [String]?
+
+        public init(address: [String]? = nil, attributeMatchingModel: AttributeMatchingModel, emailAddress: [String]? = nil, phoneNumber: [String]? = nil) {
+            self.address = address
+            self.attributeMatchingModel = attributeMatchingModel
+            self.emailAddress = emailAddress
+            self.phoneNumber = phoneNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.address?.forEach {
+                try validate($0, name: "address[]", parent: name, max: 255)
+                try validate($0, name: "address[]", parent: name, min: 1)
+            }
+            try self.validate(self.address, name: "address", parent: name, max: 4)
+            try self.validate(self.address, name: "address", parent: name, min: 1)
+            try self.emailAddress?.forEach {
+                try validate($0, name: "emailAddress[]", parent: name, max: 255)
+                try validate($0, name: "emailAddress[]", parent: name, min: 1)
+            }
+            try self.validate(self.emailAddress, name: "emailAddress", parent: name, max: 3)
+            try self.validate(self.emailAddress, name: "emailAddress", parent: name, min: 1)
+            try self.phoneNumber?.forEach {
+                try validate($0, name: "phoneNumber[]", parent: name, max: 255)
+                try validate($0, name: "phoneNumber[]", parent: name, min: 1)
+            }
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, max: 4)
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case attributeMatchingModel = "AttributeMatchingModel"
+            case emailAddress = "EmailAddress"
+            case phoneNumber = "PhoneNumber"
+        }
+    }
+
     public struct AutoMerging: AWSEncodableShape & AWSDecodableShape {
         /// How the auto-merging process should resolve conflicts between different profiles. For example, if Profile A and Profile B have the same FirstName and LastName (and that is the matching criteria), which EmailAddress should be used?
         public let conflictResolution: ConflictResolution?
@@ -903,15 +968,18 @@ extension CustomerProfiles {
         /// API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from
         /// S3.
         public let matching: MatchingRequest?
+        /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true,  Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration  in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and  review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can  download the results from S3.
+        public let ruleBasedMatching: RuleBasedMatchingRequest?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
-        public init(deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int, domainName: String, matching: MatchingRequest? = nil, tags: [String: String]? = nil) {
+        public init(deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int, domainName: String, matching: MatchingRequest? = nil, ruleBasedMatching: RuleBasedMatchingRequest? = nil, tags: [String: String]? = nil) {
             self.deadLetterQueueUrl = deadLetterQueueUrl
             self.defaultEncryptionKey = defaultEncryptionKey
             self.defaultExpirationDays = defaultExpirationDays
             self.domainName = domainName
             self.matching = matching
+            self.ruleBasedMatching = ruleBasedMatching
             self.tags = tags
         }
 
@@ -924,6 +992,7 @@ extension CustomerProfiles {
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.matching?.validate(name: "\(name).matching")
+            try self.ruleBasedMatching?.validate(name: "\(name).ruleBasedMatching")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -939,6 +1008,7 @@ extension CustomerProfiles {
             case defaultEncryptionKey = "DefaultEncryptionKey"
             case defaultExpirationDays = "DefaultExpirationDays"
             case matching = "Matching"
+            case ruleBasedMatching = "RuleBasedMatching"
             case tags = "Tags"
         }
     }
@@ -963,10 +1033,12 @@ extension CustomerProfiles {
         /// API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from
         /// S3.
         public let matching: MatchingResponse?
+        /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true,  Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration  in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and  review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can  download the results from S3.
+        public let ruleBasedMatching: RuleBasedMatchingResponse?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
-        public init(createdAt: Date, deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int, domainName: String, lastUpdatedAt: Date, matching: MatchingResponse? = nil, tags: [String: String]? = nil) {
+        public init(createdAt: Date, deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int, domainName: String, lastUpdatedAt: Date, matching: MatchingResponse? = nil, ruleBasedMatching: RuleBasedMatchingResponse? = nil, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.deadLetterQueueUrl = deadLetterQueueUrl
             self.defaultEncryptionKey = defaultEncryptionKey
@@ -974,6 +1046,7 @@ extension CustomerProfiles {
             self.domainName = domainName
             self.lastUpdatedAt = lastUpdatedAt
             self.matching = matching
+            self.ruleBasedMatching = ruleBasedMatching
             self.tags = tags
         }
 
@@ -985,6 +1058,7 @@ extension CustomerProfiles {
             case domainName = "DomainName"
             case lastUpdatedAt = "LastUpdatedAt"
             case matching = "Matching"
+            case ruleBasedMatching = "RuleBasedMatching"
             case tags = "Tags"
         }
     }
@@ -2213,12 +2287,14 @@ extension CustomerProfiles {
         /// API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from
         /// S3.
         public let matching: MatchingResponse?
+        /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true,  Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration  in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and  review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can  download the results from S3.
+        public let ruleBasedMatching: RuleBasedMatchingResponse?
         /// Usage-specific statistics about the domain.
         public let stats: DomainStats?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
-        public init(createdAt: Date, deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int? = nil, domainName: String, lastUpdatedAt: Date, matching: MatchingResponse? = nil, stats: DomainStats? = nil, tags: [String: String]? = nil) {
+        public init(createdAt: Date, deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int? = nil, domainName: String, lastUpdatedAt: Date, matching: MatchingResponse? = nil, ruleBasedMatching: RuleBasedMatchingResponse? = nil, stats: DomainStats? = nil, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.deadLetterQueueUrl = deadLetterQueueUrl
             self.defaultEncryptionKey = defaultEncryptionKey
@@ -2226,6 +2302,7 @@ extension CustomerProfiles {
             self.domainName = domainName
             self.lastUpdatedAt = lastUpdatedAt
             self.matching = matching
+            self.ruleBasedMatching = ruleBasedMatching
             self.stats = stats
             self.tags = tags
         }
@@ -2238,6 +2315,7 @@ extension CustomerProfiles {
             case domainName = "DomainName"
             case lastUpdatedAt = "LastUpdatedAt"
             case matching = "Matching"
+            case ruleBasedMatching = "RuleBasedMatching"
             case stats = "Stats"
             case tags = "Tags"
         }
@@ -2661,6 +2739,89 @@ extension CustomerProfiles {
             case sourceName = "SourceName"
             case sourceObject = "SourceObject"
             case templateId = "TemplateId"
+        }
+    }
+
+    public struct GetSimilarProfilesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
+        ]
+
+        /// The unique name of the domain.
+        public let domainName: String
+        /// Specify the type of matching to get similar profiles for.
+        public let matchType: MatchType
+        /// The maximum number of objects returned per page.
+        public let maxResults: Int?
+        /// The pagination token from the previous GetSimilarProfiles API call.
+        public let nextToken: String?
+        /// The string indicating the search key to be used.
+        public let searchKey: String
+        /// The string based on SearchKey to be searched for similar profiles.
+        public let searchValue: String
+
+        public init(domainName: String, matchType: MatchType, maxResults: Int? = nil, nextToken: String? = nil, searchKey: String, searchValue: String) {
+            self.domainName = domainName
+            self.matchType = matchType
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.searchKey = searchKey
+            self.searchValue = searchValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.searchKey, name: "searchKey", parent: name, max: 255)
+            try self.validate(self.searchKey, name: "searchKey", parent: name, min: 1)
+            try self.validate(self.searchValue, name: "searchValue", parent: name, max: 255)
+            try self.validate(self.searchValue, name: "searchValue", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchType = "MatchType"
+            case searchKey = "SearchKey"
+            case searchValue = "SearchValue"
+        }
+    }
+
+    public struct GetSimilarProfilesResponse: AWSDecodableShape {
+        /// It only has value when the MatchType is ML_BASED_MATCHING.A number between 0 and 1, where a higher score means higher similarity. Examining match confidence scores lets you distinguish between groups of similar records in which the system is highly confident (which you may decide to merge), groups of similar records about which the system is uncertain (which you may decide to have reviewed by a human), and groups of similar records that the system deems to be unlikely (which you may decide to reject). Given confidence scores vary as per the data input, it should not be used as an absolute measure of matching quality.
+        public let confidenceScore: Double?
+        /// The string matchId that the similar profiles belong to.
+        public let matchId: String?
+        /// Specify the type of matching to get similar profiles for.
+        public let matchType: MatchType?
+        /// The pagination token from the previous GetSimilarProfiles API call.
+        public let nextToken: String?
+        /// Set of profileIds that belong to the same matching group.
+        public let profileIds: [String]?
+        /// The integer rule level that the profiles matched on.
+        public let ruleLevel: Int?
+
+        public init(confidenceScore: Double? = nil, matchId: String? = nil, matchType: MatchType? = nil, nextToken: String? = nil, profileIds: [String]? = nil, ruleLevel: Int? = nil) {
+            self.confidenceScore = confidenceScore
+            self.matchId = matchId
+            self.matchType = matchType
+            self.nextToken = nextToken
+            self.profileIds = profileIds
+            self.ruleLevel = ruleLevel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidenceScore = "ConfidenceScore"
+            case matchId = "MatchId"
+            case matchType = "MatchType"
+            case nextToken = "NextToken"
+            case profileIds = "ProfileIds"
+            case ruleLevel = "RuleLevel"
         }
     }
 
@@ -3634,6 +3795,56 @@ extension CustomerProfiles {
         }
     }
 
+    public struct ListRuleBasedMatchesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
+        ]
+
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The maximum number of MatchIds returned per page.
+        public let maxResults: Int?
+        /// The pagination token from the previous ListRuleBasedMatches API call.
+        public let nextToken: String?
+
+        public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.domainName = domainName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRuleBasedMatchesResponse: AWSDecodableShape {
+        /// The list of MatchIds for the given domain.
+        public let matchIds: [String]?
+        /// The pagination token from the previous ListRuleBasedMatches API call.
+        public let nextToken: String?
+
+        public init(matchIds: [String]? = nil, nextToken: String? = nil) {
+            self.matchIds = matchIds
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchIds = "MatchIds"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
@@ -3860,6 +4071,28 @@ extension CustomerProfiles {
             case enabled = "Enabled"
             case exportingConfig = "ExportingConfig"
             case jobSchedule = "JobSchedule"
+        }
+    }
+
+    public struct MatchingRule: AWSEncodableShape & AWSDecodableShape {
+        /// A single rule level of the MatchRules. Configures how the rule-based matching process should match profiles.
+        public let rule: [String]
+
+        public init(rule: [String]) {
+            self.rule = rule
+        }
+
+        public func validate(name: String) throws {
+            try self.rule.forEach {
+                try validate($0, name: "rule[]", parent: name, max: 255)
+                try validate($0, name: "rule[]", parent: name, min: 1)
+            }
+            try self.validate(self.rule, name: "rule", parent: name, max: 15)
+            try self.validate(self.rule, name: "rule", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rule = "Rule"
         }
     }
 
@@ -4436,6 +4669,95 @@ extension CustomerProfiles {
         private enum CodingKeys: String, CodingKey {
             case unit = "Unit"
             case value = "Value"
+        }
+    }
+
+    public struct RuleBasedMatchingRequest: AWSEncodableShape {
+        /// Configures information about the AttributeTypesSelector where the rule-based identity resolution uses to match profiles.
+        public let attributeTypesSelector: AttributeTypesSelector?
+        public let conflictResolution: ConflictResolution?
+        /// The flag that enables the rule-based matching process of duplicate profiles.
+        public let enabled: Bool
+        public let exportingConfig: ExportingConfig?
+        /// Configures how the rule-based matching process should match profiles. You can have up to 15  MatchingRule in the MatchingRules.
+        public let matchingRules: [MatchingRule]?
+        /// Indicates the maximum allowed rule level.
+        public let maxAllowedRuleLevelForMatching: Int?
+        ///  MatchingRule
+        public let maxAllowedRuleLevelForMerging: Int?
+
+        public init(attributeTypesSelector: AttributeTypesSelector? = nil, conflictResolution: ConflictResolution? = nil, enabled: Bool, exportingConfig: ExportingConfig? = nil, matchingRules: [MatchingRule]? = nil, maxAllowedRuleLevelForMatching: Int? = nil, maxAllowedRuleLevelForMerging: Int? = nil) {
+            self.attributeTypesSelector = attributeTypesSelector
+            self.conflictResolution = conflictResolution
+            self.enabled = enabled
+            self.exportingConfig = exportingConfig
+            self.matchingRules = matchingRules
+            self.maxAllowedRuleLevelForMatching = maxAllowedRuleLevelForMatching
+            self.maxAllowedRuleLevelForMerging = maxAllowedRuleLevelForMerging
+        }
+
+        public func validate(name: String) throws {
+            try self.attributeTypesSelector?.validate(name: "\(name).attributeTypesSelector")
+            try self.conflictResolution?.validate(name: "\(name).conflictResolution")
+            try self.exportingConfig?.validate(name: "\(name).exportingConfig")
+            try self.matchingRules?.forEach {
+                try $0.validate(name: "\(name).matchingRules[]")
+            }
+            try self.validate(self.matchingRules, name: "matchingRules", parent: name, max: 15)
+            try self.validate(self.matchingRules, name: "matchingRules", parent: name, min: 1)
+            try self.validate(self.maxAllowedRuleLevelForMatching, name: "maxAllowedRuleLevelForMatching", parent: name, max: 15)
+            try self.validate(self.maxAllowedRuleLevelForMatching, name: "maxAllowedRuleLevelForMatching", parent: name, min: 1)
+            try self.validate(self.maxAllowedRuleLevelForMerging, name: "maxAllowedRuleLevelForMerging", parent: name, max: 15)
+            try self.validate(self.maxAllowedRuleLevelForMerging, name: "maxAllowedRuleLevelForMerging", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeTypesSelector = "AttributeTypesSelector"
+            case conflictResolution = "ConflictResolution"
+            case enabled = "Enabled"
+            case exportingConfig = "ExportingConfig"
+            case matchingRules = "MatchingRules"
+            case maxAllowedRuleLevelForMatching = "MaxAllowedRuleLevelForMatching"
+            case maxAllowedRuleLevelForMerging = "MaxAllowedRuleLevelForMerging"
+        }
+    }
+
+    public struct RuleBasedMatchingResponse: AWSDecodableShape {
+        /// Configures information about the AttributeTypesSelector where the rule-based identity resolution uses to match profiles.
+        public let attributeTypesSelector: AttributeTypesSelector?
+        public let conflictResolution: ConflictResolution?
+        /// The flag that enables the rule-based matching process of duplicate profiles.
+        public let enabled: Bool?
+        public let exportingConfig: ExportingConfig?
+        /// Configures how the rule-based matching process should match profiles. You can have up to 15  MatchingRule in the MatchingRules.
+        public let matchingRules: [MatchingRule]?
+        /// Indicates the maximum allowed rule level.
+        public let maxAllowedRuleLevelForMatching: Int?
+        ///  MatchingRule
+        public let maxAllowedRuleLevelForMerging: Int?
+        /// PENDING   The first status after configuration a rule-based matching rule. If it is an existing domain, the rule-based Identity Resolution waits one hour before creating the matching rule. If it is a new domain, the system will skip the PENDING stage.   IN_PROGRESS   The system is creating the rule-based matching rule. Under this status, the system is evaluating the existing data and you can no longer change the Rule-based matching configuration.   ACTIVE   The rule is ready to use. You can change the rule a day after the status is in ACTIVE.
+        public let status: RuleBasedMatchingStatus?
+
+        public init(attributeTypesSelector: AttributeTypesSelector? = nil, conflictResolution: ConflictResolution? = nil, enabled: Bool? = nil, exportingConfig: ExportingConfig? = nil, matchingRules: [MatchingRule]? = nil, maxAllowedRuleLevelForMatching: Int? = nil, maxAllowedRuleLevelForMerging: Int? = nil, status: RuleBasedMatchingStatus? = nil) {
+            self.attributeTypesSelector = attributeTypesSelector
+            self.conflictResolution = conflictResolution
+            self.enabled = enabled
+            self.exportingConfig = exportingConfig
+            self.matchingRules = matchingRules
+            self.maxAllowedRuleLevelForMatching = maxAllowedRuleLevelForMatching
+            self.maxAllowedRuleLevelForMerging = maxAllowedRuleLevelForMerging
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeTypesSelector = "AttributeTypesSelector"
+            case conflictResolution = "ConflictResolution"
+            case enabled = "Enabled"
+            case exportingConfig = "ExportingConfig"
+            case matchingRules = "MatchingRules"
+            case maxAllowedRuleLevelForMatching = "MaxAllowedRuleLevelForMatching"
+            case maxAllowedRuleLevelForMerging = "MaxAllowedRuleLevelForMerging"
+            case status = "Status"
         }
     }
 
@@ -5093,15 +5415,18 @@ extension CustomerProfiles {
         /// API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from
         /// S3.
         public let matching: MatchingRequest?
+        /// The process of matching duplicate profiles using the rule-Based matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
+        public let ruleBasedMatching: RuleBasedMatchingRequest?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
-        public init(deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int? = nil, domainName: String, matching: MatchingRequest? = nil, tags: [String: String]? = nil) {
+        public init(deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int? = nil, domainName: String, matching: MatchingRequest? = nil, ruleBasedMatching: RuleBasedMatchingRequest? = nil, tags: [String: String]? = nil) {
             self.deadLetterQueueUrl = deadLetterQueueUrl
             self.defaultEncryptionKey = defaultEncryptionKey
             self.defaultExpirationDays = defaultExpirationDays
             self.domainName = domainName
             self.matching = matching
+            self.ruleBasedMatching = ruleBasedMatching
             self.tags = tags
         }
 
@@ -5114,6 +5439,7 @@ extension CustomerProfiles {
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.matching?.validate(name: "\(name).matching")
+            try self.ruleBasedMatching?.validate(name: "\(name).ruleBasedMatching")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -5129,6 +5455,7 @@ extension CustomerProfiles {
             case defaultEncryptionKey = "DefaultEncryptionKey"
             case defaultExpirationDays = "DefaultExpirationDays"
             case matching = "Matching"
+            case ruleBasedMatching = "RuleBasedMatching"
             case tags = "Tags"
         }
     }
@@ -5153,10 +5480,12 @@ extension CustomerProfiles {
         /// API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from
         /// S3.
         public let matching: MatchingResponse?
+        /// The process of matching duplicate profiles using the rule-Based matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
+        public let ruleBasedMatching: RuleBasedMatchingResponse?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
-        public init(createdAt: Date, deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int? = nil, domainName: String, lastUpdatedAt: Date, matching: MatchingResponse? = nil, tags: [String: String]? = nil) {
+        public init(createdAt: Date, deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int? = nil, domainName: String, lastUpdatedAt: Date, matching: MatchingResponse? = nil, ruleBasedMatching: RuleBasedMatchingResponse? = nil, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.deadLetterQueueUrl = deadLetterQueueUrl
             self.defaultEncryptionKey = defaultEncryptionKey
@@ -5164,6 +5493,7 @@ extension CustomerProfiles {
             self.domainName = domainName
             self.lastUpdatedAt = lastUpdatedAt
             self.matching = matching
+            self.ruleBasedMatching = ruleBasedMatching
             self.tags = tags
         }
 
@@ -5175,6 +5505,7 @@ extension CustomerProfiles {
             case domainName = "DomainName"
             case lastUpdatedAt = "LastUpdatedAt"
             case matching = "Matching"
+            case ruleBasedMatching = "RuleBasedMatching"
             case tags = "Tags"
         }
     }

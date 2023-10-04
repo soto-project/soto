@@ -21,6 +21,11 @@ import SotoCore
 extension ApplicationInsights {
     // MARK: Async API Calls
 
+    /// Adds a workload to a component. Each component can have at most five workloads.
+    public func addWorkload(_ input: AddWorkloadRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AddWorkloadResponse {
+        return try await self.client.execute(operation: "AddWorkload", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Adds an application that is created from a resource group.
     public func createApplication(_ input: CreateApplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateApplicationResponse {
         return try await self.client.execute(operation: "CreateApplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -91,6 +96,11 @@ extension ApplicationInsights {
         return try await self.client.execute(operation: "DescribeProblemObservations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Describes a workload and its configuration.
+    public func describeWorkload(_ input: DescribeWorkloadRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeWorkloadResponse {
+        return try await self.client.execute(operation: "DescribeWorkload", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists the IDs of the applications that you are monitoring.
     public func listApplications(_ input: ListApplicationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListApplicationsResponse {
         return try await self.client.execute(operation: "ListApplications", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -126,6 +136,16 @@ extension ApplicationInsights {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists the workloads that are configured on a given component.
+    public func listWorkloads(_ input: ListWorkloadsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListWorkloadsResponse {
+        return try await self.client.execute(operation: "ListWorkloads", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Remove workload from a component.
+    public func removeWorkload(_ input: RemoveWorkloadRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RemoveWorkloadResponse {
+        return try await self.client.execute(operation: "RemoveWorkload", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Add one or more tags (keys and values) to a specified application. A tag is a label that you optionally define and associate with an application. Tags can help you categorize and manage application in different ways, such as by purpose, owner, environment, or other criteria.  Each tag consists of a required tag key and an associated tag value, both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TagResourceResponse {
         return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -154,6 +174,16 @@ extension ApplicationInsights {
     /// Adds a log pattern to a LogPatternSet.
     public func updateLogPattern(_ input: UpdateLogPatternRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateLogPatternResponse {
         return try await self.client.execute(operation: "UpdateLogPattern", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the visibility of the problem or specifies the problem as RESOLVED.
+    public func updateProblem(_ input: UpdateProblemRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateProblemResponse {
+        return try await self.client.execute(operation: "UpdateProblem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Adds a workload to a component. Each component can have at most five workloads.
+    public func updateWorkload(_ input: UpdateWorkloadRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateWorkloadResponse {
+        return try await self.client.execute(operation: "UpdateWorkload", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 
@@ -288,6 +318,28 @@ extension ApplicationInsights {
             command: self.listProblems,
             inputKey: \ListProblemsRequest.nextToken,
             outputKey: \ListProblemsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists the workloads that are configured on a given component.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listWorkloadsPaginator(
+        _ input: ListWorkloadsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListWorkloadsRequest, ListWorkloadsResponse> {
+        return .init(
+            input: input,
+            command: self.listWorkloads,
+            inputKey: \ListWorkloadsRequest.nextToken,
+            outputKey: \ListWorkloadsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

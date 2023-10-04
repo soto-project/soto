@@ -1118,9 +1118,9 @@ extension PaymentCryptographyData {
         /// The keyARN of the encryption key that Amazon Web Services Payment Cryptography uses for plaintext encryption.
         public let keyArn: String
         /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography calculates the KCV by using standard algorithms, typically by encrypting 8 or 16 bytes or "00" or "01" and then truncating the result to the first 3 bytes, or 6 hex digits, of the resulting cryptogram.
-        public let keyCheckValue: String
+        public let keyCheckValue: String?
 
-        public init(cipherText: String, keyArn: String, keyCheckValue: String) {
+        public init(cipherText: String, keyArn: String, keyCheckValue: String? = nil) {
             self.cipherText = cipherText
             self.keyArn = keyArn
             self.keyCheckValue = keyCheckValue
@@ -1217,7 +1217,7 @@ extension PaymentCryptographyData {
             try self.validate(self.macLength, name: "macLength", parent: name, min: 4)
             try self.validate(self.messageData, name: "messageData", parent: name, max: 4096)
             try self.validate(self.messageData, name: "messageData", parent: name, min: 2)
-            try self.validate(self.messageData, name: "messageData", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.messageData, name: "messageData", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1863,7 +1863,7 @@ extension PaymentCryptographyData {
         public func validate(name: String) throws {
             try self.validate(self.encryptedPinBlock, name: "encryptedPinBlock", parent: name, max: 32)
             try self.validate(self.encryptedPinBlock, name: "encryptedPinBlock", parent: name, min: 16)
-            try self.validate(self.encryptedPinBlock, name: "encryptedPinBlock", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.encryptedPinBlock, name: "encryptedPinBlock", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
             try self.incomingDukptAttributes?.validate(name: "\(name).incomingDukptAttributes")
             try self.validate(self.incomingKeyIdentifier, name: "incomingKeyIdentifier", parent: name, max: 322)
             try self.validate(self.incomingKeyIdentifier, name: "incomingKeyIdentifier", parent: name, min: 7)
@@ -2080,12 +2080,12 @@ extension PaymentCryptographyData {
             try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
             try self.validate(self.mac, name: "mac", parent: name, max: 128)
             try self.validate(self.mac, name: "mac", parent: name, min: 4)
-            try self.validate(self.mac, name: "mac", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.mac, name: "mac", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
             try self.validate(self.macLength, name: "macLength", parent: name, max: 16)
             try self.validate(self.macLength, name: "macLength", parent: name, min: 4)
             try self.validate(self.messageData, name: "messageData", parent: name, max: 4096)
             try self.validate(self.messageData, name: "messageData", parent: name, min: 2)
-            try self.validate(self.messageData, name: "messageData", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.messageData, name: "messageData", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
             try self.verificationAttributes.validate(name: "\(name).verificationAttributes")
         }
 

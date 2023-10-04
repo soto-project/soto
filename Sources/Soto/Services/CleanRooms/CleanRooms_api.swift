@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS CleanRooms service.
 ///
-/// Welcome to the AWS Clean Rooms API Reference. AWS Clean Rooms is an AWS service that helps multiple parties to join their data together in a secure collaboration workspace. In the collaboration, members who can query and receive results can get insights into the collective datasets without either party getting access to the other party's raw data. To learn more about AWS Clean Rooms concepts, procedures, and best practices, see the AWS Clean Rooms User Guide.
+/// Welcome to the Clean Rooms API Reference. Clean Rooms is an Amazon Web Services service that helps multiple parties to join their data together in a secure collaboration workspace. In the collaboration, members who can query and receive results can get insights into the collective datasets without either party getting access to the other party's raw data. To learn more about Clean Rooms concepts, procedures, and best practices, see the Clean Rooms User Guide. To learn more about SQL commands, functions, and conditions supported in Clean Rooms, see the Clean Rooms SQL Reference.
 public struct CleanRooms: AWSService {
     // MARK: Member variables
 
@@ -63,9 +63,19 @@ public struct CleanRooms: AWSService {
 
     // MARK: API Calls
 
+    /// Retrieves multiple analysis templates within a collaboration by their Amazon Resource Names (ARNs).
+    public func batchGetCollaborationAnalysisTemplate(_ input: BatchGetCollaborationAnalysisTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetCollaborationAnalysisTemplateOutput> {
+        return self.client.execute(operation: "BatchGetCollaborationAnalysisTemplate", path: "/collaborations/{collaborationIdentifier}/batch-analysistemplates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves multiple schemas by their identifiers.
     public func batchGetSchema(_ input: BatchGetSchemaInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetSchemaOutput> {
         return self.client.execute(operation: "BatchGetSchema", path: "/collaborations/{collaborationIdentifier}/batch-schema", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a new analysis template.
+    public func createAnalysisTemplate(_ input: CreateAnalysisTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAnalysisTemplateOutput> {
+        return self.client.execute(operation: "CreateAnalysisTemplate", path: "/memberships/{membershipIdentifier}/analysistemplates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a new collaboration.
@@ -91,6 +101,11 @@ public struct CleanRooms: AWSService {
     /// Creates a membership for a specific collaboration identifier and joins the collaboration.
     public func createMembership(_ input: CreateMembershipInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMembershipOutput> {
         return self.client.execute(operation: "CreateMembership", path: "/memberships", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes an analysis template.
+    public func deleteAnalysisTemplate(_ input: DeleteAnalysisTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAnalysisTemplateOutput> {
+        return self.client.execute(operation: "DeleteAnalysisTemplate", path: "/memberships/{membershipIdentifier}/analysistemplates/{analysisTemplateIdentifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a collaboration. It can only be called by the collaboration owner.
@@ -123,9 +138,19 @@ public struct CleanRooms: AWSService {
         return self.client.execute(operation: "DeleteMembership", path: "/memberships/{membershipIdentifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves an analysis template.
+    public func getAnalysisTemplate(_ input: GetAnalysisTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAnalysisTemplateOutput> {
+        return self.client.execute(operation: "GetAnalysisTemplate", path: "/memberships/{membershipIdentifier}/analysistemplates/{analysisTemplateIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns metadata about a collaboration.
     public func getCollaboration(_ input: GetCollaborationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCollaborationOutput> {
         return self.client.execute(operation: "GetCollaboration", path: "/collaborations/{collaborationIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves an analysis template within a collaboration.
+    public func getCollaborationAnalysisTemplate(_ input: GetCollaborationAnalysisTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCollaborationAnalysisTemplateOutput> {
+        return self.client.execute(operation: "GetCollaborationAnalysisTemplate", path: "/collaborations/{collaborationIdentifier}/analysistemplates/{analysisTemplateArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves a configured table.
@@ -161,6 +186,16 @@ public struct CleanRooms: AWSService {
     /// Retrieves a schema analysis rule.
     public func getSchemaAnalysisRule(_ input: GetSchemaAnalysisRuleInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSchemaAnalysisRuleOutput> {
         return self.client.execute(operation: "GetSchemaAnalysisRule", path: "/collaborations/{collaborationIdentifier}/schemas/{name}/analysisRule/{type}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists analysis templates that the caller owns.
+    public func listAnalysisTemplates(_ input: ListAnalysisTemplatesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAnalysisTemplatesOutput> {
+        return self.client.execute(operation: "ListAnalysisTemplates", path: "/memberships/{membershipIdentifier}/analysistemplates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists analysis templates within a collaboration.
+    public func listCollaborationAnalysisTemplates(_ input: ListCollaborationAnalysisTemplatesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCollaborationAnalysisTemplatesOutput> {
+        return self.client.execute(operation: "ListCollaborationAnalysisTemplates", path: "/collaborations/{collaborationIdentifier}/analysistemplates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists collaborations the caller owns, is active in, or has been invited to.
@@ -203,7 +238,7 @@ public struct CleanRooms: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a protected query that is started by AWS Clean Rooms.
+    /// Creates a protected query that is started by Clean Rooms.
     public func startProtectedQuery(_ input: StartProtectedQueryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartProtectedQueryOutput> {
         return self.client.execute(operation: "StartProtectedQuery", path: "/memberships/{membershipIdentifier}/protectedQueries", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -216,6 +251,11 @@ public struct CleanRooms: AWSService {
     /// Removes a tag or list of tags from a resource.
     public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceOutput> {
         return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the analysis template metadata.
+    public func updateAnalysisTemplate(_ input: UpdateAnalysisTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAnalysisTemplateOutput> {
+        return self.client.execute(operation: "UpdateAnalysisTemplate", path: "/memberships/{membershipIdentifier}/analysistemplates/{analysisTemplateIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates collaboration metadata and can only be called by the collaboration owner.

@@ -19,8 +19,7 @@
 
 /// Service object for interacting with AWS SSOOIDC service.
 ///
-/// AWS IAM Identity Center (successor to AWS Single Sign-On) OpenID Connect (OIDC) is a web service that enables a client (such as AWS CLI or a native application) to register with IAM Identity Center. The service also enables the client to fetch the user’s access token upon successful authentication and authorization with IAM Identity Center.  Although AWS Single Sign-On was renamed, the sso and identitystore API namespaces will continue to retain their original name for backward compatibility purposes. For more information, see IAM Identity Center rename.   Considerations for Using This Guide  Before you begin using this guide, we recommend that you first review the following important information about how the IAM Identity Center OIDC service works.   The IAM Identity Center OIDC service currently implements only the portions of the OAuth 2.0 Device Authorization Grant standard (https://tools.ietf.org/html/rfc8628) that are necessary to enable single sign-on authentication with the AWS CLI. Support for other OIDC flows frequently needed for native applications, such as Authorization Code Flow (+ PKCE), will be addressed in future releases.   The service emits only OIDC access tokens, such that obtaining a new token (For example, token refresh) requires explicit user re-authentication.   The access tokens provided by this service grant access to all AWS account entitlements assigned to an IAM Identity Center user, not just a particular application.   The documentation in this guide does not describe the mechanism to convert the access token into AWS Auth (“sigv4”) credentials for use with IAM-protected AWS service endpoints. For more information, see GetRoleCredentials in the IAM Identity Center Portal API Reference Guide.
-///  For general information about IAM Identity Center, see What is IAM Identity Center? in the IAM Identity Center User Guide.
+/// AWS IAM Identity Center (successor to AWS Single Sign-On) OpenID Connect (OIDC) is a web service that enables a client (such as AWS CLI or a native application) to register with IAM Identity Center. The service also enables the client to fetch the user’s access token upon successful authentication and authorization with IAM Identity Center.  Although AWS Single Sign-On was renamed, the sso and identitystore API namespaces will continue to retain their original name for backward compatibility purposes. For more information, see IAM Identity Center rename.   Considerations for Using This Guide  Before you begin using this guide, we recommend that you first review the following important information about how the IAM Identity Center OIDC service works.   The IAM Identity Center OIDC service currently implements only the portions of the OAuth 2.0 Device Authorization Grant standard (https://tools.ietf.org/html/rfc8628) that are necessary to enable single sign-on authentication with the AWS CLI. Support for other OIDC flows frequently needed for native applications, such as Authorization Code Flow (+ PKCE), will be addressed in future releases.   The service emits only OIDC access tokens, such that obtaining a new token (For example, token refresh) requires explicit user re-authentication.   The access tokens provided by this service grant access to all AWS account entitlements assigned to an IAM Identity Center user, not just a particular application.   The documentation in this guide does not describe the mechanism to convert the access token into AWS Auth (“sigv4”) credentials for use with IAM-protected AWS service endpoints. For more information, see GetRoleCredentials in the IAM Identity Center Portal API Reference Guide.   For general information about IAM Identity Center, see What is IAM Identity Center? in the IAM Identity Center User Guide.
 public struct SSOOIDC: AWSService {
     // MARK: Member variables
 
@@ -67,12 +66,16 @@ public struct SSOOIDC: AWSService {
                 "ap-southeast-2": "oidc.ap-southeast-2.amazonaws.com",
                 "ap-southeast-3": "oidc.ap-southeast-3.amazonaws.com",
                 "ca-central-1": "oidc.ca-central-1.amazonaws.com",
+                "cn-north-1": "oidc.cn-north-1.amazonaws.com.cn",
+                "cn-northwest-1": "oidc.cn-northwest-1.amazonaws.com.cn",
                 "eu-central-1": "oidc.eu-central-1.amazonaws.com",
+                "eu-central-2": "oidc.eu-central-2.amazonaws.com",
                 "eu-north-1": "oidc.eu-north-1.amazonaws.com",
                 "eu-south-1": "oidc.eu-south-1.amazonaws.com",
                 "eu-west-1": "oidc.eu-west-1.amazonaws.com",
                 "eu-west-2": "oidc.eu-west-2.amazonaws.com",
                 "eu-west-3": "oidc.eu-west-3.amazonaws.com",
+                "il-central-1": "oidc.il-central-1.amazonaws.com",
                 "me-south-1": "oidc.me-south-1.amazonaws.com",
                 "sa-east-1": "oidc.sa-east-1.amazonaws.com",
                 "us-east-1": "oidc.us-east-1.amazonaws.com",

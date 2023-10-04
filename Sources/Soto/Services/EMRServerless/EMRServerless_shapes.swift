@@ -126,12 +126,15 @@ extension EMRServerless {
         public let initialCapacity: [String: InitialCapacityConfig]?
         /// The maximum capacity of the application. This is cumulative across all workers at any given point in time during the lifespan of the application is created. No new resources will be created once any one of the defined limits is hit.
         public let maximumCapacity: MaximumAllowedResources?
+        public let monitoringConfiguration: MonitoringConfiguration?
         /// The name of the application.
         public let name: String?
         /// The network configuration for customer VPC connectivity for the application.
         public let networkConfiguration: NetworkConfiguration?
-        /// The EMR release associated with the application.
+        /// The Amazon EMR release associated with the application.
         public let releaseLabel: String
+        /// The Configuration  specifications of an application. Each configuration consists of a classification and properties. You use this  parameter when creating or updating an application. To see the runtimeConfiguration object of an application, run the GetApplication API operation.
+        public let runtimeConfiguration: [Configuration]?
         /// The state of the application.
         public let state: ApplicationState
         /// The state details of the application.
@@ -145,7 +148,7 @@ extension EMRServerless {
         /// The specification applied to each worker type.
         public let workerTypeSpecifications: [String: WorkerTypeSpecification]?
 
-        public init(applicationId: String, architecture: Architecture? = nil, arn: String, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, createdAt: Date, imageConfiguration: ImageConfiguration? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, maximumCapacity: MaximumAllowedResources? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, state: ApplicationState, stateDetails: String? = nil, tags: [String: String]? = nil, type: String, updatedAt: Date, workerTypeSpecifications: [String: WorkerTypeSpecification]? = nil) {
+        public init(applicationId: String, architecture: Architecture? = nil, arn: String, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, createdAt: Date, imageConfiguration: ImageConfiguration? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, state: ApplicationState, stateDetails: String? = nil, tags: [String: String]? = nil, type: String, updatedAt: Date, workerTypeSpecifications: [String: WorkerTypeSpecification]? = nil) {
             self.applicationId = applicationId
             self.architecture = architecture
             self.arn = arn
@@ -155,9 +158,11 @@ extension EMRServerless {
             self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
             self.maximumCapacity = maximumCapacity
+            self.monitoringConfiguration = monitoringConfiguration
             self.name = name
             self.networkConfiguration = networkConfiguration
             self.releaseLabel = releaseLabel
+            self.runtimeConfiguration = runtimeConfiguration
             self.state = state
             self.stateDetails = stateDetails
             self.tags = tags
@@ -176,9 +181,11 @@ extension EMRServerless {
             case imageConfiguration = "imageConfiguration"
             case initialCapacity = "initialCapacity"
             case maximumCapacity = "maximumCapacity"
+            case monitoringConfiguration = "monitoringConfiguration"
             case name = "name"
             case networkConfiguration = "networkConfiguration"
             case releaseLabel = "releaseLabel"
+            case runtimeConfiguration = "runtimeConfiguration"
             case state = "state"
             case stateDetails = "stateDetails"
             case tags = "tags"
@@ -199,7 +206,7 @@ extension EMRServerless {
         public let id: String
         /// The name of the application.
         public let name: String?
-        /// The EMR release associated with the application.
+        /// The Amazon EMR release associated with the application.
         public let releaseLabel: String
         /// The state of the application.
         public let state: ApplicationState
@@ -312,6 +319,56 @@ extension EMRServerless {
         }
     }
 
+    public struct CloudWatchLoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Enables CloudWatch logging.
+        public let enabled: Bool
+        /// The Key Management Service (KMS) key ARN to encrypt the logs that you store in CloudWatch Logs.
+        public let encryptionKeyArn: String?
+        /// The name of the log group in Amazon CloudWatch Logs where you want to publish your logs.
+        public let logGroupName: String?
+        /// Prefix for the CloudWatch log stream name.
+        public let logStreamNamePrefix: String?
+        /// The types of logs that you want to publish to CloudWatch. If you don't specify any log types, driver STDOUT and STDERR logs will be published to CloudWatch Logs by default. For more information including the supported worker types for Hive and Spark, see Logging for EMR Serverless with CloudWatch.    Key Valid Values: SPARK_DRIVER, SPARK_EXECUTOR, HIVE_DRIVER, TEZ_TASK     Array Members Valid Values: STDOUT, STDERR, HIVE_LOG, TEZ_AM, SYSTEM_LOGS
+        public let logTypes: [String: [String]]?
+
+        public init(enabled: Bool, encryptionKeyArn: String? = nil, logGroupName: String? = nil, logStreamNamePrefix: String? = nil, logTypes: [String: [String]]? = nil) {
+            self.enabled = enabled
+            self.encryptionKeyArn = encryptionKeyArn
+            self.logGroupName = logGroupName
+            self.logStreamNamePrefix = logStreamNamePrefix
+            self.logTypes = logTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 2048)
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, min: 20)
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):kms:[a-zA-Z0-9\\-]*:(\\d{12})?:key\\/[a-zA-Z0-9-]+$")
+            try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
+            try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
+            try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
+            try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, max: 512)
+            try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, min: 1)
+            try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, pattern: "^[^:*]*$")
+            try self.logTypes?.forEach {
+                try validate($0.key, name: "logTypes.key", parent: name, max: 50)
+                try validate($0.key, name: "logTypes.key", parent: name, min: 1)
+                try validate($0.key, name: "logTypes.key", parent: name, pattern: "^[a-zA-Z]+[-_]*[a-zA-Z]+$")
+                try validate($0.value, name: "logTypes[\"\($0.key)\"]", parent: name, max: 5)
+                try validate($0.value, name: "logTypes[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.logTypes, name: "logTypes", parent: name, max: 4)
+            try self.validate(self.logTypes, name: "logTypes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+            case encryptionKeyArn = "encryptionKeyArn"
+            case logGroupName = "logGroupName"
+            case logStreamNamePrefix = "logStreamNamePrefix"
+            case logTypes = "logTypes"
+        }
+    }
+
     public struct Configuration: AWSEncodableShape & AWSDecodableShape {
         /// The classification within a configuration.
         public let classification: String
@@ -392,12 +449,16 @@ extension EMRServerless {
         public let initialCapacity: [String: InitialCapacityConfig]?
         /// The maximum capacity to allocate when the application is created. This is cumulative across all workers at any given point in time, not just when an application is created. No new resources will be created once any one of the defined limits is hit.
         public let maximumCapacity: MaximumAllowedResources?
+        /// The configuration setting for monitoring.
+        public let monitoringConfiguration: MonitoringConfiguration?
         /// The name of the application.
         public let name: String?
         /// The network configuration for customer VPC connectivity.
         public let networkConfiguration: NetworkConfiguration?
-        /// The EMR release associated with the application.
+        /// The Amazon EMR release associated with the application.
         public let releaseLabel: String
+        /// The Configuration  specifications to use when creating an application. Each configuration consists of a classification and properties. This configuration is applied to all the job runs submitted under the application.
+        public let runtimeConfiguration: [Configuration]?
         /// The tags assigned to the application.
         public let tags: [String: String]?
         /// The type of application you want to start, such as Spark or Hive.
@@ -405,7 +466,7 @@ extension EMRServerless {
         /// The key-value pairs that specify worker type to WorkerTypeSpecificationInput. This parameter must contain all valid worker types for a Spark or Hive application. Valid worker types include Driver and Executor for Spark applications and HiveDriver and TezTask for Hive applications. You can either set image details in this parameter for each worker type, or in imageConfiguration for all worker types.
         public let workerTypeSpecifications: [String: WorkerTypeSpecificationInput]?
 
-        public init(architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = CreateApplicationRequest.idempotencyToken(), imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, maximumCapacity: MaximumAllowedResources? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, tags: [String: String]? = nil, type: String, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
+        public init(architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = CreateApplicationRequest.idempotencyToken(), imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, tags: [String: String]? = nil, type: String, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
             self.architecture = architecture
             self.autoStartConfiguration = autoStartConfiguration
             self.autoStopConfiguration = autoStopConfiguration
@@ -413,9 +474,11 @@ extension EMRServerless {
             self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
             self.maximumCapacity = maximumCapacity
+            self.monitoringConfiguration = monitoringConfiguration
             self.name = name
             self.networkConfiguration = networkConfiguration
             self.releaseLabel = releaseLabel
+            self.runtimeConfiguration = runtimeConfiguration
             self.tags = tags
             self.type = type
             self.workerTypeSpecifications = workerTypeSpecifications
@@ -434,6 +497,7 @@ extension EMRServerless {
             }
             try self.validate(self.initialCapacity, name: "initialCapacity", parent: name, max: 10)
             try self.maximumCapacity?.validate(name: "\(name).maximumCapacity")
+            try self.monitoringConfiguration?.validate(name: "\(name).monitoringConfiguration")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9._/#-]+$")
@@ -441,6 +505,10 @@ extension EMRServerless {
             try self.validate(self.releaseLabel, name: "releaseLabel", parent: name, max: 64)
             try self.validate(self.releaseLabel, name: "releaseLabel", parent: name, min: 1)
             try self.validate(self.releaseLabel, name: "releaseLabel", parent: name, pattern: "^[A-Za-z0-9._/-]+$")
+            try self.runtimeConfiguration?.forEach {
+                try $0.validate(name: "\(name).runtimeConfiguration[]")
+            }
+            try self.validate(self.runtimeConfiguration, name: "runtimeConfiguration", parent: name, max: 100)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -467,9 +535,11 @@ extension EMRServerless {
             case imageConfiguration = "imageConfiguration"
             case initialCapacity = "initialCapacity"
             case maximumCapacity = "maximumCapacity"
+            case monitoringConfiguration = "monitoringConfiguration"
             case name = "name"
             case networkConfiguration = "networkConfiguration"
             case releaseLabel = "releaseLabel"
+            case runtimeConfiguration = "runtimeConfiguration"
             case tags = "tags"
             case type = "type"
             case workerTypeSpecifications = "workerTypeSpecifications"
@@ -735,7 +805,7 @@ extension EMRServerless {
         public let applicationId: String
         /// The execution role ARN of the job run.
         public let arn: String
-        /// The aggregate vCPU, memory, and storage that AWS has billed for the job run. The billed resources include a 1-minute minimum usage for workers, plus additional storage over 20 GB per worker. Note that billed resources do not include usage for idle pre-initialized workers.
+        /// The aggregate vCPU, memory, and storage that Amazon Web Services has billed for the job run. The billed resources include a 1-minute minimum usage for workers, plus additional storage over 20 GB per worker. Note that billed resources do not include usage for idle pre-initialized workers.
         public let billedResourceUtilization: ResourceUtilization?
         /// The configuration settings that are used to override default configuration.
         public let configurationOverrides: ConfigurationOverrides?
@@ -754,7 +824,7 @@ extension EMRServerless {
         /// The optional job run name. This doesn't have to be unique.
         public let name: String?
         public let networkConfiguration: NetworkConfiguration?
-        /// The EMR release associated with the application your job is running on.
+        /// The Amazon EMR release associated with the application your job is running on.
         public let releaseLabel: String
         /// The state of the job run.
         public let state: JobRunState
@@ -829,7 +899,7 @@ extension EMRServerless {
         public let id: String
         /// The optional job run name. This doesn't have to be unique.
         public let name: String?
-        /// The EMR release associated with the application your job is running on.
+        /// The Amazon EMR release associated with the application your job is running on.
         public let releaseLabel: String
         /// The state of the job run.
         public let state: JobRunState
@@ -1072,22 +1142,27 @@ extension EMRServerless {
     }
 
     public struct MonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon CloudWatch configuration for monitoring logs. You can configure your jobs to send log information to CloudWatch.
+        public let cloudWatchLoggingConfiguration: CloudWatchLoggingConfiguration?
         /// The managed log persistence configuration for a job run.
         public let managedPersistenceMonitoringConfiguration: ManagedPersistenceMonitoringConfiguration?
         /// The Amazon S3 configuration for monitoring log publishing.
         public let s3MonitoringConfiguration: S3MonitoringConfiguration?
 
-        public init(managedPersistenceMonitoringConfiguration: ManagedPersistenceMonitoringConfiguration? = nil, s3MonitoringConfiguration: S3MonitoringConfiguration? = nil) {
+        public init(cloudWatchLoggingConfiguration: CloudWatchLoggingConfiguration? = nil, managedPersistenceMonitoringConfiguration: ManagedPersistenceMonitoringConfiguration? = nil, s3MonitoringConfiguration: S3MonitoringConfiguration? = nil) {
+            self.cloudWatchLoggingConfiguration = cloudWatchLoggingConfiguration
             self.managedPersistenceMonitoringConfiguration = managedPersistenceMonitoringConfiguration
             self.s3MonitoringConfiguration = s3MonitoringConfiguration
         }
 
         public func validate(name: String) throws {
+            try self.cloudWatchLoggingConfiguration?.validate(name: "\(name).cloudWatchLoggingConfiguration")
             try self.managedPersistenceMonitoringConfiguration?.validate(name: "\(name).managedPersistenceMonitoringConfiguration")
             try self.s3MonitoringConfiguration?.validate(name: "\(name).s3MonitoringConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cloudWatchLoggingConfiguration = "cloudWatchLoggingConfiguration"
             case managedPersistenceMonitoringConfiguration = "managedPersistenceMonitoringConfiguration"
             case s3MonitoringConfiguration = "s3MonitoringConfiguration"
         }
@@ -1465,11 +1540,17 @@ extension EMRServerless {
         public let initialCapacity: [String: InitialCapacityConfig]?
         /// The maximum capacity to allocate when the application is updated. This is cumulative across all workers at any given point in time during the lifespan of the application. No new resources will be created once any one of the defined limits is hit.
         public let maximumCapacity: MaximumAllowedResources?
+        /// The configuration setting for monitoring.
+        public let monitoringConfiguration: MonitoringConfiguration?
         public let networkConfiguration: NetworkConfiguration?
+        /// The Amazon EMR release label for the application. You can change the release label to use a different release of Amazon EMR.
+        public let releaseLabel: String?
+        /// The Configuration  specifications to use when updating an application. Each configuration consists of a classification and properties. This configuration is applied across all the job runs submitted under the application.
+        public let runtimeConfiguration: [Configuration]?
         /// The key-value pairs that specify worker type to WorkerTypeSpecificationInput. This parameter must contain all valid worker types for a Spark or Hive application. Valid worker types include Driver and Executor for Spark applications and HiveDriver and TezTask for Hive applications. You can either set image details in this parameter for each worker type, or in imageConfiguration for all worker types.
         public let workerTypeSpecifications: [String: WorkerTypeSpecificationInput]?
 
-        public init(applicationId: String, architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = UpdateApplicationRequest.idempotencyToken(), imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, maximumCapacity: MaximumAllowedResources? = nil, networkConfiguration: NetworkConfiguration? = nil, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
+        public init(applicationId: String, architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = UpdateApplicationRequest.idempotencyToken(), imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String? = nil, runtimeConfiguration: [Configuration]? = nil, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
             self.applicationId = applicationId
             self.architecture = architecture
             self.autoStartConfiguration = autoStartConfiguration
@@ -1478,7 +1559,10 @@ extension EMRServerless {
             self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
             self.maximumCapacity = maximumCapacity
+            self.monitoringConfiguration = monitoringConfiguration
             self.networkConfiguration = networkConfiguration
+            self.releaseLabel = releaseLabel
+            self.runtimeConfiguration = runtimeConfiguration
             self.workerTypeSpecifications = workerTypeSpecifications
         }
 
@@ -1498,7 +1582,15 @@ extension EMRServerless {
             }
             try self.validate(self.initialCapacity, name: "initialCapacity", parent: name, max: 10)
             try self.maximumCapacity?.validate(name: "\(name).maximumCapacity")
+            try self.monitoringConfiguration?.validate(name: "\(name).monitoringConfiguration")
             try self.networkConfiguration?.validate(name: "\(name).networkConfiguration")
+            try self.validate(self.releaseLabel, name: "releaseLabel", parent: name, max: 64)
+            try self.validate(self.releaseLabel, name: "releaseLabel", parent: name, min: 1)
+            try self.validate(self.releaseLabel, name: "releaseLabel", parent: name, pattern: "^[A-Za-z0-9._/-]+$")
+            try self.runtimeConfiguration?.forEach {
+                try $0.validate(name: "\(name).runtimeConfiguration[]")
+            }
+            try self.validate(self.runtimeConfiguration, name: "runtimeConfiguration", parent: name, max: 100)
             try self.workerTypeSpecifications?.forEach {
                 try validate($0.key, name: "workerTypeSpecifications.key", parent: name, max: 50)
                 try validate($0.key, name: "workerTypeSpecifications.key", parent: name, min: 1)
@@ -1515,7 +1607,10 @@ extension EMRServerless {
             case imageConfiguration = "imageConfiguration"
             case initialCapacity = "initialCapacity"
             case maximumCapacity = "maximumCapacity"
+            case monitoringConfiguration = "monitoringConfiguration"
             case networkConfiguration = "networkConfiguration"
+            case releaseLabel = "releaseLabel"
+            case runtimeConfiguration = "runtimeConfiguration"
             case workerTypeSpecifications = "workerTypeSpecifications"
         }
     }

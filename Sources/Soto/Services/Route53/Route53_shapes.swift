@@ -77,6 +77,7 @@ extension Route53 {
         case euWest1 = "eu-west-1"
         case euWest2 = "eu-west-2"
         case euWest3 = "eu-west-3"
+        case ilCentral1 = "il-central-1"
         case meCentral1 = "me-central-1"
         case meSouth1 = "me-south-1"
         case saEast1 = "sa-east-1"
@@ -191,6 +192,7 @@ extension Route53 {
         case euWest1 = "eu-west-1"
         case euWest2 = "eu-west-2"
         case euWest3 = "eu-west-3"
+        case ilCentral1 = "il-central-1"
         case meCentral1 = "me-central-1"
         case meSouth1 = "me-south-1"
         case saEast1 = "sa-east-1"
@@ -243,6 +245,7 @@ extension Route53 {
         case euWest1 = "eu-west-1"
         case euWest2 = "eu-west-2"
         case euWest3 = "eu-west-3"
+        case ilCentral1 = "il-central-1"
         case meCentral1 = "me-central-1"
         case meSouth1 = "me-south-1"
         case saEast1 = "sa-east-1"
@@ -1122,7 +1125,10 @@ extension Route53 {
         public let callerReference: String
         /// If you want to associate a reusable delegation set with this hosted zone, the ID that
         /// 				Amazon Route 53 assigned to the reusable delegation set when you created it.
-        /// 			For more information about reusable delegation sets, see CreateReusableDelegationSet.
+        /// 			For more information about reusable delegation sets, see CreateReusableDelegationSet. If you are using a reusable delegation set to create a public hosted zone for a subdomain,
+        /// 			make sure that the parent hosted zone doesn't use one or more of the same name servers.
+        /// 			If you have overlapping nameservers, the operation will cause a
+        /// 				ConflictingDomainsExist error.
         public let delegationSetId: String?
         /// (Optional) A complex type that contains the following optional values:   For public and private hosted zones, an optional comment   For private hosted zones, an optional PrivateZone element   If you don't specify a comment or the PrivateZone element, omit
         /// 				HostedZoneConfig and the other elements.

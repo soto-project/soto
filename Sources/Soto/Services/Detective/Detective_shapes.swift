@@ -97,7 +97,7 @@ extension Detective {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]+$")
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, max: 64)
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, min: 1)
-            try self.validate(self.emailAddress, name: "emailAddress", parent: name, pattern: "^.+@(?:(?:(?!-)[A-Za-z0-9-]{1,62})?[A-Za-z0-9]{1}\\.)+[A-Za-z]{2,6}$")
+            try self.validate(self.emailAddress, name: "emailAddress", parent: name, pattern: "^.+@(?:(?:(?!-)[A-Za-z0-9-]{1,62})?[A-Za-z0-9]{1}\\.)+[A-Za-z]{2,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {

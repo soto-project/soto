@@ -135,6 +135,7 @@ extension Glue {
         case customJdbcCertString = "CUSTOM_JDBC_CERT_STRING"
         case encryptedKafkaClientKeyPassword = "ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD"
         case encryptedKafkaClientKeystorePassword = "ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD"
+        case encryptedKafkaSaslScramPassword = "ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD"
         case encryptedPassword = "ENCRYPTED_PASSWORD"
         case host = "HOST"
         case instanceId = "INSTANCE_ID"
@@ -149,6 +150,14 @@ extension Glue {
         case kafkaClientKeystore = "KAFKA_CLIENT_KEYSTORE"
         case kafkaClientKeystorePassword = "KAFKA_CLIENT_KEYSTORE_PASSWORD"
         case kafkaCustomCert = "KAFKA_CUSTOM_CERT"
+        case kafkaSaslGssapiKeytab = "KAFKA_SASL_GSSAPI_KEYTAB"
+        case kafkaSaslGssapiKrb5Conf = "KAFKA_SASL_GSSAPI_KRB5_CONF"
+        case kafkaSaslGssapiPrincipal = "KAFKA_SASL_GSSAPI_PRINCIPAL"
+        case kafkaSaslGssapiService = "KAFKA_SASL_GSSAPI_SERVICE"
+        case kafkaSaslMechanism = "KAFKA_SASL_MECHANISM"
+        case kafkaSaslScramPassword = "KAFKA_SASL_SCRAM_PASSWORD"
+        case kafkaSaslScramSecretsArn = "KAFKA_SASL_SCRAM_SECRETS_ARN"
+        case kafkaSaslScramUsername = "KAFKA_SASL_SCRAM_USERNAME"
         case kafkaSkipCustomCertValidation = "KAFKA_SKIP_CUSTOM_CERT_VALIDATION"
         case kafkaSslEnabled = "KAFKA_SSL_ENABLED"
         case password = "PASSWORD"
@@ -205,6 +214,13 @@ extension Glue {
         case absent = "ABSENT"
         case present = "PRESENT"
         case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CsvSerdeOption: String, CustomStringConvertible, Codable, Sendable {
+        case lazySimpleSerDe = "LazySimpleSerDe"
+        case none = "None"
+        case openCSVSerDe = "OpenCSVSerDe"
         public var description: String { return self.rawValue }
     }
 
@@ -447,6 +463,11 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum MetadataOperation: String, CustomStringConvertible, Codable, Sendable {
+        case create = "CREATE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NodeType: String, CustomStringConvertible, Codable, Sendable {
         case crawler = "CRAWLER"
         case job = "JOB"
@@ -498,6 +519,8 @@ extension Glue {
     public enum PermissionType: String, CustomStringConvertible, Codable, Sendable {
         case cellFilterPermission = "CELL_FILTER_PERMISSION"
         case columnPermission = "COLUMN_PERMISSION"
+        case nestedCellPermission = "NESTED_CELL_PERMISSION"
+        case nestedPermission = "NESTED_PERMISSION"
         public var description: String { return self.rawValue }
     }
 
@@ -631,6 +654,7 @@ extension Glue {
     public enum StartingPosition: String, CustomStringConvertible, Codable, Sendable {
         case earliest = "earliest"
         case latest = "latest"
+        case timestamp = "timestamp"
         case trimHorizon = "trim_horizon"
         public var description: String { return self.rawValue }
     }
@@ -1048,7 +1072,7 @@ extension Glue {
     }
 
     public struct AmazonRedshiftTarget: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the data of the Amazon Reshift target node.
+        /// Specifies the data of the Amazon Redshift target node.
         public let data: AmazonRedshiftNodeData?
         /// The nodes that are inputs to the data target.
         public let inputs: [String]?
@@ -2839,6 +2863,8 @@ extension Glue {
         public let postgreSQLCatalogSource: PostgreSQLCatalogSource?
         /// Specifies a target that uses Postgres SQL.
         public let postgreSQLCatalogTarget: PostgreSQLCatalogTarget?
+        /// Specifies a Glue DataBrew recipe node.
+        public let recipe: Recipe?
         /// Specifies an Amazon Redshift data store.
         public let redshiftSource: RedshiftSource?
         /// Specifies a target that uses Amazon Redshift.
@@ -2881,6 +2907,10 @@ extension Glue {
         public let selectFields: SelectFields?
         /// Specifies a transform that chooses one DynamicFrame from a collection of DynamicFrames. The output is the selected DynamicFrame
         public let selectFromCollection: SelectFromCollection?
+        /// Specifies a Snowflake data source.
+        public let snowflakeSource: SnowflakeSource?
+        /// Specifies a target that writes to a Snowflake data source.
+        public let snowflakeTarget: SnowflakeTarget?
         /// Specifies a connector to an Apache Spark data source.
         public let sparkConnectorSource: SparkConnectorSource?
         /// Specifies a target that uses an Apache Spark connector.
@@ -2894,7 +2924,7 @@ extension Glue {
         /// Specifies a transform that combines the rows from two or more datasets into a single result.
         public let union: Union?
 
-        public init(aggregate: Aggregate? = nil, amazonRedshiftSource: AmazonRedshiftSource? = nil, amazonRedshiftTarget: AmazonRedshiftTarget? = nil, applyMapping: ApplyMapping? = nil, athenaConnectorSource: AthenaConnectorSource? = nil, catalogDeltaSource: CatalogDeltaSource? = nil, catalogHudiSource: CatalogHudiSource? = nil, catalogKafkaSource: CatalogKafkaSource? = nil, catalogKinesisSource: CatalogKinesisSource? = nil, catalogSource: CatalogSource? = nil, catalogTarget: BasicCatalogTarget? = nil, customCode: CustomCode? = nil, directJDBCSource: DirectJDBCSource? = nil, directKafkaSource: DirectKafkaSource? = nil, directKinesisSource: DirectKinesisSource? = nil, dropDuplicates: DropDuplicates? = nil, dropFields: DropFields? = nil, dropNullFields: DropNullFields? = nil, dynamicTransform: DynamicTransform? = nil, dynamoDBCatalogSource: DynamoDBCatalogSource? = nil, evaluateDataQuality: EvaluateDataQuality? = nil, evaluateDataQualityMultiFrame: EvaluateDataQualityMultiFrame? = nil, fillMissingValues: FillMissingValues? = nil, filter: Filter? = nil, governedCatalogSource: GovernedCatalogSource? = nil, governedCatalogTarget: GovernedCatalogTarget? = nil, jdbcConnectorSource: JDBCConnectorSource? = nil, jdbcConnectorTarget: JDBCConnectorTarget? = nil, join: Join? = nil, merge: Merge? = nil, microsoftSQLServerCatalogSource: MicrosoftSQLServerCatalogSource? = nil, microsoftSQLServerCatalogTarget: MicrosoftSQLServerCatalogTarget? = nil, mySQLCatalogSource: MySQLCatalogSource? = nil, mySQLCatalogTarget: MySQLCatalogTarget? = nil, oracleSQLCatalogSource: OracleSQLCatalogSource? = nil, oracleSQLCatalogTarget: OracleSQLCatalogTarget? = nil, piiDetection: PIIDetection? = nil, postgreSQLCatalogSource: PostgreSQLCatalogSource? = nil, postgreSQLCatalogTarget: PostgreSQLCatalogTarget? = nil, redshiftSource: RedshiftSource? = nil, redshiftTarget: RedshiftTarget? = nil, relationalCatalogSource: RelationalCatalogSource? = nil, renameField: RenameField? = nil, s3CatalogDeltaSource: S3CatalogDeltaSource? = nil, s3CatalogHudiSource: S3CatalogHudiSource? = nil, s3CatalogSource: S3CatalogSource? = nil, s3CatalogTarget: S3CatalogTarget? = nil, s3CsvSource: S3CsvSource? = nil, s3DeltaCatalogTarget: S3DeltaCatalogTarget? = nil, s3DeltaDirectTarget: S3DeltaDirectTarget? = nil, s3DeltaSource: S3DeltaSource? = nil, s3DirectTarget: S3DirectTarget? = nil, s3GlueParquetTarget: S3GlueParquetTarget? = nil, s3HudiCatalogTarget: S3HudiCatalogTarget? = nil, s3HudiDirectTarget: S3HudiDirectTarget? = nil, s3HudiSource: S3HudiSource? = nil, s3JsonSource: S3JsonSource? = nil, s3ParquetSource: S3ParquetSource? = nil, selectFields: SelectFields? = nil, selectFromCollection: SelectFromCollection? = nil, sparkConnectorSource: SparkConnectorSource? = nil, sparkConnectorTarget: SparkConnectorTarget? = nil, sparkSQL: SparkSQL? = nil, spigot: Spigot? = nil, splitFields: SplitFields? = nil, union: Union? = nil) {
+        public init(aggregate: Aggregate? = nil, amazonRedshiftSource: AmazonRedshiftSource? = nil, amazonRedshiftTarget: AmazonRedshiftTarget? = nil, applyMapping: ApplyMapping? = nil, athenaConnectorSource: AthenaConnectorSource? = nil, catalogDeltaSource: CatalogDeltaSource? = nil, catalogHudiSource: CatalogHudiSource? = nil, catalogKafkaSource: CatalogKafkaSource? = nil, catalogKinesisSource: CatalogKinesisSource? = nil, catalogSource: CatalogSource? = nil, catalogTarget: BasicCatalogTarget? = nil, customCode: CustomCode? = nil, directJDBCSource: DirectJDBCSource? = nil, directKafkaSource: DirectKafkaSource? = nil, directKinesisSource: DirectKinesisSource? = nil, dropDuplicates: DropDuplicates? = nil, dropFields: DropFields? = nil, dropNullFields: DropNullFields? = nil, dynamicTransform: DynamicTransform? = nil, dynamoDBCatalogSource: DynamoDBCatalogSource? = nil, evaluateDataQuality: EvaluateDataQuality? = nil, evaluateDataQualityMultiFrame: EvaluateDataQualityMultiFrame? = nil, fillMissingValues: FillMissingValues? = nil, filter: Filter? = nil, governedCatalogSource: GovernedCatalogSource? = nil, governedCatalogTarget: GovernedCatalogTarget? = nil, jdbcConnectorSource: JDBCConnectorSource? = nil, jdbcConnectorTarget: JDBCConnectorTarget? = nil, join: Join? = nil, merge: Merge? = nil, microsoftSQLServerCatalogSource: MicrosoftSQLServerCatalogSource? = nil, microsoftSQLServerCatalogTarget: MicrosoftSQLServerCatalogTarget? = nil, mySQLCatalogSource: MySQLCatalogSource? = nil, mySQLCatalogTarget: MySQLCatalogTarget? = nil, oracleSQLCatalogSource: OracleSQLCatalogSource? = nil, oracleSQLCatalogTarget: OracleSQLCatalogTarget? = nil, piiDetection: PIIDetection? = nil, postgreSQLCatalogSource: PostgreSQLCatalogSource? = nil, postgreSQLCatalogTarget: PostgreSQLCatalogTarget? = nil, recipe: Recipe? = nil, redshiftSource: RedshiftSource? = nil, redshiftTarget: RedshiftTarget? = nil, relationalCatalogSource: RelationalCatalogSource? = nil, renameField: RenameField? = nil, s3CatalogDeltaSource: S3CatalogDeltaSource? = nil, s3CatalogHudiSource: S3CatalogHudiSource? = nil, s3CatalogSource: S3CatalogSource? = nil, s3CatalogTarget: S3CatalogTarget? = nil, s3CsvSource: S3CsvSource? = nil, s3DeltaCatalogTarget: S3DeltaCatalogTarget? = nil, s3DeltaDirectTarget: S3DeltaDirectTarget? = nil, s3DeltaSource: S3DeltaSource? = nil, s3DirectTarget: S3DirectTarget? = nil, s3GlueParquetTarget: S3GlueParquetTarget? = nil, s3HudiCatalogTarget: S3HudiCatalogTarget? = nil, s3HudiDirectTarget: S3HudiDirectTarget? = nil, s3HudiSource: S3HudiSource? = nil, s3JsonSource: S3JsonSource? = nil, s3ParquetSource: S3ParquetSource? = nil, selectFields: SelectFields? = nil, selectFromCollection: SelectFromCollection? = nil, snowflakeSource: SnowflakeSource? = nil, snowflakeTarget: SnowflakeTarget? = nil, sparkConnectorSource: SparkConnectorSource? = nil, sparkConnectorTarget: SparkConnectorTarget? = nil, sparkSQL: SparkSQL? = nil, spigot: Spigot? = nil, splitFields: SplitFields? = nil, union: Union? = nil) {
             self.aggregate = aggregate
             self.amazonRedshiftSource = amazonRedshiftSource
             self.amazonRedshiftTarget = amazonRedshiftTarget
@@ -2934,6 +2964,7 @@ extension Glue {
             self.piiDetection = piiDetection
             self.postgreSQLCatalogSource = postgreSQLCatalogSource
             self.postgreSQLCatalogTarget = postgreSQLCatalogTarget
+            self.recipe = recipe
             self.redshiftSource = redshiftSource
             self.redshiftTarget = redshiftTarget
             self.relationalCatalogSource = relationalCatalogSource
@@ -2955,6 +2986,8 @@ extension Glue {
             self.s3ParquetSource = s3ParquetSource
             self.selectFields = selectFields
             self.selectFromCollection = selectFromCollection
+            self.snowflakeSource = snowflakeSource
+            self.snowflakeTarget = snowflakeTarget
             self.sparkConnectorSource = sparkConnectorSource
             self.sparkConnectorTarget = sparkConnectorTarget
             self.sparkSQL = sparkSQL
@@ -3003,6 +3036,7 @@ extension Glue {
             try self.piiDetection?.validate(name: "\(name).piiDetection")
             try self.postgreSQLCatalogSource?.validate(name: "\(name).postgreSQLCatalogSource")
             try self.postgreSQLCatalogTarget?.validate(name: "\(name).postgreSQLCatalogTarget")
+            try self.recipe?.validate(name: "\(name).recipe")
             try self.redshiftSource?.validate(name: "\(name).redshiftSource")
             try self.redshiftTarget?.validate(name: "\(name).redshiftTarget")
             try self.relationalCatalogSource?.validate(name: "\(name).relationalCatalogSource")
@@ -3024,6 +3058,8 @@ extension Glue {
             try self.s3ParquetSource?.validate(name: "\(name).s3ParquetSource")
             try self.selectFields?.validate(name: "\(name).selectFields")
             try self.selectFromCollection?.validate(name: "\(name).selectFromCollection")
+            try self.snowflakeSource?.validate(name: "\(name).snowflakeSource")
+            try self.snowflakeTarget?.validate(name: "\(name).snowflakeTarget")
             try self.sparkConnectorSource?.validate(name: "\(name).sparkConnectorSource")
             try self.sparkConnectorTarget?.validate(name: "\(name).sparkConnectorTarget")
             try self.sparkSQL?.validate(name: "\(name).sparkSQL")
@@ -3072,6 +3108,7 @@ extension Glue {
             case piiDetection = "PIIDetection"
             case postgreSQLCatalogSource = "PostgreSQLCatalogSource"
             case postgreSQLCatalogTarget = "PostgreSQLCatalogTarget"
+            case recipe = "Recipe"
             case redshiftSource = "RedshiftSource"
             case redshiftTarget = "RedshiftTarget"
             case relationalCatalogSource = "RelationalCatalogSource"
@@ -3093,6 +3130,8 @@ extension Glue {
             case s3ParquetSource = "S3ParquetSource"
             case selectFields = "SelectFields"
             case selectFromCollection = "SelectFromCollection"
+            case snowflakeSource = "SnowflakeSource"
+            case snowflakeTarget = "SnowflakeTarget"
             case sparkConnectorSource = "SparkConnectorSource"
             case sparkConnectorTarget = "SparkConnectorTarget"
             case sparkSQL = "SparkSQL"
@@ -3443,7 +3482,7 @@ extension Glue {
     }
 
     public struct Connection: AWSDecodableShape {
-        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME -  The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for connecting to a JDBC data source.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.    CONNECTION_URL - The URL for connecting to a general (non-JDBC) data source.    SECRET_ID - The secret ID used for the secret manager of credentials.    CONNECTOR_URL - The connector URL for a MARKETPLACE or CUSTOM connection.    CONNECTOR_TYPE - The connector type for a MARKETPLACE or CUSTOM connection.    CONNECTOR_CLASS_NAME - The connector class name for a MARKETPLACE or CUSTOM connection.    KAFKA_BOOTSTRAP_SERVERS - A comma-separated list of host and port pairs that are the addresses of the Apache Kafka brokers in a Kafka cluster to which a Kafka client will connect to and bootstrap itself.    KAFKA_SSL_ENABLED - Whether to enable or disable SSL on an Apache Kafka connection. Default value is "true".    KAFKA_CUSTOM_CERT - The Amazon S3 URL for the private CA cert file (.pem format). The default is an empty string.    KAFKA_SKIP_CUSTOM_CERT_VALIDATION - Whether to skip the validation of the CA cert file or not. Glue validates for three algorithms: SHA256withRSA, SHA384withRSA and SHA512withRSA. Default value is "false".    KAFKA_CLIENT_KEYSTORE - The Amazon S3 location of the client keystore file for Kafka client side authentication (Optional).    KAFKA_CLIENT_KEYSTORE_PASSWORD - The password to access the provided keystore (Optional).    KAFKA_CLIENT_KEY_PASSWORD - A keystore can consist of multiple keys, so this is the password to access the client key to be used with the Kafka server side key (Optional).    ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD - The encrypted version of the Kafka client keystore password (if the user has the Glue encrypt passwords setting selected).    ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD - The encrypted version of the Kafka client key password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_MECHANISM - "SCRAM-SHA-512", "GSSAPI", or "AWS_MSK_IAM". These are the supported SASL Mechanisms.    KAFKA_SASL_SCRAM_USERNAME - A plaintext username used to authenticate with the "SCRAM-SHA-512" mechanism.    KAFKA_SASL_SCRAM_PASSWORD - A plaintext password used to authenticate with the "SCRAM-SHA-512" mechanism.    ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD - The encrypted version of the Kafka SASL SCRAM password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_GSSAPI_KEYTAB - The S3 location of a Kerberos keytab file. A keytab stores long-term keys for one or more principals. For more information, see MIT Kerberos Documentation: Keytab.    KAFKA_SASL_GSSAPI_KRB5_CONF - The S3 location of a Kerberos krb5.conf file. A krb5.conf stores Kerberos configuration information, such as the location of the KDC server. For more information, see MIT Kerberos Documentation: krb5.conf.    KAFKA_SASL_GSSAPI_SERVICE - The Kerberos service name, as set with sasl.kerberos.service.name in your Kafka Configuration.    KAFKA_SASL_GSSAPI_PRINCIPAL - The name of the Kerberos princial used by Glue. For more information, see Kafka Documentation: Configuring Kafka Brokers.
+        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME -  The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for connecting to a JDBC data source.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.    CONNECTION_URL - The URL for connecting to a general (non-JDBC) data source.    SECRET_ID - The secret ID used for the secret manager of credentials.    CONNECTOR_URL - The connector URL for a MARKETPLACE or CUSTOM connection.    CONNECTOR_TYPE - The connector type for a MARKETPLACE or CUSTOM connection.    CONNECTOR_CLASS_NAME - The connector class name for a MARKETPLACE or CUSTOM connection.    KAFKA_BOOTSTRAP_SERVERS - A comma-separated list of host and port pairs that are the addresses of the Apache Kafka brokers in a Kafka cluster to which a Kafka client will connect to and bootstrap itself.    KAFKA_SSL_ENABLED - Whether to enable or disable SSL on an Apache Kafka connection. Default value is "true".    KAFKA_CUSTOM_CERT - The Amazon S3 URL for the private CA cert file (.pem format). The default is an empty string.    KAFKA_SKIP_CUSTOM_CERT_VALIDATION - Whether to skip the validation of the CA cert file or not. Glue validates for three algorithms: SHA256withRSA, SHA384withRSA and SHA512withRSA. Default value is "false".    KAFKA_CLIENT_KEYSTORE - The Amazon S3 location of the client keystore file for Kafka client side authentication (Optional).    KAFKA_CLIENT_KEYSTORE_PASSWORD - The password to access the provided keystore (Optional).    KAFKA_CLIENT_KEY_PASSWORD - A keystore can consist of multiple keys, so this is the password to access the client key to be used with the Kafka server side key (Optional).    ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD - The encrypted version of the Kafka client keystore password (if the user has the Glue encrypt passwords setting selected).    ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD - The encrypted version of the Kafka client key password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_MECHANISM - "SCRAM-SHA-512", "GSSAPI", or "AWS_MSK_IAM". These are the supported SASL Mechanisms.    KAFKA_SASL_SCRAM_USERNAME - A plaintext username used to authenticate with the "SCRAM-SHA-512" mechanism.    KAFKA_SASL_SCRAM_PASSWORD - A plaintext password used to authenticate with the "SCRAM-SHA-512" mechanism.    ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD - The encrypted version of the Kafka SASL SCRAM password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_SCRAM_SECRETS_ARN - The Amazon Resource Name of a secret in Amazon Web Services Secrets Manager.    KAFKA_SASL_GSSAPI_KEYTAB - The S3 location of a Kerberos keytab file. A keytab stores long-term keys for one or more principals. For more information, see MIT Kerberos Documentation: Keytab.    KAFKA_SASL_GSSAPI_KRB5_CONF - The S3 location of a Kerberos krb5.conf file. A krb5.conf stores Kerberos configuration information, such as the location of the KDC server. For more information, see MIT Kerberos Documentation: krb5.conf.    KAFKA_SASL_GSSAPI_SERVICE - The Kerberos service name, as set with sasl.kerberos.service.name in your Kafka Configuration.    KAFKA_SASL_GSSAPI_PRINCIPAL - The name of the Kerberos princial used by Glue. For more information, see Kafka Documentation: Configuring Kafka Brokers.
         public let connectionProperties: [ConnectionPropertyKey: String]?
         /// The type of the connection. Currently, SFTP is not supported.
         public let connectionType: ConnectionType?
@@ -3807,6 +3846,10 @@ extension Glue {
         public let deltaTargets: [DeltaTarget]?
         /// Specifies Amazon DynamoDB targets.
         public let dynamoDBTargets: [DynamoDBTarget]?
+        /// Specifies Apache Hudi data store targets.
+        public let hudiTargets: [HudiTarget]?
+        /// Specifies Apache Iceberg data store targets.
+        public let icebergTargets: [IcebergTarget]?
         /// Specifies JDBC targets.
         public let jdbcTargets: [JdbcTarget]?
         /// Specifies Amazon DocumentDB or MongoDB targets.
@@ -3814,10 +3857,12 @@ extension Glue {
         /// Specifies Amazon Simple Storage Service (Amazon S3) targets.
         public let s3Targets: [S3Target]?
 
-        public init(catalogTargets: [CatalogTarget]? = nil, deltaTargets: [DeltaTarget]? = nil, dynamoDBTargets: [DynamoDBTarget]? = nil, jdbcTargets: [JdbcTarget]? = nil, mongoDBTargets: [MongoDBTarget]? = nil, s3Targets: [S3Target]? = nil) {
+        public init(catalogTargets: [CatalogTarget]? = nil, deltaTargets: [DeltaTarget]? = nil, dynamoDBTargets: [DynamoDBTarget]? = nil, hudiTargets: [HudiTarget]? = nil, icebergTargets: [IcebergTarget]? = nil, jdbcTargets: [JdbcTarget]? = nil, mongoDBTargets: [MongoDBTarget]? = nil, s3Targets: [S3Target]? = nil) {
             self.catalogTargets = catalogTargets
             self.deltaTargets = deltaTargets
             self.dynamoDBTargets = dynamoDBTargets
+            self.hudiTargets = hudiTargets
+            self.icebergTargets = icebergTargets
             self.jdbcTargets = jdbcTargets
             self.mongoDBTargets = mongoDBTargets
             self.s3Targets = s3Targets
@@ -3833,6 +3878,8 @@ extension Glue {
             case catalogTargets = "CatalogTargets"
             case deltaTargets = "DeltaTargets"
             case dynamoDBTargets = "DynamoDBTargets"
+            case hudiTargets = "HudiTargets"
+            case icebergTargets = "IcebergTargets"
             case jdbcTargets = "JdbcTargets"
             case mongoDBTargets = "MongoDBTargets"
             case s3Targets = "S3Targets"
@@ -4104,8 +4151,10 @@ extension Glue {
         public let name: String
         /// A custom symbol to denote what combines content into a single column value. Must be different from the column delimiter.
         public let quoteSymbol: String?
+        /// Sets the SerDe for processing CSV in the classifier, which will be applied in the Data Catalog. Valid values are OpenCSVSerDe, LazySimpleSerDe, and None. You can specify the None value when you want the crawler to do the detection.
+        public let serde: CsvSerdeOption?
 
-        public init(allowSingleColumn: Bool? = nil, containsHeader: CsvHeaderOption? = nil, customDatatypeConfigured: Bool? = nil, customDatatypes: [String]? = nil, delimiter: String? = nil, disableValueTrimming: Bool? = nil, header: [String]? = nil, name: String, quoteSymbol: String? = nil) {
+        public init(allowSingleColumn: Bool? = nil, containsHeader: CsvHeaderOption? = nil, customDatatypeConfigured: Bool? = nil, customDatatypes: [String]? = nil, delimiter: String? = nil, disableValueTrimming: Bool? = nil, header: [String]? = nil, name: String, quoteSymbol: String? = nil, serde: CsvSerdeOption? = nil) {
             self.allowSingleColumn = allowSingleColumn
             self.containsHeader = containsHeader
             self.customDatatypeConfigured = customDatatypeConfigured
@@ -4115,6 +4164,7 @@ extension Glue {
             self.header = header
             self.name = name
             self.quoteSymbol = quoteSymbol
+            self.serde = serde
         }
 
         public func validate(name: String) throws {
@@ -4149,6 +4199,7 @@ extension Glue {
             case header = "Header"
             case name = "Name"
             case quoteSymbol = "QuoteSymbol"
+            case serde = "Serde"
         }
     }
 
@@ -4567,7 +4618,7 @@ extension Glue {
         public let tags: [String: String]?
         /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPU, 64 GB of m emory, 128 GB disk), and provides up to 8 Ray workers based on the autoscaler.
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
 
         public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
@@ -5190,7 +5241,7 @@ extension Glue {
         public let tags: [String: String]?
         ///  The number of minutes before session times out. Default for Spark ETL jobs is 48 hours (2880 minutes), the maximum session lifetime for this job type. Consult the documentation for other job types.
         public let timeout: Int?
-        /// The type of predefined worker that is allocated to use for the session. Accepts a value of Standard, G.1X, G.2X, or G.025X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, or G.8X for Spark jobs. Accepts the value Z.2X for Ray notebooks.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
 
         public init(command: SessionCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, glueVersion: String? = nil, id: String, idleTimeout: Int? = nil, maxCapacity: Double? = nil, numberOfWorkers: Int? = nil, requestOrigin: String? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
@@ -5285,6 +5336,8 @@ extension Glue {
         public let catalogId: String?
         /// The catalog database in which to create the new table. For Hive compatibility, this name is entirely lowercase.
         public let databaseName: String
+        /// Specifies an OpenTableFormatInput structure when creating an open format table.
+        public let openTableFormatInput: OpenTableFormatInput?
         /// A list of partition indexes, PartitionIndex structures, to create in the table.
         public let partitionIndexes: [PartitionIndex]?
         /// The TableInput object that defines the metadata table to create in the catalog.
@@ -5292,9 +5345,10 @@ extension Glue {
         /// The ID of the transaction.
         public let transactionId: String?
 
-        public init(catalogId: String? = nil, databaseName: String, partitionIndexes: [PartitionIndex]? = nil, tableInput: TableInput, transactionId: String? = nil) {
+        public init(catalogId: String? = nil, databaseName: String, openTableFormatInput: OpenTableFormatInput? = nil, partitionIndexes: [PartitionIndex]? = nil, tableInput: TableInput, transactionId: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
+            self.openTableFormatInput = openTableFormatInput
             self.partitionIndexes = partitionIndexes
             self.tableInput = tableInput
             self.transactionId = transactionId
@@ -5307,6 +5361,7 @@ extension Glue {
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.openTableFormatInput?.validate(name: "\(name).openTableFormatInput")
             try self.partitionIndexes?.forEach {
                 try $0.validate(name: "\(name).partitionIndexes[]")
             }
@@ -5320,6 +5375,7 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
+            case openTableFormatInput = "OpenTableFormatInput"
             case partitionIndexes = "PartitionIndexes"
             case tableInput = "TableInput"
             case transactionId = "TransactionId"
@@ -5558,10 +5614,12 @@ extension Glue {
         public let name: String
         /// A custom symbol to denote what combines content into a single column value. It must be different from the column delimiter.
         public let quoteSymbol: String?
+        /// Sets the SerDe for processing CSV in the classifier, which will be applied in the Data Catalog. Valid values are OpenCSVSerDe, LazySimpleSerDe, and None. You can specify the None value when you want the crawler to do the detection.
+        public let serde: CsvSerdeOption?
         /// The version of this classifier.
         public let version: Int64?
 
-        public init(allowSingleColumn: Bool? = nil, containsHeader: CsvHeaderOption? = nil, creationTime: Date? = nil, customDatatypeConfigured: Bool? = nil, customDatatypes: [String]? = nil, delimiter: String? = nil, disableValueTrimming: Bool? = nil, header: [String]? = nil, lastUpdated: Date? = nil, name: String, quoteSymbol: String? = nil, version: Int64? = nil) {
+        public init(allowSingleColumn: Bool? = nil, containsHeader: CsvHeaderOption? = nil, creationTime: Date? = nil, customDatatypeConfigured: Bool? = nil, customDatatypes: [String]? = nil, delimiter: String? = nil, disableValueTrimming: Bool? = nil, header: [String]? = nil, lastUpdated: Date? = nil, name: String, quoteSymbol: String? = nil, serde: CsvSerdeOption? = nil, version: Int64? = nil) {
             self.allowSingleColumn = allowSingleColumn
             self.containsHeader = containsHeader
             self.creationTime = creationTime
@@ -5573,6 +5631,7 @@ extension Glue {
             self.lastUpdated = lastUpdated
             self.name = name
             self.quoteSymbol = quoteSymbol
+            self.serde = serde
             self.version = version
         }
 
@@ -5588,6 +5647,7 @@ extension Glue {
             case lastUpdated = "LastUpdated"
             case name = "Name"
             case quoteSymbol = "QuoteSymbol"
+            case serde = "Serde"
             case version = "Version"
         }
     }
@@ -11810,6 +11870,79 @@ extension Glue {
         }
     }
 
+    public struct HudiTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the connection to use to connect to the Hudi target. If your Hudi files are stored in buckets that require VPC authorization, you can set their connection properties here.
+        public let connectionName: String?
+        /// A list of glob patterns used to exclude from the crawl. For more information, see Catalog Tables with a Crawler.
+        public let exclusions: [String]?
+        /// The maximum depth of Amazon S3 paths that the crawler can traverse to discover the Hudi metadata folder in your Amazon S3 path. Used to limit the crawler run time.
+        public let maximumTraversalDepth: Int?
+        /// An array of Amazon S3 location strings for Hudi, each indicating the root folder with which the metadata files for a Hudi table resides. The Hudi folder may be located in a child folder of the root folder. The crawler will scan all folders underneath a path for a Hudi folder.
+        public let paths: [String]?
+
+        public init(connectionName: String? = nil, exclusions: [String]? = nil, maximumTraversalDepth: Int? = nil, paths: [String]? = nil) {
+            self.connectionName = connectionName
+            self.exclusions = exclusions
+            self.maximumTraversalDepth = maximumTraversalDepth
+            self.paths = paths
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionName = "ConnectionName"
+            case exclusions = "Exclusions"
+            case maximumTraversalDepth = "MaximumTraversalDepth"
+            case paths = "Paths"
+        }
+    }
+
+    public struct IcebergInput: AWSEncodableShape {
+        /// A required metadata operation. Can only be set to CREATE.
+        public let metadataOperation: MetadataOperation
+        /// The table version for the Iceberg table. Defaults to 2.
+        public let version: String?
+
+        public init(metadataOperation: MetadataOperation, version: String? = nil) {
+            self.metadataOperation = metadataOperation
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.version, name: "version", parent: name, max: 255)
+            try self.validate(self.version, name: "version", parent: name, min: 1)
+            try self.validate(self.version, name: "version", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataOperation = "MetadataOperation"
+            case version = "Version"
+        }
+    }
+
+    public struct IcebergTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the connection to use to connect to the Iceberg target.
+        public let connectionName: String?
+        /// A list of glob patterns used to exclude from the crawl. For more information, see Catalog Tables with a Crawler.
+        public let exclusions: [String]?
+        /// The maximum depth of Amazon S3 paths that the crawler can traverse to discover the Iceberg metadata folder in your Amazon S3 path. Used to limit the crawler run time.
+        public let maximumTraversalDepth: Int?
+        /// One or more Amazon S3 paths that contains Iceberg metadata folders as s3://bucket/prefix.
+        public let paths: [String]?
+
+        public init(connectionName: String? = nil, exclusions: [String]? = nil, maximumTraversalDepth: Int? = nil, paths: [String]? = nil) {
+            self.connectionName = connectionName
+            self.exclusions = exclusions
+            self.maximumTraversalDepth = maximumTraversalDepth
+            self.paths = paths
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionName = "ConnectionName"
+            case exclusions = "Exclusions"
+            case maximumTraversalDepth = "MaximumTraversalDepth"
+            case paths = "Paths"
+        }
+    }
+
     public struct ImportCatalogToGlueRequest: AWSEncodableShape {
         /// The ID of the catalog to import. Currently, this should be the Amazon Web Services account ID.
         public let catalogId: String?
@@ -12088,7 +12221,7 @@ extension Glue {
         public let sourceControlDetails: SourceControlDetails?
         /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, G.4X, G.8X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPU, 64 GB of memory, 256 GB disk), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPU, 128 GB of memory, 512 GB disk), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPU, 64 GB of m emory, 128 GB disk), and provides a default of 8 Ray workers (1 per vCPU).
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
 
         public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
@@ -12321,7 +12454,7 @@ extension Glue {
         public let timeout: Int?
         /// The name of the trigger that started this job run.
         public let triggerName: String?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPU, 64 GB of m emory, 128 GB disk), and provides up to 8 Ray workers (one per vCPU) based on the autoscaler.
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
 
         public init(arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionClass: ExecutionClass? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
@@ -12446,7 +12579,7 @@ extension Glue {
         public let sourceControlDetails: SourceControlDetails?
         /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPU, 64 GB of m emory, 128 GB disk), and provides up to 8 Ray workers based on the autoscaler.
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
 
         public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
@@ -12661,12 +12794,15 @@ extension Glue {
         public let securityProtocol: String?
         /// The starting position in the Kafka topic to read data from. The possible values are "earliest" or "latest". The default value is "latest".
         public let startingOffsets: String?
+        /// The timestamp of the record in the Kafka topic to start reading data from. The possible values are a timestamp string in UTC format of the pattern yyyy-mm-ddTHH:MM:SSZ (where Z represents a UTC timezone offset with a +/-. For example: "2023-04-04T08:00:00+08:00").  Only one of StartingTimestamp or StartingOffsets must be set.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startingTimestamp: Date?
         /// A Java regex string that identifies the topic list to subscribe to. You must specify at least one of "topicName", "assign" or "subscribePattern".
         public let subscribePattern: String?
         /// The topic name as specified in Apache Kafka. You must specify at least one of "topicName", "assign" or "subscribePattern".
         public let topicName: String?
 
-        public init(addRecordTimestamp: String? = nil, assign: String? = nil, bootstrapServers: String? = nil, classification: String? = nil, connectionName: String? = nil, delimiter: String? = nil, emitConsumerLagMetrics: String? = nil, endingOffsets: String? = nil, includeHeaders: Bool? = nil, maxOffsetsPerTrigger: Int64? = nil, minPartitions: Int? = nil, numRetries: Int? = nil, pollTimeoutMs: Int64? = nil, retryIntervalMs: Int64? = nil, securityProtocol: String? = nil, startingOffsets: String? = nil, subscribePattern: String? = nil, topicName: String? = nil) {
+        public init(addRecordTimestamp: String? = nil, assign: String? = nil, bootstrapServers: String? = nil, classification: String? = nil, connectionName: String? = nil, delimiter: String? = nil, emitConsumerLagMetrics: String? = nil, endingOffsets: String? = nil, includeHeaders: Bool? = nil, maxOffsetsPerTrigger: Int64? = nil, minPartitions: Int? = nil, numRetries: Int? = nil, pollTimeoutMs: Int64? = nil, retryIntervalMs: Int64? = nil, securityProtocol: String? = nil, startingOffsets: String? = nil, startingTimestamp: Date? = nil, subscribePattern: String? = nil, topicName: String? = nil) {
             self.addRecordTimestamp = addRecordTimestamp
             self.assign = assign
             self.bootstrapServers = bootstrapServers
@@ -12683,6 +12819,7 @@ extension Glue {
             self.retryIntervalMs = retryIntervalMs
             self.securityProtocol = securityProtocol
             self.startingOffsets = startingOffsets
+            self.startingTimestamp = startingTimestamp
             self.subscribePattern = subscribePattern
             self.topicName = topicName
         }
@@ -12724,6 +12861,7 @@ extension Glue {
             case retryIntervalMs = "RetryIntervalMs"
             case securityProtocol = "SecurityProtocol"
             case startingOffsets = "StartingOffsets"
+            case startingTimestamp = "StartingTimestamp"
             case subscribePattern = "SubscribePattern"
             case topicName = "TopicName"
         }
@@ -12781,14 +12919,17 @@ extension Glue {
         public let roleArn: String?
         /// An identifier for the session assuming the role using AWS STS. You must use this parameter when accessing a data stream in a different account. Used in conjunction with "awsSTSRoleARN".
         public let roleSessionName: String?
-        /// The starting position in the Kinesis data stream to read data from. The possible values are "latest", "trim_horizon", or "earliest". The default value is "latest".
+        /// The starting position in the Kinesis data stream to read data from. The possible values are "latest", "trim_horizon", "earliest", or a timestamp string in UTC format in the pattern yyyy-mm-ddTHH:MM:SSZ (where Z represents a UTC timezone offset with a +/-. For example: "2023-04-04T08:00:00-04:00"). The default value is "latest". Note: Using a value that is a timestamp string in UTC format for "startingPosition" is supported only for Glue version 4.0 or later.
         public let startingPosition: StartingPosition?
+        /// The timestamp of the record in the Kinesis data stream to start reading data from. The possible values are a timestamp string in UTC format of the pattern yyyy-mm-ddTHH:MM:SSZ (where Z represents a UTC timezone offset with a +/-. For example: "2023-04-04T08:00:00+08:00").
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startingTimestamp: Date?
         /// The Amazon Resource Name (ARN) of the Kinesis data stream.
         public let streamArn: String?
         /// The name of the Kinesis data stream.
         public let streamName: String?
 
-        public init(addIdleTimeBetweenReads: Bool? = nil, addRecordTimestamp: String? = nil, avoidEmptyBatches: Bool? = nil, classification: String? = nil, delimiter: String? = nil, describeShardInterval: Int64? = nil, emitConsumerLagMetrics: String? = nil, endpointUrl: String? = nil, idleTimeBetweenReadsInMs: Int64? = nil, maxFetchRecordsPerShard: Int64? = nil, maxFetchTimeInMs: Int64? = nil, maxRecordPerRead: Int64? = nil, maxRetryIntervalMs: Int64? = nil, numRetries: Int? = nil, retryIntervalMs: Int64? = nil, roleArn: String? = nil, roleSessionName: String? = nil, startingPosition: StartingPosition? = nil, streamArn: String? = nil, streamName: String? = nil) {
+        public init(addIdleTimeBetweenReads: Bool? = nil, addRecordTimestamp: String? = nil, avoidEmptyBatches: Bool? = nil, classification: String? = nil, delimiter: String? = nil, describeShardInterval: Int64? = nil, emitConsumerLagMetrics: String? = nil, endpointUrl: String? = nil, idleTimeBetweenReadsInMs: Int64? = nil, maxFetchRecordsPerShard: Int64? = nil, maxFetchTimeInMs: Int64? = nil, maxRecordPerRead: Int64? = nil, maxRetryIntervalMs: Int64? = nil, numRetries: Int? = nil, retryIntervalMs: Int64? = nil, roleArn: String? = nil, roleSessionName: String? = nil, startingPosition: StartingPosition? = nil, startingTimestamp: Date? = nil, streamArn: String? = nil, streamName: String? = nil) {
             self.addIdleTimeBetweenReads = addIdleTimeBetweenReads
             self.addRecordTimestamp = addRecordTimestamp
             self.avoidEmptyBatches = avoidEmptyBatches
@@ -12807,6 +12948,7 @@ extension Glue {
             self.roleArn = roleArn
             self.roleSessionName = roleSessionName
             self.startingPosition = startingPosition
+            self.startingTimestamp = startingTimestamp
             self.streamArn = streamArn
             self.streamName = streamName
         }
@@ -12850,6 +12992,7 @@ extension Glue {
             case roleArn = "RoleArn"
             case roleSessionName = "RoleSessionName"
             case startingPosition = "StartingPosition"
+            case startingTimestamp = "StartingTimestamp"
             case streamArn = "StreamArn"
             case streamName = "StreamName"
         }
@@ -14401,6 +14544,23 @@ extension Glue {
         }
     }
 
+    public struct OpenTableFormatInput: AWSEncodableShape {
+        /// Specifies an IcebergInput structure that defines an Apache Iceberg metadata table.
+        public let icebergInput: IcebergInput?
+
+        public init(icebergInput: IcebergInput? = nil) {
+            self.icebergInput = icebergInput
+        }
+
+        public func validate(name: String) throws {
+            try self.icebergInput?.validate(name: "\(name).icebergInput")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case icebergInput = "IcebergInput"
+        }
+    }
+
     public struct Option: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the description of the option.
         public let description: String?
@@ -15214,6 +15374,60 @@ extension Glue {
             case metadataInfoMap = "MetadataInfoMap"
             case nextToken = "NextToken"
             case schemaVersionId = "SchemaVersionId"
+        }
+    }
+
+    public struct Recipe: AWSEncodableShape & AWSDecodableShape {
+        /// The nodes that are inputs to the recipe node, identified by id.
+        public let inputs: [String]
+        /// The name of the Glue Studio node.
+        public let name: String
+        /// A reference to the DataBrew recipe used by the node.
+        public let recipeReference: RecipeReference
+
+        public init(inputs: [String], name: String, recipeReference: RecipeReference) {
+            self.inputs = inputs
+            self.name = name
+            self.recipeReference = recipeReference
+        }
+
+        public func validate(name: String) throws {
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.recipeReference.validate(name: "\(name).recipeReference")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputs = "Inputs"
+            case name = "Name"
+            case recipeReference = "RecipeReference"
+        }
+    }
+
+    public struct RecipeReference: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the DataBrew recipe.
+        public let recipeArn: String
+        /// The RecipeVersion of the DataBrew recipe.
+        public let recipeVersion: String
+
+        public init(recipeArn: String, recipeVersion: String) {
+            self.recipeArn = recipeArn
+            self.recipeVersion = recipeVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.recipeArn, name: "recipeArn", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.recipeVersion, name: "recipeVersion", parent: name, max: 16)
+            try self.validate(self.recipeVersion, name: "recipeVersion", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recipeArn = "RecipeArn"
+            case recipeVersion = "RecipeVersion"
         }
     }
 
@@ -17070,6 +17284,8 @@ extension Glue {
     public struct Session: AWSDecodableShape {
         /// The command object.See SessionCommand.
         public let command: SessionCommand?
+        /// The date and time that this session is completed.
+        public let completedOn: Date?
         /// The number of connections used for the session.
         public let connections: ConnectionsList?
         /// The time and date when the session was created.
@@ -17078,14 +17294,22 @@ extension Glue {
         public let defaultArguments: [String: String]?
         /// The description of the session.
         public let description: String?
+        /// The DPUs consumed by the session (formula: ExecutionTime * MaxCapacity).
+        public let dpuSeconds: Double?
         /// The error message displayed during the session.
         public let errorMessage: String?
+        /// The total time the session ran for.
+        public let executionTime: Double?
         /// The Glue version determines the versions of Apache Spark and Python that Glue supports.  The GlueVersion must be greater than 2.0.
         public let glueVersion: String?
         /// The ID of the session.
         public let id: String?
+        /// The number of minutes when idle before the session times out.
+        public let idleTimeout: Int?
         /// The number of Glue data processing units (DPUs) that can be allocated when the job runs.  A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB memory.
         public let maxCapacity: Double?
+        /// The number of workers of a defined WorkerType to use for the session.
+        public let numberOfWorkers: Int?
         /// The code execution progress of the session.
         public let progress: Double?
         /// The name or Amazon Resource Name (ARN) of the IAM role associated with the Session.
@@ -17094,37 +17318,51 @@ extension Glue {
         public let securityConfiguration: String?
         /// The session status.
         public let status: SessionStatus?
+        /// The type of predefined worker that is allocated when a session runs. Accepts a value of G.1X, G.2X, G.4X, or G.8X for Spark sessions. Accepts the value Z.2X for Ray sessions.
+        public let workerType: WorkerType?
 
-        public init(command: SessionCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, errorMessage: String? = nil, glueVersion: String? = nil, id: String? = nil, maxCapacity: Double? = nil, progress: Double? = nil, role: String? = nil, securityConfiguration: String? = nil, status: SessionStatus? = nil) {
+        public init(command: SessionCommand? = nil, completedOn: Date? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionTime: Double? = nil, glueVersion: String? = nil, id: String? = nil, idleTimeout: Int? = nil, maxCapacity: Double? = nil, numberOfWorkers: Int? = nil, progress: Double? = nil, role: String? = nil, securityConfiguration: String? = nil, status: SessionStatus? = nil, workerType: WorkerType? = nil) {
             self.command = command
+            self.completedOn = completedOn
             self.connections = connections
             self.createdOn = createdOn
             self.defaultArguments = defaultArguments
             self.description = description
+            self.dpuSeconds = dpuSeconds
             self.errorMessage = errorMessage
+            self.executionTime = executionTime
             self.glueVersion = glueVersion
             self.id = id
+            self.idleTimeout = idleTimeout
             self.maxCapacity = maxCapacity
+            self.numberOfWorkers = numberOfWorkers
             self.progress = progress
             self.role = role
             self.securityConfiguration = securityConfiguration
             self.status = status
+            self.workerType = workerType
         }
 
         private enum CodingKeys: String, CodingKey {
             case command = "Command"
+            case completedOn = "CompletedOn"
             case connections = "Connections"
             case createdOn = "CreatedOn"
             case defaultArguments = "DefaultArguments"
             case description = "Description"
+            case dpuSeconds = "DPUSeconds"
             case errorMessage = "ErrorMessage"
+            case executionTime = "ExecutionTime"
             case glueVersion = "GlueVersion"
             case id = "Id"
+            case idleTimeout = "IdleTimeout"
             case maxCapacity = "MaxCapacity"
+            case numberOfWorkers = "NumberOfWorkers"
             case progress = "Progress"
             case role = "Role"
             case securityConfiguration = "SecurityConfiguration"
             case status = "Status"
+            case workerType = "WorkerType"
         }
     }
 
@@ -17178,6 +17416,179 @@ extension Glue {
             case skewedColumnNames = "SkewedColumnNames"
             case skewedColumnValueLocationMaps = "SkewedColumnValueLocationMaps"
             case skewedColumnValues = "SkewedColumnValues"
+        }
+    }
+
+    public struct SnowflakeNodeData: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies what action to take when writing to a table with preexisting data. Valid values:  append, merge, truncate, drop.
+        public let action: String?
+        /// Specifies additional options passed to the Snowflake connector. If options are specified elsewhere in this node, this will take precedence.
+        public let additionalOptions: [String: String]?
+        /// Specifies whether automatic query pushdown is enabled. If pushdown is enabled, then when a query is run on Spark, if part of the query can be "pushed down" to the Snowflake server, it is pushed down. This improves performance of some queries.
+        public let autoPushdown: Bool?
+        /// Specifies a Glue Data Catalog Connection to a Snowflake endpoint.
+        public let connection: Option?
+        /// Specifies a Snowflake database for your node to use.
+        public let database: String?
+        /// Not currently used.
+        public let iamRole: Option?
+        /// Specifies a merge action. Valid values: simple, custom. If simple, merge behavior is defined by MergeWhenMatched and  MergeWhenNotMatched. If custom, defined by MergeClause.
+        public let mergeAction: String?
+        /// A SQL statement that specifies a custom merge behavior.
+        public let mergeClause: String?
+        /// Specifies how to resolve records that match preexisting data when merging. Valid values:  update, delete.
+        public let mergeWhenMatched: String?
+        /// Specifies how to process records that do not match preexisting data when merging. Valid values: insert, none.
+        public let mergeWhenNotMatched: String?
+        /// A SQL string run after the Snowflake connector performs its standard actions.
+        public let postAction: String?
+        /// A SQL string run before the Snowflake connector performs its standard actions.
+        public let preAction: String?
+        /// A SQL string used to retrieve data with the query sourcetype.
+        public let sampleQuery: String?
+        /// Specifies a Snowflake database schema for your node to use.
+        public let schema: String?
+        /// Specifies the columns combined to identify a record when detecting matches for merges and upserts. A list of structures with value, label and  description keys. Each structure describes a column.
+        public let selectedColumns: [Option]?
+        /// Specifies how retrieved data is specified. Valid values: "table",  "query".
+        public let sourceType: String?
+        /// The name of a staging table used when performing merge or upsert append actions. Data is written to this table, then moved to table by a generated postaction.
+        public let stagingTable: String?
+        /// Specifies a Snowflake table for your node to use.
+        public let table: String?
+        /// Manually defines the target schema for the node. A list of structures with value , label and description keys. Each structure defines a column.
+        public let tableSchema: [Option]?
+        /// Not currently used.
+        public let tempDir: String?
+        /// Used when Action is append. Specifies the resolution behavior when a row already exists. If true, preexisting rows will be updated. If false, those rows will be inserted.
+        public let upsert: Bool?
+
+        public init(action: String? = nil, additionalOptions: [String: String]? = nil, autoPushdown: Bool? = nil, connection: Option? = nil, database: String? = nil, iamRole: Option? = nil, mergeAction: String? = nil, mergeClause: String? = nil, mergeWhenMatched: String? = nil, mergeWhenNotMatched: String? = nil, postAction: String? = nil, preAction: String? = nil, sampleQuery: String? = nil, schema: String? = nil, selectedColumns: [Option]? = nil, sourceType: String? = nil, stagingTable: String? = nil, table: String? = nil, tableSchema: [Option]? = nil, tempDir: String? = nil, upsert: Bool? = nil) {
+            self.action = action
+            self.additionalOptions = additionalOptions
+            self.autoPushdown = autoPushdown
+            self.connection = connection
+            self.database = database
+            self.iamRole = iamRole
+            self.mergeAction = mergeAction
+            self.mergeClause = mergeClause
+            self.mergeWhenMatched = mergeWhenMatched
+            self.mergeWhenNotMatched = mergeWhenNotMatched
+            self.postAction = postAction
+            self.preAction = preAction
+            self.sampleQuery = sampleQuery
+            self.schema = schema
+            self.selectedColumns = selectedColumns
+            self.sourceType = sourceType
+            self.stagingTable = stagingTable
+            self.table = table
+            self.tableSchema = tableSchema
+            self.tempDir = tempDir
+            self.upsert = upsert
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalOptions?.forEach {
+                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+            try self.connection?.validate(name: "\(name).connection")
+            try self.iamRole?.validate(name: "\(name).iamRole")
+            try self.validate(self.mergeAction, name: "mergeAction", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            try self.validate(self.mergeWhenMatched, name: "mergeWhenMatched", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            try self.validate(self.mergeWhenNotMatched, name: "mergeWhenNotMatched", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            try self.selectedColumns?.forEach {
+                try $0.validate(name: "\(name).selectedColumns[]")
+            }
+            try self.validate(self.sourceType, name: "sourceType", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            try self.tableSchema?.forEach {
+                try $0.validate(name: "\(name).tableSchema[]")
+            }
+            try self.validate(self.tempDir, name: "tempDir", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case additionalOptions = "AdditionalOptions"
+            case autoPushdown = "AutoPushdown"
+            case connection = "Connection"
+            case database = "Database"
+            case iamRole = "IamRole"
+            case mergeAction = "MergeAction"
+            case mergeClause = "MergeClause"
+            case mergeWhenMatched = "MergeWhenMatched"
+            case mergeWhenNotMatched = "MergeWhenNotMatched"
+            case postAction = "PostAction"
+            case preAction = "PreAction"
+            case sampleQuery = "SampleQuery"
+            case schema = "Schema"
+            case selectedColumns = "SelectedColumns"
+            case sourceType = "SourceType"
+            case stagingTable = "StagingTable"
+            case table = "Table"
+            case tableSchema = "TableSchema"
+            case tempDir = "TempDir"
+            case upsert = "Upsert"
+        }
+    }
+
+    public struct SnowflakeSource: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for the Snowflake data source.
+        public let data: SnowflakeNodeData
+        /// The name of the Snowflake data source.
+        public let name: String
+        /// Specifies user-defined schemas for your output data.
+        public let outputSchemas: [GlueSchema]?
+
+        public init(data: SnowflakeNodeData, name: String, outputSchemas: [GlueSchema]? = nil) {
+            self.data = data
+            self.name = name
+            self.outputSchemas = outputSchemas
+        }
+
+        public func validate(name: String) throws {
+            try self.data.validate(name: "\(name).data")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case data = "Data"
+            case name = "Name"
+            case outputSchemas = "OutputSchemas"
+        }
+    }
+
+    public struct SnowflakeTarget: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the data of the Snowflake target node.
+        public let data: SnowflakeNodeData
+        /// The nodes that are inputs to the data target.
+        public let inputs: [String]?
+        /// The name of the Snowflake target.
+        public let name: String
+
+        public init(data: SnowflakeNodeData, inputs: [String]? = nil, name: String) {
+            self.data = data
+            self.inputs = inputs
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.data.validate(name: "\(name).data")
+            try self.inputs?.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case data = "Data"
+            case inputs = "Inputs"
+            case name = "Name"
         }
     }
 
@@ -17821,7 +18232,7 @@ extension Glue {
         public let securityConfiguration: String?
         /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Streaming jobs do not have a timeout. The default for non-streaming jobs is 2,880 minutes (48 hours).
         public let timeout: Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 DPU (8vCPU, 64 GB of m emory, 128 GB disk), and provides up to 8 Ray workers (one per vCPU) based on the autoscaler.
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
 
         public init(arguments: [String: String]? = nil, executionClass: ExecutionClass? = nil, jobName: String, jobRunId: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
@@ -19583,8 +19994,10 @@ extension Glue {
         public let name: String
         /// A custom symbol to denote what combines content into a single column value. It must be different from the column delimiter.
         public let quoteSymbol: String?
+        /// Sets the SerDe for processing CSV in the classifier, which will be applied in the Data Catalog. Valid values are OpenCSVSerDe, LazySimpleSerDe, and None. You can specify the None value when you want the crawler to do the detection.
+        public let serde: CsvSerdeOption?
 
-        public init(allowSingleColumn: Bool? = nil, containsHeader: CsvHeaderOption? = nil, customDatatypeConfigured: Bool? = nil, customDatatypes: [String]? = nil, delimiter: String? = nil, disableValueTrimming: Bool? = nil, header: [String]? = nil, name: String, quoteSymbol: String? = nil) {
+        public init(allowSingleColumn: Bool? = nil, containsHeader: CsvHeaderOption? = nil, customDatatypeConfigured: Bool? = nil, customDatatypes: [String]? = nil, delimiter: String? = nil, disableValueTrimming: Bool? = nil, header: [String]? = nil, name: String, quoteSymbol: String? = nil, serde: CsvSerdeOption? = nil) {
             self.allowSingleColumn = allowSingleColumn
             self.containsHeader = containsHeader
             self.customDatatypeConfigured = customDatatypeConfigured
@@ -19594,6 +20007,7 @@ extension Glue {
             self.header = header
             self.name = name
             self.quoteSymbol = quoteSymbol
+            self.serde = serde
         }
 
         public func validate(name: String) throws {
@@ -19628,6 +20042,7 @@ extension Glue {
             case header = "Header"
             case name = "Name"
             case quoteSymbol = "QuoteSymbol"
+            case serde = "Serde"
         }
     }
 

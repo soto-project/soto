@@ -7277,15 +7277,15 @@ extension Chime {
         public let audioHostUrl: String?
         /// The event ingestion URL to which you send client meeting events.
         public let eventIngestionUrl: String?
-        /// The screen data URL.
+        /// The screen data URL.   This parameter is is no longer supported and no longer used by the Amazon Chime SDK.
         public let screenDataUrl: String?
-        /// The screen sharing URL.
+        /// The screen sharing URL.   This parameter is is no longer supported and no longer used by the Amazon Chime SDK..
         public let screenSharingUrl: String?
-        /// The screen viewing URL.
+        /// The screen viewing URL.   This parameter is is no longer supported and no longer used by the Amazon Chime SDK.
         public let screenViewingUrl: String?
         /// The signaling URL.
         public let signalingUrl: String?
-        /// The turn control URL.
+        /// The turn control URL.   This parameter is is no longer supported and no longer used by the Amazon Chime SDK.
         public let turnControlUrl: String?
 
         public init(audioFallbackUrl: String? = nil, audioHostUrl: String? = nil, eventIngestionUrl: String? = nil, screenDataUrl: String? = nil, screenSharingUrl: String? = nil, screenViewingUrl: String? = nil, signalingUrl: String? = nil, turnControlUrl: String? = nil) {

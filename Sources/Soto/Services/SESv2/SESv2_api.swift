@@ -57,8 +57,11 @@ public struct SESv2: AWSService {
             endpoint: endpoint,
             variantEndpoints: [
                 [.fips]: .init(endpoints: [
+                    "ca-central-1": "email-fips.ca-central-1.amazonaws.com",
                     "us-east-1": "email-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "email-fips.us-east-2.amazonaws.com",
                     "us-gov-west-1": "email-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "email-fips.us-west-1.amazonaws.com",
                     "us-west-2": "email-fips.us-west-2.amazonaws.com"
                 ])
             ],
@@ -74,6 +77,11 @@ public struct SESv2: AWSService {
     /// Retrieves batches of metric data collected based on your sending activity. You can execute this operation no more than 16 times per second, and with at most 160 queries from the batches per second (cumulative).
     public func batchGetMetricData(_ input: BatchGetMetricDataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetMetricDataResponse> {
         return self.client.execute(operation: "BatchGetMetricData", path: "/v2/email/metrics/batch", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Cancels an export job.
+    public func cancelExportJob(_ input: CancelExportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelExportJobResponse> {
+        return self.client.execute(operation: "CancelExportJob", path: "/v2/email/export-jobs/{JobId}/cancel", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Create a configuration set. Configuration sets are groups of rules that you can apply to the emails that you send. You apply a configuration set to an email by specifying the name of the configuration set when you call the Amazon SES API v2. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
@@ -124,6 +132,11 @@ public struct SESv2: AWSService {
     /// Creates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     public func createEmailTemplate(_ input: CreateEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEmailTemplateResponse> {
         return self.client.execute(operation: "CreateEmailTemplate", path: "/v2/email/templates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates an export job for a data source and destination. You can execute this operation no more than once per second.
+    public func createExportJob(_ input: CreateExportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateExportJobResponse> {
+        return self.client.execute(operation: "CreateExportJob", path: "/v2/email/export-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates an import job for a data destination.
@@ -266,9 +279,19 @@ public struct SESv2: AWSService {
         return self.client.execute(operation: "GetEmailTemplate", path: "/v2/email/templates/{TemplateName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Provides information about an export job.
+    public func getExportJob(_ input: GetExportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetExportJobResponse> {
+        return self.client.execute(operation: "GetExportJob", path: "/v2/email/export-jobs/{JobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Provides information about an import job.
     public func getImportJob(_ input: GetImportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetImportJobResponse> {
         return self.client.execute(operation: "GetImportJob", path: "/v2/email/import-jobs/{JobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Provides information about a specific message, including the from address, the subject, the recipient address, email tags, as well as events associated with the message. You can execute this operation no more than once per second.
+    public func getMessageInsights(_ input: GetMessageInsightsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMessageInsightsResponse> {
+        return self.client.execute(operation: "GetMessageInsights", path: "/v2/email/insights/{MessageId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves information about a specific email address that's on the suppression list for your account.
@@ -319,6 +342,11 @@ public struct SESv2: AWSService {
     /// Lists the email templates present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
     public func listEmailTemplates(_ input: ListEmailTemplatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEmailTemplatesResponse> {
         return self.client.execute(operation: "ListEmailTemplates", path: "/v2/email/templates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists all of the export jobs.
+    public func listExportJobs(_ input: ListExportJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListExportJobsResponse> {
+        return self.client.execute(operation: "ListExportJobs", path: "/v2/email/list-export-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists all of the import jobs.
@@ -1048,6 +1076,59 @@ extension SESv2 {
         )
     }
 
+    /// Lists all of the export jobs.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listExportJobsPaginator<Result>(
+        _ input: ListExportJobsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListExportJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listExportJobs,
+            inputKey: \ListExportJobsRequest.nextToken,
+            outputKey: \ListExportJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listExportJobsPaginator(
+        _ input: ListExportJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListExportJobsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listExportJobs,
+            inputKey: \ListExportJobsRequest.nextToken,
+            outputKey: \ListExportJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// Lists all of the import jobs.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1298,6 +1379,17 @@ extension SESv2.ListEmailIdentitiesRequest: AWSPaginateToken {
 extension SESv2.ListEmailTemplatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SESv2.ListEmailTemplatesRequest {
         return .init(
+            nextToken: token,
+            pageSize: self.pageSize
+        )
+    }
+}
+
+extension SESv2.ListExportJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SESv2.ListExportJobsRequest {
+        return .init(
+            exportSourceType: self.exportSourceType,
+            jobStatus: self.jobStatus,
             nextToken: token,
             pageSize: self.pageSize
         )

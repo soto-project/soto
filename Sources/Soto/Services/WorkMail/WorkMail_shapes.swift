@@ -58,6 +58,13 @@ extension WorkMail {
         public var description: String { return self.rawValue }
     }
 
+    public enum EntityType: String, CustomStringConvertible, Codable, Sendable {
+        case group = "GROUP"
+        case resource = "RESOURCE"
+        case user = "USER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FolderName: String, CustomStringConvertible, Codable, Sendable {
         case deletedItems = "DELETED_ITEMS"
         case drafts = "DRAFTS"
@@ -114,6 +121,7 @@ extension WorkMail {
     }
 
     public enum UserRole: String, CustomStringConvertible, Codable, Sendable {
+        case remoteUser = "REMOTE_USER"
         case resource = "RESOURCE"
         case systemUser = "SYSTEM_USER"
         case user = "USER"
@@ -184,11 +192,11 @@ extension WorkMail {
     }
 
     public struct AssociateDelegateToResourceRequest: AWSEncodableShape {
-        /// The member (user or group) to associate to the resource.
+        /// The member (user or group) to associate to the resource. The entity ID can accept UserId or GroupID, Username or Groupname, or email.   Entity: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   Email address: entity@domain.tld   Entity: entity
         public let entityId: String
         /// The organization under which the resource exists.
         public let organizationId: String
-        /// The resource for which members (users or groups) are associated.
+        /// The resource for which members (users or groups) are associated. The identifier can accept ResourceId, Resourcename, or email. The following identity formats are available:   Resource ID: r-0123456789a0123456789b0123456789   Email address: resource@domain.tld   Resource name: resource
         public let resourceId: String
 
         public init(entityId: String, organizationId: String, resourceId: String) {
@@ -199,13 +207,14 @@ extension WorkMail {
 
         public func validate(name: String) throws {
             try self.validate(self.entityId, name: "entityId", parent: name, max: 256)
-            try self.validate(self.entityId, name: "entityId", parent: name, min: 12)
+            try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
+            try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
-            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 34)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 34)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^r-[0-9a-f]{32}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 256)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -220,9 +229,9 @@ extension WorkMail {
     }
 
     public struct AssociateMemberToGroupRequest: AWSEncodableShape {
-        /// The group to which the member (user or group) is associated.
+        /// The group to which the member (user or group) is associated. The identifier can accept GroupId, Groupname, or email. The following identity formats are available:   Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   Email address: group@domain.tld   Group name: group
         public let groupId: String
-        /// The member (user or group) to associate to the group.
+        /// The member (user or group) to associate to the group. The member ID can accept UserID or GroupId, Username or Groupname, or email.   Member: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   Email address: member@domain.tld   Member name: member
         public let memberId: String
         /// The organization under which the group exists.
         public let organizationId: String
@@ -235,9 +244,11 @@ extension WorkMail {
 
         public func validate(name: String) throws {
             try self.validate(self.groupId, name: "groupId", parent: name, max: 256)
-            try self.validate(self.groupId, name: "groupId", parent: name, min: 12)
+            try self.validate(self.groupId, name: "groupId", parent: name, min: 1)
+            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
             try self.validate(self.memberId, name: "memberId", parent: name, max: 256)
-            try self.validate(self.memberId, name: "memberId", parent: name, min: 12)
+            try self.validate(self.memberId, name: "memberId", parent: name, min: 1)
+            try self.validate(self.memberId, name: "memberId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
@@ -450,7 +461,7 @@ extension WorkMail {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7e]+$")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
-            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}$")
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9.-]+$")
             try self.ewsProvider?.validate(name: "\(name).ewsProvider")
             try self.lambdaProvider?.validate(name: "\(name).lambdaProvider")
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
@@ -472,12 +483,15 @@ extension WorkMail {
     }
 
     public struct CreateGroupRequest: AWSEncodableShape {
+        /// If this parameter is enabled, the group will be hidden from the address book.
+        public let hiddenFromGlobalAddressList: Bool?
         /// The name of the group.
         public let name: String
         /// The organization under which the group is to be created.
         public let organizationId: String
 
-        public init(name: String, organizationId: String) {
+        public init(hiddenFromGlobalAddressList: Bool? = nil, name: String, organizationId: String) {
+            self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
             self.name = name
             self.organizationId = organizationId
         }
@@ -492,6 +506,7 @@ extension WorkMail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
             case name = "Name"
             case organizationId = "OrganizationId"
         }
@@ -786,6 +801,10 @@ extension WorkMail {
     }
 
     public struct CreateResourceRequest: AWSEncodableShape {
+        /// Resource description.
+        public let description: String?
+        /// If this parameter is enabled, the resource will be hidden from the address book.
+        public let hiddenFromGlobalAddressList: Bool?
         /// The name of the new resource.
         public let name: String
         /// The identifier associated with the organization for which the resource is created.
@@ -793,13 +812,17 @@ extension WorkMail {
         /// The type of the new resource. The available types are equipment and room.
         public let type: ResourceType
 
-        public init(name: String, organizationId: String, type: ResourceType) {
+        public init(description: String? = nil, hiddenFromGlobalAddressList: Bool? = nil, name: String, organizationId: String, type: ResourceType) {
+            self.description = description
+            self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
             self.name = name
             self.organizationId = organizationId
             self.type = type
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 64)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 20)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-.]+(@[a-zA-Z0-9.\\-]+\\.[a-zA-Z0-9-]{2,})?$")
@@ -809,6 +832,8 @@ extension WorkMail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
             case name = "Name"
             case organizationId = "OrganizationId"
             case type = "Type"
@@ -831,22 +856,36 @@ extension WorkMail {
     public struct CreateUserRequest: AWSEncodableShape {
         /// The display name for the new user.
         public let displayName: String
+        /// The first name of the new user.
+        public let firstName: String?
+        /// If this parameter is enabled, the user will be hidden from the address book.
+        public let hiddenFromGlobalAddressList: Bool?
+        /// The last name of the new user.
+        public let lastName: String?
         /// The name for the new user. WorkMail directory user names have a maximum length of 64. All others have a maximum length of 20.
         public let name: String
         /// The identifier of the organization for which the user is created.
         public let organizationId: String
         /// The password for the new user.
-        public let password: String
+        public let password: String?
+        /// The role of the new user. You cannot pass SYSTEM_USER or RESOURCE role in a single request. When a user role is not selected, the default role of USER is selected.
+        public let role: UserRole?
 
-        public init(displayName: String, name: String, organizationId: String, password: String) {
+        public init(displayName: String, firstName: String? = nil, hiddenFromGlobalAddressList: Bool? = nil, lastName: String? = nil, name: String, organizationId: String, password: String? = nil, role: UserRole? = nil) {
             self.displayName = displayName
+            self.firstName = firstName
+            self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
+            self.lastName = lastName
             self.name = name
             self.organizationId = organizationId
             self.password = password
+            self.role = role
         }
 
         public func validate(name: String) throws {
             try self.validate(self.displayName, name: "displayName", parent: name, max: 256)
+            try self.validate(self.firstName, name: "firstName", parent: name, max: 256)
+            try self.validate(self.lastName, name: "lastName", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-.]+(@[a-zA-Z0-9.\\-]+\\.[a-zA-Z0-9-]{2,})?$")
@@ -859,9 +898,13 @@ extension WorkMail {
 
         private enum CodingKeys: String, CodingKey {
             case displayName = "DisplayName"
+            case firstName = "FirstName"
+            case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
+            case lastName = "LastName"
             case name = "Name"
             case organizationId = "OrganizationId"
             case password = "Password"
+            case role = "Role"
         }
     }
 
@@ -975,7 +1018,7 @@ extension WorkMail {
         public func validate(name: String) throws {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
-            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}$")
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9.-]+$")
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
@@ -1015,7 +1058,7 @@ extension WorkMail {
     }
 
     public struct DeleteGroupRequest: AWSEncodableShape {
-        /// The identifier of the group to be deleted.
+        /// The identifier of the group to be deleted. The identifier can be the GroupId, or Groupname. The following identity formats are available:   Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   Group name: group
         public let groupId: String
         /// The organization that contains the group.
         public let organizationId: String
@@ -1027,7 +1070,8 @@ extension WorkMail {
 
         public func validate(name: String) throws {
             try self.validate(self.groupId, name: "groupId", parent: name, max: 256)
-            try self.validate(self.groupId, name: "groupId", parent: name, min: 12)
+            try self.validate(self.groupId, name: "groupId", parent: name, min: 1)
+            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
@@ -1074,9 +1118,9 @@ extension WorkMail {
     }
 
     public struct DeleteMailboxPermissionsRequest: AWSEncodableShape {
-        /// The identifier of the member (user or group) that owns the mailbox.
+        /// The identifier of the entity that owns the mailbox. The identifier can be UserId or Group Id, Username or Groupname, or email.   Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234   Email address: entity@domain.tld   Entity name: entity
         public let entityId: String
-        /// The identifier of the member (user or group) for which to delete granted permissions.
+        /// The identifier of the entity for which to delete granted permissions. The identifier can be UserId, ResourceID, or Group Id, Username or Groupname, or email.   Grantee ID: 12345678-1234-1234-1234-123456789012,r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234   Email address: grantee@domain.tld   Grantee name: grantee
         public let granteeId: String
         /// The identifier of the organization under which the member (user or group) exists.
         public let organizationId: String
@@ -1089,9 +1133,11 @@ extension WorkMail {
 
         public func validate(name: String) throws {
             try self.validate(self.entityId, name: "entityId", parent: name, max: 256)
-            try self.validate(self.entityId, name: "entityId", parent: name, min: 12)
+            try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
+            try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
             try self.validate(self.granteeId, name: "granteeId", parent: name, max: 256)
-            try self.validate(self.granteeId, name: "granteeId", parent: name, min: 12)
+            try self.validate(self.granteeId, name: "granteeId", parent: name, min: 1)
+            try self.validate(self.granteeId, name: "granteeId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
@@ -1180,12 +1226,15 @@ extension WorkMail {
         public let clientToken: String?
         /// If true, deletes the AWS Directory Service directory associated with the organization.
         public let deleteDirectory: Bool
+        /// Deletes a WorkMail organization even if the organization has enabled users.
+        public let forceDelete: Bool?
         /// The organization ID.
         public let organizationId: String
 
-        public init(clientToken: String? = DeleteOrganizationRequest.idempotencyToken(), deleteDirectory: Bool = false, organizationId: String) {
+        public init(clientToken: String? = DeleteOrganizationRequest.idempotencyToken(), deleteDirectory: Bool = false, forceDelete: Bool? = nil, organizationId: String) {
             self.clientToken = clientToken
             self.deleteDirectory = deleteDirectory
+            self.forceDelete = forceDelete
             self.organizationId = organizationId
         }
 
@@ -1201,6 +1250,7 @@ extension WorkMail {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case deleteDirectory = "DeleteDirectory"
+            case forceDelete = "ForceDelete"
             case organizationId = "OrganizationId"
         }
     }
@@ -1225,7 +1275,7 @@ extension WorkMail {
     public struct DeleteResourceRequest: AWSEncodableShape {
         /// The identifier associated with the organization from which the resource is deleted.
         public let organizationId: String
-        /// The identifier of the resource to be deleted.
+        /// The identifier of the resource to be deleted. The identifier can accept ResourceId, or Resourcename. The following identity formats are available:   Resource ID: r-0123456789a0123456789b0123456789   Resource name: resource
         public let resourceId: String
 
         public init(organizationId: String, resourceId: String) {
@@ -1237,9 +1287,9 @@ extension WorkMail {
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
-            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 34)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 34)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^r-[0-9a-f]{32}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 256)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1285,7 +1335,7 @@ extension WorkMail {
     public struct DeleteUserRequest: AWSEncodableShape {
         /// The organization that contains the user to be deleted.
         public let organizationId: String
-        /// The identifier of the user to be deleted.
+        /// The identifier of the user to be deleted. The identifier can be the UserId or Username. The following identity formats are available:   User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   User name: user
         public let userId: String
 
         public init(organizationId: String, userId: String) {
@@ -1298,7 +1348,8 @@ extension WorkMail {
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
             try self.validate(self.userId, name: "userId", parent: name, max: 256)
-            try self.validate(self.userId, name: "userId", parent: name, min: 12)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1312,7 +1363,7 @@ extension WorkMail {
     }
 
     public struct DeregisterFromWorkMailRequest: AWSEncodableShape {
-        /// The identifier for the member (user or group) to be updated.
+        /// The identifier for the member to be updated. The identifier can be UserId, ResourceId, or Group Id, Username, Resourcename, or Groupname, or email.   Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234   Email address: entity@domain.tld   Entity name: entity
         public let entityId: String
         /// The identifier for the organization under which the WorkMail entity exists.
         public let organizationId: String
@@ -1324,7 +1375,8 @@ extension WorkMail {
 
         public func validate(name: String) throws {
             try self.validate(self.entityId, name: "entityId", parent: name, max: 256)
-            try self.validate(self.entityId, name: "entityId", parent: name, min: 12)
+            try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
+            try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
@@ -1354,7 +1406,7 @@ extension WorkMail {
         public func validate(name: String) throws {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 209)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
-            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}$")
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9.-]+$")
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
@@ -1406,8 +1458,55 @@ extension WorkMail {
         }
     }
 
+    public struct DescribeEntityRequest: AWSEncodableShape {
+        /// The email under which the entity exists.
+        public let email: String
+        /// The identifier for the organization under which the entity exists.
+        public let organizationId: String
+
+        public init(email: String, organizationId: String) {
+            self.email = email
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.email, name: "email", parent: name, max: 254)
+            try self.validate(self.email, name: "email", parent: name, min: 1)
+            try self.validate(self.email, name: "email", parent: name, pattern: "^[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}$")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case email = "Email"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct DescribeEntityResponse: AWSDecodableShape {
+        /// The entity ID under which the entity exists.
+        public let entityId: String?
+        /// Username, GroupName, or ResourceName based on entity type.
+        public let name: String?
+        /// Entity type.
+        public let type: EntityType?
+
+        public init(entityId: String? = nil, name: String? = nil, type: EntityType? = nil) {
+            self.entityId = entityId
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityId = "EntityId"
+            case name = "Name"
+            case type = "Type"
+        }
+    }
+
     public struct DescribeGroupRequest: AWSEncodableShape {
-        /// The identifier for the group to be described.
+        /// The identifier for the group to be described. The identifier can accept GroupId, Groupname, or email. The following identity formats are available:   Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   Email address: group@domain.tld   Group name: group
         public let groupId: String
         /// The identifier for the organization under which the group exists.
         public let organizationId: String
@@ -1419,7 +1518,8 @@ extension WorkMail {
 
         public func validate(name: String) throws {
             try self.validate(self.groupId, name: "groupId", parent: name, max: 256)
-            try self.validate(self.groupId, name: "groupId", parent: name, min: 12)
+            try self.validate(self.groupId, name: "groupId", parent: name, min: 1)
+            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
@@ -1440,16 +1540,19 @@ extension WorkMail {
         public let enabledDate: Date?
         /// The identifier of the described group.
         public let groupId: String?
+        /// If the value is set to true, the group is hidden from the address book.
+        public let hiddenFromGlobalAddressList: Bool?
         /// The name of the described group.
         public let name: String?
         /// The state of the user: enabled (registered to WorkMail) or disabled (deregistered or never registered to WorkMail).
         public let state: EntityState?
 
-        public init(disabledDate: Date? = nil, email: String? = nil, enabledDate: Date? = nil, groupId: String? = nil, name: String? = nil, state: EntityState? = nil) {
+        public init(disabledDate: Date? = nil, email: String? = nil, enabledDate: Date? = nil, groupId: String? = nil, hiddenFromGlobalAddressList: Bool? = nil, name: String? = nil, state: EntityState? = nil) {
             self.disabledDate = disabledDate
             self.email = email
             self.enabledDate = enabledDate
             self.groupId = groupId
+            self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
             self.name = name
             self.state = state
         }
@@ -1459,6 +1562,7 @@ extension WorkMail {
             case email = "Email"
             case enabledDate = "EnabledDate"
             case groupId = "GroupId"
+            case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
             case name = "Name"
             case state = "State"
         }
@@ -1613,12 +1717,16 @@ extension WorkMail {
         public let directoryType: String?
         /// (Optional) The error message indicating if unexpected behavior was encountered with regards to the organization.
         public let errorMessage: String?
+        /// Indicates if interoperability is enabled for this organization.
+        public let interoperabilityEnabled: Bool?
+        /// The user ID of the migration admin if migration is enabled for the organization.
+        public let migrationAdmin: String?
         /// The identifier of an organization.
         public let organizationId: String?
         /// The state of an organization.
         public let state: String?
 
-        public init(alias: String? = nil, arn: String? = nil, completedDate: Date? = nil, defaultMailDomain: String? = nil, directoryId: String? = nil, directoryType: String? = nil, errorMessage: String? = nil, organizationId: String? = nil, state: String? = nil) {
+        public init(alias: String? = nil, arn: String? = nil, completedDate: Date? = nil, defaultMailDomain: String? = nil, directoryId: String? = nil, directoryType: String? = nil, errorMessage: String? = nil, interoperabilityEnabled: Bool? = nil, migrationAdmin: String? = nil, organizationId: String? = nil, state: String? = nil) {
             self.alias = alias
             self.arn = arn
             self.completedDate = completedDate
@@ -1626,6 +1734,8 @@ extension WorkMail {
             self.directoryId = directoryId
             self.directoryType = directoryType
             self.errorMessage = errorMessage
+            self.interoperabilityEnabled = interoperabilityEnabled
+            self.migrationAdmin = migrationAdmin
             self.organizationId = organizationId
             self.state = state
         }
@@ -1638,6 +1748,8 @@ extension WorkMail {
             case directoryId = "DirectoryId"
             case directoryType = "DirectoryType"
             case errorMessage = "ErrorMessage"
+            case interoperabilityEnabled = "InteroperabilityEnabled"
+            case migrationAdmin = "MigrationAdmin"
             case organizationId = "OrganizationId"
             case state = "State"
         }
@@ -1646,7 +1758,7 @@ extension WorkMail {
     public struct DescribeResourceRequest: AWSEncodableShape {
         /// The identifier associated with the organization for which the resource is described.
         public let organizationId: String
-        /// The identifier of the resource to be described.
+        /// The identifier of the resource to be described. The identifier can accept ResourceId, Resourcename, or email. The following identity formats are available:   Resource ID: r-0123456789a0123456789b0123456789   Email address: resource@domain.tld   Resource name: resource
         public let resourceId: String
 
         public init(organizationId: String, resourceId: String) {
@@ -1658,9 +1770,9 @@ extension WorkMail {
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
-            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 34)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 34)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^r-[0-9a-f]{32}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 256)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1672,12 +1784,16 @@ extension WorkMail {
     public struct DescribeResourceResponse: AWSDecodableShape {
         /// The booking options for the described resource.
         public let bookingOptions: BookingOptions?
+        /// Description of the resource.
+        public let description: String?
         /// The date and time when a resource was disabled from WorkMail, in UNIX epoch time format.
         public let disabledDate: Date?
         /// The email of the described resource.
         public let email: String?
         /// The date and time when a resource was enabled for WorkMail, in UNIX epoch time format.
         public let enabledDate: Date?
+        /// If enabled, the resource is hidden from the global address list.
+        public let hiddenFromGlobalAddressList: Bool?
         /// The name of the described resource.
         public let name: String?
         /// The identifier of the described resource.
@@ -1687,11 +1803,13 @@ extension WorkMail {
         /// The type of the described resource.
         public let type: ResourceType?
 
-        public init(bookingOptions: BookingOptions? = nil, disabledDate: Date? = nil, email: String? = nil, enabledDate: Date? = nil, name: String? = nil, resourceId: String? = nil, state: EntityState? = nil, type: ResourceType? = nil) {
+        public init(bookingOptions: BookingOptions? = nil, description: String? = nil, disabledDate: Date? = nil, email: String? = nil, enabledDate: Date? = nil, hiddenFromGlobalAddressList: Bool? = nil, name: String? = nil, resourceId: String? = nil, state: EntityState? = nil, type: ResourceType? = nil) {
             self.bookingOptions = bookingOptions
+            self.description = description
             self.disabledDate = disabledDate
             self.email = email
             self.enabledDate = enabledDate
+            self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
             self.name = name
             self.resourceId = resourceId
             self.state = state
@@ -1700,9 +1818,11 @@ extension WorkMail {
 
         private enum CodingKeys: String, CodingKey {
             case bookingOptions = "BookingOptions"
+            case description = "Description"
             case disabledDate = "DisabledDate"
             case email = "Email"
             case enabledDate = "EnabledDate"
+            case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
             case name = "Name"
             case resourceId = "ResourceId"
             case state = "State"
@@ -1713,7 +1833,7 @@ extension WorkMail {
     public struct DescribeUserRequest: AWSEncodableShape {
         /// The identifier for the organization under which the user exists.
         public let organizationId: String
-        /// The identifier for the user to be described.
+        /// The identifier for the user to be described. The identifier can be the UserId, Username, or email. The following identity formats are available:   User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   Email address: user@domain.tld   User name: user
         public let userId: String
 
         public init(organizationId: String, userId: String) {
@@ -1726,7 +1846,8 @@ extension WorkMail {
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
             try self.validate(self.userId, name: "userId", parent: name, max: 256)
-            try self.validate(self.userId, name: "userId", parent: name, min: 12)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1736,6 +1857,14 @@ extension WorkMail {
     }
 
     public struct DescribeUserResponse: AWSDecodableShape {
+        /// City where the user is located.
+        public let city: String?
+        /// Company of the user.
+        public let company: String?
+        /// Country where the user is located.
+        public let country: String?
+        /// Department of the user.
+        public let department: String?
         /// The date and time at which the user was disabled for WorkMail usage, in UNIX epoch time format.
         public let disabledDate: Date?
         /// The display name of the user.
@@ -1744,44 +1873,96 @@ extension WorkMail {
         public let email: String?
         /// The date and time at which the user was enabled for WorkMailusage, in UNIX epoch time format.
         public let enabledDate: Date?
+        /// First name of the user.
+        public let firstName: String?
+        /// If enabled, the user is hidden from the global address list.
+        public let hiddenFromGlobalAddressList: Bool?
+        /// Initials of the user.
+        public let initials: String?
+        /// Job title of the user.
+        public let jobTitle: String?
+        /// Last name of the user.
+        public let lastName: String?
+        /// The date when the mailbox was removed for the user.
+        public let mailboxDeprovisionedDate: Date?
+        /// The date when the mailbox was created for the user.
+        public let mailboxProvisionedDate: Date?
         /// The name for the user.
         public let name: String?
+        /// Office where the user is located.
+        public let office: String?
         /// The state of a user: enabled (registered to WorkMail) or disabled (deregistered or never registered to WorkMail).
         public let state: EntityState?
+        /// Street where the user is located.
+        public let street: String?
+        /// User's contact number.
+        public let telephone: String?
         /// The identifier for the described user.
         public let userId: String?
-        /// In certain cases, other entities are modeled as users. If interoperability is enabled, resources are imported into WorkMail as users. Because different WorkMail organizations rely on different directory types, administrators can distinguish between an unregistered user (account is disabled and has a user role) and the directory administrators. The values are USER, RESOURCE, and SYSTEM_USER.
+        /// In certain cases, other entities are modeled as users. If interoperability is enabled, resources are imported into WorkMail as users. Because different WorkMail organizations rely on different directory types, administrators can distinguish between an unregistered user (account is disabled and has a user role) and the directory administrators. The values are USER, RESOURCE, SYSTEM_USER, and REMOTE_USER.
         public let userRole: UserRole?
+        /// Zip code of the user.
+        public let zipCode: String?
 
-        public init(disabledDate: Date? = nil, displayName: String? = nil, email: String? = nil, enabledDate: Date? = nil, name: String? = nil, state: EntityState? = nil, userId: String? = nil, userRole: UserRole? = nil) {
+        public init(city: String? = nil, company: String? = nil, country: String? = nil, department: String? = nil, disabledDate: Date? = nil, displayName: String? = nil, email: String? = nil, enabledDate: Date? = nil, firstName: String? = nil, hiddenFromGlobalAddressList: Bool? = nil, initials: String? = nil, jobTitle: String? = nil, lastName: String? = nil, mailboxDeprovisionedDate: Date? = nil, mailboxProvisionedDate: Date? = nil, name: String? = nil, office: String? = nil, state: EntityState? = nil, street: String? = nil, telephone: String? = nil, userId: String? = nil, userRole: UserRole? = nil, zipCode: String? = nil) {
+            self.city = city
+            self.company = company
+            self.country = country
+            self.department = department
             self.disabledDate = disabledDate
             self.displayName = displayName
             self.email = email
             self.enabledDate = enabledDate
+            self.firstName = firstName
+            self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
+            self.initials = initials
+            self.jobTitle = jobTitle
+            self.lastName = lastName
+            self.mailboxDeprovisionedDate = mailboxDeprovisionedDate
+            self.mailboxProvisionedDate = mailboxProvisionedDate
             self.name = name
+            self.office = office
             self.state = state
+            self.street = street
+            self.telephone = telephone
             self.userId = userId
             self.userRole = userRole
+            self.zipCode = zipCode
         }
 
         private enum CodingKeys: String, CodingKey {
+            case city = "City"
+            case company = "Company"
+            case country = "Country"
+            case department = "Department"
             case disabledDate = "DisabledDate"
             case displayName = "DisplayName"
             case email = "Email"
             case enabledDate = "EnabledDate"
+            case firstName = "FirstName"
+            case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
+            case initials = "Initials"
+            case jobTitle = "JobTitle"
+            case lastName = "LastName"
+            case mailboxDeprovisionedDate = "MailboxDeprovisionedDate"
+            case mailboxProvisionedDate = "MailboxProvisionedDate"
             case name = "Name"
+            case office = "Office"
             case state = "State"
+            case street = "Street"
+            case telephone = "Telephone"
             case userId = "UserId"
             case userRole = "UserRole"
+            case zipCode = "ZipCode"
         }
     }
 
     public struct DisassociateDelegateFromResourceRequest: AWSEncodableShape {
-        /// The identifier for the member (user, group) to be removed from the resource's delegates.
+        /// The identifier for the member (user, group) to be removed from the resource's delegates. The entity ID can accept UserId or GroupID, Username or Groupname, or email.   Entity: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   Email address: entity@domain.tld   Entity: entity
         public let entityId: String
         /// The identifier for the organization under which the resource exists.
         public let organizationId: String
-        /// The identifier of the resource from which delegates' set members are removed.
+        /// The identifier of the resource from which delegates' set members are removed.  The identifier can accept ResourceId, Resourcename, or email. The following identity formats are available:   Resource ID: r-0123456789a0123456789b0123456789   Email address: resource@domain.tld   Resource name: resource
         public let resourceId: String
 
         public init(entityId: String, organizationId: String, resourceId: String) {
@@ -1792,13 +1973,14 @@ extension WorkMail {
 
         public func validate(name: String) throws {
             try self.validate(self.entityId, name: "entityId", parent: name, max: 256)
-            try self.validate(self.entityId, name: "entityId", parent: name, min: 12)
+            try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
+            try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
-            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 34)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 34)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^r-[0-9a-f]{32}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 256)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1813,9 +1995,9 @@ extension WorkMail {
     }
 
     public struct DisassociateMemberFromGroupRequest: AWSEncodableShape {
-        /// The identifier for the group from which members are removed.
+        /// The identifier for the group from which members are removed. The identifier can accept GroupId, Groupname, or email. The following identity formats are available:   Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   Email address: group@domain.tld   Group name: group
         public let groupId: String
-        /// The identifier for the member to be removed to the group.
+        /// The identifier for the member to be removed from the group. The member ID can accept UserID or GroupId, Username or Groupname, or email.   Member ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   Email address: member@domain.tld   Member name: member
         public let memberId: String
         /// The identifier for the organization under which the group exists.
         public let organizationId: String
@@ -1828,9 +2010,11 @@ extension WorkMail {
 
         public func validate(name: String) throws {
             try self.validate(self.groupId, name: "groupId", parent: name, max: 256)
-            try self.validate(self.groupId, name: "groupId", parent: name, min: 12)
+            try self.validate(self.groupId, name: "groupId", parent: name, min: 1)
+            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
             try self.validate(self.memberId, name: "memberId", parent: name, max: 256)
-            try self.validate(self.memberId, name: "memberId", parent: name, min: 12)
+            try self.validate(self.memberId, name: "memberId", parent: name, min: 1)
+            try self.validate(self.memberId, name: "memberId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
@@ -1870,11 +2054,11 @@ extension WorkMail {
 
     public struct Domain: AWSEncodableShape {
         /// The fully qualified domain name.
-        public let domainName: String?
+        public let domainName: String
         /// The hosted zone ID for a domain hosted in Route 53. Required when configuring a domain hosted in Route 53.
         public let hostedZoneId: String?
 
-        public init(domainName: String? = nil, hostedZoneId: String? = nil) {
+        public init(domainName: String, hostedZoneId: String? = nil) {
             self.domainName = domainName
             self.hostedZoneId = hostedZoneId
         }
@@ -1882,10 +2066,10 @@ extension WorkMail {
         public func validate(name: String) throws {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
-            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}$")
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9.-]+$")
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, min: 1)
-            try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, pattern: "^[\\S\\s]*$")
+            try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, pattern: "^[^/\\\\]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2188,7 +2372,7 @@ extension WorkMail {
         public func validate(name: String) throws {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 209)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
-            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}$")
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9.-]+$")
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
@@ -2232,7 +2416,7 @@ extension WorkMail {
     public struct GetMailboxDetailsRequest: AWSEncodableShape {
         /// The identifier for the organization that contains the user whose mailbox details are being requested.
         public let organizationId: String
-        /// The identifier for the user whose mailbox details are being requested.
+        /// The identifier for the user whose mailbox details are being requested. The identifier can be the UserId, Username, or email. The following identity formats are available:   User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   Email address: user@domain.tld   User name: user
         public let userId: String
 
         public init(organizationId: String, userId: String) {
@@ -2245,7 +2429,8 @@ extension WorkMail {
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
             try self.validate(self.userId, name: "userId", parent: name, max: 256)
-            try self.validate(self.userId, name: "userId", parent: name, min: 12)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2431,6 +2616,23 @@ extension WorkMail {
             case id = "Id"
             case name = "Name"
             case state = "State"
+        }
+    }
+
+    public struct GroupIdentifier: AWSDecodableShape {
+        /// Group ID that matched the group.
+        public let groupId: String?
+        /// Group name that matched the group.
+        public let groupName: String?
+
+        public init(groupId: String? = nil, groupName: String? = nil) {
+            self.groupId = groupId
+            self.groupName = groupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
+            case groupName = "GroupName"
         }
     }
 
@@ -2695,7 +2897,7 @@ extension WorkMail {
     }
 
     public struct ListGroupMembersRequest: AWSEncodableShape {
-        /// The identifier for the group to which the members (users or groups) are associated.
+        /// The identifier for the group to which the members (users or groups) are associated. The identifier can accept GroupId, Groupname, or email. The following identity formats are available:   Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   Email address: group@domain.tld   Group name: group
         public let groupId: String
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
@@ -2713,7 +2915,8 @@ extension WorkMail {
 
         public func validate(name: String) throws {
             try self.validate(self.groupId, name: "groupId", parent: name, max: 256)
-            try self.validate(self.groupId, name: "groupId", parent: name, min: 12)
+            try self.validate(self.groupId, name: "groupId", parent: name, min: 1)
+            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
@@ -2749,21 +2952,74 @@ extension WorkMail {
         }
     }
 
-    public struct ListGroupsRequest: AWSEncodableShape {
+    public struct ListGroupsFilters: AWSEncodableShape {
+        /// Filters only groups with the provided name prefix.
+        public let namePrefix: String?
+        /// Filters only groups with the provided primary email prefix.
+        public let primaryEmailPrefix: String?
+        /// Filters only groups with the provided state.
+        public let state: EntityState?
+
+        public init(namePrefix: String? = nil, primaryEmailPrefix: String? = nil, state: EntityState? = nil) {
+            self.namePrefix = namePrefix
+            self.primaryEmailPrefix = primaryEmailPrefix
+            self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 256)
+            try self.validate(self.primaryEmailPrefix, name: "primaryEmailPrefix", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namePrefix = "NamePrefix"
+            case primaryEmailPrefix = "PrimaryEmailPrefix"
+            case state = "State"
+        }
+    }
+
+    public struct ListGroupsForEntityFilters: AWSEncodableShape {
+        /// Filters only group names that start with the provided name prefix.
+        public let groupNamePrefix: String?
+
+        public init(groupNamePrefix: String? = nil) {
+            self.groupNamePrefix = groupNamePrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.groupNamePrefix, name: "groupNamePrefix", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupNamePrefix = "GroupNamePrefix"
+        }
+    }
+
+    public struct ListGroupsForEntityRequest: AWSEncodableShape {
+        /// The identifier for the entity. The entity ID can accept UserId or GroupID, Username or Groupname, or email.   Entity ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   Email address: entity@domain.tld   Entity name: entity
+        public let entityId: String
+        /// Limit the search results based on the filter criteria.
+        public let filters: ListGroupsForEntityFilters?
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
         /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
         public let nextToken: String?
-        /// The identifier for the organization under which the groups exist.
+        /// The identifier for the organization under which the entity exists.
         public let organizationId: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
+        public init(entityId: String, filters: ListGroupsForEntityFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
+            self.entityId = entityId
+            self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.organizationId = organizationId
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.entityId, name: "entityId", parent: name, max: 256)
+            try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
+            try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
+            try self.filters?.validate(name: "\(name).filters")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
@@ -2775,6 +3031,62 @@ extension WorkMail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case entityId = "EntityId"
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct ListGroupsForEntityResponse: AWSDecodableShape {
+        /// The overview of groups in an organization.
+        public let groups: [GroupIdentifier]?
+        /// The token to use to retrieve the next page of results. This value is `null` when there are no more results to return.
+        public let nextToken: String?
+
+        public init(groups: [GroupIdentifier]? = nil, nextToken: String? = nil) {
+            self.groups = groups
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groups = "Groups"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListGroupsRequest: AWSEncodableShape {
+        /// Limit the search results based on the filter criteria. Only one filter per request is supported.
+        public let filters: ListGroupsFilters?
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
+        public let nextToken: String?
+        /// The identifier for the organization under which the groups exist.
+        public let organizationId: String
+
+        public init(filters: ListGroupsFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*|[a-zA-Z0-9/+=]{1,1024}$")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case organizationId = "OrganizationId"
@@ -2946,7 +3258,7 @@ extension WorkMail {
     }
 
     public struct ListMailboxPermissionsRequest: AWSEncodableShape {
-        /// The identifier of the user, group, or resource for which to list mailbox permissions.
+        /// The identifier of the user, or resource for which to list mailbox permissions. The entity ID can accept UserId or ResourceId, Username or Resourcename, or email.   Entity ID: 12345678-1234-1234-1234-123456789012, or r-0123456789a0123456789b0123456789   Email address: entity@domain.tld   Entity name: entity
         public let entityId: String
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
@@ -2964,7 +3276,8 @@ extension WorkMail {
 
         public func validate(name: String) throws {
             try self.validate(self.entityId, name: "entityId", parent: name, max: 256)
-            try self.validate(self.entityId, name: "entityId", parent: name, min: 12)
+            try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
+            try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
@@ -3144,7 +3457,7 @@ extension WorkMail {
         public let nextToken: String?
         /// The identifier for the organization that contains the resource for which delegates are listed.
         public let organizationId: String
-        /// The identifier for the resource whose delegates are listed.
+        /// The identifier for the resource whose delegates are listed. The identifier can accept ResourceId, Resourcename, or email. The following identity formats are available:   Resource ID: r-0123456789a0123456789b0123456789   Email address: resource@domain.tld   Resource name: resource
         public let resourceId: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, organizationId: String, resourceId: String) {
@@ -3164,7 +3477,8 @@ extension WorkMail {
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 256)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 12)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3192,7 +3506,35 @@ extension WorkMail {
         }
     }
 
+    public struct ListResourcesFilters: AWSEncodableShape {
+        /// Filters only resource that start with the entered name prefix .
+        public let namePrefix: String?
+        /// Filters only resource with the provided primary email prefix.
+        public let primaryEmailPrefix: String?
+        /// Filters only resource with the provided state.
+        public let state: EntityState?
+
+        public init(namePrefix: String? = nil, primaryEmailPrefix: String? = nil, state: EntityState? = nil) {
+            self.namePrefix = namePrefix
+            self.primaryEmailPrefix = primaryEmailPrefix
+            self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 256)
+            try self.validate(self.primaryEmailPrefix, name: "primaryEmailPrefix", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namePrefix = "NamePrefix"
+            case primaryEmailPrefix = "PrimaryEmailPrefix"
+            case state = "State"
+        }
+    }
+
     public struct ListResourcesRequest: AWSEncodableShape {
+        /// Limit the resource search results based on the filter criteria. You can only use one filter per request.
+        public let filters: ListResourcesFilters?
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
         /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
@@ -3200,13 +3542,15 @@ extension WorkMail {
         /// The identifier for the organization under which the resources exist.
         public let organizationId: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
+        public init(filters: ListResourcesFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
+            self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.organizationId = organizationId
         }
 
         public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
@@ -3218,6 +3562,7 @@ extension WorkMail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case organizationId = "OrganizationId"
@@ -3252,6 +3597,7 @@ extension WorkMail {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws:workmail:[a-z0-9-]*:[a-z0-9-]+:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3272,7 +3618,40 @@ extension WorkMail {
         }
     }
 
+    public struct ListUsersFilters: AWSEncodableShape {
+        /// Filters only users with the provided display name prefix.
+        public let displayNamePrefix: String?
+        /// Filters only users with the provided email prefix.
+        public let primaryEmailPrefix: String?
+        /// Filters only users with the provided state.
+        public let state: EntityState?
+        /// Filters only users with the provided username prefix.
+        public let usernamePrefix: String?
+
+        public init(displayNamePrefix: String? = nil, primaryEmailPrefix: String? = nil, state: EntityState? = nil, usernamePrefix: String? = nil) {
+            self.displayNamePrefix = displayNamePrefix
+            self.primaryEmailPrefix = primaryEmailPrefix
+            self.state = state
+            self.usernamePrefix = usernamePrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.displayNamePrefix, name: "displayNamePrefix", parent: name, max: 256)
+            try self.validate(self.primaryEmailPrefix, name: "primaryEmailPrefix", parent: name, max: 256)
+            try self.validate(self.usernamePrefix, name: "usernamePrefix", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayNamePrefix = "DisplayNamePrefix"
+            case primaryEmailPrefix = "PrimaryEmailPrefix"
+            case state = "State"
+            case usernamePrefix = "UsernamePrefix"
+        }
+    }
+
     public struct ListUsersRequest: AWSEncodableShape {
+        /// Limit the user search results based on the filter criteria. You can only use one filter per request.
+        public let filters: ListUsersFilters?
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
         /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
@@ -3280,13 +3659,15 @@ extension WorkMail {
         /// The identifier for the organization under which the users exist.
         public let organizationId: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
+        public init(filters: ListUsersFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
+            self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.organizationId = organizationId
         }
 
         public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
@@ -3298,6 +3679,7 @@ extension WorkMail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case organizationId = "OrganizationId"
@@ -3722,6 +4104,7 @@ extension WorkMail {
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam:[a-z0-9-]*:[a-z0-9-]+:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3763,9 +4146,9 @@ extension WorkMail {
     }
 
     public struct PutMailboxPermissionsRequest: AWSEncodableShape {
-        /// The identifier of the user, group, or resource for which to update mailbox permissions.
+        /// The identifier of the user or resource for which to update mailbox permissions. The identifier can be UserId, ResourceID, or Group Id, Username, Resourcename, or Groupname, or email.   Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234   Email address: entity@domain.tld   Entity name: entity
         public let entityId: String
-        /// The identifier of the user, group, or resource to which to grant the permissions.
+        /// The identifier of the user, group, or resource to which to grant the permissions. The identifier can be UserId, ResourceID, or Group Id, Username, Resourcename, or Groupname, or email.   Grantee ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234   Email address: grantee@domain.tld   Grantee name: grantee
         public let granteeId: String
         /// The identifier of the organization under which the user, group, or resource exists.
         public let organizationId: String
@@ -3781,9 +4164,11 @@ extension WorkMail {
 
         public func validate(name: String) throws {
             try self.validate(self.entityId, name: "entityId", parent: name, max: 256)
-            try self.validate(self.entityId, name: "entityId", parent: name, min: 12)
+            try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
+            try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
             try self.validate(self.granteeId, name: "granteeId", parent: name, max: 256)
-            try self.validate(self.granteeId, name: "granteeId", parent: name, min: 12)
+            try self.validate(self.granteeId, name: "granteeId", parent: name, min: 1)
+            try self.validate(self.granteeId, name: "granteeId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
@@ -3936,7 +4321,7 @@ extension WorkMail {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7e]+$")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 209)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
-            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}$")
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9.-]+$")
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
@@ -3956,7 +4341,7 @@ extension WorkMail {
     public struct RegisterToWorkMailRequest: AWSEncodableShape {
         /// The email for the user, group, or resource to be updated.
         public let email: String
-        /// The identifier for the user, group, or resource to be updated.
+        /// The identifier for the user, group, or resource to be updated. The identifier can accept UserId, ResourceId, or GroupId, or Username, Resourcename, or Groupname. The following identity formats are available:   Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234   Entity name: entity
         public let entityId: String
         /// The identifier for the organization under which the user, group, or resource exists.
         public let organizationId: String
@@ -3972,7 +4357,8 @@ extension WorkMail {
             try self.validate(self.email, name: "email", parent: name, min: 1)
             try self.validate(self.email, name: "email", parent: name, pattern: "^[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}$")
             try self.validate(self.entityId, name: "entityId", parent: name, max: 256)
-            try self.validate(self.entityId, name: "entityId", parent: name, min: 12)
+            try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
+            try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
@@ -4025,6 +4411,8 @@ extension WorkMail {
     }
 
     public struct Resource: AWSDecodableShape {
+        /// Resource description.
+        public let description: String?
         /// The date indicating when the resource was disabled from WorkMail use.
         public let disabledDate: Date?
         /// The email of the resource.
@@ -4040,7 +4428,8 @@ extension WorkMail {
         /// The type of the resource: equipment or room.
         public let type: ResourceType?
 
-        public init(disabledDate: Date? = nil, email: String? = nil, enabledDate: Date? = nil, id: String? = nil, name: String? = nil, state: EntityState? = nil, type: ResourceType? = nil) {
+        public init(description: String? = nil, disabledDate: Date? = nil, email: String? = nil, enabledDate: Date? = nil, id: String? = nil, name: String? = nil, state: EntityState? = nil, type: ResourceType? = nil) {
+            self.description = description
             self.disabledDate = disabledDate
             self.email = email
             self.enabledDate = enabledDate
@@ -4051,6 +4440,7 @@ extension WorkMail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case description = "Description"
             case disabledDate = "DisabledDate"
             case email = "Email"
             case enabledDate = "EnabledDate"
@@ -4066,7 +4456,7 @@ extension WorkMail {
         public let clientToken: String
         /// The mailbox export job description.
         public let description: String?
-        /// The identifier of the user or resource associated with the mailbox.
+        /// The identifier of the user or resource associated with the mailbox. The identifier can accept UserId or ResourceId, Username or Resourcename, or email. The following identity formats are available:   Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789 , or S-1-1-12-1234567890-123456789-123456789-1234   Email address: entity@domain.tld   Entity name: entity
         public let entityId: String
         /// The Amazon Resource Name (ARN) of the symmetric AWS Key Management Service (AWS KMS) key that encrypts the exported mailbox content.
         public let kmsKeyArn: String
@@ -4097,7 +4487,8 @@ extension WorkMail {
             try self.validate(self.description, name: "description", parent: name, max: 1023)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\S\\s]*$")
             try self.validate(self.entityId, name: "entityId", parent: name, max: 256)
-            try self.validate(self.entityId, name: "entityId", parent: name, min: 12)
+            try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
+            try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws:kms:[a-z0-9-]*:[a-z0-9-]+:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
@@ -4106,6 +4497,7 @@ extension WorkMail {
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam:[a-z0-9-]*:[a-z0-9-]+:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, max: 63)
             try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, min: 1)
             try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, pattern: "^[A-Za-z0-9.-]+$")
@@ -4176,6 +4568,7 @@ extension WorkMail {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws:workmail:[a-z0-9-]*:[a-z0-9-]+:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -4210,7 +4603,7 @@ extension WorkMail {
         public func validate(name: String) throws {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
-            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}$")
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9.-]+$")
             try self.ewsProvider?.validate(name: "\(name).ewsProvider")
             try self.lambdaProvider?.validate(name: "\(name).lambdaProvider")
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
@@ -4257,6 +4650,7 @@ extension WorkMail {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws:workmail:[a-z0-9-]*:[a-z0-9-]+:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -4294,7 +4688,7 @@ extension WorkMail {
         public func validate(name: String) throws {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
-            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}$")
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9.-]+$")
             try self.ewsProvider?.validate(name: "\(name).ewsProvider")
             try self.lambdaProvider?.validate(name: "\(name).lambdaProvider")
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
@@ -4328,7 +4722,7 @@ extension WorkMail {
         public func validate(name: String) throws {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 209)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
-            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}$")
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9.-]+$")
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
@@ -4341,6 +4735,40 @@ extension WorkMail {
     }
 
     public struct UpdateDefaultMailDomainResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateGroupRequest: AWSEncodableShape {
+        /// The identifier for the group to be updated. The identifier can accept GroupId, Groupname, or email. The following identity formats are available:   Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   Email address: group@domain.tld   Group name: group
+        public let groupId: String
+        /// If enabled, the group is hidden from the global address list.
+        public let hiddenFromGlobalAddressList: Bool?
+        /// The identifier for the organization under which the group exists.
+        public let organizationId: String
+
+        public init(groupId: String, hiddenFromGlobalAddressList: Bool? = nil, organizationId: String) {
+            self.groupId = groupId
+            self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.groupId, name: "groupId", parent: name, max: 256)
+            try self.validate(self.groupId, name: "groupId", parent: name, min: 1)
+            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
+            case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct UpdateGroupResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -4405,7 +4833,7 @@ extension WorkMail {
         public let mailboxQuota: Int
         /// The identifier for the organization that contains the user for whom to update the mailbox quota.
         public let organizationId: String
-        /// The identifer for the user for whom to update the mailbox quota.
+        /// The identifer for the user for whom to update the mailbox quota. The identifier can be the UserId, Username, or email. The following identity formats are available:   User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   Email address: user@domain.tld   User name: user
         public let userId: String
 
         public init(mailboxQuota: Int, organizationId: String, userId: String) {
@@ -4420,7 +4848,8 @@ extension WorkMail {
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
             try self.validate(self.userId, name: "userId", parent: name, max: 256)
-            try self.validate(self.userId, name: "userId", parent: name, min: 12)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4573,7 +5002,7 @@ extension WorkMail {
     public struct UpdatePrimaryEmailAddressRequest: AWSEncodableShape {
         /// The value of the email to be updated as primary.
         public let email: String
-        /// The user, group, or resource to update.
+        /// The user, group, or resource to update. The identifier can accept UseriD, ResourceId, or GroupId, Username, Resourcename, or Groupname, or email. The following identity formats are available:   Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234   Email address: entity@domain.tld   Entity name: entity
         public let entityId: String
         /// The organization that contains the user, group, or resource to update.
         public let organizationId: String
@@ -4589,7 +5018,8 @@ extension WorkMail {
             try self.validate(self.email, name: "email", parent: name, min: 1)
             try self.validate(self.email, name: "email", parent: name, pattern: "^[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}$")
             try self.validate(self.entityId, name: "entityId", parent: name, max: 256)
-            try self.validate(self.entityId, name: "entityId", parent: name, min: 12)
+            try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
+            try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
@@ -4609,41 +5039,157 @@ extension WorkMail {
     public struct UpdateResourceRequest: AWSEncodableShape {
         /// The resource's booking options to be updated.
         public let bookingOptions: BookingOptions?
+        /// Updates the resource description.
+        public let description: String?
+        /// If enabled, the resource is hidden from the global address list.
+        public let hiddenFromGlobalAddressList: Bool?
         /// The name of the resource to be updated.
         public let name: String?
         /// The identifier associated with the organization for which the resource is updated.
         public let organizationId: String
-        /// The identifier of the resource to be updated.
+        /// The identifier of the resource to be updated. The identifier can accept ResourceId, Resourcename, or email. The following identity formats are available:   Resource ID: r-0123456789a0123456789b0123456789   Email address: resource@domain.tld   Resource name: resource
         public let resourceId: String
+        /// Updates the resource type.
+        public let type: ResourceType?
 
-        public init(bookingOptions: BookingOptions? = nil, name: String? = nil, organizationId: String, resourceId: String) {
+        public init(bookingOptions: BookingOptions? = nil, description: String? = nil, hiddenFromGlobalAddressList: Bool? = nil, name: String? = nil, organizationId: String, resourceId: String, type: ResourceType? = nil) {
             self.bookingOptions = bookingOptions
+            self.description = description
+            self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
             self.name = name
             self.organizationId = organizationId
             self.resourceId = resourceId
+            self.type = type
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, max: 20)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-.]+(@[a-zA-Z0-9.\\-]+\\.[a-zA-Z0-9-]{2,})?$")
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
-            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 34)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 34)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^r-[0-9a-f]{32}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 256)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case bookingOptions = "BookingOptions"
+            case description = "Description"
+            case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
             case name = "Name"
             case organizationId = "OrganizationId"
             case resourceId = "ResourceId"
+            case type = "Type"
         }
     }
 
     public struct UpdateResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateUserRequest: AWSEncodableShape {
+        /// Updates the user's city.
+        public let city: String?
+        /// Updates the user's company.
+        public let company: String?
+        /// Updates the user's country.
+        public let country: String?
+        /// Updates the user's department.
+        public let department: String?
+        /// Updates the display name of the user.
+        public let displayName: String?
+        /// Updates the user's first name.
+        public let firstName: String?
+        /// If enabled, the user is hidden from the global address list.
+        public let hiddenFromGlobalAddressList: Bool?
+        /// Updates the user's initials.
+        public let initials: String?
+        /// Updates the user's job title.
+        public let jobTitle: String?
+        /// Updates the user's last name.
+        public let lastName: String?
+        /// Updates the user's office.
+        public let office: String?
+        /// The identifier for the organization under which the user exists.
+        public let organizationId: String
+        /// Updates the user role. You cannot pass SYSTEM_USER or RESOURCE.
+        public let role: UserRole?
+        /// Updates the user's street address.
+        public let street: String?
+        /// Updates the user's contact details.
+        public let telephone: String?
+        /// The identifier for the user to be updated. The identifier can be the UserId, Username, or email. The following identity formats are available:   User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   Email address: user@domain.tld   User name: user
+        public let userId: String
+        /// Updates the user's zipcode.
+        public let zipCode: String?
+
+        public init(city: String? = nil, company: String? = nil, country: String? = nil, department: String? = nil, displayName: String? = nil, firstName: String? = nil, hiddenFromGlobalAddressList: Bool? = nil, initials: String? = nil, jobTitle: String? = nil, lastName: String? = nil, office: String? = nil, organizationId: String, role: UserRole? = nil, street: String? = nil, telephone: String? = nil, userId: String, zipCode: String? = nil) {
+            self.city = city
+            self.company = company
+            self.country = country
+            self.department = department
+            self.displayName = displayName
+            self.firstName = firstName
+            self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
+            self.initials = initials
+            self.jobTitle = jobTitle
+            self.lastName = lastName
+            self.office = office
+            self.organizationId = organizationId
+            self.role = role
+            self.street = street
+            self.telephone = telephone
+            self.userId = userId
+            self.zipCode = zipCode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.city, name: "city", parent: name, max: 256)
+            try self.validate(self.company, name: "company", parent: name, max: 256)
+            try self.validate(self.country, name: "country", parent: name, max: 256)
+            try self.validate(self.department, name: "department", parent: name, max: 256)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 256)
+            try self.validate(self.firstName, name: "firstName", parent: name, max: 256)
+            try self.validate(self.initials, name: "initials", parent: name, max: 256)
+            try self.validate(self.jobTitle, name: "jobTitle", parent: name, max: 256)
+            try self.validate(self.lastName, name: "lastName", parent: name, max: 256)
+            try self.validate(self.office, name: "office", parent: name, max: 256)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+            try self.validate(self.street, name: "street", parent: name, max: 256)
+            try self.validate(self.telephone, name: "telephone", parent: name, max: 256)
+            try self.validate(self.userId, name: "userId", parent: name, max: 256)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
+            try self.validate(self.zipCode, name: "zipCode", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case city = "City"
+            case company = "Company"
+            case country = "Country"
+            case department = "Department"
+            case displayName = "DisplayName"
+            case firstName = "FirstName"
+            case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
+            case initials = "Initials"
+            case jobTitle = "JobTitle"
+            case lastName = "LastName"
+            case office = "Office"
+            case organizationId = "OrganizationId"
+            case role = "Role"
+            case street = "Street"
+            case telephone = "Telephone"
+            case userId = "UserId"
+            case zipCode = "ZipCode"
+        }
+    }
+
+    public struct UpdateUserResponse: AWSDecodableShape {
         public init() {}
     }
 

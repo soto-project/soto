@@ -68,7 +68,7 @@ public struct AmplifyUIBuilder: AWSService {
         return self.client.execute(operation: "CreateComponent", path: "/app/{appId}/environment/{environmentName}/components", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new form for an Amplify.
+    /// Creates a new form for an Amplify app.
     public func createForm(_ input: CreateFormRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFormResponse> {
         return self.client.execute(operation: "CreateForm", path: "/app/{appId}/environment/{environmentName}/forms", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -93,7 +93,7 @@ public struct AmplifyUIBuilder: AWSService {
         return self.client.execute(operation: "DeleteTheme", path: "/app/{appId}/environment/{environmentName}/themes/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Exchanges an access code for a token.
+    ///  This is for internal use.  Amplify uses this action to exchange an access code for a token.
     public func exchangeCodeForToken(_ input: ExchangeCodeForTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExchangeCodeForTokenResponse> {
         return self.client.execute(operation: "ExchangeCodeForToken", path: "/tokens/{provider}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -163,12 +163,12 @@ public struct AmplifyUIBuilder: AWSService {
         return self.client.execute(operation: "PutMetadataFlag", path: "/app/{appId}/environment/{environmentName}/metadata/features/{featureName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Refreshes a previously issued access token that might have expired.
+    ///  This is for internal use.  Amplify uses this action to refresh a previously issued access token that might have expired.
     public func refreshToken(_ input: RefreshTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RefreshTokenResponse> {
         return self.client.execute(operation: "RefreshToken", path: "/tokens/{provider}/refresh", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts a code generation job for for a specified Amplify app and backend environment.
+    /// Starts a code generation job for a specified Amplify app and backend environment.
     public func startCodegenJob(_ input: StartCodegenJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartCodegenJobResponse> {
         return self.client.execute(operation: "StartCodegenJob", path: "/app/{appId}/environment/{environmentName}/codegen-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

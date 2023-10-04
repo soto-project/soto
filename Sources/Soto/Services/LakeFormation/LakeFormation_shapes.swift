@@ -72,12 +72,13 @@ extension LakeFormation {
         case alter = "ALTER"
         case associate = "ASSOCIATE"
         case createDatabase = "CREATE_DATABASE"
+        case createLfTag = "CREATE_LF_TAG"
         case createTable = "CREATE_TABLE"
-        case createTag = "CREATE_TAG"
         case dataLocationAccess = "DATA_LOCATION_ACCESS"
         case delete = "DELETE"
         case describe = "DESCRIBE"
         case drop = "DROP"
+        case grantWithLfTagExpression = "GRANT_WITH_LF_TAG_EXPRESSION"
         case insert = "INSERT"
         case select = "SELECT"
         public var description: String { return self.rawValue }
@@ -86,6 +87,8 @@ extension LakeFormation {
     public enum PermissionType: String, CustomStringConvertible, Codable, Sendable {
         case cellFilterPermission = "CELL_FILTER_PERMISSION"
         case columnPermission = "COLUMN_PERMISSION"
+        case nestedCellPermission = "NESTED_CELL_PERMISSION"
+        case nestedPermission = "NESTED_PERMISSION"
         public var description: String { return self.rawValue }
     }
 
@@ -590,8 +593,32 @@ extension LakeFormation {
         public init() {}
     }
 
+    public struct CreateLakeFormationOptInRequest: AWSEncodableShape {
+        public let principal: DataLakePrincipal
+        public let resource: Resource
+
+        public init(principal: DataLakePrincipal, resource: Resource) {
+            self.principal = principal
+            self.resource = resource
+        }
+
+        public func validate(name: String) throws {
+            try self.principal.validate(name: "\(name).principal")
+            try self.resource.validate(name: "\(name).resource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case principal = "Principal"
+            case resource = "Resource"
+        }
+    }
+
+    public struct CreateLakeFormationOptInResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DataCellsFilter: AWSEncodableShape & AWSDecodableShape {
-        /// A list of column names.
+        /// A list of column names and/or nested column attributes. When specifying nested attributes, use a qualified dot (.) delimited format such as "address"."zip". Nested attributes within this list may not exceed a depth of 5.
         public let columnNames: [String]?
         /// A wildcard with exclusions. You must specify either a ColumnNames list or the ColumnWildCard.
         public let columnWildcard: ColumnWildcard?
@@ -715,8 +742,10 @@ extension LakeFormation {
     }
 
     public struct DataLakeSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Whether to allow Amazon EMR clusters to access data managed by Lake Formation.  If true, you allow Amazon EMR clusters to access data in Amazon S3 locations that are registered with Lake Formation. If false or null, no Amazon EMR clusters will be able to access data in Amazon S3 locations that are registered with Lake Formation. For more information, see (Optional) Allow Data Filtering on Amazon EMR.
+        /// Whether to allow Amazon EMR clusters to access data managed by Lake Formation.  If true, you allow Amazon EMR clusters to access data in Amazon S3 locations that are registered with Lake Formation. If false or null, no Amazon EMR clusters will be able to access data in Amazon S3 locations that are registered with Lake Formation. For more information, see (Optional) Allow external data filtering.
         public let allowExternalDataFiltering: Bool?
+        /// Whether to allow a third-party query engine to get data access credentials without session tags when a caller has full data access permissions.
+        public let allowFullTableExternalDataAccess: Bool?
         /// Lake Formation relies on a privileged process secured by Amazon EMR or the third party integrator to tag the user's role while assuming it. Lake Formation will publish the acceptable key-value pair, for example key = "LakeFormationTrustedCaller" and value = "TRUE" and the third party integrator must properly tag the temporary security credentials that will be used to call Lake Formation's administrative APIs.
         public let authorizedSessionTagValueList: [String]?
         /// Specifies whether access control on newly created database is managed by Lake Formation permissions or exclusively by IAM permissions. A null value indicates access control by Lake Formation permissions. A value that assigns ALL to IAM_ALLOWED_PRINCIPALS indicates access control by IAM permissions. This is referred to as the setting "Use only IAM access control," and is for backward compatibility with the Glue permission model implemented by IAM permissions. The only permitted values are an empty array or an array that contains a single JSON object that grants ALL to IAM_ALLOWED_PRINCIPALS. For more information, see Changing the Default Security Settings for Your Data Lake.
@@ -729,17 +758,21 @@ extension LakeFormation {
         public let externalDataFilteringAllowList: [DataLakePrincipal]?
         /// A key-value map that provides an additional configuration on your data lake. CrossAccountVersion is the key you can configure in the Parameters field. Accepted values for the CrossAccountVersion key are 1, 2, and 3.
         public let parameters: [String: String]?
+        /// A list of Lake Formation principals with only view access to the resources, without the ability to make changes. Supported principals are IAM users or IAM roles.
+        public let readOnlyAdmins: [DataLakePrincipal]?
         /// A list of the resource-owning account IDs that the caller's account can use to share their user access details (user ARNs). The user ARNs can be logged in the resource owner's CloudTrail log. You may want to specify this property when you are in a high-trust boundary, such as the same team or company.
         public let trustedResourceOwners: [String]?
 
-        public init(allowExternalDataFiltering: Bool? = nil, authorizedSessionTagValueList: [String]? = nil, createDatabaseDefaultPermissions: [PrincipalPermissions]? = nil, createTableDefaultPermissions: [PrincipalPermissions]? = nil, dataLakeAdmins: [DataLakePrincipal]? = nil, externalDataFilteringAllowList: [DataLakePrincipal]? = nil, parameters: [String: String]? = nil, trustedResourceOwners: [String]? = nil) {
+        public init(allowExternalDataFiltering: Bool? = nil, allowFullTableExternalDataAccess: Bool? = nil, authorizedSessionTagValueList: [String]? = nil, createDatabaseDefaultPermissions: [PrincipalPermissions]? = nil, createTableDefaultPermissions: [PrincipalPermissions]? = nil, dataLakeAdmins: [DataLakePrincipal]? = nil, externalDataFilteringAllowList: [DataLakePrincipal]? = nil, parameters: [String: String]? = nil, readOnlyAdmins: [DataLakePrincipal]? = nil, trustedResourceOwners: [String]? = nil) {
             self.allowExternalDataFiltering = allowExternalDataFiltering
+            self.allowFullTableExternalDataAccess = allowFullTableExternalDataAccess
             self.authorizedSessionTagValueList = authorizedSessionTagValueList
             self.createDatabaseDefaultPermissions = createDatabaseDefaultPermissions
             self.createTableDefaultPermissions = createTableDefaultPermissions
             self.dataLakeAdmins = dataLakeAdmins
             self.externalDataFilteringAllowList = externalDataFilteringAllowList
             self.parameters = parameters
+            self.readOnlyAdmins = readOnlyAdmins
             self.trustedResourceOwners = trustedResourceOwners
         }
 
@@ -769,6 +802,10 @@ extension LakeFormation {
                 try validate($0.key, name: "parameters.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512000)
             }
+            try self.readOnlyAdmins?.forEach {
+                try $0.validate(name: "\(name).readOnlyAdmins[]")
+            }
+            try self.validate(self.readOnlyAdmins, name: "readOnlyAdmins", parent: name, max: 30)
             try self.trustedResourceOwners?.forEach {
                 try validate($0, name: "trustedResourceOwners[]", parent: name, max: 255)
                 try validate($0, name: "trustedResourceOwners[]", parent: name, min: 1)
@@ -778,12 +815,14 @@ extension LakeFormation {
 
         private enum CodingKeys: String, CodingKey {
             case allowExternalDataFiltering = "AllowExternalDataFiltering"
+            case allowFullTableExternalDataAccess = "AllowFullTableExternalDataAccess"
             case authorizedSessionTagValueList = "AuthorizedSessionTagValueList"
             case createDatabaseDefaultPermissions = "CreateDatabaseDefaultPermissions"
             case createTableDefaultPermissions = "CreateTableDefaultPermissions"
             case dataLakeAdmins = "DataLakeAdmins"
             case externalDataFilteringAllowList = "ExternalDataFilteringAllowList"
             case parameters = "Parameters"
+            case readOnlyAdmins = "ReadOnlyAdmins"
             case trustedResourceOwners = "TrustedResourceOwners"
         }
     }
@@ -908,6 +947,30 @@ extension LakeFormation {
     }
 
     public struct DeleteLFTagResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteLakeFormationOptInRequest: AWSEncodableShape {
+        public let principal: DataLakePrincipal
+        public let resource: Resource
+
+        public init(principal: DataLakePrincipal, resource: Resource) {
+            self.principal = principal
+            self.resource = resource
+        }
+
+        public func validate(name: String) throws {
+            try self.principal.validate(name: "\(name).principal")
+            try self.resource.validate(name: "\(name).resource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case principal = "Principal"
+            case resource = "Resource"
+        }
+    }
+
+    public struct DeleteLakeFormationOptInResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -1563,11 +1626,11 @@ extension LakeFormation {
         /// Filters the request based on the user having been granted a list of specified permissions on the requested resource(s).
         public let permissions: [Permission]?
         /// A list of supported permission types for the partition. Valid values are COLUMN_PERMISSION and CELL_FILTER_PERMISSION.
-        public let supportedPermissionTypes: [PermissionType]
+        public let supportedPermissionTypes: [PermissionType]?
         /// The ARN of the partitions' table.
         public let tableArn: String
 
-        public init(auditContext: AuditContext? = nil, durationSeconds: Int? = nil, partition: PartitionValueList, permissions: [Permission]? = nil, supportedPermissionTypes: [PermissionType], tableArn: String) {
+        public init(auditContext: AuditContext? = nil, durationSeconds: Int? = nil, partition: PartitionValueList, permissions: [Permission]? = nil, supportedPermissionTypes: [PermissionType]? = nil, tableArn: String) {
             self.auditContext = auditContext
             self.durationSeconds = durationSeconds
             self.partition = partition
@@ -1628,11 +1691,11 @@ extension LakeFormation {
         /// Filters the request based on the user having been granted a list of specified permissions on the requested resource(s).
         public let permissions: [Permission]?
         /// A list of supported permission types for the table. Valid values are COLUMN_PERMISSION and CELL_FILTER_PERMISSION.
-        public let supportedPermissionTypes: [PermissionType]
+        public let supportedPermissionTypes: [PermissionType]?
         /// The ARN identifying a table in the Data Catalog for the temporary credentials request.
         public let tableArn: String
 
-        public init(auditContext: AuditContext? = nil, durationSeconds: Int? = nil, permissions: [Permission]? = nil, supportedPermissionTypes: [PermissionType], tableArn: String) {
+        public init(auditContext: AuditContext? = nil, durationSeconds: Int? = nil, permissions: [Permission]? = nil, supportedPermissionTypes: [PermissionType]? = nil, tableArn: String) {
             self.auditContext = auditContext
             self.durationSeconds = durationSeconds
             self.permissions = permissions
@@ -1821,7 +1884,7 @@ extension LakeFormation {
     public struct LFTag: AWSEncodableShape & AWSDecodableShape {
         /// The key-name for the LF-tag.
         public let tagKey: String
-        /// A list of possible values an attribute can take.
+        /// A list of possible values an attribute can take. The maximum number of values that can be defined for a LF-Tag is 1000. A single API call supports 50 values. You can use multiple API calls to add more values.
         public let tagValues: [String]
 
         public init(tagKey: String, tagValues: [String]) {
@@ -1966,6 +2029,29 @@ extension LakeFormation {
         }
     }
 
+    public struct LakeFormationOptInsInfo: AWSDecodableShape {
+        /// The last modified date and time of the record.
+        public let lastModified: Date?
+        /// The user who updated the record.
+        public let lastUpdatedBy: String?
+        public let principal: DataLakePrincipal?
+        public let resource: Resource?
+
+        public init(lastModified: Date? = nil, lastUpdatedBy: String? = nil, principal: DataLakePrincipal? = nil, resource: Resource? = nil) {
+            self.lastModified = lastModified
+            self.lastUpdatedBy = lastUpdatedBy
+            self.principal = principal
+            self.resource = resource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastModified = "LastModified"
+            case lastUpdatedBy = "LastUpdatedBy"
+            case principal = "Principal"
+            case resource = "Resource"
+        }
+    }
+
     public struct ListDataCellsFilterRequest: AWSEncodableShape {
         /// The maximum size of the response.
         public let maxResults: Int?
@@ -2056,6 +2142,54 @@ extension LakeFormation {
 
         private enum CodingKeys: String, CodingKey {
             case lfTags = "LFTags"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListLakeFormationOptInsRequest: AWSEncodableShape {
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// A continuation token, if this is not the first call to retrieve this list.
+        public let nextToken: String?
+        public let principal: DataLakePrincipal?
+        /// A structure for the resource.
+        public let resource: Resource?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, principal: DataLakePrincipal? = nil, resource: Resource? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.principal = principal
+            self.resource = resource
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.principal?.validate(name: "\(name).principal")
+            try self.resource?.validate(name: "\(name).resource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case principal = "Principal"
+            case resource = "Resource"
+        }
+    }
+
+    public struct ListLakeFormationOptInsResponse: AWSDecodableShape {
+        /// A list of principal-resource pairs that have Lake Formation permissins enforced.
+        public let lakeFormationOptInsInfoList: [LakeFormationOptInsInfo]?
+        /// A continuation token, if this is not the first call to retrieve this list.
+        public let nextToken: String?
+
+        public init(lakeFormationOptInsInfoList: [LakeFormationOptInsInfo]? = nil, nextToken: String? = nil) {
+            self.lakeFormationOptInsInfoList = lakeFormationOptInsInfoList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lakeFormationOptInsInfoList = "LakeFormationOptInsInfoList"
             case nextToken = "NextToken"
         }
     }
@@ -2370,6 +2504,10 @@ extension LakeFormation {
     public struct PrincipalResourcePermissions: AWSDecodableShape {
         /// This attribute can be used to return any additional details of PrincipalResourcePermissions. Currently returns only as a RAM resource share ARN.
         public let additionalDetails: DetailsMap?
+        /// The date and time when the resource was last updated.
+        public let lastUpdated: Date?
+        /// The user who updated the record.
+        public let lastUpdatedBy: String?
         /// The permissions to be granted or revoked on the resource.
         public let permissions: [Permission]?
         /// Indicates whether to grant the ability to grant permissions (as a subset of permissions granted).
@@ -2379,8 +2517,10 @@ extension LakeFormation {
         /// The resource where permissions are to be granted or revoked.
         public let resource: Resource?
 
-        public init(additionalDetails: DetailsMap? = nil, permissions: [Permission]? = nil, permissionsWithGrantOption: [Permission]? = nil, principal: DataLakePrincipal? = nil, resource: Resource? = nil) {
+        public init(additionalDetails: DetailsMap? = nil, lastUpdated: Date? = nil, lastUpdatedBy: String? = nil, permissions: [Permission]? = nil, permissionsWithGrantOption: [Permission]? = nil, principal: DataLakePrincipal? = nil, resource: Resource? = nil) {
             self.additionalDetails = additionalDetails
+            self.lastUpdated = lastUpdated
+            self.lastUpdatedBy = lastUpdatedBy
             self.permissions = permissions
             self.permissionsWithGrantOption = permissionsWithGrantOption
             self.principal = principal
@@ -2389,6 +2529,8 @@ extension LakeFormation {
 
         private enum CodingKeys: String, CodingKey {
             case additionalDetails = "AdditionalDetails"
+            case lastUpdated = "LastUpdated"
+            case lastUpdatedBy = "LastUpdatedBy"
             case permissions = "Permissions"
             case permissionsWithGrantOption = "PermissionsWithGrantOption"
             case principal = "Principal"
@@ -2465,6 +2607,8 @@ extension LakeFormation {
     }
 
     public struct RegisterResourceRequest: AWSEncodableShape {
+        ///  Specifies whether the data access of tables pointing to the location can be managed by both Lake Formation permissions as well as Amazon S3 bucket policies.
+        public let hybridAccessEnabled: Bool?
         /// The Amazon Resource Name (ARN) of the resource that you want to register.
         public let resourceArn: String
         /// The identifier for the role that registers the resource.
@@ -2474,7 +2618,8 @@ extension LakeFormation {
         /// Whether or not the resource is a federated resource.
         public let withFederation: Bool?
 
-        public init(resourceArn: String, roleArn: String? = nil, useServiceLinkedRole: Bool? = nil, withFederation: Bool? = nil) {
+        public init(hybridAccessEnabled: Bool? = nil, resourceArn: String, roleArn: String? = nil, useServiceLinkedRole: Bool? = nil, withFederation: Bool? = nil) {
+            self.hybridAccessEnabled = hybridAccessEnabled
             self.resourceArn = resourceArn
             self.roleArn = roleArn
             self.useServiceLinkedRole = useServiceLinkedRole
@@ -2486,6 +2631,7 @@ extension LakeFormation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case hybridAccessEnabled = "HybridAccessEnabled"
             case resourceArn = "ResourceArn"
             case roleArn = "RoleArn"
             case useServiceLinkedRole = "UseServiceLinkedRole"
@@ -2595,6 +2741,8 @@ extension LakeFormation {
     }
 
     public struct ResourceInfo: AWSDecodableShape {
+        ///  Indicates whether the data access of tables pointing to the location can be managed by both Lake Formation permissions as well as Amazon S3 bucket policies.
+        public let hybridAccessEnabled: Bool?
         /// The date and time the resource was last modified.
         public let lastModified: Date?
         /// The Amazon Resource Name (ARN) of the resource.
@@ -2604,7 +2752,8 @@ extension LakeFormation {
         /// Whether or not the resource is a federated resource.
         public let withFederation: Bool?
 
-        public init(lastModified: Date? = nil, resourceArn: String? = nil, roleArn: String? = nil, withFederation: Bool? = nil) {
+        public init(hybridAccessEnabled: Bool? = nil, lastModified: Date? = nil, resourceArn: String? = nil, roleArn: String? = nil, withFederation: Bool? = nil) {
+            self.hybridAccessEnabled = hybridAccessEnabled
             self.lastModified = lastModified
             self.resourceArn = resourceArn
             self.roleArn = roleArn
@@ -2612,6 +2761,7 @@ extension LakeFormation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case hybridAccessEnabled = "HybridAccessEnabled"
             case lastModified = "LastModified"
             case resourceArn = "ResourceArn"
             case roleArn = "RoleArn"
@@ -3126,6 +3276,8 @@ extension LakeFormation {
     }
 
     public struct UpdateResourceRequest: AWSEncodableShape {
+        ///  Specifies whether the data access of tables pointing to the location can be managed by both Lake Formation permissions as well as Amazon S3 bucket policies.
+        public let hybridAccessEnabled: Bool?
         /// The resource ARN.
         public let resourceArn: String
         /// The new role to use for the given resource registered in Lake Formation.
@@ -3133,7 +3285,8 @@ extension LakeFormation {
         /// Whether or not the resource is a federated resource.
         public let withFederation: Bool?
 
-        public init(resourceArn: String, roleArn: String, withFederation: Bool? = nil) {
+        public init(hybridAccessEnabled: Bool? = nil, resourceArn: String, roleArn: String, withFederation: Bool? = nil) {
+            self.hybridAccessEnabled = hybridAccessEnabled
             self.resourceArn = resourceArn
             self.roleArn = roleArn
             self.withFederation = withFederation
@@ -3144,6 +3297,7 @@ extension LakeFormation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case hybridAccessEnabled = "HybridAccessEnabled"
             case resourceArn = "ResourceArn"
             case roleArn = "RoleArn"
             case withFederation = "WithFederation"

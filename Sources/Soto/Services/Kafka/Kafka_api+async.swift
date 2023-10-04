@@ -81,6 +81,11 @@ extension Kafka {
         return try await self.client.execute(operation: "DescribeClusterOperation", path: "/v1/operations/{ClusterOperationArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns a description of the cluster operation specified by the ARN.
+    public func describeClusterOperationV2(_ input: DescribeClusterOperationV2Request, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeClusterOperationV2Response {
+        return try await self.client.execute(operation: "DescribeClusterOperationV2", path: "/api/v2/operations/{ClusterOperationArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
     public func describeClusterV2(_ input: DescribeClusterV2Request, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeClusterV2Response {
         return try await self.client.execute(operation: "DescribeClusterV2", path: "/api/v2/clusters/{ClusterArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -124,6 +129,11 @@ extension Kafka {
     /// Returns a list of all the operations that have been performed on the specified MSK cluster.
     public func listClusterOperations(_ input: ListClusterOperationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListClusterOperationsResponse {
         return try await self.client.execute(operation: "ListClusterOperations", path: "/v1/clusters/{ClusterArn}/operations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of all the operations that have been performed on the specified MSK cluster.
+    public func listClusterOperationsV2(_ input: ListClusterOperationsV2Request, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListClusterOperationsV2Response {
+        return try await self.client.execute(operation: "ListClusterOperationsV2", path: "/api/v2/clusters/{ClusterArn}/operations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns a list of all the MSK clusters in the current Region.
@@ -290,6 +300,28 @@ extension Kafka {
             command: self.listClusterOperations,
             inputKey: \ListClusterOperationsRequest.nextToken,
             outputKey: \ListClusterOperationsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Returns a list of all the operations that have been performed on the specified MSK cluster.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listClusterOperationsV2Paginator(
+        _ input: ListClusterOperationsV2Request,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListClusterOperationsV2Request, ListClusterOperationsV2Response> {
+        return .init(
+            input: input,
+            command: self.listClusterOperationsV2,
+            inputKey: \ListClusterOperationsV2Request.nextToken,
+            outputKey: \ListClusterOperationsV2Response.nextToken,
             logger: logger,
             on: eventLoop
         )

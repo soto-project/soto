@@ -142,6 +142,18 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExportType: String, CustomStringConvertible, Codable, Sendable {
+        case fullExport = "FULL_EXPORT"
+        case incrementalExport = "INCREMENTAL_EXPORT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExportViewType: String, CustomStringConvertible, Codable, Sendable {
+        case newAndOldImages = "NEW_AND_OLD_IMAGES"
+        case newImage = "NEW_IMAGE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GlobalTableStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
@@ -831,7 +843,7 @@ extension DynamoDB {
     public struct BatchExecuteStatementOutput: AWSDecodableShape {
         /// The capacity units consumed by the entire operation. The values of the list are ordered according to the ordering of the statements.
         public let consumedCapacity: [ConsumedCapacity]?
-        /// The response to each PartiQL statement in the batch.
+        /// The response to each PartiQL statement in the batch. The values of the list are  ordered according to the ordering of the request statements.
         public let responses: [BatchStatementResponse]?
 
         public init(consumedCapacity: [ConsumedCapacity]? = nil, responses: [BatchStatementResponse]? = nil) {
@@ -896,16 +908,20 @@ extension DynamoDB {
     public struct BatchStatementError: AWSDecodableShape {
         ///  The error code associated with the failed PartiQL batch statement.
         public let code: BatchStatementErrorCodeEnum?
+        /// The item which caused the condition check to fail. This will be set if ReturnValuesOnConditionCheckFailure is specified as ALL_OLD.
+        public let item: [String: AttributeValue]?
         ///  The error message associated with the PartiQL batch response.
         public let message: String?
 
-        public init(code: BatchStatementErrorCodeEnum? = nil, message: String? = nil) {
+        public init(code: BatchStatementErrorCodeEnum? = nil, item: [String: AttributeValue]? = nil, message: String? = nil) {
             self.code = code
+            self.item = item
             self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
+            case item = "Item"
             case message = "Message"
         }
     }
@@ -915,12 +931,15 @@ extension DynamoDB {
         public let consistentRead: Bool?
         ///  The parameters associated with a PartiQL statement in the batch request.
         public let parameters: [AttributeValue]?
+        /// An optional parameter that returns the item attributes for a PartiQL batch request operation that failed a condition check. There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.
+        public let returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure?
         ///  A valid PartiQL statement.
         public let statement: String
 
-        public init(consistentRead: Bool? = nil, parameters: [AttributeValue]? = nil, statement: String) {
+        public init(consistentRead: Bool? = nil, parameters: [AttributeValue]? = nil, returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure? = nil, statement: String) {
             self.consistentRead = consistentRead
             self.parameters = parameters
+            self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
             self.statement = statement
         }
 
@@ -936,6 +955,7 @@ extension DynamoDB {
         private enum CodingKeys: String, CodingKey {
             case consistentRead = "ConsistentRead"
             case parameters = "Parameters"
+            case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
             case statement = "Statement"
         }
     }
@@ -1603,10 +1623,12 @@ extension DynamoDB {
         public let returnItemCollectionMetrics: ReturnItemCollectionMetrics?
         /// Use ReturnValues if you want to get the item attributes as they appeared before they were deleted. For DeleteItem, the valid values are:    NONE - If ReturnValues is not specified, or if its value is NONE, then nothing is returned. (This setting is the default for ReturnValues.)    ALL_OLD - The content of the old item is returned.   There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.  The ReturnValues parameter is used by several DynamoDB operations; however, DeleteItem does not recognize any values other than NONE or ALL_OLD.
         public let returnValues: ReturnValue?
+        /// An optional parameter that returns the item attributes for a DeleteItem operation that failed a condition check. There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.
+        public let returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure?
         /// The name of the table from which to delete the item.
         public let tableName: String
 
-        public init(conditionalOperator: ConditionalOperator? = nil, conditionExpression: String? = nil, expected: [String: ExpectedAttributeValue]? = nil, expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, key: [String: AttributeValue], returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, tableName: String) {
+        public init(conditionalOperator: ConditionalOperator? = nil, conditionExpression: String? = nil, expected: [String: ExpectedAttributeValue]? = nil, expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, key: [String: AttributeValue], returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure? = nil, tableName: String) {
             self.conditionalOperator = conditionalOperator
             self.conditionExpression = conditionExpression
             self.expected = expected
@@ -1616,6 +1638,7 @@ extension DynamoDB {
             self.returnConsumedCapacity = returnConsumedCapacity
             self.returnItemCollectionMetrics = returnItemCollectionMetrics
             self.returnValues = returnValues
+            self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
             self.tableName = tableName
         }
 
@@ -1649,6 +1672,7 @@ extension DynamoDB {
             case returnConsumedCapacity = "ReturnConsumedCapacity"
             case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
             case returnValues = "ReturnValues"
+            case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
             case tableName = "TableName"
         }
     }
@@ -2208,15 +2232,18 @@ extension DynamoDB {
         /// The parameters for the PartiQL statement, if any.
         public let parameters: [AttributeValue]?
         public let returnConsumedCapacity: ReturnConsumedCapacity?
+        /// An optional parameter that returns the item attributes for an ExecuteStatement operation that failed a condition check. There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.
+        public let returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure?
         /// The PartiQL statement representing the operation to run.
         public let statement: String
 
-        public init(consistentRead: Bool? = nil, limit: Int? = nil, nextToken: String? = nil, parameters: [AttributeValue]? = nil, returnConsumedCapacity: ReturnConsumedCapacity? = nil, statement: String) {
+        public init(consistentRead: Bool? = nil, limit: Int? = nil, nextToken: String? = nil, parameters: [AttributeValue]? = nil, returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure? = nil, statement: String) {
             self.consistentRead = consistentRead
             self.limit = limit
             self.nextToken = nextToken
             self.parameters = parameters
             self.returnConsumedCapacity = returnConsumedCapacity
+            self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
             self.statement = statement
         }
 
@@ -2238,6 +2265,7 @@ extension DynamoDB {
             case nextToken = "NextToken"
             case parameters = "Parameters"
             case returnConsumedCapacity = "ReturnConsumedCapacity"
+            case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
             case statement = "Statement"
         }
     }
@@ -2363,10 +2391,14 @@ extension DynamoDB {
         public let exportStatus: ExportStatus?
         /// Point in time from which table data was exported.
         public let exportTime: Date?
+        /// Choice of whether to execute as a full export or incremental export. Valid values are FULL_EXPORT or INCREMENTAL_EXPORT. If INCREMENTAL_EXPORT is provided, the IncrementalExportSpecification must also be used.
+        public let exportType: ExportType?
         /// Status code for the result of the failed export.
         public let failureCode: String?
         /// Export failure reason description.
         public let failureMessage: String?
+        /// Optional object containing the parameters specific to an incremental export.
+        public let incrementalExportSpecification: IncrementalExportSpecification?
         /// The number of items exported.
         public let itemCount: Int64?
         /// The name of the Amazon S3 bucket containing the export.
@@ -2386,7 +2418,7 @@ extension DynamoDB {
         /// Unique ID of the table that was exported.
         public let tableId: String?
 
-        public init(billedSizeBytes: Int64? = nil, clientToken: String? = nil, endTime: Date? = nil, exportArn: String? = nil, exportFormat: ExportFormat? = nil, exportManifest: String? = nil, exportStatus: ExportStatus? = nil, exportTime: Date? = nil, failureCode: String? = nil, failureMessage: String? = nil, itemCount: Int64? = nil, s3Bucket: String? = nil, s3BucketOwner: String? = nil, s3Prefix: String? = nil, s3SseAlgorithm: S3SseAlgorithm? = nil, s3SseKmsKeyId: String? = nil, startTime: Date? = nil, tableArn: String? = nil, tableId: String? = nil) {
+        public init(billedSizeBytes: Int64? = nil, clientToken: String? = nil, endTime: Date? = nil, exportArn: String? = nil, exportFormat: ExportFormat? = nil, exportManifest: String? = nil, exportStatus: ExportStatus? = nil, exportTime: Date? = nil, exportType: ExportType? = nil, failureCode: String? = nil, failureMessage: String? = nil, incrementalExportSpecification: IncrementalExportSpecification? = nil, itemCount: Int64? = nil, s3Bucket: String? = nil, s3BucketOwner: String? = nil, s3Prefix: String? = nil, s3SseAlgorithm: S3SseAlgorithm? = nil, s3SseKmsKeyId: String? = nil, startTime: Date? = nil, tableArn: String? = nil, tableId: String? = nil) {
             self.billedSizeBytes = billedSizeBytes
             self.clientToken = clientToken
             self.endTime = endTime
@@ -2395,8 +2427,10 @@ extension DynamoDB {
             self.exportManifest = exportManifest
             self.exportStatus = exportStatus
             self.exportTime = exportTime
+            self.exportType = exportType
             self.failureCode = failureCode
             self.failureMessage = failureMessage
+            self.incrementalExportSpecification = incrementalExportSpecification
             self.itemCount = itemCount
             self.s3Bucket = s3Bucket
             self.s3BucketOwner = s3BucketOwner
@@ -2417,8 +2451,10 @@ extension DynamoDB {
             case exportManifest = "ExportManifest"
             case exportStatus = "ExportStatus"
             case exportTime = "ExportTime"
+            case exportType = "ExportType"
             case failureCode = "FailureCode"
             case failureMessage = "FailureMessage"
+            case incrementalExportSpecification = "IncrementalExportSpecification"
             case itemCount = "ItemCount"
             case s3Bucket = "S3Bucket"
             case s3BucketOwner = "S3BucketOwner"
@@ -2436,15 +2472,19 @@ extension DynamoDB {
         public let exportArn: String?
         /// Export can be in one of the following states: IN_PROGRESS, COMPLETED, or FAILED.
         public let exportStatus: ExportStatus?
+        /// Choice of whether to execute as a full export or incremental export. Valid values are FULL_EXPORT or INCREMENTAL_EXPORT. If INCREMENTAL_EXPORT is provided, the IncrementalExportSpecification must also be used.
+        public let exportType: ExportType?
 
-        public init(exportArn: String? = nil, exportStatus: ExportStatus? = nil) {
+        public init(exportArn: String? = nil, exportStatus: ExportStatus? = nil, exportType: ExportType? = nil) {
             self.exportArn = exportArn
             self.exportStatus = exportStatus
+            self.exportType = exportType
         }
 
         private enum CodingKeys: String, CodingKey {
             case exportArn = "ExportArn"
             case exportStatus = "ExportStatus"
+            case exportType = "ExportType"
         }
     }
 
@@ -2455,6 +2495,10 @@ extension DynamoDB {
         public let exportFormat: ExportFormat?
         /// Time in the past from which to export table data, counted in seconds from the start of the Unix epoch. The table export will be a snapshot of the table's state at this point in time.
         public let exportTime: Date?
+        /// Choice of whether to execute as a full export or incremental export. Valid values are FULL_EXPORT or INCREMENTAL_EXPORT. If INCREMENTAL_EXPORT is provided, the IncrementalExportSpecification must also be used.
+        public let exportType: ExportType?
+        /// Optional object containing the parameters specific to an incremental export.
+        public let incrementalExportSpecification: IncrementalExportSpecification?
         /// The name of the Amazon S3 bucket to export the snapshot to.
         public let s3Bucket: String
         /// The ID of the Amazon Web Services account that owns the bucket the export will be stored in.
@@ -2468,10 +2512,12 @@ extension DynamoDB {
         /// The Amazon Resource Name (ARN) associated with the table to export.
         public let tableArn: String
 
-        public init(clientToken: String? = ExportTableToPointInTimeInput.idempotencyToken(), exportFormat: ExportFormat? = nil, exportTime: Date? = nil, s3Bucket: String, s3BucketOwner: String? = nil, s3Prefix: String? = nil, s3SseAlgorithm: S3SseAlgorithm? = nil, s3SseKmsKeyId: String? = nil, tableArn: String) {
+        public init(clientToken: String? = ExportTableToPointInTimeInput.idempotencyToken(), exportFormat: ExportFormat? = nil, exportTime: Date? = nil, exportType: ExportType? = nil, incrementalExportSpecification: IncrementalExportSpecification? = nil, s3Bucket: String, s3BucketOwner: String? = nil, s3Prefix: String? = nil, s3SseAlgorithm: S3SseAlgorithm? = nil, s3SseKmsKeyId: String? = nil, tableArn: String) {
             self.clientToken = clientToken
             self.exportFormat = exportFormat
             self.exportTime = exportTime
+            self.exportType = exportType
+            self.incrementalExportSpecification = incrementalExportSpecification
             self.s3Bucket = s3Bucket
             self.s3BucketOwner = s3BucketOwner
             self.s3Prefix = s3Prefix
@@ -2494,6 +2540,8 @@ extension DynamoDB {
             case clientToken = "ClientToken"
             case exportFormat = "ExportFormat"
             case exportTime = "ExportTime"
+            case exportType = "ExportType"
+            case incrementalExportSpecification = "IncrementalExportSpecification"
             case s3Bucket = "S3Bucket"
             case s3BucketOwner = "S3BucketOwner"
             case s3Prefix = "S3Prefix"
@@ -3050,6 +3098,27 @@ extension DynamoDB {
 
         private enum CodingKeys: String, CodingKey {
             case importTableDescription = "ImportTableDescription"
+        }
+    }
+
+    public struct IncrementalExportSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// Time in the past which provides the inclusive start range for the export table's data, counted in seconds from the start of the Unix epoch. The incremental export will reflect the table's state including and after this point in time.
+        public let exportFromTime: Date?
+        /// Time in the past which provides the exclusive end range for the export table's data, counted in seconds from the start of the Unix epoch. The incremental export will reflect the table's state just prior to this point in time. If this is not provided, the latest time with data available will be used.
+        public let exportToTime: Date?
+        /// Choice of whether to output the previous item image prior to the start time of the incremental export. Valid values are NEW_AND_OLD_IMAGES and NEW_IMAGES.
+        public let exportViewType: ExportViewType?
+
+        public init(exportFromTime: Date? = nil, exportToTime: Date? = nil, exportViewType: ExportViewType? = nil) {
+            self.exportFromTime = exportFromTime
+            self.exportToTime = exportToTime
+            self.exportViewType = exportViewType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportFromTime = "ExportFromTime"
+            case exportToTime = "ExportToTime"
+            case exportViewType = "ExportViewType"
         }
     }
 
@@ -3640,11 +3709,14 @@ extension DynamoDB {
     public struct ParameterizedStatement: AWSEncodableShape {
         ///  The parameter values.
         public let parameters: [AttributeValue]?
+        /// An optional parameter that returns the item attributes for a PartiQL ParameterizedStatement operation that failed a condition check. There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.
+        public let returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure?
         ///  A PartiQL statment that uses parameters.
         public let statement: String
 
-        public init(parameters: [AttributeValue]? = nil, statement: String) {
+        public init(parameters: [AttributeValue]? = nil, returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure? = nil, statement: String) {
             self.parameters = parameters
+            self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
             self.statement = statement
         }
 
@@ -3659,6 +3731,7 @@ extension DynamoDB {
 
         private enum CodingKeys: String, CodingKey {
             case parameters = "Parameters"
+            case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
             case statement = "Statement"
         }
     }
@@ -3858,10 +3931,12 @@ extension DynamoDB {
         public let returnItemCollectionMetrics: ReturnItemCollectionMetrics?
         /// Use ReturnValues if you want to get the item attributes as they appeared before they were updated with the PutItem request. For PutItem, the valid values are:    NONE - If ReturnValues is not specified, or if its value is NONE, then nothing is returned. (This setting is the default for ReturnValues.)    ALL_OLD - If PutItem overwrote an attribute name-value pair, then the content of the old item is returned.   The values returned are strongly consistent. There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.  The ReturnValues parameter is used by several DynamoDB operations; however, PutItem does not recognize any values other than NONE or ALL_OLD.
         public let returnValues: ReturnValue?
+        /// An optional parameter that returns the item attributes for a PutItem operation that failed a condition check. There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.
+        public let returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure?
         /// The name of the table to contain the item.
         public let tableName: String
 
-        public init(conditionalOperator: ConditionalOperator? = nil, conditionExpression: String? = nil, expected: [String: ExpectedAttributeValue]? = nil, expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, item: [String: AttributeValue], returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, tableName: String) {
+        public init(conditionalOperator: ConditionalOperator? = nil, conditionExpression: String? = nil, expected: [String: ExpectedAttributeValue]? = nil, expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, item: [String: AttributeValue], returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure? = nil, tableName: String) {
             self.conditionalOperator = conditionalOperator
             self.conditionExpression = conditionExpression
             self.expected = expected
@@ -3871,6 +3946,7 @@ extension DynamoDB {
             self.returnConsumedCapacity = returnConsumedCapacity
             self.returnItemCollectionMetrics = returnItemCollectionMetrics
             self.returnValues = returnValues
+            self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
             self.tableName = tableName
         }
 
@@ -3904,6 +3980,7 @@ extension DynamoDB {
             case returnConsumedCapacity = "ReturnConsumedCapacity"
             case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
             case returnValues = "ReturnValues"
+            case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
             case tableName = "TableName"
         }
     }
@@ -5362,7 +5439,7 @@ extension DynamoDB {
         public let expressionAttributeValues: [String: AttributeValue]?
         /// The primary key of the item to be updated. Each element consists of an attribute name and a value for that attribute.
         public let key: [String: AttributeValue]
-        /// Use ReturnValuesOnConditionCheckFailure to get the item attributes if the Update condition fails. For ReturnValuesOnConditionCheckFailure, the valid values are: NONE, ALL_OLD, UPDATED_OLD, ALL_NEW, UPDATED_NEW.
+        /// Use ReturnValuesOnConditionCheckFailure to get the item attributes if the Update condition fails. For ReturnValuesOnConditionCheckFailure, the valid values are: NONE and ALL_OLD.
         public let returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure?
         /// Name of the table for the UpdateItem request.
         public let tableName: String
@@ -5641,12 +5718,14 @@ extension DynamoDB {
         public let returnItemCollectionMetrics: ReturnItemCollectionMetrics?
         /// Use ReturnValues if you want to get the item attributes as they appear before or after they are successfully updated. For UpdateItem, the valid values are:    NONE - If ReturnValues is not specified, or if its value is NONE, then nothing is returned. (This setting is the default for ReturnValues.)    ALL_OLD - Returns all of the attributes of the item, as they appeared before the UpdateItem operation.    UPDATED_OLD - Returns only the updated attributes, as they appeared before the UpdateItem operation.    ALL_NEW - Returns all of the attributes of the item, as they appear after the UpdateItem operation.    UPDATED_NEW - Returns only the updated attributes, as they appear after the UpdateItem operation.   There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed. The values returned are strongly consistent.
         public let returnValues: ReturnValue?
+        /// An optional parameter that returns the item attributes for an UpdateItem operation that failed a condition check. There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.
+        public let returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure?
         /// The name of the table containing the item to update.
         public let tableName: String
         /// An expression that defines one or more attributes to be updated, the action to be performed on them, and new values for them. The following action values are available for UpdateExpression.    SET - Adds one or more attributes and values to an item. If any of these attributes already exist, they are replaced by the new values. You can also use SET to add or subtract from an attribute that is of type Number. For example: SET myNum = myNum + :val   SET supports the following functions:    if_not_exists (path, operand) - if the item does not contain an attribute at the specified path, then if_not_exists evaluates to operand; otherwise, it evaluates to path. You can use this function to avoid overwriting an attribute that may already be present in the item.    list_append (operand, operand) - evaluates to a list with a new element added to it. You can append the new element to the start or the end of the list by reversing the order of the operands.   These function names are case-sensitive.    REMOVE - Removes one or more attributes from an item.    ADD - Adds the specified value to the item, if the attribute does not already exist. If the attribute does exist, then the behavior of ADD depends on the data type of the attribute:   If the existing attribute is a number, and if Value is also a number, then Value is mathematically added to the existing attribute. If Value is a negative number, then it is subtracted from the existing attribute.  If you use ADD to increment or decrement a number value for an item that doesn't exist before the update, DynamoDB uses 0 as the initial value. Similarly, if you use ADD for an existing item to increment or decrement an attribute value that doesn't exist before the update, DynamoDB uses 0 as the initial value. For example, suppose that the item you want to update doesn't have an attribute named itemcount, but you decide to ADD the number 3 to this attribute anyway. DynamoDB will create the itemcount attribute, set its initial value to 0, and finally add 3 to it. The result will be a new itemcount attribute in the item, with a value of 3.    If the existing data type is a set and if Value is also a set, then Value is added to the existing set. For example, if the attribute value is the set [1,2], and the ADD action specified [3], then the final attribute value is [1,2,3]. An error occurs if an ADD action is specified for a set attribute and the attribute type specified does not match the existing set type.  Both sets must have the same primitive data type. For example, if the existing data type is a set of strings, the Value must also be a set of strings.    The ADD action only supports Number and set data types. In addition, ADD can only be used on top-level attributes, not nested attributes.     DELETE - Deletes an element from a set. If a set of values is specified, then those values are subtracted from the old set. For example, if the attribute value was the set [a,b,c] and the DELETE action specifies [a,c], then the final attribute value is [b]. Specifying an empty set is an error.  The DELETE action only supports set data types. In addition, DELETE can only be used on top-level attributes, not nested attributes.    You can have many actions in a single expression, such as the following: SET a=:value1, b=:value2 DELETE :value3, :value4, :value5  For more information on update expressions, see Modifying Items and Attributes in the Amazon DynamoDB Developer Guide.
         public let updateExpression: String?
 
-        public init(attributeUpdates: [String: AttributeValueUpdate]? = nil, conditionalOperator: ConditionalOperator? = nil, conditionExpression: String? = nil, expected: [String: ExpectedAttributeValue]? = nil, expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, key: [String: AttributeValue], returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, tableName: String, updateExpression: String? = nil) {
+        public init(attributeUpdates: [String: AttributeValueUpdate]? = nil, conditionalOperator: ConditionalOperator? = nil, conditionExpression: String? = nil, expected: [String: ExpectedAttributeValue]? = nil, expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, key: [String: AttributeValue], returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure? = nil, tableName: String, updateExpression: String? = nil) {
             self.attributeUpdates = attributeUpdates
             self.conditionalOperator = conditionalOperator
             self.conditionExpression = conditionExpression
@@ -5657,6 +5736,7 @@ extension DynamoDB {
             self.returnConsumedCapacity = returnConsumedCapacity
             self.returnItemCollectionMetrics = returnItemCollectionMetrics
             self.returnValues = returnValues
+            self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
             self.tableName = tableName
             self.updateExpression = updateExpression
         }
@@ -5696,6 +5776,7 @@ extension DynamoDB {
             case returnConsumedCapacity = "ReturnConsumedCapacity"
             case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
             case returnValues = "ReturnValues"
+            case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
             case tableName = "TableName"
             case updateExpression = "UpdateExpression"
         }

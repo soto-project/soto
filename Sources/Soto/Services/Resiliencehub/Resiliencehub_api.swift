@@ -68,7 +68,12 @@ public struct Resiliencehub: AWSService {
         return self.client.execute(operation: "AddDraftAppVersionResourceMappings", path: "/add-draft-app-version-resource-mappings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe an Resilience Hub application, you provide an application name, resources from one or more CloudFormation stacks, Resource Groups, Terraform state files, AppRegistry applications, and an appropriate resiliency policy. For more information about the number of resources supported per application, see Service Quotas. After you create an Resilience Hub application, you publish it so that you can run a resiliency assessment on it. You can then use recommendations from the assessment to improve resiliency by running another assessment, comparing results, and then iterating the process until you achieve your goals for recovery time objective (RTO) and recovery point objective (RPO).
+    /// Enables you to include or exclude one or more operational recommendations.
+    public func batchUpdateRecommendationStatus(_ input: BatchUpdateRecommendationStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchUpdateRecommendationStatusResponse> {
+        return self.client.execute(operation: "BatchUpdateRecommendationStatus", path: "/batch-update-recommendation-status", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Resilience Hub application, you provide an application name, resources from one or more CloudFormation stacks, Resource Groups, Terraform state files, AppRegistry applications, and an appropriate resiliency policy. In addition, you can also add resources that are located on Amazon Elastic Kubernetes Service (Amazon EKS) clusters as optional resources. For more information about the number of resources supported per application, see Service quotas. After you create an Resilience Hub application, you publish it so that you can run a resiliency assessment on it. You can then use recommendations from the assessment to improve resiliency by running another assessment, comparing results, and then iterating the process until you achieve your goals for recovery time objective (RTO) and recovery point objective (RPO).
     public func createApp(_ input: CreateAppRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAppResponse> {
         return self.client.execute(operation: "CreateApp", path: "/create-app", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -181,6 +186,11 @@ public struct Resiliencehub: AWSService {
     /// Lists the alarm recommendations for an Resilience Hub application.
     public func listAlarmRecommendations(_ input: ListAlarmRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAlarmRecommendationsResponse> {
         return self.client.execute(operation: "ListAlarmRecommendations", path: "/list-alarm-recommendations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List of compliance drifts that were detected while running an assessment.
+    public func listAppAssessmentComplianceDrifts(_ input: ListAppAssessmentComplianceDriftsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppAssessmentComplianceDriftsResponse> {
+        return self.client.execute(operation: "ListAppAssessmentComplianceDrifts", path: "/list-app-assessment-compliance-drifts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the assessments for an Resilience Hub application. You can use request parameters to refine the results for the response object.
@@ -384,6 +394,59 @@ extension Resiliencehub {
             command: self.listAlarmRecommendations,
             inputKey: \ListAlarmRecommendationsRequest.nextToken,
             outputKey: \ListAlarmRecommendationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// List of compliance drifts that were detected while running an assessment.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listAppAssessmentComplianceDriftsPaginator<Result>(
+        _ input: ListAppAssessmentComplianceDriftsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListAppAssessmentComplianceDriftsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listAppAssessmentComplianceDrifts,
+            inputKey: \ListAppAssessmentComplianceDriftsRequest.nextToken,
+            outputKey: \ListAppAssessmentComplianceDriftsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listAppAssessmentComplianceDriftsPaginator(
+        _ input: ListAppAssessmentComplianceDriftsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListAppAssessmentComplianceDriftsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listAppAssessmentComplianceDrifts,
+            inputKey: \ListAppAssessmentComplianceDriftsRequest.nextToken,
+            outputKey: \ListAppAssessmentComplianceDriftsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1195,6 +1258,16 @@ extension Resiliencehub.ListAlarmRecommendationsRequest: AWSPaginateToken {
     }
 }
 
+extension Resiliencehub.ListAppAssessmentComplianceDriftsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Resiliencehub.ListAppAssessmentComplianceDriftsRequest {
+        return .init(
+            assessmentArn: self.assessmentArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Resiliencehub.ListAppAssessmentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Resiliencehub.ListAppAssessmentsRequest {
         return .init(
@@ -1279,8 +1352,10 @@ extension Resiliencehub.ListAppVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Resiliencehub.ListAppVersionsRequest {
         return .init(
             appArn: self.appArn,
+            endTime: self.endTime,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            startTime: self.startTime
         )
     }
 }

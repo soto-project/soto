@@ -65,10 +65,10 @@ extension IoTJobsDataPlane {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9_-]+|^\\$next")
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9_-]+|^\\$next$")
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
-            try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.validate(self.thingName, name: "thingName", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -102,7 +102,7 @@ extension IoTJobsDataPlane {
         public func validate(name: String) throws {
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
-            try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.validate(self.thingName, name: "thingName", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -254,14 +254,14 @@ extension IoTJobsDataPlane {
             try self.statusDetails?.forEach {
                 try validate($0.key, name: "statusDetails.key", parent: name, max: 128)
                 try validate($0.key, name: "statusDetails.key", parent: name, min: 1)
-                try validate($0.key, name: "statusDetails.key", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+                try validate($0.key, name: "statusDetails.key", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
                 try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, max: 1024)
                 try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, min: 1)
-                try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, pattern: "[^\\p{C}]*+")
+                try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, pattern: "^[^\\p{C}]*+$")
             }
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
-            try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.validate(self.thingName, name: "thingName", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -323,18 +323,18 @@ extension IoTJobsDataPlane {
         public func validate(name: String) throws {
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
-            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.statusDetails?.forEach {
                 try validate($0.key, name: "statusDetails.key", parent: name, max: 128)
                 try validate($0.key, name: "statusDetails.key", parent: name, min: 1)
-                try validate($0.key, name: "statusDetails.key", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+                try validate($0.key, name: "statusDetails.key", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
                 try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, max: 1024)
                 try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, min: 1)
-                try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, pattern: "[^\\p{C}]*+")
+                try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, pattern: "^[^\\p{C}]*+$")
             }
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
-            try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.validate(self.thingName, name: "thingName", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

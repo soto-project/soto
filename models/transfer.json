@@ -142,10 +142,25 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Used  for outbound requests (from an Transfer Family server to a partner AS2 server) to determine whether\n      the partner response for transfers is synchronous or asynchronous. Specify either of the following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>SYNC</code>: The system expects a synchronous MDN response, confirming that the file was transferred successfully (or not).</p>\n            </li>\n            <li>\n               <p>\n                  <code>NONE</code>: Specifies that no MDN response is required.</p>\n            </li>\n         </ul>"
                     }
+                },
+                "BasicAuthSecretId": {
+                    "target": "com.amazonaws.transfer#As2ConnectorSecretId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Provides Basic authentication support to the AS2 Connectors API. To use Basic authentication,\n      you must provide the name or Amazon Resource Name (ARN) of a secret in Secrets Manager.</p>\n         <p>The default value for this parameter is <code>null</code>, which indicates that Basic authentication is not enabled for the connector.</p>\n         <p>If the connector should use Basic authentication, the secret needs to be in the following format:</p>\n         <p>\n            <code>{\n      \"Username\": \"user-name\",\n      \"Password\": \"user-password\"\n      }</code>\n         </p>\n         <p>Replace <code>user-name</code> and <code>user-password</code> with the credentials for the actual user that is being authenticated.</p>\n         <p>Note the following:</p>\n         <ul>\n            <li>\n               <p>You are storing these credentials in Secrets Manager, <i>not passing them directly</i> into this API.</p>\n            </li>\n            <li>\n               <p>If you are using the API, SDKs, or CloudFormation to configure your connector, then you must create the secret before you can enable Basic authentication.\n          However, if you are using the Amazon Web Services management console, you can have the system create the secret for you.</p>\n            </li>\n         </ul>\n         <p>If you have previously enabled Basic authentication for a connector, you can disable it by using the <code>UpdateConnector</code> API call. For example, if you are using the CLI, you can run the following command to remove Basic authentication:</p>\n         <p>\n            <code>update-connector --connector-id my-connector-id --as2-config 'BasicAuthSecretId=\"\"'</code>\n         </p>"
+                    }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Contains the details for a connector object. The connector object is used for AS2 outbound\n      processes, to connect the Transfer Family customer with the trading partner.</p>"
+                "smithy.api#documentation": "<p>Contains the details for an AS2 connector object. The connector object is used for AS2 outbound\n      processes, to connect the Transfer Family customer with the trading partner.</p>"
+            }
+        },
+        "com.amazonaws.transfer#As2ConnectorSecretId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 2048
+                }
             }
         },
         "com.amazonaws.transfer#As2Id": {
@@ -418,13 +433,13 @@
                 "HomeDirectory": {
                     "target": "com.amazonaws.transfer#HomeDirectory",
                     "traits": {
-                        "smithy.api#documentation": "<p>The landing directory (folder) for a user when they log in to the server using the client.</p>\n         <p>A <code>HomeDirectory</code> example is <code>/bucket_name/home/mydirectory</code>.</p>"
+                        "smithy.api#documentation": "<p>The landing directory (folder) for a user when they log in to the server using the client.</p>\n         <p>A <code>HomeDirectory</code> example is <code>/bucket_name/home/mydirectory</code>.</p>\n         <note>\n            <p>The <code>HomeDirectory</code> parameter is only used if <code>HomeDirectoryType</code> is set to <code>LOGICAL</code>.</p>\n         </note>"
                     }
                 },
                 "HomeDirectoryType": {
                     "target": "com.amazonaws.transfer#HomeDirectoryType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The type of landing directory (folder) that you want your users' home directory to be when they log in to the server.\n    If you set it to <code>PATH</code>, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer \n    protocol clients. If you set it <code>LOGICAL</code>, you need to provide mappings in the <code>HomeDirectoryMappings</code> for \n    how you want to make Amazon S3 or Amazon EFS paths visible to your users.</p>"
+                        "smithy.api#documentation": "<p>The type of landing directory (folder) that you want your users' home directory to be when they log in to the server.\n    If you set it to <code>PATH</code>, the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer \n    protocol clients. If you set it to <code>LOGICAL</code>, you need to provide mappings in the <code>HomeDirectoryMappings</code> for \n    how you want to make Amazon S3 or Amazon EFS paths visible to your users.</p>\n         <note>\n            <p>If <code>HomeDirectoryType</code> is <code>LOGICAL</code>, you must provide mappings,\n            using the <code>HomeDirectoryMappings</code> parameter. If, on the other hand,\n               <code>HomeDirectoryType</code> is <code>PATH</code>, you provide an absolute path\n            using the <code>HomeDirectory</code> parameter. You cannot have both\n               <code>HomeDirectory</code> and <code>HomeDirectoryMappings</code> in your\n            template.</p>\n         </note>"
                     }
                 },
                 "HomeDirectoryMappings": {
@@ -562,7 +577,7 @@
                 "AccessRole": {
                     "target": "com.amazonaws.transfer#Role",
                     "traits": {
-                        "smithy.api#documentation": "<p>With AS2, you can send files by calling <code>StartFileTransfer</code> and specifying the\n      file paths in the request parameter, <code>SendFilePaths</code>. We use the file’s parent\n      directory (for example, for <code>--send-file-paths /bucket/dir/file.txt</code>, parent\n      directory is <code>/bucket/dir/</code>) to temporarily store a processed AS2 message file,\n      store the MDN when we receive them from the partner, and write a final JSON file containing\n      relevant metadata of the transmission. So, the <code>AccessRole</code> needs to provide read\n      and write access to the parent directory of the file location used in the\n        <code>StartFileTransfer</code> request. Additionally, you need to provide read and write\n      access to the parent directory of the files that you intend to send with\n        <code>StartFileTransfer</code>.</p>",
+                        "smithy.api#documentation": "<p>Connectors are used to send files using either the AS2 or SFTP protocol. For the access role,\n      provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use.</p>\n         <p>\n            <b>For AS2 connectors</b>\n         </p>\n         <p>With AS2, you can send files by calling <code>StartFileTransfer</code> and specifying the\n      file paths in the request parameter, <code>SendFilePaths</code>. We use the file’s parent\n      directory (for example, for <code>--send-file-paths /bucket/dir/file.txt</code>, parent\n      directory is <code>/bucket/dir/</code>) to temporarily store a processed AS2 message file,\n      store the MDN when we receive them from the partner, and write a final JSON file containing\n      relevant metadata of the transmission. So, the <code>AccessRole</code> needs to provide read\n      and write access to the parent directory of the file location used in the\n      <code>StartFileTransfer</code> request. Additionally, you need to provide read and write\n      access to the parent directory of the files that you intend to send with\n      <code>StartFileTransfer</code>.</p>\n         <p>If you are using Basic authentication for your AS2 connector, the access role requires the\n      <code>secretsmanager:GetSecretValue</code> permission for the secret. If the secret is encrypted using\n      a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also\n      needs the <code>kms:Decrypt</code> permission for that key.</p>\n         <p>\n            <b>For SFTP connectors</b>\n         </p>\n         <p>Make sure that the access role provides\n      read and write access to the parent directory of the file location\n      that's used in the <code>StartFileTransfer</code> request.\n      Additionally,  make sure that the role provides\n      <code>secretsmanager:GetSecretValue</code> permission to Secrets Manager.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -627,7 +642,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Creates the connector, which captures the parameters for an outbound connection for the\n      AS2 protocol. The connector is required for sending files to an externally hosted AS2 server.\n      For more details about connectors, see <a href=\"https://docs.aws.amazon.com/transfer/latest/userguide/create-b2b-server.html#configure-as2-connector\">Create AS2 connectors</a>.</p>"
+                "smithy.api#documentation": "<p>Creates the connector, which captures the parameters for a connection for the\n      AS2 or SFTP protocol. For AS2, the connector is required for sending files to an externally hosted AS2 server. For SFTP, the connector is required when sending files to an SFTP server or receiving files from an SFTP server.\n      For more details about connectors, see <a href=\"https://docs.aws.amazon.com/transfer/latest/userguide/create-b2b-server.html#configure-as2-connector\">Create AS2 connectors</a> and <a href=\"https://docs.aws.amazon.com/transfer/latest/userguide/configure-sftp-connector.html\">Create SFTP connectors</a>.</p>\n         <note>\n            <p>You must specify exactly one configuration object: either for AS2 (<code>As2Config</code>) or SFTP (<code>SftpConfig</code>).</p>\n         </note>"
             }
         },
         "com.amazonaws.transfer#CreateConnectorRequest": {
@@ -636,21 +651,20 @@
                 "Url": {
                     "target": "com.amazonaws.transfer#Url",
                     "traits": {
-                        "smithy.api#documentation": "<p>The URL of the partner's AS2 endpoint.</p>",
+                        "smithy.api#documentation": "<p>The URL of the partner's AS2 or SFTP endpoint.</p>",
                         "smithy.api#required": {}
                     }
                 },
                 "As2Config": {
                     "target": "com.amazonaws.transfer#As2ConnectorConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p>A structure that contains the parameters for a connector object.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>A structure that contains the parameters for an AS2 connector object.</p>"
                     }
                 },
                 "AccessRole": {
                     "target": "com.amazonaws.transfer#Role",
                     "traits": {
-                        "smithy.api#documentation": "<p>With AS2, you can send files by calling <code>StartFileTransfer</code> and specifying the\n      file paths in the request parameter, <code>SendFilePaths</code>. We use the file’s parent\n      directory (for example, for <code>--send-file-paths /bucket/dir/file.txt</code>, parent\n      directory is <code>/bucket/dir/</code>) to temporarily store a processed AS2 message file,\n      store the MDN when we receive them from the partner, and write a final JSON file containing\n      relevant metadata of the transmission. So, the <code>AccessRole</code> needs to provide read\n      and write access to the parent directory of the file location used in the\n        <code>StartFileTransfer</code> request. Additionally, you need to provide read and write\n      access to the parent directory of the files that you intend to send with\n        <code>StartFileTransfer</code>.</p>",
+                        "smithy.api#documentation": "<p>Connectors are used to send files using either the AS2 or SFTP protocol. For the access role,\n      provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use.</p>\n         <p>\n            <b>For AS2 connectors</b>\n         </p>\n         <p>With AS2, you can send files by calling <code>StartFileTransfer</code> and specifying the\n      file paths in the request parameter, <code>SendFilePaths</code>. We use the file’s parent\n      directory (for example, for <code>--send-file-paths /bucket/dir/file.txt</code>, parent\n      directory is <code>/bucket/dir/</code>) to temporarily store a processed AS2 message file,\n      store the MDN when we receive them from the partner, and write a final JSON file containing\n      relevant metadata of the transmission. So, the <code>AccessRole</code> needs to provide read\n      and write access to the parent directory of the file location used in the\n      <code>StartFileTransfer</code> request. Additionally, you need to provide read and write\n      access to the parent directory of the files that you intend to send with\n      <code>StartFileTransfer</code>.</p>\n         <p>If you are using Basic authentication for your AS2 connector, the access role requires the\n      <code>secretsmanager:GetSecretValue</code> permission for the secret. If the secret is encrypted using\n      a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also\n      needs the <code>kms:Decrypt</code> permission for that key.</p>\n         <p>\n            <b>For SFTP connectors</b>\n         </p>\n         <p>Make sure that the access role provides\n      read and write access to the parent directory of the file location\n      that's used in the <code>StartFileTransfer</code> request.\n      Additionally,  make sure that the role provides\n      <code>secretsmanager:GetSecretValue</code> permission to Secrets Manager.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -664,6 +678,12 @@
                     "target": "com.amazonaws.transfer#Tags",
                     "traits": {
                         "smithy.api#documentation": "<p>Key-value pairs that can be used to group and search for connectors. Tags are metadata attached to connectors for any purpose.</p>"
+                    }
+                },
+                "SftpConfig": {
+                    "target": "com.amazonaws.transfer#SftpConnectorConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A structure that contains the parameters for an SFTP connector object.</p>"
                     }
                 }
             },
@@ -953,19 +973,19 @@
                 "HomeDirectory": {
                     "target": "com.amazonaws.transfer#HomeDirectory",
                     "traits": {
-                        "smithy.api#documentation": "<p>The landing directory (folder) for a user when they log in to the server using the client.</p>\n         <p>A <code>HomeDirectory</code> example is <code>/bucket_name/home/mydirectory</code>.</p>"
+                        "smithy.api#documentation": "<p>The landing directory (folder) for a user when they log in to the server using the client.</p>\n         <p>A <code>HomeDirectory</code> example is <code>/bucket_name/home/mydirectory</code>.</p>\n         <note>\n            <p>The <code>HomeDirectory</code> parameter is only used if <code>HomeDirectoryType</code> is set to <code>LOGICAL</code>.</p>\n         </note>"
                     }
                 },
                 "HomeDirectoryType": {
                     "target": "com.amazonaws.transfer#HomeDirectoryType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The type of landing directory (folder) that you want your users' home directory to be when they log in to the server.\n    If you set it to <code>PATH</code>, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer \n    protocol clients. If you set it <code>LOGICAL</code>, you need to provide mappings in the <code>HomeDirectoryMappings</code> for \n    how you want to make Amazon S3 or Amazon EFS paths visible to your users.</p>"
+                        "smithy.api#documentation": "<p>The type of landing directory (folder) that you want your users' home directory to be when they log in to the server.\n    If you set it to <code>PATH</code>, the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer \n    protocol clients. If you set it to <code>LOGICAL</code>, you need to provide mappings in the <code>HomeDirectoryMappings</code> for \n    how you want to make Amazon S3 or Amazon EFS paths visible to your users.</p>\n         <note>\n            <p>If <code>HomeDirectoryType</code> is <code>LOGICAL</code>, you must provide mappings,\n            using the <code>HomeDirectoryMappings</code> parameter. If, on the other hand,\n               <code>HomeDirectoryType</code> is <code>PATH</code>, you provide an absolute path\n            using the <code>HomeDirectory</code> parameter. You cannot have both\n               <code>HomeDirectory</code> and <code>HomeDirectoryMappings</code> in your\n            template.</p>\n         </note>"
                     }
                 },
                 "HomeDirectoryMappings": {
                     "target": "com.amazonaws.transfer#HomeDirectoryMappings",
                     "traits": {
-                        "smithy.api#documentation": "<p>Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should\n      be visible to your user and how you want to make them visible. You must specify the\n        <code>Entry</code> and <code>Target</code> pair, where <code>Entry</code> shows how the path\n      is made visible and <code>Target</code> is the actual Amazon S3 or Amazon EFS path. If you\n      only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) \n      role provides access to paths in <code>Target</code>. This value\n      can be set only when <code>HomeDirectoryType</code> is set to\n      <i>LOGICAL</i>.</p>\n         <p>The following is an <code>Entry</code> and <code>Target</code> pair example.</p>\n         <p>\n            <code>[ { \"Entry\": \"/directory1\", \"Target\":\n        \"/bucket_name/home/mydirectory\" } ]</code>\n         </p>\n         <p>In most cases, you can use this value instead of the session policy to lock your user\n      down to the designated home directory (\"<code>chroot</code>\"). To do this, you can set\n        <code>Entry</code> to <code>/</code> and set <code>Target</code> to the HomeDirectory\n      parameter value.</p>\n         <p>The following is an <code>Entry</code> and <code>Target</code> pair example for <code>chroot</code>.</p>\n         <p>\n            <code>[ { \"Entry\": \"/\", \"Target\": \"/bucket_name/home/mydirectory\" } ]</code>\n         </p>"
+                        "smithy.api#documentation": "<p>Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should\n      be visible to your user and how you want to make them visible. You must specify the\n        <code>Entry</code> and <code>Target</code> pair, where <code>Entry</code> shows how the path\n      is made visible and <code>Target</code> is the actual Amazon S3 or Amazon EFS path. If you\n      only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) \n      role provides access to paths in <code>Target</code>. This value\n      can be set only when <code>HomeDirectoryType</code> is set to\n      <i>LOGICAL</i>.</p>\n         <p>The following is an <code>Entry</code> and <code>Target</code> pair example.</p>\n         <p>\n            <code>[ { \"Entry\": \"/directory1\", \"Target\":\n        \"/bucket_name/home/mydirectory\" } ]</code>\n         </p>\n         <p>In most cases, you can use this value instead of the session policy to lock your user down\n      to the designated home directory (\"<code>chroot</code>\"). To do this, you can set\n        <code>Entry</code> to <code>/</code> and set <code>Target</code> to the value the user\n      should see for their home directory when they log in.</p>\n         <p>The following is an <code>Entry</code> and <code>Target</code> pair example for <code>chroot</code>.</p>\n         <p>\n            <code>[ { \"Entry\": \"/\", \"Target\": \"/bucket_name/home/mydirectory\" } ]</code>\n         </p>"
                     }
                 },
                 "Policy": {
@@ -1391,7 +1411,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Deletes the agreement that's specified in the provided <code>ConnectorId</code>.</p>"
+                "smithy.api#documentation": "<p>Deletes the connector that's specified in the provided <code>ConnectorId</code>.</p>"
             }
         },
         "com.amazonaws.transfer#DeleteConnectorRequest": {
@@ -2445,7 +2465,7 @@
                 "HomeDirectory": {
                     "target": "com.amazonaws.transfer#HomeDirectory",
                     "traits": {
-                        "smithy.api#documentation": "<p>The landing directory (folder) for a user when they log in to the server using the client.</p>\n         <p>A <code>HomeDirectory</code> example is <code>/bucket_name/home/mydirectory</code>.</p>"
+                        "smithy.api#documentation": "<p>The landing directory (folder) for a user when they log in to the server using the client.</p>\n         <p>A <code>HomeDirectory</code> example is <code>/bucket_name/home/mydirectory</code>.</p>\n         <note>\n            <p>The <code>HomeDirectory</code> parameter is only used if <code>HomeDirectoryType</code> is set to <code>LOGICAL</code>.</p>\n         </note>"
                     }
                 },
                 "HomeDirectoryMappings": {
@@ -2457,7 +2477,7 @@
                 "HomeDirectoryType": {
                     "target": "com.amazonaws.transfer#HomeDirectoryType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The type of landing directory (folder) that you want your users' home directory to be when they log in to the server.\n    If you set it to <code>PATH</code>, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer \n    protocol clients. If you set it <code>LOGICAL</code>, you need to provide mappings in the <code>HomeDirectoryMappings</code> for \n    how you want to make Amazon S3 or Amazon EFS paths visible to your users.</p>"
+                        "smithy.api#documentation": "<p>The type of landing directory (folder) that you want your users' home directory to be when they log in to the server.\n    If you set it to <code>PATH</code>, the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer \n    protocol clients. If you set it to <code>LOGICAL</code>, you need to provide mappings in the <code>HomeDirectoryMappings</code> for \n    how you want to make Amazon S3 or Amazon EFS paths visible to your users.</p>\n         <note>\n            <p>If <code>HomeDirectoryType</code> is <code>LOGICAL</code>, you must provide mappings,\n            using the <code>HomeDirectoryMappings</code> parameter. If, on the other hand,\n               <code>HomeDirectoryType</code> is <code>PATH</code>, you provide an absolute path\n            using the <code>HomeDirectory</code> parameter. You cannot have both\n               <code>HomeDirectory</code> and <code>HomeDirectoryMappings</code> in your\n            template.</p>\n         </note>"
                     }
                 },
                 "Policy": {
@@ -2541,7 +2561,7 @@
                 "AccessRole": {
                     "target": "com.amazonaws.transfer#Role",
                     "traits": {
-                        "smithy.api#documentation": "<p>With AS2, you can send files by calling <code>StartFileTransfer</code> and specifying the\n      file paths in the request parameter, <code>SendFilePaths</code>. We use the file’s parent\n      directory (for example, for <code>--send-file-paths /bucket/dir/file.txt</code>, parent\n      directory is <code>/bucket/dir/</code>) to temporarily store a processed AS2 message file,\n      store the MDN when we receive them from the partner, and write a final JSON file containing\n      relevant metadata of the transmission. So, the <code>AccessRole</code> needs to provide read\n      and write access to the parent directory of the file location used in the\n        <code>StartFileTransfer</code> request. Additionally, you need to provide read and write\n      access to the parent directory of the files that you intend to send with\n        <code>StartFileTransfer</code>.</p>"
+                        "smithy.api#documentation": "<p>Connectors are used to send files using either the AS2 or SFTP protocol. For the access role,\n      provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use.</p>\n         <p>\n            <b>For AS2 connectors</b>\n         </p>\n         <p>With AS2, you can send files by calling <code>StartFileTransfer</code> and specifying the\n      file paths in the request parameter, <code>SendFilePaths</code>. We use the file’s parent\n      directory (for example, for <code>--send-file-paths /bucket/dir/file.txt</code>, parent\n      directory is <code>/bucket/dir/</code>) to temporarily store a processed AS2 message file,\n      store the MDN when we receive them from the partner, and write a final JSON file containing\n      relevant metadata of the transmission. So, the <code>AccessRole</code> needs to provide read\n      and write access to the parent directory of the file location used in the\n      <code>StartFileTransfer</code> request. Additionally, you need to provide read and write\n      access to the parent directory of the files that you intend to send with\n      <code>StartFileTransfer</code>.</p>\n         <p>If you are using Basic authentication for your AS2 connector, the access role requires the\n      <code>secretsmanager:GetSecretValue</code> permission for the secret. If the secret is encrypted using\n      a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also\n      needs the <code>kms:Decrypt</code> permission for that key.</p>\n         <p>\n            <b>For SFTP connectors</b>\n         </p>\n         <p>Make sure that the access role provides\n      read and write access to the parent directory of the file location\n      that's used in the <code>StartFileTransfer</code> request.\n      Additionally,  make sure that the role provides\n      <code>secretsmanager:GetSecretValue</code> permission to Secrets Manager.</p>"
                     }
                 },
                 "Tags": {
@@ -2667,19 +2687,19 @@
                 "Url": {
                     "target": "com.amazonaws.transfer#Url",
                     "traits": {
-                        "smithy.api#documentation": "<p>The URL of the partner's AS2 endpoint.</p>"
+                        "smithy.api#documentation": "<p>The URL of the partner's AS2 or SFTP endpoint.</p>"
                     }
                 },
                 "As2Config": {
                     "target": "com.amazonaws.transfer#As2ConnectorConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p>A structure that contains the parameters for a connector object.</p>"
+                        "smithy.api#documentation": "<p>A structure that contains the parameters for an AS2 connector object.</p>"
                     }
                 },
                 "AccessRole": {
                     "target": "com.amazonaws.transfer#Role",
                     "traits": {
-                        "smithy.api#documentation": "<p>With AS2, you can send files by calling <code>StartFileTransfer</code> and specifying the\n      file paths in the request parameter, <code>SendFilePaths</code>. We use the file’s parent\n      directory (for example, for <code>--send-file-paths /bucket/dir/file.txt</code>, parent\n      directory is <code>/bucket/dir/</code>) to temporarily store a processed AS2 message file,\n      store the MDN when we receive them from the partner, and write a final JSON file containing\n      relevant metadata of the transmission. So, the <code>AccessRole</code> needs to provide read\n      and write access to the parent directory of the file location used in the\n        <code>StartFileTransfer</code> request. Additionally, you need to provide read and write\n      access to the parent directory of the files that you intend to send with\n        <code>StartFileTransfer</code>.</p>"
+                        "smithy.api#documentation": "<p>Connectors are used to send files using either the AS2 or SFTP protocol. For the access role,\n      provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use.</p>\n         <p>\n            <b>For AS2 connectors</b>\n         </p>\n         <p>With AS2, you can send files by calling <code>StartFileTransfer</code> and specifying the\n      file paths in the request parameter, <code>SendFilePaths</code>. We use the file’s parent\n      directory (for example, for <code>--send-file-paths /bucket/dir/file.txt</code>, parent\n      directory is <code>/bucket/dir/</code>) to temporarily store a processed AS2 message file,\n      store the MDN when we receive them from the partner, and write a final JSON file containing\n      relevant metadata of the transmission. So, the <code>AccessRole</code> needs to provide read\n      and write access to the parent directory of the file location used in the\n      <code>StartFileTransfer</code> request. Additionally, you need to provide read and write\n      access to the parent directory of the files that you intend to send with\n      <code>StartFileTransfer</code>.</p>\n         <p>If you are using Basic authentication for your AS2 connector, the access role requires the\n      <code>secretsmanager:GetSecretValue</code> permission for the secret. If the secret is encrypted using\n      a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also\n      needs the <code>kms:Decrypt</code> permission for that key.</p>\n         <p>\n            <b>For SFTP connectors</b>\n         </p>\n         <p>Make sure that the access role provides\n      read and write access to the parent directory of the file location\n      that's used in the <code>StartFileTransfer</code> request.\n      Additionally,  make sure that the role provides\n      <code>secretsmanager:GetSecretValue</code> permission to Secrets Manager.</p>"
                     }
                 },
                 "LoggingRole": {
@@ -2692,6 +2712,12 @@
                     "target": "com.amazonaws.transfer#Tags",
                     "traits": {
                         "smithy.api#documentation": "<p>Key-value pairs that can be used to group and search for connectors.</p>"
+                    }
+                },
+                "SftpConfig": {
+                    "target": "com.amazonaws.transfer#SftpConnectorConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A structure that contains the parameters for an SFTP connector object.</p>"
                     }
                 }
             },
@@ -3035,7 +3061,7 @@
                 "HomeDirectory": {
                     "target": "com.amazonaws.transfer#HomeDirectory",
                     "traits": {
-                        "smithy.api#documentation": "<p>The landing directory (folder) for a user when they log in to the server using the client.</p>\n         <p>A <code>HomeDirectory</code> example is <code>/bucket_name/home/mydirectory</code>.</p>"
+                        "smithy.api#documentation": "<p>The landing directory (folder) for a user when they log in to the server using the client.</p>\n         <p>A <code>HomeDirectory</code> example is <code>/bucket_name/home/mydirectory</code>.</p>\n         <note>\n            <p>The <code>HomeDirectory</code> parameter is only used if <code>HomeDirectoryType</code> is set to <code>LOGICAL</code>.</p>\n         </note>"
                     }
                 },
                 "HomeDirectoryMappings": {
@@ -3047,7 +3073,7 @@
                 "HomeDirectoryType": {
                     "target": "com.amazonaws.transfer#HomeDirectoryType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The type of landing directory (folder) that you want your users' home directory to be when they log in to the server.\n    If you set it to <code>PATH</code>, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer \n    protocol clients. If you set it <code>LOGICAL</code>, you need to provide mappings in the <code>HomeDirectoryMappings</code> for \n    how you want to make Amazon S3 or Amazon EFS paths visible to your users.</p>"
+                        "smithy.api#documentation": "<p>The type of landing directory (folder) that you want your users' home directory to be when they log in to the server.\n    If you set it to <code>PATH</code>, the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer \n    protocol clients. If you set it to <code>LOGICAL</code>, you need to provide mappings in the <code>HomeDirectoryMappings</code> for \n    how you want to make Amazon S3 or Amazon EFS paths visible to your users.</p>\n         <note>\n            <p>If <code>HomeDirectoryType</code> is <code>LOGICAL</code>, you must provide mappings,\n            using the <code>HomeDirectoryMappings</code> parameter. If, on the other hand,\n               <code>HomeDirectoryType</code> is <code>PATH</code>, you provide an absolute path\n            using the <code>HomeDirectory</code> parameter. You cannot have both\n               <code>HomeDirectory</code> and <code>HomeDirectoryMappings</code> in your\n            template.</p>\n         </note>"
                     }
                 },
                 "Policy": {
@@ -4030,7 +4056,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.</p>",
+                "smithy.api#documentation": "<p>This exception is thrown when an error occurs in the Transfer Family service.</p>",
                 "smithy.api#error": "server",
                 "smithy.api#httpError": 503
             }
@@ -4926,7 +4952,7 @@
                 "NextToken": {
                     "target": "com.amazonaws.transfer#NextToken",
                     "traits": {
-                        "smithy.api#documentation": "<p>When you can get additional results from the <code>ListUsers</code> call, a\n        <code>NextToken</code> parameter is returned in the output. You can then pass in a\n      subsequent command to the <code>NextToken</code> parameter to continue listing additional\n      users.</p>"
+                        "smithy.api#documentation": "<p>If there are additional results from the <code>ListUsers</code> call, a\n        <code>NextToken</code> parameter is returned in the output. You can then pass \n      the <code>NextToken</code> to a subsequent <code>ListUsers</code> command, to continue listing additional\n      users.</p>"
                     }
                 },
                 "ServerId": {
@@ -5048,13 +5074,13 @@
                 "HomeDirectory": {
                     "target": "com.amazonaws.transfer#HomeDirectory",
                     "traits": {
-                        "smithy.api#documentation": "<p>The landing directory (folder) for a user when they log in to the server using the client.</p>\n         <p>A <code>HomeDirectory</code> example is <code>/bucket_name/home/mydirectory</code>.</p>"
+                        "smithy.api#documentation": "<p>The landing directory (folder) for a user when they log in to the server using the client.</p>\n         <p>A <code>HomeDirectory</code> example is <code>/bucket_name/home/mydirectory</code>.</p>\n         <note>\n            <p>The <code>HomeDirectory</code> parameter is only used if <code>HomeDirectoryType</code> is set to <code>LOGICAL</code>.</p>\n         </note>"
                     }
                 },
                 "HomeDirectoryType": {
                     "target": "com.amazonaws.transfer#HomeDirectoryType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The type of landing directory (folder) that you want your users' home directory to be when they log in to the server.\n    If you set it to <code>PATH</code>, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer \n    protocol clients. If you set it <code>LOGICAL</code>, you need to provide mappings in the <code>HomeDirectoryMappings</code> for \n    how you want to make Amazon S3 or Amazon EFS paths visible to your users.</p>"
+                        "smithy.api#documentation": "<p>The type of landing directory (folder) that you want your users' home directory to be when they log in to the server.\n    If you set it to <code>PATH</code>, the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer \n    protocol clients. If you set it to <code>LOGICAL</code>, you need to provide mappings in the <code>HomeDirectoryMappings</code> for \n    how you want to make Amazon S3 or Amazon EFS paths visible to your users.</p>\n         <note>\n            <p>If <code>HomeDirectoryType</code> is <code>LOGICAL</code>, you must provide mappings,\n            using the <code>HomeDirectoryMappings</code> parameter. If, on the other hand,\n               <code>HomeDirectoryType</code> is <code>PATH</code>, you provide an absolute path\n            using the <code>HomeDirectory</code> parameter. You cannot have both\n               <code>HomeDirectory</code> and <code>HomeDirectoryMappings</code> in your\n            template.</p>\n         </note>"
                     }
                 },
                 "Role": {
@@ -5216,7 +5242,7 @@
                 "Url": {
                     "target": "com.amazonaws.transfer#Url",
                     "traits": {
-                        "smithy.api#documentation": "<p>The URL of the partner's AS2 endpoint.</p>"
+                        "smithy.api#documentation": "<p>The URL of the partner's AS2 or SFTP endpoint.</p>"
                     }
                 }
             },
@@ -5433,13 +5459,13 @@
                 "HomeDirectory": {
                     "target": "com.amazonaws.transfer#HomeDirectory",
                     "traits": {
-                        "smithy.api#documentation": "<p>The landing directory (folder) for a user when they log in to the server using the client.</p>\n         <p>A <code>HomeDirectory</code> example is <code>/bucket_name/home/mydirectory</code>.</p>"
+                        "smithy.api#documentation": "<p>The landing directory (folder) for a user when they log in to the server using the client.</p>\n         <p>A <code>HomeDirectory</code> example is <code>/bucket_name/home/mydirectory</code>.</p>\n         <note>\n            <p>The <code>HomeDirectory</code> parameter is only used if <code>HomeDirectoryType</code> is set to <code>LOGICAL</code>.</p>\n         </note>"
                     }
                 },
                 "HomeDirectoryType": {
                     "target": "com.amazonaws.transfer#HomeDirectoryType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The type of landing directory (folder) that you want your users' home directory to be when they log in to the server.\n    If you set it to <code>PATH</code>, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer \n    protocol clients. If you set it <code>LOGICAL</code>, you need to provide mappings in the <code>HomeDirectoryMappings</code> for \n    how you want to make Amazon S3 or Amazon EFS paths visible to your users.</p>"
+                        "smithy.api#documentation": "<p>The type of landing directory (folder) that you want your users' home directory to be when they log in to the server.\n    If you set it to <code>PATH</code>, the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer \n    protocol clients. If you set it to <code>LOGICAL</code>, you need to provide mappings in the <code>HomeDirectoryMappings</code> for \n    how you want to make Amazon S3 or Amazon EFS paths visible to your users.</p>\n         <note>\n            <p>If <code>HomeDirectoryType</code> is <code>LOGICAL</code>, you must provide mappings,\n            using the <code>HomeDirectoryMappings</code> parameter. If, on the other hand,\n               <code>HomeDirectoryType</code> is <code>PATH</code>, you provide an absolute path\n            using the <code>HomeDirectory</code> parameter. You cannot have both\n               <code>HomeDirectory</code> and <code>HomeDirectoryMappings</code> in your\n            template.</p>\n         </note>"
                     }
                 },
                 "Role": {
@@ -5905,7 +5931,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>The requested resource does not exist.</p>",
+                "smithy.api#documentation": "<p>The requested resource does not exist, or exists in a region other than the one specified for the command.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 409
             }
@@ -6112,6 +6138,15 @@
                 "smithy.api#length": {
                     "min": 0,
                     "max": 16
+                }
+            }
+        },
+        "com.amazonaws.transfer#SecretId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 2048
                 }
             }
         },
@@ -6338,6 +6373,47 @@
                 }
             }
         },
+        "com.amazonaws.transfer#SftpConnectorConfig": {
+            "type": "structure",
+            "members": {
+                "UserSecretId": {
+                    "target": "com.amazonaws.transfer#SecretId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier for the secret (in Amazon Web Services Secrets Manager) that contains the SFTP user's private key, password, or both. The identifier can be either the Amazon Resource Name (ARN) or the name of the secret.</p>"
+                    }
+                },
+                "TrustedHostKeys": {
+                    "target": "com.amazonaws.transfer#SftpConnectorTrustedHostKeyList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The public portion of the host key, or keys, that are used to authenticate the user to the external server to which you are connecting. You can use the <code>ssh-keyscan</code> command against the SFTP server to retrieve the necessary key.</p>\n         <p>The three standard SSH public key format elements are <code><key type></code>,\n        <code><body base64></code>, and an optional <code><comment></code>, with spaces\n      between each element. Specify only the  <code><key type></code> and <code><body\n        base64></code>: do not enter the <code><comment></code> portion of the key.</p>\n         <p>For the trusted host key, Transfer Family accepts RSA and ECDSA keys.</p>\n         <ul>\n            <li>\n               <p>For RSA keys, the key type  is <code>ssh-rsa</code>.</p>\n            </li>\n            <li>\n               <p>For ECDSA keys, the key type is either <code>ecdsa-sha2-nistp256</code>,\n          <code>ecdsa-sha2-nistp384</code>, or <code>ecdsa-sha2-nistp521</code>, depending on the\n          size of the key you generated.</p>\n            </li>\n         </ul>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains the details for an SFTP connector object. The connector object is used for transferring files to and from a\n      partner's SFTP server.</p>"
+            }
+        },
+        "com.amazonaws.transfer#SftpConnectorTrustedHostKey": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 2048
+                }
+            }
+        },
+        "com.amazonaws.transfer#SftpConnectorTrustedHostKeyList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.transfer#SftpConnectorTrustedHostKey"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 10
+                }
+            }
+        },
         "com.amazonaws.transfer#SigningAlg": {
             "type": "enum",
             "members": {
@@ -6482,7 +6558,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Begins an outbound file transfer to a remote AS2 server. You specify the <code>ConnectorId</code> and the file\n      paths for where to send the files. </p>"
+                "smithy.api#documentation": "<p>Begins a file transfer between local Amazon Web Services storage and a remote AS2 or SFTP server.</p>\n         <ul>\n            <li>\n               <p>For an AS2 connector, you specify the <code>ConnectorId</code> and one or more <code>SendFilePaths</code> to identify the files\n          you want to transfer.</p>\n            </li>\n            <li>\n               <p>For an SFTP connector, the file transfer can be either outbound or inbound. In both\n          cases, you specify the <code>ConnectorId</code>. Depending on the direction of the transfer,\n          you also specify the following items:</p>\n               <ul>\n                  <li>\n                     <p>If you are transferring file from a partner's SFTP server to Amazon Web Services\n              storage, you specify one or more <code>RetreiveFilePaths</code> to identify the files\n              you want to transfer, and a <code>LocalDirectoryPath</code> to specify the destination\n              folder.</p>\n                  </li>\n                  <li>\n                     <p>If you are transferring file to a partner's SFTP server from Amazon Web Services\n              storage, you specify one or more <code>SendFilePaths</code> to identify the files you\n              want to transfer, and a <code>RemoteDirectoryPath</code> to specify the destination\n              folder.</p>\n                  </li>\n               </ul>\n            </li>\n         </ul>"
             }
         },
         "com.amazonaws.transfer#StartFileTransferRequest": {
@@ -6491,15 +6567,32 @@
                 "ConnectorId": {
                     "target": "com.amazonaws.transfer#ConnectorId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The unique identifier for the connector. </p>",
+                        "smithy.api#documentation": "<p>The unique identifier for the connector.</p>",
                         "smithy.api#required": {}
                     }
                 },
                 "SendFilePaths": {
                     "target": "com.amazonaws.transfer#FilePaths",
                     "traits": {
-                        "smithy.api#documentation": "<p>An array of strings. Each string represents the absolute path for one outbound file transfer. For example,\n          <code>\n               <i>DOC-EXAMPLE-BUCKET</i>/<i>myfile.txt</i>\n            </code>. </p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>One or more source paths for the Amazon S3 storage. Each string represents a source\n      file path for one outbound file transfer. For example,\n          <code>\n               <i>DOC-EXAMPLE-BUCKET</i>/<i>myfile.txt</i>\n            </code>.</p>\n         <note>\n            <p>Replace <code>\n                  <i>DOC-EXAMPLE-BUCKET</i>\n               </code> with one of your actual buckets.</p>\n         </note>"
+                    }
+                },
+                "RetrieveFilePaths": {
+                    "target": "com.amazonaws.transfer#FilePaths",
+                    "traits": {
+                        "smithy.api#documentation": "<p>One or more source paths for the partner's SFTP server. Each string represents a source file path for one inbound file transfer.</p>"
+                    }
+                },
+                "LocalDirectoryPath": {
+                    "target": "com.amazonaws.transfer#FilePath",
+                    "traits": {
+                        "smithy.api#documentation": "<p>For an inbound transfer, the <code>LocaDirectoryPath</code> specifies the destination for one or more files\n      that are transferred from the partner's SFTP server.</p>"
+                    }
+                },
+                "RemoteDirectoryPath": {
+                    "target": "com.amazonaws.transfer#FilePath",
+                    "traits": {
+                        "smithy.api#documentation": "<p>For an outbound transfer, the <code>RemoteDirectoryPath</code> specifies the destination\n      for one or more files that are transferred to the partner's SFTP server. If you don't specify\n      a <code>RemoteDirectoryPath</code>, the destination for transferred files is the SFTP user's\n      home directory.</p>"
                     }
                 }
             },
@@ -6513,7 +6606,7 @@
                 "TransferId": {
                     "target": "com.amazonaws.transfer#TransferId",
                     "traits": {
-                        "smithy.api#documentation": "<p>Returns the unique identifier for this file transfer. </p>",
+                        "smithy.api#documentation": "<p>Returns the unique identifier for the file transfer.</p>",
                         "smithy.api#required": {}
                     }
                 }
@@ -6609,6 +6702,9 @@
             "traits": {
                 "smithy.api#documentation": "<p>Describes the condition of a file transfer protocol-enabled server with respect to its\n      ability to perform file operations. There are six possible states: <code>OFFLINE</code>,\n        <code>ONLINE</code>, <code>STARTING</code>, <code>STOPPING</code>,\n      <code>START_FAILED</code>, and <code>STOP_FAILED</code>.</p>\n         <p>\n            <code>OFFLINE</code> indicates that the server exists, but that it is not available for\n      file operations. <code>ONLINE</code> indicates that the server is available to perform file\n      operations. <code>STARTING</code> indicates that the server's was instantiated, but the\n      server is not yet available to perform file operations. Under normal conditions, it can take a\n      couple of minutes for the server to be completely operational. Both <code>START_FAILED</code>\n      and <code>STOP_FAILED</code> are error conditions.</p>"
             }
+        },
+        "com.amazonaws.transfer#Status": {
+            "type": "string"
         },
         "com.amazonaws.transfer#StatusCode": {
             "type": "integer",
@@ -6826,6 +6922,73 @@
                     "min": 1,
                     "max": 50
                 }
+            }
+        },
+        "com.amazonaws.transfer#TestConnection": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.transfer#TestConnectionRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.transfer#TestConnectionResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.transfer#InternalServiceError"
+                },
+                {
+                    "target": "com.amazonaws.transfer#InvalidRequestException"
+                },
+                {
+                    "target": "com.amazonaws.transfer#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.transfer#ServiceUnavailableException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Tests whether your SFTP connector is set up successfully. We highly recommend that you call this\n    operation to test your ability to transfer files between local Amazon Web Services storage and a trading partner's\n    SFTP server.</p>"
+            }
+        },
+        "com.amazonaws.transfer#TestConnectionRequest": {
+            "type": "structure",
+            "members": {
+                "ConnectorId": {
+                    "target": "com.amazonaws.transfer#ConnectorId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The unique identifier for the connector.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.transfer#TestConnectionResponse": {
+            "type": "structure",
+            "members": {
+                "ConnectorId": {
+                    "target": "com.amazonaws.transfer#ConnectorId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Returns the identifier of the connector object that you are testing.</p>"
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.transfer#Status",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Returns <code>OK</code> for successful test, or <code>ERROR</code> if the test fails.</p>"
+                    }
+                },
+                "StatusMessage": {
+                    "target": "com.amazonaws.transfer#Message",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Returns <code>Connection succeeded</code> if the test is successful. Or, returns a descriptive error message \n    if the test fails. The following list provides troubleshooting details, depending on the error message that you receive.</p>\n         <ul>\n            <li>\n               <p>Verify that your secret name aligns with the one in\n          Transfer Role permissions.</p>\n            </li>\n            <li>\n               <p>Verify the server URL in the connector\n          configuration , and verify that the login credentials work successfully outside of the connector.</p>\n            </li>\n            <li>\n               <p>Verify that the secret exists and is formatted correctly.</p>\n            </li>\n            <li>\n               <p>Verify that the trusted host key in the connector\n          configuration matches the <code>ssh-keyscan</code> output.</p>\n            </li>\n         </ul>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.transfer#TestIdentityProvider": {
@@ -7127,6 +7290,9 @@
                     "target": "com.amazonaws.transfer#TagResource"
                 },
                 {
+                    "target": "com.amazonaws.transfer#TestConnection"
+                },
+                {
                     "target": "com.amazonaws.transfer#TestIdentityProvider"
                 },
                 {
@@ -7231,9 +7397,188 @@
                                     "type": "error"
                                 },
                                 {
+                                    "conditions": [
+                                        {
+                                            "fn": "booleanEquals",
+                                            "argv": [
+                                                {
+                                                    "ref": "UseDualStack"
+                                                },
+                                                true
+                                            ]
+                                        }
+                                    ],
+                                    "error": "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                                    "type": "error"
+                                },
+                                {
                                     "conditions": [],
+                                    "endpoint": {
+                                        "url": {
+                                            "ref": "Endpoint"
+                                        },
+                                        "properties": {},
+                                        "headers": {}
+                                    },
+                                    "type": "endpoint"
+                                }
+                            ]
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "fn": "isSet",
+                                    "argv": [
+                                        {
+                                            "ref": "Region"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "type": "tree",
+                            "rules": [
+                                {
+                                    "conditions": [
+                                        {
+                                            "fn": "aws.partition",
+                                            "argv": [
+                                                {
+                                                    "ref": "Region"
+                                                }
+                                            ],
+                                            "assign": "PartitionResult"
+                                        }
+                                    ],
                                     "type": "tree",
                                     "rules": [
+                                        {
+                                            "conditions": [
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseFIPS"
+                                                        },
+                                                        true
+                                                    ]
+                                                },
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseDualStack"
+                                                        },
+                                                        true
+                                                    ]
+                                                }
+                                            ],
+                                            "type": "tree",
+                                            "rules": [
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsFIPS"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsDualStack"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "type": "tree",
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [],
+                                                            "endpoint": {
+                                                                "url": "https://transfer-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                                    "type": "error"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "conditions": [
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseFIPS"
+                                                        },
+                                                        true
+                                                    ]
+                                                }
+                                            ],
+                                            "type": "tree",
+                                            "rules": [
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsFIPS"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "type": "tree",
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [],
+                                                            "endpoint": {
+                                                                "url": "https://transfer-fips.{Region}.{PartitionResult#dnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "FIPS is enabled but this partition does not support FIPS",
+                                                    "type": "error"
+                                                }
+                                            ]
+                                        },
                                         {
                                             "conditions": [
                                                 {
@@ -7246,15 +7591,50 @@
                                                     ]
                                                 }
                                             ],
-                                            "error": "Invalid Configuration: Dualstack and custom endpoint are not supported",
-                                            "type": "error"
+                                            "type": "tree",
+                                            "rules": [
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsDualStack"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "type": "tree",
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [],
+                                                            "endpoint": {
+                                                                "url": "https://transfer.{Region}.{PartitionResult#dualStackDnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "DualStack is enabled but this partition does not support DualStack",
+                                                    "type": "error"
+                                                }
+                                            ]
                                         },
                                         {
                                             "conditions": [],
                                             "endpoint": {
-                                                "url": {
-                                                    "ref": "Endpoint"
-                                                },
+                                                "url": "https://transfer.{Region}.{PartitionResult#dnsSuffix}",
                                                 "properties": {},
                                                 "headers": {}
                                             },
@@ -7266,258 +7646,8 @@
                         },
                         {
                             "conditions": [],
-                            "type": "tree",
-                            "rules": [
-                                {
-                                    "conditions": [
-                                        {
-                                            "fn": "isSet",
-                                            "argv": [
-                                                {
-                                                    "ref": "Region"
-                                                }
-                                            ]
-                                        }
-                                    ],
-                                    "type": "tree",
-                                    "rules": [
-                                        {
-                                            "conditions": [
-                                                {
-                                                    "fn": "aws.partition",
-                                                    "argv": [
-                                                        {
-                                                            "ref": "Region"
-                                                        }
-                                                    ],
-                                                    "assign": "PartitionResult"
-                                                }
-                                            ],
-                                            "type": "tree",
-                                            "rules": [
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseFIPS"
-                                                                },
-                                                                true
-                                                            ]
-                                                        },
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseDualStack"
-                                                                },
-                                                                true
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsFIPS"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                },
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsDualStack"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://transfer-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
-                                                            "type": "error"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseFIPS"
-                                                                },
-                                                                true
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsFIPS"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://transfer-fips.{Region}.{PartitionResult#dnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "error": "FIPS is enabled but this partition does not support FIPS",
-                                                            "type": "error"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseDualStack"
-                                                                },
-                                                                true
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsDualStack"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://transfer.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "error": "DualStack is enabled but this partition does not support DualStack",
-                                                            "type": "error"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "conditions": [],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [],
-                                                            "endpoint": {
-                                                                "url": "https://transfer.{Region}.{PartitionResult#dnsSuffix}",
-                                                                "properties": {},
-                                                                "headers": {}
-                                                            },
-                                                            "type": "endpoint"
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                },
-                                {
-                                    "conditions": [],
-                                    "error": "Invalid Configuration: Missing Region",
-                                    "type": "error"
-                                }
-                            ]
+                            "error": "Invalid Configuration: Missing Region",
+                            "type": "error"
                         }
                     ]
                 },
@@ -8274,13 +8404,13 @@
                 "HomeDirectory": {
                     "target": "com.amazonaws.transfer#HomeDirectory",
                     "traits": {
-                        "smithy.api#documentation": "<p>The landing directory (folder) for a user when they log in to the server using the client.</p>\n         <p>A <code>HomeDirectory</code> example is <code>/bucket_name/home/mydirectory</code>.</p>"
+                        "smithy.api#documentation": "<p>The landing directory (folder) for a user when they log in to the server using the client.</p>\n         <p>A <code>HomeDirectory</code> example is <code>/bucket_name/home/mydirectory</code>.</p>\n         <note>\n            <p>The <code>HomeDirectory</code> parameter is only used if <code>HomeDirectoryType</code> is set to <code>LOGICAL</code>.</p>\n         </note>"
                     }
                 },
                 "HomeDirectoryType": {
                     "target": "com.amazonaws.transfer#HomeDirectoryType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The type of landing directory (folder) that you want your users' home directory to be when they log in to the server.\n    If you set it to <code>PATH</code>, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer \n    protocol clients. If you set it <code>LOGICAL</code>, you need to provide mappings in the <code>HomeDirectoryMappings</code> for \n    how you want to make Amazon S3 or Amazon EFS paths visible to your users.</p>"
+                        "smithy.api#documentation": "<p>The type of landing directory (folder) that you want your users' home directory to be when they log in to the server.\n    If you set it to <code>PATH</code>, the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer \n    protocol clients. If you set it to <code>LOGICAL</code>, you need to provide mappings in the <code>HomeDirectoryMappings</code> for \n    how you want to make Amazon S3 or Amazon EFS paths visible to your users.</p>\n         <note>\n            <p>If <code>HomeDirectoryType</code> is <code>LOGICAL</code>, you must provide mappings,\n            using the <code>HomeDirectoryMappings</code> parameter. If, on the other hand,\n               <code>HomeDirectoryType</code> is <code>PATH</code>, you provide an absolute path\n            using the <code>HomeDirectory</code> parameter. You cannot have both\n               <code>HomeDirectory</code> and <code>HomeDirectoryMappings</code> in your\n            template.</p>\n         </note>"
                     }
                 },
                 "HomeDirectoryMappings": {
@@ -8427,7 +8557,7 @@
                 "AccessRole": {
                     "target": "com.amazonaws.transfer#Role",
                     "traits": {
-                        "smithy.api#documentation": "<p>With AS2, you can send files by calling <code>StartFileTransfer</code> and specifying the\n      file paths in the request parameter, <code>SendFilePaths</code>. We use the file’s parent\n      directory (for example, for <code>--send-file-paths /bucket/dir/file.txt</code>, parent\n      directory is <code>/bucket/dir/</code>) to temporarily store a processed AS2 message file,\n      store the MDN when we receive them from the partner, and write a final JSON file containing\n      relevant metadata of the transmission. So, the <code>AccessRole</code> needs to provide read\n      and write access to the parent directory of the file location used in the\n        <code>StartFileTransfer</code> request. Additionally, you need to provide read and write\n      access to the parent directory of the files that you intend to send with\n        <code>StartFileTransfer</code>.</p>"
+                        "smithy.api#documentation": "<p>Connectors are used to send files using either the AS2 or SFTP protocol. For the access role,\n      provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use.</p>\n         <p>\n            <b>For AS2 connectors</b>\n         </p>\n         <p>With AS2, you can send files by calling <code>StartFileTransfer</code> and specifying the\n      file paths in the request parameter, <code>SendFilePaths</code>. We use the file’s parent\n      directory (for example, for <code>--send-file-paths /bucket/dir/file.txt</code>, parent\n      directory is <code>/bucket/dir/</code>) to temporarily store a processed AS2 message file,\n      store the MDN when we receive them from the partner, and write a final JSON file containing\n      relevant metadata of the transmission. So, the <code>AccessRole</code> needs to provide read\n      and write access to the parent directory of the file location used in the\n      <code>StartFileTransfer</code> request. Additionally, you need to provide read and write\n      access to the parent directory of the files that you intend to send with\n      <code>StartFileTransfer</code>.</p>\n         <p>If you are using Basic authentication for your AS2 connector, the access role requires the\n      <code>secretsmanager:GetSecretValue</code> permission for the secret. If the secret is encrypted using\n      a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also\n      needs the <code>kms:Decrypt</code> permission for that key.</p>\n         <p>\n            <b>For SFTP connectors</b>\n         </p>\n         <p>Make sure that the access role provides\n      read and write access to the parent directory of the file location\n      that's used in the <code>StartFileTransfer</code> request.\n      Additionally,  make sure that the role provides\n      <code>secretsmanager:GetSecretValue</code> permission to Secrets Manager.</p>"
                     }
                 }
             },
@@ -8572,25 +8702,31 @@
                 "Url": {
                     "target": "com.amazonaws.transfer#Url",
                     "traits": {
-                        "smithy.api#documentation": "<p>The URL of the partner's AS2 endpoint.</p>"
+                        "smithy.api#documentation": "<p>The URL of the partner's AS2 or SFTP endpoint.</p>"
                     }
                 },
                 "As2Config": {
                     "target": "com.amazonaws.transfer#As2ConnectorConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p>A structure that contains the parameters for a connector object.</p>"
+                        "smithy.api#documentation": "<p>A structure that contains the parameters for an AS2 connector object.</p>"
                     }
                 },
                 "AccessRole": {
                     "target": "com.amazonaws.transfer#Role",
                     "traits": {
-                        "smithy.api#documentation": "<p>With AS2, you can send files by calling <code>StartFileTransfer</code> and specifying the\n      file paths in the request parameter, <code>SendFilePaths</code>. We use the file’s parent\n      directory (for example, for <code>--send-file-paths /bucket/dir/file.txt</code>, parent\n      directory is <code>/bucket/dir/</code>) to temporarily store a processed AS2 message file,\n      store the MDN when we receive them from the partner, and write a final JSON file containing\n      relevant metadata of the transmission. So, the <code>AccessRole</code> needs to provide read\n      and write access to the parent directory of the file location used in the\n        <code>StartFileTransfer</code> request. Additionally, you need to provide read and write\n      access to the parent directory of the files that you intend to send with\n        <code>StartFileTransfer</code>.</p>"
+                        "smithy.api#documentation": "<p>Connectors are used to send files using either the AS2 or SFTP protocol. For the access role,\n      provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use.</p>\n         <p>\n            <b>For AS2 connectors</b>\n         </p>\n         <p>With AS2, you can send files by calling <code>StartFileTransfer</code> and specifying the\n      file paths in the request parameter, <code>SendFilePaths</code>. We use the file’s parent\n      directory (for example, for <code>--send-file-paths /bucket/dir/file.txt</code>, parent\n      directory is <code>/bucket/dir/</code>) to temporarily store a processed AS2 message file,\n      store the MDN when we receive them from the partner, and write a final JSON file containing\n      relevant metadata of the transmission. So, the <code>AccessRole</code> needs to provide read\n      and write access to the parent directory of the file location used in the\n      <code>StartFileTransfer</code> request. Additionally, you need to provide read and write\n      access to the parent directory of the files that you intend to send with\n      <code>StartFileTransfer</code>.</p>\n         <p>If you are using Basic authentication for your AS2 connector, the access role requires the\n      <code>secretsmanager:GetSecretValue</code> permission for the secret. If the secret is encrypted using\n      a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also\n      needs the <code>kms:Decrypt</code> permission for that key.</p>\n         <p>\n            <b>For SFTP connectors</b>\n         </p>\n         <p>Make sure that the access role provides\n      read and write access to the parent directory of the file location\n      that's used in the <code>StartFileTransfer</code> request.\n      Additionally,  make sure that the role provides\n      <code>secretsmanager:GetSecretValue</code> permission to Secrets Manager.</p>"
                     }
                 },
                 "LoggingRole": {
                     "target": "com.amazonaws.transfer#Role",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn\n      on CloudWatch logging for Amazon S3 events. When set, you can view connector\n      activity in your CloudWatch logs.</p>"
+                    }
+                },
+                "SftpConfig": {
+                    "target": "com.amazonaws.transfer#SftpConnectorConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A structure that contains the parameters for an SFTP connector object.</p>"
                     }
                 }
             },
@@ -8939,13 +9075,13 @@
                 "HomeDirectory": {
                     "target": "com.amazonaws.transfer#HomeDirectory",
                     "traits": {
-                        "smithy.api#documentation": "<p>The landing directory (folder) for a user when they log in to the server using the client.</p>\n         <p>A <code>HomeDirectory</code> example is <code>/bucket_name/home/mydirectory</code>.</p>"
+                        "smithy.api#documentation": "<p>The landing directory (folder) for a user when they log in to the server using the client.</p>\n         <p>A <code>HomeDirectory</code> example is <code>/bucket_name/home/mydirectory</code>.</p>\n         <note>\n            <p>The <code>HomeDirectory</code> parameter is only used if <code>HomeDirectoryType</code> is set to <code>LOGICAL</code>.</p>\n         </note>"
                     }
                 },
                 "HomeDirectoryType": {
                     "target": "com.amazonaws.transfer#HomeDirectoryType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The type of landing directory (folder) that you want your users' home directory to be when they log in to the server.\n    If you set it to <code>PATH</code>, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer \n    protocol clients. If you set it <code>LOGICAL</code>, you need to provide mappings in the <code>HomeDirectoryMappings</code> for \n    how you want to make Amazon S3 or Amazon EFS paths visible to your users.</p>"
+                        "smithy.api#documentation": "<p>The type of landing directory (folder) that you want your users' home directory to be when they log in to the server.\n    If you set it to <code>PATH</code>, the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer \n    protocol clients. If you set it to <code>LOGICAL</code>, you need to provide mappings in the <code>HomeDirectoryMappings</code> for \n    how you want to make Amazon S3 or Amazon EFS paths visible to your users.</p>\n         <note>\n            <p>If <code>HomeDirectoryType</code> is <code>LOGICAL</code>, you must provide mappings,\n            using the <code>HomeDirectoryMappings</code> parameter. If, on the other hand,\n               <code>HomeDirectoryType</code> is <code>PATH</code>, you provide an absolute path\n            using the <code>HomeDirectory</code> parameter. You cannot have both\n               <code>HomeDirectory</code> and <code>HomeDirectoryMappings</code> in your\n            template.</p>\n         </note>"
                     }
                 },
                 "HomeDirectoryMappings": {

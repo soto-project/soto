@@ -52,6 +52,19 @@ extension IoTFleetWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum EncryptionStatus: String, CustomStringConvertible, Codable, Sendable {
+        case failure = "FAILURE"
+        case pending = "PENDING"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable {
+        case fleetwiseDefaultEncryption = "FLEETWISE_DEFAULT_ENCRYPTION"
+        case kmsBasedEncryption = "KMS_BASED_ENCRYPTION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LogType: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case off = "OFF"
@@ -844,7 +857,7 @@ extension IoTFleetWise {
         public let collectionScheme: CollectionScheme
         ///  (Optional) Whether to compress signals before transmitting data to Amazon Web Services IoT FleetWise. If you don't want to compress the signals, use OFF. If it's not specified, SNAPPY is used.  Default: SNAPPY
         public let compression: Compression?
-        /// The destination where the campaign sends data. You can choose to send data to be stored in Amazon S3 or Amazon Timestream. Amazon S3 optimizes the cost of data storage and provides additional mechanisms to use vehicle data, such as data lakes, centralized data storage, data processing pipelines, and analytics.  You can use Amazon Timestream to access and analyze time series data, and Timestream to query vehicle data so that you can identify trends and patterns.
+        /// The destination where the campaign sends data. You can choose to send data to be stored in Amazon S3 or Amazon Timestream. Amazon S3 optimizes the cost of data storage and provides additional mechanisms to use vehicle data, such as data lakes, centralized data storage, data processing pipelines, and analytics. Amazon Web Services IoT FleetWise supports at-least-once file delivery to S3. Your vehicle data is stored on multiple Amazon Web Services IoT FleetWise servers for redundancy and high availability. You can use Amazon Timestream to access and analyze time series data, and Timestream to query vehicle data so that you can identify trends and patterns.
         public let dataDestinationConfigs: [DataDestinationConfig]?
         ///  (Optional) A list of vehicle attributes to associate with a campaign.  Enrich the data with specified vehicle attributes. For example, add make and model to the campaign, and Amazon Web Services IoT FleetWise will associate the data with those attributes as dimensions in Amazon Timestream. You can then query the data against make and model. Default: An empty array
         public let dataExtraDimensions: [String]?
@@ -1872,6 +1885,43 @@ extension IoTFleetWise {
             case modelManifestArn = "modelManifestArn"
             case name = "name"
             case status = "status"
+        }
+    }
+
+    public struct GetEncryptionConfigurationRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetEncryptionConfigurationResponse: AWSDecodableShape {
+        /// The time when encryption was configured in seconds since epoch (January 1, 1970 at midnight UTC time).
+        public let creationTime: Date?
+        /// The encryption status.
+        public let encryptionStatus: EncryptionStatus
+        /// The type of encryption. Set to KMS_BASED_ENCRYPTION to use an KMS key that you own and manage. Set to FLEETWISE_DEFAULT_ENCRYPTION to use an Amazon Web Services managed key that is owned by the Amazon Web Services IoT FleetWise service account.
+        public let encryptionType: EncryptionType
+        /// The error message that describes why encryption settings couldn't be configured, if applicable.
+        public let errorMessage: String?
+        /// The ID of the KMS key that is used for encryption.
+        public let kmsKeyId: String?
+        /// The time when encryption was last updated in seconds since epoch (January 1, 1970 at midnight UTC time).
+        public let lastModificationTime: Date?
+
+        public init(creationTime: Date? = nil, encryptionStatus: EncryptionStatus, encryptionType: EncryptionType, errorMessage: String? = nil, kmsKeyId: String? = nil, lastModificationTime: Date? = nil) {
+            self.creationTime = creationTime
+            self.encryptionStatus = encryptionStatus
+            self.encryptionType = encryptionType
+            self.errorMessage = errorMessage
+            self.kmsKeyId = kmsKeyId
+            self.lastModificationTime = lastModificationTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case encryptionStatus = "encryptionStatus"
+            case encryptionType = "encryptionType"
+            case errorMessage = "errorMessage"
+            case kmsKeyId = "kmsKeyId"
+            case lastModificationTime = "lastModificationTime"
         }
     }
 
@@ -3153,6 +3203,44 @@ extension IoTFleetWise {
             case scaling = "scaling"
             case serviceMode = "serviceMode"
             case startByte = "startByte"
+        }
+    }
+
+    public struct PutEncryptionConfigurationRequest: AWSEncodableShape {
+        /// The type of encryption. Choose KMS_BASED_ENCRYPTION to use a KMS key or FLEETWISE_DEFAULT_ENCRYPTION to use an Amazon Web Services managed key.
+        public let encryptionType: EncryptionType
+        /// The ID of the KMS key that is used for encryption.
+        public let kmsKeyId: String?
+
+        public init(encryptionType: EncryptionType, kmsKeyId: String? = nil) {
+            self.encryptionType = encryptionType
+            self.kmsKeyId = kmsKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionType = "encryptionType"
+            case kmsKeyId = "kmsKeyId"
+        }
+    }
+
+    public struct PutEncryptionConfigurationResponse: AWSDecodableShape {
+        /// The encryption status.
+        public let encryptionStatus: EncryptionStatus
+        /// The type of encryption. Set to KMS_BASED_ENCRYPTION to use an KMS key that you own and manage. Set to FLEETWISE_DEFAULT_ENCRYPTION to use an Amazon Web Services managed key that is owned by the Amazon Web Services IoT FleetWise service account.
+        public let encryptionType: EncryptionType
+        /// The ID of the KMS key that is used for encryption.
+        public let kmsKeyId: String?
+
+        public init(encryptionStatus: EncryptionStatus, encryptionType: EncryptionType, kmsKeyId: String? = nil) {
+            self.encryptionStatus = encryptionStatus
+            self.encryptionType = encryptionType
+            self.kmsKeyId = kmsKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionStatus = "encryptionStatus"
+            case encryptionType = "encryptionType"
+            case kmsKeyId = "kmsKeyId"
         }
     }
 

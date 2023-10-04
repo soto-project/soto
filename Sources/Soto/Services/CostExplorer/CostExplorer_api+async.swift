@@ -116,6 +116,11 @@ extension CostExplorer {
         return try await self.client.execute(operation: "GetRightsizingRecommendation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves the details for a Savings Plan recommendation. These details include the hourly data-points that construct the cost, coverage, and utilization charts.
+    public func getSavingsPlanPurchaseRecommendationDetails(_ input: GetSavingsPlanPurchaseRecommendationDetailsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetSavingsPlanPurchaseRecommendationDetailsResponse {
+        return try await self.client.execute(operation: "GetSavingsPlanPurchaseRecommendationDetails", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organization’s management account can see the coverage of the associated member accounts. This supports dimensions, Cost Categories, and nested expressions. For any time period, you can filter data for Savings Plans usage with the following dimensions:    LINKED_ACCOUNT     REGION     SERVICE     INSTANCE_FAMILY    To determine valid values for a dimension, use the GetDimensionValues operation.
     public func getSavingsPlansCoverage(_ input: GetSavingsPlansCoverageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetSavingsPlansCoverageResponse {
         return try await self.client.execute(operation: "GetSavingsPlansCoverage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -191,7 +196,7 @@ extension CostExplorer {
         return try await self.client.execute(operation: "UpdateAnomalyMonitor", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates an existing cost anomaly monitor subscription.
+    /// Updates an existing cost anomaly subscription. Specify the fields that you want to update. Omitted fields are unchanged.  The JSON below describes the generic construct for each type. See Request Parameters for possible values as they apply to AnomalySubscription.
     public func updateAnomalySubscription(_ input: UpdateAnomalySubscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateAnomalySubscriptionResponse {
         return try await self.client.execute(operation: "UpdateAnomalySubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

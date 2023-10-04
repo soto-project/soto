@@ -110,6 +110,7 @@ extension KinesisAnalyticsV2 {
         case sql10 = "SQL-1_0"
         case zeppelinFlink10 = "ZEPPELIN-FLINK-1_0"
         case zeppelinFlink20 = "ZEPPELIN-FLINK-2_0"
+        case zeppelinFlink30 = "ZEPPELIN-FLINK-3_0"
         public var description: String { return self.rawValue }
     }
 

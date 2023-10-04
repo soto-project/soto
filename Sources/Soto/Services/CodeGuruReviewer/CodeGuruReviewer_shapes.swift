@@ -123,17 +123,12 @@ extension CodeGuruReviewer {
         public let kmsKeyDetails: KMSKeyDetails?
         /// The repository to associate.
         public let repository: Repository
-        /// An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:
-        ///
-        /// 				           A tag key (for example, CostCenter,
+        /// An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:   A tag key (for example, CostCenter,
         /// 					Environment, Project, or Secret). Tag
-        /// 					keys are case sensitive.
-        ///
-        /// 				           An optional field known as a tag value (for example,
+        /// 					keys are case sensitive.   An optional field known as a tag value (for example,
         /// 					111122223333, Production, or a team name).
         /// 					Omitting the tag value is the same as using an empty string. Like tag keys, tag
         /// 					values are case sensitive.
-        ///
         public let tags: [String: String]?
 
         public init(clientRequestToken: String? = AssociateRepositoryRequest.idempotencyToken(), kmsKeyDetails: KMSKeyDetails? = nil, repository: Repository, tags: [String: String]? = nil) {
@@ -169,17 +164,12 @@ extension CodeGuruReviewer {
     public struct AssociateRepositoryResponse: AWSDecodableShape {
         /// Information about the repository association.
         public let repositoryAssociation: RepositoryAssociation?
-        /// An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:
-        ///
-        /// 				           A tag key (for example, CostCenter,
+        /// An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:   A tag key (for example, CostCenter,
         /// 					Environment, Project, or Secret). Tag
-        /// 					keys are case sensitive.
-        ///
-        /// 				           An optional field known as a tag value (for example,
+        /// 					keys are case sensitive.   An optional field known as a tag value (for example,
         /// 					111122223333, Production, or a team name).
         /// 					Omitting the tag value is the same as using an empty string. Like tag keys, tag
         /// 					values are case sensitive.
-        ///
         public let tags: [String: String]?
 
         public init(repositoryAssociation: RepositoryAssociation? = nil, tags: [String: String]? = nil) {
@@ -289,7 +279,7 @@ extension CodeGuruReviewer {
         public let repositoryName: String?
         /// The type of the source code for the code review.
         public let sourceCodeType: SourceCodeType?
-        /// The valid code review states are:    Completed: The code review is complete.                Pending: The code review started and has not completed or failed.    Failed: The code review failed.                Deleting: The code review is being deleted.
+        /// The valid code review states are:    Completed: The code review is complete.    Pending: The code review started and has not completed or failed.    Failed: The code review failed.    Deleting: The code review is being deleted.
         public let state: JobState?
         /// The reason for the state of the code review.
         public let stateReason: String?
@@ -355,7 +345,7 @@ extension CodeGuruReviewer {
         /// The name of the repository.
         public let repositoryName: String?
         public let sourceCodeType: SourceCodeType?
-        /// The state of the code review. The valid code review states are:    Completed: The code review is complete.                Pending: The code review started and has not completed or failed.    Failed: The code review failed.                Deleting: The code review is being deleted.
+        /// The state of the code review. The valid code review states are:    Completed: The code review is complete.    Pending: The code review started and has not completed or failed.    Failed: The code review failed.    Deleting: The code review is being deleted.
         public let state: JobState?
         /// The type of the code review.
         public let type: `Type`?
@@ -596,17 +586,12 @@ extension CodeGuruReviewer {
     public struct DescribeRepositoryAssociationResponse: AWSDecodableShape {
         /// Information about the repository association.
         public let repositoryAssociation: RepositoryAssociation?
-        /// An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:
-        ///
-        /// 				           A tag key (for example, CostCenter,
+        /// An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:   A tag key (for example, CostCenter,
         /// 					Environment, Project, or Secret). Tag
-        /// 					keys are case sensitive.
-        ///
-        /// 				           An optional field known as a tag value (for example,
+        /// 					keys are case sensitive.   An optional field known as a tag value (for example,
         /// 					111122223333, Production, or a team name).
         /// 					Omitting the tag value is the same as using an empty string. Like tag keys, tag
         /// 					values are case sensitive.
-        ///
         public let tags: [String: String]?
 
         public init(repositoryAssociation: RepositoryAssociation? = nil, tags: [String: String]? = nil) {
@@ -644,17 +629,12 @@ extension CodeGuruReviewer {
     public struct DisassociateRepositoryResponse: AWSDecodableShape {
         /// Information about the disassociated repository.
         public let repositoryAssociation: RepositoryAssociation?
-        /// An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:
-        ///
-        /// 				           A tag key (for example, CostCenter,
+        /// An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:   A tag key (for example, CostCenter,
         /// 					Environment, Project, or Secret). Tag
-        /// 					keys are case sensitive.
-        ///
-        /// 				           An optional field known as a tag value (for example,
+        /// 					keys are case sensitive.   An optional field known as a tag value (for example,
         /// 					111122223333, Production, or a team name).
         /// 					Omitting the tag value is the same as using an empty string. Like tag keys, tag
         /// 					values are case sensitive.
-        ///
         public let tags: [String: String]?
 
         public init(repositoryAssociation: RepositoryAssociation? = nil, tags: [String: String]? = nil) {
@@ -735,7 +715,7 @@ extension CodeGuruReviewer {
         public let providerTypes: [ProviderType]?
         /// List of repository names for filtering that needs to be applied before displaying the result.
         public let repositoryNames: [String]?
-        /// List of states for filtering that needs to be applied before displaying the result. For example, states=[Pending] lists code reviews in the Pending state. The valid code review states are:    Completed: The code review is complete.                Pending: The code review started and has not completed or failed.    Failed: The code review failed.                Deleting: The code review is being deleted.
+        /// List of states for filtering that needs to be applied before displaying the result. For example, states=[Pending] lists code reviews in the Pending state. The valid code review states are:    Completed: The code review is complete.    Pending: The code review started and has not completed or failed.    Failed: The code review failed.    Deleting: The code review is being deleted.
         public let states: [JobState]?
         /// The type of code reviews to list in the response.
         public let type: `Type`
@@ -927,7 +907,7 @@ extension CodeGuruReviewer {
         public let owners: [String]?
         /// List of provider types to use as a filter.
         public let providerTypes: [ProviderType]?
-        /// List of repository association states to use as a filter. The valid repository association states are:    Associated: The repository association is complete.                Associating: CodeGuru Reviewer is:   Setting up pull request notifications. This is required  for pull requests to trigger a CodeGuru Reviewer review.  If your repository ProviderType is GitHub, GitHub Enterprise Server, or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.    Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.      Failed: The repository failed to associate or disassociate.                Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.    Disassociated: CodeGuru Reviewer successfully disassociated the repository. You can create a new association with this repository if you want to review source code in it later. You can control access to code reviews created in anassociated repository with tags after it has been disassociated. For more information, see Using tags to control access to associated repositories in the Amazon CodeGuru Reviewer User Guide.
+        /// List of repository association states to use as a filter. The valid repository association states are:    Associated: The repository association is complete.    Associating: CodeGuru Reviewer is:   Setting up pull request notifications. This is required  for pull requests to trigger a CodeGuru Reviewer review.  If your repository ProviderType is GitHub, GitHub Enterprise Server, or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.    Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.      Failed: The repository failed to associate or disassociate.    Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.    Disassociated: CodeGuru Reviewer successfully disassociated the repository. You can create a new association with this repository if you want to review source code in it later. You can control access to code reviews created in anassociated repository with tags after it has been disassociated. For more information, see Using tags to control access to associated repositories in the Amazon CodeGuru Reviewer User Guide.
         public let states: [RepositoryAssociationState]?
 
         public init(maxResults: Int? = nil, names: [String]? = nil, nextToken: String? = nil, owners: [String]? = nil, providerTypes: [ProviderType]? = nil, states: [RepositoryAssociationState]? = nil) {
@@ -1006,17 +986,12 @@ extension CodeGuruReviewer {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        /// An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:
-        ///
-        /// 				           A tag key (for example, CostCenter,
+        /// An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:   A tag key (for example, CostCenter,
         /// 					Environment, Project, or Secret). Tag
-        /// 					keys are case sensitive.
-        ///
-        /// 				           An optional field known as a tag value (for example,
+        /// 					keys are case sensitive.   An optional field known as a tag value (for example,
         /// 					111122223333, Production, or a team name).
         /// 					Omitting the tag value is the same as using an empty string. Like tag keys, tag
         /// 					values are case sensitive.
-        ///
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -1271,7 +1246,7 @@ extension CodeGuruReviewer {
         /// The provider type of the repository association.
         public let providerType: ProviderType?
         public let s3RepositoryDetails: S3RepositoryDetails?
-        /// The state of the repository association. The valid repository association states are:    Associated: The repository association is complete.                Associating: CodeGuru Reviewer is:   Setting up pull request notifications. This is required  for pull requests to trigger a CodeGuru Reviewer review.  If your repository ProviderType is GitHub, GitHub Enterprise Server, or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.    Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.      Failed: The repository failed to associate or disassociate.                Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.    Disassociated: CodeGuru Reviewer successfully disassociated the repository. You can create a new association with this repository if you want to review source code in it later. You can control access to code reviews created in anassociated repository with tags after it has been disassociated. For more information, see Using tags to control access to associated repositories in the Amazon CodeGuru Reviewer User Guide.
+        /// The state of the repository association. The valid repository association states are:    Associated: The repository association is complete.    Associating: CodeGuru Reviewer is:   Setting up pull request notifications. This is required  for pull requests to trigger a CodeGuru Reviewer review.  If your repository ProviderType is GitHub, GitHub Enterprise Server, or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.    Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.      Failed: The repository failed to associate or disassociate.    Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.    Disassociated: CodeGuru Reviewer successfully disassociated the repository. You can create a new association with this repository if you want to review source code in it later. You can control access to code reviews created in anassociated repository with tags after it has been disassociated. For more information, see Using tags to control access to associated repositories in the Amazon CodeGuru Reviewer User Guide.
         public let state: RepositoryAssociationState?
         /// A description of why the repository association is in the current state.
         public let stateReason: String?
@@ -1322,7 +1297,7 @@ extension CodeGuruReviewer {
         public let owner: String?
         /// The provider type of the repository association.
         public let providerType: ProviderType?
-        /// The state of the repository association. The valid repository association states are:    Associated: The repository association is complete.                Associating: CodeGuru Reviewer is:   Setting up pull request notifications. This is required  for pull requests to trigger a CodeGuru Reviewer review.  If your repository ProviderType is GitHub, GitHub Enterprise Server, or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.    Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.      Failed: The repository failed to associate or disassociate.                Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.    Disassociated: CodeGuru Reviewer successfully disassociated the repository. You can create a new association with this repository if you want to review source code in it later. You can control access to code reviews created in anassociated repository with tags after it has been disassociated. For more information, see Using tags to control access to associated repositories in the Amazon CodeGuru Reviewer User Guide.
+        /// The state of the repository association. The valid repository association states are:    Associated: The repository association is complete.    Associating: CodeGuru Reviewer is:   Setting up pull request notifications. This is required  for pull requests to trigger a CodeGuru Reviewer review.  If your repository ProviderType is GitHub, GitHub Enterprise Server, or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.    Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.      Failed: The repository failed to associate or disassociate.    Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.    Disassociated: CodeGuru Reviewer successfully disassociated the repository. You can create a new association with this repository if you want to review source code in it later. You can control access to code reviews created in anassociated repository with tags after it has been disassociated. For more information, see Using tags to control access to associated repositories in the Amazon CodeGuru Reviewer User Guide.
         public let state: RepositoryAssociationState?
 
         public init(associationArn: String? = nil, associationId: String? = nil, connectionArn: String? = nil, lastUpdatedTimeStamp: Date? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, state: RepositoryAssociationState? = nil) {
@@ -1546,17 +1521,12 @@ extension CodeGuruReviewer {
 
         /// The Amazon Resource Name (ARN) of the RepositoryAssociation object. You can retrieve this ARN by calling ListRepositoryAssociations.
         public let resourceArn: String
-        /// An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:
-        ///
-        /// 				           A tag key (for example, CostCenter,
+        /// An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:   A tag key (for example, CostCenter,
         /// 					Environment, Project, or Secret). Tag
-        /// 					keys are case sensitive.
-        ///
-        /// 				           An optional field known as a tag value (for example,
+        /// 					keys are case sensitive.   An optional field known as a tag value (for example,
         /// 					111122223333, Production, or a team name).
         /// 					Omitting the tag value is the same as using an empty string. Like tag keys, tag
         /// 					values are case sensitive.
-        ///
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {

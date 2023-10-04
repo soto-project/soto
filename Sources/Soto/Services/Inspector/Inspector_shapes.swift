@@ -1507,7 +1507,7 @@ extension Inspector {
             try self.validate(self.assessmentTemplateArn, name: "assessmentTemplateArn", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 300)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.previewToken, name: "previewToken", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.validate(self.previewToken, name: "previewToken", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {

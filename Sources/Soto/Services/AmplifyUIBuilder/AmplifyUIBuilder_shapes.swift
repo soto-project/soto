@@ -137,6 +137,55 @@ extension AmplifyUIBuilder {
         public var description: String { return self.rawValue }
     }
 
+    public enum ApiConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The configuration for an application using DataStore APIs.
+        case dataStoreConfig(DataStoreRenderConfig)
+        /// The configuration for an application using GraphQL APIs.
+        case graphQLConfig(GraphQLRenderConfig)
+        /// The configuration for an application with no API being used.
+        case noApiConfig(NoApiRenderConfig)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .dataStoreConfig:
+                let value = try container.decode(DataStoreRenderConfig.self, forKey: .dataStoreConfig)
+                self = .dataStoreConfig(value)
+            case .graphQLConfig:
+                let value = try container.decode(GraphQLRenderConfig.self, forKey: .graphQLConfig)
+                self = .graphQLConfig(value)
+            case .noApiConfig:
+                let value = try container.decode(NoApiRenderConfig.self, forKey: .noApiConfig)
+                self = .noApiConfig(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .dataStoreConfig(let value):
+                try container.encode(value, forKey: .dataStoreConfig)
+            case .graphQLConfig(let value):
+                try container.encode(value, forKey: .graphQLConfig)
+            case .noApiConfig(let value):
+                try container.encode(value, forKey: .noApiConfig)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataStoreConfig = "dataStoreConfig"
+            case graphQLConfig = "graphQLConfig"
+            case noApiConfig = "noApiConfig"
+        }
+    }
+
     public enum FieldPosition: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The field position is below the field specified by the string.
         case below(String)
@@ -271,6 +320,31 @@ extension AmplifyUIBuilder {
             case target = "target"
             case type = "type"
             case url = "url"
+        }
+    }
+
+    public struct CodegenDependency: AWSDecodableShape {
+        /// Determines if the dependency package is using Semantic versioning. If set to true, it indicates that the dependency package uses Semantic versioning.
+        public let isSemVer: Bool?
+        /// Name of the dependency package.
+        public let name: String?
+        /// Indicates the reason to include the dependency package in your project code.
+        public let reason: String?
+        /// Indicates the version of the supported dependency package.
+        public let supportedVersion: String?
+
+        public init(isSemVer: Bool? = nil, name: String? = nil, reason: String? = nil, supportedVersion: String? = nil) {
+            self.isSemVer = isSemVer
+            self.name = name
+            self.reason = reason
+            self.supportedVersion = supportedVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isSemVer = "isSemVer"
+            case name = "name"
+            case reason = "reason"
+            case supportedVersion = "supportedVersion"
         }
     }
 
@@ -425,6 +499,8 @@ extension AmplifyUIBuilder {
         public let autoGenerateForms: Bool?
         /// The time that the code generation job was created.
         public let createdAt: Date?
+        /// Lists the dependency packages that may be required for the project code to run.
+        public let dependencies: [CodegenDependency]?
         /// The name of the backend environment associated with the code generation job.
         public let environmentName: String
         public let features: CodegenFeatureFlags?
@@ -441,11 +517,12 @@ extension AmplifyUIBuilder {
         /// One or more key-value pairs to use when tagging the code generation job.
         public let tags: [String: String]?
 
-        public init(appId: String, asset: CodegenJobAsset? = nil, autoGenerateForms: Bool? = nil, createdAt: Date? = nil, environmentName: String, features: CodegenFeatureFlags? = nil, genericDataSchema: CodegenJobGenericDataSchema? = nil, id: String, modifiedAt: Date? = nil, renderConfig: CodegenJobRenderConfig? = nil, status: CodegenJobStatus? = nil, statusMessage: String? = nil, tags: [String: String]? = nil) {
+        public init(appId: String, asset: CodegenJobAsset? = nil, autoGenerateForms: Bool? = nil, createdAt: Date? = nil, dependencies: [CodegenDependency]? = nil, environmentName: String, features: CodegenFeatureFlags? = nil, genericDataSchema: CodegenJobGenericDataSchema? = nil, id: String, modifiedAt: Date? = nil, renderConfig: CodegenJobRenderConfig? = nil, status: CodegenJobStatus? = nil, statusMessage: String? = nil, tags: [String: String]? = nil) {
             self.appId = appId
             self.asset = asset
             self.autoGenerateForms = autoGenerateForms
             self.createdAt = createdAt
+            self.dependencies = dependencies
             self.environmentName = environmentName
             self.features = features
             self.genericDataSchema = genericDataSchema
@@ -462,6 +539,7 @@ extension AmplifyUIBuilder {
             case asset = "asset"
             case autoGenerateForms = "autoGenerateForms"
             case createdAt = "createdAt"
+            case dependencies = "dependencies"
             case environmentName = "environmentName"
             case features = "features"
             case genericDataSchema = "genericDataSchema"
@@ -1262,6 +1340,10 @@ extension AmplifyUIBuilder {
         private enum CodingKeys: String, CodingKey {
             case entity = "entity"
         }
+    }
+
+    public struct DataStoreRenderConfig: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteComponentRequest: AWSEncodableShape {
@@ -2130,6 +2212,35 @@ extension AmplifyUIBuilder {
         }
     }
 
+    public struct GraphQLRenderConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The path to the GraphQL fragments file, relative to the component output directory.
+        public let fragmentsFilePath: String
+        /// The path to the GraphQL mutations file, relative to the component output directory.
+        public let mutationsFilePath: String
+        /// The path to the GraphQL queries file, relative to the component output directory.
+        public let queriesFilePath: String
+        /// The path to the GraphQL subscriptions file, relative to the component output directory.
+        public let subscriptionsFilePath: String
+        /// The path to the GraphQL types file, relative to the component output directory.
+        public let typesFilePath: String
+
+        public init(fragmentsFilePath: String, mutationsFilePath: String, queriesFilePath: String, subscriptionsFilePath: String, typesFilePath: String) {
+            self.fragmentsFilePath = fragmentsFilePath
+            self.mutationsFilePath = mutationsFilePath
+            self.queriesFilePath = queriesFilePath
+            self.subscriptionsFilePath = subscriptionsFilePath
+            self.typesFilePath = typesFilePath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fragmentsFilePath = "fragmentsFilePath"
+            case mutationsFilePath = "mutationsFilePath"
+            case queriesFilePath = "queriesFilePath"
+            case subscriptionsFilePath = "subscriptionsFilePath"
+            case typesFilePath = "typesFilePath"
+        }
+    }
+
     public struct ListCodegenJobsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri("appId")),
@@ -2350,6 +2461,10 @@ extension AmplifyUIBuilder {
         }
     }
 
+    public struct NoApiRenderConfig: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
     public struct Predicate: AWSEncodableShape & AWSDecodableShape {
         /// A list of predicates to combine logically.
         public let and: [Predicate]?
@@ -2437,6 +2552,10 @@ extension AmplifyUIBuilder {
     }
 
     public struct ReactStartCodegenJobData: AWSEncodableShape & AWSDecodableShape {
+        /// The API configuration for the code generation job.
+        public let apiConfiguration: ApiConfiguration?
+        /// Lists the dependency packages that may be required for the project code to run.
+        public let dependencies: [String: String]?
         /// Specifies whether the code generation job should render inline source maps.
         public let inlineSourceMap: Bool?
         /// The JavaScript module type.
@@ -2448,7 +2567,9 @@ extension AmplifyUIBuilder {
         /// The ECMAScript specification to use.
         public let target: JSTarget?
 
-        public init(inlineSourceMap: Bool? = nil, module: JSModule? = nil, renderTypeDeclarations: Bool? = nil, script: JSScript? = nil, target: JSTarget? = nil) {
+        public init(apiConfiguration: ApiConfiguration? = nil, dependencies: [String: String]? = nil, inlineSourceMap: Bool? = nil, module: JSModule? = nil, renderTypeDeclarations: Bool? = nil, script: JSScript? = nil, target: JSTarget? = nil) {
+            self.apiConfiguration = apiConfiguration
+            self.dependencies = dependencies
             self.inlineSourceMap = inlineSourceMap
             self.module = module
             self.renderTypeDeclarations = renderTypeDeclarations
@@ -2457,6 +2578,8 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case apiConfiguration = "apiConfiguration"
+            case dependencies = "dependencies"
             case inlineSourceMap = "inlineSourceMap"
             case module = "module"
             case renderTypeDeclarations = "renderTypeDeclarations"

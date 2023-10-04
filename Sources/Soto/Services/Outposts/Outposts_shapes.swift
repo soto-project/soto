@@ -34,6 +34,7 @@ extension Outposts {
 
     public enum AssetState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
+        case isolated = "ISOLATED"
         case retiring = "RETIRING"
         public var description: String { return self.rawValue }
     }
@@ -405,16 +406,20 @@ extension Outposts {
     public struct ComputeAttributes: AWSDecodableShape {
         ///  The host ID of the Dedicated Host on the asset.
         public let hostId: String?
+        /// A list of the names of instance families that are currently associated with a given asset.
+        public let instanceFamilies: [String]?
         /// The state.   ACTIVE - The asset is available and can provide capacity for new compute resources.   ISOLATED - The asset is undergoing maintenance and can't provide capacity for new compute resources. Existing compute resources on the asset are not affected.   RETIRING - The underlying hardware for the asset is degraded. Capacity for new compute resources is reduced. Amazon Web Services sends notifications for resources that must be stopped before the asset can be replaced.
         public let state: ComputeAssetState?
 
-        public init(hostId: String? = nil, state: ComputeAssetState? = nil) {
+        public init(hostId: String? = nil, instanceFamilies: [String]? = nil, state: ComputeAssetState? = nil) {
             self.hostId = hostId
+            self.instanceFamilies = instanceFamilies
             self.state = state
         }
 
         private enum CodingKeys: String, CodingKey {
             case hostId = "HostId"
+            case instanceFamilies = "InstanceFamilies"
             case state = "State"
         }
     }
@@ -1118,7 +1123,7 @@ extension Outposts {
             try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, max: 180)
             try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, min: 1)
             try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
-            try self.validate(self.statusFilter, name: "statusFilter", parent: name, max: 2)
+            try self.validate(self.statusFilter, name: "statusFilter", parent: name, max: 3)
             try self.validate(self.statusFilter, name: "statusFilter", parent: name, min: 1)
         }
 

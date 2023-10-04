@@ -88,6 +88,7 @@ extension CloudFront {
 
     public enum FunctionRuntime: String, CustomStringConvertible, Codable, Sendable {
         case cloudfrontJs10 = "cloudfront-js-1.0"
+        case cloudfrontJs20 = "cloudfront-js-2.0"
         public var description: String { return self.rawValue }
     }
 
@@ -307,9 +308,8 @@ extension CloudFront {
     public struct ActiveTrustedSigners: AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Signer" }
 
-        /// This field is true if any of the Amazon Web Services accounts in the list have active
-        /// 			CloudFront key pairs that CloudFront can use to verify the signatures of signed URLs and signed
-        /// 			cookies. If not, this field is false.
+        /// This field is true if any of the Amazon Web Services accounts in the list are configured as
+        /// 			trusted signers. If not, this field is false.
         public let enabled: Bool
         /// A list of Amazon Web Services accounts and the identifiers of active CloudFront key pairs in each account
         /// 			that CloudFront can use to verify the signatures of signed URLs and signed cookies.
@@ -1303,6 +1303,11 @@ extension CloudFront {
         /// 			CloudFront from creating a duplicate resource if you accidentally resubmit an identical
         /// 			request.
         public let callerReference: String
+        /// A Boolean flag to specify the state of the staging distribution when it's
+        /// 			created. When you set this value to True, the staging
+        /// 			distribution is enabled. When you set this value to False, the
+        /// 			staging distribution is disabled. If you omit this field, the default value is True.
+        public let enabled: Bool?
         /// The version identifier of the primary distribution whose configuration you are
         /// 			copying. This is the ETag value returned in the response to
         /// 				GetDistribution and GetDistributionConfig.
@@ -1315,8 +1320,9 @@ extension CloudFront {
         /// 			distribution.
         public let staging: Bool?
 
-        public init(callerReference: String, ifMatch: String? = nil, primaryDistributionId: String, staging: Bool? = nil) {
+        public init(callerReference: String, enabled: Bool? = nil, ifMatch: String? = nil, primaryDistributionId: String, staging: Bool? = nil) {
             self.callerReference = callerReference
+            self.enabled = enabled
             self.ifMatch = ifMatch
             self.primaryDistributionId = primaryDistributionId
             self.staging = staging
@@ -1324,6 +1330,7 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case callerReference = "CallerReference"
+            case enabled = "Enabled"
         }
     }
 
@@ -3816,8 +3823,7 @@ extension CloudFront {
     public struct FunctionConfig: AWSEncodableShape & AWSDecodableShape {
         /// A comment to describe the function.
         public let comment: String
-        /// The function's runtime environment. The only valid value is
-        /// 				cloudfront-js-1.0.
+        /// The function's runtime environment verion.
         public let runtime: FunctionRuntime
 
         public init(comment: String, runtime: FunctionRuntime) {
@@ -8726,9 +8732,8 @@ extension CloudFront {
     public struct TrustedSigners: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "AwsAccountNumber" }
 
-        /// This field is true if any of the Amazon Web Services accounts have public keys that
-        /// 			CloudFront can use to verify the signatures of signed URLs and signed cookies. If not, this
-        /// 			field is false.
+        /// This field is true if any of the Amazon Web Services accounts in the list are configured as
+        /// 			trusted signers. If not, this field is false.
         public let enabled: Bool
         /// A list of Amazon Web Services account identifiers.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>

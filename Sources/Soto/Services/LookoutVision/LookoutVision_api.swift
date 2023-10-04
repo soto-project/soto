@@ -104,7 +104,7 @@ public struct LookoutVision: AWSService {
     }
 
     /// Describes an Amazon Lookout for Vision model packaging job.
-    ///  This operation requires permissions to perform the lookoutvision:DescribeModelPackagingJob operation.  For more information, see  Using your Amazon Lookout for Vision model on an edge device in the  Amazon Lookout for Vision Developer Guide.
+    ///  This operation requires permissions to perform the lookoutvision:DescribeModelPackagingJob operation. For more information, see  Using your Amazon Lookout for Vision model on an edge device in the  Amazon Lookout for Vision Developer Guide.
     public func describeModelPackagingJob(_ input: DescribeModelPackagingJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeModelPackagingJobResponse> {
         return self.client.execute(operation: "DescribeModelPackagingJob", path: "/2020-11-20/projects/{ProjectName}/modelpackagingjobs/{JobName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -114,7 +114,7 @@ public struct LookoutVision: AWSService {
         return self.client.execute(operation: "DescribeProject", path: "/2020-11-20/projects/{ProjectName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Detects anomalies in an image that you supply.  The response from DetectAnomalies includes a boolean prediction that the image contains one or more anomalies and a confidence value for the prediction. If the model is an image segmentation model, the response also includes segmentation information for each type of anomaly found in the image.  Before calling DetectAnomalies, you must first start your model with the StartModel operation. You are charged for the amount of time, in minutes, that a model runs and for the number of anomaly detection units that your model uses. If you are not using a model, use the StopModel operation to stop your model.     For more information, see Detecting anomalies in an image in the Amazon Lookout for Vision developer guide.  This operation requires permissions to perform the lookoutvision:DetectAnomalies operation.
+    /// Detects anomalies in an image that you supply.  The response from DetectAnomalies includes a boolean prediction that the image contains one or more anomalies and a confidence value for the prediction. If the model is an image segmentation model, the response also includes segmentation information for each type of anomaly found in the image.  Before calling DetectAnomalies, you must first start your model with the StartModel operation. You are charged for the amount of time, in minutes, that a model runs and for the number of anomaly detection units that your model uses. If you are not using a model, use the StopModel operation to stop your model.   For more information, see Detecting anomalies in an image in the Amazon Lookout for Vision developer guide. This operation requires permissions to perform the lookoutvision:DetectAnomalies operation.
     public func detectAnomalies(_ input: DetectAnomaliesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DetectAnomaliesResponse> {
         return self.client.execute(operation: "DetectAnomalies", path: "/2020-11-20/projects/{ProjectName}/models/{ModelVersion}/detect", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -126,7 +126,7 @@ public struct LookoutVision: AWSService {
 
     /// Lists the model packaging jobs created for an Amazon Lookout for Vision project.
     ///  This operation requires permissions to perform the lookoutvision:ListModelPackagingJobs operation.
-    ///   For more information, see  Using your Amazon Lookout for Vision model on an edge device in the  Amazon Lookout for Vision Developer Guide.
+    ///  For more information, see  Using your Amazon Lookout for Vision model on an edge device in the  Amazon Lookout for Vision Developer Guide.
     public func listModelPackagingJobs(_ input: ListModelPackagingJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListModelPackagingJobsResponse> {
         return self.client.execute(operation: "ListModelPackagingJobs", path: "/2020-11-20/projects/{ProjectName}/modelpackagingjobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -152,8 +152,7 @@ public struct LookoutVision: AWSService {
     }
 
     /// Starts an Amazon Lookout for Vision model packaging job. A model packaging job creates an AWS IoT Greengrass component for a Lookout for Vision model. You can use the component to deploy your model to an edge device managed by Greengrass.
-    ///   Use the DescribeModelPackagingJob API to determine the current status of the job.  The model packaging job is complete if the value of Status is SUCCEEDED. To deploy the component to the target device, use the component name and component version with the AWS IoT Greengrass CreateDeployment API.
-    ///  This operation requires the following permissions:     lookoutvision:StartModelPackagingJob     s3:PutObject     s3:GetBucketLocation     kms:GenerateDataKey     greengrass:CreateComponentVersion     greengrass:DescribeComponent    (Optional) greengrass:TagResource. Only required if you want to tag the component.     For more information, see  Using your Amazon Lookout for Vision model on an edge device in the  Amazon Lookout for Vision Developer Guide.
+    ///  Use the DescribeModelPackagingJob API to determine the current status of the job.  The model packaging job is complete if the value of Status is SUCCEEDED. To deploy the component to the target device, use the component name and component version with the AWS IoT Greengrass CreateDeployment API. This operation requires the following permissions:    lookoutvision:StartModelPackagingJob     s3:PutObject     s3:GetBucketLocation     kms:GenerateDataKey     greengrass:CreateComponentVersion     greengrass:DescribeComponent    (Optional) greengrass:TagResource. Only required if you want to tag the component.   For more information, see  Using your Amazon Lookout for Vision model on an edge device in the  Amazon Lookout for Vision Developer Guide.
     public func startModelPackagingJob(_ input: StartModelPackagingJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartModelPackagingJobResponse> {
         return self.client.execute(operation: "StartModelPackagingJob", path: "/2020-11-20/projects/{ProjectName}/modelpackagingjobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -173,7 +172,7 @@ public struct LookoutVision: AWSService {
         return self.client.execute(operation: "UntagResource", path: "/2020-11-20/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds or updates one or more JSON Line entries in a dataset. A JSON Line includes information about an image used for training or testing an Amazon Lookout for Vision model. To update an existing JSON Line, use the source-ref field to identify the JSON Line. The JSON line that you supply replaces the existing JSON line. Any existing annotations that are not in the new JSON line are removed from the dataset.    For more information, see  Defining JSON lines for anomaly classification in the  Amazon Lookout for Vision Developer Guide.    The images you reference in the source-ref field of a JSON line, must be  in the same S3 bucket as the existing images in the dataset.    Updating a dataset might take a while to complete. To check the current status, call DescribeDataset and check the Status field in the response. This operation requires permissions to perform the lookoutvision:UpdateDatasetEntries operation.
+    /// Adds or updates one or more JSON Line entries in a dataset. A JSON Line includes information about an image used for training or testing an Amazon Lookout for Vision model. To update an existing JSON Line, use the source-ref field to identify the JSON Line. The JSON line that you supply replaces the existing JSON line. Any existing annotations that are not in the new JSON line are removed from the dataset.  For more information, see  Defining JSON lines for anomaly classification in the  Amazon Lookout for Vision Developer Guide.   The images you reference in the source-ref field of a JSON line, must be  in the same S3 bucket as the existing images in the dataset.   Updating a dataset might take a while to complete. To check the current status, call DescribeDataset and check the Status field in the response. This operation requires permissions to perform the lookoutvision:UpdateDatasetEntries operation.
     public func updateDatasetEntries(_ input: UpdateDatasetEntriesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDatasetEntriesResponse> {
         return self.client.execute(operation: "UpdateDatasetEntries", path: "/2020-11-20/projects/{ProjectName}/datasets/{DatasetType}/entries", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -246,7 +245,7 @@ extension LookoutVision {
 
     /// Lists the model packaging jobs created for an Amazon Lookout for Vision project.
     ///  This operation requires permissions to perform the lookoutvision:ListModelPackagingJobs operation.
-    ///   For more information, see  Using your Amazon Lookout for Vision model on an edge device in the  Amazon Lookout for Vision Developer Guide.
+    ///  For more information, see  Using your Amazon Lookout for Vision model on an edge device in the  Amazon Lookout for Vision Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

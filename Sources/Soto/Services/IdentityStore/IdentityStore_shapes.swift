@@ -127,7 +127,7 @@ extension IdentityStore {
     public struct AttributeOperation: AWSEncodableShape {
         /// A string representation of the path to a given attribute or sub-attribute. Supports JMESPath.
         public let attributePath: String
-        /// The value of the attribute. This is a Document type. This type is not supported by Java V1, Go V1, and older versions of the AWS CLI.
+        /// The value of the attribute. This is a Document type. This type is not supported by Java V1, Go V1, and older versions of the CLI.
         public let attributeValue: String?
 
         public init(attributePath: String, attributeValue: String? = nil) {
@@ -198,7 +198,7 @@ extension IdentityStore {
     public struct CreateGroupRequest: AWSEncodableShape {
         /// A string containing the description of the group.
         public let description: String?
-        /// A string containing the name of the group. This value is commonly displayed when the group is referenced. "Administrator" and "AWSAdministrators" are reserved names and can't be used for users or groups.
+        /// A string containing the name of the group. This value is commonly displayed when the group is referenced. Administrator and AWSAdministrators are reserved names and can't be used for users or groups.
         public let displayName: String?
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
@@ -270,7 +270,7 @@ extension IdentityStore {
         public let timezone: String?
         /// A string containing the title of the user. Possible values are left unspecified. The value can vary based on your specific use case.
         public let title: String?
-        /// A unique string used to identify the user. The length limit is 128 characters. This value can consist of letters, accented characters, symbols, numbers, and punctuation. This value is specified at the time the user is created and stored as an attribute of the user object in the identity store. "Administrator" and "AWSAdministrators" are reserved names and can't be used for users or groups.
+        /// A unique string used to identify the user. The length limit is 128 characters. This value can consist of letters, accented characters, symbols, numbers, and punctuation. This value is specified at the time the user is created and stored as an attribute of the user object in the identity store. Administrator and AWSAdministrators are reserved names and can't be used for users or groups.
         public let userName: String?
         /// A string indicating the type of user. Possible values are left unspecified. The value can vary based on your specific use case.
         public let userType: String?
@@ -1031,7 +1031,7 @@ extension IdentityStore {
             try self.memberId.validate(name: "\(name).memberId")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/:]*$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/:_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1087,7 +1087,7 @@ extension IdentityStore {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/:]*$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/:_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1152,7 +1152,7 @@ extension IdentityStore {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/:]*$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/:_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1217,7 +1217,7 @@ extension IdentityStore {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/:]*$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/:_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1332,7 +1332,7 @@ extension IdentityStore {
     public struct UniqueAttribute: AWSEncodableShape {
         /// A string representation of the path to a given attribute or sub-attribute. Supports JMESPath.
         public let attributePath: String
-        /// The value of the attribute. This is a Document type. This type is not supported by Java V1, Go V1, and older versions of the AWS CLI.
+        /// The value of the attribute. This is a Document type. This type is not supported by Java V1, Go V1, and older versions of the CLI.
         public let attributeValue: String
 
         public init(attributePath: String, attributeValue: String) {

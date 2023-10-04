@@ -219,6 +219,8 @@ extension Wisdom {
         public let assistantId: String
         /// The description.
         public let description: String?
+        /// The configuration information for the Wisdom assistant integration.
+        public let integrationConfiguration: AssistantIntegrationConfiguration?
         /// The name.
         public let name: String
         /// The KMS key used for encryption.
@@ -230,10 +232,11 @@ extension Wisdom {
         /// The type of assistant.
         public let type: AssistantType
 
-        public init(assistantArn: String, assistantId: String, description: String? = nil, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: AssistantStatus, tags: [String: String]? = nil, type: AssistantType) {
+        public init(assistantArn: String, assistantId: String, description: String? = nil, integrationConfiguration: AssistantIntegrationConfiguration? = nil, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: AssistantStatus, tags: [String: String]? = nil, type: AssistantType) {
             self.assistantArn = assistantArn
             self.assistantId = assistantId
             self.description = description
+            self.integrationConfiguration = integrationConfiguration
             self.name = name
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
             self.status = status
@@ -245,11 +248,25 @@ extension Wisdom {
             case assistantArn = "assistantArn"
             case assistantId = "assistantId"
             case description = "description"
+            case integrationConfiguration = "integrationConfiguration"
             case name = "name"
             case serverSideEncryptionConfiguration = "serverSideEncryptionConfiguration"
             case status = "status"
             case tags = "tags"
             case type = "type"
+        }
+    }
+
+    public struct AssistantIntegrationConfiguration: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the integrated Amazon SNS topic used for streaming chat messages.
+        public let topicIntegrationArn: String?
+
+        public init(topicIntegrationArn: String? = nil) {
+            self.topicIntegrationArn = topicIntegrationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case topicIntegrationArn = "topicIntegrationArn"
         }
     }
 
@@ -260,6 +277,8 @@ extension Wisdom {
         public let assistantId: String
         /// The description of the assistant.
         public let description: String?
+        /// The configuration information for the Wisdom assistant integration.
+        public let integrationConfiguration: AssistantIntegrationConfiguration?
         /// The name of the assistant.
         public let name: String
         /// The KMS key used for encryption.
@@ -271,10 +290,11 @@ extension Wisdom {
         /// The type of the assistant.
         public let type: AssistantType
 
-        public init(assistantArn: String, assistantId: String, description: String? = nil, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: AssistantStatus, tags: [String: String]? = nil, type: AssistantType) {
+        public init(assistantArn: String, assistantId: String, description: String? = nil, integrationConfiguration: AssistantIntegrationConfiguration? = nil, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: AssistantStatus, tags: [String: String]? = nil, type: AssistantType) {
             self.assistantArn = assistantArn
             self.assistantId = assistantId
             self.description = description
+            self.integrationConfiguration = integrationConfiguration
             self.name = name
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
             self.status = status
@@ -286,6 +306,7 @@ extension Wisdom {
             case assistantArn = "assistantArn"
             case assistantId = "assistantId"
             case description = "description"
+            case integrationConfiguration = "integrationConfiguration"
             case name = "name"
             case serverSideEncryptionConfiguration = "serverSideEncryptionConfiguration"
             case status = "status"
@@ -1974,6 +1995,8 @@ extension Wisdom {
     public struct SessionData: AWSDecodableShape {
         /// The description of the session.
         public let description: String?
+        /// The configuration information for the session integration.
+        public let integrationConfiguration: SessionIntegrationConfiguration?
         /// The name of the session.
         public let name: String
         /// The Amazon Resource Name (ARN) of the session.
@@ -1983,8 +2006,9 @@ extension Wisdom {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
-        public init(description: String? = nil, name: String, sessionArn: String, sessionId: String, tags: [String: String]? = nil) {
+        public init(description: String? = nil, integrationConfiguration: SessionIntegrationConfiguration? = nil, name: String, sessionArn: String, sessionId: String, tags: [String: String]? = nil) {
             self.description = description
+            self.integrationConfiguration = integrationConfiguration
             self.name = name
             self.sessionArn = sessionArn
             self.sessionId = sessionId
@@ -1993,10 +2017,24 @@ extension Wisdom {
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
+            case integrationConfiguration = "integrationConfiguration"
             case name = "name"
             case sessionArn = "sessionArn"
             case sessionId = "sessionId"
             case tags = "tags"
+        }
+    }
+
+    public struct SessionIntegrationConfiguration: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the integrated Amazon SNS topic used for streaming chat messages.
+        public let topicIntegrationArn: String?
+
+        public init(topicIntegrationArn: String? = nil) {
+            self.topicIntegrationArn = topicIntegrationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case topicIntegrationArn = "topicIntegrationArn"
         }
     }
 

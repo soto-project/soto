@@ -33,11 +33,13 @@ public struct SavingsPlans: AWSService {
     /// Initialize the SavingsPlans client
     /// - parameters:
     ///     - client: AWSClient used to process requests
+    ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - timeout: Timeout value for HTTP requests
     public init(
         client: AWSClient,
+        region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         timeout: TimeAmount? = nil,
@@ -46,17 +48,16 @@ public struct SavingsPlans: AWSService {
     ) {
         self.client = client
         self.config = AWSServiceConfig(
-            region: nil,
-            partition: partition,
+            region: region,
+            partition: region?.partition ?? partition,
             service: "savingsplans",
             serviceProtocol: .restjson,
             apiVersion: "2019-06-28",
             endpoint: endpoint,
             serviceEndpoints: [
-                "aws-global": "savingsplans.amazonaws.com"
-            ],
-            partitionEndpoints: [
-                .aws: (endpoint: "aws-global", region: .useast1)
+                "aws-global": "savingsplans.amazonaws.com",
+                "cn-north-1": "savingsplans.cn-north-1.amazonaws.com.cn",
+                "cn-northwest-1": "savingsplans.cn-northwest-1.amazonaws.com.cn"
             ],
             errorType: SavingsPlansErrorType.self,
             timeout: timeout,

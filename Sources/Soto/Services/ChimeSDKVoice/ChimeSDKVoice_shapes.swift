@@ -453,11 +453,14 @@ extension ChimeSDKVoice {
     public struct CreatePhoneNumberOrderRequest: AWSEncodableShape {
         /// List of phone numbers, in E.164 format.
         public let e164PhoneNumbers: [String]
+        /// Specifies the name assigned to one or more phone numbers.
+        public let name: String?
         /// The phone number product type.
         public let productType: PhoneNumberProductType
 
-        public init(e164PhoneNumbers: [String], productType: PhoneNumberProductType) {
+        public init(e164PhoneNumbers: [String], name: String? = nil, productType: PhoneNumberProductType) {
             self.e164PhoneNumbers = e164PhoneNumbers
+            self.name = name
             self.productType = productType
         }
 
@@ -465,10 +468,13 @@ extension ChimeSDKVoice {
             try self.e164PhoneNumbers.forEach {
                 try validate($0, name: "e164PhoneNumbers[]", parent: name, pattern: "^\\+?[1-9]\\d{1,14}$")
             }
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^$|^[a-zA-Z0-9\\,\\.\\_\\-]+(\\s+[a-zA-Z0-9\\,\\.\\_\\-]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case e164PhoneNumbers = "E164PhoneNumbers"
+            case name = "Name"
             case productType = "ProductType"
         }
     }
@@ -2725,6 +2731,8 @@ extension ChimeSDKVoice {
         public var deletionTimestamp: Date?
         /// The phone number, in E.164 format.
         public let e164PhoneNumber: String?
+        /// The name of the phone number.
+        public let name: String?
         /// The phone number's order ID.
         public let orderId: String?
         /// The phone number's ID.
@@ -2739,7 +2747,7 @@ extension ChimeSDKVoice {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
-        public init(associations: [PhoneNumberAssociation]? = nil, callingName: String? = nil, callingNameStatus: CallingNameStatus? = nil, capabilities: PhoneNumberCapabilities? = nil, country: String? = nil, createdTimestamp: Date? = nil, deletionTimestamp: Date? = nil, e164PhoneNumber: String? = nil, orderId: String? = nil, phoneNumberId: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberStatus? = nil, type: PhoneNumberType? = nil, updatedTimestamp: Date? = nil) {
+        public init(associations: [PhoneNumberAssociation]? = nil, callingName: String? = nil, callingNameStatus: CallingNameStatus? = nil, capabilities: PhoneNumberCapabilities? = nil, country: String? = nil, createdTimestamp: Date? = nil, deletionTimestamp: Date? = nil, e164PhoneNumber: String? = nil, name: String? = nil, orderId: String? = nil, phoneNumberId: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberStatus? = nil, type: PhoneNumberType? = nil, updatedTimestamp: Date? = nil) {
             self.associations = associations
             self.callingName = callingName
             self.callingNameStatus = callingNameStatus
@@ -2748,6 +2756,7 @@ extension ChimeSDKVoice {
             self.createdTimestamp = createdTimestamp
             self.deletionTimestamp = deletionTimestamp
             self.e164PhoneNumber = e164PhoneNumber
+            self.name = name
             self.orderId = orderId
             self.phoneNumberId = phoneNumberId
             self.productType = productType
@@ -2765,6 +2774,7 @@ extension ChimeSDKVoice {
             case createdTimestamp = "CreatedTimestamp"
             case deletionTimestamp = "DeletionTimestamp"
             case e164PhoneNumber = "E164PhoneNumber"
+            case name = "Name"
             case orderId = "OrderId"
             case phoneNumberId = "PhoneNumberId"
             case productType = "ProductType"
@@ -4078,24 +4088,30 @@ extension ChimeSDKVoice {
 
         /// The outbound calling name associated with the phone number.
         public let callingName: String?
+        /// Specifies the name assigned to one or more phone numbers.
+        public let name: String?
         /// The phone number ID.
         public let phoneNumberId: String
         /// The product type.
         public let productType: PhoneNumberProductType?
 
-        public init(callingName: String? = nil, phoneNumberId: String, productType: PhoneNumberProductType? = nil) {
+        public init(callingName: String? = nil, name: String? = nil, phoneNumberId: String, productType: PhoneNumberProductType? = nil) {
             self.callingName = callingName
+            self.name = name
             self.phoneNumberId = phoneNumberId
             self.productType = productType
         }
 
         public func validate(name: String) throws {
             try self.validate(self.callingName, name: "callingName", parent: name, pattern: "^$|^[a-zA-Z0-9 ]{2,15}$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^$|^[a-zA-Z0-9\\,\\.\\_\\-]+(\\s+[a-zA-Z0-9\\,\\.\\_\\-]+)*$")
             try self.validate(self.phoneNumberId, name: "phoneNumberId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
             case callingName = "CallingName"
+            case name = "Name"
             case productType = "ProductType"
         }
     }
@@ -4103,24 +4119,30 @@ extension ChimeSDKVoice {
     public struct UpdatePhoneNumberRequestItem: AWSEncodableShape {
         /// The outbound calling name to update.
         public let callingName: String?
+        /// The name of the phone number.
+        public let name: String?
         /// The phone number ID to update.
         public let phoneNumberId: String
         /// The product type to update.
         public let productType: PhoneNumberProductType?
 
-        public init(callingName: String? = nil, phoneNumberId: String, productType: PhoneNumberProductType? = nil) {
+        public init(callingName: String? = nil, name: String? = nil, phoneNumberId: String, productType: PhoneNumberProductType? = nil) {
             self.callingName = callingName
+            self.name = name
             self.phoneNumberId = phoneNumberId
             self.productType = productType
         }
 
         public func validate(name: String) throws {
             try self.validate(self.callingName, name: "callingName", parent: name, pattern: "^$|^[a-zA-Z0-9 ]{2,15}$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^$|^[a-zA-Z0-9\\,\\.\\_\\-]+(\\s+[a-zA-Z0-9\\,\\.\\_\\-]+)*$")
             try self.validate(self.phoneNumberId, name: "phoneNumberId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
             case callingName = "CallingName"
+            case name = "Name"
             case phoneNumberId = "PhoneNumberId"
             case productType = "ProductType"
         }

@@ -63,6 +63,7 @@ extension CodeArtifact {
         case npm = "npm"
         case nuget = "nuget"
         case pypi = "pypi"
+        case swift = "swift"
         public var description: String { return self.rawValue }
     }
 
@@ -2497,7 +2498,7 @@ extension CodeArtifact {
         public let domain: String
         /// The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
         public let domainOwner: String?
-        /// A format that specifies the type of the package version with the requested asset file.
+        /// A format that specifies the type of the package version with the requested asset file. The only supported value is generic.
         public let format: PackageFormat
         /// The namespace of the package version to publish.
         public let namespace: String?

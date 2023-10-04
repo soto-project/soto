@@ -397,55 +397,75 @@ extension Mgn {
     }
 
     public struct ArchiveApplicationRequest: AWSEncodableShape {
+        /// Account ID.
+        public let accountID: String?
         /// Application ID.
         public let applicationID: String
 
-        public init(applicationID: String) {
+        public init(accountID: String? = nil, applicationID: String) {
+            self.accountID = accountID
             self.applicationID = applicationID
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.applicationID, name: "applicationID", parent: name, max: 21)
             try self.validate(self.applicationID, name: "applicationID", parent: name, min: 21)
             try self.validate(self.applicationID, name: "applicationID", parent: name, pattern: "^app-[0-9a-zA-Z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case applicationID = "applicationID"
         }
     }
 
     public struct ArchiveWaveRequest: AWSEncodableShape {
+        /// Account ID.
+        public let accountID: String?
         /// Wave ID.
         public let waveID: String
 
-        public init(waveID: String) {
+        public init(accountID: String? = nil, waveID: String) {
+            self.accountID = accountID
             self.waveID = waveID
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.waveID, name: "waveID", parent: name, max: 22)
             try self.validate(self.waveID, name: "waveID", parent: name, min: 22)
             try self.validate(self.waveID, name: "waveID", parent: name, pattern: "^wave-[0-9a-zA-Z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case waveID = "waveID"
         }
     }
 
     public struct AssociateApplicationsRequest: AWSEncodableShape {
+        /// Account ID.
+        public let accountID: String?
         /// Application IDs list.
         public let applicationIDs: [String]
         /// Wave ID.
         public let waveID: String
 
-        public init(applicationIDs: [String], waveID: String) {
+        public init(accountID: String? = nil, applicationIDs: [String], waveID: String) {
+            self.accountID = accountID
             self.applicationIDs = applicationIDs
             self.waveID = waveID
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.applicationIDs.forEach {
                 try validate($0, name: "applicationIDs[]", parent: name, max: 21)
                 try validate($0, name: "applicationIDs[]", parent: name, min: 21)
@@ -459,6 +479,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case applicationIDs = "applicationIDs"
             case waveID = "waveID"
         }
@@ -469,17 +490,23 @@ extension Mgn {
     }
 
     public struct AssociateSourceServersRequest: AWSEncodableShape {
+        /// Account ID.
+        public let accountID: String?
         /// Application ID.
         public let applicationID: String
         /// Source server IDs list.
         public let sourceServerIDs: [String]
 
-        public init(applicationID: String, sourceServerIDs: [String]) {
+        public init(accountID: String? = nil, applicationID: String, sourceServerIDs: [String]) {
+            self.accountID = accountID
             self.applicationID = applicationID
             self.sourceServerIDs = sourceServerIDs
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.applicationID, name: "applicationID", parent: name, max: 21)
             try self.validate(self.applicationID, name: "applicationID", parent: name, min: 21)
             try self.validate(self.applicationID, name: "applicationID", parent: name, pattern: "^app-[0-9a-zA-Z]{17}$")
@@ -493,6 +520,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case applicationID = "applicationID"
             case sourceServerIDs = "sourceServerIDs"
         }
@@ -520,23 +548,30 @@ extension Mgn {
     }
 
     public struct ChangeServerLifeCycleStateRequest: AWSEncodableShape {
+        /// The request to change the source server migration account ID.
+        public let accountID: String?
         /// The request to change the source server migration lifecycle state.
         public let lifeCycle: ChangeServerLifeCycleStateSourceServerLifecycle
         /// The request to change the source server migration lifecycle state by source server ID.
         public let sourceServerID: String
 
-        public init(lifeCycle: ChangeServerLifeCycleStateSourceServerLifecycle, sourceServerID: String) {
+        public init(accountID: String? = nil, lifeCycle: ChangeServerLifeCycleStateSourceServerLifecycle, sourceServerID: String) {
+            self.accountID = accountID
             self.lifeCycle = lifeCycle
             self.sourceServerID = sourceServerID
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case lifeCycle = "lifeCycle"
             case sourceServerID = "sourceServerID"
         }
@@ -556,6 +591,8 @@ extension Mgn {
     }
 
     public struct CreateApplicationRequest: AWSEncodableShape {
+        /// Account ID.
+        public let accountID: String?
         /// Application description.
         public let description: String?
         /// Application name.
@@ -563,13 +600,17 @@ extension Mgn {
         /// Application tags.
         public let tags: [String: String]?
 
-        public init(description: String? = nil, name: String, tags: [String: String]? = nil) {
+        public init(accountID: String? = nil, description: String? = nil, name: String, tags: [String: String]? = nil) {
+            self.accountID = accountID
             self.description = description
             self.name = name
             self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.description, name: "description", parent: name, max: 600)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\x00]*$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
@@ -579,9 +620,11 @@ extension Mgn {
                 try validate($0.key, name: "tags.key", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case description = "description"
             case name = "name"
             case tags = "tags"
@@ -644,6 +687,7 @@ extension Mgn {
                 try validate($0.key, name: "tags.key", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -691,8 +735,10 @@ extension Mgn {
         public let tags: [String: String]?
         /// Request to use Dedicated Replication Servers during Replication Settings template creation.
         public let useDedicatedReplicationServer: Bool
+        /// Request to use Fips Endpoint during Replication Settings template creation.
+        public let useFipsEndpoint: Bool?
 
-        public init(associateDefaultSecurityGroup: Bool, bandwidthThrottling: Int64 = 0, createPublicIP: Bool, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType, ebsEncryption: ReplicationConfigurationEbsEncryption, ebsEncryptionKeyArn: String? = nil, replicationServerInstanceType: String, replicationServersSecurityGroupsIDs: [String], stagingAreaSubnetId: String, stagingAreaTags: [String: String], tags: [String: String]? = nil, useDedicatedReplicationServer: Bool) {
+        public init(associateDefaultSecurityGroup: Bool, bandwidthThrottling: Int64 = 0, createPublicIP: Bool, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType, ebsEncryption: ReplicationConfigurationEbsEncryption, ebsEncryptionKeyArn: String? = nil, replicationServerInstanceType: String, replicationServersSecurityGroupsIDs: [String], stagingAreaSubnetId: String, stagingAreaTags: [String: String], tags: [String: String]? = nil, useDedicatedReplicationServer: Bool, useFipsEndpoint: Bool? = nil) {
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
             self.createPublicIP = createPublicIP
@@ -706,9 +752,11 @@ extension Mgn {
             self.stagingAreaTags = stagingAreaTags
             self.tags = tags
             self.useDedicatedReplicationServer = useDedicatedReplicationServer
+            self.useFipsEndpoint = useFipsEndpoint
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.bandwidthThrottling, name: "bandwidthThrottling", parent: name, max: 10000)
             try self.validate(self.bandwidthThrottling, name: "bandwidthThrottling", parent: name, min: 0)
             try self.validate(self.ebsEncryptionKeyArn, name: "ebsEncryptionKeyArn", parent: name, max: 2048)
             try self.validate(self.ebsEncryptionKeyArn, name: "ebsEncryptionKeyArn", parent: name, min: 20)
@@ -724,10 +772,12 @@ extension Mgn {
                 try validate($0.key, name: "stagingAreaTags.key", parent: name, max: 256)
                 try validate($0.value, name: "stagingAreaTags[\"\($0.key)\"]", parent: name, max: 256)
             }
+            try self.validate(self.stagingAreaTags, name: "stagingAreaTags", parent: name, max: 50)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -744,10 +794,13 @@ extension Mgn {
             case stagingAreaTags = "stagingAreaTags"
             case tags = "tags"
             case useDedicatedReplicationServer = "useDedicatedReplicationServer"
+            case useFipsEndpoint = "useFipsEndpoint"
         }
     }
 
     public struct CreateWaveRequest: AWSEncodableShape {
+        /// Account ID.
+        public let accountID: String?
         /// Wave description.
         public let description: String?
         /// Wave name.
@@ -755,13 +808,17 @@ extension Mgn {
         /// Wave tags.
         public let tags: [String: String]?
 
-        public init(description: String? = nil, name: String, tags: [String: String]? = nil) {
+        public init(accountID: String? = nil, description: String? = nil, name: String, tags: [String: String]? = nil) {
+            self.accountID = accountID
             self.description = description
             self.name = name
             self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.description, name: "description", parent: name, max: 600)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\x00]*$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
@@ -771,9 +828,11 @@ extension Mgn {
                 try validate($0.key, name: "tags.key", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case description = "description"
             case name = "name"
             case tags = "tags"
@@ -902,20 +961,27 @@ extension Mgn {
     }
 
     public struct DeleteApplicationRequest: AWSEncodableShape {
+        /// Account ID.
+        public let accountID: String?
         /// Application ID.
         public let applicationID: String
 
-        public init(applicationID: String) {
+        public init(accountID: String? = nil, applicationID: String) {
+            self.accountID = accountID
             self.applicationID = applicationID
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.applicationID, name: "applicationID", parent: name, max: 21)
             try self.validate(self.applicationID, name: "applicationID", parent: name, min: 21)
             try self.validate(self.applicationID, name: "applicationID", parent: name, pattern: "^app-[0-9a-zA-Z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case applicationID = "applicationID"
         }
     }
@@ -925,20 +991,27 @@ extension Mgn {
     }
 
     public struct DeleteJobRequest: AWSEncodableShape {
+        /// Request to delete Job from service by Account ID.
+        public let accountID: String?
         /// Request to delete Job from service by Job ID.
         public let jobID: String
 
-        public init(jobID: String) {
+        public init(accountID: String? = nil, jobID: String) {
+            self.accountID = accountID
             self.jobID = jobID
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.jobID, name: "jobID", parent: name, max: 24)
             try self.validate(self.jobID, name: "jobID", parent: name, min: 24)
             try self.validate(self.jobID, name: "jobID", parent: name, pattern: "^mgnjob-[0-9a-zA-Z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case jobID = "jobID"
         }
     }
@@ -994,20 +1067,27 @@ extension Mgn {
     }
 
     public struct DeleteSourceServerRequest: AWSEncodableShape {
+        /// Request to delete Source Server from service by Account ID.
+        public let accountID: String?
         /// Request to delete Source Server from service by Server ID.
         public let sourceServerID: String
 
-        public init(sourceServerID: String) {
+        public init(accountID: String? = nil, sourceServerID: String) {
+            self.accountID = accountID
             self.sourceServerID = sourceServerID
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case sourceServerID = "sourceServerID"
         }
     }
@@ -1036,20 +1116,27 @@ extension Mgn {
     }
 
     public struct DeleteWaveRequest: AWSEncodableShape {
+        /// Account ID.
+        public let accountID: String?
         /// Wave ID.
         public let waveID: String
 
-        public init(waveID: String) {
+        public init(accountID: String? = nil, waveID: String) {
+            self.accountID = accountID
             self.waveID = waveID
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.waveID, name: "waveID", parent: name, max: 22)
             try self.validate(self.waveID, name: "waveID", parent: name, min: 22)
             try self.validate(self.waveID, name: "waveID", parent: name, pattern: "^wave-[0-9a-zA-Z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case waveID = "waveID"
         }
     }
@@ -1059,6 +1146,8 @@ extension Mgn {
     }
 
     public struct DescribeJobLogItemsRequest: AWSEncodableShape {
+        /// Request to describe Job log Account ID.
+        public let accountID: String?
         /// Request to describe Job log job ID.
         public let jobID: String
         /// Request to describe Job log item maximum results.
@@ -1066,13 +1155,17 @@ extension Mgn {
         /// Request to describe Job log next token.
         public let nextToken: String?
 
-        public init(jobID: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(accountID: String? = nil, jobID: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.accountID = accountID
             self.jobID = jobID
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.jobID, name: "jobID", parent: name, max: 24)
             try self.validate(self.jobID, name: "jobID", parent: name, min: 24)
             try self.validate(self.jobID, name: "jobID", parent: name, pattern: "^mgnjob-[0-9a-zA-Z]{17}$")
@@ -1082,6 +1175,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case jobID = "jobID"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -1106,6 +1200,8 @@ extension Mgn {
     }
 
     public struct DescribeJobsRequest: AWSEncodableShape {
+        /// Request to describe job log items by Account ID.
+        public let accountID: String?
         /// Request to describe Job log filters.
         public let filters: DescribeJobsRequestFilters?
         /// Request to describe job log items by max results.
@@ -1113,13 +1209,17 @@ extension Mgn {
         /// Request to describe job log items by next token.
         public let nextToken: String?
 
-        public init(filters: DescribeJobsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(accountID: String? = nil, filters: DescribeJobsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.accountID = accountID
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.filters?.validate(name: "\(name).filters")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -1127,6 +1227,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case filters = "filters"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -1287,6 +1388,8 @@ extension Mgn {
     }
 
     public struct DescribeSourceServersRequest: AWSEncodableShape {
+        /// Request to filter Source Servers list by Accoun ID.
+        public let accountID: String?
         /// Request to filter Source Servers list.
         public let filters: DescribeSourceServersRequestFilters?
         /// Request to filter Source Servers list by maximum results.
@@ -1294,13 +1397,17 @@ extension Mgn {
         /// Request to filter Source Servers list by next token.
         public let nextToken: String?
 
-        public init(filters: DescribeSourceServersRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(accountID: String? = nil, filters: DescribeSourceServersRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.accountID = accountID
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.filters?.validate(name: "\(name).filters")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -1308,6 +1415,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case filters = "filters"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -1420,17 +1528,23 @@ extension Mgn {
     }
 
     public struct DisassociateApplicationsRequest: AWSEncodableShape {
+        /// Account ID.
+        public let accountID: String?
         /// Application IDs list.
         public let applicationIDs: [String]
         /// Wave ID.
         public let waveID: String
 
-        public init(applicationIDs: [String], waveID: String) {
+        public init(accountID: String? = nil, applicationIDs: [String], waveID: String) {
+            self.accountID = accountID
             self.applicationIDs = applicationIDs
             self.waveID = waveID
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.applicationIDs.forEach {
                 try validate($0, name: "applicationIDs[]", parent: name, max: 21)
                 try validate($0, name: "applicationIDs[]", parent: name, min: 21)
@@ -1444,6 +1558,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case applicationIDs = "applicationIDs"
             case waveID = "waveID"
         }
@@ -1454,17 +1569,23 @@ extension Mgn {
     }
 
     public struct DisassociateSourceServersRequest: AWSEncodableShape {
+        /// Account ID.
+        public let accountID: String?
         /// Application ID.
         public let applicationID: String
         /// Source server IDs list.
         public let sourceServerIDs: [String]
 
-        public init(applicationID: String, sourceServerIDs: [String]) {
+        public init(accountID: String? = nil, applicationID: String, sourceServerIDs: [String]) {
+            self.accountID = accountID
             self.applicationID = applicationID
             self.sourceServerIDs = sourceServerIDs
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.applicationID, name: "applicationID", parent: name, max: 21)
             try self.validate(self.applicationID, name: "applicationID", parent: name, min: 21)
             try self.validate(self.applicationID, name: "applicationID", parent: name, pattern: "^app-[0-9a-zA-Z]{17}$")
@@ -1478,6 +1599,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case applicationID = "applicationID"
             case sourceServerIDs = "sourceServerIDs"
         }
@@ -1488,20 +1610,27 @@ extension Mgn {
     }
 
     public struct DisconnectFromServiceRequest: AWSEncodableShape {
+        /// Request to disconnect Source Server from service by Account ID.
+        public let accountID: String?
         /// Request to disconnect Source Server from service by Server ID.
         public let sourceServerID: String
 
-        public init(sourceServerID: String) {
+        public init(accountID: String? = nil, sourceServerID: String) {
+            self.accountID = accountID
             self.sourceServerID = sourceServerID
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case sourceServerID = "sourceServerID"
         }
     }
@@ -1620,58 +1749,79 @@ extension Mgn {
     }
 
     public struct FinalizeCutoverRequest: AWSEncodableShape {
+        /// Request to finalize Cutover by Source Account ID.
+        public let accountID: String?
         /// Request to finalize Cutover by Source Server ID.
         public let sourceServerID: String
 
-        public init(sourceServerID: String) {
+        public init(accountID: String? = nil, sourceServerID: String) {
+            self.accountID = accountID
             self.sourceServerID = sourceServerID
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case sourceServerID = "sourceServerID"
         }
     }
 
     public struct GetLaunchConfigurationRequest: AWSEncodableShape {
+        /// Request to get Launch Configuration information by Account ID.
+        public let accountID: String?
         /// Request to get Launch Configuration information by Source Server ID.
         public let sourceServerID: String
 
-        public init(sourceServerID: String) {
+        public init(accountID: String? = nil, sourceServerID: String) {
+            self.accountID = accountID
             self.sourceServerID = sourceServerID
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case sourceServerID = "sourceServerID"
         }
     }
 
     public struct GetReplicationConfigurationRequest: AWSEncodableShape {
+        /// Request to get Replication Configuration by Account ID.
+        public let accountID: String?
         /// Request to get Replication Configuration by Source Server ID.
         public let sourceServerID: String
 
-        public init(sourceServerID: String) {
+        public init(accountID: String? = nil, sourceServerID: String) {
+            self.accountID = accountID
             self.sourceServerID = sourceServerID
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case sourceServerID = "sourceServerID"
         }
     }
@@ -1706,6 +1856,8 @@ extension Mgn {
     }
 
     public struct ImportErrorData: AWSDecodableShape {
+        /// Import error data source account ID.
+        public let accountID: String?
         /// Import error data application ID.
         public let applicationID: String?
         /// Import error data ec2 LaunchTemplate ID.
@@ -1719,7 +1871,8 @@ extension Mgn {
         /// Import error data wave id.
         public let waveID: String?
 
-        public init(applicationID: String? = nil, ec2LaunchTemplateID: String? = nil, rawError: String? = nil, rowNumber: Int64? = nil, sourceServerID: String? = nil, waveID: String? = nil) {
+        public init(accountID: String? = nil, applicationID: String? = nil, ec2LaunchTemplateID: String? = nil, rawError: String? = nil, rowNumber: Int64? = nil, sourceServerID: String? = nil, waveID: String? = nil) {
+            self.accountID = accountID
             self.applicationID = applicationID
             self.ec2LaunchTemplateID = ec2LaunchTemplateID
             self.rawError = rawError
@@ -1729,6 +1882,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case applicationID = "applicationID"
             case ec2LaunchTemplateID = "ec2LaunchTemplateID"
             case rawError = "rawError"
@@ -2143,8 +2297,10 @@ extension Mgn {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.iops, name: "iops", parent: name, min: 0)
-            try self.validate(self.throughput, name: "throughput", parent: name, min: 0)
+            try self.validate(self.iops, name: "iops", parent: name, max: 64000)
+            try self.validate(self.iops, name: "iops", parent: name, min: 100)
+            try self.validate(self.throughput, name: "throughput", parent: name, max: 1000)
+            try self.validate(self.throughput, name: "throughput", parent: name, min: 125)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2353,6 +2509,8 @@ extension Mgn {
     }
 
     public struct ListApplicationsRequest: AWSEncodableShape {
+        /// Applications list Account ID.
+        public let accountID: String?
         /// Applications list filters.
         public let filters: ListApplicationsRequestFilters?
         /// Maximum results to return when listing applications.
@@ -2360,13 +2518,17 @@ extension Mgn {
         /// Request next token.
         public let nextToken: String?
 
-        public init(filters: ListApplicationsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(accountID: String? = nil, filters: ListApplicationsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.accountID = accountID
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.filters?.validate(name: "\(name).filters")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -2374,6 +2536,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case filters = "filters"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -2660,7 +2823,49 @@ extension Mgn {
         }
     }
 
+    public struct ListManagedAccountsRequest: AWSEncodableShape {
+        /// List managed accounts request max results.
+        public let maxResults: Int?
+        /// List managed accounts request next token.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListManagedAccountsResponse: AWSDecodableShape {
+        /// List managed accounts response items.
+        public let items: [ManagedAccount]
+        /// List managed accounts response next token.
+        public let nextToken: String?
+
+        public init(items: [ManagedAccount], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListSourceServerActionsRequest: AWSEncodableShape {
+        /// Account ID to return when listing source server post migration custom actions.
+        public let accountID: String?
         /// Filters to apply when listing source server post migration custom actions.
         public let filters: SourceServerActionsRequestFilters?
         /// Maximum amount of items to return when listing source server post migration custom actions.
@@ -2670,7 +2875,8 @@ extension Mgn {
         /// Source server ID.
         public let sourceServerID: String
 
-        public init(filters: SourceServerActionsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, sourceServerID: String) {
+        public init(accountID: String? = nil, filters: SourceServerActionsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, sourceServerID: String) {
+            self.accountID = accountID
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2678,6 +2884,9 @@ extension Mgn {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.filters?.validate(name: "\(name).filters")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -2688,6 +2897,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case filters = "filters"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -2798,6 +3008,8 @@ extension Mgn {
     }
 
     public struct ListWavesRequest: AWSEncodableShape {
+        /// Request account ID.
+        public let accountID: String?
         /// Waves list filters.
         public let filters: ListWavesRequestFilters?
         /// Maximum results to return when listing waves.
@@ -2805,13 +3017,17 @@ extension Mgn {
         /// Request next token.
         public let nextToken: String?
 
-        public init(filters: ListWavesRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(accountID: String? = nil, filters: ListWavesRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.accountID = accountID
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.filters?.validate(name: "\(name).filters")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -2819,6 +3035,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case filters = "filters"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -2868,21 +3085,41 @@ extension Mgn {
         }
     }
 
+    public struct ManagedAccount: AWSDecodableShape {
+        /// Managed account, account ID.
+        public let accountId: String?
+
+        public init(accountId: String? = nil) {
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+        }
+    }
+
     public struct MarkAsArchivedRequest: AWSEncodableShape {
+        /// Mark as archived by Account ID.
+        public let accountID: String?
         /// Mark as archived by Source Server ID.
         public let sourceServerID: String
 
-        public init(sourceServerID: String) {
+        public init(accountID: String? = nil, sourceServerID: String) {
+            self.accountID = accountID
             self.sourceServerID = sourceServerID
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case sourceServerID = "sourceServerID"
         }
     }
@@ -2942,6 +3179,32 @@ extension Mgn {
             case launchedEc2InstanceID = "launchedEc2InstanceID"
             case launchStatus = "launchStatus"
             case postLaunchActionsStatus = "postLaunchActionsStatus"
+            case sourceServerID = "sourceServerID"
+        }
+    }
+
+    public struct PauseReplicationRequest: AWSEncodableShape {
+        /// Pause Replication Request account ID.
+        public let accountID: String?
+        /// Pause Replication Request source server ID.
+        public let sourceServerID: String
+
+        public init(accountID: String? = nil, sourceServerID: String) {
+            self.accountID = accountID
+            self.sourceServerID = sourceServerID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case sourceServerID = "sourceServerID"
         }
     }
@@ -3006,6 +3269,8 @@ extension Mgn {
     }
 
     public struct PutSourceServerActionRequest: AWSEncodableShape {
+        /// Source server post migration custom account ID.
+        public let accountID: String?
         /// Source server post migration custom action ID.
         public let actionID: String
         /// Source server post migration custom action name.
@@ -3033,7 +3298,8 @@ extension Mgn {
         /// Source server post migration custom action timeout in seconds.
         public let timeoutSeconds: Int?
 
-        public init(actionID: String, actionName: String, active: Bool? = nil, category: ActionCategory? = nil, description: String? = nil, documentIdentifier: String, documentVersion: String? = nil, externalParameters: [String: SsmExternalParameter]? = nil, mustSucceedForCutover: Bool? = nil, order: Int = 0, parameters: [String: [SsmParameterStoreParameter]]? = nil, sourceServerID: String, timeoutSeconds: Int? = nil) {
+        public init(accountID: String? = nil, actionID: String, actionName: String, active: Bool? = nil, category: ActionCategory? = nil, description: String? = nil, documentIdentifier: String, documentVersion: String? = nil, externalParameters: [String: SsmExternalParameter]? = nil, mustSucceedForCutover: Bool? = nil, order: Int = 0, parameters: [String: [SsmParameterStoreParameter]]? = nil, sourceServerID: String, timeoutSeconds: Int? = nil) {
+            self.accountID = accountID
             self.actionID = actionID
             self.actionName = actionName
             self.active = active
@@ -3050,6 +3316,9 @@ extension Mgn {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.actionID, name: "actionID", parent: name, max: 64)
             try self.validate(self.actionID, name: "actionID", parent: name, min: 1)
             try self.validate(self.actionID, name: "actionID", parent: name, pattern: "[0-9a-zA-Z]$")
@@ -3083,6 +3352,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case actionID = "actionID"
             case actionName = "actionName"
             case active = "active"
@@ -3197,17 +3467,23 @@ extension Mgn {
     }
 
     public struct RemoveSourceServerActionRequest: AWSEncodableShape {
+        /// Source server post migration account ID.
+        public let accountID: String?
         /// Source server post migration custom action ID to remove.
         public let actionID: String
         /// Source server ID of the post migration custom action to remove.
         public let sourceServerID: String
 
-        public init(actionID: String, sourceServerID: String) {
+        public init(accountID: String? = nil, actionID: String, sourceServerID: String) {
+            self.accountID = accountID
             self.actionID = actionID
             self.sourceServerID = sourceServerID
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.actionID, name: "actionID", parent: name, max: 64)
             try self.validate(self.actionID, name: "actionID", parent: name, min: 1)
             try self.validate(self.actionID, name: "actionID", parent: name, pattern: "[0-9a-zA-Z]$")
@@ -3217,6 +3493,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case actionID = "actionID"
             case sourceServerID = "sourceServerID"
         }
@@ -3287,8 +3564,10 @@ extension Mgn {
         public let stagingAreaTags: [String: String]?
         /// Replication Configuration use Dedicated Replication Server.
         public let useDedicatedReplicationServer: Bool?
+        /// Replication Configuration use Fips Endpoint.
+        public let useFipsEndpoint: Bool?
 
-        public init(associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, name: String? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
+        public init(associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, name: String? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
             self.createPublicIP = createPublicIP
@@ -3304,6 +3583,7 @@ extension Mgn {
             self.stagingAreaSubnetId = stagingAreaSubnetId
             self.stagingAreaTags = stagingAreaTags
             self.useDedicatedReplicationServer = useDedicatedReplicationServer
+            self.useFipsEndpoint = useFipsEndpoint
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3322,6 +3602,7 @@ extension Mgn {
             case stagingAreaSubnetId = "stagingAreaSubnetId"
             case stagingAreaTags = "stagingAreaTags"
             case useDedicatedReplicationServer = "useDedicatedReplicationServer"
+            case useFipsEndpoint = "useFipsEndpoint"
         }
     }
 
@@ -3391,8 +3672,10 @@ extension Mgn {
         public let tags: [String: String]?
         /// Replication Configuration template use Dedicated Replication Server.
         public let useDedicatedReplicationServer: Bool?
+        /// Replication Configuration template use Fips Endpoint.
+        public let useFipsEndpoint: Bool?
 
-        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, tags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
+        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, tags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
             self.arn = arn
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
@@ -3408,6 +3691,7 @@ extension Mgn {
             self.stagingAreaTags = stagingAreaTags
             self.tags = tags
             self.useDedicatedReplicationServer = useDedicatedReplicationServer
+            self.useFipsEndpoint = useFipsEndpoint
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3426,24 +3710,58 @@ extension Mgn {
             case stagingAreaTags = "stagingAreaTags"
             case tags = "tags"
             case useDedicatedReplicationServer = "useDedicatedReplicationServer"
+            case useFipsEndpoint = "useFipsEndpoint"
         }
     }
 
-    public struct RetryDataReplicationRequest: AWSEncodableShape {
-        /// Retry data replication for Source Server ID.
+    public struct ResumeReplicationRequest: AWSEncodableShape {
+        /// Resume Replication Request account ID.
+        public let accountID: String?
+        /// Resume Replication Request source server ID.
         public let sourceServerID: String
 
-        public init(sourceServerID: String) {
+        public init(accountID: String? = nil, sourceServerID: String) {
+            self.accountID = accountID
             self.sourceServerID = sourceServerID
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
+            case sourceServerID = "sourceServerID"
+        }
+    }
+
+    public struct RetryDataReplicationRequest: AWSEncodableShape {
+        /// Retry data replication for Account ID.
+        public let accountID: String?
+        /// Retry data replication for Source Server ID.
+        public let sourceServerID: String
+
+        public init(accountID: String? = nil, sourceServerID: String) {
+            self.accountID = accountID
+            self.sourceServerID = sourceServerID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case sourceServerID = "sourceServerID"
         }
     }
@@ -3737,17 +4055,23 @@ extension Mgn {
     }
 
     public struct StartCutoverRequest: AWSEncodableShape {
+        /// Start Cutover by Account IDs
+        public let accountID: String?
         /// Start Cutover by Source Server IDs.
         public let sourceServerIDs: [String]
         /// Start Cutover by Tags.
         public let tags: [String: String]?
 
-        public init(sourceServerIDs: [String], tags: [String: String]? = nil) {
+        public init(accountID: String? = nil, sourceServerIDs: [String], tags: [String: String]? = nil) {
+            self.accountID = accountID
             self.sourceServerIDs = sourceServerIDs
             self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.sourceServerIDs.forEach {
                 try validate($0, name: "sourceServerIDs[]", parent: name, max: 19)
                 try validate($0, name: "sourceServerIDs[]", parent: name, min: 19)
@@ -3759,9 +4083,11 @@ extension Mgn {
                 try validate($0.key, name: "tags.key", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case sourceServerIDs = "sourceServerIDs"
             case tags = "tags"
         }
@@ -3858,36 +4184,49 @@ extension Mgn {
     }
 
     public struct StartReplicationRequest: AWSEncodableShape {
+        /// Account ID on which to start replication.
+        public let accountID: String?
         /// ID of source server on which to start replication.
         public let sourceServerID: String
 
-        public init(sourceServerID: String) {
+        public init(accountID: String? = nil, sourceServerID: String) {
+            self.accountID = accountID
             self.sourceServerID = sourceServerID
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case sourceServerID = "sourceServerID"
         }
     }
 
     public struct StartTestRequest: AWSEncodableShape {
+        /// Start Test for Account ID.
+        public let accountID: String?
         /// Start Test for Source Server IDs.
         public let sourceServerIDs: [String]
         /// Start Test by Tags.
         public let tags: [String: String]?
 
-        public init(sourceServerIDs: [String], tags: [String: String]? = nil) {
+        public init(accountID: String? = nil, sourceServerIDs: [String], tags: [String: String]? = nil) {
+            self.accountID = accountID
             self.sourceServerIDs = sourceServerIDs
             self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.sourceServerIDs.forEach {
                 try validate($0, name: "sourceServerIDs[]", parent: name, max: 19)
                 try validate($0, name: "sourceServerIDs[]", parent: name, min: 19)
@@ -3899,9 +4238,11 @@ extension Mgn {
                 try validate($0.key, name: "tags.key", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case sourceServerIDs = "sourceServerIDs"
             case tags = "tags"
         }
@@ -3917,6 +4258,32 @@ extension Mgn {
 
         private enum CodingKeys: String, CodingKey {
             case job = "job"
+        }
+    }
+
+    public struct StopReplicationRequest: AWSEncodableShape {
+        /// Stop Replication Request account ID.
+        public let accountID: String?
+        /// Stop Replication Request source server ID.
+        public let sourceServerID: String
+
+        public init(accountID: String? = nil, sourceServerID: String) {
+            self.accountID = accountID
+            self.sourceServerID = sourceServerID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -3942,6 +4309,7 @@ extension Mgn {
                 try validate($0.key, name: "tags.key", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4033,17 +4401,23 @@ extension Mgn {
     }
 
     public struct TerminateTargetInstancesRequest: AWSEncodableShape {
+        /// Terminate Target instance by Account ID
+        public let accountID: String?
         /// Terminate Target instance by Source Server IDs.
         public let sourceServerIDs: [String]
         /// Terminate Target instance by Tags.
         public let tags: [String: String]?
 
-        public init(sourceServerIDs: [String], tags: [String: String]? = nil) {
+        public init(accountID: String? = nil, sourceServerIDs: [String], tags: [String: String]? = nil) {
+            self.accountID = accountID
             self.sourceServerIDs = sourceServerIDs
             self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.sourceServerIDs.forEach {
                 try validate($0, name: "sourceServerIDs[]", parent: name, max: 19)
                 try validate($0, name: "sourceServerIDs[]", parent: name, min: 19)
@@ -4055,9 +4429,11 @@ extension Mgn {
                 try validate($0.key, name: "tags.key", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case sourceServerIDs = "sourceServerIDs"
             case tags = "tags"
         }
@@ -4077,39 +4453,53 @@ extension Mgn {
     }
 
     public struct UnarchiveApplicationRequest: AWSEncodableShape {
+        /// Account ID.
+        public let accountID: String?
         /// Application ID.
         public let applicationID: String
 
-        public init(applicationID: String) {
+        public init(accountID: String? = nil, applicationID: String) {
+            self.accountID = accountID
             self.applicationID = applicationID
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.applicationID, name: "applicationID", parent: name, max: 21)
             try self.validate(self.applicationID, name: "applicationID", parent: name, min: 21)
             try self.validate(self.applicationID, name: "applicationID", parent: name, pattern: "^app-[0-9a-zA-Z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case applicationID = "applicationID"
         }
     }
 
     public struct UnarchiveWaveRequest: AWSEncodableShape {
+        /// Account ID.
+        public let accountID: String?
         /// Wave ID.
         public let waveID: String
 
-        public init(waveID: String) {
+        public init(accountID: String? = nil, waveID: String) {
+            self.accountID = accountID
             self.waveID = waveID
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.waveID, name: "waveID", parent: name, max: 22)
             try self.validate(self.waveID, name: "waveID", parent: name, min: 22)
             try self.validate(self.waveID, name: "waveID", parent: name, pattern: "^wave-[0-9a-zA-Z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case waveID = "waveID"
         }
     }
@@ -4142,6 +4532,8 @@ extension Mgn {
     }
 
     public struct UpdateApplicationRequest: AWSEncodableShape {
+        /// Account ID.
+        public let accountID: String?
         /// Application ID.
         public let applicationID: String
         /// Application description.
@@ -4149,13 +4541,17 @@ extension Mgn {
         /// Application name.
         public let name: String?
 
-        public init(applicationID: String, description: String? = nil, name: String? = nil) {
+        public init(accountID: String? = nil, applicationID: String, description: String? = nil, name: String? = nil) {
+            self.accountID = accountID
             self.applicationID = applicationID
             self.description = description
             self.name = name
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.applicationID, name: "applicationID", parent: name, max: 21)
             try self.validate(self.applicationID, name: "applicationID", parent: name, min: 21)
             try self.validate(self.applicationID, name: "applicationID", parent: name, pattern: "^app-[0-9a-zA-Z]{17}$")
@@ -4167,6 +4563,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case applicationID = "applicationID"
             case description = "description"
             case name = "name"
@@ -4174,6 +4571,8 @@ extension Mgn {
     }
 
     public struct UpdateLaunchConfigurationRequest: AWSEncodableShape {
+        /// Update Launch configuration Account ID.
+        public let accountID: String?
         /// Update Launch configuration boot mode request.
         public let bootMode: BootMode?
         /// Update Launch configuration copy Private IP request.
@@ -4196,7 +4595,8 @@ extension Mgn {
         /// Update Launch configuration Target instance right sizing request.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
-        public init(bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, enableMapAutoTagging: Bool? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, mapAutoTaggingMpeID: String? = nil, name: String? = nil, postLaunchActions: PostLaunchActions? = nil, sourceServerID: String, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(accountID: String? = nil, bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, enableMapAutoTagging: Bool? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, mapAutoTaggingMpeID: String? = nil, name: String? = nil, postLaunchActions: PostLaunchActions? = nil, sourceServerID: String, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+            self.accountID = accountID
             self.bootMode = bootMode
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
@@ -4211,6 +4611,9 @@ extension Mgn {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.mapAutoTaggingMpeID, name: "mapAutoTaggingMpeID", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.postLaunchActions?.validate(name: "\(name).postLaunchActions")
@@ -4220,6 +4623,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case bootMode = "bootMode"
             case copyPrivateIp = "copyPrivateIp"
             case copyTags = "copyTags"
@@ -4310,6 +4714,8 @@ extension Mgn {
     }
 
     public struct UpdateReplicationConfigurationRequest: AWSEncodableShape {
+        /// Update replication configuration Account ID request.
+        public let accountID: String?
         /// Update replication configuration associate default Application Migration Service Security group request.
         public let associateDefaultSecurityGroup: Bool?
         /// Update replication configuration bandwidth throttling request.
@@ -4340,8 +4746,11 @@ extension Mgn {
         public let stagingAreaTags: [String: String]?
         /// Update replication configuration use dedicated Replication Server request.
         public let useDedicatedReplicationServer: Bool?
+        /// Update replication configuration use Fips Endpoint.
+        public let useFipsEndpoint: Bool?
 
-        public init(associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, name: String? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
+        public init(accountID: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, name: String? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
+            self.accountID = accountID
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
             self.createPublicIP = createPublicIP
@@ -4357,9 +4766,14 @@ extension Mgn {
             self.stagingAreaSubnetId = stagingAreaSubnetId
             self.stagingAreaTags = stagingAreaTags
             self.useDedicatedReplicationServer = useDedicatedReplicationServer
+            self.useFipsEndpoint = useFipsEndpoint
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
+            try self.validate(self.bandwidthThrottling, name: "bandwidthThrottling", parent: name, max: 10000)
             try self.validate(self.bandwidthThrottling, name: "bandwidthThrottling", parent: name, min: 0)
             try self.validate(self.ebsEncryptionKeyArn, name: "ebsEncryptionKeyArn", parent: name, max: 2048)
             try self.validate(self.ebsEncryptionKeyArn, name: "ebsEncryptionKeyArn", parent: name, min: 20)
@@ -4383,9 +4797,11 @@ extension Mgn {
                 try validate($0.key, name: "stagingAreaTags.key", parent: name, max: 256)
                 try validate($0.value, name: "stagingAreaTags[\"\($0.key)\"]", parent: name, max: 256)
             }
+            try self.validate(self.stagingAreaTags, name: "stagingAreaTags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case associateDefaultSecurityGroup = "associateDefaultSecurityGroup"
             case bandwidthThrottling = "bandwidthThrottling"
             case createPublicIP = "createPublicIP"
@@ -4401,6 +4817,7 @@ extension Mgn {
             case stagingAreaSubnetId = "stagingAreaSubnetId"
             case stagingAreaTags = "stagingAreaTags"
             case useDedicatedReplicationServer = "useDedicatedReplicationServer"
+            case useFipsEndpoint = "useFipsEndpoint"
         }
     }
 
@@ -4433,8 +4850,10 @@ extension Mgn {
         public let stagingAreaTags: [String: String]?
         /// Update replication configuration template use dedicated Replication Server request.
         public let useDedicatedReplicationServer: Bool?
+        /// Update replication configuration template use Fips Endpoint request.
+        public let useFipsEndpoint: Bool?
 
-        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
+        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
             self.arn = arn
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
@@ -4449,11 +4868,13 @@ extension Mgn {
             self.stagingAreaSubnetId = stagingAreaSubnetId
             self.stagingAreaTags = stagingAreaTags
             self.useDedicatedReplicationServer = useDedicatedReplicationServer
+            self.useFipsEndpoint = useFipsEndpoint
         }
 
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 2048)
             try self.validate(self.arn, name: "arn", parent: name, min: 20)
+            try self.validate(self.bandwidthThrottling, name: "bandwidthThrottling", parent: name, max: 10000)
             try self.validate(self.bandwidthThrottling, name: "bandwidthThrottling", parent: name, min: 0)
             try self.validate(self.ebsEncryptionKeyArn, name: "ebsEncryptionKeyArn", parent: name, max: 2048)
             try self.validate(self.ebsEncryptionKeyArn, name: "ebsEncryptionKeyArn", parent: name, min: 20)
@@ -4472,6 +4893,7 @@ extension Mgn {
                 try validate($0.key, name: "stagingAreaTags.key", parent: name, max: 256)
                 try validate($0.value, name: "stagingAreaTags[\"\($0.key)\"]", parent: name, max: 256)
             }
+            try self.validate(self.stagingAreaTags, name: "stagingAreaTags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4489,33 +4911,43 @@ extension Mgn {
             case stagingAreaSubnetId = "stagingAreaSubnetId"
             case stagingAreaTags = "stagingAreaTags"
             case useDedicatedReplicationServer = "useDedicatedReplicationServer"
+            case useFipsEndpoint = "useFipsEndpoint"
         }
     }
 
     public struct UpdateSourceServerReplicationTypeRequest: AWSEncodableShape {
+        /// Account ID on which to update replication type.
+        public let accountID: String?
         /// Replication type to which to update source server.
         public let replicationType: ReplicationType
         /// ID of source server on which to update replication type.
         public let sourceServerID: String
 
-        public init(replicationType: ReplicationType, sourceServerID: String) {
+        public init(accountID: String? = nil, replicationType: ReplicationType, sourceServerID: String) {
+            self.accountID = accountID
             self.replicationType = replicationType
             self.sourceServerID = sourceServerID
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case replicationType = "replicationType"
             case sourceServerID = "sourceServerID"
         }
     }
 
     public struct UpdateWaveRequest: AWSEncodableShape {
+        /// Account ID.
+        public let accountID: String?
         /// Wave description.
         public let description: String?
         /// Wave name.
@@ -4523,13 +4955,17 @@ extension Mgn {
         /// Wave ID.
         public let waveID: String
 
-        public init(description: String? = nil, name: String? = nil, waveID: String) {
+        public init(accountID: String? = nil, description: String? = nil, name: String? = nil, waveID: String) {
+            self.accountID = accountID
             self.description = description
             self.name = name
             self.waveID = waveID
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountID, name: "accountID", parent: name, max: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
+            try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.description, name: "description", parent: name, max: 600)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\x00]*$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
@@ -4541,6 +4977,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountID = "accountID"
             case description = "description"
             case name = "name"
             case waveID = "waveID"

@@ -130,6 +130,11 @@ public struct Grafana: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists available versions of Grafana. These are available when calling  CreateWorkspace. Optionally, include a workspace to list the versions  to which it can be upgraded.
+    public func listVersions(_ input: ListVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVersionsResponse> {
+        return self.client.execute(operation: "ListVersions", path: "/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns a list of Amazon Managed Grafana workspaces in the account, with some information about each workspace. For more complete information about one workspace, use DescribeWorkspace.
     public func listWorkspaces(_ input: ListWorkspacesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListWorkspacesResponse> {
         return self.client.execute(operation: "ListWorkspaces", path: "/workspaces", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -231,6 +236,59 @@ extension Grafana {
         )
     }
 
+    /// Lists available versions of Grafana. These are available when calling  CreateWorkspace. Optionally, include a workspace to list the versions  to which it can be upgraded.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listVersionsPaginator<Result>(
+        _ input: ListVersionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListVersionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listVersions,
+            inputKey: \ListVersionsRequest.nextToken,
+            outputKey: \ListVersionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listVersionsPaginator(
+        _ input: ListVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listVersions,
+            inputKey: \ListVersionsRequest.nextToken,
+            outputKey: \ListVersionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// Returns a list of Amazon Managed Grafana workspaces in the account, with some information about each workspace. For more complete information about one workspace, use DescribeWorkspace.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -293,6 +351,16 @@ extension Grafana.ListPermissionsRequest: AWSPaginateToken {
             nextToken: token,
             userId: self.userId,
             userType: self.userType,
+            workspaceId: self.workspaceId
+        )
+    }
+}
+
+extension Grafana.ListVersionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Grafana.ListVersionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
             workspaceId: self.workspaceId
         )
     }

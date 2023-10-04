@@ -106,6 +106,19 @@ extension Backup {
         public var description: String { return self.rawValue }
     }
 
+    public enum VaultState: String, CustomStringConvertible, Codable, Sendable {
+        case available = "AVAILABLE"
+        case creating = "CREATING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VaultType: String, CustomStringConvertible, Codable, Sendable {
+        case backupVault = "BACKUP_VAULT"
+        case logicallyAirGappedBackupVault = "LOGICALLY_AIR_GAPPED_BACKUP_VAULT"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AdvancedBackupSetting: AWSEncodableShape & AWSDecodableShape {
@@ -176,7 +189,7 @@ extension Backup {
         public let resourceType: String?
         /// Specifies the time in Unix format and Coordinated Universal Time (UTC) when a backup job must be started before it is canceled. The value is calculated by adding the start window to the scheduled time. So if the scheduled time were 6:00 PM and the start window is 2 hours, the StartBy time would be 8:00 PM on the date specified. The value of StartBy is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let startBy: Date?
-        /// The current state of a resource recovery point.
+        /// The current state of a backup job.
         public let state: BackupJobState?
         /// A detailed message explaining the status of the job to back up a resource.
         public let statusMessage: String?
@@ -364,12 +377,14 @@ extension Backup {
         public let ruleName: String
         /// A cron expression in UTC specifying when Backup initiates a backup job. For more information about Amazon Web Services cron expressions, see Schedule Expressions for Rules in the Amazon CloudWatch Events User Guide.. Two examples of Amazon Web Services cron expressions are  15 * ? * * * (take a backup every hour at 15 minutes past the hour) and 0 12 * * ? * (take a backup every day at 12 noon UTC). For a table of examples, click the preceding link and scroll down the page.
         public let scheduleExpression: String?
+        /// This is the timezone in which the schedule expression is set. By default,  ScheduleExpressions are in UTC. You can modify this to a specified timezone.
+        public let scheduleExpressionTimezone: String?
         /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional.  If this value is included, it must be at least 60 minutes to avoid errors. During the start window, the backup job status remains in CREATED status until it  has successfully begun or until the start window time has run out. If within the start  window time Backup receives an error that allows the job to be retried,  Backup will automatically retry to begin the job at least every 10 minutes  until the backup  successfully begins (the job status changes to RUNNING) or until the job status  changes to EXPIRED (which is expected to occur when the start window time is over).
         public let startWindowMinutes: Int64?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let targetBackupVaultName: String
 
-        public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, enableContinuousBackup: Bool? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleId: String? = nil, ruleName: String, scheduleExpression: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
+        public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, enableContinuousBackup: Bool? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleId: String? = nil, ruleName: String, scheduleExpression: String? = nil, scheduleExpressionTimezone: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
             self.completionWindowMinutes = completionWindowMinutes
             self.copyActions = copyActions
             self.enableContinuousBackup = enableContinuousBackup
@@ -378,6 +393,7 @@ extension Backup {
             self.ruleId = ruleId
             self.ruleName = ruleName
             self.scheduleExpression = scheduleExpression
+            self.scheduleExpressionTimezone = scheduleExpressionTimezone
             self.startWindowMinutes = startWindowMinutes
             self.targetBackupVaultName = targetBackupVaultName
         }
@@ -391,6 +407,7 @@ extension Backup {
             case ruleId = "RuleId"
             case ruleName = "RuleName"
             case scheduleExpression = "ScheduleExpression"
+            case scheduleExpressionTimezone = "ScheduleExpressionTimezone"
             case startWindowMinutes = "StartWindowMinutes"
             case targetBackupVaultName = "TargetBackupVaultName"
         }
@@ -403,7 +420,7 @@ extension Backup {
         public let copyActions: [CopyAction]?
         /// Specifies whether Backup creates continuous backups. True causes Backup to create continuous backups capable of point-in-time restore (PITR). False (or not specified) causes Backup to create snapshot backups.
         public let enableContinuousBackup: Bool?
-        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage"  section of the   Feature availability by resource table. Backup ignores this expression for other resource types.
+        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage"  section of the   Feature availability by resource table. Backup ignores this expression for other resource types. This parameter has a maximum value of 100 years (36,500 days).
         public let lifecycle: Lifecycle?
         /// To help organize your resources, you can assign your own metadata to the resources that you create. Each tag is a key-value pair.
         public let recoveryPointTags: [String: String]?
@@ -411,12 +428,14 @@ extension Backup {
         public let ruleName: String
         /// A CRON expression in UTC specifying when Backup initiates a backup job.
         public let scheduleExpression: String?
-        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional.  If this value is included, it must be at least 60 minutes to avoid errors. During the start window, the backup job status remains in CREATED status until it  has successfully begun or until the start window time has run out. If within the start  window time Backup receives an error that allows the job to be retried,  Backup will automatically retry to begin the job at least every 10 minutes  until the backup  successfully begins (the job status changes to RUNNING) or until the job status  changes to EXPIRED (which is expected to occur when the start window time is over).
+        /// This is the timezone in which the schedule expression is set. By default,  ScheduleExpressions are in UTC. You can modify this to a specified timezone.
+        public let scheduleExpressionTimezone: String?
+        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional.  If this value is included, it must be at least 60 minutes to avoid errors. This parameter has a maximum value of 100 years (52,560,000 minutes). During the start window, the backup job status remains in CREATED status until it  has successfully begun or until the start window time has run out. If within the start  window time Backup receives an error that allows the job to be retried,  Backup will automatically retry to begin the job at least every 10 minutes  until the backup  successfully begins (the job status changes to RUNNING) or until the job status  changes to EXPIRED (which is expected to occur when the start window time is over).
         public let startWindowMinutes: Int64?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let targetBackupVaultName: String
 
-        public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, enableContinuousBackup: Bool? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleName: String, scheduleExpression: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
+        public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, enableContinuousBackup: Bool? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleName: String, scheduleExpression: String? = nil, scheduleExpressionTimezone: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
             self.completionWindowMinutes = completionWindowMinutes
             self.copyActions = copyActions
             self.enableContinuousBackup = enableContinuousBackup
@@ -424,6 +443,7 @@ extension Backup {
             self.recoveryPointTags = recoveryPointTags
             self.ruleName = ruleName
             self.scheduleExpression = scheduleExpression
+            self.scheduleExpressionTimezone = scheduleExpressionTimezone
             self.startWindowMinutes = startWindowMinutes
             self.targetBackupVaultName = targetBackupVaultName
         }
@@ -441,6 +461,7 @@ extension Backup {
             case recoveryPointTags = "RecoveryPointTags"
             case ruleName = "RuleName"
             case scheduleExpression = "ScheduleExpression"
+            case scheduleExpressionTimezone = "ScheduleExpressionTimezone"
             case startWindowMinutes = "StartWindowMinutes"
             case targetBackupVaultName = "TargetBackupVaultName"
         }
@@ -1102,6 +1123,67 @@ extension Backup {
         }
     }
 
+    public struct CreateLogicallyAirGappedBackupVaultInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
+        ]
+
+        /// This is the name of the vault that is being created.
+        public let backupVaultName: String
+        /// These are the tags that will be included in the newly-created vault.
+        public let backupVaultTags: [String: String]?
+        /// This is the ID of the creation request.
+        public let creatorRequestId: String?
+        /// This is the setting that specifies the maximum retention period that the vault retains its recovery points. If this parameter is not specified, Backup  does not enforce a maximum retention period on the recovery points in the vault (allowing indefinite storage). If specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or shorter than the maximum retention period. If the job  retention period is longer than that maximum retention period, then the vault fails the backup or copy job, and you should either modify your lifecycle settings or use a different vault.
+        public let maxRetentionDays: Int64
+        /// This setting specifies the minimum retention period that the vault retains its recovery points. If this parameter is not specified,  no minimum retention period is enforced. If specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or longer than the minimum retention period. If a job retention period is shorter than that minimum retention period, then the vault fails the backup or copy job, and you should either modify your lifecycle settings or use a different vault.
+        public let minRetentionDays: Int64
+
+        public init(backupVaultName: String, backupVaultTags: [String: String]? = nil, creatorRequestId: String? = nil, maxRetentionDays: Int64, minRetentionDays: Int64) {
+            self.backupVaultName = backupVaultName
+            self.backupVaultTags = backupVaultTags
+            self.creatorRequestId = creatorRequestId
+            self.maxRetentionDays = maxRetentionDays
+            self.minRetentionDays = minRetentionDays
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupVaultTags = "BackupVaultTags"
+            case creatorRequestId = "CreatorRequestId"
+            case maxRetentionDays = "MaxRetentionDays"
+            case minRetentionDays = "MinRetentionDays"
+        }
+    }
+
+    public struct CreateLogicallyAirGappedBackupVaultOutput: AWSDecodableShape {
+        /// This is the ARN (Amazon Resource Name) of the vault being created.
+        public let backupVaultArn: String?
+        /// The name of a logical container where backups are stored. Logically air-gapped  backup vaults are identified by names that are unique to the account used to create  them and the Region where they are created. They consist of lowercase letters, numbers,  and hyphens.
+        public let backupVaultName: String?
+        /// The date and time when the vault was created. This value is in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let creationDate: Date?
+        /// This is the current state of the vault.
+        public let vaultState: VaultState?
+
+        public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, vaultState: VaultState? = nil) {
+            self.backupVaultArn = backupVaultArn
+            self.backupVaultName = backupVaultName
+            self.creationDate = creationDate
+            self.vaultState = vaultState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupVaultArn = "BackupVaultArn"
+            case backupVaultName = "BackupVaultName"
+            case creationDate = "CreationDate"
+            case vaultState = "VaultState"
+        }
+    }
+
     public struct CreateReportPlanInput: AWSEncodableShape {
         /// A customer-chosen string that you can use to distinguish between otherwise identical calls to CreateReportPlanInput. Retrying a successful request with the same idempotency token results in a success message with no action taken.
         public let idempotencyToken: String?
@@ -1439,7 +1521,7 @@ extension Backup {
         public let resourceType: String?
         /// Specifies the time in Unix format and Coordinated Universal Time (UTC) when a backup job must be started before it is canceled. The value is calculated by adding the start window to the scheduled time. So if the scheduled time were 6:00 PM and the start window is 2 hours, the StartBy time would be 8:00 PM on the date specified. The value of StartBy is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let startBy: Date?
-        /// The current state of a resource recovery point.
+        /// The current state of a backup job.
         public let state: BackupJobState?
         /// A detailed message explaining the status of the job to back up a resource.
         public let statusMessage: String?
@@ -1503,13 +1585,17 @@ extension Backup {
 
     public struct DescribeBackupVaultInput: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultAccountId", location: .querystring("backupVaultAccountId")),
             AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
         ]
 
+        /// This is the account ID of the specified backup vault.
+        public let backupVaultAccountId: String?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
 
-        public init(backupVaultName: String) {
+        public init(backupVaultAccountId: String? = nil, backupVaultName: String) {
+            self.backupVaultAccountId = backupVaultAccountId
             self.backupVaultName = backupVaultName
         }
 
@@ -1537,8 +1623,10 @@ extension Backup {
         public let minRetentionDays: Int64?
         /// The number of recovery points that are stored in a backup vault.
         public let numberOfRecoveryPoints: Int64?
+        /// This is the type of vault described.
+        public let vaultType: VaultType?
 
-        public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, encryptionKeyArn: String? = nil, lockDate: Date? = nil, locked: Bool? = nil, maxRetentionDays: Int64? = nil, minRetentionDays: Int64? = nil, numberOfRecoveryPoints: Int64? = nil) {
+        public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, encryptionKeyArn: String? = nil, lockDate: Date? = nil, locked: Bool? = nil, maxRetentionDays: Int64? = nil, minRetentionDays: Int64? = nil, numberOfRecoveryPoints: Int64? = nil, vaultType: VaultType? = nil) {
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
             self.creationDate = creationDate
@@ -1549,6 +1637,7 @@ extension Backup {
             self.maxRetentionDays = maxRetentionDays
             self.minRetentionDays = minRetentionDays
             self.numberOfRecoveryPoints = numberOfRecoveryPoints
+            self.vaultType = vaultType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1562,6 +1651,7 @@ extension Backup {
             case maxRetentionDays = "MaxRetentionDays"
             case minRetentionDays = "MinRetentionDays"
             case numberOfRecoveryPoints = "NumberOfRecoveryPoints"
+            case vaultType = "VaultType"
         }
     }
 
@@ -1718,21 +1808,26 @@ extension Backup {
 
     public struct DescribeRecoveryPointInput: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultAccountId", location: .querystring("backupVaultAccountId")),
             AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName")),
             AWSMemberEncoding(label: "recoveryPointArn", location: .uri("RecoveryPointArn"))
         ]
 
+        /// This is the account ID of the specified backup vault.
+        public let backupVaultAccountId: String?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String
 
-        public init(backupVaultName: String, recoveryPointArn: String) {
+        public init(backupVaultAccountId: String? = nil, backupVaultName: String, recoveryPointArn: String) {
+            self.backupVaultAccountId = backupVaultAccountId
             self.backupVaultName = backupVaultName
             self.recoveryPointArn = recoveryPointArn
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.backupVaultAccountId, name: "backupVaultAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -2111,7 +2206,7 @@ extension Backup {
         public let controlInputParameters: [ControlInputParameter]?
         /// The name of a control. This name is between 1 and 256 characters.
         public let controlName: String
-        /// The scope of a control. The control scope defines what the control will evaluate. Three examples of control scopes are: a specific backup plan, all backup plans with a specific tag, or all backup plans. For more information, see  ControlScope.
+        /// The scope of a control. The control scope defines what the control will evaluate. Three examples of control scopes are: a specific backup plan, all backup plans with a specific tag, or all backup plans.
         public let controlScope: ControlScope?
 
         public init(controlInputParameters: [ControlInputParameter]? = nil, controlName: String, controlScope: ControlScope? = nil) {
@@ -2447,21 +2542,26 @@ extension Backup {
 
     public struct GetRecoveryPointRestoreMetadataInput: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultAccountId", location: .querystring("backupVaultAccountId")),
             AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName")),
             AWSMemberEncoding(label: "recoveryPointArn", location: .uri("RecoveryPointArn"))
         ]
 
+        /// This is the account ID of the specified backup vault.
+        public let backupVaultAccountId: String?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String
 
-        public init(backupVaultName: String, recoveryPointArn: String) {
+        public init(backupVaultAccountId: String? = nil, backupVaultName: String, recoveryPointArn: String) {
+            self.backupVaultAccountId = backupVaultAccountId
             self.backupVaultName = backupVaultName
             self.recoveryPointArn = recoveryPointArn
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.backupVaultAccountId, name: "backupVaultAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -2818,16 +2918,24 @@ extension Backup {
 
     public struct ListBackupVaultsInput: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "byShared", location: .querystring("shared")),
+            AWSMemberEncoding(label: "byVaultType", location: .querystring("vaultType")),
             AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
+        /// This parameter will sort the list of vaults by shared vaults.
+        public let byShared: Bool?
+        /// This parameter will sort the list of vaults by vault type.
+        public let byVaultType: VaultType?
         /// The maximum number of items to be returned.
         public let maxResults: Int?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(byShared: Bool? = nil, byVaultType: VaultType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.byShared = byShared
+            self.byVaultType = byVaultType
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -3022,6 +3130,57 @@ extension Backup {
         }
     }
 
+    public struct ListProtectedResourcesByBackupVaultInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultAccountId", location: .querystring("backupVaultAccountId")),
+            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// This is the list of protected resources by backup vault within the vault(s) you specify by account ID.
+        public let backupVaultAccountId: String?
+        /// This is the list of protected resources by backup vault within the vault(s) you specify by name.
+        public let backupVaultName: String
+        /// The maximum number of items to be returned.
+        public let maxResults: Int?
+        /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        public let nextToken: String?
+
+        public init(backupVaultAccountId: String? = nil, backupVaultName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.backupVaultAccountId = backupVaultAccountId
+            self.backupVaultName = backupVaultName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.backupVaultAccountId, name: "backupVaultAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListProtectedResourcesByBackupVaultOutput: AWSDecodableShape {
+        /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        public let nextToken: String?
+        /// These are the results returned for the request ListProtectedResourcesByBackupVault.
+        public let results: [ProtectedResource]?
+
+        public init(nextToken: String? = nil, results: [ProtectedResource]? = nil) {
+            self.nextToken = nextToken
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case results = "Results"
+        }
+    }
+
     public struct ListProtectedResourcesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
@@ -3065,6 +3224,7 @@ extension Backup {
 
     public struct ListRecoveryPointsByBackupVaultInput: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultAccountId", location: .querystring("backupVaultAccountId")),
             AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName")),
             AWSMemberEncoding(label: "byBackupPlanId", location: .querystring("backupPlanId")),
             AWSMemberEncoding(label: "byCreatedAfter", location: .querystring("createdAfter")),
@@ -3076,6 +3236,8 @@ extension Backup {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
+        /// This parameter will sort the list of recovery points by account ID.
+        public let backupVaultAccountId: String?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.  Backup vault name might not be available when a supported service creates the backup.
         public let backupVaultName: String
         /// Returns only recovery points that match the specified backup plan ID.
@@ -3095,7 +3257,8 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(backupVaultName: String, byBackupPlanId: String? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byParentRecoveryPointArn: String? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(backupVaultAccountId: String? = nil, backupVaultName: String, byBackupPlanId: String? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byParentRecoveryPointArn: String? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.backupVaultAccountId = backupVaultAccountId
             self.backupVaultName = backupVaultName
             self.byBackupPlanId = byBackupPlanId
             self.byCreatedAfter = byCreatedAfter
@@ -3108,6 +3271,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.backupVaultAccountId, name: "backupVaultAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
             try self.validate(self.byResourceType, name: "byResourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
@@ -3984,19 +4148,19 @@ extension Backup {
         public let backupOptions: [String: String]?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
-        /// A value in minutes during which a successfully started backup must complete, or else Backup will cancel the job. This value is optional. This value begins counting down from when the backup was scheduled. It does not add additional time for StartWindowMinutes, or if the backup started later than scheduled.
+        /// A value in minutes during which a successfully started backup must complete, or else Backup will cancel the job. This value is optional. This value begins counting down from when the backup was scheduled. It does not add additional time for StartWindowMinutes, or if the backup started later than scheduled. Like StartWindowMinutes, this parameter has a maximum value of  100 years (52,560,000 minutes).
         public let completeWindowMinutes: Int64?
         /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String
         /// A customer-chosen string that you can use to distinguish between otherwise identical calls to StartBackupJob. Retrying a successful request with the same idempotency token results in a success message with no action taken.
         public let idempotencyToken: String?
-        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage"  section of the   Feature availability by resource table. Backup ignores this expression for other resource types.
+        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage"  section of the   Feature availability by resource table. Backup ignores this expression for other resource types. This parameter has a maximum value of 100 years (36,500 days).
         public let lifecycle: Lifecycle?
         /// To help organize your resources, you can assign your own metadata to the resources that you create. Each tag is a key-value pair.
         public let recoveryPointTags: [String: String]?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let resourceArn: String
-        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional, and the default is 8 hours.  If this value is included, it must be at least 60 minutes to avoid errors. During the start window, the backup job status remains in CREATED status until it  has successfully begun or until the start window time has run out. If within the start  window time Backup receives an error that allows the job to be retried,  Backup will automatically retry to begin the job at least every 10 minutes  until the backup  successfully begins (the job status changes to RUNNING) or until the job status  changes to EXPIRED (which is expected to occur when the start window time is over).
+        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional, and the default is 8 hours.  If this value is included, it must be at least 60 minutes to avoid errors. This parameter has a maximum value of 100 years (52,560,000 minutes). During the start window, the backup job status remains in CREATED status until it  has successfully begun or until the start window time has run out. If within the start  window time Backup receives an error that allows the job to be retried,  Backup will automatically retry to begin the job at least every 10 minutes  until the backup  successfully begins (the job status changes to RUNNING) or until the job status  changes to EXPIRED (which is expected to occur when the start window time is over).
         public let startWindowMinutes: Int64?
 
         public init(backupOptions: [String: String]? = nil, backupVaultName: String, completeWindowMinutes: Int64? = nil, iamRoleArn: String, idempotencyToken: String? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, resourceArn: String, startWindowMinutes: Int64? = nil) {

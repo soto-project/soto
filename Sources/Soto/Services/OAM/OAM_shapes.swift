@@ -27,6 +27,7 @@ extension OAM {
     // MARK: Enums
 
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
+        case awsApplicationinsightsApplication = "AWS::ApplicationInsights::Application"
         case awsCloudwatchMetric = "AWS::CloudWatch::Metric"
         case awsLogsLoggroup = "AWS::Logs::LogGroup"
         case awsXrayTrace = "AWS::XRay::Trace"

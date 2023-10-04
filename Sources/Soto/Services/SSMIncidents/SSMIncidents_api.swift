@@ -54,6 +54,15 @@ public struct SSMIncidents: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-05-10",
             endpoint: endpoint,
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "ssm-incidents-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "ssm-incidents-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "ssm-incidents-fips.us-east-2.amazonaws.com",
+                    "us-west-1": "ssm-incidents-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "ssm-incidents-fips.us-west-2.amazonaws.com"
+                ])
+            ],
             errorType: SSMIncidentsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

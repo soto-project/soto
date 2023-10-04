@@ -142,6 +142,11 @@ public struct SsmSap: AWSService {
         return self.client.execute(operation: "RegisterApplication", path: "/register-application", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Refreshes a registered application.
+    public func startApplicationRefresh(_ input: StartApplicationRefreshInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartApplicationRefreshOutput> {
+        return self.client.execute(operation: "StartApplicationRefresh", path: "/start-application-refresh", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates tag for a resource by specifying the ARN.
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
         return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

@@ -138,6 +138,11 @@ public struct Kafka: AWSService {
         return self.client.execute(operation: "DescribeClusterOperation", path: "/v1/operations/{ClusterOperationArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns a description of the cluster operation specified by the ARN.
+    public func describeClusterOperationV2(_ input: DescribeClusterOperationV2Request, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeClusterOperationV2Response> {
+        return self.client.execute(operation: "DescribeClusterOperationV2", path: "/api/v2/operations/{ClusterOperationArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
     public func describeClusterV2(_ input: DescribeClusterV2Request, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeClusterV2Response> {
         return self.client.execute(operation: "DescribeClusterV2", path: "/api/v2/clusters/{ClusterArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -181,6 +186,11 @@ public struct Kafka: AWSService {
     /// Returns a list of all the operations that have been performed on the specified MSK cluster.
     public func listClusterOperations(_ input: ListClusterOperationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListClusterOperationsResponse> {
         return self.client.execute(operation: "ListClusterOperations", path: "/v1/clusters/{ClusterArn}/operations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of all the operations that have been performed on the specified MSK cluster.
+    public func listClusterOperationsV2(_ input: ListClusterOperationsV2Request, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListClusterOperationsV2Response> {
+        return self.client.execute(operation: "ListClusterOperationsV2", path: "/api/v2/clusters/{ClusterArn}/operations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns a list of all the MSK clusters in the current Region.
@@ -417,6 +427,59 @@ extension Kafka {
             command: self.listClusterOperations,
             inputKey: \ListClusterOperationsRequest.nextToken,
             outputKey: \ListClusterOperationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Returns a list of all the operations that have been performed on the specified MSK cluster.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listClusterOperationsV2Paginator<Result>(
+        _ input: ListClusterOperationsV2Request,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListClusterOperationsV2Response, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listClusterOperationsV2,
+            inputKey: \ListClusterOperationsV2Request.nextToken,
+            outputKey: \ListClusterOperationsV2Response.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listClusterOperationsV2Paginator(
+        _ input: ListClusterOperationsV2Request,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListClusterOperationsV2Response, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listClusterOperationsV2,
+            inputKey: \ListClusterOperationsV2Request.nextToken,
+            outputKey: \ListClusterOperationsV2Response.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -859,6 +922,16 @@ extension Kafka.ListClientVpcConnectionsRequest: AWSPaginateToken {
 
 extension Kafka.ListClusterOperationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Kafka.ListClusterOperationsRequest {
+        return .init(
+            clusterArn: self.clusterArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Kafka.ListClusterOperationsV2Request: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Kafka.ListClusterOperationsV2Request {
         return .init(
             clusterArn: self.clusterArn,
             maxResults: self.maxResults,

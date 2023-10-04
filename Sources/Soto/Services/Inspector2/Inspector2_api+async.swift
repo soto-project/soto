@@ -36,6 +36,11 @@ extension Inspector2 {
         return try await self.client.execute(operation: "BatchGetCodeSnippet", path: "/codesnippet/batchget", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets vulnerability details for findings.
+    public func batchGetFindingDetails(_ input: BatchGetFindingDetailsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchGetFindingDetailsResponse {
+        return try await self.client.execute(operation: "BatchGetFindingDetails", path: "/findings/details/batch/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets free trial status for multiple Amazon Web Services accounts.
     public func batchGetFreeTrialInfo(_ input: BatchGetFreeTrialInfoRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchGetFreeTrialInfoResponse {
         return try await self.client.execute(operation: "BatchGetFreeTrialInfo", path: "/freetrialinfo/batchget", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

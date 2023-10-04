@@ -54,6 +54,14 @@ public struct Appflow: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-08-23",
             endpoint: endpoint,
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "appflow-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "appflow-fips.us-east-2.amazonaws.com",
+                    "us-west-1": "appflow-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "appflow-fips.us-west-2.amazonaws.com"
+                ])
+            ],
             errorType: AppflowErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

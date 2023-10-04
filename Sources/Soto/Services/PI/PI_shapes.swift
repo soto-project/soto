@@ -26,6 +26,24 @@ import SotoCore
 extension PI {
     // MARK: Enums
 
+    public enum AcceptLanguage: String, CustomStringConvertible, Codable, Sendable {
+        case enUs = "EN_US"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalysisStatus: String, CustomStringConvertible, Codable, Sendable {
+        case failed = "FAILED"
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContextType: String, CustomStringConvertible, Codable, Sendable {
+        case causal = "CAUSAL"
+        case contextual = "CONTEXTUAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DetailStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case processing = "PROCESSING"
@@ -55,7 +73,158 @@ extension PI {
         public var description: String { return self.rawValue }
     }
 
+    public enum Severity: String, CustomStringConvertible, Codable, Sendable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TextFormat: String, CustomStringConvertible, Codable, Sendable {
+        case markdown = "MARKDOWN"
+        case plainText = "PLAIN_TEXT"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct AnalysisReport: AWSDecodableShape {
+        /// The name of the analysis report.
+        public let analysisReportId: String
+        /// The time you created the analysis report.
+        public let createTime: Date?
+        /// The analysis end time in the report.
+        public let endTime: Date?
+        /// The unique identifier of the analysis report.
+        public let identifier: String?
+        /// The list of identified insights in the analysis report.
+        public let insights: [Insight]?
+        /// List the tags for the Amazon Web Services service for which Performance Insights returns metrics. Valid values are as follows:    RDS     DOCDB
+        public let serviceType: ServiceType?
+        /// The analysis start time in the report.
+        public let startTime: Date?
+        /// The status of the created analysis report.
+        public let status: AnalysisStatus?
+
+        public init(analysisReportId: String, createTime: Date? = nil, endTime: Date? = nil, identifier: String? = nil, insights: [Insight]? = nil, serviceType: ServiceType? = nil, startTime: Date? = nil, status: AnalysisStatus? = nil) {
+            self.analysisReportId = analysisReportId
+            self.createTime = createTime
+            self.endTime = endTime
+            self.identifier = identifier
+            self.insights = insights
+            self.serviceType = serviceType
+            self.startTime = startTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisReportId = "AnalysisReportId"
+            case createTime = "CreateTime"
+            case endTime = "EndTime"
+            case identifier = "Identifier"
+            case insights = "Insights"
+            case serviceType = "ServiceType"
+            case startTime = "StartTime"
+            case status = "Status"
+        }
+    }
+
+    public struct AnalysisReportSummary: AWSDecodableShape {
+        /// The name of the analysis report.
+        public let analysisReportId: String?
+        /// The time you created the analysis report.
+        public let createTime: Date?
+        /// The end time of the analysis in the report.
+        public let endTime: Date?
+        /// The start time of the analysis in the report.
+        public let startTime: Date?
+        /// The status of the analysis report.
+        public let status: AnalysisStatus?
+        /// List of all the tags added to the analysis report.
+        public let tags: [Tag]?
+
+        public init(analysisReportId: String? = nil, createTime: Date? = nil, endTime: Date? = nil, startTime: Date? = nil, status: AnalysisStatus? = nil, tags: [Tag]? = nil) {
+            self.analysisReportId = analysisReportId
+            self.createTime = createTime
+            self.endTime = endTime
+            self.startTime = startTime
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisReportId = "AnalysisReportId"
+            case createTime = "CreateTime"
+            case endTime = "EndTime"
+            case startTime = "StartTime"
+            case status = "Status"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreatePerformanceAnalysisReportRequest: AWSEncodableShape {
+        /// The end time defined for the analysis report.
+        public let endTime: Date
+        /// An immutable, Amazon Web Services Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use an Amazon RDS instance as a data source, you specify its DbiResourceId value.  For example, specify db-ADECBTYHKTSAUMUZQYPDS2GW4A.
+        public let identifier: String
+        /// The Amazon Web Services service for which Performance Insights will return metrics. Valid value is RDS.
+        public let serviceType: ServiceType
+        /// The start time defined for the analysis report.
+        public let startTime: Date
+        /// The metadata assigned to the analysis report consisting of a key-value pair.
+        public let tags: [Tag]?
+
+        public init(endTime: Date, identifier: String, serviceType: ServiceType, startTime: Date, tags: [Tag]? = nil) {
+            self.endTime = endTime
+            self.identifier = identifier
+            self.serviceType = serviceType
+            self.startTime = startTime
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case identifier = "Identifier"
+            case serviceType = "ServiceType"
+            case startTime = "StartTime"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreatePerformanceAnalysisReportResponse: AWSDecodableShape {
+        /// A unique identifier for the created analysis report.
+        public let analysisReportId: String?
+
+        public init(analysisReportId: String? = nil) {
+            self.analysisReportId = analysisReportId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisReportId = "AnalysisReportId"
+        }
+    }
+
+    public struct Data: AWSDecodableShape {
+        /// This field determines the Performance Insights metric to render  for the insight. The name field refers to a Performance Insights metric.
+        public let performanceInsightsMetric: PerformanceInsightsMetric?
+
+        public init(performanceInsightsMetric: PerformanceInsightsMetric? = nil) {
+            self.performanceInsightsMetric = performanceInsightsMetric
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case performanceInsightsMetric = "PerformanceInsightsMetric"
+        }
+    }
 
     public struct DataPoint: AWSDecodableShape {
         /// The time, in epoch format, associated with a particular Value.
@@ -72,6 +241,39 @@ extension PI {
             case timestamp = "Timestamp"
             case value = "Value"
         }
+    }
+
+    public struct DeletePerformanceAnalysisReportRequest: AWSEncodableShape {
+        /// The unique identifier of the analysis report for deletion.
+        public let analysisReportId: String
+        /// An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source.  In the console, the identifier is shown as ResourceID. When you  call DescribeDBInstances, the identifier is returned as DbiResourceId. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
+        public let identifier: String
+        /// The Amazon Web Services service for which Performance Insights will return metrics. Valid value is RDS.
+        public let serviceType: ServiceType
+
+        public init(analysisReportId: String, identifier: String, serviceType: ServiceType) {
+            self.analysisReportId = analysisReportId
+            self.identifier = identifier
+            self.serviceType = serviceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.analysisReportId, name: "analysisReportId", parent: name, max: 100)
+            try self.validate(self.analysisReportId, name: "analysisReportId", parent: name, min: 1)
+            try self.validate(self.analysisReportId, name: "analysisReportId", parent: name, pattern: "^report-[0-9a-f]{17}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisReportId = "AnalysisReportId"
+            case identifier = "Identifier"
+            case serviceType = "ServiceType"
+        }
+    }
+
+    public struct DeletePerformanceAnalysisReportResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DescribeDimensionKeysRequest: AWSEncodableShape {
@@ -130,14 +332,14 @@ extension PI {
             }
             try self.groupBy.validate(name: "\(name).groupBy")
             try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
-            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9-]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.metric, name: "metric", parent: name, max: 256)
             try self.validate(self.metric, name: "metric", parent: name, pattern: "\\S")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9_=-]+$")
             try self.partitionBy?.validate(name: "\(name).partitionBy")
         }
 
@@ -335,7 +537,7 @@ extension PI {
             try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, max: 256)
             try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, pattern: "\\S")
             try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
-            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^db-[a-zA-Z0-9-]*$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9-]+$")
             try self.requestedDimensions?.forEach {
                 try validate($0, name: "requestedDimensions[]", parent: name, max: 256)
                 try validate($0, name: "requestedDimensions[]", parent: name, pattern: "\\S")
@@ -366,6 +568,56 @@ extension PI {
         }
     }
 
+    public struct GetPerformanceAnalysisReportRequest: AWSEncodableShape {
+        /// The text language in the report. The default language is EN_US (English).
+        public let acceptLanguage: AcceptLanguage?
+        /// A unique identifier of the created analysis report. For example, report-12345678901234567
+        public let analysisReportId: String
+        /// An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers  metrics from this data source. In the console, the identifier is shown as  ResourceID. When you call DescribeDBInstances, the identifier is returned as DbiResourceId. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
+        public let identifier: String
+        /// The Amazon Web Services service for which Performance Insights will return metrics. Valid value is RDS.
+        public let serviceType: ServiceType
+        /// Indicates the text format in the report. The options are PLAIN_TEXT or MARKDOWN. The default value is plain text.
+        public let textFormat: TextFormat?
+
+        public init(acceptLanguage: AcceptLanguage? = nil, analysisReportId: String, identifier: String, serviceType: ServiceType, textFormat: TextFormat? = nil) {
+            self.acceptLanguage = acceptLanguage
+            self.analysisReportId = analysisReportId
+            self.identifier = identifier
+            self.serviceType = serviceType
+            self.textFormat = textFormat
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.analysisReportId, name: "analysisReportId", parent: name, max: 100)
+            try self.validate(self.analysisReportId, name: "analysisReportId", parent: name, min: 1)
+            try self.validate(self.analysisReportId, name: "analysisReportId", parent: name, pattern: "^report-[0-9a-f]{17}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case analysisReportId = "AnalysisReportId"
+            case identifier = "Identifier"
+            case serviceType = "ServiceType"
+            case textFormat = "TextFormat"
+        }
+    }
+
+    public struct GetPerformanceAnalysisReportResponse: AWSDecodableShape {
+        /// The summary of the performance analysis report created for a time period.
+        public let analysisReport: AnalysisReport?
+
+        public init(analysisReport: AnalysisReport? = nil) {
+            self.analysisReport = analysisReport
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisReport = "AnalysisReport"
+        }
+    }
+
     public struct GetResourceMetadataRequest: AWSEncodableShape {
         /// An immutable identifier for a data source that is unique for an Amazon Web Services Region.  Performance Insights gathers metrics from this data source. To use a DB instance as a data source,  specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
         public let identifier: String
@@ -379,7 +631,7 @@ extension PI {
 
         public func validate(name: String) throws {
             try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
-            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -439,7 +691,7 @@ extension PI {
 
         public func validate(name: String) throws {
             try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
-            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9-]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.metricQueries.forEach {
@@ -449,7 +701,7 @@ extension PI {
             try self.validate(self.metricQueries, name: "metricQueries", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9_=-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -494,6 +746,59 @@ extension PI {
         }
     }
 
+    public struct Insight: AWSDecodableShape {
+        ///  Metric names and values from the timeframe  used as baseline to generate the insight.
+        public let baselineData: [Data]?
+        /// Indicates if the insight is causal or correlated insight.
+        public let context: ContextType?
+        /// Description of the insight. For example: A high severity Insight found between 02:00 to 02:30, where there was an unusually high DB load 600x above baseline.  Likely performance impact.
+        public let description: String?
+        /// The end time of the insight. For example, 2018-10-30T00:00:00Z.
+        public let endTime: Date?
+        /// List of data objects containing metrics and references from the time range while generating the insight.
+        public let insightData: [Data]?
+        /// The unique identifier for the insight. For example, insight-12345678901234567.
+        public let insightId: String
+        /// The type of insight. For example, HighDBLoad, HighCPU, or DominatingSQLs.
+        public let insightType: String?
+        /// List of recommendations for the insight. For example, Investigate the following SQLs that contributed  to 100% of the total DBLoad during that time period: sql-id.
+        public let recommendations: [Recommendation]?
+        /// The severity of the insight. The values are: Low, Medium, or High.
+        public let severity: Severity?
+        /// The start time of the insight. For example, 2018-10-30T00:00:00Z.
+        public let startTime: Date?
+        /// List of supporting insights that provide additional factors for the insight.
+        public let supportingInsights: [Insight]?
+
+        public init(baselineData: [Data]? = nil, context: ContextType? = nil, description: String? = nil, endTime: Date? = nil, insightData: [Data]? = nil, insightId: String, insightType: String? = nil, recommendations: [Recommendation]? = nil, severity: Severity? = nil, startTime: Date? = nil, supportingInsights: [Insight]? = nil) {
+            self.baselineData = baselineData
+            self.context = context
+            self.description = description
+            self.endTime = endTime
+            self.insightData = insightData
+            self.insightId = insightId
+            self.insightType = insightType
+            self.recommendations = recommendations
+            self.severity = severity
+            self.startTime = startTime
+            self.supportingInsights = supportingInsights
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baselineData = "BaselineData"
+            case context = "Context"
+            case description = "Description"
+            case endTime = "EndTime"
+            case insightData = "InsightData"
+            case insightId = "InsightId"
+            case insightType = "InsightType"
+            case recommendations = "Recommendations"
+            case severity = "Severity"
+            case startTime = "StartTime"
+            case supportingInsights = "SupportingInsights"
+        }
+    }
+
     public struct ListAvailableResourceDimensionsRequest: AWSEncodableShape {
         /// An immutable identifier for a data source that is unique within an Amazon Web Services Region. Performance Insights gathers metrics from this data source. To use an Amazon RDS DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VWZ.
         public let identifier: String
@@ -516,7 +821,7 @@ extension PI {
 
         public func validate(name: String) throws {
             try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
-            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9-]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.metrics.forEach {
@@ -527,7 +832,7 @@ extension PI {
             try self.validate(self.metrics, name: "metrics", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9_=-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -578,7 +883,7 @@ extension PI {
 
         public func validate(name: String) throws {
             try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
-            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9-]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.metricTypes.forEach {
@@ -587,7 +892,7 @@ extension PI {
             }
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9_=-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -613,6 +918,98 @@ extension PI {
         private enum CodingKeys: String, CodingKey {
             case metrics = "Metrics"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListPerformanceAnalysisReportsRequest: AWSEncodableShape {
+        /// An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as ResourceID. When you call DescribeDBInstances, the identifier is returned as DbiResourceId. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
+        public let identifier: String
+        /// Specifies whether or not to include the list of tags in the response.
+        public let listTags: Bool?
+        /// The maximum number of items to return in the response. If more items exist than the specified MaxResults value, a pagination token is included in the response so that the remaining results can be retrieved.
+        public let maxResults: Int?
+        /// An optional pagination token provided by a previous request.  If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxResults.
+        public let nextToken: String?
+        /// The Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS.
+        public let serviceType: ServiceType
+
+        public init(identifier: String, listTags: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceType: ServiceType) {
+            self.identifier = identifier
+            self.listTags = listTags
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.serviceType = serviceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9_=-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "Identifier"
+            case listTags = "ListTags"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case serviceType = "ServiceType"
+        }
+    }
+
+    public struct ListPerformanceAnalysisReportsResponse: AWSDecodableShape {
+        /// List of reports including the report identifier, start and end time, creation time, and status.
+        public let analysisReports: [AnalysisReportSummary]?
+        /// An optional pagination token provided by a previous request.  If this parameter is specified, the response includes only records beyond the token,  up to the value specified by MaxResults.
+        public let nextToken: String?
+
+        public init(analysisReports: [AnalysisReportSummary]? = nil, nextToken: String? = nil) {
+            self.analysisReports = analysisReports
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisReports = "AnalysisReports"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        /// Lists all the tags for the Amazon RDS Performance Insights resource. This value is an  Amazon Resource Name (ARN). For information about creating an ARN,  see  Constructing an RDS Amazon Resource Name (ARN).
+        public let resourceARN: String
+        /// List the tags for the Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS.
+        public let serviceType: ServiceType
+
+        public init(resourceARN: String, serviceType: ServiceType) {
+            self.resourceARN = resourceARN
+            self.serviceType = serviceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:.*:pi:.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case serviceType = "ServiceType"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// The metadata assigned to an Amazon RDS resource consisting of a key-value pair.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 
@@ -683,6 +1080,48 @@ extension PI {
         }
     }
 
+    public struct PerformanceInsightsMetric: AWSDecodableShape {
+        /// A dimension map that contains the dimensions for this partition.
+        public let dimensions: [String: String]?
+        /// The Performance Insights metric name.
+        public let displayName: String?
+        /// The Performance Insights metric.
+        public let metric: String?
+        /// The value of the metric. For example, 9 for db.load.avg.
+        public let value: Double?
+
+        public init(dimensions: [String: String]? = nil, displayName: String? = nil, metric: String? = nil, value: Double? = nil) {
+            self.dimensions = dimensions
+            self.displayName = displayName
+            self.metric = metric
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case displayName = "DisplayName"
+            case metric = "Metric"
+            case value = "Value"
+        }
+    }
+
+    public struct Recommendation: AWSDecodableShape {
+        /// The recommendation details to help resolve the performance issue. For example,  Investigate the following SQLs that contributed to 100% of the total DBLoad during that time period: sql-id
+        public let recommendationDescription: String?
+        /// The unique identifier for the recommendation.
+        public let recommendationId: String?
+
+        public init(recommendationDescription: String? = nil, recommendationId: String? = nil) {
+            self.recommendationDescription = recommendationDescription
+            self.recommendationId = recommendationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recommendationDescription = "RecommendationDescription"
+            case recommendationId = "RecommendationId"
+        }
+    }
+
     public struct ResponsePartitionKey: AWSDecodableShape {
         /// A dimension map that contains the dimensions for this partition.
         public let dimensions: [String: String]
@@ -732,6 +1171,103 @@ extension PI {
             case dimensions = "Dimensions"
             case metric = "Metric"
         }
+    }
+
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode  characters in length and can't be prefixed with aws: or rds:.  The string can only contain only the set of Unicode letters, digits,  white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$").
+        public let key: String
+        /// A value is the optional value of the tag. The string value can be from 1 to 256  Unicode characters in length and can't be prefixed with aws: or rds:.  The string can only contain only the set of Unicode letters, digits,  white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$").
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^.*$")
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        /// The Amazon RDS Performance Insights resource that the tags are added to. This value is an Amazon Resource Name (ARN). For information about   creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).
+        public let resourceARN: String
+        /// The Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS.
+        public let serviceType: ServiceType
+        /// The metadata assigned to an Amazon RDS resource consisting of a key-value pair.
+        public let tags: [Tag]
+
+        public init(resourceARN: String, serviceType: ServiceType, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.serviceType = serviceType
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:.*:pi:.*$")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case serviceType = "ServiceType"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        /// The Amazon RDS Performance Insights resource that the tags are added to. This value is an Amazon Resource Name (ARN). For information about   creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).
+        public let resourceARN: String
+        /// List the tags for the Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS.
+        public let serviceType: ServiceType
+        /// The metadata assigned to an Amazon RDS Performance Insights resource consisting of a key-value pair.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, serviceType: ServiceType, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.serviceType = serviceType
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:.*:pi:.*$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^.*$")
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case serviceType = "ServiceType"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 }
 

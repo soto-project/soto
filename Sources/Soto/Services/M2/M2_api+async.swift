@@ -96,6 +96,11 @@ extension M2 {
         return try await self.client.execute(operation: "GetEnvironment", path: "/environments/{environmentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets a single sign-on URL that can be used to connect to AWS Blu Insights.
+    public func getSignedBluinsightsUrl(logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetSignedBluinsightsUrlResponse {
+        return try await self.client.execute(operation: "GetSignedBluinsightsUrl", path: "/signed-bi-url", httpMethod: .GET, serviceConfig: self.config, logger: logger, on: eventLoop)
+    }
+
     /// Returns a list of the application versions for a specific application.
     public func listApplicationVersions(_ input: ListApplicationVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListApplicationVersionsResponse {
         return try await self.client.execute(operation: "ListApplicationVersions", path: "/applications/{applicationId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

@@ -54,6 +54,16 @@ public struct Inspector2: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-06-08",
             endpoint: endpoint,
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "inspector2-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "inspector2-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "inspector2-fips.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "inspector2-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "inspector2-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "inspector2-fips.us-west-2.amazonaws.com"
+                ])
+            ],
             errorType: Inspector2ErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
@@ -76,6 +86,11 @@ public struct Inspector2: AWSService {
     /// Retrieves code snippets from findings that Amazon Inspector detected code vulnerabilities in.
     public func batchGetCodeSnippet(_ input: BatchGetCodeSnippetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetCodeSnippetResponse> {
         return self.client.execute(operation: "BatchGetCodeSnippet", path: "/codesnippet/batchget", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets vulnerability details for findings.
+    public func batchGetFindingDetails(_ input: BatchGetFindingDetailsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetFindingDetailsResponse> {
+        return self.client.execute(operation: "BatchGetFindingDetails", path: "/findings/details/batch/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets free trial status for multiple Amazon Web Services accounts.
