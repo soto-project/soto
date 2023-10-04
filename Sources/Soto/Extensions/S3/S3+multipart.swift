@@ -111,7 +111,7 @@ extension S3 {
             )
             getObject(getRequest, logger: logger, on: eventLoop)
                 .and(prevPartSave)
-                .map { output, _ in
+                .map { output, _ -> Void in
                     // should never happen
                     guard let body = output.body?.asByteBuffer() else {
                         return promise.fail(S3ErrorType.multipart.downloadEmpty(message: "Body is unexpectedly nil"))
@@ -140,7 +140,7 @@ extension S3 {
             versionId: input.versionId
         )
         headObject(headRequest, logger: logger, on: eventLoop)
-            .map { object in
+            .map { object -> Void in
                 guard let contentLength = object.contentLength else {
                     return promise.fail(S3ErrorType.multipart.downloadEmpty(message: "Content length is unexpectedly zero"))
                 }
@@ -687,7 +687,7 @@ extension S3 {
         func multipartUploadPart(partNumber: Int, uploadId: String) {
             // if partNumber is in list of already completed parts, skip loading and append that part to completed parts
             if let part = parts.first(where: { $0.partNumber == partNumber }) {
-                skipStream(eventLoop).map { finished in
+                skipStream(eventLoop).map { finished -> Void in
                     if finished {
                         promise.succeed(completedParts)
                         return
@@ -724,7 +724,7 @@ extension S3 {
                         completedParts.append(part)
                         return false
                     }
-                }.map { finished in
+                }.map { finished -> Void in
                     if finished {
                         promise.succeed(completedParts)
                         return
