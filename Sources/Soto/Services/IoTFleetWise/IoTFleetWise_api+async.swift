@@ -111,6 +111,11 @@ extension IoTFleetWise {
         return try await self.client.execute(operation: "GetDecoderManifest", path: "/decoder-manifests/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves the encryption configuration for resources and data in Amazon Web Services IoT FleetWise.
+    public func getEncryptionConfiguration(_ input: GetEncryptionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetEncryptionConfigurationResponse {
+        return try await self.client.execute(operation: "GetEncryptionConfiguration", path: "/encryptionConfiguration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Retrieves information about a fleet.
     public func getFleet(_ input: GetFleetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetFleetResponse {
         return try await self.client.execute(operation: "GetFleet", path: "/fleets/{fleetId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -219,6 +224,11 @@ extension IoTFleetWise {
     ///  Retrieves a list of summaries of all vehicles associated with a fleet.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     public func listVehiclesInFleet(_ input: ListVehiclesInFleetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListVehiclesInFleetResponse {
         return try await self.client.execute(operation: "ListVehiclesInFleet", path: "/fleets/{fleetId}/vehicles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates or updates the encryption configuration. Amazon Web Services IoT FleetWise can encrypt your data and resources using an Amazon Web Services managed key. Or, you can use a KMS key that you own and manage. For more information, see Data encryption in the Amazon Web Services IoT FleetWise Developer Guide.
+    public func putEncryptionConfiguration(_ input: PutEncryptionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutEncryptionConfigurationResponse {
+        return try await self.client.execute(operation: "PutEncryptionConfiguration", path: "/encryptionConfiguration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates or updates the logging option.

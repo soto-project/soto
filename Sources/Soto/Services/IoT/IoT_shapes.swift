@@ -404,6 +404,8 @@ extension IoT {
     public enum LogTargetType: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "DEFAULT"
         case clientId = "CLIENT_ID"
+        case deviceDefender = "DEVICE_DEFENDER"
+        case eventType = "EVENT_TYPE"
         case principalId = "PRINCIPAL_ID"
         case sourceIp = "SOURCE_IP"
         case thingGroup = "THING_GROUP"
@@ -800,6 +802,7 @@ extension IoT {
             try self.http?.validate(name: "\(name).http")
             try self.iotEvents?.validate(name: "\(name).iotEvents")
             try self.iotSiteWise?.validate(name: "\(name).iotSiteWise")
+            try self.kafka?.validate(name: "\(name).kafka")
             try self.openSearch?.validate(name: "\(name).openSearch")
             try self.republish?.validate(name: "\(name).republish")
             try self.salesforce?.validate(name: "\(name).salesforce")
@@ -1868,7 +1871,7 @@ extension IoT {
     }
 
     public struct Behavior: AWSEncodableShape & AWSDecodableShape {
-        /// The criteria that determine if a device is behaving normally in regard to the metric.
+        /// The criteria that determine if a device is behaving normally in regard to the metric.  In the IoT console, you can choose to be sent an alert through Amazon SNS when IoT Device Defender detects that a device is behaving anomalously.
         public let criteria: BehaviorCriteria?
         /// What is measured by the behavior.
         public let metric: String?
@@ -3392,7 +3395,7 @@ extension IoT {
         public let destinationPackageVersions: [String]?
         /// The job document. Required if you don't specify a value for documentSource.
         public let document: String?
-        /// An S3 link to the job document to use in the template. Required if you don't specify a value for document.  If the job document resides in an S3 bucket, you must use a placeholder link when specifying the document. The placeholder link is of the following form:  ${aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where bucket is your bucket name and key is the object in the bucket to which you are linking.
+        /// An S3 link, or S3 object URL, to the job document. The link is an Amazon S3 object URL and is required if you don't specify a value for document. For example, --document-source https://s3.region-code.amazonaws.com/example-firmware/device-firmware.1.0  For more information, see Methods for accessing a bucket.
         public let documentSource: String?
         /// The ARN of the job to use as the basis for the job template.
         public let jobArn: String?
@@ -3584,7 +3587,7 @@ extension IoT {
             AWSMemberEncoding(label: "otaUpdateId", location: .uri("otaUpdateId"))
         ]
 
-        /// A list of additional OTA update parameters which are name-value pairs.
+        /// A list of additional OTA update parameters, which are name-value pairs.  They won't be sent to devices as a part of the Job document.
         public let additionalParameters: [String: String]?
         /// The criteria that determine when and how a job abort takes place.
         public let awsJobAbortConfig: AwsJobAbortConfig?
@@ -3708,7 +3711,7 @@ extension IoT {
         public let clientToken: String?
         /// A summary of the package being created. This can be used to outline the package's contents or purpose.
         public let description: String?
-        /// The name of the new package.
+        /// The name of the new software package.
         public let packageName: String
         /// Metadata that can be used to manage the package.
         public let tags: [String: String]?
@@ -3750,7 +3753,7 @@ extension IoT {
         public let description: String?
         /// The Amazon Resource Name (ARN) for the package.
         public let packageArn: String?
-        /// The name of the package.
+        /// The name of the software package.
         public let packageName: String?
 
         public init(description: String? = nil, packageArn: String? = nil, packageName: String? = nil) {
@@ -3779,7 +3782,7 @@ extension IoT {
         public let clientToken: String?
         /// A summary of the package version being created. This can be used to outline the package's contents or purpose.
         public let description: String?
-        /// The name of the associated package.
+        /// The name of the associated software package.
         public let packageName: String
         /// Metadata that can be used to manage the package version.
         public let tags: [String: String]?
@@ -3837,7 +3840,7 @@ extension IoT {
         public let description: String?
         /// Error reason for a package version failure during creation or update.
         public let errorReason: String?
-        /// The name of the associated package.
+        /// The name of the associated software package.
         public let packageName: String?
         /// The Amazon Resource Name (ARN) for the package.
         public let packageVersionArn: String?
@@ -5152,7 +5155,7 @@ extension IoT {
 
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// The name of the target package.
+        /// The name of the target software package.
         public let packageName: String
 
         public init(clientToken: String? = DeletePackageRequest.idempotencyToken(), packageName: String) {
@@ -5185,7 +5188,7 @@ extension IoT {
 
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// The name of the associated package.
+        /// The name of the associated software package.
         public let packageName: String
         /// The name of the target package version.
         public let versionName: String
@@ -6231,7 +6234,7 @@ extension IoT {
             AWSMemberEncoding(label: "endpointType", location: .querystring("endpointType"))
         ]
 
-        /// The endpoint type. Valid endpoint types include:    iot:Data - Returns a VeriSign signed data endpoint.      iot:Data-ATS - Returns an ATS signed data endpoint.      iot:CredentialProvider - Returns an IoT credentials provider API endpoint.      iot:Jobs - Returns an IoT device management Jobs API endpoint.   We strongly recommend that customers use the newer iot:Data-ATS endpoint type to avoid  issues related to the widespread distrust of Symantec certificate authorities.
+        /// The endpoint type. Valid endpoint types include:    iot:Data - Returns a VeriSign signed data endpoint.      iot:Data-ATS - Returns an ATS signed data endpoint.      iot:CredentialProvider - Returns an IoT credentials provider API endpoint.      iot:Jobs - Returns an IoT device management Jobs API endpoint.   We strongly recommend that customers use the newer iot:Data-ATS endpoint type to avoid  issues related to the widespread distrust of Symantec certificate authorities. ATS Signed Certificates are more secure and are trusted by most popular browsers.
         public let endpointType: String?
 
         public init(endpointType: String? = nil) {
@@ -8269,7 +8272,7 @@ extension IoT {
             AWSMemberEncoding(label: "packageName", location: .uri("packageName"))
         ]
 
-        /// The name of the target package.
+        /// The name of the target software package.
         public let packageName: String
 
         public init(packageName: String) {
@@ -8296,7 +8299,7 @@ extension IoT {
         public let lastModifiedDate: Date?
         /// The ARN for the package.
         public let packageArn: String?
-        /// The name of the package.
+        /// The name of the software package.
         public let packageName: String?
 
         public init(creationDate: Date? = nil, defaultVersionName: String? = nil, description: String? = nil, lastModifiedDate: Date? = nil, packageArn: String? = nil, packageName: String? = nil) {
@@ -8357,7 +8360,7 @@ extension IoT {
         public let errorReason: String?
         /// The date when the package version was last updated.
         public let lastModifiedDate: Date?
-        /// The name of the package.
+        /// The name of the software package.
         public let packageName: String?
         /// The ARN for the package version.
         public let packageVersionArn: String?
@@ -9433,6 +9436,8 @@ extension IoT {
         public let clientProperties: [String: String]
         /// The ARN of Kafka action's VPC TopicRuleDestination.
         public let destinationArn: String
+        /// The list of Kafka headers that you specify.
+        public let headers: [KafkaActionHeader]?
         /// The Kafka message key.
         public let key: String?
         /// The Kafka message partition.
@@ -9440,20 +9445,52 @@ extension IoT {
         /// The Kafka topic for messages to be sent to the Kafka broker.
         public let topic: String
 
-        public init(clientProperties: [String: String], destinationArn: String, key: String? = nil, partition: String? = nil, topic: String) {
+        public init(clientProperties: [String: String], destinationArn: String, headers: [KafkaActionHeader]? = nil, key: String? = nil, partition: String? = nil, topic: String) {
             self.clientProperties = clientProperties
             self.destinationArn = destinationArn
+            self.headers = headers
             self.key = key
             self.partition = partition
             self.topic = topic
         }
 
+        public func validate(name: String) throws {
+            try self.headers?.forEach {
+                try $0.validate(name: "\(name).headers[]")
+            }
+            try self.validate(self.headers, name: "headers", parent: name, max: 100)
+            try self.validate(self.headers, name: "headers", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clientProperties = "clientProperties"
             case destinationArn = "destinationArn"
+            case headers = "headers"
             case key = "key"
             case partition = "partition"
             case topic = "topic"
+        }
+    }
+
+    public struct KafkaActionHeader: AWSEncodableShape & AWSDecodableShape {
+        /// The key of the Kafka header.
+        public let key: String
+        /// The value of the Kafka header.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 16384)
+            try self.validate(self.value, name: "value", parent: name, max: 16384)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -11001,7 +11038,7 @@ extension IoT {
         public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
-        /// The name of the target package.
+        /// The name of the target software package.
         public let packageName: String
         /// The status of the package version. For more information, see Package version lifecycle.
         public let status: PackageVersionStatus?
@@ -12980,7 +13017,7 @@ extension IoT {
     }
 
     public struct OTAUpdateFile: AWSEncodableShape & AWSDecodableShape {
-        /// A list of name/attribute pairs.
+        /// A list of name-attribute pairs. They won't be sent to devices as a part of the Job document.
         public let attributes: [String: String]?
         /// The code signing method of the file.
         public let codeSigning: CodeSigning?
@@ -13190,7 +13227,7 @@ extension IoT {
         public let defaultVersionName: String?
         /// The date that the package was last updated.
         public let lastModifiedDate: Date?
-        /// The name for the target package.
+        /// The name for the target software package.
         public let packageName: String?
 
         public init(creationDate: Date? = nil, defaultVersionName: String? = nil, lastModifiedDate: Date? = nil, packageName: String? = nil) {
@@ -14259,11 +14296,11 @@ extension IoT {
     public struct SchedulingConfig: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the end behavior for all job executions after a job reaches the selected endTime. If endTime is not selected when creating the job, then endBehavior does not apply.
         public let endBehavior: JobEndBehavior?
-        /// The time a job will stop rollout of the job document to all devices in the target group for a job. The endTime must take place no later than two years from the current time and be scheduled a minimum of thirty minutes from the current time. The minimum duration between startTime and endTime is thirty minutes. The maximum duration between startTime and endTime is two years. The date and time format for the endTime is YYYY-MM-DD for the date and HH:MM for the time.
+        /// The time a job will stop rollout of the job document to all devices in the target group for a job. The endTime must take place no later than two years from the current time and be scheduled a minimum of thirty minutes from the current time. The minimum duration between startTime and endTime is thirty minutes. The maximum duration between startTime and endTime is two years. The date and time format for the endTime is YYYY-MM-DD for the date and HH:MM for the time. For more information on the syntax for endTime when using an API command or the Command Line Interface, see Timestamp.
         public let endTime: String?
         /// An optional configuration within the SchedulingConfig to setup a recurring maintenance window with a predetermined start time and duration for the rollout of a job document to all devices in a target group for a job.
         public let maintenanceWindows: [MaintenanceWindow]?
-        /// The time a job will begin rollout of the job document to all devices in the target group for a job. The startTime can be scheduled up to a year in advance and must be scheduled a minimum of thirty minutes from the current time. The date and time format for the startTime is YYYY-MM-DD for the date and HH:MM for the time.
+        /// The time a job will begin rollout of the job document to all devices in the target group for a job. The startTime can be scheduled up to a year in advance and must be scheduled a minimum of thirty minutes from the current time. The date and time format for the startTime is YYYY-MM-DD for the date and HH:MM for the time. For more information on the syntax for startTime when using an API command or the Command Line Interface, see Timestamp.
         public let startTime: String?
 
         public init(endBehavior: JobEndBehavior? = nil, endTime: String? = nil, maintenanceWindows: [MaintenanceWindow]? = nil, startTime: String? = nil) {
@@ -16857,7 +16894,7 @@ extension IoT {
         public let defaultVersionName: String?
         /// The package description.
         public let description: String?
-        /// The name of the target package.
+        /// The name of the target software package.
         public let packageName: String
         /// Indicates whether you want to remove the named default package version from the software package.  Set as true to remove the default package version.   Note: You cannot name a defaultVersion and set unsetDefaultVersion equal to true at the same time.
         public let unsetDefaultVersion: Bool?
@@ -16904,7 +16941,7 @@ extension IoT {
 
         /// The status that the package version should be assigned. For more information, see Package version lifecycle.
         public let action: PackageVersionAction?
-        /// Metadata that can be used to define a package version’s configuration. For example, the S3 file location, configuration options that are being sent to the device or fleet.   Note: Attributes can be updated only when the package version is in a draft state. The combined size of all the attributes on a package version is limited to 3KB.
+        /// Metadata that can be used to define a package version’s configuration. For example, the Amazon S3 file location, configuration options that are being sent to the device or fleet.   Note: Attributes can be updated only when the package version is in a draft state. The combined size of all the attributes on a package version is limited to 3KB.
         public let attributes: [String: String]?
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?

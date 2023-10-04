@@ -56,10 +56,10 @@ extension KinesisVideoMedia {
             try self.startSelector.validate(name: "\(name).startSelector")
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
-            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+$")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
-            try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

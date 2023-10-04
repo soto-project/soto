@@ -26,12 +26,12 @@ extension SSOAdmin {
         return try await self.client.execute(operation: "AttachCustomerManagedPolicyReferenceToPermissionSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Attaches an AWS managed policy ARN to a permission set.  If the permission set is already referenced by one or more account assignments, you will need to call  ProvisionPermissionSet after this operation. Calling ProvisionPermissionSet applies the corresponding IAM policy updates to all assigned accounts.
+    /// Attaches an Amazon Web Services managed policy ARN to a permission set.  If the permission set is already referenced by one or more account assignments, you will need to call  ProvisionPermissionSet after this operation. Calling ProvisionPermissionSet applies the corresponding IAM policy updates to all assigned accounts.
     public func attachManagedPolicyToPermissionSet(_ input: AttachManagedPolicyToPermissionSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AttachManagedPolicyToPermissionSetResponse {
         return try await self.client.execute(operation: "AttachManagedPolicyToPermissionSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Assigns access to a principal for a specified AWS account using a specified permission set.  The term principal here refers to a user or group that is defined in IAM Identity Center.   As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy. That policy is attached to the IAM role created in IAM Identity Center. If the permission set is subsequently updated, the corresponding IAM policies attached to roles in your accounts will not be updated automatically. In this case, you must call  ProvisionPermissionSet to make these updates.    After a successful response, call DescribeAccountAssignmentCreationStatus to describe the status of an assignment creation request.
+    /// Assigns access to a principal for a specified Amazon Web Services account using a specified permission set.  The term principal here refers to a user or group that is defined in IAM Identity Center.   As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy. That policy is attached to the IAM role created in IAM Identity Center. If the permission set is subsequently updated, the corresponding IAM policies attached to roles in your accounts will not be updated automatically. In this case, you must call  ProvisionPermissionSet to make these updates.    After a successful response, call DescribeAccountAssignmentCreationStatus to describe the status of an assignment creation request.
     public func createAccountAssignment(_ input: CreateAccountAssignmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateAccountAssignmentResponse {
         return try await self.client.execute(operation: "CreateAccountAssignment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -41,12 +41,12 @@ extension SSOAdmin {
         return try await self.client.execute(operation: "CreateInstanceAccessControlAttributeConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a permission set within a specified IAM Identity Center instance.  To grant users and groups access to AWS account resources, use  CreateAccountAssignment .
+    /// Creates a permission set within a specified IAM Identity Center instance.  To grant users and groups access to Amazon Web Services account resources, use  CreateAccountAssignment .
     public func createPermissionSet(_ input: CreatePermissionSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreatePermissionSetResponse {
         return try await self.client.execute(operation: "CreatePermissionSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a principal's access from a specified AWS account using a specified permission set.  After a successful response, call DescribeAccountAssignmentCreationStatus to describe the status of an assignment deletion request.
+    /// Deletes a principal's access from a specified Amazon Web Services account using a specified permission set.  After a successful response, call DescribeAccountAssignmentDeletionStatus to describe the status of an assignment deletion request.
     public func deleteAccountAssignment(_ input: DeleteAccountAssignmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteAccountAssignmentResponse {
         return try await self.client.execute(operation: "DeleteAccountAssignment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -101,7 +101,7 @@ extension SSOAdmin {
         return try await self.client.execute(operation: "DetachCustomerManagedPolicyReferenceFromPermissionSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Detaches the attached AWS managed policy ARN from the specified permission set.
+    /// Detaches the attached Amazon Web Services managed policy ARN from the specified permission set.
     public func detachManagedPolicyFromPermissionSet(_ input: DetachManagedPolicyFromPermissionSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DetachManagedPolicyFromPermissionSetResponse {
         return try await self.client.execute(operation: "DetachManagedPolicyFromPermissionSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -116,22 +116,22 @@ extension SSOAdmin {
         return try await self.client.execute(operation: "GetPermissionsBoundaryForPermissionSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the status of the AWS account assignment creation requests for a specified IAM Identity Center instance.
+    /// Lists the status of the Amazon Web Services account assignment creation requests for a specified IAM Identity Center instance.
     public func listAccountAssignmentCreationStatus(_ input: ListAccountAssignmentCreationStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAccountAssignmentCreationStatusResponse {
         return try await self.client.execute(operation: "ListAccountAssignmentCreationStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the status of the AWS account assignment deletion requests for a specified IAM Identity Center instance.
+    /// Lists the status of the Amazon Web Services account assignment deletion requests for a specified IAM Identity Center instance.
     public func listAccountAssignmentDeletionStatus(_ input: ListAccountAssignmentDeletionStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAccountAssignmentDeletionStatusResponse {
         return try await self.client.execute(operation: "ListAccountAssignmentDeletionStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the assignee of the specified AWS account with the specified permission set.
+    /// Lists the assignee of the specified Amazon Web Services account with the specified permission set.
     public func listAccountAssignments(_ input: ListAccountAssignmentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAccountAssignmentsResponse {
         return try await self.client.execute(operation: "ListAccountAssignments", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all the AWS accounts where the specified permission set is provisioned.
+    /// Lists all the Amazon Web Services accounts where the specified permission set is provisioned.
     public func listAccountsForProvisionedPermissionSet(_ input: ListAccountsForProvisionedPermissionSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAccountsForProvisionedPermissionSetResponse {
         return try await self.client.execute(operation: "ListAccountsForProvisionedPermissionSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -146,7 +146,7 @@ extension SSOAdmin {
         return try await self.client.execute(operation: "ListInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the AWS managed policy that is attached to a specified permission set.
+    /// Lists the Amazon Web Services managed policy that is attached to a specified permission set.
     public func listManagedPoliciesInPermissionSet(_ input: ListManagedPoliciesInPermissionSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListManagedPoliciesInPermissionSetResponse {
         return try await self.client.execute(operation: "ListManagedPoliciesInPermissionSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -161,7 +161,7 @@ extension SSOAdmin {
         return try await self.client.execute(operation: "ListPermissionSets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all the permission sets that are provisioned to a specified AWS account.
+    /// Lists all the permission sets that are provisioned to a specified Amazon Web Services account.
     public func listPermissionSetsProvisionedToAccount(_ input: ListPermissionSetsProvisionedToAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListPermissionSetsProvisionedToAccountResponse {
         return try await self.client.execute(operation: "ListPermissionSetsProvisionedToAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -181,7 +181,7 @@ extension SSOAdmin {
         return try await self.client.execute(operation: "PutInlinePolicyToPermissionSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Attaches an AWS managed or customer managed policy to the specified PermissionSet as a permissions boundary.
+    /// Attaches an Amazon Web Services managed or customer managed policy to the specified PermissionSet as a permissions boundary.
     public func putPermissionsBoundaryToPermissionSet(_ input: PutPermissionsBoundaryToPermissionSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutPermissionsBoundaryToPermissionSetResponse {
         return try await self.client.execute(operation: "PutPermissionsBoundaryToPermissionSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -211,7 +211,7 @@ extension SSOAdmin {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SSOAdmin {
-    /// Lists the status of the AWS account assignment creation requests for a specified IAM Identity Center instance.
+    /// Lists the status of the Amazon Web Services account assignment creation requests for a specified IAM Identity Center instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -233,7 +233,7 @@ extension SSOAdmin {
         )
     }
 
-    /// Lists the status of the AWS account assignment deletion requests for a specified IAM Identity Center instance.
+    /// Lists the status of the Amazon Web Services account assignment deletion requests for a specified IAM Identity Center instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -255,7 +255,7 @@ extension SSOAdmin {
         )
     }
 
-    /// Lists the assignee of the specified AWS account with the specified permission set.
+    /// Lists the assignee of the specified Amazon Web Services account with the specified permission set.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -277,7 +277,7 @@ extension SSOAdmin {
         )
     }
 
-    /// Lists all the AWS accounts where the specified permission set is provisioned.
+    /// Lists all the Amazon Web Services accounts where the specified permission set is provisioned.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -343,7 +343,7 @@ extension SSOAdmin {
         )
     }
 
-    /// Lists the AWS managed policy that is attached to a specified permission set.
+    /// Lists the Amazon Web Services managed policy that is attached to a specified permission set.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -409,7 +409,7 @@ extension SSOAdmin {
         )
     }
 
-    /// Lists all the permission sets that are provisioned to a specified AWS account.
+    /// Lists all the permission sets that are provisioned to a specified Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

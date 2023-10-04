@@ -100,10 +100,26 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The status of your account subscription.</p>"
                     }
+                },
+                "IAMIdentityCenterInstanceArn": {
+                    "target": "com.amazonaws.quicksight#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) for the IAM Identity Center instance.</p>"
+                    }
                 }
             },
             "traits": {
                 "smithy.api#documentation": "<p>A structure that contains the following account information\n            elements:</p>\n         <ul>\n            <li>\n               <p>Your Amazon QuickSight account name.</p>\n            </li>\n            <li>\n               <p>The edition of Amazon QuickSight that your account is using.</p>\n            </li>\n            <li>\n               <p>The notification email address that is associated with the Amazon QuickSight account.\n            </p>\n            </li>\n            <li>\n               <p>The authentication type of the Amazon QuickSight account.</p>\n            </li>\n            <li>\n               <p>The status of the Amazon QuickSight account's subscription.</p>\n            </li>\n         </ul>"
+            }
+        },
+        "com.amazonaws.quicksight#AccountName": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 62
+                },
+                "smithy.api#pattern": "^(?!D-|d-)([\\da-zA-Z]+)([-]*[\\da-zA-Z])*$"
             }
         },
         "com.amazonaws.quicksight#AccountSettings": {
@@ -160,7 +176,7 @@
             "traits": {
                 "smithy.api#length": {
                     "min": 1,
-                    "max": 16
+                    "max": 20
                 }
             }
         },
@@ -236,6 +252,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Aggregation for date values.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>COUNT</code>: Aggregate by the total number of values, including duplicates.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DISTINCT_COUNT</code>: Aggregate by the total number of distinct values.</p>\n            </li>\n            <li>\n               <p>\n                  <code>MIN</code>: Select the smallest date value.</p>\n            </li>\n            <li>\n               <p>\n                  <code>MAX</code>: Select the largest date value.</p>\n            </li>\n         </ul>"
                     }
+                },
+                "AttributeAggregationFunction": {
+                    "target": "com.amazonaws.quicksight#AttributeAggregationFunction",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Aggregation for attributes.</p>"
+                    }
                 }
             },
             "traits": {
@@ -271,8 +293,7 @@
                 "AggregationFunction": {
                     "target": "com.amazonaws.quicksight#AggregationFunction",
                     "traits": {
-                        "smithy.api#documentation": "<p>The function that aggregates the values in <code>Column</code>.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The function that aggregates the values in <code>Column</code>.</p>"
                     }
                 }
             },
@@ -300,6 +321,13 @@
                     "max": 2048
                 },
                 "smithy.api#pattern": "^[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)$"
+            }
+        },
+        "com.amazonaws.quicksight#AllSheetsFilterScopeConfiguration": {
+            "type": "structure",
+            "members": {},
+            "traits": {
+                "smithy.api#documentation": "<p>The configuration for applying a filter to all sheets. You can apply this filter to all visuals on every sheet.</p>\n         <p>This is a union type structure. For this structure to be valid, only one of the attributes can be defined.</p>"
             }
         },
         "com.amazonaws.quicksight#AmazonElasticsearchParameters": {
@@ -851,6 +879,26 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>The settings that you want to use with the Q search bar.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#AnonymousUserSnapshotJobResult": {
+            "type": "structure",
+            "members": {
+                "FileGroups": {
+                    "target": "com.amazonaws.quicksight#SnapshotJobResultFileGroupList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of <code>SnapshotJobResultFileGroup</code> objects that contain information on the files that are requested during a <code>StartDashboardSnapshotJob</code> API call. If the job succeeds, these objects contain the location where the snapshot artifacts are stored. If the job fails, the objects contain information about the error that caused the job to fail.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A structure that contains the file groups that are requested for the artifact generation in a <code>StartDashboardSnapshotJob</code> API call.\n        </p>"
+            }
+        },
+        "com.amazonaws.quicksight#AnonymousUserSnapshotJobResultList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.quicksight#AnonymousUserSnapshotJobResult"
             }
         },
         "com.amazonaws.quicksight#ArcAxisConfiguration": {
@@ -2249,7 +2297,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>The source of the asset bundle zip file that contains the data that you want to import.</p>"
+                "smithy.api#documentation": "<p>The source of the asset bundle zip file that contains the data that you want to import. The file must be in <code>QUICKSIGHT_JSON</code> format.</p>"
             }
         },
         "com.amazonaws.quicksight#AssetBundleImportSourceDescription": {
@@ -2325,6 +2373,26 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Parameters for Amazon Athena.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#AttributeAggregationFunction": {
+            "type": "structure",
+            "members": {
+                "SimpleAttributeAggregation": {
+                    "target": "com.amazonaws.quicksight#SimpleAttributeAggregationFunction",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The built-in aggregation functions for attributes.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>UNIQUE_VALUE</code>: Returns the unique value for a field, aggregated by the dimension fields.</p>\n            </li>\n         </ul>"
+                    }
+                },
+                "ValueForMultipleValues": {
+                    "target": "com.amazonaws.quicksight#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Used by the <code>UNIQUE_VALUE</code> aggregation function. If there are multiple values for the field used by the aggregation, the value for this property will be returned instead. Defaults to '*'.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Aggregation for attributes.</p>"
             }
         },
         "com.amazonaws.quicksight#AuroraParameters": {
@@ -2406,6 +2474,12 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "ACTIVE_DIRECTORY"
+                    }
+                },
+                "IAM_IDENTITY_CENTER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "IAM_IDENTITY_CENTER"
                     }
                 }
             }
@@ -4263,6 +4337,20 @@
                 }
             }
         },
+        "com.amazonaws.quicksight#ColorsConfiguration": {
+            "type": "structure",
+            "members": {
+                "CustomColors": {
+                    "target": "com.amazonaws.quicksight#CustomColorsList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of up to 50 custom colors.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The color configurations for a column.</p>"
+            }
+        },
         "com.amazonaws.quicksight#ColumnConfiguration": {
             "type": "structure",
             "members": {
@@ -4283,6 +4371,12 @@
                     "target": "com.amazonaws.quicksight#ColumnRole",
                     "traits": {
                         "smithy.api#documentation": "<p>The role of the column.</p>"
+                    }
+                },
+                "ColorsConfiguration": {
+                    "target": "com.amazonaws.quicksight#ColorsConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The color configurations of the column.</p>"
                     }
                 }
             },
@@ -5746,7 +5840,7 @@
                     }
                 },
                 "AccountName": {
-                    "target": "com.amazonaws.quicksight#String",
+                    "target": "com.amazonaws.quicksight#AccountName",
                     "traits": {
                         "smithy.api#documentation": "<p>The name of your Amazon QuickSight account. This name is unique over all of Amazon Web Services, and it appears only when users sign in. You can't change\n                <code>AccountName</code> value after the Amazon QuickSight account is\n            created.</p>",
                         "smithy.api#required": {}
@@ -6645,7 +6739,7 @@
                 "MemberId": {
                     "target": "com.amazonaws.quicksight#RestrictiveResourceId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The ID of the asset (the dashboard, analysis, or dataset).</p>",
+                        "smithy.api#documentation": "<p>The ID of the asset that you want to add to the folder.</p>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -6653,7 +6747,7 @@
                 "MemberType": {
                     "target": "com.amazonaws.quicksight#MemberType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The type of the member, including <code>DASHBOARD</code>, <code>ANALYSIS</code>, and <code>DATASET</code>.</p>",
+                        "smithy.api#documentation": "<p>The member type of the asset that you want to add to a folder.</p>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -6737,6 +6831,12 @@
                     "target": "com.amazonaws.quicksight#TagList",
                     "traits": {
                         "smithy.api#documentation": "<p>Tags for the folder.</p>"
+                    }
+                },
+                "SharingModel": {
+                    "target": "com.amazonaws.quicksight#SharingModel",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An optional parameter that determines the sharing scope of the folder. The default value for this parameter is <code>ACCOUNT</code>.</p>"
                     }
                 }
             },
@@ -8613,6 +8713,45 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>The URL operation that opens a link to another webpage.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#CustomColor": {
+            "type": "structure",
+            "members": {
+                "FieldValue": {
+                    "target": "com.amazonaws.quicksight#FieldValue",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The data value that the color is applied to.</p>"
+                    }
+                },
+                "Color": {
+                    "target": "com.amazonaws.quicksight#HexColor",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The color that is applied to the data value.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "SpecialValue": {
+                    "target": "com.amazonaws.quicksight#SpecialValue",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The value of a special data value.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Determines the color that's applied to a particular data value in a column.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#CustomColorsList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.quicksight#CustomColor"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 50
+                }
             }
         },
         "com.amazonaws.quicksight#CustomContentConfiguration": {
@@ -11737,6 +11876,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Customize how dates are formatted in controls.</p>"
                     }
+                },
+                "InfoIconLabelOptions": {
+                    "target": "com.amazonaws.quicksight#SheetControlInfoIconLabelOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration of info icon label options.</p>"
+                    }
                 }
             },
             "traits": {
@@ -12083,6 +12228,36 @@
                     "traits": {
                         "smithy.api#enumValue": "AVERAGE"
                     }
+                },
+                "MEDIAN": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "MEDIAN"
+                    }
+                },
+                "STDEV": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "STDEV"
+                    }
+                },
+                "STDEVP": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "STDEVP"
+                    }
+                },
+                "VAR": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "VAR"
+                    }
+                },
+                "VARP": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "VARP"
+                    }
                 }
             }
         },
@@ -12231,6 +12406,12 @@
                 },
                 {
                     "target": "com.amazonaws.quicksight#InvalidParameterValueException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#LimitExceededException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#PreconditionNotMetException"
                 },
                 {
                     "target": "com.amazonaws.quicksight#ResourceNotFoundException"
@@ -12964,7 +13145,7 @@
                 "MemberId": {
                     "target": "com.amazonaws.quicksight#RestrictiveResourceId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The ID of the asset (the dashboard, analysis, or dataset) that you want to delete.</p>",
+                        "smithy.api#documentation": "<p>The ID of the asset that you want to delete.</p>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -12972,7 +13153,7 @@
                 "MemberType": {
                     "target": "com.amazonaws.quicksight#MemberType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The type of the member, including <code>DASHBOARD</code>, <code>ANALYSIS</code>, and <code>DATASET</code>\n         </p>",
+                        "smithy.api#documentation": "<p>The member type of the asset that you want to delete from a folder.</p>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -15190,7 +15371,7 @@
                 "ExportFormat": {
                     "target": "com.amazonaws.quicksight#AssetBundleExportFormat",
                     "traits": {
-                        "smithy.api#documentation": "<p>The format of the export.</p>"
+                        "smithy.api#documentation": "<p>The format of the exported asset bundle. A <code>QUICKSIGHT_JSON</code> formatted file can be used to make a <code>StartAssetBundleImportJob</code> API call. A <code>CLOUDFORMATION_JSON</code> formatted file can be used in the CloudFormation console and with the CloudFormation APIs.</p>"
                     }
                 },
                 "CloudFormationOverridePropertyConfiguration": {
@@ -15697,6 +15878,277 @@
                     "target": "com.amazonaws.quicksight#String",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Web Services request ID for this operation.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.quicksight#DescribeDashboardSnapshotJob": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.quicksight#DescribeDashboardSnapshotJobRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.quicksight#DescribeDashboardSnapshotJobResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.quicksight#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#InternalFailureException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#UnsupportedUserEditionException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Describes an existing snapshot job.</p>\n         <p>Poll job descriptions after a job starts to know the status of the job. For information on available status codes, see <code>JobStatus</code>.</p>",
+                "smithy.api#http": {
+                    "method": "GET",
+                    "uri": "/accounts/{AwsAccountId}/dashboards/{DashboardId}/snapshot-jobs/{SnapshotJobId}",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.quicksight#DescribeDashboardSnapshotJobRequest": {
+            "type": "structure",
+            "members": {
+                "AwsAccountId": {
+                    "target": "com.amazonaws.quicksight#AwsAccountId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the Amazon Web Services account that the dashboard snapshot job is executed in.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "DashboardId": {
+                    "target": "com.amazonaws.quicksight#ShortRestrictiveResourceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the dashboard that you have started a snapshot job for.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "SnapshotJobId": {
+                    "target": "com.amazonaws.quicksight#ShortRestrictiveResourceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the job to be described. The job ID is set when you start a new job with a <code>StartDashboardSnapshotJob</code> API call.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.quicksight#DescribeDashboardSnapshotJobResponse": {
+            "type": "structure",
+            "members": {
+                "AwsAccountId": {
+                    "target": "com.amazonaws.quicksight#AwsAccountId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The ID of the Amazon Web Services account that the dashboard snapshot job is executed in.\n        </p>"
+                    }
+                },
+                "DashboardId": {
+                    "target": "com.amazonaws.quicksight#ShortRestrictiveResourceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the dashboard that you have started a snapshot job for.</p>"
+                    }
+                },
+                "SnapshotJobId": {
+                    "target": "com.amazonaws.quicksight#ShortRestrictiveResourceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the job to be described. The job ID is set when you start a new job with a <code>StartDashboardSnapshotJob</code> API call.</p>"
+                    }
+                },
+                "UserConfiguration": {
+                    "target": "com.amazonaws.quicksight#SnapshotUserConfigurationRedacted",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The user configuration for the snapshot job. This information is provided when you make a <code>StartDashboardSnapshotJob</code> API call.</p>"
+                    }
+                },
+                "SnapshotConfiguration": {
+                    "target": "com.amazonaws.quicksight#SnapshotConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The snapshot configuration of the job. This information is provided when you make a <code>StartDashboardSnapshotJob</code> API call.</p>"
+                    }
+                },
+                "Arn": {
+                    "target": "com.amazonaws.quicksight#Arn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) for the snapshot job. The job ARN is generated when you start a new job with a <code>StartDashboardSnapshotJob</code> API call.</p>"
+                    }
+                },
+                "JobStatus": {
+                    "target": "com.amazonaws.quicksight#SnapshotJobStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates the status of a job. The status updates as the job executes. This shows one of the following values.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>COMPLETED</code> - The job was completed successfully.</p>\n            </li>\n            <li>\n               <p>\n                  <code>FAILED</code> - The job failed to execute.</p>\n            </li>\n            <li>\n               <p>\n                  <code>QUEUED</code> - The job is queued and hasn't started yet.</p>\n            </li>\n            <li>\n               <p>\n                  <code>RUNNING</code> - The job is still running.</p>\n            </li>\n         </ul>"
+                    }
+                },
+                "CreatedTime": {
+                    "target": "com.amazonaws.quicksight#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The time that the snapshot job was created.\n        </p>"
+                    }
+                },
+                "LastUpdatedTime": {
+                    "target": "com.amazonaws.quicksight#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The time that the snapshot job status was last updated.\n        </p>"
+                    }
+                },
+                "RequestId": {
+                    "target": "com.amazonaws.quicksight#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The Amazon Web Services request ID for this operation.\n        </p>"
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.quicksight#StatusCode",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p>The HTTP status of the request</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.quicksight#DescribeDashboardSnapshotJobResult": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.quicksight#DescribeDashboardSnapshotJobResultRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.quicksight#DescribeDashboardSnapshotJobResultResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.quicksight#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#InternalFailureException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#InvalidParameterValueException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#PreconditionNotMetException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#UnsupportedUserEditionException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Describes the result of an existing snapshot job that has finished running.</p>\n         <p>A finished snapshot job will return a <code>COMPLETED</code> or <code>FAILED</code> status when you poll the job with a <code>DescribeDashboardSnapshotJob</code> API call.</p>\n         <p>If the job has not finished running, this operation returns a message that says <code>Dashboard Snapshot Job with id <SnapshotjobId> has not reached a terminal state.</code>.</p>",
+                "smithy.api#http": {
+                    "method": "GET",
+                    "uri": "/accounts/{AwsAccountId}/dashboards/{DashboardId}/snapshot-jobs/{SnapshotJobId}/result",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.quicksight#DescribeDashboardSnapshotJobResultRequest": {
+            "type": "structure",
+            "members": {
+                "AwsAccountId": {
+                    "target": "com.amazonaws.quicksight#AwsAccountId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the Amazon Web Services account that the dashboard snapshot job is executed in.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "DashboardId": {
+                    "target": "com.amazonaws.quicksight#ShortRestrictiveResourceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the dashboard that you have started a snapshot job for.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "SnapshotJobId": {
+                    "target": "com.amazonaws.quicksight#ShortRestrictiveResourceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the job to be described. The job ID is set when you start a new job with a <code>StartDashboardSnapshotJob</code> API call.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.quicksight#DescribeDashboardSnapshotJobResultResponse": {
+            "type": "structure",
+            "members": {
+                "Arn": {
+                    "target": "com.amazonaws.quicksight#Arn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) for the snapshot job. The job ARN is generated when you start a new job with a <code>StartDashboardSnapshotJob</code> API call.</p>"
+                    }
+                },
+                "JobStatus": {
+                    "target": "com.amazonaws.quicksight#SnapshotJobStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates the status of a job after it has reached a terminal state. A finished snapshot job will retuen a <code>COMPLETED</code> or <code>FAILED</code> status.</p>"
+                    }
+                },
+                "CreatedTime": {
+                    "target": "com.amazonaws.quicksight#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The time that a snapshot job was created.</p>"
+                    }
+                },
+                "LastUpdatedTime": {
+                    "target": "com.amazonaws.quicksight#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The time that a snapshot job status was last updated.</p>"
+                    }
+                },
+                "Result": {
+                    "target": "com.amazonaws.quicksight#SnapshotJobResult",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The result of the snapshot job. Jobs that have successfully completed will return the S3Uri where they are located. Jobs that have failedwill return information on the error that caused the job to fail.</p>"
+                    }
+                },
+                "ErrorInfo": {
+                    "target": "com.amazonaws.quicksight#SnapshotJobErrorInfo",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Displays information for the error that caused a job to fail.</p>"
+                    }
+                },
+                "RequestId": {
+                    "target": "com.amazonaws.quicksight#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Web Services request ID for this operation.</p>"
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.quicksight#StatusCode",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p>The HTTP status of the request</p>",
+                        "smithy.api#httpResponseCode": {}
                     }
                 }
             },
@@ -16217,6 +16669,9 @@
                     "target": "com.amazonaws.quicksight#InternalFailureException"
                 },
                 {
+                    "target": "com.amazonaws.quicksight#InvalidNextTokenException"
+                },
+                {
                     "target": "com.amazonaws.quicksight#InvalidParameterValueException"
                 },
                 {
@@ -16235,6 +16690,12 @@
                     "method": "GET",
                     "uri": "/accounts/{AwsAccountId}/folders/{FolderId}/permissions",
                     "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "items": "Permissions",
+                    "pageSize": "MaxResults"
                 }
             }
         },
@@ -16255,6 +16716,28 @@
                         "smithy.api#documentation": "<p>The ID of the folder.</p>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
+                    }
+                },
+                "Namespace": {
+                    "target": "com.amazonaws.quicksight#Namespace",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The namespace of the folder whose permissions you want described.</p>",
+                        "smithy.api#httpQuery": "namespace"
+                    }
+                },
+                "MaxResults": {
+                    "target": "com.amazonaws.quicksight#MaxResults",
+                    "traits": {
+                        "smithy.api#default": null,
+                        "smithy.api#documentation": "<p>The maximum number of results to be returned per request.</p>",
+                        "smithy.api#httpQuery": "max-results"
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.quicksight#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A pagination token for the next set of results.</p>",
+                        "smithy.api#httpQuery": "next-token"
                     }
                 }
             },
@@ -16295,6 +16778,12 @@
                     "target": "com.amazonaws.quicksight#String",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Web Services request ID for this operation.</p>"
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.quicksight#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The pagination token for the next set of results, or null if there are no more results.</p>"
                     }
                 }
             },
@@ -16342,6 +16831,9 @@
                     "target": "com.amazonaws.quicksight#InternalFailureException"
                 },
                 {
+                    "target": "com.amazonaws.quicksight#InvalidNextTokenException"
+                },
+                {
                     "target": "com.amazonaws.quicksight#InvalidParameterValueException"
                 },
                 {
@@ -16360,6 +16852,12 @@
                     "method": "GET",
                     "uri": "/accounts/{AwsAccountId}/folders/{FolderId}/resolved-permissions",
                     "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "items": "Permissions",
+                    "pageSize": "MaxResults"
                 }
             }
         },
@@ -16380,6 +16878,28 @@
                         "smithy.api#documentation": "<p>The ID of the folder.</p>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
+                    }
+                },
+                "Namespace": {
+                    "target": "com.amazonaws.quicksight#Namespace",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The namespace of the folder whose permissions you want described.</p>",
+                        "smithy.api#httpQuery": "namespace"
+                    }
+                },
+                "MaxResults": {
+                    "target": "com.amazonaws.quicksight#MaxResults",
+                    "traits": {
+                        "smithy.api#default": null,
+                        "smithy.api#documentation": "<p>The maximum number of results to be returned per request.</p>",
+                        "smithy.api#httpQuery": "max-results"
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.quicksight#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A pagination token for the next set of results.</p>",
+                        "smithy.api#httpQuery": "next-token"
                     }
                 }
             },
@@ -16420,6 +16940,12 @@
                     "target": "com.amazonaws.quicksight#String",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Web Services request ID for this operation.</p>"
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.quicksight#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A pagination token for the next set of results, or null if there are no more results.</p>"
                     }
                 }
             },
@@ -18808,6 +19334,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The options to configure the title visibility, name, and font size.</p>"
                     }
+                },
+                "InfoIconLabelOptions": {
+                    "target": "com.amazonaws.quicksight#SheetControlInfoIconLabelOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration of info icon label options.</p>"
+                    }
                 }
             },
             "traits": {
@@ -19298,7 +19830,7 @@
             "traits": {
                 "smithy.api#length": {
                     "min": 0,
-                    "max": 100
+                    "max": 200
                 }
             }
         },
@@ -20205,6 +20737,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The configuration for applying a filter to specific sheets.</p>"
                     }
+                },
+                "AllSheets": {
+                    "target": "com.amazonaws.quicksight#AllSheetsFilterScopeConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration for applying a filter to all sheets.</p>"
+                    }
                 }
             },
             "traits": {
@@ -20439,6 +20977,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The time that the folder was last updated.</p>"
                     }
+                },
+                "SharingModel": {
+                    "target": "com.amazonaws.quicksight#SharingModel",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The sharing scope of the folder.</p>"
+                    }
                 }
             },
             "traits": {
@@ -20620,6 +21164,12 @@
                     "target": "com.amazonaws.quicksight#Timestamp",
                     "traits": {
                         "smithy.api#documentation": "<p>The time that the folder was last updated.</p>"
+                    }
+                },
+                "SharingModel": {
+                    "target": "com.amazonaws.quicksight#SharingModel",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The sharing scope of the folder.</p>"
                     }
                 }
             },
@@ -20812,8 +21362,7 @@
                 "Time": {
                     "target": "com.amazonaws.quicksight#DimensionField",
                     "traits": {
-                        "smithy.api#documentation": "<p>The time field that is used in a computation.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The time field that is used in a computation.</p>"
                     }
                 },
                 "Value": {
@@ -22986,8 +23535,7 @@
                 "Time": {
                     "target": "com.amazonaws.quicksight#DimensionField",
                     "traits": {
-                        "smithy.api#documentation": "<p>The time field that is used in a computation.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The time field that is used in a computation.</p>"
                     }
                 },
                 "Value": {
@@ -23811,6 +24359,12 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "QUICKSIGHT"
+                    }
+                },
+                "IAM_IDENTITY_CENTER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "IAM_IDENTITY_CENTER"
                     }
                 }
             }
@@ -24909,6 +25463,46 @@
                 }
             }
         },
+        "com.amazonaws.quicksight#KPIActualValueConditionalFormatting": {
+            "type": "structure",
+            "members": {
+                "TextColor": {
+                    "target": "com.amazonaws.quicksight#ConditionalFormattingColor",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The conditional formatting of the actual value's text color.</p>"
+                    }
+                },
+                "Icon": {
+                    "target": "com.amazonaws.quicksight#ConditionalFormattingIcon",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The conditional formatting of the actual value's icon.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The conditional formatting for the actual value of a KPI visual.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#KPIComparisonValueConditionalFormatting": {
+            "type": "structure",
+            "members": {
+                "TextColor": {
+                    "target": "com.amazonaws.quicksight#ConditionalFormattingColor",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The conditional formatting of the comparison value's text color.</p>"
+                    }
+                },
+                "Icon": {
+                    "target": "com.amazonaws.quicksight#ConditionalFormattingIcon",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The conditional formatting of the comparison value's icon.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The conditional formatting for the comparison value of a KPI visual.</p>"
+            }
+        },
         "com.amazonaws.quicksight#KPIConditionalFormatting": {
             "type": "structure",
             "members": {
@@ -24936,6 +25530,18 @@
                     "target": "com.amazonaws.quicksight#KPIProgressBarConditionalFormatting",
                     "traits": {
                         "smithy.api#documentation": "<p>The conditional formatting for the progress bar of a KPI visual.</p>"
+                    }
+                },
+                "ActualValue": {
+                    "target": "com.amazonaws.quicksight#KPIActualValueConditionalFormatting",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The conditional formatting for the actual value of a KPI visual.</p>"
+                    }
+                },
+                "ComparisonValue": {
+                    "target": "com.amazonaws.quicksight#KPIComparisonValueConditionalFormatting",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The conditional formatting for the comparison value of a KPI visual.</p>"
                     }
                 }
             },
@@ -25051,6 +25657,18 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The options that determine the secondary value font configuration.</p>"
                     }
+                },
+                "Sparkline": {
+                    "target": "com.amazonaws.quicksight#KPISparklineOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The options that determine the visibility, color, type, and tooltip visibility of the sparkline of a KPI visual.</p>"
+                    }
+                },
+                "VisualLayoutOptions": {
+                    "target": "com.amazonaws.quicksight#KPIVisualLayoutOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The options that determine the layout a KPI visual.</p>"
+                    }
                 }
             },
             "traits": {
@@ -25105,6 +25723,56 @@
                 "smithy.api#documentation": "<p>The sort configuration of a KPI visual.</p>"
             }
         },
+        "com.amazonaws.quicksight#KPISparklineOptions": {
+            "type": "structure",
+            "members": {
+                "Visibility": {
+                    "target": "com.amazonaws.quicksight#Visibility",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The visibility of the sparkline.</p>"
+                    }
+                },
+                "Type": {
+                    "target": "com.amazonaws.quicksight#KPISparklineType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The type of the sparkline.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Color": {
+                    "target": "com.amazonaws.quicksight#HexColor",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The color of the sparkline.</p>"
+                    }
+                },
+                "TooltipVisibility": {
+                    "target": "com.amazonaws.quicksight#Visibility",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The tooltip visibility of the sparkline.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The options that determine the visibility, color, type, and tooltip visibility of the sparkline of a KPI visual.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#KPISparklineType": {
+            "type": "enum",
+            "members": {
+                "LINE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "LINE"
+                    }
+                },
+                "AREA": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AREA"
+                    }
+                }
+            }
+        },
         "com.amazonaws.quicksight#KPIVisual": {
             "type": "structure",
             "members": {
@@ -25154,6 +25822,52 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>A key performance indicator (KPI).</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/quicksight/latest/user/kpi.html\">Using KPIs</a> in the <i>Amazon QuickSight User Guide</i>.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#KPIVisualLayoutOptions": {
+            "type": "structure",
+            "members": {
+                "StandardLayout": {
+                    "target": "com.amazonaws.quicksight#KPIVisualStandardLayout",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The standard layout of the KPI visual.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The options that determine the layout a KPI visual.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#KPIVisualStandardLayout": {
+            "type": "structure",
+            "members": {
+                "Type": {
+                    "target": "com.amazonaws.quicksight#KPIVisualStandardLayoutType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The standard layout type.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The standard layout of the KPI visual.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#KPIVisualStandardLayoutType": {
+            "type": "enum",
+            "members": {
+                "CLASSIC": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CLASSIC"
+                    }
+                },
+                "VERTICAL": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "VERTICAL"
+                    }
+                }
             }
         },
         "com.amazonaws.quicksight#LabelOptions": {
@@ -26211,6 +26925,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The options to configure the title visibility, name, and font size.</p>"
                     }
+                },
+                "InfoIconLabelOptions": {
+                    "target": "com.amazonaws.quicksight#SheetControlInfoIconLabelOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration of info icon label options.</p>"
+                    }
                 }
             },
             "traits": {
@@ -26710,6 +27430,12 @@
                     "method": "GET",
                     "uri": "/accounts/{AwsAccountId}/folders/{FolderId}/members",
                     "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "items": "FolderMemberList",
+                    "pageSize": "MaxResults"
                 }
             }
         },
@@ -26823,6 +27549,12 @@
                     "method": "GET",
                     "uri": "/accounts/{AwsAccountId}/folders",
                     "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "items": "FolderSummaryList",
+                    "pageSize": "MaxResults"
                 }
             }
         },
@@ -26931,6 +27663,12 @@
                     "method": "GET",
                     "uri": "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members",
                     "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "items": "GroupMemberList",
+                    "pageSize": "MaxResults"
                 }
             }
         },
@@ -27055,6 +27793,12 @@
                     "method": "GET",
                     "uri": "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups",
                     "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "items": "GroupList",
+                    "pageSize": "MaxResults"
                 }
             }
         },
@@ -27165,6 +27909,12 @@
                     "method": "GET",
                     "uri": "/accounts/{AwsAccountId}/namespaces/{Namespace}/v2/iam-policy-assignments",
                     "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "items": "IAMPolicyAssignments",
+                    "pageSize": "MaxResults"
                 }
             }
         },
@@ -27205,6 +27955,12 @@
                     "method": "GET",
                     "uri": "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}/iam-policy-assignments",
                     "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "items": "ActiveAssignments",
+                    "pageSize": "MaxResults"
                 }
             }
         },
@@ -28704,6 +29460,12 @@
                     "method": "GET",
                     "uri": "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}/groups",
                     "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "items": "GroupList",
+                    "pageSize": "MaxResults"
                 }
             }
         },
@@ -28828,6 +29590,12 @@
                     "method": "GET",
                     "uri": "/accounts/{AwsAccountId}/namespaces/{Namespace}/users",
                     "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "items": "UserList",
+                    "pageSize": "MaxResults"
                 }
             }
         },
@@ -29397,8 +30165,7 @@
                 "Time": {
                     "target": "com.amazonaws.quicksight#DimensionField",
                     "traits": {
-                        "smithy.api#documentation": "<p>The time field that is used in a computation.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The time field that is used in a computation.</p>"
                     }
                 },
                 "Value": {
@@ -29520,6 +30287,12 @@
                     "traits": {
                         "smithy.api#enumValue": "DATASET"
                     }
+                },
+                "TOPIC": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "TOPIC"
+                    }
                 }
             }
         },
@@ -29542,22 +30315,19 @@
                 "Time": {
                     "target": "com.amazonaws.quicksight#DimensionField",
                     "traits": {
-                        "smithy.api#documentation": "<p>The time field that is used in a computation.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The time field that is used in a computation.</p>"
                     }
                 },
                 "FromValue": {
                     "target": "com.amazonaws.quicksight#MeasureField",
                     "traits": {
-                        "smithy.api#documentation": "<p>The field that is used in a metric comparison from value setup.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The field that is used in a metric comparison from value setup.</p>"
                     }
                 },
                 "TargetValue": {
                     "target": "com.amazonaws.quicksight#MeasureField",
                     "traits": {
-                        "smithy.api#documentation": "<p>The field that is used in a metric comparison to value setup.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The field that is used in a metric comparison to value setup.</p>"
                     }
                 }
             },
@@ -31735,8 +32505,7 @@
                 "Time": {
                     "target": "com.amazonaws.quicksight#DimensionField",
                     "traits": {
-                        "smithy.api#documentation": "<p>The time field that is used in a computation.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The time field that is used in a computation.</p>"
                     }
                 },
                 "Value": {
@@ -31769,8 +32538,7 @@
                 "Time": {
                     "target": "com.amazonaws.quicksight#DimensionField",
                     "traits": {
-                        "smithy.api#documentation": "<p>The time field that is used in a computation.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The time field that is used in a computation.</p>"
                     }
                 },
                 "Value": {
@@ -32581,6 +33349,24 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The visibility setting of a pivot table's collapsed row dimension fields. If the value of this structure is <code>HIDDEN</code>, all collapsed columns in a pivot table are automatically hidden. The default value is <code>VISIBLE</code>.</p>"
                     }
+                },
+                "RowsLayout": {
+                    "target": "com.amazonaws.quicksight#PivotTableRowsLayout",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The layout for the row dimension headers of a pivot table. Choose one of the following options.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>TABULAR</code>: (Default) Each row field is displayed in a separate column.</p>\n            </li>\n            <li>\n               <p>\n                  <code>HIERARCHY</code>: All row fields are displayed in a single column. Indentation is used to differentiate row headers of different fields.</p>\n            </li>\n         </ul>"
+                    }
+                },
+                "RowsLabelOptions": {
+                    "target": "com.amazonaws.quicksight#PivotTableRowsLabelOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The options for the label that is located above the row headers. This option is only applicable when <code>RowsLayout</code> is set to <code>HIERARCHY</code>.</p>"
+                    }
+                },
+                "DefaultCellWidth": {
+                    "target": "com.amazonaws.quicksight#PixelLength",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The default cell width of the pivot table.</p>"
+                    }
                 }
             },
             "traits": {
@@ -32605,6 +33391,52 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>The paginated report options for a pivot table visual.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#PivotTableRowsLabelOptions": {
+            "type": "structure",
+            "members": {
+                "Visibility": {
+                    "target": "com.amazonaws.quicksight#Visibility",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The visibility of the rows label.</p>"
+                    }
+                },
+                "CustomLabel": {
+                    "target": "com.amazonaws.quicksight#PivotTableRowsLabelText",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The custom label string for the rows label.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The options for the label thta is located above the row headers. This option is only applicable when <code>RowsLayout</code> is set to <code>HIERARCHY</code>.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#PivotTableRowsLabelText": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 1024
+                }
+            }
+        },
+        "com.amazonaws.quicksight#PivotTableRowsLayout": {
+            "type": "enum",
+            "members": {
+                "TABULAR": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "TABULAR"
+                    }
+                },
+                "HIERARCHY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "HIERARCHY"
+                    }
+                }
             }
         },
         "com.amazonaws.quicksight#PivotTableSortBy": {
@@ -33413,6 +34245,12 @@
                     "target": "com.amazonaws.quicksight#DescribeDashboardPermissions"
                 },
                 {
+                    "target": "com.amazonaws.quicksight#DescribeDashboardSnapshotJob"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#DescribeDashboardSnapshotJobResult"
+                },
+                {
                     "target": "com.amazonaws.quicksight#DescribeDataSet"
                 },
                 {
@@ -33626,6 +34464,9 @@
                     "target": "com.amazonaws.quicksight#StartAssetBundleImportJob"
                 },
                 {
+                    "target": "com.amazonaws.quicksight#StartDashboardSnapshotJob"
+                },
+                {
                     "target": "com.amazonaws.quicksight#TagResource"
                 },
                 {
@@ -33793,9 +34634,188 @@
                                     "type": "error"
                                 },
                                 {
+                                    "conditions": [
+                                        {
+                                            "fn": "booleanEquals",
+                                            "argv": [
+                                                {
+                                                    "ref": "UseDualStack"
+                                                },
+                                                true
+                                            ]
+                                        }
+                                    ],
+                                    "error": "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                                    "type": "error"
+                                },
+                                {
                                     "conditions": [],
+                                    "endpoint": {
+                                        "url": {
+                                            "ref": "Endpoint"
+                                        },
+                                        "properties": {},
+                                        "headers": {}
+                                    },
+                                    "type": "endpoint"
+                                }
+                            ]
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "fn": "isSet",
+                                    "argv": [
+                                        {
+                                            "ref": "Region"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "type": "tree",
+                            "rules": [
+                                {
+                                    "conditions": [
+                                        {
+                                            "fn": "aws.partition",
+                                            "argv": [
+                                                {
+                                                    "ref": "Region"
+                                                }
+                                            ],
+                                            "assign": "PartitionResult"
+                                        }
+                                    ],
                                     "type": "tree",
                                     "rules": [
+                                        {
+                                            "conditions": [
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseFIPS"
+                                                        },
+                                                        true
+                                                    ]
+                                                },
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseDualStack"
+                                                        },
+                                                        true
+                                                    ]
+                                                }
+                                            ],
+                                            "type": "tree",
+                                            "rules": [
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsFIPS"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsDualStack"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "type": "tree",
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [],
+                                                            "endpoint": {
+                                                                "url": "https://quicksight-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                                    "type": "error"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "conditions": [
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseFIPS"
+                                                        },
+                                                        true
+                                                    ]
+                                                }
+                                            ],
+                                            "type": "tree",
+                                            "rules": [
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsFIPS"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "type": "tree",
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [],
+                                                            "endpoint": {
+                                                                "url": "https://quicksight-fips.{Region}.{PartitionResult#dnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "FIPS is enabled but this partition does not support FIPS",
+                                                    "type": "error"
+                                                }
+                                            ]
+                                        },
                                         {
                                             "conditions": [
                                                 {
@@ -33808,15 +34828,50 @@
                                                     ]
                                                 }
                                             ],
-                                            "error": "Invalid Configuration: Dualstack and custom endpoint are not supported",
-                                            "type": "error"
+                                            "type": "tree",
+                                            "rules": [
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsDualStack"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "type": "tree",
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [],
+                                                            "endpoint": {
+                                                                "url": "https://quicksight.{Region}.{PartitionResult#dualStackDnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "DualStack is enabled but this partition does not support DualStack",
+                                                    "type": "error"
+                                                }
+                                            ]
                                         },
                                         {
                                             "conditions": [],
                                             "endpoint": {
-                                                "url": {
-                                                    "ref": "Endpoint"
-                                                },
+                                                "url": "https://quicksight.{Region}.{PartitionResult#dnsSuffix}",
                                                 "properties": {},
                                                 "headers": {}
                                             },
@@ -33828,258 +34883,8 @@
                         },
                         {
                             "conditions": [],
-                            "type": "tree",
-                            "rules": [
-                                {
-                                    "conditions": [
-                                        {
-                                            "fn": "isSet",
-                                            "argv": [
-                                                {
-                                                    "ref": "Region"
-                                                }
-                                            ]
-                                        }
-                                    ],
-                                    "type": "tree",
-                                    "rules": [
-                                        {
-                                            "conditions": [
-                                                {
-                                                    "fn": "aws.partition",
-                                                    "argv": [
-                                                        {
-                                                            "ref": "Region"
-                                                        }
-                                                    ],
-                                                    "assign": "PartitionResult"
-                                                }
-                                            ],
-                                            "type": "tree",
-                                            "rules": [
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseFIPS"
-                                                                },
-                                                                true
-                                                            ]
-                                                        },
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseDualStack"
-                                                                },
-                                                                true
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsFIPS"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                },
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsDualStack"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://quicksight-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
-                                                            "type": "error"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseFIPS"
-                                                                },
-                                                                true
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsFIPS"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://quicksight-fips.{Region}.{PartitionResult#dnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "error": "FIPS is enabled but this partition does not support FIPS",
-                                                            "type": "error"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseDualStack"
-                                                                },
-                                                                true
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsDualStack"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://quicksight.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "error": "DualStack is enabled but this partition does not support DualStack",
-                                                            "type": "error"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "conditions": [],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [],
-                                                            "endpoint": {
-                                                                "url": "https://quicksight.{Region}.{PartitionResult#dnsSuffix}",
-                                                                "properties": {},
-                                                                "headers": {}
-                                                            },
-                                                            "type": "endpoint"
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                },
-                                {
-                                    "conditions": [],
-                                    "error": "Invalid Configuration: Missing Region",
-                                    "type": "error"
-                                }
-                            ]
+                            "error": "Invalid Configuration: Missing Region",
+                            "type": "error"
                         }
                     ]
                 },
@@ -35581,6 +36386,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The identity ID for a user in the external login provider.</p>"
                     }
+                },
+                "Tags": {
+                    "target": "com.amazonaws.quicksight#TagList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The tags to associate with the user.</p>"
+                    }
                 }
             },
             "traits": {
@@ -35838,6 +36649,12 @@
                     "target": "com.amazonaws.quicksight#DateTimeFormat",
                     "traits": {
                         "smithy.api#documentation": "<p>Customize how dates are formatted in controls.</p>"
+                    }
+                },
+                "InfoIconLabelOptions": {
+                    "target": "com.amazonaws.quicksight#SheetControlInfoIconLabelOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration of info icon label options.</p>"
                     }
                 }
             },
@@ -36378,6 +37195,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Determines the list of row alternate colors.</p>"
                     }
+                },
+                "UsePrimaryBackgroundColor": {
+                    "target": "com.amazonaws.quicksight#WidgetStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The primary background color options for alternate rows.</p>"
+                    }
                 }
             },
             "traits": {
@@ -36612,6 +37435,35 @@
                     "min": 1,
                     "max": 1024
                 }
+            }
+        },
+        "com.amazonaws.quicksight#S3BucketConfiguration": {
+            "type": "structure",
+            "members": {
+                "BucketName": {
+                    "target": "com.amazonaws.quicksight#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of an existing Amazon S3 bucket where the generated snapshot artifacts are sent.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "BucketPrefix": {
+                    "target": "com.amazonaws.quicksight#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The prefix of the Amazon S3 bucket that the generated snapshots are stored in.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "BucketRegion": {
+                    "target": "com.amazonaws.quicksight#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The region that the Amazon S3 bucket is located in. The bucket must be located in the same region that the <code>StartDashboardSnapshotJob</code> API call is made.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>An optional structure that contains the Amazon S3 bucket configuration that the generated snapshots are stored in. If you don't provide this information, generated snapshots are stored in the default Amazon QuickSight bucket.</p>"
             }
         },
         "com.amazonaws.quicksight#S3Key": {
@@ -37564,6 +38416,12 @@
                     "method": "POST",
                     "uri": "/accounts/{AwsAccountId}/search/folders",
                     "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "items": "FolderSummaryList",
+                    "pageSize": "MaxResults"
                 }
             }
         },
@@ -37677,6 +38535,12 @@
                     "method": "POST",
                     "uri": "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups-search",
                     "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "items": "GroupList",
+                    "pageSize": "MaxResults"
                 }
             }
         },
@@ -38150,6 +39014,13 @@
                 "smithy.api#sensitive": {}
             }
         },
+        "com.amazonaws.quicksight#SensitiveS3Uri": {
+            "type": "string",
+            "traits": {
+                "smithy.api#pattern": "^(https|s3)://([^/]+)/?(.*)$",
+                "smithy.api#sensitive": {}
+            }
+        },
         "com.amazonaws.quicksight#SensitiveString": {
             "type": "string",
             "traits": {
@@ -38286,6 +39157,18 @@
                 }
             }
         },
+        "com.amazonaws.quicksight#SessionTagKeyList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.quicksight#SessionTagKey"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 50
+                }
+            }
+        },
         "com.amazonaws.quicksight#SessionTagList": {
             "type": "list",
             "member": {
@@ -38356,6 +39239,23 @@
                 "smithy.api#documentation": "<p>The shape conditional formatting of a filled map visual.</p>"
             }
         },
+        "com.amazonaws.quicksight#SharingModel": {
+            "type": "enum",
+            "members": {
+                "ACCOUNT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ACCOUNT"
+                    }
+                },
+                "NAMESPACE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "NAMESPACE"
+                    }
+                }
+            }
+        },
         "com.amazonaws.quicksight#Sheet": {
             "type": "structure",
             "members": {
@@ -38407,6 +39307,35 @@
                     "traits": {
                         "smithy.api#enumValue": "DATE_RANGE"
                     }
+                }
+            }
+        },
+        "com.amazonaws.quicksight#SheetControlInfoIconLabelOptions": {
+            "type": "structure",
+            "members": {
+                "Visibility": {
+                    "target": "com.amazonaws.quicksight#Visibility",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The visibility configuration of info icon label options.</p>"
+                    }
+                },
+                "InfoIconText": {
+                    "target": "com.amazonaws.quicksight#SheetControlInfoIconText",
+                    "traits": {
+                        "smithy.api#documentation": "<p> The text content of info icon.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A control to display info icons for filters and parameters.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#SheetControlInfoIconText": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 100
                 }
             }
         },
@@ -38879,6 +39808,17 @@
                 "smithy.api#documentation": "<p>A <code>SignupResponse</code> object that contains a summary of a newly created account.</p>"
             }
         },
+        "com.amazonaws.quicksight#SimpleAttributeAggregationFunction": {
+            "type": "enum",
+            "members": {
+                "UNIQUE_VALUE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "UNIQUE_VALUE"
+                    }
+                }
+            }
+        },
         "com.amazonaws.quicksight#SimpleClusterMarker": {
             "type": "structure",
             "members": {
@@ -38981,10 +39921,70 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The options to configure the title visibility, name, and font size.</p>"
                     }
+                },
+                "InfoIconLabelOptions": {
+                    "target": "com.amazonaws.quicksight#SheetControlInfoIconLabelOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration of info icon label options.</p>"
+                    }
                 }
             },
             "traits": {
                 "smithy.api#documentation": "<p>The display options of a control.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#SmallMultiplesAxisPlacement": {
+            "type": "enum",
+            "members": {
+                "OUTSIDE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "OUTSIDE"
+                    }
+                },
+                "INSIDE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "INSIDE"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.quicksight#SmallMultiplesAxisProperties": {
+            "type": "structure",
+            "members": {
+                "Scale": {
+                    "target": "com.amazonaws.quicksight#SmallMultiplesAxisScale",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Determines whether scale of the axes are shared or independent. The default value is <code>SHARED</code>.</p>"
+                    }
+                },
+                "Placement": {
+                    "target": "com.amazonaws.quicksight#SmallMultiplesAxisPlacement",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Defines the placement of the axis. By default, axes are rendered <code>OUTSIDE</code> of the panels. Axes with <code>INDEPENDENT</code> scale are rendered <code>INSIDE</code> the panels.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Configures the properties of a chart's axes that are used by small multiples panels.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#SmallMultiplesAxisScale": {
+            "type": "enum",
+            "members": {
+                "SHARED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "SHARED"
+                    }
+                },
+                "INDEPENDENT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "INDEPENDENT"
+                    }
+                }
             }
         },
         "com.amazonaws.quicksight#SmallMultiplesDimensionFieldList": {
@@ -39019,10 +40019,465 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Configures the display options for each small multiples panel.</p>"
                     }
+                },
+                "XAxis": {
+                    "target": "com.amazonaws.quicksight#SmallMultiplesAxisProperties",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The properties of a small multiples X axis.</p>"
+                    }
+                },
+                "YAxis": {
+                    "target": "com.amazonaws.quicksight#SmallMultiplesAxisProperties",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The properties of a small multiples Y axis.</p>"
+                    }
                 }
             },
             "traits": {
                 "smithy.api#documentation": "<p>Options that determine the layout and display options of a chart's small multiples.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotAnonymousUser": {
+            "type": "structure",
+            "members": {
+                "RowLevelPermissionTags": {
+                    "target": "com.amazonaws.quicksight#SessionTagList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The tags to be used for row-level security (RLS). Make sure that the relevant datasets have RLS tags configured before you start a snapshot export job. You can configure the RLS tags of a dataset with a <code>DataSet$RowLevelPermissionTagConfiguration</code> API call.</p>\n         <p>These are not the tags that are used for Amazon Web Services resource tagging. For more information on row level security in Amazon QuickSight, see <a href=\"https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-rls-tags.html\">Using Row-Level Security (RLS) with Tags</a>in the <i>Amazon QuickSight User Guide</i>.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A structure that contains information on the anonymous user configuration.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotAnonymousUserList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.quicksight#SnapshotAnonymousUser"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 1
+                }
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotAnonymousUserRedacted": {
+            "type": "structure",
+            "members": {
+                "RowLevelPermissionTagKeys": {
+                    "target": "com.amazonaws.quicksight#SessionTagKeyList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The tag keys for the <code>RowLevelPermissionTags</code>.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Use this structure to redact sensitive information that you provide about an anonymous user from the snapshot.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotAnonymousUserRedactedList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.quicksight#SnapshotAnonymousUserRedacted"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 1
+                }
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotConfiguration": {
+            "type": "structure",
+            "members": {
+                "FileGroups": {
+                    "target": "com.amazonaws.quicksight#SnapshotFileGroupList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of <code>SnapshotJobResultFileGroup</code> objects that contain information about the snapshot that is generated. This list can hold a maximum of 6 <code>FileGroup</code> configurations.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "DestinationConfiguration": {
+                    "target": "com.amazonaws.quicksight#SnapshotDestinationConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A structure that contains information on the Amazon S3 bucket that the generated snapshot is stored in.</p>"
+                    }
+                },
+                "Parameters": {
+                    "target": "com.amazonaws.quicksight#Parameters"
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Describes the configuration of the dashboard snapshot.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotDestinationConfiguration": {
+            "type": "structure",
+            "members": {
+                "S3Destinations": {
+                    "target": "com.amazonaws.quicksight#SnapshotS3DestinationConfigurationList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            A list of <code>SnapshotS3DestinationConfiguration</code> objects that contain Amazon S3 destination configurations. This structure can hold a maximum of 1 <code>S3DestinationConfiguration</code>.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A structure that contains information on the Amazon S3 destinations of the generated snapshot.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotFile": {
+            "type": "structure",
+            "members": {
+                "SheetSelections": {
+                    "target": "com.amazonaws.quicksight#SnapshotFileSheetSelectionList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of <code>SnapshotFileSheetSelection</code> objects that contain information on the dashboard sheet that is exported. These objects provide information about the snapshot artifacts that are generated during the job. This structure can hold a maximum of 5 CSV configurations, 5 Excel configurations, or 1 configuration for PDF.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "FormatType": {
+                    "target": "com.amazonaws.quicksight#SnapshotFileFormatType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The format of the snapshot file to be generated. You can choose between <code>CSV</code>, <code>Excel</code>, or <code>PDF</code>.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A structure that contains the information for the snapshot that you want to generate. This information is provided by you when you start a new snapshot job.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotFileFormatType": {
+            "type": "enum",
+            "members": {
+                "CSV": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CSV"
+                    }
+                },
+                "PDF": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "PDF"
+                    }
+                },
+                "EXCEL": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "EXCEL"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotFileGroup": {
+            "type": "structure",
+            "members": {
+                "Files": {
+                    "target": "com.amazonaws.quicksight#SnapshotFileList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of <code>SnapshotFile</code> objects that contain the information on the snapshot files that need to be generated. This structure can hold 1 configuration at a time.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A structure that contains the information on the snapshot files.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotFileGroupList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.quicksight#SnapshotFileGroup"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 7
+                }
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotFileList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.quicksight#SnapshotFile"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 1
+                }
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotFileSheetSelection": {
+            "type": "structure",
+            "members": {
+                "SheetId": {
+                    "target": "com.amazonaws.quicksight#ShortRestrictiveResourceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The sheet ID of the dashboard to generate the snapshot artifact from. This value is required for CSV, Excel, and PDF format types.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "SelectionScope": {
+                    "target": "com.amazonaws.quicksight#SnapshotFileSheetSelectionScope",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The selection scope of the visuals on a sheet of a dashboard that you are generating a snapthot of. You can choose one of the following options.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>ALL_VISUALS</code> - Selects all visuals that are on the sheet. This value is required if the snapshot is a PDF.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SELECTED_VISUALS</code> - Select the visual that you want to add to the snapshot. This value is required if the snapshot is a CSV or Excel workbook.</p>\n            </li>\n         </ul>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "VisualIds": {
+                    "target": "com.amazonaws.quicksight#SnapshotFileSheetSelectionVisualIdList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            A structure that lists the IDs of the visuals in the selected sheet. Supported visual types are table, pivot table visuals. This value is required if you are generating a CSV or Excel workbook. This value supports a maximum of 1 visual ID for CSV and 5 visual IDs across up to 5 sheet selections for Excel. If you are generating an Excel workbook, the order of the visual IDs provided in this structure determines the order of the worksheets in the Excel file.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A structure that contains information that identifies the snapshot that needs to be generated.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotFileSheetSelectionList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.quicksight#SnapshotFileSheetSelection"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 5
+                }
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotFileSheetSelectionScope": {
+            "type": "enum",
+            "members": {
+                "ALL_VISUALS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ALL_VISUALS"
+                    }
+                },
+                "SELECTED_VISUALS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "SELECTED_VISUALS"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotFileSheetSelectionVisualIdList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.quicksight#ShortRestrictiveResourceId"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 5
+                }
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotJobErrorInfo": {
+            "type": "structure",
+            "members": {
+                "ErrorMessage": {
+                    "target": "com.amazonaws.quicksight#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The error message.</p>"
+                    }
+                },
+                "ErrorType": {
+                    "target": "com.amazonaws.quicksight#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The error type.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>An object that contains information on the error that caused the snapshot job to fail.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotJobResult": {
+            "type": "structure",
+            "members": {
+                "AnonymousUsers": {
+                    "target": "com.amazonaws.quicksight#AnonymousUserSnapshotJobResultList",
+                    "traits": {
+                        "smithy.api#documentation": "<p> A list of <code>AnonymousUserSnapshotJobResult</code> objects that contain information on anonymous users and their user configurations. This data provided by you when you make a <code>StartDashboardSnapshotJob</code> API call.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>An object that provides information on the result of a snapshot job. This object provides information about the job, the job status, and the location of the generated file.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotJobResultErrorInfo": {
+            "type": "structure",
+            "members": {
+                "ErrorMessage": {
+                    "target": "com.amazonaws.quicksight#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The error message.</p>"
+                    }
+                },
+                "ErrorType": {
+                    "target": "com.amazonaws.quicksight#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The error type.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Information on the error that caused the snapshot job to fail.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotJobResultErrorInfoList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.quicksight#SnapshotJobResultErrorInfo"
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotJobResultFileGroup": {
+            "type": "structure",
+            "members": {
+                "Files": {
+                    "target": "com.amazonaws.quicksight#SnapshotFileList",
+                    "traits": {
+                        "smithy.api#documentation": "<p> A list of <code>SnapshotFile</code> objects.</p>"
+                    }
+                },
+                "S3Results": {
+                    "target": "com.amazonaws.quicksight#SnapshotJobS3ResultList",
+                    "traits": {
+                        "smithy.api#documentation": "<p> A list of <code>SnapshotJobS3Result</code> objects.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A structure that contains information on the generated snapshot file groups.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotJobResultFileGroupList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.quicksight#SnapshotJobResultFileGroup"
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotJobS3Result": {
+            "type": "structure",
+            "members": {
+                "S3DestinationConfiguration": {
+                    "target": "com.amazonaws.quicksight#SnapshotS3DestinationConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of Amazon S3 bucket configurations that are provided when you make a <code>StartDashboardSnapshotJob</code> API call.\n        </p>"
+                    }
+                },
+                "S3Uri": {
+                    "target": "com.amazonaws.quicksight#SensitiveS3Uri",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon S3 Uri.</p>"
+                    }
+                },
+                "ErrorInfo": {
+                    "target": "com.amazonaws.quicksight#SnapshotJobResultErrorInfoList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An array of error records that describe any failures that occur while the dashboard snapshot job runs.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The Amazon S3 result from the snapshot job. The result includes the <code>DestinationConfiguration</code> and the Amazon S3 Uri. If an error occured during the job, the result returns information on the error.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotJobS3ResultList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.quicksight#SnapshotJobS3Result"
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotJobStatus": {
+            "type": "enum",
+            "members": {
+                "QUEUED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "QUEUED"
+                    }
+                },
+                "RUNNING": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "RUNNING"
+                    }
+                },
+                "COMPLETED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "COMPLETED"
+                    }
+                },
+                "FAILED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "FAILED"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotS3DestinationConfiguration": {
+            "type": "structure",
+            "members": {
+                "BucketConfiguration": {
+                    "target": "com.amazonaws.quicksight#S3BucketConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A structure that contains details about the Amazon S3 bucket that the generated dashboard snapshot is saved in.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A structure that describes the Amazon S3 settings to use to save the generated dashboard snapshot.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotS3DestinationConfigurationList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.quicksight#SnapshotS3DestinationConfiguration"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 1
+                }
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotUserConfiguration": {
+            "type": "structure",
+            "members": {
+                "AnonymousUsers": {
+                    "target": "com.amazonaws.quicksight#SnapshotAnonymousUserList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An array of records that describe the anonymous users that the dashboard snapshot is generated for.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A structure that contains information about the users that the dashboard snapshot is generated for.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#SnapshotUserConfigurationRedacted": {
+            "type": "structure",
+            "members": {
+                "AnonymousUsers": {
+                    "target": "com.amazonaws.quicksight#SnapshotAnonymousUserRedactedList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            An array of records that describe anonymous users that the dashboard snapshot is generated for. Sensitive user information is excluded.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A structure that contains information about the users that the dashboard snapshot is generated for. Sensitive user information is excluded.\n        </p>"
             }
         },
         "com.amazonaws.quicksight#SnowflakeParameters": {
@@ -39126,6 +40581,29 @@
                 "smithy.api#documentation": "<p>The parameters for Spark.</p>"
             }
         },
+        "com.amazonaws.quicksight#SpecialValue": {
+            "type": "enum",
+            "members": {
+                "EMPTY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "EMPTY"
+                    }
+                },
+                "NULL": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "NULL"
+                    }
+                },
+                "OTHER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "OTHER"
+                    }
+                }
+            }
+        },
         "com.amazonaws.quicksight#SqlEndpointPath": {
             "type": "string",
             "traits": {
@@ -39221,7 +40699,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Starts an Asset Bundle export job.</p>\n         <p>An Asset Bundle export job exports specified Amazon QuickSight assets. You can also choose to export any asset dependencies in the same job. Export jobs run asynchronously and can be polled with a <code>DescribeAssetBundleExportJob</code> API call. When a job is successfully completed, a download URL that contains the exported assets is returned. The URL is valid for 5 minutes and can be refreshed with a <code>DescribeAssetBundleExportJob</code> API call. Each Amazon QuickSight account can run up to 10 export jobs concurrently.</p>\n         <p>The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.</p>",
+                "smithy.api#documentation": "<p>Starts an Asset Bundle export job.</p>\n         <p>An Asset Bundle export job exports specified Amazon QuickSight assets. You can also choose to export any asset dependencies in the same job. Export jobs run asynchronously and can be polled with a <code>DescribeAssetBundleExportJob</code> API call. When a job is successfully completed, a download URL that contains the exported assets is returned. The URL is valid for 5 minutes and can be refreshed with a <code>DescribeAssetBundleExportJob</code> API call. Each Amazon QuickSight account can run up to 5 export jobs concurrently.</p>\n         <p>The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.</p>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/accounts/{AwsAccountId}/asset-bundle-export-jobs/export",
@@ -39345,7 +40823,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Starts an Asset Bundle import job.</p>\n         <p>An Asset Bundle import job imports specified Amazon QuickSight assets into an Amazon QuickSight account. You can also choose to import a naming prefix and specified configuration overrides. The assets that are contained in the bundle file that you provide are used to create or update a new or existing asset in your Amazon QuickSight account. Each Amazon QuickSight account can run up to 10 import jobs concurrently.</p>\n         <p>The API caller must have the necessary <code>\"create\"</code>, <code>\"describe\"</code>, and <code>\"update\"</code> permissions in their IAM role to access each resource type that is contained in the bundle file before the resources can be imported.</p>",
+                "smithy.api#documentation": "<p>Starts an Asset Bundle import job.</p>\n         <p>An Asset Bundle import job imports specified Amazon QuickSight assets into an Amazon QuickSight account. You can also choose to import a naming prefix and specified configuration overrides. The assets that are contained in the bundle file that you provide are used to create or update a new or existing asset in your Amazon QuickSight account. Each Amazon QuickSight account can run up to 5 import jobs concurrently.</p>\n         <p>The API caller must have the necessary <code>\"create\"</code>, <code>\"describe\"</code>, and <code>\"update\"</code> permissions in their IAM role to access each resource type that is contained in the bundle file before the resources can be imported.</p>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/accounts/{AwsAccountId}/asset-bundle-import-jobs/import",
@@ -39374,7 +40852,7 @@
                 "AssetBundleImportSource": {
                     "target": "com.amazonaws.quicksight#AssetBundleImportSource",
                     "traits": {
-                        "smithy.api#documentation": "<p>The source of the asset bundle zip file that contains the data that you want to import.</p>",
+                        "smithy.api#documentation": "<p>The source of the asset bundle zip file that contains the data that you want to import. The file must be in <code>QUICKSIGHT_JSON</code> format.\n      </p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -39421,6 +40899,131 @@
                     "traits": {
                         "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The HTTP status of the response.</p>",
+                        "smithy.api#httpResponseCode": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.quicksight#StartDashboardSnapshotJob": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.quicksight#StartDashboardSnapshotJobRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.quicksight#StartDashboardSnapshotJobResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.quicksight#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#InternalFailureException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#InvalidParameterValueException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#LimitExceededException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#ResourceExistsException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#UnsupportedPricingPlanException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#UnsupportedUserEditionException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Starts an asynchronous job that generates a dashboard snapshot. You can request one of the following format configurations per API call.</p>\n         <ul>\n            <li>\n               <p>1 paginated PDF</p>\n            </li>\n            <li>\n               <p>1 Excel workbook</p>\n            </li>\n            <li>\n               <p>5 CSVs</p>\n            </li>\n         </ul>\n         <p>Poll job descriptions with a <code>DescribeDashboardSnapshotJob</code> API call. Once the job succeeds, use the <code>DescribeDashboardSnapshotJobResult</code> API to obtain the download URIs that the job generates.</p>",
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/accounts/{AwsAccountId}/dashboards/{DashboardId}/snapshot-jobs",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.quicksight#StartDashboardSnapshotJobRequest": {
+            "type": "structure",
+            "members": {
+                "AwsAccountId": {
+                    "target": "com.amazonaws.quicksight#AwsAccountId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the Amazon Web Services account that the dashboard snapshot job is executed in.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "DashboardId": {
+                    "target": "com.amazonaws.quicksight#ShortRestrictiveResourceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the dashboard that you want to start a snapshot job for.\n        </p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "SnapshotJobId": {
+                    "target": "com.amazonaws.quicksight#ShortRestrictiveResourceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An ID for the dashboard snapshot job. This ID is unique to the dashboard while the job is running. This ID can be used to poll the status of a job with a <code>DescribeDashboardSnapshotJob</code> while the job runs. You can reuse this ID for another job 24 hours after the current job is completed.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "UserConfiguration": {
+                    "target": "com.amazonaws.quicksight#SnapshotUserConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            A structure that contains information about the anonymous users that the generated snapshot is for. This API will not return information about registered Amazon QuickSight.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "SnapshotConfiguration": {
+                    "target": "com.amazonaws.quicksight#SnapshotConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A structure that describes the configuration of the dashboard snapshot.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.quicksight#StartDashboardSnapshotJobResponse": {
+            "type": "structure",
+            "members": {
+                "Arn": {
+                    "target": "com.amazonaws.quicksight#Arn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) for the dashboard snapshot job.</p>"
+                    }
+                },
+                "SnapshotJobId": {
+                    "target": "com.amazonaws.quicksight#ShortRestrictiveResourceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the job. The job ID is set when you start a new job with a <code>StartDashboardSnapshotJob</code> API call.</p>"
+                    }
+                },
+                "RequestId": {
+                    "target": "com.amazonaws.quicksight#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The Amazon Web Services request ID for this operation.\n        </p>"
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.quicksight#StatusCode",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p>The HTTP status of the request</p>",
                         "smithy.api#httpResponseCode": {}
                     }
                 }
@@ -39691,6 +41294,29 @@
                 "smithy.api#documentation": "<p>The configuration that defines the default value of a <code>String</code> parameter when a value has not been set.</p>"
             }
         },
+        "com.amazonaws.quicksight#StyledCellType": {
+            "type": "enum",
+            "members": {
+                "TOTAL": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "TOTAL"
+                    }
+                },
+                "METRIC_HEADER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "METRIC_HEADER"
+                    }
+                },
+                "VALUE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "VALUE"
+                    }
+                }
+            }
+        },
         "com.amazonaws.quicksight#SubnetId": {
             "type": "string",
             "traits": {
@@ -39756,6 +41382,12 @@
                     "target": "com.amazonaws.quicksight#TableCellStyle",
                     "traits": {
                         "smithy.api#documentation": "<p>The cell styling options for the subtotals of header cells.</p>"
+                    }
+                },
+                "StyleTargets": {
+                    "target": "com.amazonaws.quicksight#TableStyleTargetList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The style targets options for subtotals.</p>"
                     }
                 }
             },
@@ -40229,18 +41861,37 @@
                 "SelectedFieldOptions": {
                     "target": "com.amazonaws.quicksight#TableFieldOptionList",
                     "traits": {
-                        "smithy.api#documentation": "<p>The selected field options for the table field options.</p>"
+                        "smithy.api#documentation": "<p>The field options to be configured to a table.</p>"
                     }
                 },
                 "Order": {
                     "target": "com.amazonaws.quicksight#FieldOrderList",
                     "traits": {
-                        "smithy.api#documentation": "<p>The order of field IDs of the field options for a table visual.</p>"
+                        "smithy.api#documentation": "<p>The order of the field IDs that are configured as field options for a table visual.</p>"
+                    }
+                },
+                "PinnedFieldOptions": {
+                    "target": "com.amazonaws.quicksight#TablePinnedFieldOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The settings for the pinned columns of a table visual.</p>"
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>The field options for a table visual.</p>"
+                "smithy.api#documentation": "<p>The field options of a table visual.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#TableFieldOrderList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.quicksight#FieldId"
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A list of table field IDs.</p>",
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 201
+                }
             }
         },
         "com.amazonaws.quicksight#TableFieldURLConfiguration": {
@@ -40378,6 +42029,20 @@
                 "smithy.api#documentation": "<p>The paginated report options for a table visual.</p>"
             }
         },
+        "com.amazonaws.quicksight#TablePinnedFieldOptions": {
+            "type": "structure",
+            "members": {
+                "PinnedLeftFields": {
+                    "target": "com.amazonaws.quicksight#TableFieldOrderList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of columns to be pinned to the left of a table visual.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The settings for the pinned columns of a table visual.</p>"
+            }
+        },
         "com.amazonaws.quicksight#TableRowConditionalFormatting": {
             "type": "structure",
             "members": {
@@ -40460,6 +42125,33 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>The sort configuration for a <code>TableVisual</code>.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#TableStyleTarget": {
+            "type": "structure",
+            "members": {
+                "CellType": {
+                    "target": "com.amazonaws.quicksight#StyledCellType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The cell type of the table style target.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The table style target.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#TableStyleTargetList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.quicksight#TableStyleTarget"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 3
+                }
             }
         },
         "com.amazonaws.quicksight#TableTotalsPlacement": {
@@ -40661,7 +42353,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Assigns one or more tags (key-value pairs) to the specified Amazon QuickSight resource. </p>\n         <p>Tags can help you organize and categorize your resources. You can also use them to\n\t\t\tscope user permissions, by granting a user permission to access or change only resources\n\t\t\twith certain tag values. You can use the <code>TagResource</code> operation with a\n\t\t\tresource that already has tags. If you specify a new tag key for the resource, this tag\n\t\t\tis appended to the list of tags associated with the resource. If you specify a tag key\n\t\t\tthat is already associated with the resource, the new tag value that you specify\n\t\t\treplaces the previous value for that tag.</p>\n         <p>You can associate as many as 50 tags with a resource. Amazon QuickSight supports tagging on data\n\t\t\tset, data source, dashboard, template, and topic. </p>\n         <p>Tagging for Amazon QuickSight works in a similar way to tagging for other Amazon Web Services services, except for\n\t\t\tthe following:</p>\n         <ul>\n            <li>\n               <p>You can't use tags to track costs for Amazon QuickSight. This isn't\n\t\t\t\tpossible because you can't tag the resources that Amazon QuickSight costs are based \n\t\t\t\ton, for example Amazon QuickSight storage capacity (SPICE), number of users, type \n\t\t\t\tof users, and usage metrics.</p>\n            </li>\n            <li>\n               <p>Amazon QuickSight doesn't currently support the tag editor for Resource Groups.</p>\n            </li>\n         </ul>",
+                "smithy.api#documentation": "<p>Assigns one or more tags (key-value pairs) to the specified Amazon QuickSight resource. </p>\n         <p>Tags can help you organize and categorize your resources. You can also use them to\n\t\t\tscope user permissions, by granting a user permission to access or change only resources\n\t\t\twith certain tag values. You can use the <code>TagResource</code> operation with a\n\t\t\tresource that already has tags. If you specify a new tag key for the resource, this tag\n\t\t\tis appended to the list of tags associated with the resource. If you specify a tag key\n\t\t\tthat is already associated with the resource, the new tag value that you specify\n\t\t\treplaces the previous value for that tag.</p>\n         <p>You can associate as many as 50 tags with a resource. Amazon QuickSight supports tagging on data\n\t\t\tset, data source, dashboard, template, topic, and user. </p>\n         <p>Tagging for Amazon QuickSight works in a similar way to tagging for other Amazon Web Services services, except for\n\t\t\tthe following:</p>\n         <ul>\n            <li>\n               <p>Tags are used to track costs for users in Amazon QuickSight. You can't tag other resources that Amazon QuickSight costs are based on, such as storage capacoty (SPICE), session usage, alert consumption, or reporting units.</p>\n            </li>\n            <li>\n               <p>Amazon QuickSight doesn't currently support the tag editor for Resource Groups.</p>\n            </li>\n         </ul>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/resources/{ResourceArn}/tags",
@@ -41229,6 +42921,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The configuration of the placeholder options in a text area control.</p>"
                     }
+                },
+                "InfoIconLabelOptions": {
+                    "target": "com.amazonaws.quicksight#SheetControlInfoIconLabelOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration of info icon label options.</p>"
+                    }
                 }
             },
             "traits": {
@@ -41288,6 +42986,12 @@
                     "target": "com.amazonaws.quicksight#TextControlPlaceholderOptions",
                     "traits": {
                         "smithy.api#documentation": "<p>The configuration of the placeholder options in a text field control.</p>"
+                    }
+                },
+                "InfoIconLabelOptions": {
+                    "target": "com.amazonaws.quicksight#SheetControlInfoIconLabelOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration of info icon label options.</p>"
                     }
                 }
             },
@@ -42188,15 +43892,13 @@
                 "Time": {
                     "target": "com.amazonaws.quicksight#DimensionField",
                     "traits": {
-                        "smithy.api#documentation": "<p>The time field that is used in a computation.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The time field that is used in a computation.</p>"
                     }
                 },
                 "Category": {
                     "target": "com.amazonaws.quicksight#DimensionField",
                     "traits": {
-                        "smithy.api#documentation": "<p>The category field that is used in a computation.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The category field that is used in a computation.</p>"
                     }
                 },
                 "Value": {
@@ -42259,8 +43961,7 @@
                 "Category": {
                     "target": "com.amazonaws.quicksight#DimensionField",
                     "traits": {
-                        "smithy.api#documentation": "<p>The category field that is used in a computation.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The category field that is used in a computation.</p>"
                     }
                 },
                 "Value": {
@@ -42417,6 +44118,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The other\n         names or aliases for the calculated field cell value.</p>"
                     }
+                },
+                "NonAdditive": {
+                    "target": "com.amazonaws.quicksight#NullableBoolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The non additive for the table style target.</p>"
+                    }
                 }
             },
             "traits": {
@@ -42526,7 +44233,7 @@
                 "Aggregation": {
                     "target": "com.amazonaws.quicksight#DefaultAggregation",
                     "traits": {
-                        "smithy.api#documentation": "<p>The type of aggregation that is performed on the column data when\n         it's queried. Valid values for this structure are <code>SUM</code>, <code>MAX</code>,\n            <code>MIN</code>, <code>COUNT</code>,\n         <code>DISTINCT_COUNT</code>, and <code>AVERAGE</code>.</p>"
+                        "smithy.api#documentation": "<p>The type of aggregation that is performed on the column data when\n         it's queried.</p>"
                     }
                 },
                 "IsIncludedInTopic": {
@@ -42589,6 +44296,12 @@
                     "target": "com.amazonaws.quicksight#CellValueSynonyms",
                     "traits": {
                         "smithy.api#documentation": "<p>The other names or aliases for the column cell value.</p>"
+                    }
+                },
+                "NonAdditive": {
+                    "target": "com.amazonaws.quicksight#NullableBoolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The non additive value for the column.</p>"
                     }
                 }
             },
@@ -43232,8 +44945,7 @@
                 "Value": {
                     "target": "com.amazonaws.quicksight#MeasureField",
                     "traits": {
-                        "smithy.api#documentation": "<p>The value field that is used in a computation.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The value field that is used in a computation.</p>"
                     }
                 }
             },
@@ -43819,8 +45531,7 @@
                 "Category": {
                     "target": "com.amazonaws.quicksight#DimensionField",
                     "traits": {
-                        "smithy.api#documentation": "<p>The category field that is used in a computation.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The category field that is used in a computation.</p>"
                     }
                 }
             },
@@ -47972,6 +49683,12 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "BOTTOM"
+                    }
+                },
+                "AUTO": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AUTO"
                     }
                 }
             }

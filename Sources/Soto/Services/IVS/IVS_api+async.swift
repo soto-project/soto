@@ -31,6 +31,11 @@ extension IVS {
         return try await self.client.execute(operation: "BatchGetStreamKey", path: "/BatchGetStreamKey", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Performs StartViewerSessionRevocation on multiple channel ARN and viewer ID pairs simultaneously.
+    public func batchStartViewerSessionRevocation(_ input: BatchStartViewerSessionRevocationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchStartViewerSessionRevocationResponse {
+        return try await self.client.execute(operation: "BatchStartViewerSessionRevocation", path: "/BatchStartViewerSessionRevocation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a new channel and an associated stream key to start streaming.
     public func createChannel(_ input: CreateChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateChannelResponse {
         return try await self.client.execute(operation: "CreateChannel", path: "/CreateChannel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -139,6 +144,11 @@ extension IVS {
     /// Inserts metadata into the active stream of the specified channel. At most 5 requests per second per channel are allowed, each with a maximum 1 KB payload. (If 5 TPS is not sufficient for your needs, we recommend batching your data into a single PutMetadata call.) At most 155 requests per second per account are allowed. Also see Embedding Metadata within a Video Stream in the Amazon IVS User Guide.
     public func putMetadata(_ input: PutMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "PutMetadata", path: "/PutMetadata", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Starts the process of revoking the viewer session associated with a specified channel ARN and viewer ID. Optionally, you can provide a version to revoke viewer sessions less than and including that version. For instructions on associating a viewer ID with a viewer session, see Setting Up Private Channels.
+    public func startViewerSessionRevocation(_ input: StartViewerSessionRevocationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartViewerSessionRevocationResponse {
+        return try await self.client.execute(operation: "StartViewerSessionRevocation", path: "/StartViewerSessionRevocation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Disconnects the incoming RTMPS stream for the specified channel. Can be used in conjunction with DeleteStreamKey to prevent further streaming to a channel.  Many streaming client-software libraries automatically reconnect a dropped RTMPS session, so to stop the stream permanently, you may want to first revoke the streamKey attached to the channel.

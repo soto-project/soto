@@ -2587,10 +2587,12 @@ extension XRay {
         public let revision: Int?
         /// Service IDs from the trace's segment documents.
         public let serviceIds: [ServiceId]?
+        /// The start time of a trace, based on the earliest trace segment start time.
+        public let startTime: Date?
         /// Users from the trace's segment documents.
         public let users: [TraceUser]?
 
-        public init(annotations: [String: [ValueWithServiceIds]]? = nil, availabilityZones: [AvailabilityZoneDetail]? = nil, duration: Double? = nil, entryPoint: ServiceId? = nil, errorRootCauses: [ErrorRootCause]? = nil, faultRootCauses: [FaultRootCause]? = nil, hasError: Bool? = nil, hasFault: Bool? = nil, hasThrottle: Bool? = nil, http: Http? = nil, id: String? = nil, instanceIds: [InstanceIdDetail]? = nil, isPartial: Bool? = nil, matchedEventTime: Date? = nil, resourceARNs: [ResourceARNDetail]? = nil, responseTime: Double? = nil, responseTimeRootCauses: [ResponseTimeRootCause]? = nil, revision: Int? = nil, serviceIds: [ServiceId]? = nil, users: [TraceUser]? = nil) {
+        public init(annotations: [String: [ValueWithServiceIds]]? = nil, availabilityZones: [AvailabilityZoneDetail]? = nil, duration: Double? = nil, entryPoint: ServiceId? = nil, errorRootCauses: [ErrorRootCause]? = nil, faultRootCauses: [FaultRootCause]? = nil, hasError: Bool? = nil, hasFault: Bool? = nil, hasThrottle: Bool? = nil, http: Http? = nil, id: String? = nil, instanceIds: [InstanceIdDetail]? = nil, isPartial: Bool? = nil, matchedEventTime: Date? = nil, resourceARNs: [ResourceARNDetail]? = nil, responseTime: Double? = nil, responseTimeRootCauses: [ResponseTimeRootCause]? = nil, revision: Int? = nil, serviceIds: [ServiceId]? = nil, startTime: Date? = nil, users: [TraceUser]? = nil) {
             self.annotations = annotations
             self.availabilityZones = availabilityZones
             self.duration = duration
@@ -2610,6 +2612,7 @@ extension XRay {
             self.responseTimeRootCauses = responseTimeRootCauses
             self.revision = revision
             self.serviceIds = serviceIds
+            self.startTime = startTime
             self.users = users
         }
 
@@ -2633,6 +2636,7 @@ extension XRay {
             case responseTimeRootCauses = "ResponseTimeRootCauses"
             case revision = "Revision"
             case serviceIds = "ServiceIds"
+            case startTime = "StartTime"
             case users = "Users"
         }
     }

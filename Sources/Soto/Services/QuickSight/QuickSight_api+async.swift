@@ -325,6 +325,16 @@ extension QuickSight {
         return try await self.client.execute(operation: "DescribeDashboardPermissions", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Describes an existing snapshot job. Poll job descriptions after a job starts to know the status of the job. For information on available status codes, see JobStatus.
+    public func describeDashboardSnapshotJob(_ input: DescribeDashboardSnapshotJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeDashboardSnapshotJobResponse {
+        return try await self.client.execute(operation: "DescribeDashboardSnapshotJob", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/snapshot-jobs/{SnapshotJobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes the result of an existing snapshot job that has finished running. A finished snapshot job will return a COMPLETED or FAILED status when you poll the job with a DescribeDashboardSnapshotJob API call. If the job has not finished running, this operation returns a message that says Dashboard Snapshot Job with id  has not reached a terminal state..
+    public func describeDashboardSnapshotJobResult(_ input: DescribeDashboardSnapshotJobResultRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeDashboardSnapshotJobResultResponse {
+        return try await self.client.execute(operation: "DescribeDashboardSnapshotJobResult", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/snapshot-jobs/{SnapshotJobId}/result", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Describes a dataset. This operation doesn't support datasets that include uploaded files as a source.
     public func describeDataSet(_ input: DescribeDataSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeDataSetResponse {
         return try await self.client.execute(operation: "DescribeDataSet", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -685,14 +695,19 @@ extension QuickSight {
         return try await self.client.execute(operation: "SearchGroups", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups-search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts an Asset Bundle export job. An Asset Bundle export job exports specified Amazon QuickSight assets. You can also choose to export any asset dependencies in the same job. Export jobs run asynchronously and can be polled with a DescribeAssetBundleExportJob API call. When a job is successfully completed, a download URL that contains the exported assets is returned. The URL is valid for 5 minutes and can be refreshed with a DescribeAssetBundleExportJob API call. Each Amazon QuickSight account can run up to 10 export jobs concurrently. The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.
+    /// Starts an Asset Bundle export job. An Asset Bundle export job exports specified Amazon QuickSight assets. You can also choose to export any asset dependencies in the same job. Export jobs run asynchronously and can be polled with a DescribeAssetBundleExportJob API call. When a job is successfully completed, a download URL that contains the exported assets is returned. The URL is valid for 5 minutes and can be refreshed with a DescribeAssetBundleExportJob API call. Each Amazon QuickSight account can run up to 5 export jobs concurrently. The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.
     public func startAssetBundleExportJob(_ input: StartAssetBundleExportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartAssetBundleExportJobResponse {
         return try await self.client.execute(operation: "StartAssetBundleExportJob", path: "/accounts/{AwsAccountId}/asset-bundle-export-jobs/export", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts an Asset Bundle import job. An Asset Bundle import job imports specified Amazon QuickSight assets into an Amazon QuickSight account. You can also choose to import a naming prefix and specified configuration overrides. The assets that are contained in the bundle file that you provide are used to create or update a new or existing asset in your Amazon QuickSight account. Each Amazon QuickSight account can run up to 10 import jobs concurrently. The API caller must have the necessary "create", "describe", and "update" permissions in their IAM role to access each resource type that is contained in the bundle file before the resources can be imported.
+    /// Starts an Asset Bundle import job. An Asset Bundle import job imports specified Amazon QuickSight assets into an Amazon QuickSight account. You can also choose to import a naming prefix and specified configuration overrides. The assets that are contained in the bundle file that you provide are used to create or update a new or existing asset in your Amazon QuickSight account. Each Amazon QuickSight account can run up to 5 import jobs concurrently. The API caller must have the necessary "create", "describe", and "update" permissions in their IAM role to access each resource type that is contained in the bundle file before the resources can be imported.
     public func startAssetBundleImportJob(_ input: StartAssetBundleImportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartAssetBundleImportJobResponse {
         return try await self.client.execute(operation: "StartAssetBundleImportJob", path: "/accounts/{AwsAccountId}/asset-bundle-import-jobs/import", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Starts an asynchronous job that generates a dashboard snapshot. You can request one of the following format configurations per API call.   1 paginated PDF   1 Excel workbook   5 CSVs   Poll job descriptions with a DescribeDashboardSnapshotJob API call. Once the job succeeds, use the DescribeDashboardSnapshotJobResult API to obtain the download URIs that the job generates.
+    public func startDashboardSnapshotJob(_ input: StartDashboardSnapshotJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartDashboardSnapshotJobResponse {
+        return try await self.client.execute(operation: "StartDashboardSnapshotJob", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/snapshot-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Assigns one or more tags (key-value pairs) to the specified Amazon QuickSight resource.  Tags can help you organize and categorize your resources. You can also use them to
@@ -702,11 +717,8 @@ extension QuickSight {
     /// 			is appended to the list of tags associated with the resource. If you specify a tag key
     /// 			that is already associated with the resource, the new tag value that you specify
     /// 			replaces the previous value for that tag. You can associate as many as 50 tags with a resource. Amazon QuickSight supports tagging on data
-    /// 			set, data source, dashboard, template, and topic.  Tagging for Amazon QuickSight works in a similar way to tagging for other Amazon Web Services services, except for
-    /// 			the following:   You can't use tags to track costs for Amazon QuickSight. This isn't
-    /// 				possible because you can't tag the resources that Amazon QuickSight costs are based
-    /// 				on, for example Amazon QuickSight storage capacity (SPICE), number of users, type
-    /// 				of users, and usage metrics.   Amazon QuickSight doesn't currently support the tag editor for Resource Groups.
+    /// 			set, data source, dashboard, template, topic, and user.  Tagging for Amazon QuickSight works in a similar way to tagging for other Amazon Web Services services, except for
+    /// 			the following:   Tags are used to track costs for users in Amazon QuickSight. You can't tag other resources that Amazon QuickSight costs are based on, such as storage capacoty (SPICE), session usage, alert consumption, or reporting units.   Amazon QuickSight doesn't currently support the tag editor for Resource Groups.
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TagResourceResponse {
         return try await self.client.execute(operation: "TagResource", path: "/resources/{ResourceArn}/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -873,6 +885,50 @@ extension QuickSight {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension QuickSight {
+    /// Describes permissions for a folder.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeFolderPermissionsPaginator(
+        _ input: DescribeFolderPermissionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeFolderPermissionsRequest, DescribeFolderPermissionsResponse> {
+        return .init(
+            input: input,
+            command: self.describeFolderPermissions,
+            inputKey: \DescribeFolderPermissionsRequest.nextToken,
+            outputKey: \DescribeFolderPermissionsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Describes the folder resolved permissions. Permissions consists of both folder direct permissions and the inherited permissions from the ancestor folders.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeFolderResolvedPermissionsPaginator(
+        _ input: DescribeFolderResolvedPermissionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeFolderResolvedPermissionsRequest, DescribeFolderResolvedPermissionsResponse> {
+        return .init(
+            input: input,
+            command: self.describeFolderResolvedPermissions,
+            inputKey: \DescribeFolderResolvedPermissionsRequest.nextToken,
+            outputKey: \DescribeFolderResolvedPermissionsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     /// Lists Amazon QuickSight analyses that exist in the specified Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
@@ -1022,6 +1078,146 @@ extension QuickSight {
             command: self.listDataSources,
             inputKey: \ListDataSourcesRequest.nextToken,
             outputKey: \ListDataSourcesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// List all assets (DASHBOARD, ANALYSIS, and DATASET) in a folder.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listFolderMembersPaginator(
+        _ input: ListFolderMembersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListFolderMembersRequest, ListFolderMembersResponse> {
+        return .init(
+            input: input,
+            command: self.listFolderMembers,
+            inputKey: \ListFolderMembersRequest.nextToken,
+            outputKey: \ListFolderMembersResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists all folders in an account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listFoldersPaginator(
+        _ input: ListFoldersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListFoldersRequest, ListFoldersResponse> {
+        return .init(
+            input: input,
+            command: self.listFolders,
+            inputKey: \ListFoldersRequest.nextToken,
+            outputKey: \ListFoldersResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists member users in a group.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listGroupMembershipsPaginator(
+        _ input: ListGroupMembershipsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListGroupMembershipsRequest, ListGroupMembershipsResponse> {
+        return .init(
+            input: input,
+            command: self.listGroupMemberships,
+            inputKey: \ListGroupMembershipsRequest.nextToken,
+            outputKey: \ListGroupMembershipsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists all user groups in Amazon QuickSight.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listGroupsPaginator(
+        _ input: ListGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListGroupsRequest, ListGroupsResponse> {
+        return .init(
+            input: input,
+            command: self.listGroups,
+            inputKey: \ListGroupsRequest.nextToken,
+            outputKey: \ListGroupsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists the
+    /// 			IAM policy assignments in the current Amazon QuickSight
+    /// 			account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listIAMPolicyAssignmentsPaginator(
+        _ input: ListIAMPolicyAssignmentsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListIAMPolicyAssignmentsRequest, ListIAMPolicyAssignmentsResponse> {
+        return .init(
+            input: input,
+            command: self.listIAMPolicyAssignments,
+            inputKey: \ListIAMPolicyAssignmentsRequest.nextToken,
+            outputKey: \ListIAMPolicyAssignmentsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists all of
+    /// 			the IAM policy assignments, including the Amazon
+    /// 			Resource Names
+    /// 			(ARNs),
+    /// 			for the IAM policies assigned to the specified user and
+    /// 			group,
+    /// 			or groups that the user belongs to.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listIAMPolicyAssignmentsForUserPaginator(
+        _ input: ListIAMPolicyAssignmentsForUserRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListIAMPolicyAssignmentsForUserRequest, ListIAMPolicyAssignmentsForUserResponse> {
+        return .init(
+            input: input,
+            command: self.listIAMPolicyAssignmentsForUser,
+            inputKey: \ListIAMPolicyAssignmentsForUserRequest.nextToken,
+            outputKey: \ListIAMPolicyAssignmentsForUserResponse.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -1203,6 +1399,50 @@ extension QuickSight {
         )
     }
 
+    /// Lists the Amazon QuickSight groups that an Amazon QuickSight user is a member of.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listUserGroupsPaginator(
+        _ input: ListUserGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListUserGroupsRequest, ListUserGroupsResponse> {
+        return .init(
+            input: input,
+            command: self.listUserGroups,
+            inputKey: \ListUserGroupsRequest.nextToken,
+            outputKey: \ListUserGroupsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Returns a list of all of the Amazon QuickSight users belonging to this account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listUsersPaginator(
+        _ input: ListUsersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListUsersRequest, ListUsersResponse> {
+        return .init(
+            input: input,
+            command: self.listUsers,
+            inputKey: \ListUsersRequest.nextToken,
+            outputKey: \ListUsersResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     /// Lists all of the VPC connections in the current set Amazon Web Services Region of an
     /// 				Amazon Web Services account.
     /// Return PaginatorSequence for operation.
@@ -1309,6 +1549,50 @@ extension QuickSight {
             command: self.searchDataSources,
             inputKey: \SearchDataSourcesRequest.nextToken,
             outputKey: \SearchDataSourcesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Searches the subfolders in a folder.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func searchFoldersPaginator(
+        _ input: SearchFoldersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<SearchFoldersRequest, SearchFoldersResponse> {
+        return .init(
+            input: input,
+            command: self.searchFolders,
+            inputKey: \SearchFoldersRequest.nextToken,
+            outputKey: \SearchFoldersResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Use the SearchGroups operation to search groups in a specified Amazon QuickSight namespace using the supplied filters.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func searchGroupsPaginator(
+        _ input: SearchGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<SearchGroupsRequest, SearchGroupsResponse> {
+        return .init(
+            input: input,
+            command: self.searchGroups,
+            inputKey: \SearchGroupsRequest.nextToken,
+            outputKey: \SearchGroupsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

@@ -181,6 +181,11 @@ extension Transcribe {
         public var description: String { return self.rawValue }
     }
 
+    public enum ToxicityCategory: String, CustomStringConvertible, Codable, Sendable {
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TranscriptFilterType: String, CustomStringConvertible, Codable, Sendable {
         case exact = "EXACT"
         public var description: String { return self.rawValue }
@@ -2690,10 +2695,12 @@ extension Transcribe {
         public let subtitles: Subtitles?
         /// Adds one or more custom tags, each in the form of a key:value pair, to a new transcription job at the time you start this new job. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
         public let tags: [Tag]?
+        /// Enables toxic speech detection in your transcript. If you include  ToxicityDetection in your request, you must also include ToxicityCategories. For information on the types of toxic speech Amazon Transcribe can detect, see  Detecting toxic speech.
+        public let toxicityDetection: [ToxicityDetectionSettings]?
         /// A unique name, chosen by you, for your transcription job. The name that you specify is also used as the default name of your transcription output file. If you want to specify a different name for your transcription output, use the OutputKey parameter. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new job with the same name as an existing job, you get a ConflictException error.
         public let transcriptionJobName: String
 
-        public init(contentRedaction: ContentRedaction? = nil, identifyLanguage: Bool? = nil, identifyMultipleLanguages: Bool? = nil, jobExecutionSettings: JobExecutionSettings? = nil, kmsEncryptionContext: [String: String]? = nil, languageCode: LanguageCode? = nil, languageIdSettings: [LanguageCode: LanguageIdSettings]? = nil, languageOptions: [LanguageCode]? = nil, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, outputBucketName: String? = nil, outputEncryptionKMSKeyId: String? = nil, outputKey: String? = nil, settings: Settings? = nil, subtitles: Subtitles? = nil, tags: [Tag]? = nil, transcriptionJobName: String) {
+        public init(contentRedaction: ContentRedaction? = nil, identifyLanguage: Bool? = nil, identifyMultipleLanguages: Bool? = nil, jobExecutionSettings: JobExecutionSettings? = nil, kmsEncryptionContext: [String: String]? = nil, languageCode: LanguageCode? = nil, languageIdSettings: [LanguageCode: LanguageIdSettings]? = nil, languageOptions: [LanguageCode]? = nil, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, outputBucketName: String? = nil, outputEncryptionKMSKeyId: String? = nil, outputKey: String? = nil, settings: Settings? = nil, subtitles: Subtitles? = nil, tags: [Tag]? = nil, toxicityDetection: [ToxicityDetectionSettings]? = nil, transcriptionJobName: String) {
             self.contentRedaction = contentRedaction
             self.identifyLanguage = identifyLanguage
             self.identifyMultipleLanguages = identifyMultipleLanguages
@@ -2712,6 +2719,7 @@ extension Transcribe {
             self.settings = settings
             self.subtitles = subtitles
             self.tags = tags
+            self.toxicityDetection = toxicityDetection
             self.transcriptionJobName = transcriptionJobName
         }
 
@@ -2753,6 +2761,11 @@ extension Transcribe {
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.toxicityDetection?.forEach {
+                try $0.validate(name: "\(name).toxicityDetection[]")
+            }
+            try self.validate(self.toxicityDetection, name: "toxicityDetection", parent: name, max: 1)
+            try self.validate(self.toxicityDetection, name: "toxicityDetection", parent: name, min: 1)
             try self.validate(self.transcriptionJobName, name: "transcriptionJobName", parent: name, max: 200)
             try self.validate(self.transcriptionJobName, name: "transcriptionJobName", parent: name, min: 1)
             try self.validate(self.transcriptionJobName, name: "transcriptionJobName", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
@@ -2777,6 +2790,7 @@ extension Transcribe {
             case settings = "Settings"
             case subtitles = "Subtitles"
             case tags = "Tags"
+            case toxicityDetection = "ToxicityDetection"
         }
     }
 
@@ -2894,6 +2908,24 @@ extension Transcribe {
         public init() {}
     }
 
+    public struct ToxicityDetectionSettings: AWSEncodableShape & AWSDecodableShape {
+        ///  If you include ToxicityDetection in your transcription request, you  must also include ToxicityCategories. The only accepted value for this  parameter is ALL.
+        public let toxicityCategories: [ToxicityCategory]
+
+        public init(toxicityCategories: [ToxicityCategory]) {
+            self.toxicityCategories = toxicityCategories
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.toxicityCategories, name: "toxicityCategories", parent: name, max: 1)
+            try self.validate(self.toxicityCategories, name: "toxicityCategories", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case toxicityCategories = "ToxicityCategories"
+        }
+    }
+
     public struct Transcript: AWSDecodableShape {
         /// The Amazon S3 location of your redacted transcript. You can use this URI to access or download your transcript. If you included OutputBucketName in your transcription job request, this is the URI of that bucket. If you also included OutputKey in your request, your output is located in the path you specified in your request. If you didn't include OutputBucketName in your transcription job request, your transcript is stored in a service-managed bucket, and RedactedTranscriptFileUri provides you with a temporary URI you can use for secure access to your transcript.  Temporary URIs for service-managed Amazon S3 buckets are only valid for 15 minutes. If you get an AccesDenied error, you can get a new temporary URI by running a GetTranscriptionJob or ListTranscriptionJob request.
         public let redactedTranscriptFileUri: String?
@@ -2996,6 +3028,8 @@ extension Transcribe {
         public let subtitles: SubtitlesOutput?
         /// The tags, each in the form of a key:value pair, assigned to the specified transcription job.
         public let tags: [Tag]?
+        /// Provides information about the toxicity detection settings applied to your transcription.
+        public let toxicityDetection: [ToxicityDetectionSettings]?
         /// Provides you with the Amazon S3 URI you can use to access your transcript.
         public let transcript: Transcript?
         /// The name of the transcription job. Job names are case sensitive and must be unique within an Amazon Web Services account.
@@ -3003,7 +3037,7 @@ extension Transcribe {
         /// Provides the status of the specified transcription job. If the status is COMPLETED, the job is finished and you can find the results at the location specified in TranscriptFileUri (or RedactedTranscriptFileUri, if you requested transcript redaction). If the status is FAILED, FailureReason provides details on why your transcription job failed.
         public let transcriptionJobStatus: TranscriptionJobStatus?
 
-        public init(completionTime: Date? = nil, contentRedaction: ContentRedaction? = nil, creationTime: Date? = nil, failureReason: String? = nil, identifiedLanguageScore: Float? = nil, identifyLanguage: Bool? = nil, identifyMultipleLanguages: Bool? = nil, jobExecutionSettings: JobExecutionSettings? = nil, languageCode: LanguageCode? = nil, languageCodes: [LanguageCodeItem]? = nil, languageIdSettings: [LanguageCode: LanguageIdSettings]? = nil, languageOptions: [LanguageCode]? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, settings: Settings? = nil, startTime: Date? = nil, subtitles: SubtitlesOutput? = nil, tags: [Tag]? = nil, transcript: Transcript? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
+        public init(completionTime: Date? = nil, contentRedaction: ContentRedaction? = nil, creationTime: Date? = nil, failureReason: String? = nil, identifiedLanguageScore: Float? = nil, identifyLanguage: Bool? = nil, identifyMultipleLanguages: Bool? = nil, jobExecutionSettings: JobExecutionSettings? = nil, languageCode: LanguageCode? = nil, languageCodes: [LanguageCodeItem]? = nil, languageIdSettings: [LanguageCode: LanguageIdSettings]? = nil, languageOptions: [LanguageCode]? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, settings: Settings? = nil, startTime: Date? = nil, subtitles: SubtitlesOutput? = nil, tags: [Tag]? = nil, toxicityDetection: [ToxicityDetectionSettings]? = nil, transcript: Transcript? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
             self.completionTime = completionTime
             self.contentRedaction = contentRedaction
             self.creationTime = creationTime
@@ -3024,6 +3058,7 @@ extension Transcribe {
             self.startTime = startTime
             self.subtitles = subtitles
             self.tags = tags
+            self.toxicityDetection = toxicityDetection
             self.transcript = transcript
             self.transcriptionJobName = transcriptionJobName
             self.transcriptionJobStatus = transcriptionJobStatus
@@ -3050,6 +3085,7 @@ extension Transcribe {
             case startTime = "StartTime"
             case subtitles = "Subtitles"
             case tags = "Tags"
+            case toxicityDetection = "ToxicityDetection"
             case transcript = "Transcript"
             case transcriptionJobName = "TranscriptionJobName"
             case transcriptionJobStatus = "TranscriptionJobStatus"
@@ -3080,12 +3116,14 @@ extension Transcribe {
         public let outputLocationType: OutputLocationType?
         /// The date and time your transcription job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public let startTime: Date?
+        /// Indicates whether toxicity detection was enabled for the specified transcription  job.
+        public let toxicityDetection: [ToxicityDetectionSettings]?
         /// The name of the transcription job. Job names are case sensitive and must be unique within an Amazon Web Services account.
         public let transcriptionJobName: String?
         /// Provides the status of your transcription job. If the status is COMPLETED, the job is finished and you can find the results at the location specified in TranscriptFileUri (or RedactedTranscriptFileUri, if you requested transcript redaction). If the status is FAILED, FailureReason provides details on why your transcription job failed.
         public let transcriptionJobStatus: TranscriptionJobStatus?
 
-        public init(completionTime: Date? = nil, contentRedaction: ContentRedaction? = nil, creationTime: Date? = nil, failureReason: String? = nil, identifiedLanguageScore: Float? = nil, identifyLanguage: Bool? = nil, identifyMultipleLanguages: Bool? = nil, languageCode: LanguageCode? = nil, languageCodes: [LanguageCodeItem]? = nil, modelSettings: ModelSettings? = nil, outputLocationType: OutputLocationType? = nil, startTime: Date? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
+        public init(completionTime: Date? = nil, contentRedaction: ContentRedaction? = nil, creationTime: Date? = nil, failureReason: String? = nil, identifiedLanguageScore: Float? = nil, identifyLanguage: Bool? = nil, identifyMultipleLanguages: Bool? = nil, languageCode: LanguageCode? = nil, languageCodes: [LanguageCodeItem]? = nil, modelSettings: ModelSettings? = nil, outputLocationType: OutputLocationType? = nil, startTime: Date? = nil, toxicityDetection: [ToxicityDetectionSettings]? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
             self.completionTime = completionTime
             self.contentRedaction = contentRedaction
             self.creationTime = creationTime
@@ -3098,6 +3136,7 @@ extension Transcribe {
             self.modelSettings = modelSettings
             self.outputLocationType = outputLocationType
             self.startTime = startTime
+            self.toxicityDetection = toxicityDetection
             self.transcriptionJobName = transcriptionJobName
             self.transcriptionJobStatus = transcriptionJobStatus
         }
@@ -3115,6 +3154,7 @@ extension Transcribe {
             case modelSettings = "ModelSettings"
             case outputLocationType = "OutputLocationType"
             case startTime = "StartTime"
+            case toxicityDetection = "ToxicityDetection"
             case transcriptionJobName = "TranscriptionJobName"
             case transcriptionJobStatus = "TranscriptionJobStatus"
         }

@@ -46,11 +46,11 @@ extension IoTThingsGraph {
     }
 
     public enum EntityType: String, CustomStringConvertible, Codable, Sendable {
+        case `enum` = "ENUM"
         case action = "ACTION"
         case capability = "CAPABILITY"
         case device = "DEVICE"
         case deviceModel = "DEVICE_MODEL"
-        case `enum` = "ENUM"
         case event = "EVENT"
         case mapping = "MAPPING"
         case property = "PROPERTY"
@@ -108,8 +108,8 @@ extension IoTThingsGraph {
     public enum SystemInstanceDeploymentStatus: String, CustomStringConvertible, Codable, Sendable {
         case bootstrap = "BOOTSTRAP"
         case deletedInTarget = "DELETED_IN_TARGET"
-        case deployedInTarget = "DEPLOYED_IN_TARGET"
         case deployInProgress = "DEPLOY_IN_PROGRESS"
+        case deployedInTarget = "DEPLOYED_IN_TARGET"
         case failed = "FAILED"
         case notDeployed = "NOT_DEPLOYED"
         case pendingDelete = "PENDING_DELETE"
@@ -1178,7 +1178,7 @@ extension IoTThingsGraph {
     public struct SearchEntitiesRequest: AWSEncodableShape {
         /// The entity types for which to search.
         public let entityTypes: [EntityType]
-        /// Optional filter to apply to the search. Valid filters are NAME  NAMESPACE, SEMANTIC_TYPE_PATH and REFERENCED_ENTITY_ID.  REFERENCED_ENTITY_ID filters on entities that are used by the entity in the result set. For example,  you can filter on the ID of a property that is used in a state. Multiple filters function as OR criteria in the query. Multiple values passed inside the filter function as AND criteria.
+        /// Optional filter to apply to the search. Valid filters are NAME NAMESPACE, SEMANTIC_TYPE_PATH and REFERENCED_ENTITY_ID.  REFERENCED_ENTITY_ID filters on entities that are used by the entity in the result set. For example,  you can filter on the ID of a property that is used in a state. Multiple filters function as OR criteria in the query. Multiple values passed inside the filter function as AND criteria.
         public let filters: [EntityFilter]?
         /// The maximum number of results to return in the response.
         public let maxResults: Int?

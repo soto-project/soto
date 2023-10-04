@@ -1192,15 +1192,15 @@ extension VerifiedPermissions {
     }
 
     public struct IsAuthorizedWithTokenInput: AWSEncodableShape {
-        /// Specifies an access token for the principal to be authorized. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an AccessToken or an IdentityToken, but not both.
+        /// Specifies an access token for the principal to be authorized. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an AccessToken, or an IdentityToken, or both.
         public let accessToken: String?
         /// Specifies the requested action to be authorized. Is the specified principal authorized to perform this action on the specified resource.
         public let action: ActionIdentifier?
         /// Specifies additional context that can be used to make more granular authorization decisions.
         public let context: ContextDefinition?
-        /// Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies.   You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
+        /// Specifies the list of resources and their associated attributes that Verified Permissions can examine when evaluating the policies.   You can include only resource and action entities in this parameter; you can't include principals.   The IsAuthorizedWithToken operation takes principal attributes from  only  the identityToken or accessToken passed to the operation.   For action entities, you can include only their Identifier and EntityType.
         public let entities: EntitiesDefinition?
-        /// Specifies an identity token for the principal to be authorized. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an AccessToken or an IdentityToken, but not both.
+        /// Specifies an identity token for the principal to be authorized. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an AccessToken or an IdentityToken, or both.
         public let identityToken: String?
         /// Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input.
         public let policyStoreId: String
@@ -1268,7 +1268,7 @@ extension VerifiedPermissions {
     public struct ListIdentitySourcesInput: AWSEncodableShape {
         /// Specifies characteristics of an identity source that you can use to limit the output to matching identity sources.
         public let filters: [IdentitySourceFilter]?
-        /// Specifies the total number of results that you want included on each page  of the response. If you do not include this parameter, it defaults to a value that is  specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next  call to the operation to get the next part of the results. Note that the service might  return fewer results than the maximum even when there are more results available. You  should check NextToken after every operation to ensure that you receive all of the results.
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 identity sources per response. You can specify a maximum of 200 identity sources per response.
         public let maxResults: Int?
         /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
         public let nextToken: String?
@@ -1325,7 +1325,7 @@ extension VerifiedPermissions {
     public struct ListPoliciesInput: AWSEncodableShape {
         /// Specifies a filter that limits the response to only policies that match the specified criteria. For example, you list only the policies that reference a specified principal.
         public let filter: PolicyFilter?
-        /// Specifies the total number of results that you want included on each page  of the response. If you do not include this parameter, it defaults to a value that is  specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next  call to the operation to get the next part of the results. Note that the service might  return fewer results than the maximum even when there are more results available. You  should check NextToken after every operation to ensure that you receive all of the results.
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policies per response. You can specify a maximum of 50 policies per response.
         public let maxResults: Int?
         /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
         public let nextToken: String?
@@ -1341,7 +1341,7 @@ extension VerifiedPermissions {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -1377,7 +1377,7 @@ extension VerifiedPermissions {
     }
 
     public struct ListPolicyStoresInput: AWSEncodableShape {
-        /// Specifies the total number of results that you want included on each page  of the response. If you do not include this parameter, it defaults to a value that is  specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next  call to the operation to get the next part of the results. Note that the service might  return fewer results than the maximum even when there are more results available. You  should check NextToken after every operation to ensure that you receive all of the results.
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policy stores per response. You can specify a maximum of 50 policy stores per response.
         public let maxResults: Int?
         /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
         public let nextToken: String?
@@ -1388,7 +1388,7 @@ extension VerifiedPermissions {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -1419,7 +1419,7 @@ extension VerifiedPermissions {
     }
 
     public struct ListPolicyTemplatesInput: AWSEncodableShape {
-        /// Specifies the total number of results that you want included on each page  of the response. If you do not include this parameter, it defaults to a value that is  specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next  call to the operation to get the next part of the results. Note that the service might  return fewer results than the maximum even when there are more results available. You  should check NextToken after every operation to ensure that you receive all of the results.
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policy templates per response. You can specify a maximum of 50 policy templates per response.
         public let maxResults: Int?
         /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
         public let nextToken: String?
@@ -1433,7 +1433,7 @@ extension VerifiedPermissions {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)

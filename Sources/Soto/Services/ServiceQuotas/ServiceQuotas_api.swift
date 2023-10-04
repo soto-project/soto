@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS ServiceQuotas service.
 ///
-/// With Service Quotas, you can view and manage your quotas easily as your AWS workloads grow. Quotas, also referred to as limits, are the maximum number of resources that you can create in your AWS account. For more information, see the Service Quotas User Guide.
+/// With Service Quotas, you can view and manage your quotas easily as your Amazon Web Services workloads grow. Quotas, also referred to as limits, are the maximum number of resources that you can create in your Amazon Web Services account. For more information, see the Service Quotas User Guide.
 public struct ServiceQuotas: AWSService {
     // MARK: Member variables
 
@@ -70,7 +70,7 @@ public struct ServiceQuotas: AWSService {
 
     // MARK: API Calls
 
-    /// Associates your quota request template with your organization. When a new account is created in your organization, the quota increase requests in the template are automatically applied to the account. You can add a quota increase request for any adjustable quota to your template.
+    /// Associates your quota request template with your organization. When a new Amazon Web Services account is created in your organization, the quota increase requests in the template are automatically applied to the account. You can add a quota increase request for any adjustable quota to your template.
     public func associateServiceQuotaTemplate(_ input: AssociateServiceQuotaTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateServiceQuotaTemplateResponse> {
         return self.client.execute(operation: "AssociateServiceQuotaTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -80,7 +80,7 @@ public struct ServiceQuotas: AWSService {
         return self.client.execute(operation: "DeleteServiceQuotaIncreaseRequestFromTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disables your quota request template. After a template is disabled, the quota increase requests in the template are not applied to new accounts in your organization. Disabling a quota request template does not apply its quota increase requests.
+    /// Disables your quota request template. After a template is disabled, the quota increase requests in the template are not applied to new Amazon Web Services accounts in your organization. Disabling a quota request template does not apply its quota increase requests.
     public func disassociateServiceQuotaTemplate(_ input: DisassociateServiceQuotaTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateServiceQuotaTemplateResponse> {
         return self.client.execute(operation: "DisassociateServiceQuotaTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -110,12 +110,12 @@ public struct ServiceQuotas: AWSService {
         return self.client.execute(operation: "GetServiceQuotaIncreaseRequestFromTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the default values for the quotas for the specified AWS service. A default value does not reflect any quota increases.
+    /// Lists the default values for the quotas for the specified Amazon Web Service. A default value does not reflect any quota increases.
     public func listAWSDefaultServiceQuotas(_ input: ListAWSDefaultServiceQuotasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAWSDefaultServiceQuotasResponse> {
         return self.client.execute(operation: "ListAWSDefaultServiceQuotas", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the quota increase requests for the specified service.
+    /// Retrieves the quota increase requests for the specified Amazon Web Service.
     public func listRequestedServiceQuotaChangeHistory(_ input: ListRequestedServiceQuotaChangeHistoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRequestedServiceQuotaChangeHistoryResponse> {
         return self.client.execute(operation: "ListRequestedServiceQuotaChangeHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -130,12 +130,12 @@ public struct ServiceQuotas: AWSService {
         return self.client.execute(operation: "ListServiceQuotaIncreaseRequestsInTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the applied quota values for the specified AWS service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
+    /// Lists the applied quota values for the specified Amazon Web Service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
     public func listServiceQuotas(_ input: ListServiceQuotasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListServiceQuotasResponse> {
         return self.client.execute(operation: "ListServiceQuotas", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the names and codes for the services integrated with Service Quotas.
+    /// Lists the names and codes for the Amazon Web Services integrated with Service Quotas.
     public func listServices(_ input: ListServicesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListServicesResponse> {
         return self.client.execute(operation: "ListServices", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -178,7 +178,7 @@ extension ServiceQuotas {
 // MARK: Paginators
 
 extension ServiceQuotas {
-    /// Lists the default values for the quotas for the specified AWS service. A default value does not reflect any quota increases.
+    /// Lists the default values for the quotas for the specified Amazon Web Service. A default value does not reflect any quota increases.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -231,7 +231,7 @@ extension ServiceQuotas {
         )
     }
 
-    /// Retrieves the quota increase requests for the specified service.
+    /// Retrieves the quota increase requests for the specified Amazon Web Service.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -390,7 +390,7 @@ extension ServiceQuotas {
         )
     }
 
-    /// Lists the applied quota values for the specified AWS service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
+    /// Lists the applied quota values for the specified Amazon Web Service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -443,7 +443,7 @@ extension ServiceQuotas {
         )
     }
 
-    /// Lists the names and codes for the services integrated with Service Quotas.
+    /// Lists the names and codes for the Amazon Web Services integrated with Service Quotas.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -513,6 +513,7 @@ extension ServiceQuotas.ListRequestedServiceQuotaChangeHistoryByQuotaRequest: AW
             maxResults: self.maxResults,
             nextToken: token,
             quotaCode: self.quotaCode,
+            quotaRequestedAtLevel: self.quotaRequestedAtLevel,
             serviceCode: self.serviceCode,
             status: self.status
         )
@@ -524,6 +525,7 @@ extension ServiceQuotas.ListRequestedServiceQuotaChangeHistoryRequest: AWSPagina
         return .init(
             maxResults: self.maxResults,
             nextToken: token,
+            quotaRequestedAtLevel: self.quotaRequestedAtLevel,
             serviceCode: self.serviceCode,
             status: self.status
         )
@@ -546,6 +548,8 @@ extension ServiceQuotas.ListServiceQuotasRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token,
+            quotaAppliedAtLevel: self.quotaAppliedAtLevel,
+            quotaCode: self.quotaCode,
             serviceCode: self.serviceCode
         )
     }

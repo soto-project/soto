@@ -51,6 +51,11 @@ extension Backup {
         return try await self.client.execute(operation: "CreateLegalHold", path: "/legal-holds", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// This request creates a logical container to where backups may be copied. This request includes a name, the Region, the maximum number of retention days, the  minimum number of retention days, and optionally can include tags and a creator request  ID.  Do not include sensitive data, such as passport numbers, in the name of a backup vault.
+    public func createLogicallyAirGappedBackupVault(_ input: CreateLogicallyAirGappedBackupVaultInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateLogicallyAirGappedBackupVaultOutput {
+        return try await self.client.execute(operation: "CreateLogicallyAirGappedBackupVault", path: "/logically-air-gapped-backup-vaults/{BackupVaultName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a report plan. A report plan is a document that contains information about the contents of the report and where Backup will deliver it. If you call CreateReportPlan with a plan that already exists, you receive an AlreadyExistsException exception.
     public func createReportPlan(_ input: CreateReportPlanInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateReportPlanOutput {
         return try await self.client.execute(operation: "CreateReportPlan", path: "/audit/report-plans", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -264,6 +269,11 @@ extension Backup {
     /// Returns an array of resources successfully backed up by Backup, including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
     public func listProtectedResources(_ input: ListProtectedResourcesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListProtectedResourcesOutput {
         return try await self.client.execute(operation: "ListProtectedResources", path: "/resources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// This request lists the protected resources corresponding to each backup vault.
+    public func listProtectedResourcesByBackupVault(_ input: ListProtectedResourcesByBackupVaultInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListProtectedResourcesByBackupVaultOutput {
+        return try await self.client.execute(operation: "ListProtectedResourcesByBackupVault", path: "/backup-vaults/{BackupVaultName}/resources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns detailed information about the recovery points stored in a backup vault.
@@ -601,6 +611,28 @@ extension Backup {
             command: self.listProtectedResources,
             inputKey: \ListProtectedResourcesInput.nextToken,
             outputKey: \ListProtectedResourcesOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// This request lists the protected resources corresponding to each backup vault.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listProtectedResourcesByBackupVaultPaginator(
+        _ input: ListProtectedResourcesByBackupVaultInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListProtectedResourcesByBackupVaultInput, ListProtectedResourcesByBackupVaultOutput> {
+        return .init(
+            input: input,
+            command: self.listProtectedResourcesByBackupVault,
+            inputKey: \ListProtectedResourcesByBackupVaultInput.nextToken,
+            outputKey: \ListProtectedResourcesByBackupVaultOutput.nextToken,
             logger: logger,
             on: eventLoop
         )

@@ -111,6 +111,11 @@ extension Proton {
         return try await self.client.execute(operation: "DeleteComponent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Delete the deployment.
+    public func deleteDeployment(_ input: DeleteDeploymentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteDeploymentOutput {
+        return try await self.client.execute(operation: "DeleteDeployment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Delete an environment.
     public func deleteEnvironment(_ input: DeleteEnvironmentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteEnvironmentOutput {
         return try await self.client.execute(operation: "DeleteEnvironment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -169,6 +174,11 @@ extension Proton {
     /// Get detailed data for a component. For more information about components, see Proton components in the Proton User Guide.
     public func getComponent(_ input: GetComponentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetComponentOutput {
         return try await self.client.execute(operation: "GetComponent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get detailed data for a deployment.
+    public func getDeployment(_ input: GetDeploymentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetDeploymentOutput {
+        return try await self.client.execute(operation: "GetDeployment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Get detailed data for an environment.
@@ -264,6 +274,11 @@ extension Proton {
     /// List components with summary data. You can filter the result list by environment, service, or a single service instance. For more information about components, see Proton components in the Proton User Guide.
     public func listComponents(_ input: ListComponentsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListComponentsOutput {
         return try await self.client.execute(operation: "ListComponents", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List deployments. You can filter the result list by environment, service, or a single service instance.
+    public func listDeployments(_ input: ListDeploymentsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListDeploymentsOutput {
+        return try await self.client.execute(operation: "ListDeployments", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// View a list of environment account connections. For more information, see Environment account connections in the Proton User guide.
@@ -507,6 +522,28 @@ extension Proton {
             command: self.listComponents,
             inputKey: \ListComponentsInput.nextToken,
             outputKey: \ListComponentsOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// List deployments. You can filter the result list by environment, service, or a single service instance.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listDeploymentsPaginator(
+        _ input: ListDeploymentsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListDeploymentsInput, ListDeploymentsOutput> {
+        return .init(
+            input: input,
+            command: self.listDeployments,
+            inputKey: \ListDeploymentsInput.nextToken,
+            outputKey: \ListDeploymentsOutput.nextToken,
             logger: logger,
             on: eventLoop
         )

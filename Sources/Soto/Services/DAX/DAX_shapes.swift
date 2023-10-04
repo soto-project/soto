@@ -39,9 +39,9 @@ extension DAX {
     }
 
     public enum IsModifiable: String, CustomStringConvertible, Codable, Sendable {
-        case conditional = "CONDITIONAL"
         case `false` = "FALSE"
         case `true` = "TRUE"
+        case conditional = "CONDITIONAL"
         public var description: String { return self.rawValue }
     }
 

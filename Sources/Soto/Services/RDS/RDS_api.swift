@@ -215,7 +215,7 @@ public struct RDS: AWSService {
         return self.client.execute(operation: "CreateEventSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an Aurora global database spread across multiple Amazon Web Services Regions. The global database contains a single primary cluster with read-write capability, and a read-only secondary cluster that receives data from the primary cluster through high-speed replication performed by the Aurora storage subsystem. You can create a global database that is initially empty, and then add a primary cluster and a secondary cluster to it. Or you can specify an existing Aurora cluster during the create operation, and this cluster becomes the primary cluster of the global database.  This action applies only to Aurora DB clusters.
+    /// Creates an Aurora global database spread across multiple Amazon Web Services Regions. The global database contains a single primary cluster with read-write capability, and a read-only secondary cluster that receives data from the primary cluster through high-speed replication performed by the Aurora storage subsystem. You can create a global database that is initially empty, and then  create the primary and secondary DB clusters in the global database. Or you can specify an existing Aurora cluster during the create operation, and this cluster becomes the primary cluster of the global database.  This operation applies only to Aurora DB clusters.
     public func createGlobalCluster(_ input: CreateGlobalClusterMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateGlobalClusterResult> {
         return self.client.execute(operation: "CreateGlobalCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -225,7 +225,7 @@ public struct RDS: AWSService {
         return self.client.execute(operation: "CreateOptionGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a blue/green deployment. For more information, see Using Amazon RDS Blue/Green Deployments  for database updates in the Amazon RDS User Guide and   Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora  User Guide.
+    /// Deletes a blue/green deployment. For more information, see Using Amazon RDS Blue/Green Deployments for database updates in the Amazon RDS User Guide and Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora User Guide.
     public func deleteBlueGreenDeployment(_ input: DeleteBlueGreenDeploymentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBlueGreenDeploymentResponse> {
         return self.client.execute(operation: "DeleteBlueGreenDeployment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -238,6 +238,11 @@ public struct RDS: AWSService {
     /// The DeleteDBCluster action deletes a previously provisioned DB cluster.  When you delete a DB cluster, all automated backups for that DB cluster are deleted and can't be recovered.  Manual DB cluster snapshots of the specified DB cluster are not deleted. If you're deleting a Multi-AZ DB cluster with read replicas, all cluster members are terminated and read replicas are promoted to standalone instances. For more information on Amazon Aurora, see    What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide.
     public func deleteDBCluster(_ input: DeleteDBClusterMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDBClusterResult> {
         return self.client.execute(operation: "DeleteDBCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes automated backups using the DbClusterResourceId value of the source DB cluster or the Amazon  Resource Name (ARN) of the automated backups.
+    public func deleteDBClusterAutomatedBackup(_ input: DeleteDBClusterAutomatedBackupMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDBClusterAutomatedBackupResult> {
+        return self.client.execute(operation: "DeleteDBClusterAutomatedBackup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a custom endpoint and removes it from an Amazon Aurora DB cluster.  This action only applies to Aurora DB clusters.
@@ -320,14 +325,19 @@ public struct RDS: AWSService {
         return self.client.execute(operation: "DescribeAccountAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about blue/green deployments. For more information, see Using Amazon RDS Blue/Green Deployments  for database updates in the Amazon RDS User Guide and   Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora  User Guide.
+    /// Describes one or more blue/green deployments. For more information, see Using Amazon RDS Blue/Green Deployments  for database updates in the Amazon RDS User Guide and   Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora  User Guide.
     public func describeBlueGreenDeployments(_ input: DescribeBlueGreenDeploymentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeBlueGreenDeploymentsResponse> {
         return self.client.execute(operation: "DescribeBlueGreenDeployments", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the set of CA certificates provided by Amazon RDS for this Amazon Web Services account. For more information, see Using SSL/TLS to encrypt a connection to a DB  instance in the Amazon RDS User Guide and   Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora  User Guide.
+    /// Lists the set of certificate authority (CA) certificates provided by Amazon RDS for this Amazon Web Services account. For more information, see Using SSL/TLS to encrypt a connection to a DB  instance in the Amazon RDS User Guide and   Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora  User Guide.
     public func describeCertificates(_ input: DescribeCertificatesMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CertificateMessage> {
         return self.client.execute(operation: "DescribeCertificates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Displays backups for both current and deleted DB clusters. For example, use this operation to find details  about automated backups for previously deleted clusters. Current clusters are returned for both the  DescribeDBClusterAutomatedBackups and DescribeDBClusters operations. All parameters are optional.
+    public func describeDBClusterAutomatedBackups(_ input: DescribeDBClusterAutomatedBackupsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DBClusterAutomatedBackupMessage> {
+        return self.client.execute(operation: "DescribeDBClusterAutomatedBackups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see   What is Amazon Aurora? in the Amazon Aurora User Guide.  This action only applies to Aurora MySQL DB clusters.
@@ -520,7 +530,7 @@ public struct RDS: AWSService {
         return self.client.execute(operation: "FailoverDBCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Initiates the failover process for an Aurora global database (GlobalCluster). A failover for an Aurora global database promotes one of secondary read-only DB clusters to be the primary DB cluster and demotes the primary DB cluster to being a secondary (read-only) DB cluster. In other words, the role of the current primary DB cluster and the selected (target) DB cluster are switched. The selected secondary DB cluster assumes full read/write capabilities for the Aurora global database. For more information about failing over an Amazon Aurora global database, see Managed planned failover for Amazon Aurora global databases in the Amazon Aurora User Guide.  This action applies to GlobalCluster (Aurora global databases) only. Use this action only on healthy Aurora global databases with running Aurora DB clusters and no Region-wide outages, to test disaster recovery scenarios or to reconfigure your Aurora global database topology.
+    /// Promotes the specified secondary DB cluster to be the primary DB cluster in the global database cluster to fail over or switch over a global database. Switchover operations were previously called "managed planned failovers."  Although this operation can be used either to fail over or to switch over a global database cluster, its intended use is for global database failover.  To switch over a global database cluster, we recommend that you use the SwitchoverGlobalCluster operation instead.  How you use this operation depends on whether you are failing over or switching over your global database cluster:   Failing over - Specify the AllowDataLoss parameter and don't specify the Switchover parameter.   Switching over - Specify the Switchover parameter or omit it, but don't specify the AllowDataLoss parameter.    About failing over and switching over  While failing over and switching over a global database cluster both change the primary DB cluster, you use these operations for different reasons:    Failing over - Use this operation to respond to an unplanned event, such as a Regional disaster in the primary Region.  Failing over can result in a loss of write transaction data that wasn't replicated to the chosen secondary before the failover event occurred.  However, the recovery process that promotes a DB instance on the chosen seconday DB cluster to be the primary writer DB instance guarantees  that the data is in a transactionally consistent state. For more information about failing over an Amazon Aurora global database, see Performing managed failovers for Aurora global databases in the Amazon Aurora User Guide.    Switching over - Use this operation on a healthy global database cluster for planned events, such as Regional rotation or to  fail back to the original primary DB cluster after a failover operation. With this operation, there is no data loss. For more information about switching over an Amazon Aurora global database, see Performing switchovers for Aurora global databases in the Amazon Aurora User Guide.
     public func failoverGlobalCluster(_ input: FailoverGlobalClusterMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<FailoverGlobalClusterResult> {
         return self.client.execute(operation: "FailoverGlobalCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -615,7 +625,7 @@ public struct RDS: AWSService {
         return self.client.execute(operation: "ModifyEventSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modify a setting for an Amazon Aurora global cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. For more information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide.  This action only applies to Aurora DB clusters.
+    /// Modifies a setting for an Amazon Aurora global database cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. For more information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide.  This operation only applies to Aurora global database clusters.
     public func modifyGlobalCluster(_ input: ModifyGlobalClusterMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyGlobalClusterResult> {
         return self.client.execute(operation: "ModifyGlobalCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -770,9 +780,14 @@ public struct RDS: AWSService {
         return self.client.execute(operation: "StopDBInstanceAutomatedBackupsReplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Switches over a blue/green deployment. Before you switch over, production traffic is routed to the databases in the blue environment.  After you switch over, production traffic is routed to the databases in the green environment. For more information, see Using Amazon RDS Blue/Green Deployments  for database updates in the Amazon RDS User Guide and   Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora  User Guide.
+    /// Switches over a blue/green deployment. Before you switch over, production traffic is routed to the databases in the blue environment.  After you switch over, production traffic is routed to the databases in the green environment. For more information, see Using Amazon RDS Blue/Green Deployments for database updates in the Amazon RDS User Guide and Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora User Guide.
     public func switchoverBlueGreenDeployment(_ input: SwitchoverBlueGreenDeploymentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SwitchoverBlueGreenDeploymentResponse> {
         return self.client.execute(operation: "SwitchoverBlueGreenDeployment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Switches over the specified secondary DB cluster to be the new primary DB cluster in the global database cluster.  Switchover operations were previously called "managed planned failovers." Aurora promotes the specified secondary cluster to assume full read/write capabilities and demotes the current primary cluster  to a secondary (read-only) cluster, maintaining the orginal replication topology. All secondary clusters are synchronized with the primary  at the beginning of the process so the new primary continues operations for the Aurora global database without losing any data. Your database  is unavailable for a short time while the primary and selected secondary clusters are assuming their new roles. For more information about  switching over an Aurora global database, see Performing switchovers for Amazon Aurora global databases in the Amazon Aurora User Guide.  This operation is intended for controlled environments, for operations such as "regional rotation" or to fall back to the original  primary after a global database failover.
+    public func switchoverGlobalCluster(_ input: SwitchoverGlobalClusterMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SwitchoverGlobalClusterResult> {
+        return self.client.execute(operation: "SwitchoverGlobalCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Switches over an Oracle standby database in an Oracle Data Guard environment, making it the new primary database. Issue this command in the Region that hosts the current standby database.
@@ -793,7 +808,7 @@ extension RDS {
 // MARK: Paginators
 
 extension RDS {
-    /// Returns information about blue/green deployments. For more information, see Using Amazon RDS Blue/Green Deployments  for database updates in the Amazon RDS User Guide and   Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora  User Guide.
+    /// Describes one or more blue/green deployments. For more information, see Using Amazon RDS Blue/Green Deployments  for database updates in the Amazon RDS User Guide and   Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora  User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -846,7 +861,7 @@ extension RDS {
         )
     }
 
-    /// Lists the set of CA certificates provided by Amazon RDS for this Amazon Web Services account. For more information, see Using SSL/TLS to encrypt a connection to a DB  instance in the Amazon RDS User Guide and   Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora  User Guide.
+    /// Lists the set of certificate authority (CA) certificates provided by Amazon RDS for this Amazon Web Services account. For more information, see Using SSL/TLS to encrypt a connection to a DB  instance in the Amazon RDS User Guide and   Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora  User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -894,6 +909,59 @@ extension RDS {
             command: self.describeCertificates,
             inputKey: \DescribeCertificatesMessage.marker,
             outputKey: \CertificateMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Displays backups for both current and deleted DB clusters. For example, use this operation to find details  about automated backups for previously deleted clusters. Current clusters are returned for both the  DescribeDBClusterAutomatedBackups and DescribeDBClusters operations. All parameters are optional.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeDBClusterAutomatedBackupsPaginator<Result>(
+        _ input: DescribeDBClusterAutomatedBackupsMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DBClusterAutomatedBackupMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeDBClusterAutomatedBackups,
+            inputKey: \DescribeDBClusterAutomatedBackupsMessage.marker,
+            outputKey: \DBClusterAutomatedBackupMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeDBClusterAutomatedBackupsPaginator(
+        _ input: DescribeDBClusterAutomatedBackupsMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DBClusterAutomatedBackupMessage, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeDBClusterAutomatedBackups,
+            inputKey: \DescribeDBClusterAutomatedBackupsMessage.marker,
+            outputKey: \DBClusterAutomatedBackupMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -2618,6 +2686,18 @@ extension RDS.DescribeCertificatesMessage: AWSPaginateToken {
     }
 }
 
+extension RDS.DescribeDBClusterAutomatedBackupsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> RDS.DescribeDBClusterAutomatedBackupsMessage {
+        return .init(
+            dbClusterIdentifier: self.dbClusterIdentifier,
+            dbClusterResourceId: self.dbClusterResourceId,
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
+        )
+    }
+}
+
 extension RDS.DescribeDBClusterBacktracksMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBClusterBacktracksMessage {
         return .init(
@@ -2669,6 +2749,7 @@ extension RDS.DescribeDBClusterSnapshotsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBClusterSnapshotsMessage {
         return .init(
             dbClusterIdentifier: self.dbClusterIdentifier,
+            dbClusterResourceId: self.dbClusterResourceId,
             dbClusterSnapshotIdentifier: self.dbClusterSnapshotIdentifier,
             filters: self.filters,
             includePublic: self.includePublic,

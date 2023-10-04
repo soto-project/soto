@@ -66,6 +66,11 @@ extension Route53Resolver {
         return try await self.client.execute(operation: "CreateFirewallRuleGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates an Route 53 Resolver on an Outpost.
+    public func createOutpostResolver(_ input: CreateOutpostResolverRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateOutpostResolverResponse {
+        return try await self.client.execute(operation: "CreateOutpostResolver", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a Resolver endpoint. There are two types of Resolver endpoints, inbound and outbound:   An inbound Resolver endpoint forwards DNS queries to the DNS service for a VPC
     /// 				from your network.   An outbound Resolver endpoint forwards DNS queries from the DNS service for a VPC
     /// 				to your network.
@@ -101,6 +106,11 @@ extension Route53Resolver {
     /// Deletes the specified firewall rule group.
     public func deleteFirewallRuleGroup(_ input: DeleteFirewallRuleGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteFirewallRuleGroupResponse {
         return try await self.client.execute(operation: "DeleteFirewallRuleGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a Resolver on the Outpost.
+    public func deleteOutpostResolver(_ input: DeleteOutpostResolverRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteOutpostResolverResponse {
+        return try await self.client.execute(operation: "DeleteOutpostResolver", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a Resolver endpoint. The effect of deleting a Resolver endpoint depends on whether it's an inbound or an outbound
@@ -179,6 +189,12 @@ extension Route53Resolver {
     /// Returns the Identity and Access Management (Amazon Web Services IAM) policy for sharing the 	specified rule group. You can use the policy to share the rule group using Resource Access Manager (RAM).
     public func getFirewallRuleGroupPolicy(_ input: GetFirewallRuleGroupPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetFirewallRuleGroupPolicyResponse {
         return try await self.client.execute(operation: "GetFirewallRuleGroupPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets information about a specified Resolver on the Outpost, such as its instance count and
+    /// 			type, name, and the current status of the Resolver.
+    public func getOutpostResolver(_ input: GetOutpostResolverRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetOutpostResolverResponse {
+        return try await self.client.execute(operation: "GetOutpostResolver", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves the behavior configuration of Route 53 Resolver behavior for a single VPC from
@@ -268,6 +284,11 @@ extension Route53Resolver {
     /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC.  A single call might return only a partial list of the rules. For information, see MaxResults.
     public func listFirewallRules(_ input: ListFirewallRulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListFirewallRulesResponse {
         return try await self.client.execute(operation: "ListFirewallRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists all the Resolvers on Outposts that were created using the current Amazon Web Services account.
+    public func listOutpostResolvers(_ input: ListOutpostResolversRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListOutpostResolversResponse {
+        return try await self.client.execute(operation: "ListOutpostResolvers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves the Resolver configurations that you have defined.
@@ -365,6 +386,11 @@ extension Route53Resolver {
     /// Changes the association of a FirewallRuleGroup with a VPC. The association enables DNS filtering for the VPC.
     public func updateFirewallRuleGroupAssociation(_ input: UpdateFirewallRuleGroupAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateFirewallRuleGroupAssociationResponse {
         return try await self.client.execute(operation: "UpdateFirewallRuleGroupAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// You can use UpdateOutpostResolver to  update the instance count, type, or  name of a Resolver on an Outpost.
+    public func updateOutpostResolver(_ input: UpdateOutpostResolverRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateOutpostResolverResponse {
+        return try await self.client.execute(operation: "UpdateOutpostResolver", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the behavior configuration of Route 53 Resolver behavior for a single VPC from
@@ -522,6 +548,28 @@ extension Route53Resolver {
             command: self.listFirewallRules,
             inputKey: \ListFirewallRulesRequest.nextToken,
             outputKey: \ListFirewallRulesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists all the Resolvers on Outposts that were created using the current Amazon Web Services account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listOutpostResolversPaginator(
+        _ input: ListOutpostResolversRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListOutpostResolversRequest, ListOutpostResolversResponse> {
+        return .init(
+            input: input,
+            command: self.listOutpostResolvers,
+            inputKey: \ListOutpostResolversRequest.nextToken,
+            outputKey: \ListOutpostResolversResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

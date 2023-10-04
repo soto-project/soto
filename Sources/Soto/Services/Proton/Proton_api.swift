@@ -154,6 +154,11 @@ public struct Proton: AWSService {
         return self.client.execute(operation: "DeleteComponent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Delete the deployment.
+    public func deleteDeployment(_ input: DeleteDeploymentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDeploymentOutput> {
+        return self.client.execute(operation: "DeleteDeployment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Delete an environment.
     public func deleteEnvironment(_ input: DeleteEnvironmentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEnvironmentOutput> {
         return self.client.execute(operation: "DeleteEnvironment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -212,6 +217,11 @@ public struct Proton: AWSService {
     /// Get detailed data for a component. For more information about components, see Proton components in the Proton User Guide.
     public func getComponent(_ input: GetComponentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetComponentOutput> {
         return self.client.execute(operation: "GetComponent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get detailed data for a deployment.
+    public func getDeployment(_ input: GetDeploymentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeploymentOutput> {
+        return self.client.execute(operation: "GetDeployment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Get detailed data for an environment.
@@ -307,6 +317,11 @@ public struct Proton: AWSService {
     /// List components with summary data. You can filter the result list by environment, service, or a single service instance. For more information about components, see Proton components in the Proton User Guide.
     public func listComponents(_ input: ListComponentsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListComponentsOutput> {
         return self.client.execute(operation: "ListComponents", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List deployments. You can filter the result list by environment, service, or a single service instance.
+    public func listDeployments(_ input: ListDeploymentsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDeploymentsOutput> {
+        return self.client.execute(operation: "ListDeployments", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// View a list of environment account connections. For more information, see Environment account connections in the Proton User guide.
@@ -651,6 +666,59 @@ extension Proton {
             command: self.listComponents,
             inputKey: \ListComponentsInput.nextToken,
             outputKey: \ListComponentsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// List deployments. You can filter the result list by environment, service, or a single service instance.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listDeploymentsPaginator<Result>(
+        _ input: ListDeploymentsInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListDeploymentsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listDeployments,
+            inputKey: \ListDeploymentsInput.nextToken,
+            outputKey: \ListDeploymentsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listDeploymentsPaginator(
+        _ input: ListDeploymentsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListDeploymentsOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listDeployments,
+            inputKey: \ListDeploymentsInput.nextToken,
+            outputKey: \ListDeploymentsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1562,6 +1630,7 @@ extension Proton.ListComponentOutputsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Proton.ListComponentOutputsInput {
         return .init(
             componentName: self.componentName,
+            deploymentId: self.deploymentId,
             nextToken: token
         )
     }
@@ -1588,6 +1657,19 @@ extension Proton.ListComponentsInput: AWSPaginateToken {
     }
 }
 
+extension Proton.ListDeploymentsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Proton.ListDeploymentsInput {
+        return .init(
+            componentName: self.componentName,
+            environmentName: self.environmentName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            serviceInstanceName: self.serviceInstanceName,
+            serviceName: self.serviceName
+        )
+    }
+}
+
 extension Proton.ListEnvironmentAccountConnectionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Proton.ListEnvironmentAccountConnectionsInput {
         return .init(
@@ -1603,6 +1685,7 @@ extension Proton.ListEnvironmentAccountConnectionsInput: AWSPaginateToken {
 extension Proton.ListEnvironmentOutputsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Proton.ListEnvironmentOutputsInput {
         return .init(
+            deploymentId: self.deploymentId,
             environmentName: self.environmentName,
             nextToken: token
         )
@@ -1671,6 +1754,7 @@ extension Proton.ListRepositorySyncDefinitionsInput: AWSPaginateToken {
 extension Proton.ListServiceInstanceOutputsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Proton.ListServiceInstanceOutputsInput {
         return .init(
+            deploymentId: self.deploymentId,
             nextToken: token,
             serviceInstanceName: self.serviceInstanceName,
             serviceName: self.serviceName
@@ -1704,6 +1788,7 @@ extension Proton.ListServiceInstancesInput: AWSPaginateToken {
 extension Proton.ListServicePipelineOutputsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Proton.ListServicePipelineOutputsInput {
         return .init(
+            deploymentId: self.deploymentId,
             nextToken: token,
             serviceName: self.serviceName
         )

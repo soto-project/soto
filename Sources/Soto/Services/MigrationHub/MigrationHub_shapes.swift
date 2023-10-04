@@ -99,10 +99,10 @@ extension MigrationHub {
             try self.createdArtifact.validate(name: "\(name).createdArtifact")
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
-            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "[^:|]+")
+            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "^[^:|]+$")
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
-            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "[^/:|\\000-\\037]+")
+            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "^[^/:|\\000-\\037]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -138,10 +138,10 @@ extension MigrationHub {
             try self.discoveredResource.validate(name: "\(name).discoveredResource")
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
-            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "[^:|]+")
+            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "^[^:|]+$")
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
-            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "[^/:|\\000-\\037]+")
+            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "^[^/:|\\000-\\037]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -170,7 +170,7 @@ extension MigrationHub {
         public func validate(name: String) throws {
             try self.validate(self.progressUpdateStreamName, name: "progressUpdateStreamName", parent: name, max: 50)
             try self.validate(self.progressUpdateStreamName, name: "progressUpdateStreamName", parent: name, min: 1)
-            try self.validate(self.progressUpdateStreamName, name: "progressUpdateStreamName", parent: name, pattern: "[^/:|\\000-\\037]+")
+            try self.validate(self.progressUpdateStreamName, name: "progressUpdateStreamName", parent: name, pattern: "^[^/:|\\000-\\037]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -199,7 +199,7 @@ extension MigrationHub {
             try self.validate(self.description, name: "description", parent: name, pattern: "^.{0,500}$")
             try self.validate(self.name, name: "name", parent: name, max: 1600)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "arn:[a-z-]+:[a-z0-9-]+:(?:[a-z0-9-]+|):(?:[0-9]{12}|):.*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^arn:[a-z-]+:[a-z0-9-]+:(?:[a-z0-9-]+|):(?:[0-9]{12}|):")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -222,7 +222,7 @@ extension MigrationHub {
         public func validate(name: String) throws {
             try self.validate(self.progressUpdateStreamName, name: "progressUpdateStreamName", parent: name, max: 50)
             try self.validate(self.progressUpdateStreamName, name: "progressUpdateStreamName", parent: name, min: 1)
-            try self.validate(self.progressUpdateStreamName, name: "progressUpdateStreamName", parent: name, pattern: "[^/:|\\000-\\037]+")
+            try self.validate(self.progressUpdateStreamName, name: "progressUpdateStreamName", parent: name, pattern: "^[^/:|\\000-\\037]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -285,10 +285,10 @@ extension MigrationHub {
         public func validate(name: String) throws {
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
-            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "[^:|]+")
+            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "^[^:|]+$")
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
-            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "[^/:|\\000-\\037]+")
+            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "^[^/:|\\000-\\037]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -330,13 +330,13 @@ extension MigrationHub {
         public func validate(name: String) throws {
             try self.validate(self.createdArtifactName, name: "createdArtifactName", parent: name, max: 1600)
             try self.validate(self.createdArtifactName, name: "createdArtifactName", parent: name, min: 1)
-            try self.validate(self.createdArtifactName, name: "createdArtifactName", parent: name, pattern: "arn:[a-z-]+:[a-z0-9-]+:(?:[a-z0-9-]+|):(?:[0-9]{12}|):.*")
+            try self.validate(self.createdArtifactName, name: "createdArtifactName", parent: name, pattern: "^arn:[a-z-]+:[a-z0-9-]+:(?:[a-z0-9-]+|):(?:[0-9]{12}|):")
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
-            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "[^:|]+")
+            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "^[^:|]+$")
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
-            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "[^/:|\\000-\\037]+")
+            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "^[^/:|\\000-\\037]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -374,10 +374,10 @@ extension MigrationHub {
             try self.validate(self.configurationId, name: "configurationId", parent: name, pattern: "^.{1,1600}$")
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
-            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "[^:|]+")
+            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "^[^:|]+$")
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
-            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "[^/:|\\000-\\037]+")
+            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "^[^/:|\\000-\\037]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -434,10 +434,10 @@ extension MigrationHub {
         public func validate(name: String) throws {
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
-            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "[^:|]+")
+            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "^[^:|]+$")
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
-            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "[^/:|\\000-\\037]+")
+            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "^[^/:|\\000-\\037]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -525,12 +525,12 @@ extension MigrationHub {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
-            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "[^:|]+")
+            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "^[^:|]+$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9\\/\\+\\=]{0,2048}$")
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
-            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "[^/:|\\000-\\037]+")
+            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "^[^/:|\\000-\\037]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -580,12 +580,12 @@ extension MigrationHub {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
-            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "[^:|]+")
+            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "^[^:|]+$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9\\/\\+\\=]{0,2048}$")
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
-            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "[^/:|\\000-\\037]+")
+            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "^[^/:|\\000-\\037]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -825,11 +825,11 @@ extension MigrationHub {
         public func validate(name: String) throws {
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
-            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "[^:|]+")
+            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "^[^:|]+$")
             try self.validate(self.nextUpdateSeconds, name: "nextUpdateSeconds", parent: name, min: 0)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
-            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "[^/:|\\000-\\037]+")
+            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "^[^/:|\\000-\\037]+$")
             try self.task.validate(name: "\(name).task")
         }
 
@@ -881,10 +881,10 @@ extension MigrationHub {
         public func validate(name: String) throws {
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
-            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "[^:|]+")
+            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "^[^:|]+$")
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
-            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "[^/:|\\000-\\037]+")
+            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "^[^/:|\\000-\\037]+$")
             try self.resourceAttributeList.forEach {
                 try $0.validate(name: "\(name).resourceAttributeList[]")
             }

@@ -456,7 +456,10 @@
             "type": "structure",
             "members": {
                 "Message": {
-                    "target": "com.amazonaws.cloudformation#ErrorMessage"
+                    "target": "com.amazonaws.cloudformation#ErrorMessage",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An message with details about the error that occurred.</p>"
+                    }
                 }
             },
             "traits": {
@@ -1188,6 +1191,9 @@
                     "target": "com.amazonaws.cloudformation#ListImports"
                 },
                 {
+                    "target": "com.amazonaws.cloudformation#ListStackInstanceResourceDrifts"
+                },
+                {
                     "target": "com.amazonaws.cloudformation#ListStackInstances"
                 },
                 {
@@ -1340,9 +1346,213 @@
                                     "type": "error"
                                 },
                                 {
+                                    "conditions": [
+                                        {
+                                            "fn": "booleanEquals",
+                                            "argv": [
+                                                {
+                                                    "ref": "UseDualStack"
+                                                },
+                                                true
+                                            ]
+                                        }
+                                    ],
+                                    "error": "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                                    "type": "error"
+                                },
+                                {
                                     "conditions": [],
+                                    "endpoint": {
+                                        "url": {
+                                            "ref": "Endpoint"
+                                        },
+                                        "properties": {},
+                                        "headers": {}
+                                    },
+                                    "type": "endpoint"
+                                }
+                            ]
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "fn": "isSet",
+                                    "argv": [
+                                        {
+                                            "ref": "Region"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "type": "tree",
+                            "rules": [
+                                {
+                                    "conditions": [
+                                        {
+                                            "fn": "aws.partition",
+                                            "argv": [
+                                                {
+                                                    "ref": "Region"
+                                                }
+                                            ],
+                                            "assign": "PartitionResult"
+                                        }
+                                    ],
                                     "type": "tree",
                                     "rules": [
+                                        {
+                                            "conditions": [
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseFIPS"
+                                                        },
+                                                        true
+                                                    ]
+                                                },
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseDualStack"
+                                                        },
+                                                        true
+                                                    ]
+                                                }
+                                            ],
+                                            "type": "tree",
+                                            "rules": [
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsFIPS"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsDualStack"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "type": "tree",
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [],
+                                                            "endpoint": {
+                                                                "url": "https://cloudformation-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                                    "type": "error"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "conditions": [
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseFIPS"
+                                                        },
+                                                        true
+                                                    ]
+                                                }
+                                            ],
+                                            "type": "tree",
+                                            "rules": [
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsFIPS"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "type": "tree",
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [
+                                                                {
+                                                                    "fn": "stringEquals",
+                                                                    "argv": [
+                                                                        "aws-us-gov",
+                                                                        {
+                                                                            "fn": "getAttr",
+                                                                            "argv": [
+                                                                                {
+                                                                                    "ref": "PartitionResult"
+                                                                                },
+                                                                                "name"
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "endpoint": {
+                                                                "url": "https://cloudformation.{Region}.amazonaws.com",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        },
+                                                        {
+                                                            "conditions": [],
+                                                            "endpoint": {
+                                                                "url": "https://cloudformation-fips.{Region}.{PartitionResult#dnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "FIPS is enabled but this partition does not support FIPS",
+                                                    "type": "error"
+                                                }
+                                            ]
+                                        },
                                         {
                                             "conditions": [
                                                 {
@@ -1355,15 +1565,50 @@
                                                     ]
                                                 }
                                             ],
-                                            "error": "Invalid Configuration: Dualstack and custom endpoint are not supported",
-                                            "type": "error"
+                                            "type": "tree",
+                                            "rules": [
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsDualStack"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "type": "tree",
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [],
+                                                            "endpoint": {
+                                                                "url": "https://cloudformation.{Region}.{PartitionResult#dualStackDnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "DualStack is enabled but this partition does not support DualStack",
+                                                    "type": "error"
+                                                }
+                                            ]
                                         },
                                         {
                                             "conditions": [],
                                             "endpoint": {
-                                                "url": {
-                                                    "ref": "Endpoint"
-                                                },
+                                                "url": "https://cloudformation.{Region}.{PartitionResult#dnsSuffix}",
                                                 "properties": {},
                                                 "headers": {}
                                             },
@@ -1375,283 +1620,8 @@
                         },
                         {
                             "conditions": [],
-                            "type": "tree",
-                            "rules": [
-                                {
-                                    "conditions": [
-                                        {
-                                            "fn": "isSet",
-                                            "argv": [
-                                                {
-                                                    "ref": "Region"
-                                                }
-                                            ]
-                                        }
-                                    ],
-                                    "type": "tree",
-                                    "rules": [
-                                        {
-                                            "conditions": [
-                                                {
-                                                    "fn": "aws.partition",
-                                                    "argv": [
-                                                        {
-                                                            "ref": "Region"
-                                                        }
-                                                    ],
-                                                    "assign": "PartitionResult"
-                                                }
-                                            ],
-                                            "type": "tree",
-                                            "rules": [
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseFIPS"
-                                                                },
-                                                                true
-                                                            ]
-                                                        },
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseDualStack"
-                                                                },
-                                                                true
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsFIPS"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                },
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsDualStack"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://cloudformation-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
-                                                            "type": "error"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseFIPS"
-                                                                },
-                                                                true
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsFIPS"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [
-                                                                                {
-                                                                                    "fn": "stringEquals",
-                                                                                    "argv": [
-                                                                                        "aws-us-gov",
-                                                                                        {
-                                                                                            "fn": "getAttr",
-                                                                                            "argv": [
-                                                                                                {
-                                                                                                    "ref": "PartitionResult"
-                                                                                                },
-                                                                                                "name"
-                                                                                            ]
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "endpoint": {
-                                                                                "url": "https://cloudformation.{Region}.amazonaws.com",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        },
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://cloudformation-fips.{Region}.{PartitionResult#dnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "error": "FIPS is enabled but this partition does not support FIPS",
-                                                            "type": "error"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseDualStack"
-                                                                },
-                                                                true
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsDualStack"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://cloudformation.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "error": "DualStack is enabled but this partition does not support DualStack",
-                                                            "type": "error"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "conditions": [],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [],
-                                                            "endpoint": {
-                                                                "url": "https://cloudformation.{Region}.{PartitionResult#dnsSuffix}",
-                                                                "properties": {},
-                                                                "headers": {}
-                                                            },
-                                                            "type": "endpoint"
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                },
-                                {
-                                    "conditions": [],
-                                    "error": "Invalid Configuration: Missing Region",
-                                    "type": "error"
-                                }
-                            ]
+                            "error": "Invalid Configuration: Missing Region",
+                            "type": "error"
                         }
                     ]
                 },
@@ -2474,7 +2444,7 @@
                 "Capabilities": {
                     "target": "com.amazonaws.cloudformation#Capabilities",
                     "traits": {
-                        "smithy.api#documentation": "<p>In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order\n   for CloudFormation to create the stack.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CAPABILITY_IAM</code> and <code>CAPABILITY_NAMED_IAM</code>\n               </p>\n               <p>Some stack templates might include resources that can affect permissions in your Amazon Web Services account;\n     for example, by creating new Identity and Access Management (IAM) users. For those stacks, you must\n     explicitly acknowledge this by specifying one of these capabilities.</p>\n               <p>The following IAM resources require you to specify either the <code>CAPABILITY_IAM</code> or\n      <code>CAPABILITY_NAMED_IAM</code> capability.</p>\n               <ul>\n                  <li>\n                     <p>If you have IAM resources, you can specify either capability.</p>\n                  </li>\n                  <li>\n                     <p>If you have IAM resources with custom names, you <i>must</i> specify\n        <code>CAPABILITY_NAMED_IAM</code>.</p>\n                  </li>\n                  <li>\n                     <p>If you don't specify either of these capabilities, CloudFormation returns an\n        <code>InsufficientCapabilities</code> error.</p>\n                  </li>\n               </ul>\n               <p>If your stack template contains these resources, we suggest that you review all permissions associated with\n     them and edit their permissions if necessary.</p>\n               <ul>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html\">\n        AWS::IAM::AccessKey</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html\">\n        AWS::IAM::Group</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html\">AWS::IAM::InstanceProfile</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html\">\n        AWS::IAM::Policy</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html\">\n        AWS::IAM::Role</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html\">\n        AWS::IAM::User</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html\">AWS::IAM::UserToGroupAddition</a>\n                     </p>\n                  </li>\n               </ul>\n               <p>For more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities\">Acknowledging\n       IAM resources in CloudFormation templates</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CAPABILITY_AUTO_EXPAND</code>\n               </p>\n               <p>Some template contain macros. Macros perform custom processing on templates; this can include simple actions\n     like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this,\n     users typically create a change set from the processed template, so that they can review the changes resulting from\n     the macros before actually creating the stack. If your stack template contains one or more macros, and you choose\n     to create a stack directly from the processed template, without first reviewing the resulting changes in a change\n     set, you must acknowledge this capability. This includes the <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html\">AWS::Include</a> and <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html\">AWS::Serverless</a>\n     transforms, which are macros hosted by CloudFormation.</p>\n               <note>\n                  <p>This capacity doesn't apply to creating change sets, and specifying it when creating change sets has no\n      effect.</p>\n                  <p>If you want to create a stack from a stack template that contains macros <i>and</i> nested\n      stacks, you must create or update the stack directly from the template using the <a>CreateStack</a> or\n       <a>UpdateStack</a> action, and specifying this capability.</p>\n               </note>\n               <p>For more information about macros, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html\">Using CloudFormation macros to perform custom processing on templates</a>.</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order\n   for CloudFormation to create the stack.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CAPABILITY_IAM</code> and <code>CAPABILITY_NAMED_IAM</code>\n               </p>\n               <p>Some stack templates might include resources that can affect permissions in your Amazon Web Services account;\n     for example, by creating new Identity and Access Management (IAM) users. For those stacks, you must\n     explicitly acknowledge this by specifying one of these capabilities.</p>\n               <p>The following IAM resources require you to specify either the <code>CAPABILITY_IAM</code> or\n      <code>CAPABILITY_NAMED_IAM</code> capability.</p>\n               <ul>\n                  <li>\n                     <p>If you have IAM resources, you can specify either capability.</p>\n                  </li>\n                  <li>\n                     <p>If you have IAM resources with custom names, you <i>must</i> specify\n        <code>CAPABILITY_NAMED_IAM</code>.</p>\n                  </li>\n                  <li>\n                     <p>If you don't specify either of these capabilities, CloudFormation returns an\n        <code>InsufficientCapabilities</code> error.</p>\n                  </li>\n               </ul>\n               <p>If your stack template contains these resources, we suggest that you review all permissions associated with\n     them and edit their permissions if necessary.</p>\n               <ul>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html\">\n        AWS::IAM::AccessKey</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html\">\n        AWS::IAM::Group</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html\">AWS::IAM::InstanceProfile</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html\">\n        AWS::IAM::Policy</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html\">\n        AWS::IAM::Role</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html\">\n        AWS::IAM::User</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html\">AWS::IAM::UserToGroupAddition</a>\n                     </p>\n                  </li>\n               </ul>\n               <p>For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities\">Acknowledging IAM\n     resources in CloudFormation templates</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CAPABILITY_AUTO_EXPAND</code>\n               </p>\n               <p>Some template contain macros. Macros perform custom processing on templates; this can include simple actions\n     like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this,\n     users typically create a change set from the processed template, so that they can review the changes resulting from\n     the macros before actually creating the stack. If your stack template contains one or more macros, and you choose\n     to create a stack directly from the processed template, without first reviewing the resulting changes in a change\n     set, you must acknowledge this capability. This includes the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html\">AWS::Include</a> and <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html\">AWS::Serverless</a> transforms, which\n     are macros hosted by CloudFormation.</p>\n               <note>\n                  <p>This capacity doesn't apply to creating change sets, and specifying it when creating change sets has no\n      effect.</p>\n                  <p>If you want to create a stack from a stack template that contains macros <i>and</i> nested\n      stacks, you must create or update the stack directly from the template using the <a>CreateStack</a> or\n       <a>UpdateStack</a> action, and specifying this capability.</p>\n               </note>\n               <p>For more information about macros, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html\">Using CloudFormation macros to perform custom\n     processing on templates</a>.</p>\n            </li>\n         </ul>"
                     }
                 },
                 "ResourceTypes": {
@@ -2547,7 +2517,7 @@
                 "OnStackFailure": {
                     "target": "com.amazonaws.cloudformation#OnStackFailure",
                     "traits": {
-                        "smithy.api#documentation": "<p>Determines what action will be taken if stack creation fails. If this parameter is specified, the\n   <code>DisableRollback</code> parameter to the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html\">ExecuteChangeSet</a> API operation must not\n   be specified. This must be one of these values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DELETE</code> - Deletes the change set if the stack creation fails. This is only valid when the\n     <code>ChangeSetType</code> parameter is set to <code>CREATE</code>. If the deletion of the stack fails, the status\n     of the stack is <code>DELETE_FAILED</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DO_NOTHING</code> - if the stack creation fails, do nothing. This is equivalent to specifying\n     <code>true</code> for the <code>DisableRollback</code> parameter to the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html\">ExecuteChangeSet</a> API\n     operation.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ROLLBACK</code> - if the stack creation fails, roll back the stack. This is equivalent to specifying\n     <code>false</code> for the <code>DisableRollback</code> parameter to the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html\">ExecuteChangeSet</a> API\n     operation.</p>\n            </li>\n         </ul>\n         <p>For nested stacks, when the <code>OnStackFailure</code> parameter is set to <code>DELETE</code> for the change\n   set for the parent stack, any failure in a child stack will cause the parent stack creation to fail and all stacks to\n   be deleted.</p>"
+                        "smithy.api#documentation": "<p>Determines what action will be taken if stack creation fails. If this parameter is specified, the\n    <code>DisableRollback</code> parameter to the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html\">ExecuteChangeSet</a> API operation must not\n      be specified. This must be one of these values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DELETE</code> - Deletes the change set if the stack creation fails. This is only valid when the\n        <code>ChangeSetType</code> parameter is set to <code>CREATE</code>. If the deletion of the stack fails, the status\n        of the stack is <code>DELETE_FAILED</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DO_NOTHING</code> - if the stack creation fails, do nothing. This is equivalent to specifying\n        <code>true</code> for the <code>DisableRollback</code> parameter to the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html\">ExecuteChangeSet</a> API\n        operation.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ROLLBACK</code> - if the stack creation fails, roll back the stack. This is equivalent to specifying\n        <code>false</code> for the <code>DisableRollback</code> parameter to the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html\">ExecuteChangeSet</a> API\n        operation.</p>\n            </li>\n         </ul>\n         <p>For nested stacks, when the <code>OnStackFailure</code> parameter is set to <code>DELETE</code> for the change\n     set for the parent stack, any failure in a child stack will cause the parent stack creation to fail and all stacks to\n     be deleted.</p>"
                     }
                 }
             },
@@ -2658,7 +2628,7 @@
                 "Capabilities": {
                     "target": "com.amazonaws.cloudformation#Capabilities",
                     "traits": {
-                        "smithy.api#documentation": "<p>In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order\n   for CloudFormation to create the stack.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CAPABILITY_IAM</code> and <code>CAPABILITY_NAMED_IAM</code>\n               </p>\n               <p>Some stack templates might include resources that can affect permissions in your Amazon Web Services account;\n     for example, by creating new Identity and Access Management (IAM) users. For those stacks, you must\n     explicitly acknowledge this by specifying one of these capabilities.</p>\n               <p>The following IAM resources require you to specify either the <code>CAPABILITY_IAM</code> or\n      <code>CAPABILITY_NAMED_IAM</code> capability.</p>\n               <ul>\n                  <li>\n                     <p>If you have IAM resources, you can specify either capability.</p>\n                  </li>\n                  <li>\n                     <p>If you have IAM resources with custom names, you <i>must</i> specify\n        <code>CAPABILITY_NAMED_IAM</code>.</p>\n                  </li>\n                  <li>\n                     <p>If you don't specify either of these capabilities, CloudFormation returns an\n        <code>InsufficientCapabilities</code> error.</p>\n                  </li>\n               </ul>\n               <p>If your stack template contains these resources, we recommend that you review all permissions associated with\n     them and edit their permissions if necessary.</p>\n               <ul>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html\">\n        AWS::IAM::AccessKey</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html\">\n        AWS::IAM::Group</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html\">AWS::IAM::InstanceProfile</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html\">\n        AWS::IAM::Policy</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html\">\n        AWS::IAM::Role</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html\">\n        AWS::IAM::User</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html\">AWS::IAM::UserToGroupAddition</a>\n                     </p>\n                  </li>\n               </ul>\n               <p>For more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities\">Acknowledging\n       IAM Resources in CloudFormation Templates</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CAPABILITY_AUTO_EXPAND</code>\n               </p>\n               <p>Some template contain macros. Macros perform custom processing on templates; this can include simple actions\n     like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this,\n     users typically create a change set from the processed template, so that they can review the changes resulting from\n     the macros before actually creating the stack. If your stack template contains one or more macros, and you choose\n     to create a stack directly from the processed template, without first reviewing the resulting changes in a change\n     set, you must acknowledge this capability. This includes the <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html\">AWS::Include</a> and <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html\">AWS::Serverless</a>\n     transforms, which are macros hosted by CloudFormation.</p>\n               <p>If you want to create a stack from a stack template that contains macros <i>and</i> nested\n     stacks, you must create the stack directly from the template using this capability.</p>\n               <important>\n                  <p>You should only create stacks directly from a stack template that contains macros if you know what processing\n      the macro performs.</p>\n                  <p>Each macro relies on an underlying Lambda service function for processing stack templates. Be\n      aware that the Lambda function owner can update the function operation without CloudFormation being\n      notified.</p>\n               </important>\n               <p>For more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html\">Using CloudFormation macros\n      to perform custom processing on templates</a>.</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order\n   for CloudFormation to create the stack.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CAPABILITY_IAM</code> and <code>CAPABILITY_NAMED_IAM</code>\n               </p>\n               <p>Some stack templates might include resources that can affect permissions in your Amazon Web Services account;\n     for example, by creating new Identity and Access Management (IAM) users. For those stacks, you must\n     explicitly acknowledge this by specifying one of these capabilities.</p>\n               <p>The following IAM resources require you to specify either the <code>CAPABILITY_IAM</code> or\n      <code>CAPABILITY_NAMED_IAM</code> capability.</p>\n               <ul>\n                  <li>\n                     <p>If you have IAM resources, you can specify either capability.</p>\n                  </li>\n                  <li>\n                     <p>If you have IAM resources with custom names, you <i>must</i> specify\n        <code>CAPABILITY_NAMED_IAM</code>.</p>\n                  </li>\n                  <li>\n                     <p>If you don't specify either of these capabilities, CloudFormation returns an\n        <code>InsufficientCapabilities</code> error.</p>\n                  </li>\n               </ul>\n               <p>If your stack template contains these resources, we recommend that you review all permissions associated with\n     them and edit their permissions if necessary.</p>\n               <ul>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html\">\n        AWS::IAM::AccessKey</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html\">\n        AWS::IAM::Group</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html\">AWS::IAM::InstanceProfile</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html\">\n        AWS::IAM::Policy</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html\">\n        AWS::IAM::Role</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html\">\n        AWS::IAM::User</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html\">AWS::IAM::UserToGroupAddition</a>\n                     </p>\n                  </li>\n               </ul>\n               <p>For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities\">Acknowledging IAM\n     Resources in CloudFormation Templates</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CAPABILITY_AUTO_EXPAND</code>\n               </p>\n               <p>Some template contain macros. Macros perform custom processing on templates; this can include simple actions\n     like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this,\n     users typically create a change set from the processed template, so that they can review the changes resulting from\n     the macros before actually creating the stack. If your stack template contains one or more macros, and you choose\n     to create a stack directly from the processed template, without first reviewing the resulting changes in a change\n     set, you must acknowledge this capability. This includes the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html\">AWS::Include</a> and <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html\">AWS::Serverless</a> transforms, which\n     are macros hosted by CloudFormation.</p>\n               <p>If you want to create a stack from a stack template that contains macros <i>and</i> nested\n     stacks, you must create the stack directly from the template using this capability.</p>\n               <important>\n                  <p>You should only create stacks directly from a stack template that contains macros if you know what processing\n      the macro performs.</p>\n                  <p>Each macro relies on an underlying Lambda service function for processing stack templates. Be\n      aware that the Lambda function owner can update the function operation without CloudFormation being\n      notified.</p>\n               </important>\n               <p>For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html\">Using CloudFormation macros to perform custom\n     processing on templates</a>.</p>\n            </li>\n         </ul>"
                     }
                 },
                 "ResourceTypes": {
@@ -2706,7 +2676,13 @@
                 "EnableTerminationProtection": {
                     "target": "com.amazonaws.cloudformation#EnableTerminationProtection",
                     "traits": {
-                        "smithy.api#documentation": "<p>Whether to enable termination protection on the specified stack. If a user attempts to delete a stack with\n   termination protection enabled, the operation fails and the stack remains unchanged. For more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html\">Protecting a Stack From Being Deleted</a> in the\n    <i>CloudFormation User Guide</i>. Termination protection is deactivated on stacks by default.</p>\n         <p>For <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html\">nested stacks</a>, termination protection is set\n   on the root stack and can't be changed directly on the nested stack.</p>"
+                        "smithy.api#documentation": "<p>Whether to enable termination protection on the specified stack. If a user attempts to delete a stack with\n   termination protection enabled, the operation fails and the stack remains unchanged. For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html\">Protecting a Stack From\n   Being Deleted</a> in the <i>CloudFormation User Guide</i>. Termination protection is deactivated on stacks\n   by default.</p>\n         <p>For <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html\">nested\n   stacks</a>, termination protection is set on the root stack and can't be changed directly on the nested\n   stack.</p>"
+                    }
+                },
+                "RetainExceptOnCreate": {
+                    "target": "com.amazonaws.cloudformation#RetainExceptOnCreate",
+                    "traits": {
+                        "smithy.api#documentation": "<p>When set to <code>true</code>, newly created resources are deleted when the operation rolls back. This includes newly\n     created resources marked with a deletion policy of <code>Retain</code>.</p>\n         <p>Default: <code>false</code>\n         </p>"
                     }
                 }
             },
@@ -2901,7 +2877,7 @@
                 "Capabilities": {
                     "target": "com.amazonaws.cloudformation#Capabilities",
                     "traits": {
-                        "smithy.api#documentation": "<p>In some cases, you must explicitly acknowledge that your stack set template contains certain capabilities in\n   order for CloudFormation to create the stack set and related stack instances.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CAPABILITY_IAM</code> and <code>CAPABILITY_NAMED_IAM</code>\n               </p>\n               <p>Some stack templates might include resources that can affect permissions in your Amazon Web Services account;\n     for example, by creating new Identity and Access Management (IAM) users. For those stack sets, you must\n     explicitly acknowledge this by specifying one of these capabilities.</p>\n               <p>The following IAM resources require you to specify either the <code>CAPABILITY_IAM</code> or\n      <code>CAPABILITY_NAMED_IAM</code> capability.</p>\n               <ul>\n                  <li>\n                     <p>If you have IAM resources, you can specify either capability.</p>\n                  </li>\n                  <li>\n                     <p>If you have IAM resources with custom names, you <i>must</i> specify\n        <code>CAPABILITY_NAMED_IAM</code>.</p>\n                  </li>\n                  <li>\n                     <p>If you don't specify either of these capabilities, CloudFormation returns an\n        <code>InsufficientCapabilities</code> error.</p>\n                  </li>\n               </ul>\n               <p>If your stack template contains these resources, we recommend that you review all permissions associated with\n     them and edit their permissions if necessary.</p>\n               <ul>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html\">\n        AWS::IAM::AccessKey</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html\">\n        AWS::IAM::Group</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html\">AWS::IAM::InstanceProfile</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html\">\n        AWS::IAM::Policy</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html\">\n        AWS::IAM::Role</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html\">\n        AWS::IAM::User</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html\">AWS::IAM::UserToGroupAddition</a>\n                     </p>\n                  </li>\n               </ul>\n               <p>For more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities\">Acknowledging\n       IAM Resources in CloudFormation Templates</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CAPABILITY_AUTO_EXPAND</code>\n               </p>\n               <p>Some templates reference macros. If your stack set template references one or more macros, you must create the\n     stack set directly from the processed template, without first reviewing the resulting changes in a change set. To\n     create the stack set directly, you must acknowledge this capability. For more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html\">Using CloudFormation Macros to Perform Custom Processing on\n      Templates</a>.</p>\n               <important>\n                  <p>Stack sets with service-managed permissions don't currently support the use of macros in templates. (This\n      includes the <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html\">AWS::Include</a> and <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html\">AWS::Serverless</a>\n      transforms, which are macros hosted by CloudFormation.) Even if you specify this capability for a stack set with\n      service-managed permissions, if you reference a macro in your template the stack set operation will fail.</p>\n               </important>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>In some cases, you must explicitly acknowledge that your stack set template contains certain capabilities in\n   order for CloudFormation to create the stack set and related stack instances.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CAPABILITY_IAM</code> and <code>CAPABILITY_NAMED_IAM</code>\n               </p>\n               <p>Some stack templates might include resources that can affect permissions in your Amazon Web Services account;\n     for example, by creating new Identity and Access Management (IAM) users. For those stack sets, you must\n     explicitly acknowledge this by specifying one of these capabilities.</p>\n               <p>The following IAM resources require you to specify either the <code>CAPABILITY_IAM</code> or\n      <code>CAPABILITY_NAMED_IAM</code> capability.</p>\n               <ul>\n                  <li>\n                     <p>If you have IAM resources, you can specify either capability.</p>\n                  </li>\n                  <li>\n                     <p>If you have IAM resources with custom names, you <i>must</i> specify\n        <code>CAPABILITY_NAMED_IAM</code>.</p>\n                  </li>\n                  <li>\n                     <p>If you don't specify either of these capabilities, CloudFormation returns an\n        <code>InsufficientCapabilities</code> error.</p>\n                  </li>\n               </ul>\n               <p>If your stack template contains these resources, we recommend that you review all permissions associated with\n     them and edit their permissions if necessary.</p>\n               <ul>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html\">\n        AWS::IAM::AccessKey</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html\">\n        AWS::IAM::Group</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html\">AWS::IAM::InstanceProfile</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html\">\n        AWS::IAM::Policy</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html\">\n        AWS::IAM::Role</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html\">\n        AWS::IAM::User</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html\">AWS::IAM::UserToGroupAddition</a>\n                     </p>\n                  </li>\n               </ul>\n               <p>For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities\">Acknowledging IAM Resources in CloudFormation Templates</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CAPABILITY_AUTO_EXPAND</code>\n               </p>\n               <p>Some templates reference macros. If your stack set template references one or more macros, you must create the\n     stack set directly from the processed template, without first reviewing the resulting changes in a change set. To\n     create the stack set directly, you must acknowledge this capability. For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html\">Using CloudFormation Macros to Perform\n     Custom Processing on Templates</a>.</p>\n               <important>\n                  <p>Stack sets with service-managed permissions don't currently support the use of macros in templates. (This\n      includes the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html\">AWS::Include</a> and <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html\">AWS::Serverless</a> transforms, which are macros hosted by CloudFormation.) Even if you specify this capability for a\n      stack set with service-managed permissions, if you reference a macro in your template the stack set operation will\n      fail.</p>\n               </important>\n            </li>\n         </ul>"
                     }
                 },
                 "Tags": {
@@ -2913,7 +2889,7 @@
                 "AdministrationRoleARN": {
                     "target": "com.amazonaws.cloudformation#RoleARN",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM role to use to create this stack set.</p>\n         <p>Specify an IAM role only if you are using customized administrator roles to control which users\n   or groups can manage specific stack sets within the same administrator account. For more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html\">Prerequisites: Granting Permissions for Stack Set Operations</a> in\n   the <i>CloudFormation User Guide</i>.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM role to use to create this stack set.</p>\n         <p>Specify an IAM role only if you are using customized administrator roles to control which users\n   or groups can manage specific stack sets within the same administrator account. For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html\">Prerequisites: Granting Permissions for Stack Set\n   Operations</a> in the <i>CloudFormation User Guide</i>.</p>"
                     }
                 },
                 "ExecutionRoleName": {
@@ -3797,7 +3773,7 @@
                 "OnStackFailure": {
                     "target": "com.amazonaws.cloudformation#OnStackFailure",
                     "traits": {
-                        "smithy.api#documentation": "<p>Determines what action will be taken if stack creation fails. When this parameter is specified, the\n   <code>DisableRollback</code> parameter to the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html\">ExecuteChangeSet</a> API operation must not\n   be specified. This must be one of these values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DELETE</code> - Deletes the change set if the stack creation fails. This is only valid when the\n     <code>ChangeSetType</code> parameter is set to <code>CREATE</code>. If the deletion of the stack fails, the status\n     of the stack is <code>DELETE_FAILED</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DO_NOTHING</code> - if the stack creation fails, do nothing. This is equivalent to specifying\n     <code>true</code> for the <code>DisableRollback</code> parameter to the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html\">ExecuteChangeSet</a> API\n     operation.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ROLLBACK</code> - if the stack creation fails, roll back the stack. This is equivalent to specifying\n     <code>false</code> for the <code>DisableRollback</code> parameter to the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html\">ExecuteChangeSet</a> API\n     operation.</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>Determines what action will be taken if stack creation fails. When this parameter is specified, the\n    <code>DisableRollback</code> parameter to the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html\">ExecuteChangeSet</a> API operation must not\n    be specified. This must be one of these values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DELETE</code> - Deletes the change set if the stack creation fails. This is only valid when the\n        <code>ChangeSetType</code> parameter is set to <code>CREATE</code>. If the deletion of the stack fails, the status\n        of the stack is <code>DELETE_FAILED</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DO_NOTHING</code> - if the stack creation fails, do nothing. This is equivalent to specifying\n        <code>true</code> for the <code>DisableRollback</code> parameter to the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html\">ExecuteChangeSet</a> API\n        operation.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ROLLBACK</code> - if the stack creation fails, roll back the stack. This is equivalent to specifying\n        <code>false</code> for the <code>DisableRollback</code> parameter to the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html\">ExecuteChangeSet</a> API\n        operation.</p>\n            </li>\n         </ul>"
                     }
                 }
             },
@@ -4801,7 +4777,7 @@
                 "StackName": {
                     "target": "com.amazonaws.cloudformation#StackName",
                     "traits": {
-                        "smithy.api#documentation": "<note>\n            <p>If you don't pass a parameter to <code>StackName</code>, the API returns a response that describes all\n    resources in the account. This requires <code>ListStacks</code> and <code>DescribeStacks</code> permissions.</p>\n            <p>The IAM policy below can be added to IAM policies when you want to limit\n    resource-level permissions and avoid returning a response when no parameter is sent in the request:</p>\n            <p>{ \"Version\": \"2012-10-17\", \"Statement\": [{ \"Effect\": \"Deny\", \"Action\": \"cloudformation:DescribeStacks\",\n    \"NotResource\": \"arn:aws:cloudformation:*:*:stack/*/*\" }] }</p>\n         </note>\n         <p>The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:</p>\n         <ul>\n            <li>\n               <p>Running stacks: You can specify either the stack's name or its unique stack ID.</p>\n            </li>\n            <li>\n               <p>Deleted stacks: You must specify the unique stack ID.</p>\n            </li>\n         </ul>\n         <p>Default: There is no default value.</p>"
+                        "smithy.api#documentation": "<note>\n            <p>If you don't pass a parameter to <code>StackName</code>, the API returns a response that describes all\n    resources in the account, which can impact performance. This requires <code>ListStacks</code> and <code>DescribeStacks</code> permissions.</p>\n            <p>Consider using the <a>ListStacks</a> API if you're not passing a parameter to <code>StackName</code>.</p>\n            <p>The IAM policy below can be added to IAM policies when you want to limit\n    resource-level permissions and avoid returning a response when no parameter is sent in the request:</p>\n            <p>{ \"Version\": \"2012-10-17\", \"Statement\": [{ \"Effect\": \"Deny\", \"Action\": \"cloudformation:DescribeStacks\",\n    \"NotResource\": \"arn:aws:cloudformation:*:*:stack/*/*\" }] }</p>\n         </note>\n         <p>The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:</p>\n         <ul>\n            <li>\n               <p>Running stacks: You can specify either the stack's name or its unique stack ID.</p>\n            </li>\n            <li>\n               <p>Deleted stacks: You must specify the unique stack ID.</p>\n            </li>\n         </ul>\n         <p>Default: There is no default value.</p>"
                     }
                 },
                 "NextToken": {
@@ -5523,7 +5499,13 @@
                 "DisableRollback": {
                     "target": "com.amazonaws.cloudformation#DisableRollback",
                     "traits": {
-                        "smithy.api#documentation": "<p>Preserves the state of previously provisioned resources when an operation\n   fails. This parameter can't be specified when\n   the <code>OnStackFailure</code> parameter to the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateChangeSet.html\">CreateChangeSet</a> API operation was\n   specified.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>True</code> - if the stack creation fails, do nothing. This is equivalent to specifying\n     <code>DO_NOTHING</code> for the <code>OnStackFailure</code> parameter to the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateChangeSet.html\">CreateChangeSet</a> API operation.</p>\n            </li>\n            <li>\n               <p>\n                  <code>False</code> - if the stack creation fails, roll back the stack. This is equivalent to specifying\n     <code>ROLLBACK</code> for the <code>OnStackFailure</code> parameter to the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateChangeSet.html\">CreateChangeSet</a> API operation.</p>\n            </li>\n         </ul>\n         <p>Default: <code>True</code>\n         </p>"
+                        "smithy.api#documentation": "<p>Preserves the state of previously provisioned resources when an operation\n    fails. This parameter can't be specified when\n    the <code>OnStackFailure</code> parameter to the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateChangeSet.html\">CreateChangeSet</a> API operation was\n    specified.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>True</code> - if the stack creation fails, do nothing. This is equivalent to specifying\n        <code>DO_NOTHING</code> for the <code>OnStackFailure</code> parameter to the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateChangeSet.html\">CreateChangeSet</a> API operation.</p>\n            </li>\n            <li>\n               <p>\n                  <code>False</code> - if the stack creation fails, roll back the stack. This is equivalent to specifying\n        <code>ROLLBACK</code> for the <code>OnStackFailure</code> parameter to the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateChangeSet.html\">CreateChangeSet</a> API operation.</p>\n            </li>\n         </ul>\n         <p>Default: <code>True</code>\n         </p>"
+                    }
+                },
+                "RetainExceptOnCreate": {
+                    "target": "com.amazonaws.cloudformation#RetainExceptOnCreate",
+                    "traits": {
+                        "smithy.api#documentation": "<p>When set to <code>true</code>, newly created resources are deleted when the operation rolls back. This includes newly\n     created resources marked with a deletion policy of <code>Retain</code>.</p>\n         <p>Default: <code>false</code>\n         </p>"
                     }
                 }
             },
@@ -5812,6 +5794,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>[Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's\n    management account or as a delegated administrator in a member account.</p>\n         <p>By default, <code>SELF</code> is specified. Use <code>SELF</code> for stack sets with self-managed\n   permissions.</p>\n         <ul>\n            <li>\n               <p>If you are signed in to the management account, specify <code>SELF</code>.</p>\n            </li>\n            <li>\n               <p>If you are signed in to a delegated administrator account, specify <code>DELEGATED_ADMIN</code>.</p>\n               <p>Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html\">Register a delegated\n      administrator</a> in the <i>CloudFormation User Guide</i>.</p>\n            </li>\n         </ul>"
                     }
+                },
+                "TemplateSummaryConfig": {
+                    "target": "com.amazonaws.cloudformation#TemplateSummaryConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies options for the <code>GetTemplateSummary</code> API action.</p>"
+                    }
                 }
             },
             "traits": {
@@ -5874,6 +5862,12 @@
                     "target": "com.amazonaws.cloudformation#ResourceIdentifierSummaries",
                     "traits": {
                         "smithy.api#documentation": "<p>A list of resource identifier summaries that describe the target resources of an import operation and the\n   properties you can provide during the import to identify the target resources. For example, <code>BucketName</code>\n   is a possible identifier property for an <code>AWS::S3::Bucket</code> resource.</p>"
+                    }
+                },
+                "Warnings": {
+                    "target": "com.amazonaws.cloudformation#Warnings",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An object containing any warnings returned.</p>"
                     }
                 }
             },
@@ -6554,6 +6548,109 @@
                     "target": "com.amazonaws.cloudformation#NextToken",
                     "traits": {
                         "smithy.api#documentation": "<p>A string that identifies the next page of exports. If there is no additional page, this value is null.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.cloudformation#ListStackInstanceResourceDrifts": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.cloudformation#ListStackInstanceResourceDriftsInput"
+            },
+            "output": {
+                "target": "com.amazonaws.cloudformation#ListStackInstanceResourceDriftsOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.cloudformation#OperationNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.cloudformation#StackInstanceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.cloudformation#StackSetNotFoundException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Returns drift information for resources in a stack instance.</p>\n         <note>\n            <p>\n               <code>ListStackInstanceResourceDrifts</code> returns drift information for the most\n        recent drift detection operation. If an operation is in progress, it may only return\n        partial results.</p>\n         </note>"
+            }
+        },
+        "com.amazonaws.cloudformation#ListStackInstanceResourceDriftsInput": {
+            "type": "structure",
+            "members": {
+                "StackSetName": {
+                    "target": "com.amazonaws.cloudformation#StackSetNameOrId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name or unique ID of the stack set that you want to list drifted resources\n      for.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.cloudformation#NextToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>If the previous paginated request didn't return all of the remaining results, the\n      response object's <code>NextToken</code> parameter value is set to a token. To retrieve the\n      next set of results, call this action again and assign that token to the request object's\n      <code>NextToken</code> parameter. If there are no remaining results, the previous\n      response object's <code>NextToken</code> parameter is set to <code>null</code>.</p>"
+                    }
+                },
+                "MaxResults": {
+                    "target": "com.amazonaws.cloudformation#MaxResults",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum number of results to be returned with a single call. If the number of\n      available results exceeds this maximum, the response includes a <code>NextToken</code>\n      value that you can assign to the <code>NextToken</code> request parameter to get the next\n      set of results.</p>"
+                    }
+                },
+                "StackInstanceResourceDriftStatuses": {
+                    "target": "com.amazonaws.cloudformation#StackResourceDriftStatusFilters",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The resource drift status of the stack instance. </p>\n         <ul>\n            <li>\n               <p>\n                  <code>DELETED</code>: The resource differs from its expected template\n          configuration in that the resource has been deleted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>MODIFIED</code>: One or more resource properties differ from their expected\n          template values.</p>\n            </li>\n            <li>\n               <p>\n                  <code>IN_SYNC</code>: The resource's actual configuration matches its expected\n          template configuration.</p>\n            </li>\n            <li>\n               <p>\n                  <code>NOT_CHECKED</code>: CloudFormation doesn't currently return this value.</p>\n            </li>\n         </ul>"
+                    }
+                },
+                "StackInstanceAccount": {
+                    "target": "com.amazonaws.cloudformation#Account",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the Amazon Web Services account that you want to list resource drifts for.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "StackInstanceRegion": {
+                    "target": "com.amazonaws.cloudformation#Region",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the Region where you want to list resource drifts.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "OperationId": {
+                    "target": "com.amazonaws.cloudformation#ClientRequestToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The unique ID of the drift operation.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "CallAs": {
+                    "target": "com.amazonaws.cloudformation#CallAs",
+                    "traits": {
+                        "smithy.api#documentation": "<p>[Service-managed permissions] Specifies whether you are acting as an account\n      administrator in the organization's management account or as a delegated\n      administrator in a member account.</p>\n         <p>By default, <code>SELF</code> is specified. Use <code>SELF</code> for stack sets with\n      self-managed permissions.</p>\n         <ul>\n            <li>\n               <p>If you are signed in to the management account, specify\n          <code>SELF</code>.</p>\n            </li>\n            <li>\n               <p>If you are signed in to a delegated administrator account, specify\n          <code>DELEGATED_ADMIN</code>.</p>\n               <p>Your Amazon Web Services account must be registered as a delegated administrator in\n          the management account. For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html\">Register a delegated administrator</a> in the <i>CloudFormation User Guide</i>.</p>\n            </li>\n         </ul>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.cloudformation#ListStackInstanceResourceDriftsOutput": {
+            "type": "structure",
+            "members": {
+                "Summaries": {
+                    "target": "com.amazonaws.cloudformation#StackInstanceResourceDriftsSummaries",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of <code>StackInstanceResourceDriftSummary</code> structures that contain\n      information about the specified stack instances.</p>"
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.cloudformation#NextToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>If the previous paginated request didn't return all of the remaining results, the\n      response object's <code>NextToken</code> parameter value is set to a token. To retrieve the\n      next set of results, call this action again and assign that token to the request object's\n      <code>NextToken</code> parameter. If there are no remaining results, the previous\n      response object's <code>NextToken</code> parameter is set to <code>null</code>.</p>"
                     }
                 }
             },
@@ -9005,6 +9102,9 @@
                 "target": "com.amazonaws.cloudformation#ResourceToSkip"
             }
         },
+        "com.amazonaws.cloudformation#RetainExceptOnCreate": {
+            "type": "boolean"
+        },
         "com.amazonaws.cloudformation#RetainResources": {
             "type": "list",
             "member": {
@@ -9059,7 +9159,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Structure containing the rollback triggers for CloudFormation to monitor during stack creation and updating operations,\n   and for the specified monitoring period afterwards.</p>\n         <p>Rollback triggers enable you to have CloudFormation monitor the state of your application during stack creation and\n   updating, and to roll back that operation if the application breaches the threshold of any of the alarms you've\n   specified. For more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-rollback-triggers.html\">Monitor and Roll\n    Back Stack Operations</a>.</p>"
+                "smithy.api#documentation": "<p>Structure containing the rollback triggers for CloudFormation to monitor during stack creation and updating operations,\n   and for the specified monitoring period afterwards.</p>\n         <p>Rollback triggers enable you to have CloudFormation monitor the state of your application during stack creation and\n   updating, and to roll back that operation if the application breaches the threshold of any of the alarms you've\n   specified. For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-rollback-triggers.html\">Monitor and Roll Back Stack\n   Operations</a>.</p>"
             }
         },
         "com.amazonaws.cloudformation#RollbackStack": {
@@ -9099,6 +9199,12 @@
                     "target": "com.amazonaws.cloudformation#ClientRequestToken",
                     "traits": {
                         "smithy.api#documentation": "<p>A unique identifier for this <code>RollbackStack</code> request.</p>"
+                    }
+                },
+                "RetainExceptOnCreate": {
+                    "target": "com.amazonaws.cloudformation#RetainExceptOnCreate",
+                    "traits": {
+                        "smithy.api#documentation": "<p>When set to <code>true</code>, newly created resources are deleted when the operation rolls back. This includes newly\n     created resources marked with a deletion policy of <code>Retain</code>.</p>\n         <p>Default: <code>false</code>\n         </p>"
                     }
                 }
             },
@@ -9518,25 +9624,31 @@
                 "EnableTerminationProtection": {
                     "target": "com.amazonaws.cloudformation#EnableTerminationProtection",
                     "traits": {
-                        "smithy.api#documentation": "<p>Whether termination protection is enabled for the stack.</p>\n         <p>For <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html\">nested stacks</a>, termination protection is set\n   on the root stack and can't be changed directly on the nested stack. For more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html\">Protecting a Stack From Being Deleted</a> in the\n    <i>CloudFormation User Guide</i>.</p>"
+                        "smithy.api#documentation": "<p>Whether termination protection is enabled for the stack.</p>\n         <p>For <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html\">nested\n   stacks</a>, termination protection is set on the root stack and can't be changed directly on the nested stack.\n   For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html\">Protecting a Stack From Being Deleted</a>\n   in the <i>CloudFormation User Guide</i>.</p>"
                     }
                 },
                 "ParentId": {
                     "target": "com.amazonaws.cloudformation#StackId",
                     "traits": {
-                        "smithy.api#documentation": "<p>For nested stacks--stacks created as resources for another stack--the stack ID of the direct parent of this\n   stack. For the first level of nested stacks, the root stack is also the parent stack.</p>\n         <p>For more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html\">Working with Nested\n    Stacks</a> in the <i>CloudFormation User Guide</i>.</p>"
+                        "smithy.api#documentation": "<p>For nested stacks--stacks created as resources for another stack--the stack ID of the direct parent of this\n   stack. For the first level of nested stacks, the root stack is also the parent stack.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html\">Working with Nested Stacks</a> in the\n   <i>CloudFormation User Guide</i>.</p>"
                     }
                 },
                 "RootId": {
                     "target": "com.amazonaws.cloudformation#StackId",
                     "traits": {
-                        "smithy.api#documentation": "<p>For nested stacks--stacks created as resources for another stack--the stack ID of the top-level stack to which\n   the nested stack ultimately belongs.</p>\n         <p>For more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html\">Working with Nested\n    Stacks</a> in the <i>CloudFormation User Guide</i>.</p>"
+                        "smithy.api#documentation": "<p>For nested stacks--stacks created as resources for another stack--the stack ID of the top-level stack to which\n   the nested stack ultimately belongs.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html\">Working with Nested Stacks</a> in the\n   <i>CloudFormation User Guide</i>.</p>"
                     }
                 },
                 "DriftInformation": {
                     "target": "com.amazonaws.cloudformation#StackDriftInformation",
                     "traits": {
-                        "smithy.api#documentation": "<p>Information about whether a stack's actual configuration differs, or has <i>drifted</i>, from its\n   expected configuration, as defined in the stack template and any values specified as template parameters. For more\n   information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html\">Detecting Unregulated Configuration Changes to\n    Stacks and Resources</a>.</p>"
+                        "smithy.api#documentation": "<p>Information about whether a stack's actual configuration differs, or has <i>drifted</i>, from its\n   expected configuration, as defined in the stack template and any values specified as template parameters. For more\n   information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html\">Detecting Unregulated Configuration Changes to Stacks and Resources</a>.</p>"
+                    }
+                },
+                "RetainExceptOnCreate": {
+                    "target": "com.amazonaws.cloudformation#RetainExceptOnCreate",
+                    "traits": {
+                        "smithy.api#documentation": "<p>When set to <code>true</code>, newly created resources are deleted when the operation rolls back. This includes newly\n   created resources marked with a deletion policy of <code>Retain</code>.</p>\n         <p>Default: <code>false</code>\n         </p>"
                     }
                 }
             },
@@ -9958,6 +10070,12 @@
                     "traits": {
                         "smithy.api#enumValue": "LAST_OPERATION_ID"
                     }
+                },
+                "DRIFT_STATUS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DRIFT_STATUS"
+                    }
                 }
             }
         },
@@ -9979,7 +10097,7 @@
             "traits": {
                 "smithy.api#length": {
                     "min": 0,
-                    "max": 2
+                    "max": 3
                 }
             }
         },
@@ -9998,6 +10116,73 @@
                 "smithy.api#documentation": "<p>The specified stack instance doesn't exist.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 404
+            }
+        },
+        "com.amazonaws.cloudformation#StackInstanceResourceDriftsSummaries": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.cloudformation#StackInstanceResourceDriftsSummary"
+            }
+        },
+        "com.amazonaws.cloudformation#StackInstanceResourceDriftsSummary": {
+            "type": "structure",
+            "members": {
+                "StackId": {
+                    "target": "com.amazonaws.cloudformation#StackId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the stack instance.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "LogicalResourceId": {
+                    "target": "com.amazonaws.cloudformation#LogicalResourceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The logical name of the resource specified in the template.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "PhysicalResourceId": {
+                    "target": "com.amazonaws.cloudformation#PhysicalResourceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name or unique identifier that corresponds to a physical instance ID of a resource\n   supported by CloudFormation.</p>"
+                    }
+                },
+                "PhysicalResourceIdContext": {
+                    "target": "com.amazonaws.cloudformation#PhysicalResourceIdContext",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Context information that enables CloudFormation to uniquely identify a resource. CloudFormation uses\n   context key-value pairs in cases where a resource's logical and physical IDs aren't enough\n   to uniquely identify that resource. Each context key-value pair specifies a unique resource\n   that contains the targeted resource.</p>"
+                    }
+                },
+                "ResourceType": {
+                    "target": "com.amazonaws.cloudformation#ResourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Type of resource. For more information, go to <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html\">Amazon Web Services Resource Types Reference</a> in the CloudFormation User\n   Guide.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "PropertyDifferences": {
+                    "target": "com.amazonaws.cloudformation#PropertyDifferences",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Status of the actual configuration of the resource compared to its expected\n   configuration. These will be present only for resources whose\n   <code>StackInstanceResourceDriftStatus</code> is <code>MODIFIED</code>. </p>"
+                    }
+                },
+                "StackResourceDriftStatus": {
+                    "target": "com.amazonaws.cloudformation#StackResourceDriftStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The drift status of the resource in a stack instance.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DELETED</code>: The resource differs from its expected template\n     configuration in that the resource has been deleted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>MODIFIED</code>: One or more resource properties differ from their expected\n     template values.</p>\n            </li>\n            <li>\n               <p>\n                  <code>IN_SYNC</code>: The resource's actual configuration matches its expected\n     template configuration.</p>\n            </li>\n            <li>\n               <p>\n                  <code>NOT_CHECKED</code>: CloudFormation doesn't currently return this value.</p>\n            </li>\n         </ul>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Timestamp": {
+                    "target": "com.amazonaws.cloudformation#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Time at which the stack instance drift detection operation was initiated.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The structure containing summary information about resource drifts for a stack\n   instance.</p>"
             }
         },
         "com.amazonaws.cloudformation#StackInstanceStatus": {
@@ -10232,7 +10417,7 @@
                 "DriftInformation": {
                     "target": "com.amazonaws.cloudformation#StackResourceDriftInformation",
                     "traits": {
-                        "smithy.api#documentation": "<p>Information about whether the resource's actual configuration differs, or has <i>drifted</i>, from\n   its expected configuration, as defined in the stack template and any values specified as template parameters. For\n   more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html\">Detecting Unregulated Configuration\n    Changes to Stacks and Resources</a>.</p>"
+                        "smithy.api#documentation": "<p>Information about whether the resource's actual configuration differs, or has <i>drifted</i>, from\n   its expected configuration, as defined in the stack template and any values specified as template parameters. For\n   more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html\">Detecting Unregulated Configuration Changes to Stacks and Resources</a>.</p>"
                     }
                 },
                 "ModuleInfo": {
@@ -10316,7 +10501,7 @@
                 "DriftInformation": {
                     "target": "com.amazonaws.cloudformation#StackResourceDriftInformation",
                     "traits": {
-                        "smithy.api#documentation": "<p>Information about whether the resource's actual configuration differs, or has <i>drifted</i>, from\n   its expected configuration, as defined in the stack template and any values specified as template parameters. For\n   more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html\">Detecting Unregulated Configuration\n    Changes to Stacks and Resources</a>.</p>"
+                        "smithy.api#documentation": "<p>Information about whether the resource's actual configuration differs, or has <i>drifted</i>, from\n   its expected configuration, as defined in the stack template and any values specified as template parameters. For\n   more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html\">Detecting Unregulated Configuration Changes to Stacks and Resources</a>.</p>"
                     }
                 },
                 "ModuleInfo": {
@@ -10406,7 +10591,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Contains the drift information for a resource that has been checked for drift. This includes actual and expected\n   property values for resources in which CloudFormation has detected drift. Only resource properties explicitly defined in the\n   stack template are checked for drift. For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html\">Detecting Unregulated Configuration Changes to\n    Stacks and Resources</a>.</p>\n         <p>Resources that don't currently support drift detection can't be checked. For a list of resources that support\n   drift detection, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift-resource-list.html\">Resources that Support Drift\n    Detection</a>.</p>\n         <p>Use <a>DetectStackResourceDrift</a> to detect drift on individual resources, or <a>DetectStackDrift</a> to detect drift on all resources in a given stack that support drift detection.</p>"
+                "smithy.api#documentation": "<p>Contains the drift information for a resource that has been checked for drift. This includes actual and expected\n   property values for resources in which CloudFormation has detected drift. Only resource properties explicitly defined in the\n   stack template are checked for drift. For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html\">Detecting Unregulated Configuration Changes to\n    Stacks and Resources</a>.</p>\n         <p>Resources that don't currently support drift detection can't be checked. For a list of resources that support\n   drift detection, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift-resource-list.html\">Resources that Support Drift\n   Detection</a>.</p>\n         <p>Use <a>DetectStackResourceDrift</a> to detect drift on individual resources, or <a>DetectStackDrift</a> to detect drift on all resources in a given stack that support drift detection.</p>"
             }
         },
         "com.amazonaws.cloudformation#StackResourceDriftInformation": {
@@ -10550,7 +10735,7 @@
                 "DriftInformation": {
                     "target": "com.amazonaws.cloudformation#StackResourceDriftInformationSummary",
                     "traits": {
-                        "smithy.api#documentation": "<p>Information about whether the resource's actual configuration differs, or has <i>drifted</i>, from\n   its expected configuration, as defined in the stack template and any values specified as template parameters. For\n   more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html\">Detecting Unregulated Configuration\n    Changes to Stacks and Resources</a>.</p>"
+                        "smithy.api#documentation": "<p>Information about whether the resource's actual configuration differs, or has <i>drifted</i>, from\n   its expected configuration, as defined in the stack template and any values specified as template parameters. For\n   more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html\">Detecting Unregulated Configuration Changes to Stacks and Resources</a>.</p>"
                     }
                 },
                 "ModuleInfo": {
@@ -10630,7 +10815,7 @@
                 "AdministrationRoleARN": {
                     "target": "com.amazonaws.cloudformation#RoleARN",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM role used to create or update the stack set.</p>\n         <p>Use customized administrator roles to control which users or groups can manage specific stack sets within the\n   same administrator account. For more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html\">Prerequisites: Granting Permissions for Stack Set Operations</a> in the\n   <i>CloudFormation User Guide</i>.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM role used to create or update the stack set.</p>\n         <p>Use customized administrator roles to control which users or groups can manage specific stack sets within the\n   same administrator account. For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html\">Prerequisites: Granting Permissions for Stack Set Operations</a>\n   in the <i>CloudFormation User Guide</i>.</p>"
                     }
                 },
                 "ExecutionRoleName": {
@@ -10890,7 +11075,7 @@
                 "AdministrationRoleARN": {
                     "target": "com.amazonaws.cloudformation#RoleARN",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM role used to perform this stack set operation.</p>\n         <p>Use customized administrator roles to control which users or groups can manage specific stack sets within the\n   same administrator account. For more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html\">Define\n    Permissions for Multiple Administrators</a> in the <i>CloudFormation User Guide</i>.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM role used to perform this stack set operation.</p>\n         <p>Use customized administrator roles to control which users or groups can manage specific stack sets within the\n   same administrator account. For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html\">Define Permissions for Multiple Administrators</a> in the\n   <i>CloudFormation User Guide</i>.</p>"
                     }
                 },
                 "ExecutionRoleName": {
@@ -11519,19 +11704,19 @@
                 "ParentId": {
                     "target": "com.amazonaws.cloudformation#StackId",
                     "traits": {
-                        "smithy.api#documentation": "<p>For nested stacks--stacks created as resources for another stack--the stack ID of the direct parent of this\n   stack. For the first level of nested stacks, the root stack is also the parent stack.</p>\n         <p>For more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html\">Working with Nested\n    Stacks</a> in the <i>CloudFormation User Guide</i>.</p>"
+                        "smithy.api#documentation": "<p>For nested stacks--stacks created as resources for another stack--the stack ID of the direct parent of this\n   stack. For the first level of nested stacks, the root stack is also the parent stack.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html\">Working with Nested Stacks</a> in the\n   <i>CloudFormation User Guide</i>.</p>"
                     }
                 },
                 "RootId": {
                     "target": "com.amazonaws.cloudformation#StackId",
                     "traits": {
-                        "smithy.api#documentation": "<p>For nested stacks--stacks created as resources for another stack--the stack ID of the top-level stack to which\n   the nested stack ultimately belongs.</p>\n         <p>For more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html\">Working with Nested\n    Stacks</a> in the <i>CloudFormation User Guide</i>.</p>"
+                        "smithy.api#documentation": "<p>For nested stacks--stacks created as resources for another stack--the stack ID of the top-level stack to which\n   the nested stack ultimately belongs.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html\">Working with Nested Stacks</a> in the\n   <i>CloudFormation User Guide</i>.</p>"
                     }
                 },
                 "DriftInformation": {
                     "target": "com.amazonaws.cloudformation#StackDriftInformationSummary",
                     "traits": {
-                        "smithy.api#documentation": "<p>Summarizes information about whether a stack's actual configuration differs, or has\n   <i>drifted</i>, from its expected configuration, as defined in the stack template and any values\n   specified as template parameters. For more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html\">Detecting Unregulated Configuration Changes to Stacks and Resources</a>.</p>"
+                        "smithy.api#documentation": "<p>Summarizes information about whether a stack's actual configuration differs, or has\n   <i>drifted</i>, from its expected configuration, as defined in the stack template and any values\n   specified as template parameters. For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html\">Detecting Unregulated Configuration Changes to\n   Stacks and Resources</a>.</p>"
                     }
                 }
             },
@@ -11768,6 +11953,20 @@
                 }
             }
         },
+        "com.amazonaws.cloudformation#TemplateSummaryConfig": {
+            "type": "structure",
+            "members": {
+                "TreatUnrecognizedResourceTypesAsWarnings": {
+                    "target": "com.amazonaws.cloudformation#TreatUnrecognizedResourceTypesAsWarnings",
+                    "traits": {
+                        "smithy.api#documentation": "<p>If set to <code>True</code>, any unrecognized resource types generate warnings and not an error. Any\n   unrecognized resource types are returned in the <code>Warnings</code> output parameter.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Options for the <code>GetTemplateSummary</code> API action.</p>"
+            }
+        },
         "com.amazonaws.cloudformation#TemplateURL": {
             "type": "string",
             "traits": {
@@ -11929,6 +12128,9 @@
                 "target": "com.amazonaws.cloudformation#TransformName"
             }
         },
+        "com.amazonaws.cloudformation#TreatUnrecognizedResourceTypesAsWarnings": {
+            "type": "boolean"
+        },
         "com.amazonaws.cloudformation#Type": {
             "type": "string"
         },
@@ -12081,7 +12283,10 @@
             "type": "structure",
             "members": {
                 "Message": {
-                    "target": "com.amazonaws.cloudformation#ErrorMessage"
+                    "target": "com.amazonaws.cloudformation#ErrorMessage",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An message with details about the error that occurred.</p>"
+                    }
                 }
             },
             "traits": {
@@ -12147,7 +12352,10 @@
             "type": "structure",
             "members": {
                 "Message": {
-                    "target": "com.amazonaws.cloudformation#ErrorMessage"
+                    "target": "com.amazonaws.cloudformation#ErrorMessage",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An message with details about the error that occurred.</p>"
+                    }
                 }
             },
             "traits": {
@@ -12447,7 +12655,7 @@
                 "Capabilities": {
                     "target": "com.amazonaws.cloudformation#Capabilities",
                     "traits": {
-                        "smithy.api#documentation": "<p>In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order\n   for CloudFormation to update the stack.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CAPABILITY_IAM</code> and <code>CAPABILITY_NAMED_IAM</code>\n               </p>\n               <p>Some stack templates might include resources that can affect permissions in your Amazon Web Services account;\n     for example, by creating new Identity and Access Management (IAM) users. For those stacks, you must\n     explicitly acknowledge this by specifying one of these capabilities.</p>\n               <p>The following IAM resources require you to specify either the <code>CAPABILITY_IAM</code> or\n      <code>CAPABILITY_NAMED_IAM</code> capability.</p>\n               <ul>\n                  <li>\n                     <p>If you have IAM resources, you can specify either capability.</p>\n                  </li>\n                  <li>\n                     <p>If you have IAM resources with custom names, you <i>must</i> specify\n        <code>CAPABILITY_NAMED_IAM</code>.</p>\n                  </li>\n                  <li>\n                     <p>If you don't specify either of these capabilities, CloudFormation returns an\n        <code>InsufficientCapabilities</code> error.</p>\n                  </li>\n               </ul>\n               <p>If your stack template contains these resources, we suggest that you review all permissions associated with\n     them and edit their permissions if necessary.</p>\n               <ul>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html\">\n        AWS::IAM::AccessKey</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html\">\n        AWS::IAM::Group</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html\">AWS::IAM::InstanceProfile</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html\">\n        AWS::IAM::Policy</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html\">\n        AWS::IAM::Role</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html\">\n        AWS::IAM::User</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html\">AWS::IAM::UserToGroupAddition</a>\n                     </p>\n                  </li>\n               </ul>\n               <p>For more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities\">Acknowledging\n       IAM Resources in CloudFormation Templates</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CAPABILITY_AUTO_EXPAND</code>\n               </p>\n               <p>Some template contain macros. Macros perform custom processing on templates; this can include simple actions\n     like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this,\n     users typically create a change set from the processed template, so that they can review the changes resulting from\n     the macros before actually updating the stack. If your stack template contains one or more macros, and you choose\n     to update a stack directly from the processed template, without first reviewing the resulting changes in a change\n     set, you must acknowledge this capability. This includes the <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html\">AWS::Include</a> and <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html\">AWS::Serverless</a>\n     transforms, which are macros hosted by CloudFormation.</p>\n               <p>If you want to update a stack from a stack template that contains macros <i>and</i> nested\n     stacks, you must update the stack directly from the template using this capability.</p>\n               <important>\n                  <p>You should only update stacks directly from a stack template that contains macros if you know what processing\n      the macro performs.</p>\n                  <p>Each macro relies on an underlying Lambda service function for processing stack templates. Be\n      aware that the Lambda function owner can update the function operation without CloudFormation being\n      notified.</p>\n               </important>\n               <p>For more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html\">Using CloudFormation Macros\n      to Perform Custom Processing on Templates</a>.</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order\n   for CloudFormation to update the stack.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CAPABILITY_IAM</code> and <code>CAPABILITY_NAMED_IAM</code>\n               </p>\n               <p>Some stack templates might include resources that can affect permissions in your Amazon Web Services account;\n     for example, by creating new Identity and Access Management (IAM) users. For those stacks, you must\n     explicitly acknowledge this by specifying one of these capabilities.</p>\n               <p>The following IAM resources require you to specify either the <code>CAPABILITY_IAM</code> or\n      <code>CAPABILITY_NAMED_IAM</code> capability.</p>\n               <ul>\n                  <li>\n                     <p>If you have IAM resources, you can specify either capability.</p>\n                  </li>\n                  <li>\n                     <p>If you have IAM resources with custom names, you <i>must</i> specify\n        <code>CAPABILITY_NAMED_IAM</code>.</p>\n                  </li>\n                  <li>\n                     <p>If you don't specify either of these capabilities, CloudFormation returns an\n        <code>InsufficientCapabilities</code> error.</p>\n                  </li>\n               </ul>\n               <p>If your stack template contains these resources, we suggest that you review all permissions associated with\n     them and edit their permissions if necessary.</p>\n               <ul>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html\">\n        AWS::IAM::AccessKey</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html\">\n        AWS::IAM::Group</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html\">AWS::IAM::InstanceProfile</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html\">\n        AWS::IAM::Policy</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html\">\n        AWS::IAM::Role</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html\">\n        AWS::IAM::User</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html\">AWS::IAM::UserToGroupAddition</a>\n                     </p>\n                  </li>\n               </ul>\n               <p>For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities\">Acknowledging IAM\n     Resources in CloudFormation Templates</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CAPABILITY_AUTO_EXPAND</code>\n               </p>\n               <p>Some template contain macros. Macros perform custom processing on templates; this can include simple actions\n     like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this,\n     users typically create a change set from the processed template, so that they can review the changes resulting from\n     the macros before actually updating the stack. If your stack template contains one or more macros, and you choose\n     to update a stack directly from the processed template, without first reviewing the resulting changes in a change\n     set, you must acknowledge this capability. This includes the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html\">AWS::Include</a> and <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html\">AWS::Serverless</a> transforms, which\n     are macros hosted by CloudFormation.</p>\n               <p>If you want to update a stack from a stack template that contains macros <i>and</i> nested\n     stacks, you must update the stack directly from the template using this capability.</p>\n               <important>\n                  <p>You should only update stacks directly from a stack template that contains macros if you know what processing\n      the macro performs.</p>\n                  <p>Each macro relies on an underlying Lambda service function for processing stack templates. Be\n      aware that the Lambda function owner can update the function operation without CloudFormation being\n      notified.</p>\n               </important>\n               <p>For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html\">Using CloudFormation Macros to Perform Custom\n     Processing on Templates</a>.</p>\n            </li>\n         </ul>"
                     }
                 },
                 "ResourceTypes": {
@@ -12502,6 +12710,12 @@
                     "target": "com.amazonaws.cloudformation#ClientRequestToken",
                     "traits": {
                         "smithy.api#documentation": "<p>A unique identifier for this <code>UpdateStack</code> request. Specify this token if you plan to retry requests\n   so that CloudFormation knows that you're not attempting to update a stack with the same name. You might retry\n    <code>UpdateStack</code> requests to ensure that CloudFormation successfully received them.</p>\n         <p>All events triggered by a given stack operation are assigned the same client request token, which you can use to\n   track operations. For example, if you execute a <code>CreateStack</code> operation with the token\n   <code>token1</code>, then all the <code>StackEvents</code> generated by that operation will have\n    <code>ClientRequestToken</code> set as <code>token1</code>.</p>\n         <p>In the console, stack operations display the client request token on the Events tab. Stack operations that are\n   initiated from the console use the token format <i>Console-StackOperation-ID</i>, which helps you\n   easily identify the stack operation . For example, if you create a stack using the console, each stack event would be\n   assigned the same token in the following format:\n    <code>Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002</code>.</p>"
+                    }
+                },
+                "RetainExceptOnCreate": {
+                    "target": "com.amazonaws.cloudformation#RetainExceptOnCreate",
+                    "traits": {
+                        "smithy.api#documentation": "<p>When set to <code>true</code>, newly created resources are deleted when the operation rolls back. This includes newly\n     created resources marked with a deletion policy of <code>Retain</code>.</p>\n         <p>Default: <code>false</code>\n         </p>"
                     }
                 }
             },
@@ -12705,7 +12919,7 @@
                 "Capabilities": {
                     "target": "com.amazonaws.cloudformation#Capabilities",
                     "traits": {
-                        "smithy.api#documentation": "<p>In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order\n   for CloudFormation to update the stack set and its associated stack instances.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CAPABILITY_IAM</code> and <code>CAPABILITY_NAMED_IAM</code>\n               </p>\n               <p>Some stack templates might include resources that can affect permissions in your Amazon Web Services account;\n     for example, by creating new Identity and Access Management (IAM) users. For those stacks sets, you must\n     explicitly acknowledge this by specifying one of these capabilities.</p>\n               <p>The following IAM resources require you to specify either the <code>CAPABILITY_IAM</code> or\n      <code>CAPABILITY_NAMED_IAM</code> capability.</p>\n               <ul>\n                  <li>\n                     <p>If you have IAM resources, you can specify either capability.</p>\n                  </li>\n                  <li>\n                     <p>If you have IAM resources with custom names, you <i>must</i> specify\n        <code>CAPABILITY_NAMED_IAM</code>.</p>\n                  </li>\n                  <li>\n                     <p>If you don't specify either of these capabilities, CloudFormation returns an\n        <code>InsufficientCapabilities</code> error.</p>\n                  </li>\n               </ul>\n               <p>If your stack template contains these resources, we recommend that you review all permissions associated with\n     them and edit their permissions if necessary.</p>\n               <ul>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html\">\n        AWS::IAM::AccessKey</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html\">\n        AWS::IAM::Group</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html\">\n        AWS::IAM::InstanceProfile</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html\">\n        AWS::IAM::Policy</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html\">\n        AWS::IAM::Role</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html\">\n        AWS::IAM::User</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html\">\n        AWS::IAM::UserToGroupAddition</a>\n                     </p>\n                  </li>\n               </ul>\n               <p>For more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities\">Acknowledging\n       IAM Resources in CloudFormation Templates</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CAPABILITY_AUTO_EXPAND</code>\n               </p>\n               <p>Some templates reference macros. If your stack set template references one or more macros, you must update the\n     stack set directly from the processed template, without first reviewing the resulting changes in a change set. To\n     update the stack set directly, you must acknowledge this capability. For more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html\">Using CloudFormation Macros to Perform Custom Processing on\n      Templates</a>.</p>\n               <important>\n                  <p>Stack sets with service-managed permissions do not currently support the use of macros in templates. (This\n      includes the <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html\">AWS::Include</a> and <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html\">AWS::Serverless</a>\n      transforms, which are macros hosted by CloudFormation.) Even if you specify this capability for a stack set with\n      service-managed permissions, if you reference a macro in your template the stack set operation will fail.</p>\n               </important>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order\n   for CloudFormation to update the stack set and its associated stack instances.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CAPABILITY_IAM</code> and <code>CAPABILITY_NAMED_IAM</code>\n               </p>\n               <p>Some stack templates might include resources that can affect permissions in your Amazon Web Services account;\n     for example, by creating new Identity and Access Management (IAM) users. For those stacks sets, you must\n     explicitly acknowledge this by specifying one of these capabilities.</p>\n               <p>The following IAM resources require you to specify either the <code>CAPABILITY_IAM</code> or\n      <code>CAPABILITY_NAMED_IAM</code> capability.</p>\n               <ul>\n                  <li>\n                     <p>If you have IAM resources, you can specify either capability.</p>\n                  </li>\n                  <li>\n                     <p>If you have IAM resources with custom names, you <i>must</i> specify\n        <code>CAPABILITY_NAMED_IAM</code>.</p>\n                  </li>\n                  <li>\n                     <p>If you don't specify either of these capabilities, CloudFormation returns an\n        <code>InsufficientCapabilities</code> error.</p>\n                  </li>\n               </ul>\n               <p>If your stack template contains these resources, we recommend that you review all permissions associated with\n     them and edit their permissions if necessary.</p>\n               <ul>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html\">\n        AWS::IAM::AccessKey</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html\">\n        AWS::IAM::Group</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html\">\n        AWS::IAM::InstanceProfile</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html\">\n        AWS::IAM::Policy</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html\">\n        AWS::IAM::Role</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html\">\n        AWS::IAM::User</a>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html\">\n        AWS::IAM::UserToGroupAddition</a>\n                     </p>\n                  </li>\n               </ul>\n               <p>For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities\">Acknowledging IAM Resources in CloudFormation Templates</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CAPABILITY_AUTO_EXPAND</code>\n               </p>\n               <p>Some templates reference macros. If your stack set template references one or more macros, you must update the\n     stack set directly from the processed template, without first reviewing the resulting changes in a change set. To\n     update the stack set directly, you must acknowledge this capability. For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html\">Using CloudFormation Macros to Perform\n     Custom Processing on Templates</a>.</p>\n               <important>\n                  <p>Stack sets with service-managed permissions do not currently support the use of macros in templates. (This\n      includes the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html\">AWS::Include</a> and <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html\">AWS::Serverless</a> transforms, which are macros hosted by CloudFormation.) Even if you specify this capability for a\n      stack set with service-managed permissions, if you reference a macro in your template the stack set operation will\n      fail.</p>\n               </important>\n            </li>\n         </ul>"
                     }
                 },
                 "Tags": {
@@ -12723,7 +12937,7 @@
                 "AdministrationRoleARN": {
                     "target": "com.amazonaws.cloudformation#RoleARN",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM role to use to update this stack set.</p>\n         <p>Specify an IAM role only if you are using customized administrator roles to control which users\n   or groups can manage specific stack sets within the same administrator account. For more information, see <a href=\"http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html\">Granting Permissions for Stack Set Operations</a> in the\n    <i>CloudFormation User Guide</i>.</p>\n         <p>If you specified a customized administrator role when you created the stack set, you must specify a customized\n   administrator role, even if it is the same customized administrator role used with this stack set previously.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM role to use to update this stack set.</p>\n         <p>Specify an IAM role only if you are using customized administrator roles to control which users\n   or groups can manage specific stack sets within the same administrator account. For more information, see <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html\">Granting Permissions for Stack Set\n   Operations</a> in the <i>CloudFormation User Guide</i>.</p>\n         <p>If you specified a customized administrator role when you created the stack set, you must specify a customized\n   administrator role, even if it is the same customized administrator role used with this stack set previously.</p>"
                     }
                 },
                 "ExecutionRoleName": {
@@ -12967,6 +13181,20 @@
                         "smithy.api#enumValue": "PRIVATE"
                     }
                 }
+            }
+        },
+        "com.amazonaws.cloudformation#Warnings": {
+            "type": "structure",
+            "members": {
+                "UnrecognizedResourceTypes": {
+                    "target": "com.amazonaws.cloudformation#ResourceTypes",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of all of the unrecognized resource types. This is only returned if the\n   <code>TemplateSummaryConfig</code> parameter has the <code>TreatUnrecognizedResourceTypesAsWarning</code>\n   configuration set to <code>True</code>.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains any warnings returned by the <code>GetTemplateSummary</code> API action.</p>"
             }
         }
     }

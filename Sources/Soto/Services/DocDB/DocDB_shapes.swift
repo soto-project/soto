@@ -2506,6 +2506,8 @@ extension DocDB {
     public struct ModifyDBClusterMessage: AWSEncodableShape {
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
+        /// A value that indicates whether major version upgrades are allowed. Constraints: You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version.
+        public let allowMajorVersionUpgrade: Bool?
         /// A value that specifies whether the changes in this request and any pending changes are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If this parameter is set to false, changes to the cluster are applied during the next maintenance window. The ApplyImmediately parameter affects only the NewDBClusterIdentifier and MasterUserPassword values. If you set this parameter value to false, the changes to the NewDBClusterIdentifier and MasterUserPassword values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false
         public let applyImmediately: Bool?
         /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35.
@@ -2518,7 +2520,7 @@ extension DocDB {
         public let dbClusterParameterGroupName: String?
         /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
         public let deletionProtection: Bool?
-        /// The version number of the database engine to which you want to upgrade. Modifying engine version is not supported on Amazon DocumentDB.
+        /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless ApplyImmediately is enabled. To list all of the available engine versions for Amazon DocumentDB use the following command:  aws docdb describe-db-engine-versions --engine docdb --query "DBEngineVersions[].EngineVersion"
         public let engineVersion: String?
         /// The password for the master database user. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 100 characters.
         public let masterUserPassword: String?
@@ -2534,7 +2536,8 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(applyImmediately: Bool? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, dbClusterIdentifier: String, dbClusterParameterGroupName: String? = nil, deletionProtection: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, dbClusterIdentifier: String, dbClusterParameterGroupName: String? = nil, deletionProtection: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+            self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
             self.backupRetentionPeriod = backupRetentionPeriod
             self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
@@ -2551,6 +2554,7 @@ extension DocDB {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowMajorVersionUpgrade = "AllowMajorVersionUpgrade"
             case applyImmediately = "ApplyImmediately"
             case backupRetentionPeriod = "BackupRetentionPeriod"
             case cloudwatchLogsExportConfiguration = "CloudwatchLogsExportConfiguration"

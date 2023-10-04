@@ -27,8 +27,22 @@ extension MediaTailor {
     // MARK: Enums
 
     public enum AccessType: String, CustomStringConvertible, Codable, Sendable {
+        case autodetectSigv4 = "AUTODETECT_SIGV4"
         case s3Sigv4 = "S3_SIGV4"
         case secretsManagerAccessToken = "SECRETS_MANAGER_ACCESS_TOKEN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AdMarkupType: String, CustomStringConvertible, Codable, Sendable {
+        case daterange = "DATERANGE"
+        case scte35Enhanced = "SCTE35_ENHANCED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AlertCategory: String, CustomStringConvertible, Codable, Sendable {
+        case info = "INFO"
+        case playbackWarning = "PLAYBACK_WARNING"
+        case schedulingError = "SCHEDULING_ERROR"
         public var description: String { return self.rawValue }
     }
 
@@ -106,7 +120,7 @@ extension MediaTailor {
     // MARK: Shapes
 
     public struct AccessConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The type of authentication used to access content from HttpConfiguration::BaseUrl on your source location. Accepted value: S3_SIGV4.  S3_SIGV4 - AWS Signature Version 4 authentication for Amazon S3 hosted virtual-style access. If your source location base URL is an Amazon S3 bucket, MediaTailor can use AWS Signature Version 4 (SigV4) authentication to access the bucket where your source content is stored. Your MediaTailor source location baseURL must follow the S3 virtual hosted-style request URL format. For example, https://bucket-name.s3.Region.amazonaws.com/key-name. Before you can use S3_SIGV4, you must meet these requirements: • You must allow MediaTailor to access your S3 bucket by granting mediatailor.amazonaws.com principal access in IAM. For information about configuring access in IAM, see Access management in the IAM User Guide. • The mediatailor.amazonaws.com service principal must have permissions to read all top level manifests referenced by the VodSource packaging configurations. • The caller of the API must have s3:GetObject IAM permissions to read all top level manifests referenced by your MediaTailor VodSource packaging configurations.
+        /// The type of authentication used to access content from HttpConfiguration::BaseUrl on your source location.  S3_SIGV4 - AWS Signature Version 4 authentication for Amazon S3 hosted virtual-style access. If your source location base URL is an Amazon S3 bucket, MediaTailor can use AWS Signature Version 4 (SigV4) authentication to access the bucket where your source content is stored. Your MediaTailor source location baseURL must follow the S3 virtual hosted-style request URL format. For example, https://bucket-name.s3.Region.amazonaws.com/key-name. Before you can use S3_SIGV4, you must meet these requirements: • You must allow MediaTailor to access your S3 bucket by granting mediatailor.amazonaws.com principal access in IAM. For information about configuring access in IAM, see Access management in the IAM User Guide. • The mediatailor.amazonaws.com service principal must have permissions to read all top level manifests referenced by the VodSource packaging configurations. • The caller of the API must have s3:GetObject IAM permissions to read all top level manifests referenced by your MediaTailor VodSource packaging configurations.  AUTODETECT_SIGV4 - AWS Signature Version 4 authentication for a set of supported services: MediaPackage Version 2 and Amazon S3 hosted virtual-style access. If your source location base URL is a MediaPackage Version 2 endpoint or an Amazon S3 bucket, MediaTailor can use AWS Signature Version 4 (SigV4) authentication to access the resource where your source content is stored. Before you can use AUTODETECT_SIGV4 with a MediaPackage Version 2 endpoint, you must meet these requirements: • You must grant MediaTailor access to your MediaPackage endpoint by granting mediatailor.amazonaws.com principal access in an Origin Access policy on the endpoint. • Your MediaTailor source location base URL must be a MediaPackage V2 endpoint. • The caller of the API must have mediapackagev2:GetObject IAM permissions to read all top level manifests referenced by the MediaTailor source packaging configurations. Before you can use AUTODETECT_SIGV4 with an Amazon S3 bucket, you must meet these requirements: • You must grant MediaTailor access to your S3 bucket by granting mediatailor.amazonaws.com principal access in IAM. For more information about configuring access in IAM, see Access management in the IAM User Guide.. • The mediatailor.amazonaws.com service principal must have permissions to read all top-level manifests referenced by the VodSource packaging configurations. • The caller of the API must have s3:GetObject IAM permissions to read all top level manifests referenced by your MediaTailor VodSource packaging configurations.
         public let accessType: AccessType?
         /// AWS Secrets Manager access token configuration parameters.
         public let secretsManagerAccessTokenConfiguration: SecretsManagerAccessTokenConfiguration?
@@ -123,6 +137,8 @@ extension MediaTailor {
     }
 
     public struct AdBreak: AWSEncodableShape & AWSDecodableShape {
+        /// Defines a list of key/value pairs that MediaTailor generates within the EXT-X-ASSETtag for SCTE35_ENHANCED output.
+        public let adBreakMetadata: [KeyValuePair]?
         /// The SCTE-35 ad insertion type. Accepted value: SPLICE_INSERT, TIME_SIGNAL.
         public let messageType: MessageType?
         /// How long (in milliseconds) after the beginning of the program that an ad starts. This value must fall within 100ms of a segment boundary, otherwise the ad break will be skipped.
@@ -134,7 +150,8 @@ extension MediaTailor {
         /// Defines the SCTE-35 time_signal message inserted around the ad. Programs on a channel's schedule can be configured with one or more ad breaks. You can attach a splice_insert SCTE-35 message to the ad break. This message provides basic metadata about the ad break. See section 9.7.4 of the 2022 SCTE-35 specification for more information.
         public let timeSignalMessage: TimeSignalMessage?
 
-        public init(messageType: MessageType? = nil, offsetMillis: Int64? = nil, slate: SlateSource? = nil, spliceInsertMessage: SpliceInsertMessage? = nil, timeSignalMessage: TimeSignalMessage? = nil) {
+        public init(adBreakMetadata: [KeyValuePair]? = nil, messageType: MessageType? = nil, offsetMillis: Int64? = nil, slate: SlateSource? = nil, spliceInsertMessage: SpliceInsertMessage? = nil, timeSignalMessage: TimeSignalMessage? = nil) {
+            self.adBreakMetadata = adBreakMetadata
             self.messageType = messageType
             self.offsetMillis = offsetMillis
             self.slate = slate
@@ -143,6 +160,7 @@ extension MediaTailor {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adBreakMetadata = "AdBreakMetadata"
             case messageType = "MessageType"
             case offsetMillis = "OffsetMillis"
             case slate = "Slate"
@@ -169,6 +187,8 @@ extension MediaTailor {
         public let alertCode: String
         /// If an alert is generated for a resource, an explanation of the reason for the alert.
         public let alertMessage: String
+        /// The category that MediaTailor assigns to the alert.
+        public let category: AlertCategory?
         /// The timestamp when the alert was last modified.
         @CustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date
@@ -177,9 +197,10 @@ extension MediaTailor {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
-        public init(alertCode: String, alertMessage: String, lastModifiedTime: Date, relatedResourceArns: [String], resourceArn: String) {
+        public init(alertCode: String, alertMessage: String, category: AlertCategory? = nil, lastModifiedTime: Date, relatedResourceArns: [String], resourceArn: String) {
             self.alertCode = alertCode
             self.alertMessage = alertMessage
+            self.category = category
             self.lastModifiedTime = lastModifiedTime
             self.relatedResourceArns = relatedResourceArns
             self.resourceArn = resourceArn
@@ -188,6 +209,7 @@ extension MediaTailor {
         private enum CodingKeys: String, CodingKey {
             case alertCode = "AlertCode"
             case alertMessage = "AlertMessage"
+            case category = "Category"
             case lastModifiedTime = "LastModifiedTime"
             case relatedResourceArns = "RelatedResourceArns"
             case resourceArn = "ResourceArn"
@@ -1675,14 +1697,18 @@ extension MediaTailor {
     }
 
     public struct HlsPlaylistSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the type of SCTE 35 tags to use in ad markup. Specify DATERANGE to use DATERANGE tags (for live or VOD content). Specify SCTE35_ENHANCED to use EXT-X-CUE-OUT and EXT-X-CUE-IN tags (for VOD content only).
+        public let adMarkupType: [AdMarkupType]?
         /// The total duration (in seconds) of each manifest. Minimum value: 30 seconds. Maximum value: 3600 seconds.
         public let manifestWindowSeconds: Int?
 
-        public init(manifestWindowSeconds: Int? = nil) {
+        public init(adMarkupType: [AdMarkupType]? = nil, manifestWindowSeconds: Int? = nil) {
+            self.adMarkupType = adMarkupType
             self.manifestWindowSeconds = manifestWindowSeconds
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adMarkupType = "AdMarkupType"
             case manifestWindowSeconds = "ManifestWindowSeconds"
         }
     }
@@ -1718,6 +1744,23 @@ extension MediaTailor {
             case path = "Path"
             case sourceGroup = "SourceGroup"
             case type = "Type"
+        }
+    }
+
+    public struct KeyValuePair: AWSEncodableShape & AWSDecodableShape {
+        /// For SCTE35_ENHANCED output, defines a key. MediaTailor takes this key, and its associated value, and generates the key/value pair within the EXT-X-ASSETtag. If you specify a key, you must also specify a corresponding value.
+        public let key: String
+        /// For SCTE35_ENHANCED output, defines a value. MediaTailor; takes this value, and its associated key, and generates the key/value pair within the EXT-X-ASSETtag. If you specify a value, you must also specify a corresponding key.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
         }
     }
 

@@ -180,6 +180,11 @@ public struct MediaLive: AWSService {
         return self.client.execute(operation: "DeleteTags", path: "/prod/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Get account configuration
+    public func describeAccountConfiguration(_ input: DescribeAccountConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAccountConfigurationResponse> {
+        return self.client.execute(operation: "DescribeAccountConfiguration", path: "/prod/accountConfiguration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets details about a channel
     public func describeChannel(_ input: DescribeChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeChannelResponse> {
         return self.client.execute(operation: "DescribeChannel", path: "/prod/channels/{ChannelId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -228,6 +233,11 @@ public struct MediaLive: AWSService {
     /// Get a channel schedule
     public func describeSchedule(_ input: DescribeScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeScheduleResponse> {
         return self.client.execute(operation: "DescribeSchedule", path: "/prod/channels/{ChannelId}/schedule", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describe the latest thumbnails data.
+    public func describeThumbnails(_ input: DescribeThumbnailsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeThumbnailsResponse> {
+        return self.client.execute(operation: "DescribeThumbnails", path: "/prod/channels/{ChannelId}/thumbnails", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Produces list of channels that have been created
@@ -300,6 +310,11 @@ public struct MediaLive: AWSService {
         return self.client.execute(operation: "StartChannel", path: "/prod/channels/{ChannelId}/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Start an input device that is attached to a MediaConnect flow. (There is no need to start a device that is attached to a MediaLive input; MediaLive starts the device when the channel starts.)
+    public func startInputDevice(_ input: StartInputDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartInputDeviceResponse> {
+        return self.client.execute(operation: "StartInputDevice", path: "/prod/inputDevices/{InputDeviceId}/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Start a maintenance window for the specified input device. Starting a maintenance window will give the device up to two hours to install software. If the device was streaming prior to the maintenance, it will resume streaming when the software is fully installed. Devices automatically install updates while they are powered on and their MediaLive channels are stopped. A maintenance window allows you to update a device without having to stop MediaLive channels that use the device. The device must remain powered on and connected to the internet for the duration of the maintenance.
     public func startInputDeviceMaintenanceWindow(_ input: StartInputDeviceMaintenanceWindowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartInputDeviceMaintenanceWindowResponse> {
         return self.client.execute(operation: "StartInputDeviceMaintenanceWindow", path: "/prod/inputDevices/{InputDeviceId}/startInputDeviceMaintenanceWindow", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -315,6 +330,11 @@ public struct MediaLive: AWSService {
         return self.client.execute(operation: "StopChannel", path: "/prod/channels/{ChannelId}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Stop an input device that is attached to a MediaConnect flow. (There is no need to stop a device that is attached to a MediaLive input; MediaLive automatically stops the device when the channel stops.)
+    public func stopInputDevice(_ input: StopInputDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopInputDeviceResponse> {
+        return self.client.execute(operation: "StopInputDevice", path: "/prod/inputDevices/{InputDeviceId}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Stops a running multiplex. If the multiplex isn't running, this action has no effect.
     public func stopMultiplex(_ input: StopMultiplexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopMultiplexResponse> {
         return self.client.execute(operation: "StopMultiplex", path: "/prod/multiplexes/{MultiplexId}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -323,6 +343,11 @@ public struct MediaLive: AWSService {
     /// Start an input device transfer to another AWS account. After you make the request, the other account must accept or reject the transfer.
     public func transferInputDevice(_ input: TransferInputDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TransferInputDeviceResponse> {
         return self.client.execute(operation: "TransferInputDevice", path: "/prod/inputDevices/{InputDeviceId}/transfer", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Update account configuration
+    public func updateAccountConfiguration(_ input: UpdateAccountConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAccountConfigurationResponse> {
+        return self.client.execute(operation: "UpdateAccountConfiguration", path: "/prod/accountConfiguration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates a channel.

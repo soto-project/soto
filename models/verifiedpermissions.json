@@ -24,7 +24,8 @@
                     "min": 1,
                     "max": 200
                 },
-                "smithy.api#pattern": "^.*$"
+                "smithy.api#pattern": "^.*$",
+                "smithy.api#sensitive": {}
             }
         },
         "com.amazonaws.verifiedpermissions#ActionIdentifier": {
@@ -56,7 +57,8 @@
                     "min": 1,
                     "max": 200
                 },
-                "smithy.api#pattern": "^Action$|^.+::Action$"
+                "smithy.api#pattern": "^Action$|^.+::Action$",
+                "smithy.api#sensitive": {}
             }
         },
         "com.amazonaws.verifiedpermissions#AttributeValue": {
@@ -65,7 +67,7 @@
                 "boolean": {
                     "target": "com.amazonaws.verifiedpermissions#BooleanAttribute",
                     "traits": {
-                        "smithy.api#documentation": "<p>An attribute value of <a href=\"docs.cedarpolicy.comcedar-syntax-datatypes.html#datatype-boolean\">Boolean</a>\n            type.</p>\n         <p>Example: <code>{\"boolean\": true}</code>\n         </p>"
+                        "smithy.api#documentation": "<p>An attribute value of <a href=\"https://docs.cedarpolicy.com/syntax-datatypes.html#boolean\">Boolean</a> type.</p>\n         <p>Example: <code>{\"boolean\": true}</code>\n         </p>"
                     }
                 },
                 "entityIdentifier": {
@@ -77,25 +79,25 @@
                 "long": {
                     "target": "com.amazonaws.verifiedpermissions#LongAttribute",
                     "traits": {
-                        "smithy.api#documentation": "<p>An attribute value of <a href=\"docs.cedarpolicy.comcedar-syntax-datatypes.html#datatype-long\">Long</a>\n            type.</p>\n         <p>Example: <code>{\"long\": 0}</code>\n         </p>"
+                        "smithy.api#documentation": "<p>An attribute value of <a href=\"https://docs.cedarpolicy.com/syntax-datatypes.html#long\">Long</a> type.</p>\n         <p>Example: <code>{\"long\": 0}</code>\n         </p>"
                     }
                 },
                 "string": {
                     "target": "com.amazonaws.verifiedpermissions#StringAttribute",
                     "traits": {
-                        "smithy.api#documentation": "<p>An attribute value of <a href=\"docs.cedarpolicy.comcedar-syntax-datatypes.html#datatype-string\">String</a>\n            type.</p>\n         <p>Example: <code>{\"string\": \"abc\"}</code>\n         </p>"
+                        "smithy.api#documentation": "<p>An attribute value of <a href=\"https://docs.cedarpolicy.com/syntax-datatypes.html#string\">String</a> type.</p>\n         <p>Example: <code>{\"string\": \"abc\"}</code>\n         </p>"
                     }
                 },
                 "set": {
                     "target": "com.amazonaws.verifiedpermissions#SetAttribute",
                     "traits": {
-                        "smithy.api#documentation": "<p>An attribute value of <a href=\"docs.cedarpolicy.comcedar-syntax-datatypes.html#datatype-set\">Set</a>\n            type.</p>\n         <p>Example: <code>{\"set\": [ {} ] }</code>\n         </p>"
+                        "smithy.api#documentation": "<p>An attribute value of <a href=\"https://docs.cedarpolicy.com/syntax-datatypes.html#set\">Set</a> type.</p>\n         <p>Example: <code>{\"set\": [ {} ] }</code>\n         </p>"
                     }
                 },
                 "record": {
                     "target": "com.amazonaws.verifiedpermissions#RecordAttribute",
                     "traits": {
-                        "smithy.api#documentation": "<p>An attribute value of <a href=\"docs.cedarpolicy.comcedar-syntax-datatypes.html#datatype-record\">Record</a>\n            type.</p>\n         <p>Example: <code>{\"record\": { \"keyName\": {} } }</code>\n         </p>"
+                        "smithy.api#documentation": "<p>An attribute value of <a href=\"https://docs.cedarpolicy.com/syntax-datatypes.html#record\">Record</a> type.</p>\n         <p>Example: <code>{\"record\": { \"keyName\": {} } }</code>\n         </p>"
                     }
                 }
             },
@@ -104,7 +106,10 @@
             }
         },
         "com.amazonaws.verifiedpermissions#BooleanAttribute": {
-            "type": "boolean"
+            "type": "boolean",
+            "traits": {
+                "smithy.api#sensitive": {}
+            }
         },
         "com.amazonaws.verifiedpermissions#ClientId": {
             "type": "string",
@@ -113,7 +118,8 @@
                     "min": 1,
                     "max": 255
                 },
-                "smithy.api#pattern": "^.*$"
+                "smithy.api#pattern": "^.*$",
+                "smithy.api#sensitive": {}
             }
         },
         "com.amazonaws.verifiedpermissions#ClientIds": {
@@ -207,11 +213,6 @@
             },
             "value": {
                 "target": "com.amazonaws.verifiedpermissions#AttributeValue"
-            },
-            "traits": {
-                "smithy.api#length": {
-                    "min": 0
-                }
             }
         },
         "com.amazonaws.verifiedpermissions#CreateIdentitySource": {
@@ -232,7 +233,7 @@
             ],
             "traits": {
                 "aws.iam#actionPermissionDescription": "Grants permission to create a reference to an external identity provider (IdP) that is compatible with OpenID Connect (OIDC) authentication protocol, such as Amazon Cognito",
-                "smithy.api#documentation": "<p>Creates a reference to an Amazon Cognito user pool as an external identity provider (IdP).\n            </p>\n         <p>After you create an identity source, you can use the identities provided by the IdP as proxies\n            for the principal in authorization queries that use the <a href=\"https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html\">IsAuthorizedWithToken</a>\n            operation. These identities take the form of tokens that contain claims about the user,\n            such as IDs, attributes and group memberships. Amazon Cognito provides both identity tokens and\n            access tokens, and Verified Permissions can use either or both. Any combination of identity and access\n            tokens results in the same Cedar principal. Verified Permissions automatically translates the\n            information about the identities into the standard Cedar attributes that can be\n            evaluated by your policies. Because the Amazon Cognito identity and access tokens can contain\n            different information, the tokens you choose to use determine which principal attributes\n            are available to access when evaluating Cedar policies.</p>\n         <important>\n            <p>If you delete a Amazon Cognito user pool or user, tokens from that deleted pool or that deleted user continue to be usable until they expire.</p>\n         </important>\n         <note>\n            <p>To reference a user from this identity source in your Cedar policies, use the following\n                syntax.</p>\n            <p>\n               <i>IdentityType::\"&lt;CognitoUserPoolIdentifier&gt;|&lt;CognitoClientId&gt;</i>\n            </p>\n            <p>Where <code>IdentityType</code> is the string that you provide to the\n                    <code>PrincipalEntityType</code> parameter for this operation. The\n                    <code>CognitoUserPoolId</code> and <code>CognitoClientId</code> are defined by\n                the Amazon Cognito user pool.</p>\n         </note>",
+                "smithy.api#documentation": "<p>Creates a reference to an Amazon Cognito user pool as an external identity provider (IdP).\n            </p>\n         <p>After you create an identity source, you can use the identities provided by the IdP as proxies\n            for the principal in authorization queries that use the <a href=\"https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html\">IsAuthorizedWithToken</a>\n            operation. These identities take the form of tokens that contain claims about the user,\n            such as IDs, attributes and group memberships. Amazon Cognito provides both identity tokens and\n            access tokens, and Verified Permissions can use either or both. Any combination of identity and access\n            tokens results in the same Cedar principal. Verified Permissions automatically translates the\n            information about the identities into the standard Cedar attributes that can be\n            evaluated by your policies. Because the Amazon Cognito identity and access tokens can contain\n            different information, the tokens you choose to use determine which principal attributes\n            are available to access when evaluating Cedar policies.</p>\n         <important>\n            <p>If you delete a Amazon Cognito user pool or user, tokens from that deleted pool or that deleted user continue to be usable until they expire.</p>\n         </important>\n         <note>\n            <p>To reference a user from this identity source in your Cedar policies, use the following\n                syntax.</p>\n            <p>\n               <i>IdentityType::\"&lt;CognitoUserPoolIdentifier&gt;|&lt;CognitoClientId&gt;</i>\n            </p>\n            <p>Where <code>IdentityType</code> is the string that you provide to the\n                    <code>PrincipalEntityType</code> parameter for this operation. The\n                    <code>CognitoUserPoolId</code> and <code>CognitoClientId</code> are defined by\n                the Amazon Cognito user pool.</p>\n         </note>\n         <note>\n            <p>Verified Permissions is <i>\n                  <a href=\"https://wikipedia.org/wiki/Eventual_consistency\">eventually consistent</a>\n               </i>. It can take a few seconds for a new or changed element to be propagate through\n    the service and be visible in the results of other Verified Permissions operations.</p>\n         </note>",
                 "smithy.api#idempotent": {}
             }
         },
@@ -242,7 +243,7 @@
                 "clientToken": {
                     "target": "com.amazonaws.verifiedpermissions#IdempotencyToken",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies a unique, case-sensitive ID that you provide to\n             ensure the idempotency of the request. This lets you safely retry the request without\n             accidentally performing the same operation a second time. Passing the same value to a\n             later call to an operation requires that you also pass the same value for all other \n             parameters. We recommend that you use a <a href=\"https://wikipedia.org/wiki/Universally_unique_Id\">UUID type of \n             value.</a>.</p>\n         <p>If you don't provide this value, then Amazon Web Services generates a random one for\n             you.</p>\n         <p>If you retry the operation with the same <code>ClientToken</code>, but with \n             different parameters, the retry fails with an <code>IdempotentParameterMismatch</code>\n             error.</p>",
+                        "smithy.api#documentation": "<p>Specifies a unique, case-sensitive ID that you provide to\n             ensure the idempotency of the request. This lets you safely retry the request without\n             accidentally performing the same operation a second time. Passing the same value to a\n             later call to an operation requires that you also pass the same value for all other \n             parameters. We recommend that you use a <a href=\"https://wikipedia.org/wiki/Universally_unique_identifier\">UUID type of \n             value.</a>.</p>\n         <p>If you don't provide this value, then Amazon Web Services generates a random one for\n             you.</p>\n         <p>If you retry the operation with the same <code>ClientToken</code>, but with \n             different parameters, the retry fails with an <code>IdempotentParameterMismatch</code>\n             error.</p>",
                         "smithy.api#idempotencyToken": {}
                     }
                 },
@@ -325,7 +326,7 @@
             ],
             "traits": {
                 "aws.iam#actionPermissionDescription": "Grants permission to create a Cedar policy and save it in the specified policy store",
-                "smithy.api#documentation": "<p>Creates a Cedar policy and saves it in the specified policy store. You can create either a\n            static policy or a policy linked to a policy template.</p>\n         <ul>\n            <li>\n               <p>To create a static policy, provide the Cedar policy text in the\n                        <code>StaticPolicy</code> section of the\n                    <code>PolicyDefinition</code>.</p>\n            </li>\n            <li>\n               <p>To create a policy that is dynamically linked to a policy template, specify the policy template ID\n                    and the principal and resource to associate with this policy in the\n                        <code>templateLinked</code> section of the <code>PolicyDefinition</code>. If the\n                    policy template is ever updated, any policies linked to the policy template automatically use the\n                    updated template.</p>\n            </li>\n         </ul>\n         <note>\n            <p>Creating a policy causes it to be validated against the schema in the policy store. If the\n                policy doesn't pass validation, the operation fails and the policy isn't\n                stored.</p>\n         </note>",
+                "smithy.api#documentation": "<p>Creates a Cedar policy and saves it in the specified policy store. You can create either a\n            static policy or a policy linked to a policy template.</p>\n         <ul>\n            <li>\n               <p>To create a static policy, provide the Cedar policy text in the\n                        <code>StaticPolicy</code> section of the\n                    <code>PolicyDefinition</code>.</p>\n            </li>\n            <li>\n               <p>To create a policy that is dynamically linked to a policy template, specify the policy template ID\n                    and the principal and resource to associate with this policy in the\n                        <code>templateLinked</code> section of the <code>PolicyDefinition</code>. If the\n                    policy template is ever updated, any policies linked to the policy template automatically use the\n                    updated template.</p>\n            </li>\n         </ul>\n         <note>\n            <p>Creating a policy causes it to be validated against the schema in the policy store. If the\n                policy doesn't pass validation, the operation fails and the policy isn't\n                stored.</p>\n         </note>\n         <note>\n            <p>Verified Permissions is <i>\n                  <a href=\"https://wikipedia.org/wiki/Eventual_consistency\">eventually consistent</a>\n               </i>. It can take a few seconds for a new or changed element to be propagate through\n    the service and be visible in the results of other Verified Permissions operations.</p>\n         </note>",
                 "smithy.api#idempotent": {}
             }
         },
@@ -335,7 +336,7 @@
                 "clientToken": {
                     "target": "com.amazonaws.verifiedpermissions#IdempotencyToken",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies a unique, case-sensitive ID that you provide to\n             ensure the idempotency of the request. This lets you safely retry the request without\n             accidentally performing the same operation a second time. Passing the same value to a\n             later call to an operation requires that you also pass the same value for all other \n             parameters. We recommend that you use a <a href=\"https://wikipedia.org/wiki/Universally_unique_Id\">UUID type of \n             value.</a>.</p>\n         <p>If you don't provide this value, then Amazon Web Services generates a random one for\n             you.</p>\n         <p>If you retry the operation with the same <code>ClientToken</code>, but with \n             different parameters, the retry fails with an <code>IdempotentParameterMismatch</code>\n             error.</p>",
+                        "smithy.api#documentation": "<p>Specifies a unique, case-sensitive ID that you provide to\n             ensure the idempotency of the request. This lets you safely retry the request without\n             accidentally performing the same operation a second time. Passing the same value to a\n             later call to an operation requires that you also pass the same value for all other \n             parameters. We recommend that you use a <a href=\"https://wikipedia.org/wiki/Universally_unique_identifier\">UUID type of \n             value.</a>.</p>\n         <p>If you don't provide this value, then Amazon Web Services generates a random one for\n             you.</p>\n         <p>If you retry the operation with the same <code>ClientToken</code>, but with \n             different parameters, the retry fails with an <code>IdempotentParameterMismatch</code>\n             error.</p>",
                         "smithy.api#idempotencyToken": {}
                     }
                 },
@@ -428,7 +429,7 @@
             ],
             "traits": {
                 "aws.iam#actionPermissionDescription": "Grants permission to create a Cedar policy and save it in the specified policy store",
-                "smithy.api#documentation": "<p>Creates a policy store. A policy store is a container for policy resources.</p>\n         <note>\n            <p>Although <a href=\"https://docs.cedarpolicy.com/schema.html#namespace\">Cedar\n                    supports multiple namespaces</a>, Verified Permissions currently supports only one\n                namespace per policy store.</p>\n         </note>",
+                "smithy.api#documentation": "<p>Creates a policy store. A policy store is a container for policy resources.</p>\n         <note>\n            <p>Although <a href=\"https://docs.cedarpolicy.com/schema.html#namespace\">Cedar\n                    supports multiple namespaces</a>, Verified Permissions currently supports only one\n                namespace per policy store.</p>\n         </note>\n         <note>\n            <p>Verified Permissions is <i>\n                  <a href=\"https://wikipedia.org/wiki/Eventual_consistency\">eventually consistent</a>\n               </i>. It can take a few seconds for a new or changed element to be propagate through\n    the service and be visible in the results of other Verified Permissions operations.</p>\n         </note>",
                 "smithy.api#idempotent": {}
             }
         },
@@ -438,7 +439,7 @@
                 "clientToken": {
                     "target": "com.amazonaws.verifiedpermissions#IdempotencyToken",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies a unique, case-sensitive ID that you provide to\n             ensure the idempotency of the request. This lets you safely retry the request without\n             accidentally performing the same operation a second time. Passing the same value to a\n             later call to an operation requires that you also pass the same value for all other \n             parameters. We recommend that you use a <a href=\"https://wikipedia.org/wiki/Universally_unique_Id\">UUID type of \n             value.</a>.</p>\n         <p>If you don't provide this value, then Amazon Web Services generates a random one for\n             you.</p>\n         <p>If you retry the operation with the same <code>ClientToken</code>, but with \n             different parameters, the retry fails with an <code>IdempotentParameterMismatch</code>\n             error.</p>",
+                        "smithy.api#documentation": "<p>Specifies a unique, case-sensitive ID that you provide to\n             ensure the idempotency of the request. This lets you safely retry the request without\n             accidentally performing the same operation a second time. Passing the same value to a\n             later call to an operation requires that you also pass the same value for all other \n             parameters. We recommend that you use a <a href=\"https://wikipedia.org/wiki/Universally_unique_identifier\">UUID type of \n             value.</a>.</p>\n         <p>If you don't provide this value, then Amazon Web Services generates a random one for\n             you.</p>\n         <p>If you retry the operation with the same <code>ClientToken</code>, but with \n             different parameters, the retry fails with an <code>IdempotentParameterMismatch</code>\n             error.</p>",
                         "smithy.api#idempotencyToken": {}
                     }
                 },
@@ -508,7 +509,7 @@
             ],
             "traits": {
                 "aws.iam#actionPermissionDescription": "Grants permission to create a policy template",
-                "smithy.api#documentation": "<p>Creates a policy template. A template can use placeholders for the principal and resource. A\n            template must be instantiated into a policy by associating it with specific principals\n            and resources to use for the placeholders. That instantiated policy can then be\n            considered in authorization decisions. The instantiated policy works identically to any\n            other policy, except that it is dynamically linked to the template. If the template\n            changes, then any policies that are linked to that template are immediately updated as\n            well.</p>",
+                "smithy.api#documentation": "<p>Creates a policy template. A template can use placeholders for the principal and resource. A\n            template must be instantiated into a policy by associating it with specific principals\n            and resources to use for the placeholders. That instantiated policy can then be\n            considered in authorization decisions. The instantiated policy works identically to any\n            other policy, except that it is dynamically linked to the template. If the template\n            changes, then any policies that are linked to that template are immediately updated as\n            well.</p>\n         <note>\n            <p>Verified Permissions is <i>\n                  <a href=\"https://wikipedia.org/wiki/Eventual_consistency\">eventually consistent</a>\n               </i>. It can take a few seconds for a new or changed element to be propagate through\n    the service and be visible in the results of other Verified Permissions operations.</p>\n         </note>",
                 "smithy.api#idempotent": {}
             }
         },
@@ -518,7 +519,7 @@
                 "clientToken": {
                     "target": "com.amazonaws.verifiedpermissions#IdempotencyToken",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies a unique, case-sensitive ID that you provide to\n             ensure the idempotency of the request. This lets you safely retry the request without\n             accidentally performing the same operation a second time. Passing the same value to a\n             later call to an operation requires that you also pass the same value for all other \n             parameters. We recommend that you use a <a href=\"https://wikipedia.org/wiki/Universally_unique_Id\">UUID type of \n             value.</a>.</p>\n         <p>If you don't provide this value, then Amazon Web Services generates a random one for\n             you.</p>\n         <p>If you retry the operation with the same <code>ClientToken</code>, but with \n             different parameters, the retry fails with an <code>IdempotentParameterMismatch</code>\n             error.</p>",
+                        "smithy.api#documentation": "<p>Specifies a unique, case-sensitive ID that you provide to\n             ensure the idempotency of the request. This lets you safely retry the request without\n             accidentally performing the same operation a second time. Passing the same value to a\n             later call to an operation requires that you also pass the same value for all other \n             parameters. We recommend that you use a <a href=\"https://wikipedia.org/wiki/Universally_unique_identifier\">UUID type of \n             value.</a>.</p>\n         <p>If you don't provide this value, then Amazon Web Services generates a random one for\n             you.</p>\n         <p>If you retry the operation with the same <code>ClientToken</code>, but with \n             different parameters, the retry fails with an <code>IdempotentParameterMismatch</code>\n             error.</p>",
                         "smithy.api#idempotencyToken": {}
                     }
                 },
@@ -844,11 +845,6 @@
             },
             "value": {
                 "target": "com.amazonaws.verifiedpermissions#AttributeValue"
-            },
-            "traits": {
-                "smithy.api#length": {
-                    "min": 0
-                }
             }
         },
         "com.amazonaws.verifiedpermissions#EntityId": {
@@ -858,7 +854,8 @@
                     "min": 1,
                     "max": 200
                 },
-                "smithy.api#pattern": "^.*$"
+                "smithy.api#pattern": "^.*$",
+                "smithy.api#sensitive": {}
             }
         },
         "com.amazonaws.verifiedpermissions#EntityIdentifier": {
@@ -907,18 +904,13 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Contains information about an entity that can be referenced in a Cedar\n            policy.</p>\n         <p>This data type is used as one of the fields in the <a href=\"https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EntitiesDefinition.html\">EntitiesDefinition</a>\n            structure.</p>\n         <p>\n            <code>{\n    \"id\": {\n        \"entityType\": \"Photo\",\n        \"entityId\": \"VacationPhoto94.jpg\"\n    },\n    \"Attributes\": {},\n    \"Parents\": [\n        {\n            \"entityType\": \"Album\",\n            \"entityId\": \"alice_folder\"\n        }\n    ]\n}</code>\n         </p>"
+                "smithy.api#documentation": "<p>Contains information about an entity that can be referenced in a Cedar\n            policy.</p>\n         <p>This data type is used as one of the fields in the <a href=\"https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EntitiesDefinition.html\">EntitiesDefinition</a>\n            structure.</p>\n         <p>\n            <code>{ \"identifier\": { \"entityType\": \"Photo\", \"entityId\": \"VacationPhoto94.jpg\" },\n                \"attributes\": {}, \"parents\": [ { \"entityType\": \"Album\", \"entityId\": \"alice_folder\" }\n                ] }</code>\n         </p>"
             }
         },
         "com.amazonaws.verifiedpermissions#EntityList": {
             "type": "list",
             "member": {
                 "target": "com.amazonaws.verifiedpermissions#EntityItem"
-            },
-            "traits": {
-                "smithy.api#length": {
-                    "min": 0
-                }
             }
         },
         "com.amazonaws.verifiedpermissions#EntityReference": {
@@ -948,7 +940,8 @@
                     "min": 1,
                     "max": 200
                 },
-                "smithy.api#pattern": "^.*$"
+                "smithy.api#pattern": "^.*$",
+                "smithy.api#sensitive": {}
             }
         },
         "com.amazonaws.verifiedpermissions#EvaluationErrorItem": {
@@ -963,7 +956,8 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Contains a description of an evaluation error.</p>\n         <p>This data type is used as a request parameter in the <a href=\"https://docs.aws.amazon.com/amazon-verified-permissions/latest/APIReference/API_IsAuthorized.html\">IsAuthorized</a> and <a href=\"https://docs.aws.amazon.com/amazon-verified-permissions/latest/APIReference/API_IsAuthorizedWithToken.html\">IsAuthorizedWithToken</a> operations.</p>"
+                "smithy.api#documentation": "<p>Contains a description of an evaluation error.</p>\n         <p>This data type is used as a request parameter in the <a href=\"https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html\">IsAuthorized</a> and <a href=\"https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html\">IsAuthorizedWithToken</a> operations.</p>",
+                "smithy.api#sensitive": {}
             }
         },
         "com.amazonaws.verifiedpermissions#EvaluationErrorList": {
@@ -1736,7 +1730,7 @@
             ],
             "traits": {
                 "aws.iam#actionPermissionDescription": "Grants permission to make an authorization decision about a service request described in the parameters. The principal in this request comes from an external identity source",
-                "smithy.api#documentation": "<p>Makes an authorization decision about a service request described in the parameters.\n            The principal in this request comes from an external identity source. The information in the\n            parameters can also define additional context that Verified Permissions can include in the evaluation.\n            The request is evaluated against all matching policies in the specified policy store. The result\n            of the decision is either <code>Allow</code> or <code>Deny</code>, along with a list of\n            the policies that resulted in the decision.</p>\n         <important>\n            <p>If you delete a Amazon Cognito user pool or user, tokens from that deleted pool or that deleted user continue to be usable until they expire.</p>\n         </important>",
+                "smithy.api#documentation": "<p>Makes an authorization decision about a service request described in the parameters.\n            The principal in this request comes from an external identity source in the form of an identity\n            token formatted as a <a href=\"https://wikipedia.org/wiki/JSON_Web_Token\">JSON web\n                token (JWT)</a>. The information in the parameters can also define additional\n            context that Verified Permissions can include in the evaluation. The request is evaluated against all\n            matching policies in the specified policy store. The result of the decision is either\n                <code>Allow</code> or <code>Deny</code>, along with a list of the policies that\n            resulted in the decision.</p>\n         <important>\n            <p>If you specify the <code>identityToken</code> parameter, then this operation\n                derives the principal from that token. You must not also include that principal in\n                the <code>entities</code> parameter or the operation fails and reports a conflict\n                between the two entity sources.</p>\n            <p>If you provide only an <code>accessToken</code>, then you can include the entity\n                as part of the <code>entities</code> parameter to provide additional\n                attributes.</p>\n         </important>\n         <p>At this time, Verified Permissions accepts tokens from only Amazon Cognito.</p>\n         <p>Verified Permissions validates each token that is specified in a request by checking its expiration\n            date and its signature.</p>\n         <important>\n            <p>If you delete a Amazon Cognito user pool or user, tokens from that deleted pool or that deleted user continue to be usable until they expire.</p>\n         </important>",
                 "smithy.api#readonly": {}
             }
         },
@@ -1753,13 +1747,13 @@
                 "identityToken": {
                     "target": "com.amazonaws.verifiedpermissions#Token",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies an identity token for the principal to be authorized. This token is provided\n            to you by the identity provider (IdP) associated with the specified identity source. You must\n            specify either an <code>AccessToken</code> or an <code>IdentityToken</code>, but not\n            both.</p>"
+                        "smithy.api#documentation": "<p>Specifies an identity token for the principal to be authorized. This token is provided\n            to you by the identity provider (IdP) associated with the specified identity source. You must\n            specify either an <code>AccessToken</code> or an <code>IdentityToken</code>, or\n            both.</p>"
                     }
                 },
                 "accessToken": {
                     "target": "com.amazonaws.verifiedpermissions#Token",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies an access token for the principal to be authorized. This token is provided\n            to you by the identity provider (IdP) associated with the specified identity source. You must\n            specify either an <code>AccessToken</code> or an <code>IdentityToken</code>, but not\n            both.</p>"
+                        "smithy.api#documentation": "<p>Specifies an access token for the principal to be authorized. This token is provided\n            to you by the identity provider (IdP) associated with the specified identity source. You must\n            specify either an <code>AccessToken</code>, or an <code>IdentityToken</code>, or\n            both.</p>"
                     }
                 },
                 "action": {
@@ -1783,7 +1777,7 @@
                 "entities": {
                     "target": "com.amazonaws.verifiedpermissions#EntitiesDefinition",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies the list of resources and principals and their associated attributes that\n            Verified Permissions can examine when evaluating the policies. </p>\n         <note>\n            <p>You can include only principal and resource entities in this parameter; you can't\n                include actions. You must specify actions in the schema.</p>\n         </note>"
+                        "smithy.api#documentation": "<p>Specifies the list of resources and their associated attributes that Verified Permissions can examine\n            when evaluating the policies. </p>\n         <note>\n            <p>You can include only resource and action entities in this parameter; you can't\n                include principals.</p>\n            <ul>\n               <li>\n                  <p>The <code>IsAuthorizedWithToken</code> operation takes principal\n                        attributes from <b>\n                        <i>only</i>\n                     </b>\n                        the <code>identityToken</code> or <code>accessToken</code> passed to the\n                        operation.</p>\n               </li>\n               <li>\n                  <p>For action entities, you can include only their <code>Identifier</code>\n                        and <code>EntityType</code>. </p>\n               </li>\n            </ul>\n         </note>"
                     }
                 }
             },
@@ -1864,7 +1858,7 @@
                 "maxResults": {
                     "target": "com.amazonaws.verifiedpermissions#ListIdentitySourcesMaxResults",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies the total number of results that you want included on each page \n             of the response. If you do not include this parameter, it defaults to a value that is \n             specific to the operation. If additional items exist beyond the number you specify, the\n             <code>NextToken</code> response element is returned with a value (not null).\n             Include the specified value as the <code>NextToken</code> request parameter in the next \n             call to the operation to get the next part of the results. Note that the service might \n             return fewer results than the maximum even when there are more results available. You \n             should check <code>NextToken</code> after every operation to ensure that you receive all\n             of the results.</p>"
+                        "smithy.api#documentation": "<p>Specifies the total number of results that you want included in each\n             response. If additional items exist beyond the number you specify, the \n             <code>NextToken</code> response element is returned with a value (not null). Include the\n             specified value as the <code>NextToken</code> request parameter in the next call to the\n             operation to get the next set of results. Note that the service might return fewer\n             results than the maximum even when there are more results available. You should check \n             <code>NextToken</code> after every operation to ensure that you receive all of the\n             results.</p>\n         <p>If you do not specify this parameter, the operation defaults to 10 identity sources per response.\n            You can specify a maximum of 200 identity sources per response.</p>"
                     }
                 },
                 "filters": {
@@ -1952,7 +1946,7 @@
                 "maxResults": {
                     "target": "com.amazonaws.verifiedpermissions#MaxResults",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies the total number of results that you want included on each page \n             of the response. If you do not include this parameter, it defaults to a value that is \n             specific to the operation. If additional items exist beyond the number you specify, the\n             <code>NextToken</code> response element is returned with a value (not null).\n             Include the specified value as the <code>NextToken</code> request parameter in the next \n             call to the operation to get the next part of the results. Note that the service might \n             return fewer results than the maximum even when there are more results available. You \n             should check <code>NextToken</code> after every operation to ensure that you receive all\n             of the results.</p>"
+                        "smithy.api#documentation": "<p>Specifies the total number of results that you want included in each\n             response. If additional items exist beyond the number you specify, the \n             <code>NextToken</code> response element is returned with a value (not null). Include the\n             specified value as the <code>NextToken</code> request parameter in the next call to the\n             operation to get the next set of results. Note that the service might return fewer\n             results than the maximum even when there are more results available. You should check \n             <code>NextToken</code> after every operation to ensure that you receive all of the\n             results.</p>\n         <p>If you do not specify this parameter, the operation defaults to 10 policies per\n            response. You can specify a maximum of 50 policies per response.</p>"
                     }
                 },
                 "filter": {
@@ -2019,7 +2013,7 @@
                 "maxResults": {
                     "target": "com.amazonaws.verifiedpermissions#MaxResults",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies the total number of results that you want included on each page \n             of the response. If you do not include this parameter, it defaults to a value that is \n             specific to the operation. If additional items exist beyond the number you specify, the\n             <code>NextToken</code> response element is returned with a value (not null).\n             Include the specified value as the <code>NextToken</code> request parameter in the next \n             call to the operation to get the next part of the results. Note that the service might \n             return fewer results than the maximum even when there are more results available. You \n             should check <code>NextToken</code> after every operation to ensure that you receive all\n             of the results.</p>"
+                        "smithy.api#documentation": "<p>Specifies the total number of results that you want included in each\n             response. If additional items exist beyond the number you specify, the \n             <code>NextToken</code> response element is returned with a value (not null). Include the\n             specified value as the <code>NextToken</code> request parameter in the next call to the\n             operation to get the next set of results. Note that the service might return fewer\n             results than the maximum even when there are more results available. You should check \n             <code>NextToken</code> after every operation to ensure that you receive all of the\n             results.</p>\n         <p>If you do not specify this parameter, the operation defaults to 10 policy stores per response.\n            You can specify a maximum of 50 policy stores per response.</p>"
                     }
                 }
             },
@@ -2092,7 +2086,7 @@
                 "maxResults": {
                     "target": "com.amazonaws.verifiedpermissions#MaxResults",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies the total number of results that you want included on each page \n             of the response. If you do not include this parameter, it defaults to a value that is \n             specific to the operation. If additional items exist beyond the number you specify, the\n             <code>NextToken</code> response element is returned with a value (not null).\n             Include the specified value as the <code>NextToken</code> request parameter in the next \n             call to the operation to get the next part of the results. Note that the service might \n             return fewer results than the maximum even when there are more results available. You \n             should check <code>NextToken</code> after every operation to ensure that you receive all\n             of the results.</p>"
+                        "smithy.api#documentation": "<p>Specifies the total number of results that you want included in each\n             response. If additional items exist beyond the number you specify, the \n             <code>NextToken</code> response element is returned with a value (not null). Include the\n             specified value as the <code>NextToken</code> request parameter in the next call to the\n             operation to get the next set of results. Note that the service might return fewer\n             results than the maximum even when there are more results available. You should check \n             <code>NextToken</code> after every operation to ensure that you receive all of the\n             results.</p>\n         <p>If you do not specify this parameter, the operation defaults to 10 policy templates per response.\n            You can specify a maximum of 50 policy templates per response.</p>"
                     }
                 }
             },
@@ -2122,14 +2116,17 @@
             }
         },
         "com.amazonaws.verifiedpermissions#LongAttribute": {
-            "type": "long"
+            "type": "long",
+            "traits": {
+                "smithy.api#sensitive": {}
+            }
         },
         "com.amazonaws.verifiedpermissions#MaxResults": {
             "type": "integer",
             "traits": {
                 "smithy.api#range": {
                     "min": 1,
-                    "max": 20
+                    "max": 50
                 }
             }
         },
@@ -2140,7 +2137,8 @@
                     "min": 1,
                     "max": 100
                 },
-                "smithy.api#pattern": "^.*$"
+                "smithy.api#pattern": "^.*$",
+                "smithy.api#sensitive": {}
             }
         },
         "com.amazonaws.verifiedpermissions#NamespaceList": {
@@ -2177,7 +2175,6 @@
             },
             "traits": {
                 "smithy.api#length": {
-                    "min": 0,
                     "max": 100
                 },
                 "smithy.api#uniqueItems": {}
@@ -2389,7 +2386,8 @@
                 "smithy.api#length": {
                     "min": 1,
                     "max": 10000
-                }
+                },
+                "smithy.api#sensitive": {}
             }
         },
         "com.amazonaws.verifiedpermissions#PolicyStore": {
@@ -2533,7 +2531,8 @@
                 "smithy.api#length": {
                     "min": 0,
                     "max": 150
-                }
+                },
+                "smithy.api#sensitive": {}
             }
         },
         "com.amazonaws.verifiedpermissions#PolicyTemplateId": {
@@ -2618,7 +2617,8 @@
                     "min": 1,
                     "max": 200
                 },
-                "smithy.api#pattern": "^.*$"
+                "smithy.api#pattern": "^.*$",
+                "smithy.api#sensitive": {}
             }
         },
         "com.amazonaws.verifiedpermissions#PutSchema": {
@@ -2642,7 +2642,7 @@
             ],
             "traits": {
                 "aws.iam#actionPermissionDescription": "Grants permission to create or update the policy schema in the specified policy store",
-                "smithy.api#documentation": "<p>Creates or updates the policy schema in the specified policy store. The schema is used to\n            validate any Cedar policies and policy templates submitted to the policy store. Any changes to the schema\n            validate only policies and templates submitted after the schema change. Existing\n            policies and templates are not re-evaluated against the changed schema. If you later\n            update a policy, then it is evaluated against the new schema at that time.</p>",
+                "smithy.api#documentation": "<p>Creates or updates the policy schema in the specified policy store. The schema is used to\n            validate any Cedar policies and policy templates submitted to the policy store. Any changes to the schema\n            validate only policies and templates submitted after the schema change. Existing\n            policies and templates are not re-evaluated against the changed schema. If you later\n            update a policy, then it is evaluated against the new schema at that time.</p>\n         <note>\n            <p>Verified Permissions is <i>\n                  <a href=\"https://wikipedia.org/wiki/Eventual_consistency\">eventually consistent</a>\n               </i>. It can take a few seconds for a new or changed element to be propagate through\n    the service and be visible in the results of other Verified Permissions operations.</p>\n         </note>",
                 "smithy.api#idempotent": {}
             }
         },
@@ -2836,7 +2836,8 @@
                 "smithy.api#length": {
                     "min": 1,
                     "max": 10000
-                }
+                },
+                "smithy.api#sensitive": {}
             }
         },
         "com.amazonaws.verifiedpermissions#ServiceQuotaExceededException": {
@@ -2948,11 +2949,15 @@
                 "smithy.api#length": {
                     "min": 0,
                     "max": 150
-                }
+                },
+                "smithy.api#sensitive": {}
             }
         },
         "com.amazonaws.verifiedpermissions#StringAttribute": {
-            "type": "string"
+            "type": "string",
+            "traits": {
+                "smithy.api#sensitive": {}
+            }
         },
         "com.amazonaws.verifiedpermissions#TemplateLinkedPolicyDefinition": {
             "type": "structure",
@@ -3079,7 +3084,8 @@
                     "min": 1,
                     "max": 131072
                 },
-                "smithy.api#pattern": "^[A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+$"
+                "smithy.api#pattern": "^[A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+$",
+                "smithy.api#sensitive": {}
             }
         },
         "com.amazonaws.verifiedpermissions#UpdateCognitoUserPoolConfiguration": {
@@ -3135,7 +3141,7 @@
             ],
             "traits": {
                 "aws.iam#actionPermissionDescription": "Grants permission to update the specified identity source to use a new identity provider (IdP) source, or to change the mapping of identities from the IdP to a different principal entity type",
-                "smithy.api#documentation": "<p>Updates the specified identity source to use a new identity provider (IdP) source, or to change\n            the mapping of identities from the IdP to a different principal entity type.</p>",
+                "smithy.api#documentation": "<p>Updates the specified identity source to use a new identity provider (IdP) source, or to change\n            the mapping of identities from the IdP to a different principal entity type.</p>\n         <note>\n            <p>Verified Permissions is <i>\n                  <a href=\"https://wikipedia.org/wiki/Eventual_consistency\">eventually consistent</a>\n               </i>. It can take a few seconds for a new or changed element to be propagate through\n    the service and be visible in the results of other Verified Permissions operations.</p>\n         </note>",
                 "smithy.api#idempotent": {}
             }
         },
@@ -3232,7 +3238,7 @@
             ],
             "traits": {
                 "aws.iam#actionPermissionDescription": "Grants permission to modify the specified Cedar static policy in the specified policy store",
-                "smithy.api#documentation": "<p>Modifies a Cedar static policy in the specified policy store. You can change only certain elements of\n            the <a href=\"https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyInput.html#amazonverifiedpermissions-UpdatePolicy-request-UpdatePolicyDefinition\">UpdatePolicyDefinition</a> parameter. You can directly update only static policies. To\n            change a template-linked policy, you must update the template instead, using <a href=\"https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyTemplate.html\">UpdatePolicyTemplate</a>.</p>\n         <note>\n            <p>If policy validation is enabled in the policy store, then updating a static policy causes Verified Permissions to\n                validate the policy against the schema in the policy store. If the updated static policy doesn't pass\n                validation, the operation fails and the update isn't stored.</p>\n         </note>",
+                "smithy.api#documentation": "<p>Modifies a Cedar static policy in the specified policy store. You can change only certain elements of\n            the <a href=\"https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyInput.html#amazonverifiedpermissions-UpdatePolicy-request-UpdatePolicyDefinition\">UpdatePolicyDefinition</a> parameter. You can directly update only static policies. To\n            change a template-linked policy, you must update the template instead, using <a href=\"https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyTemplate.html\">UpdatePolicyTemplate</a>.</p>\n         <note>\n            <ul>\n               <li>\n                  <p>If policy validation is enabled in the policy store, then updating a static policy causes\n                        Verified Permissions to validate the policy against the schema in the policy store. If the updated\n                        static policy doesn't pass validation, the operation fails and the update isn't\n                        stored.</p>\n               </li>\n               <li>\n                  <p>When you edit a static policy, You can change only certain elements of a static\n                        policy:</p>\n                  <ul>\n                     <li>\n                        <p>The action referenced by the policy. </p>\n                     </li>\n                     <li>\n                        <p>A condition clause, such as when and unless. </p>\n                     </li>\n                  </ul>\n                  <p>You can't change these elements of a static policy: </p>\n                  <ul>\n                     <li>\n                        <p>Changing a policy from a static policy to a template-linked\n                                policy. </p>\n                     </li>\n                     <li>\n                        <p>Changing the effect of a static policy from permit or forbid.\n                            </p>\n                     </li>\n                     <li>\n                        <p>The principal referenced by a static policy. </p>\n                     </li>\n                     <li>\n                        <p>The resource referenced by a static policy. </p>\n                     </li>\n                  </ul>\n               </li>\n               <li>\n                  <p>To update a template-linked policy, you must update the template instead. </p>\n               </li>\n            </ul>\n         </note>\n         <note>\n            <p>Verified Permissions is <i>\n                  <a href=\"https://wikipedia.org/wiki/Eventual_consistency\">eventually consistent</a>\n               </i>. It can take a few seconds for a new or changed element to be propagate through\n    the service and be visible in the results of other Verified Permissions operations.</p>\n         </note>",
                 "smithy.api#idempotent": {}
             }
         },
@@ -3353,7 +3359,7 @@
             ],
             "traits": {
                 "aws.iam#actionPermissionDescription": "Grants permission to modify the validation setting for a policy store",
-                "smithy.api#documentation": "<p>Modifies the validation setting for a policy store.</p>",
+                "smithy.api#documentation": "<p>Modifies the validation setting for a policy store.</p>\n         <note>\n            <p>Verified Permissions is <i>\n                  <a href=\"https://wikipedia.org/wiki/Eventual_consistency\">eventually consistent</a>\n               </i>. It can take a few seconds for a new or changed element to be propagate through\n    the service and be visible in the results of other Verified Permissions operations.</p>\n         </note>",
                 "smithy.api#idempotent": {}
             }
         },
@@ -3433,7 +3439,7 @@
             ],
             "traits": {
                 "aws.iam#actionPermissionDescription": "Grants permission to update the specified policy template",
-                "smithy.api#documentation": "<p>Updates the specified policy template. You can update only the description and the some elements\n            of the <a href=\"https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyTemplate.html#amazonverifiedpermissions-UpdatePolicyTemplate-request-policyBody\">policyBody</a>. </p>\n         <important>\n            <p>Changes you make to the policy template content are immediately reflected in authorization\n                decisions that involve all template-linked policies instantiated from this template.</p>\n         </important>",
+                "smithy.api#documentation": "<p>Updates the specified policy template. You can update only the description and the some elements\n            of the <a href=\"https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyTemplate.html#amazonverifiedpermissions-UpdatePolicyTemplate-request-policyBody\">policyBody</a>. </p>\n         <important>\n            <p>Changes you make to the policy template content are immediately reflected in authorization\n                decisions that involve all template-linked policies instantiated from this template.</p>\n         </important>\n         <note>\n            <p>Verified Permissions is <i>\n                  <a href=\"https://wikipedia.org/wiki/Eventual_consistency\">eventually consistent</a>\n               </i>. It can take a few seconds for a new or changed element to be propagate through\n    the service and be visible in the results of other Verified Permissions operations.</p>\n         </note>",
                 "smithy.api#idempotent": {}
             }
         },
@@ -3556,7 +3562,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>The request failed because one or more input parameters don't satisfy their constraint\n            requirements. The output is provided as a list of fields and a reason for each field that\n            isn't valid.</p>\n         <p>The possible reasons include the following:</p>\n         <ul>\n            <li>\n               <p>\n                  <b>UnrecognizedEntityType</b>\n               </p>\n               <p>The policy includes an entity type that isn't found in the schema.</p>\n            </li>\n            <li>\n               <p>\n                  <b>UnrecognizedActionId</b>\n               </p>\n               <p>The policy includes an action id that isn't found in the schema.</p>\n            </li>\n            <li>\n               <p>\n                  <b>InvalidActionApplication</b>\n               </p>\n               <p>The policy includes an action that, according to the schema, doesn't support\n                    the specified principal and resource.</p>\n            </li>\n            <li>\n               <p>\n                  <b>UnexpectedType</b>\n               </p>\n               <p>The policy included an operand that isn't a valid type for the specified\n                    operation.</p>\n            </li>\n            <li>\n               <p>\n                  <b>IncompatibleTypes</b>\n               </p>\n               <p>The types of elements included in a <code>set</code>, or the types of\n                    expressions used in an <code>if...then...else</code> clause aren't compatible in\n                    this context.</p>\n            </li>\n            <li>\n               <p>\n                  <b>MissingAttribute</b>\n               </p>\n               <p>The policy attempts to access a record or entity attribute that isn't\n                    specified in the schema. Test for the existence of the attribute first before\n                    attempting to access its value. For more information, see the <a href=\"docs.cedarpolicy.comsyntax-operators.html#has-presence-of-attribute-test\">has (presence of attribute test) operator</a> in the\n                        <i>Cedar Policy Language Guide</i>.</p>\n            </li>\n            <li>\n               <p>\n                  <b>UnsafeOptionalAttributeAccess</b>\n               </p>\n               <p>The policy attempts to access a record or entity attribute that is optional\n                    and isn't guaranteed to be present. Test for the existence of the attribute\n                    first before attempting to access its value. For more information, see the\n                        <a href=\"docs.cedarpolicy.comsyntax-operators.html#has-presence-of-attribute-test\">has (presence of attribute test) operator</a> in the\n                        <i>Cedar Policy Language Guide</i>.</p>\n            </li>\n            <li>\n               <p>\n                  <b>ImpossiblePolicy</b>\n               </p>\n               <p>Cedar has determined that a policy condition always evaluates to false. If\n                    the policy is always false, it can never apply to any query, and so it can never\n                    affect an authorization decision.</p>\n            </li>\n            <li>\n               <p>\n                  <b>WrongNumberArguments</b>\n               </p>\n               <p>The policy references an extension type with the wrong number of\n                    arguments.</p>\n            </li>\n            <li>\n               <p>\n                  <b>FunctionArgumentValidationError</b>\n               </p>\n               <p>Cedar couldn't parse the argument passed to an extension type. For example,\n                    a string that is to be parsed as an IPv4 address can contain only digits and the\n                    period character.</p>\n            </li>\n         </ul>",
+                "smithy.api#documentation": "<p>The request failed because one or more input parameters don't satisfy their constraint\n            requirements. The output is provided as a list of fields and a reason for each field that\n            isn't valid.</p>\n         <p>The possible reasons include the following:</p>\n         <ul>\n            <li>\n               <p>\n                  <b>UnrecognizedEntityType</b>\n               </p>\n               <p>The policy includes an entity type that isn't found in the schema.</p>\n            </li>\n            <li>\n               <p>\n                  <b>UnrecognizedActionId</b>\n               </p>\n               <p>The policy includes an action id that isn't found in the schema.</p>\n            </li>\n            <li>\n               <p>\n                  <b>InvalidActionApplication</b>\n               </p>\n               <p>The policy includes an action that, according to the schema, doesn't support\n                    the specified principal and resource.</p>\n            </li>\n            <li>\n               <p>\n                  <b>UnexpectedType</b>\n               </p>\n               <p>The policy included an operand that isn't a valid type for the specified\n                    operation.</p>\n            </li>\n            <li>\n               <p>\n                  <b>IncompatibleTypes</b>\n               </p>\n               <p>The types of elements included in a <code>set</code>, or the types of\n                    expressions used in an <code>if...then...else</code> clause aren't compatible in\n                    this context.</p>\n            </li>\n            <li>\n               <p>\n                  <b>MissingAttribute</b>\n               </p>\n               <p>The policy attempts to access a record or entity attribute that isn't\n                    specified in the schema. Test for the existence of the attribute first before\n                    attempting to access its value. For more information, see the <a href=\"https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test\">has (presence of attribute test) operator</a> in the\n                        <i>Cedar Policy Language Guide</i>.</p>\n            </li>\n            <li>\n               <p>\n                  <b>UnsafeOptionalAttributeAccess</b>\n               </p>\n               <p>The policy attempts to access a record or entity attribute that is optional\n                    and isn't guaranteed to be present. Test for the existence of the attribute\n                    first before attempting to access its value. For more information, see the\n                        <a href=\"https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test\">has (presence of attribute test) operator</a> in the\n                        <i>Cedar Policy Language Guide</i>.</p>\n            </li>\n            <li>\n               <p>\n                  <b>ImpossiblePolicy</b>\n               </p>\n               <p>Cedar has determined that a policy condition always evaluates to false. If\n                    the policy is always false, it can never apply to any query, and so it can never\n                    affect an authorization decision.</p>\n            </li>\n            <li>\n               <p>\n                  <b>WrongNumberArguments</b>\n               </p>\n               <p>The policy references an extension type with the wrong number of\n                    arguments.</p>\n            </li>\n            <li>\n               <p>\n                  <b>FunctionArgumentValidationError</b>\n               </p>\n               <p>Cedar couldn't parse the argument passed to an extension type. For example,\n                    a string that is to be parsed as an IPv4 address can contain only digits and the\n                    period character.</p>\n            </li>\n         </ul>",
                 "smithy.api#error": "client"
             }
         },
@@ -3661,7 +3667,7 @@
                     "FederatedUser"
                 ],
                 "aws.protocols#awsJson1_0": {},
-                "smithy.api#documentation": "<p>Amazon Verified Permissions is a permissions management service from Amazon Web Services. You can use Verified Permissions to manage\n            permissions for your application, and authorize user access based on those permissions.\n            Using Verified Permissions, application developers can grant access based on information about the\n            users, resources, and requested actions. You can also evaluate additional information\n            like group membership, attributes of the resources, and session context, such as time of\n            request and IP addresses. Verified Permissions manages these permissions by letting you create and\n            store authorization policies for your applications, such as consumer-facing web sites\n            and enterprise business systems.</p>\n         <p>Verified Permissions uses Cedar as the policy language to express your permission requirements.\n            Cedar supports both role-based access control (RBAC) and attribute-based access\n            control (ABAC) authorization models.</p>\n         <p>For more information about configuring, administering, and using Amazon Verified Permissions in your\n            applications, see the <a href=\"https://docs.aws.amazon.com/verifiedpermissions/latest/userguide/\">Amazon Verified Permissions User Guide</a>.</p>\n         <p>For more information about the Cedar policy language, see the <a href=\"docs.cedarpolicy.com\">Cedar Policy Language Guide</a>.</p>\n         <important>\n            <p>When you write Cedar policies that reference principals, resources and actions,\n                you can define the unique identifiers used for each of those elements. We strongly\n                recommend that you follow these best practices:</p>\n            <ul>\n               <li>\n                  <p>\n                     <b>Use values like universally unique identifiers\n                            (UUIDs) for all principal and resource identifiers.</b>\n                  </p>\n                  <p>For example, if user <code>jane</code> leaves the company, and you later\n                        let someone else use the name <code>jane</code>, then that new user\n                        automatically gets access to everything granted by policies that still\n                        reference <code>User::\"jane\"</code>. Cedar can’t distinguish between the\n                        new user and the old. This applies to both principal and resource\n                        identifiers. Always use identifiers that are guaranteed unique and never\n                        reused to ensure that you don’t unintentionally grant access because of the\n                        presence of an old identifier in a policy.</p>\n                  <p>Where you use a UUID for an entity, we recommend that you follow it with\n                        the // comment specifier and the ‘friendly’ name of your entity. This helps\n                        to make your policies easier to understand. For example: principal ==\n                        User::\"a1b2c3d4-e5f6-a1b2-c3d4-EXAMPLE11111\", // alice</p>\n               </li>\n               <li>\n                  <p>\n                     <b>Do not include personally identifying, confidential,\n                            or sensitive information as part of the unique identifier for your\n                            principals or resources.</b> These identifiers are included in\n                        log entries shared in CloudTrail trails.</p>\n               </li>\n            </ul>\n         </important>\n         <p>Several operations return structures that appear similar, but have different purposes.\n            As new functionality is added to the product, the structure used in a parameter of one\n            operation might need to change in a way that wouldn't make sense for the same parameter\n            in a different operation. To help you understand the purpose of each, the following\n            naming convention is used for the structures:</p>\n         <ul>\n            <li>\n               <p>Parameter type structures that end in <code>Detail</code> are used in\n                        <code>Get</code> operations.</p>\n            </li>\n            <li>\n               <p>Parameter type structures that end in <code>Item</code> are used in\n                        <code>List</code> operations.</p>\n            </li>\n            <li>\n               <p>Parameter type structures that use neither suffix are used in the mutating\n                    (create and update) operations.</p>\n            </li>\n         </ul>",
+                "smithy.api#documentation": "<p>Amazon Verified Permissions is a permissions management service from Amazon Web Services. You can use Verified Permissions to manage\n            permissions for your application, and authorize user access based on those permissions.\n            Using Verified Permissions, application developers can grant access based on information about the\n            users, resources, and requested actions. You can also evaluate additional information\n            like group membership, attributes of the resources, and session context, such as time of\n            request and IP addresses. Verified Permissions manages these permissions by letting you create and\n            store authorization policies for your applications, such as consumer-facing web sites\n            and enterprise business systems.</p>\n         <p>Verified Permissions uses Cedar as the policy language to express your permission requirements.\n            Cedar supports both role-based access control (RBAC) and attribute-based access\n            control (ABAC) authorization models.</p>\n         <p>For more information about configuring, administering, and using Amazon Verified Permissions in your\n            applications, see the <a href=\"https://docs.aws.amazon.com/verifiedpermissions/latest/userguide/\">Amazon Verified Permissions User Guide</a>.</p>\n         <p>For more information about the Cedar policy language, see the <a href=\"https://docs.cedarpolicy.com/\">Cedar Policy Language Guide</a>.</p>\n         <important>\n            <p>When you write Cedar policies that reference principals, resources and actions,\n                you can define the unique identifiers used for each of those elements. We strongly\n                recommend that you follow these best practices:</p>\n            <ul>\n               <li>\n                  <p>\n                     <b>Use values like universally unique identifiers\n                            (UUIDs) for all principal and resource identifiers.</b>\n                  </p>\n                  <p>For example, if user <code>jane</code> leaves the company, and you later\n                        let someone else use the name <code>jane</code>, then that new user\n                        automatically gets access to everything granted by policies that still\n                        reference <code>User::\"jane\"</code>. Cedar can’t distinguish between the\n                        new user and the old. This applies to both principal and resource\n                        identifiers. Always use identifiers that are guaranteed unique and never\n                        reused to ensure that you don’t unintentionally grant access because of the\n                        presence of an old identifier in a policy.</p>\n                  <p>Where you use a UUID for an entity, we recommend that you follow it with\n                        the // comment specifier and the ‘friendly’ name of your entity. This helps\n                        to make your policies easier to understand. For example: principal ==\n                        User::\"a1b2c3d4-e5f6-a1b2-c3d4-EXAMPLE11111\", // alice</p>\n               </li>\n               <li>\n                  <p>\n                     <b>Do not include personally identifying, confidential,\n                            or sensitive information as part of the unique identifier for your\n                            principals or resources.</b> These identifiers are included in\n                        log entries shared in CloudTrail trails.</p>\n               </li>\n            </ul>\n         </important>\n         <p>Several operations return structures that appear similar, but have different purposes.\n            As new functionality is added to the product, the structure used in a parameter of one\n            operation might need to change in a way that wouldn't make sense for the same parameter\n            in a different operation. To help you understand the purpose of each, the following\n            naming convention is used for the structures:</p>\n         <ul>\n            <li>\n               <p>Parameter type structures that end in <code>Detail</code> are used in\n                        <code>Get</code> operations.</p>\n            </li>\n            <li>\n               <p>Parameter type structures that end in <code>Item</code> are used in\n                        <code>List</code> operations.</p>\n            </li>\n            <li>\n               <p>Parameter type structures that use neither suffix are used in the mutating\n                    (create and update) operations.</p>\n            </li>\n         </ul>",
                 "smithy.api#title": "Amazon Verified Permissions",
                 "smithy.rules#endpointRuleSet": {
                     "version": "1.0",
@@ -4016,158 +4022,6 @@
                 "smithy.rules#endpointTests": {
                     "testCases": [
                         {
-                            "documentation": "For region us-gov-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://verifiedpermissions-fips.us-gov-east-1.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": true,
-                                "Region": "us-gov-east-1",
-                                "UseDualStack": true
-                            }
-                        },
-                        {
-                            "documentation": "For region us-gov-east-1 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://verifiedpermissions-fips.us-gov-east-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": true,
-                                "Region": "us-gov-east-1",
-                                "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-gov-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://verifiedpermissions.us-gov-east-1.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "Region": "us-gov-east-1",
-                                "UseDualStack": true
-                            }
-                        },
-                        {
-                            "documentation": "For region us-gov-east-1 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://verifiedpermissions.us-gov-east-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "Region": "us-gov-east-1",
-                                "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region cn-north-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://verifiedpermissions-fips.cn-north-1.api.amazonwebservices.com.cn"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": true,
-                                "Region": "cn-north-1",
-                                "UseDualStack": true
-                            }
-                        },
-                        {
-                            "documentation": "For region cn-north-1 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://verifiedpermissions-fips.cn-north-1.amazonaws.com.cn"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": true,
-                                "Region": "cn-north-1",
-                                "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region cn-north-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://verifiedpermissions.cn-north-1.api.amazonwebservices.com.cn"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "Region": "cn-north-1",
-                                "UseDualStack": true
-                            }
-                        },
-                        {
-                            "documentation": "For region cn-north-1 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://verifiedpermissions.cn-north-1.amazonaws.com.cn"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "Region": "cn-north-1",
-                                "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
-                            },
-                            "params": {
-                                "UseFIPS": true,
-                                "Region": "us-iso-east-1",
-                                "UseDualStack": true
-                            }
-                        },
-                        {
-                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://verifiedpermissions-fips.us-iso-east-1.c2s.ic.gov"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": true,
-                                "Region": "us-iso-east-1",
-                                "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "error": "DualStack is enabled but this partition does not support DualStack"
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "Region": "us-iso-east-1",
-                                "UseDualStack": true
-                            }
-                        },
-                        {
-                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://verifiedpermissions.us-iso-east-1.c2s.ic.gov"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "Region": "us-iso-east-1",
-                                "UseDualStack": false
-                            }
-                        },
-                        {
                             "documentation": "For region us-east-1 with FIPS enabled and DualStack enabled",
                             "expect": {
                                 "endpoint": {
@@ -4175,8 +4029,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "Region": "us-east-1",
+                                "UseFIPS": true,
                                 "UseDualStack": true
                             }
                         },
@@ -4188,8 +4042,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "Region": "us-east-1",
+                                "UseFIPS": true,
                                 "UseDualStack": false
                             }
                         },
@@ -4201,8 +4055,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "us-east-1",
+                                "UseFIPS": false,
                                 "UseDualStack": true
                             }
                         },
@@ -4214,8 +4068,160 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "us-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region cn-north-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://verifiedpermissions-fips.cn-north-1.api.amazonwebservices.com.cn"
+                                }
+                            },
+                            "params": {
+                                "Region": "cn-north-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region cn-north-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://verifiedpermissions-fips.cn-north-1.amazonaws.com.cn"
+                                }
+                            },
+                            "params": {
+                                "Region": "cn-north-1",
+                                "UseFIPS": true,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region cn-north-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://verifiedpermissions.cn-north-1.api.amazonwebservices.com.cn"
+                                }
+                            },
+                            "params": {
+                                "Region": "cn-north-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region cn-north-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://verifiedpermissions.cn-north-1.amazonaws.com.cn"
+                                }
+                            },
+                            "params": {
+                                "Region": "cn-north-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-gov-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://verifiedpermissions-fips.us-gov-east-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-gov-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region us-gov-east-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://verifiedpermissions-fips.us-gov-east-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-gov-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-gov-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://verifiedpermissions.us-gov-east-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-gov-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region us-gov-east-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://verifiedpermissions.us-gov-east-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-gov-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
+                            },
+                            "params": {
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://verifiedpermissions-fips.us-iso-east-1.c2s.ic.gov"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "error": "DualStack is enabled but this partition does not support DualStack"
+                            },
+                            "params": {
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://verifiedpermissions.us-iso-east-1.c2s.ic.gov"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -4225,8 +4231,8 @@
                                 "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "Region": "us-isob-east-1",
+                                "UseFIPS": true,
                                 "UseDualStack": true
                             }
                         },
@@ -4238,8 +4244,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "Region": "us-isob-east-1",
+                                "UseFIPS": true,
                                 "UseDualStack": false
                             }
                         },
@@ -4249,8 +4255,8 @@
                                 "error": "DualStack is enabled but this partition does not support DualStack"
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "us-isob-east-1",
+                                "UseFIPS": false,
                                 "UseDualStack": true
                             }
                         },
@@ -4262,13 +4268,27 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "us-isob-east-1",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
                         {
-                            "documentation": "For custom endpoint with fips disabled and dualstack disabled",
+                            "documentation": "For custom endpoint with region set and fips disabled and dualstack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://example.com"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false,
+                                "Endpoint": "https://example.com"
+                            }
+                        },
+                        {
+                            "documentation": "For custom endpoint with region not set and fips disabled and dualstack disabled",
                             "expect": {
                                 "endpoint": {
                                     "url": "https://example.com"
@@ -4276,7 +4296,6 @@
                             },
                             "params": {
                                 "UseFIPS": false,
-                                "Region": "us-east-1",
                                 "UseDualStack": false,
                                 "Endpoint": "https://example.com"
                             }
@@ -4287,8 +4306,8 @@
                                 "error": "Invalid Configuration: FIPS and custom endpoint are not supported"
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "Region": "us-east-1",
+                                "UseFIPS": true,
                                 "UseDualStack": false,
                                 "Endpoint": "https://example.com"
                             }
@@ -4299,10 +4318,16 @@
                                 "error": "Invalid Configuration: Dualstack and custom endpoint are not supported"
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "us-east-1",
+                                "UseFIPS": false,
                                 "UseDualStack": true,
                                 "Endpoint": "https://example.com"
+                            }
+                        },
+                        {
+                            "documentation": "Missing region",
+                            "expect": {
+                                "error": "Invalid Configuration: Missing Region"
                             }
                         }
                     ],

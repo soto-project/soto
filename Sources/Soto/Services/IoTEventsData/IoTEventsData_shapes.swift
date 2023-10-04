@@ -171,28 +171,16 @@ extension IoTEventsData {
         public let customerAction: CustomerAction?
         /// Information needed to evaluate data.
         public let ruleEvaluation: RuleEvaluation?
-        /// The name of the alarm state. The state name can be one of the following values:
-        /// 		              DISABLED - When the alarm is in the DISABLED state,
+        /// The name of the alarm state. The state name can be one of the following values:    DISABLED - When the alarm is in the DISABLED state,
         /// 		it isn't ready to evaluate data. To enable the alarm,
-        /// 		you must change the alarm to the NORMAL state.
-        ///
-        /// 		              NORMAL - When the alarm is in the NORMAL state,
-        /// 		it's ready to evaluate data.
-        ///
-        /// 		              ACTIVE - If the alarm is in the ACTIVE state,
-        /// 		the alarm is invoked.
-        ///
-        /// 		              ACKNOWLEDGED - When the alarm is in the ACKNOWLEDGED state,
-        /// 		the alarm was invoked and you acknowledged the alarm.
-        ///
-        /// 		              SNOOZE_DISABLED - When the alarm is in the SNOOZE_DISABLED state,
+        /// 		you must change the alarm to the NORMAL state.    NORMAL - When the alarm is in the NORMAL state,
+        /// 		it's ready to evaluate data.    ACTIVE - If the alarm is in the ACTIVE state,
+        /// 		the alarm is invoked.    ACKNOWLEDGED - When the alarm is in the ACKNOWLEDGED state,
+        /// 		the alarm was invoked and you acknowledged the alarm.    SNOOZE_DISABLED - When the alarm is in the SNOOZE_DISABLED state,
         /// 		the alarm is disabled for a specified period of time. After the snooze time,
-        /// 		the alarm automatically changes to the NORMAL state.
-        ///
-        /// 		              LATCHED - When the alarm is in the LATCHED state,
+        /// 		the alarm automatically changes to the NORMAL state.     LATCHED - When the alarm is in the LATCHED state,
         /// 		the alarm was invoked. However, the data that the alarm is currently evaluating is within the specified range.
         /// 		To change the alarm to the NORMAL state, you must acknowledge the alarm.
-        ///
         public let stateName: AlarmStateName?
         /// Contains information about alarm state changes.
         public let systemEvent: SystemEvent?
@@ -224,28 +212,16 @@ extension IoTEventsData {
         public let keyValue: String?
         /// The time the alarm was last updated, in the Unix epoch format.
         public let lastUpdateTime: Date?
-        /// The name of the alarm state. The state name can be one of the following values:
-        /// 		              DISABLED - When the alarm is in the DISABLED state,
+        /// The name of the alarm state. The state name can be one of the following values:    DISABLED - When the alarm is in the DISABLED state,
         /// 		it isn't ready to evaluate data. To enable the alarm,
-        /// 		you must change the alarm to the NORMAL state.
-        ///
-        /// 		              NORMAL - When the alarm is in the NORMAL state,
-        /// 		it's ready to evaluate data.
-        ///
-        /// 		              ACTIVE - If the alarm is in the ACTIVE state,
-        /// 		the alarm is invoked.
-        ///
-        /// 		              ACKNOWLEDGED - When the alarm is in the ACKNOWLEDGED state,
-        /// 		the alarm was invoked and you acknowledged the alarm.
-        ///
-        /// 		              SNOOZE_DISABLED - When the alarm is in the SNOOZE_DISABLED state,
+        /// 		you must change the alarm to the NORMAL state.    NORMAL - When the alarm is in the NORMAL state,
+        /// 		it's ready to evaluate data.    ACTIVE - If the alarm is in the ACTIVE state,
+        /// 		the alarm is invoked.    ACKNOWLEDGED - When the alarm is in the ACKNOWLEDGED state,
+        /// 		the alarm was invoked and you acknowledged the alarm.    SNOOZE_DISABLED - When the alarm is in the SNOOZE_DISABLED state,
         /// 		the alarm is disabled for a specified period of time. After the snooze time,
-        /// 		the alarm automatically changes to the NORMAL state.
-        ///
-        /// 		              LATCHED - When the alarm is in the LATCHED state,
+        /// 		the alarm automatically changes to the NORMAL state.     LATCHED - When the alarm is in the LATCHED state,
         /// 		the alarm was invoked. However, the data that the alarm is currently evaluating is within the specified range.
         /// 		To change the alarm to the NORMAL state, you must acknowledge the alarm.
-        ///
         public let stateName: AlarmStateName?
 
         public init(alarmModelName: String? = nil, alarmModelVersion: String? = nil, creationTime: Date? = nil, keyValue: String? = nil, lastUpdateTime: Date? = nil, stateName: AlarmStateName? = nil) {
@@ -623,17 +599,7 @@ extension IoTEventsData {
     public struct CustomerAction: AWSDecodableShape {
         /// Contains the configuration information of an acknowledge action.
         public let acknowledgeActionConfiguration: AcknowledgeActionConfiguration?
-        /// The name of the action. The action name can be one of the following values:
-        /// 			             SNOOZE - When you snooze the alarm, the alarm state changes to SNOOZE_DISABLED.
-        ///
-        /// 			             ENABLE - When you enable the alarm, the alarm state changes to NORMAL.
-        ///
-        /// 			             DISABLE - When you disable the alarm, the alarm state changes to DISABLED.
-        ///
-        /// 			             ACKNOWLEDGE - When you acknowledge the alarm, the alarm state changes to ACKNOWLEDGED.
-        ///
-        /// 			             RESET - When you reset the alarm, the alarm state changes to NORMAL.
-        /// 		            For more information, see the AlarmState API.
+        /// The name of the action. The action name can be one of the following values:    SNOOZE - When you snooze the alarm, the alarm state changes to SNOOZE_DISABLED.    ENABLE - When you enable the alarm, the alarm state changes to NORMAL.    DISABLE - When you disable the alarm, the alarm state changes to DISABLED.    ACKNOWLEDGE - When you acknowledge the alarm, the alarm state changes to ACKNOWLEDGED.    RESET - When you reset the alarm, the alarm state changes to NORMAL.   For more information, see the AlarmState API.
         public let actionName: CustomerActionName?
         /// Contains the configuration information of a disable action.
         public let disableActionConfiguration: DisableActionConfiguration?

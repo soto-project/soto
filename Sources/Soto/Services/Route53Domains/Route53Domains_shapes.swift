@@ -640,15 +640,19 @@ extension Route53Domains {
     }
 
     public struct CheckDomainTransferabilityResponse: AWSDecodableShape {
+        /// Provides an explanation for when a domain can't be transferred.
+        public let message: String?
         /// A complex type that contains information about whether the specified domain can be
         /// 			transferred to Route 53.
         public let transferability: DomainTransferability?
 
-        public init(transferability: DomainTransferability? = nil) {
+        public init(message: String? = nil, transferability: DomainTransferability? = nil) {
+            self.message = message
             self.transferability = transferability
         }
 
         private enum CodingKeys: String, CodingKey {
+            case message = "Message"
             case transferability = "Transferability"
         }
     }
@@ -1597,7 +1601,7 @@ extension Route53Domains {
         public let maxItems: Int?
         ///  The sort type for returned values.
         public let sortBy: ListOperationsSortAttributeName?
-        ///  The sort order ofr returned values, either ascending or descending.
+        ///  The sort order for returned values, either ascending or descending.
         public let sortOrder: SortOrder?
         ///  The status of the operations.
         public let status: [OperationStatus]?

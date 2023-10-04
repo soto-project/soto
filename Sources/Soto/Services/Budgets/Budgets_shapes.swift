@@ -41,20 +41,20 @@ extension Budgets {
     }
 
     public enum ActionSubType: String, CustomStringConvertible, Codable, Sendable {
-        case stopEc2Instances = "STOP_EC2_INSTANCES"
-        case stopRdsInstances = "STOP_RDS_INSTANCES"
+        case stopEc2 = "STOP_EC2_INSTANCES"
+        case stopRds = "STOP_RDS_INSTANCES"
         public var description: String { return self.rawValue }
     }
 
     public enum ActionType: String, CustomStringConvertible, Codable, Sendable {
-        case applyIamPolicy = "APPLY_IAM_POLICY"
-        case applyScpPolicy = "APPLY_SCP_POLICY"
-        case runSsmDocuments = "RUN_SSM_DOCUMENTS"
+        case iam = "APPLY_IAM_POLICY"
+        case scp = "APPLY_SCP_POLICY"
+        case ssm = "RUN_SSM_DOCUMENTS"
         public var description: String { return self.rawValue }
     }
 
     public enum ApprovalModel: String, CustomStringConvertible, Codable, Sendable {
-        case automatic = "AUTOMATIC"
+        case auto = "AUTOMATIC"
         case manual = "MANUAL"
         public var description: String { return self.rawValue }
     }
@@ -69,8 +69,8 @@ extension Budgets {
         case cost = "COST"
         case riCoverage = "RI_COVERAGE"
         case riUtilization = "RI_UTILIZATION"
-        case savingsPlansCoverage = "SAVINGS_PLANS_COVERAGE"
-        case savingsPlansUtilization = "SAVINGS_PLANS_UTILIZATION"
+        case spCoverage = "SAVINGS_PLANS_COVERAGE"
+        case spUtilization = "SAVINGS_PLANS_UTILIZATION"
         case usage = "USAGE"
         public var description: String { return self.rawValue }
     }
@@ -271,54 +271,35 @@ extension Budgets {
         /// The parameters that determine the budget amount for an auto-adjusting budget.
         public let autoAdjustData: AutoAdjustData?
         /// The total amount of cost, usage, RI utilization, RI coverage, Savings Plans utilization, or
-        /// 			Savings Plans coverage that you want to track with your budget.
-        /// 		        BudgetLimit is required for cost or usage budgets, but optional for RI or
+        /// 			Savings Plans coverage that you want to track with your budget.  BudgetLimit is required for cost or usage budgets, but optional for RI or
         /// 			Savings Plans utilization or coverage budgets. RI and Savings Plans utilization or
         /// 			coverage budgets default to 100. This is the only valid value for RI or
         /// 			Savings Plans utilization or coverage budgets. You can't use BudgetLimit
         /// 			with PlannedBudgetLimits for CreateBudget and
         /// 				UpdateBudget actions.
         public let budgetLimit: Spend?
-        /// The name of a budget. The name must be unique within an account. The : and \ characters aren't allowed in BudgetName.
+        /// The name of a budget. The name must be unique within an account. The : and
+        /// 				\ characters, and the "/action/" substring, aren't allowed in
+        /// 				BudgetName.
         public let budgetName: String
         /// Specifies whether this budget tracks costs, usage, RI utilization, RI coverage, Savings
         /// 			Plans utilization, or Savings Plans coverage.
         public let budgetType: BudgetType
         /// The actual and forecasted cost or usage that the budget tracks.
         public let calculatedSpend: CalculatedSpend?
-        /// The cost filters, such as Region, Service, member account, Tag, or Cost Category, that are applied to a budget.
-        /// 		       Amazon Web Services Budgets supports the following services as a Service filter for RI budgets:
-        ///
-        /// 				           Amazon EC2
-        ///
-        /// 				           Amazon Redshift
-        ///
-        /// 				           Amazon Relational Database Service
-        ///
-        /// 				           Amazon ElastiCache
-        ///
-        /// 				           Amazon OpenSearch Service
-        ///
+        /// The cost filters, such as Region, Service, member account, Tag, or Cost Category, that are applied to a budget. Amazon Web Services Budgets supports the following services as a Service filter for RI budgets:   Amazon EC2   Amazon Redshift   Amazon Relational Database Service   Amazon ElastiCache   Amazon OpenSearch Service
         public let costFilters: [String: [String]]?
-        /// The types of costs that are included in this COST budget.
-        /// 		        USAGE, RI_UTILIZATION, RI_COVERAGE, SAVINGS_PLANS_UTILIZATION, and SAVINGS_PLANS_COVERAGE budgets do not have CostTypes.
+        /// The types of costs that are included in this COST budget.  USAGE, RI_UTILIZATION, RI_COVERAGE, SAVINGS_PLANS_UTILIZATION, and SAVINGS_PLANS_COVERAGE budgets do not have CostTypes.
         public let costTypes: CostTypes?
         /// The last time that you updated this budget.
         public let lastUpdatedTime: Date?
-        /// A map containing multiple BudgetLimit, including current or future limits.
-        /// 		        PlannedBudgetLimits is available for cost or usage budget and supports both
-        /// 			monthly and quarterly TimeUnit.
-        /// 		       For monthly budgets, provide 12 months of PlannedBudgetLimits values. This must start from the current month and include the next 11 months. The key is the start of the month, UTC in epoch seconds.
-        /// 		       For quarterly budgets, provide four quarters of PlannedBudgetLimits value
+        /// A map containing multiple BudgetLimit, including current or future limits.  PlannedBudgetLimits is available for cost or usage budget and supports both
+        /// 			monthly and quarterly TimeUnit.  For monthly budgets, provide 12 months of PlannedBudgetLimits values. This must start from the current month and include the next 11 months. The key is the start of the month, UTC in epoch seconds.  For quarterly budgets, provide four quarters of PlannedBudgetLimits value
         /// 			entries in standard calendar quarter increments. This must start from the current
         /// 			quarter and include the next three quarters. The key is the start of the
-        /// 			quarter, UTC in epoch seconds.
-        /// 		       If the planned budget expires before 12 months for monthly or four quarters for quarterly,
+        /// 			quarter, UTC in epoch seconds.  If the planned budget expires before 12 months for monthly or four quarters for quarterly,
         /// 			provide the PlannedBudgetLimits values only for the remaining
-        /// 			periods.
-        /// 		       If the budget begins at a date in the future, provide PlannedBudgetLimits values from the start date of the budget.
-        /// 		       After all of the BudgetLimit values in PlannedBudgetLimits are used, the budget continues to use the last limit as the BudgetLimit. At that point, the planned budget provides the same experience as a fixed budget.
-        /// 		        DescribeBudget and DescribeBudgets response along with
+        /// 			periods. If the budget begins at a date in the future, provide PlannedBudgetLimits values from the start date of the budget.  After all of the BudgetLimit values in PlannedBudgetLimits are used, the budget continues to use the last limit as the BudgetLimit. At that point, the planned budget provides the same experience as a fixed budget.   DescribeBudget and DescribeBudgets response along with
         /// 				PlannedBudgetLimits also contain BudgetLimit representing
         /// 			the current month or quarter limit present in PlannedBudgetLimits. This
         /// 			only applies to budgets that are created with PlannedBudgetLimits. Budgets
@@ -328,16 +309,13 @@ extension Budgets {
         public let plannedBudgetLimits: [String: Spend]?
         /// The period of time that's covered by a budget. You setthe start date and end date. The start
         /// 			date must come before the end date. The end date must come before 06/15/87 00:00
-        /// 				UTC.
-        /// 		       If you create your budget and don't specify a start date, Amazon Web Services defaults to the
+        /// 				UTC.  If you create your budget and don't specify a start date, Amazon Web Services defaults to the
         /// 			start of your chosen time period (DAILY, MONTHLY, QUARTERLY, or ANNUALLY). For example,
         /// 			if you created your budget on January 24, 2018, chose DAILY, and didn't set
         /// 			a start date, Amazon Web Services set your start date to 01/24/18 00:00 UTC.
         /// 			If you chose MONTHLY, Amazon Web Services set your start date to
         /// 				01/01/18 00:00 UTC. If you didn't specify an end date, Amazon Web Services set your end date to 06/15/87 00:00 UTC. The defaults are the same for
-        /// 			the Billing and Cost Management console and the API.
-        /// 		       You can change either date with the UpdateBudget operation.
-        /// 		       After the end date, Amazon Web Services deletes the budget and all the associated
+        /// 			the Billing and Cost Management console and the API.  You can change either date with the UpdateBudget operation. After the end date, Amazon Web Services deletes the budget and all the associated
         /// 			notifications and subscribers.
         public let timePeriod: TimePeriod?
         /// The length of time until a budget resets the actual and forecasted spend.
@@ -362,7 +340,7 @@ extension Budgets {
             try self.budgetLimit?.validate(name: "\(name).budgetLimit")
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
-            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
+            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^(?![^:\\\\]*/action/)[^:\\\\]+$")
             try self.calculatedSpend?.validate(name: "\(name).calculatedSpend")
             try self.costFilters?.forEach {
                 try validate($0.key, name: "costFilters.key", parent: name, max: 2147483647)
@@ -481,38 +459,27 @@ extension Budgets {
     }
 
     public struct CostTypes: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether a budget includes credits.
-        /// 		       The default value is true.
+        /// Specifies whether a budget includes credits. The default value is true.
         public let includeCredit: Bool?
-        /// Specifies whether a budget includes discounts.
-        /// 		       The default value is true.
+        /// Specifies whether a budget includes discounts. The default value is true.
         public let includeDiscount: Bool?
-        /// Specifies whether a budget includes non-RI subscription costs.
-        /// 		       The default value is true.
+        /// Specifies whether a budget includes non-RI subscription costs. The default value is true.
         public let includeOtherSubscription: Bool?
-        /// Specifies whether a budget includes recurring fees such as monthly RI fees.
-        /// 		       The default value is true.
+        /// Specifies whether a budget includes recurring fees such as monthly RI fees. The default value is true.
         public let includeRecurring: Bool?
-        /// Specifies whether a budget includes refunds.
-        /// 		       The default value is true.
+        /// Specifies whether a budget includes refunds. The default value is true.
         public let includeRefund: Bool?
-        /// Specifies whether a budget includes subscriptions.
-        /// 		       The default value is true.
+        /// Specifies whether a budget includes subscriptions. The default value is true.
         public let includeSubscription: Bool?
-        /// Specifies whether a budget includes support subscription fees.
-        /// 		       The default value is true.
+        /// Specifies whether a budget includes support subscription fees. The default value is true.
         public let includeSupport: Bool?
-        /// Specifies whether a budget includes taxes.
-        /// 		       The default value is true.
+        /// Specifies whether a budget includes taxes. The default value is true.
         public let includeTax: Bool?
-        /// Specifies whether a budget includes upfront RI costs.
-        /// 		       The default value is true.
+        /// Specifies whether a budget includes upfront RI costs. The default value is true.
         public let includeUpfront: Bool?
-        /// Specifies whether a budget uses the amortized rate.
-        /// 		       The default value is false.
+        /// Specifies whether a budget uses the amortized rate. The default value is false.
         public let useAmortized: Bool?
-        /// Specifies whether a budget uses a blended rate.
-        /// 		       The default value is false.
+        /// Specifies whether a budget uses a blended rate. The default value is false.
         public let useBlended: Bool?
 
         public init(includeCredit: Bool? = nil, includeDiscount: Bool? = nil, includeOtherSubscription: Bool? = nil, includeRecurring: Bool? = nil, includeRefund: Bool? = nil, includeSubscription: Bool? = nil, includeSupport: Bool? = nil, includeTax: Bool? = nil, includeUpfront: Bool? = nil, useAmortized: Bool? = nil, useBlended: Bool? = nil) {
@@ -577,7 +544,7 @@ extension Budgets {
             try self.actionThreshold.validate(name: "\(name).actionThreshold")
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
-            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
+            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^(?![^:\\\\]*/action/)[^:\\\\]+$")
             try self.definition.validate(name: "\(name).definition")
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 618)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 32)
@@ -680,7 +647,7 @@ extension Budgets {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
-            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
+            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^(?![^:\\\\]*/action/)[^:\\\\]+$")
             try self.notification.validate(name: "\(name).notification")
             try self.subscribers.forEach {
                 try $0.validate(name: "\(name).subscribers[]")
@@ -724,7 +691,7 @@ extension Budgets {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
-            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
+            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^(?![^:\\\\]*/action/)[^:\\\\]+$")
             try self.notification.validate(name: "\(name).notification")
             try self.subscriber.validate(name: "\(name).subscriber")
         }
@@ -789,7 +756,7 @@ extension Budgets {
             try self.validate(self.actionId, name: "actionId", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
-            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
+            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^(?![^:\\\\]*/action/)[^:\\\\]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -834,7 +801,7 @@ extension Budgets {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
-            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
+            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^(?![^:\\\\]*/action/)[^:\\\\]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -867,7 +834,7 @@ extension Budgets {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
-            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
+            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^(?![^:\\\\]*/action/)[^:\\\\]+$")
             try self.notification.validate(name: "\(name).notification")
         }
 
@@ -905,7 +872,7 @@ extension Budgets {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
-            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
+            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^(?![^:\\\\]*/action/)[^:\\\\]+$")
             try self.notification.validate(name: "\(name).notification")
             try self.subscriber.validate(name: "\(name).subscriber")
         }
@@ -949,7 +916,7 @@ extension Budgets {
             try self.validate(self.actionId, name: "actionId", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
-            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
+            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^(?![^:\\\\]*/action/)[^:\\\\]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2147483647)
@@ -1003,7 +970,7 @@ extension Budgets {
             try self.validate(self.actionId, name: "actionId", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
-            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
+            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^(?![^:\\\\]*/action/)[^:\\\\]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1095,7 +1062,7 @@ extension Budgets {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
-            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
+            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^(?![^:\\\\]*/action/)[^:\\\\]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2147483647)
@@ -1128,8 +1095,8 @@ extension Budgets {
 
     public struct DescribeBudgetNotificationsForAccountRequest: AWSEncodableShape {
         public let accountId: String
-        /// 			An integer that shows how many budget name entries a paginated response contains.
-        ///
+        ///  An integer that represents how many budgets a paginated response contains. The default is
+        /// 			50.
         public let maxResults: Int?
         public let nextToken: String?
 
@@ -1143,7 +1110,7 @@ extension Budgets {
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2147483647)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
@@ -1195,7 +1162,7 @@ extension Budgets {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
-            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
+            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^(?![^:\\\\]*/action/)[^:\\\\]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2147483647)
@@ -1244,7 +1211,7 @@ extension Budgets {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
-            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
+            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^(?![^:\\\\]*/action/)[^:\\\\]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1267,9 +1234,9 @@ extension Budgets {
     }
 
     public struct DescribeBudgetsRequest: AWSEncodableShape {
-        /// The accountId that is associated with the budgets that you want descriptions of.
+        /// The accountId that is associated with the budgets that you want to describe.
         public let accountId: String
-        /// An optional integer that represents how many entries a paginated response contains. The maximum is 100.
+        /// An integer that represents how many budgets a paginated response contains. The default is 100.
         public let maxResults: Int?
         /// The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
         public let nextToken: String?
@@ -1284,7 +1251,7 @@ extension Budgets {
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2147483647)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
@@ -1319,7 +1286,7 @@ extension Budgets {
         public let accountId: String
         /// The name of the budget whose notifications you want descriptions of.
         public let budgetName: String
-        /// An optional integer that represents how many entries a paginated response contains. The maximum is 100.
+        /// An optional integer that represents how many entries a paginated response contains.
         public let maxResults: Int?
         /// The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
         public let nextToken: String?
@@ -1337,7 +1304,7 @@ extension Budgets {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
-            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
+            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^(?![^:\\\\]*/action/)[^:\\\\]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2147483647)
@@ -1374,7 +1341,7 @@ extension Budgets {
         public let accountId: String
         /// The name of the budget whose subscribers you want descriptions of.
         public let budgetName: String
-        /// An optional integer that represents how many entries a paginated response contains. The maximum is 100.
+        /// An optional integer that represents how many entries a paginated response contains.
         public let maxResults: Int?
         /// The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
         public let nextToken: String?
@@ -1395,7 +1362,7 @@ extension Budgets {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
-            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
+            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^(?![^:\\\\]*/action/)[^:\\\\]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2147483647)
@@ -1453,7 +1420,7 @@ extension Budgets {
             try self.validate(self.actionId, name: "actionId", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
-            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
+            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^(?![^:\\\\]*/action/)[^:\\\\]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1488,12 +1455,9 @@ extension Budgets {
     }
 
     public struct HistoricalOptions: AWSEncodableShape & AWSDecodableShape {
-        /// The number of budget periods included in the moving-average calculation that determines your auto-adjusted budget amount. The maximum value depends on the TimeUnit granularity of the budget:
-        /// 		         For the DAILY granularity, the maximum value is 60.   For the MONTHLY granularity, the maximum value is 12.   For the QUARTERLY granularity, the maximum value is 4.   For the ANNUALLY granularity, the maximum value is 1.
+        /// The number of budget periods included in the moving-average calculation that determines your auto-adjusted budget amount. The maximum value depends on the TimeUnit granularity of the budget:   For the DAILY granularity, the maximum value is 60.   For the MONTHLY granularity, the maximum value is 12.   For the QUARTERLY granularity, the maximum value is 4.   For the ANNUALLY granularity, the maximum value is 1.
         public let budgetAdjustmentPeriod: Int
-        /// The integer that describes how many budget periods in your BudgetAdjustmentPeriod are included in the calculation of your current BudgetLimit. If the first budget period in your BudgetAdjustmentPeriod has no cost data, then that budget period isn’t included in the average that determines your budget limit.
-        /// 		       For example, if you set BudgetAdjustmentPeriod as 4 quarters, but your account had no cost data in the first quarter, then only the last three quarters are included in the calculation. In this scenario, LookBackAvailablePeriods returns 3.
-        /// 		       You can’t set your own LookBackAvailablePeriods. The value is automatically calculated from the BudgetAdjustmentPeriod and your historical cost data.
+        /// The integer that describes how many budget periods in your BudgetAdjustmentPeriod are included in the calculation of your current BudgetLimit. If the first budget period in your BudgetAdjustmentPeriod has no cost data, then that budget period isn’t included in the average that determines your budget limit.  For example, if you set BudgetAdjustmentPeriod as 4 quarters, but your account had no cost data in the first quarter, then only the last three quarters are included in the calculation. In this scenario, LookBackAvailablePeriods returns 3.  You can’t set your own LookBackAvailablePeriods. The value is automatically calculated from the BudgetAdjustmentPeriod and your historical cost data.
         public let lookBackAvailablePeriods: Int?
 
         public init(budgetAdjustmentPeriod: Int, lookBackAvailablePeriods: Int? = nil) {
@@ -1665,7 +1629,7 @@ extension Budgets {
         /// 			threshold.
         public let amount: String
         /// The unit of measurement that's used for the budget forecast, actual spend, or budget
-        /// 			threshold, such as USD or GBP.
+        /// 			threshold.
         public let unit: String
 
         public init(amount: String, unit: String) {
@@ -1723,8 +1687,7 @@ extension Budgets {
     }
 
     public struct Subscriber: AWSEncodableShape & AWSDecodableShape {
-        /// The address that Amazon Web Services sends budget notifications to, either an SNS topic or an email.
-        /// 		       When you create a subscriber, the value of Address can't contain line breaks.
+        /// The address that Amazon Web Services sends budget notifications to, either an SNS topic or an email. When you create a subscriber, the value of Address can't contain line breaks.
         public let address: String
         /// The type of notification that Amazon Web Services sends to a subscriber.
         public let subscriptionType: SubscriptionType
@@ -1747,13 +1710,11 @@ extension Budgets {
     }
 
     public struct TimePeriod: AWSEncodableShape & AWSDecodableShape {
-        /// The end date for a budget. If you didn't specify an end date, Amazon Web Services set your end date to 06/15/87 00:00 UTC. The defaults are the same for the Billing and Cost Management console and the API.
-        /// 		       After the end date, Amazon Web Services deletes the budget and all the associated
+        /// The end date for a budget. If you didn't specify an end date, Amazon Web Services set your end date to 06/15/87 00:00 UTC. The defaults are the same for the Billing and Cost Management console and the API. After the end date, Amazon Web Services deletes the budget and all the associated
         /// 			notifications and subscribers. You can change your end date with the
         /// 				UpdateBudget operation.
         public let end: Date?
-        /// The start date for a budget. If you created your budget and didn't specify a start date, Amazon Web Services defaults to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, or ANNUALLY). For example, if you created your budget on January 24, 2018, chose DAILY, and didn't set a start date, Amazon Web Services set your start date to 01/24/18 00:00 UTC. If you chose MONTHLY, Amazon Web Services set your start date to 01/01/18 00:00 UTC. The defaults are the same for the Billing and Cost Management console and the API.
-        /// 		       You can change your start date with the UpdateBudget operation.
+        /// The start date for a budget. If you created your budget and didn't specify a start date, Amazon Web Services defaults to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, or ANNUALLY). For example, if you created your budget on January 24, 2018, chose DAILY, and didn't set a start date, Amazon Web Services set your start date to 01/24/18 00:00 UTC. If you chose MONTHLY, Amazon Web Services set your start date to 01/01/18 00:00 UTC. The defaults are the same for the Billing and Cost Management console and the API. You can change your start date with the UpdateBudget operation.
         public let start: Date?
 
         public init(end: Date? = nil, start: Date? = nil) {
@@ -1803,7 +1764,7 @@ extension Budgets {
             try self.actionThreshold?.validate(name: "\(name).actionThreshold")
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
-            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
+            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^(?![^:\\\\]*/action/)[^:\\\\]+$")
             try self.definition?.validate(name: "\(name).definition")
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 618)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 32)
@@ -1902,7 +1863,7 @@ extension Budgets {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
-            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
+            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^(?![^:\\\\]*/action/)[^:\\\\]+$")
             try self.newNotification.validate(name: "\(name).newNotification")
             try self.oldNotification.validate(name: "\(name).oldNotification")
         }
@@ -1945,7 +1906,7 @@ extension Budgets {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
-            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
+            try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^(?![^:\\\\]*/action/)[^:\\\\]+$")
             try self.newSubscriber.validate(name: "\(name).newSubscriber")
             try self.notification.validate(name: "\(name).notification")
             try self.oldSubscriber.validate(name: "\(name).oldSubscriber")
@@ -2018,7 +1979,7 @@ public struct BudgetsErrorType: AWSErrorType {
     public static var notFoundException: Self { .init(.notFoundException) }
     ///  The request was received and recognized by the server, but the server rejected that particular method for the requested resource.
     public static var resourceLockedException: Self { .init(.resourceLockedException) }
-    ///  The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    /// The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public static var throttlingException: Self { .init(.throttlingException) }
 }
 

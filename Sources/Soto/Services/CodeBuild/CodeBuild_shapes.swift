@@ -212,13 +212,13 @@ extension CodeBuild {
     }
 
     public enum ReportGroupTrendFieldType: String, CustomStringConvertible, Codable, Sendable {
+        case branchCoverage = "BRANCH_COVERAGE"
         case branchesCovered = "BRANCHES_COVERED"
         case branchesMissed = "BRANCHES_MISSED"
-        case branchCoverage = "BRANCH_COVERAGE"
         case duration = "DURATION"
+        case lineCoverage = "LINE_COVERAGE"
         case linesCovered = "LINES_COVERED"
         case linesMissed = "LINES_MISSED"
-        case lineCoverage = "LINE_COVERAGE"
         case passRate = "PASS_RATE"
         case total = "TOTAL"
         public var description: String { return self.rawValue }

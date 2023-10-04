@@ -98,6 +98,11 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "CancelReplicationTaskAssessmentRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a data provider using the provided settings. A data provider stores  a data store type and location information about your database.
+    public func createDataProvider(_ input: CreateDataProviderMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDataProviderResponse> {
+        return self.client.execute(operation: "CreateDataProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates an endpoint using the provided settings.  For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on the CreateEndpoint API call. Specifying DatabaseName when you create a MySQL endpoint replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task.
     public func createEndpoint(_ input: CreateEndpointMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEndpointResponse> {
         return self.client.execute(operation: "CreateEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -113,12 +118,27 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "CreateFleetAdvisorCollector", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates the replication instance using the specified parameters. DMS requires that your account have certain roles with appropriate permissions before you can create a replication instance. For information on the required roles, see Creating the IAM Roles to Use With the CLI and DMS API. For information on the required permissions, see  IAM Permissions Needed to Use DMS.
+    /// Creates the instance profile using the specified parameters.
+    public func createInstanceProfile(_ input: CreateInstanceProfileMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateInstanceProfileResponse> {
+        return self.client.execute(operation: "CreateInstanceProfile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates the migration project using the specified parameters. You can run this action only after you create an instance profile and data providers   using CreateInstanceProfile and CreateDataProvider.
+    public func createMigrationProject(_ input: CreateMigrationProjectMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMigrationProjectResponse> {
+        return self.client.execute(operation: "CreateMigrationProject", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a configuration that you can later provide to configure and start an DMS Serverless replication. You can also provide options to validate the configuration inputs before you start the replication.
+    public func createReplicationConfig(_ input: CreateReplicationConfigMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateReplicationConfigResponse> {
+        return self.client.execute(operation: "CreateReplicationConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates the replication instance using the specified parameters. DMS requires that your account have certain roles with appropriate permissions before you can create a replication instance. For information on the required roles, see Creating the IAM Roles to Use With the CLI and DMS API. For information on the required permissions, see  IAM Permissions Needed to Use DMS.  If you don't specify a version when creating a replication instance, DMS will create the instance using the default engine version. For information about the default engine version, see Release Notes.
     public func createReplicationInstance(_ input: CreateReplicationInstanceMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateReplicationInstanceResponse> {
         return self.client.execute(operation: "CreateReplicationInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a replication subnet group given a list of the subnet IDs in a VPC. The VPC needs to have at least one subnet in at least two availability zones in the Amazon Web Services Region, otherwise the service will throw a ReplicationSubnetGroupDoesNotCoverEnoughAZs exception.
+    /// Creates a replication subnet group given a list of the subnet IDs in a VPC. The VPC needs to have at least one subnet in at least two availability zones in the Amazon Web Services Region, otherwise the service will throw a ReplicationSubnetGroupDoesNotCoverEnoughAZs exception. If a replication subnet group exists in your Amazon Web Services account, the CreateReplicationSubnetGroup action  returns the following error message: The Replication Subnet Group already exists. In this case, delete  the existing replication subnet group. To do so, use the DeleteReplicationSubnetGroup action. Optionally, choose Subnet groups in the DMS console,  then choose your subnet group. Next, choose Delete from Actions.
     public func createReplicationSubnetGroup(_ input: CreateReplicationSubnetGroupMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateReplicationSubnetGroupResponse> {
         return self.client.execute(operation: "CreateReplicationSubnetGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -136,6 +156,11 @@ public struct DatabaseMigrationService: AWSService {
     /// Deletes the connection between a replication instance and an endpoint.
     public func deleteConnection(_ input: DeleteConnectionMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteConnectionResponse> {
         return self.client.execute(operation: "DeleteConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the specified data provider.  All migration projects associated with the data provider must be deleted or modified  before you can delete the data provider.
+    public func deleteDataProvider(_ input: DeleteDataProviderMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDataProviderResponse> {
+        return self.client.execute(operation: "DeleteDataProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the specified endpoint.  All tasks associated with the endpoint must be deleted before you can delete the endpoint.
@@ -156,6 +181,21 @@ public struct DatabaseMigrationService: AWSService {
     /// Deletes the specified Fleet Advisor collector databases.
     public func deleteFleetAdvisorDatabases(_ input: DeleteFleetAdvisorDatabasesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteFleetAdvisorDatabasesResponse> {
         return self.client.execute(operation: "DeleteFleetAdvisorDatabases", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the specified instance profile.  All migration projects associated with the instance profile must be deleted or modified  before you can delete the instance profile.
+    public func deleteInstanceProfile(_ input: DeleteInstanceProfileMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteInstanceProfileResponse> {
+        return self.client.execute(operation: "DeleteInstanceProfile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the specified migration project.  The migration project must be closed before you can delete it.
+    public func deleteMigrationProject(_ input: DeleteMigrationProjectMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteMigrationProjectResponse> {
+        return self.client.execute(operation: "DeleteMigrationProject", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes an DMS Serverless replication configuration. This effectively deprovisions any and all replications that use this configuration. You can't delete the configuration for an DMS Serverless replication that is ongoing. You can delete the configuration when the replication is in a non-RUNNING and non-STARTING state.
+    public func deleteReplicationConfig(_ input: DeleteReplicationConfigMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteReplicationConfigResponse> {
+        return self.client.execute(operation: "DeleteReplicationConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the specified replication instance.  You must delete any migration tasks that are associated with the replication instance before you can delete it.
@@ -198,6 +238,16 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "DescribeConnections", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns configuration parameters for a schema conversion project.
+    public func describeConversionConfiguration(_ input: DescribeConversionConfigurationMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeConversionConfigurationResponse> {
+        return self.client.execute(operation: "DescribeConversionConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a paginated list of data providers for your account in the current region.
+    public func describeDataProviders(_ input: DescribeDataProvidersMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDataProvidersResponse> {
+        return self.client.execute(operation: "DescribeDataProviders", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns information about the possible endpoint settings available  when you create an endpoint for a specific database engine.
     public func describeEndpointSettings(_ input: DescribeEndpointSettingsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEndpointSettingsResponse> {
         return self.client.execute(operation: "DescribeEndpointSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -213,6 +263,11 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "DescribeEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns information about the replication instance versions used in the project.
+    public func describeEngineVersions(_ input: DescribeEngineVersionsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEngineVersionsResponse> {
+        return self.client.execute(operation: "DescribeEngineVersions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists categories for all event source types, or, if specified, for a specified source type. You can see a list of the event categories and source types in Working with Events and Notifications in the Database Migration Service User Guide.
     public func describeEventCategories(_ input: DescribeEventCategoriesMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEventCategoriesResponse> {
         return self.client.execute(operation: "DescribeEventCategories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -226,6 +281,11 @@ public struct DatabaseMigrationService: AWSService {
     ///  Lists events for a given source identifier and source type. You can also specify a start and end time. For more information on DMS events, see Working with Events and Notifications in the Database Migration Service User Guide.
     public func describeEvents(_ input: DescribeEventsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEventsResponse> {
         return self.client.execute(operation: "DescribeEvents", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a paginated list of extension pack associations for the specified migration project. An extension pack is an add-on module  that emulates functions present in a source database that are required when converting objects  to the target database.
+    public func describeExtensionPackAssociations(_ input: DescribeExtensionPackAssociationsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeExtensionPackAssociationsResponse> {
+        return self.client.execute(operation: "DescribeExtensionPackAssociations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns a list of the Fleet Advisor collectors in your account.
@@ -253,6 +313,41 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "DescribeFleetAdvisorSchemas", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns a paginated list of instance profiles for your account in the current region.
+    public func describeInstanceProfiles(_ input: DescribeInstanceProfilesMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInstanceProfilesResponse> {
+        return self.client.execute(operation: "DescribeInstanceProfiles", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a paginated list of metadata model assessments for your account in the current region.
+    public func describeMetadataModelAssessments(_ input: DescribeMetadataModelAssessmentsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMetadataModelAssessmentsResponse> {
+        return self.client.execute(operation: "DescribeMetadataModelAssessments", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a paginated list of metadata model conversions for a migration project.
+    public func describeMetadataModelConversions(_ input: DescribeMetadataModelConversionsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMetadataModelConversionsResponse> {
+        return self.client.execute(operation: "DescribeMetadataModelConversions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a paginated list of metadata model exports.
+    public func describeMetadataModelExportsAsScript(_ input: DescribeMetadataModelExportsAsScriptMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMetadataModelExportsAsScriptResponse> {
+        return self.client.execute(operation: "DescribeMetadataModelExportsAsScript", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a paginated list of metadata model exports.
+    public func describeMetadataModelExportsToTarget(_ input: DescribeMetadataModelExportsToTargetMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMetadataModelExportsToTargetResponse> {
+        return self.client.execute(operation: "DescribeMetadataModelExportsToTarget", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a paginated list of metadata model imports.
+    public func describeMetadataModelImports(_ input: DescribeMetadataModelImportsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMetadataModelImportsResponse> {
+        return self.client.execute(operation: "DescribeMetadataModelImports", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a paginated list of migration projects for your account in the current region.
+    public func describeMigrationProjects(_ input: DescribeMigrationProjectsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMigrationProjectsResponse> {
+        return self.client.execute(operation: "DescribeMigrationProjects", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns information about the replication instance types that can be created in the specified region.
     public func describeOrderableReplicationInstances(_ input: DescribeOrderableReplicationInstancesMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeOrderableReplicationInstancesResponse> {
         return self.client.execute(operation: "DescribeOrderableReplicationInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -278,6 +373,11 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "DescribeRefreshSchemasStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns one or more existing DMS Serverless replication configurations as a list of structures.
+    public func describeReplicationConfigs(_ input: DescribeReplicationConfigsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeReplicationConfigsResponse> {
+        return self.client.execute(operation: "DescribeReplicationConfigs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns information about the task logs for the specified task.
     public func describeReplicationInstanceTaskLogs(_ input: DescribeReplicationInstanceTaskLogsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeReplicationInstanceTaskLogsResponse> {
         return self.client.execute(operation: "DescribeReplicationInstanceTaskLogs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -291,6 +391,11 @@ public struct DatabaseMigrationService: AWSService {
     /// Returns information about the replication subnet groups.
     public func describeReplicationSubnetGroups(_ input: DescribeReplicationSubnetGroupsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeReplicationSubnetGroupsResponse> {
         return self.client.execute(operation: "DescribeReplicationSubnetGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns table and schema statistics for one or more provisioned replications that use a given DMS Serverless replication configuration.
+    public func describeReplicationTableStatistics(_ input: DescribeReplicationTableStatisticsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeReplicationTableStatisticsResponse> {
+        return self.client.execute(operation: "DescribeReplicationTableStatistics", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns the task assessment results from the Amazon S3 bucket that DMS creates in your Amazon Web Services account.  This action always returns the latest results. For more information about DMS task assessments, see   Creating a task assessment report in the Database Migration Service User Guide.
@@ -313,6 +418,11 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "DescribeReplicationTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Provides details on replication progress by returning status information for one or more provisioned DMS Serverless replications.
+    public func describeReplications(_ input: DescribeReplicationsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeReplicationsResponse> {
+        return self.client.execute(operation: "DescribeReplications", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns information about the schema for the specified endpoint.
     public func describeSchemas(_ input: DescribeSchemasMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSchemasResponse> {
         return self.client.execute(operation: "DescribeSchemas", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -321,6 +431,11 @@ public struct DatabaseMigrationService: AWSService {
     /// Returns table statistics on the database migration task, including table name, rows inserted, rows updated, and rows deleted. Note that the "last updated" column the DMS console only indicates the time that DMS last updated the table statistics record for a table. It does not indicate the time of the last update to the table.
     public func describeTableStatistics(_ input: DescribeTableStatisticsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTableStatisticsResponse> {
         return self.client.execute(operation: "DescribeTableStatistics", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Saves a copy of a database migration assessment report to your Amazon S3 bucket. DMS can save  your assessment report as a comma-separated value (CSV) or a PDF file.
+    public func exportMetadataModelAssessment(_ input: ExportMetadataModelAssessmentMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExportMetadataModelAssessmentResponse> {
+        return self.client.execute(operation: "ExportMetadataModelAssessment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Uploads the specified certificate.
@@ -333,6 +448,16 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Modifies the specified schema conversion configuration using the provided parameters.
+    public func modifyConversionConfiguration(_ input: ModifyConversionConfigurationMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyConversionConfigurationResponse> {
+        return self.client.execute(operation: "ModifyConversionConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Modifies the specified data provider using the provided settings.  You must remove the data provider from all migration projects before you can modify it.
+    public func modifyDataProvider(_ input: ModifyDataProviderMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyDataProviderResponse> {
+        return self.client.execute(operation: "ModifyDataProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Modifies the specified endpoint.  For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on the ModifyEndpoint API call. Specifying DatabaseName when you modify a MySQL endpoint replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task.
     public func modifyEndpoint(_ input: ModifyEndpointMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyEndpointResponse> {
         return self.client.execute(operation: "ModifyEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -341,6 +466,21 @@ public struct DatabaseMigrationService: AWSService {
     /// Modifies an existing DMS event notification subscription.
     public func modifyEventSubscription(_ input: ModifyEventSubscriptionMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyEventSubscriptionResponse> {
         return self.client.execute(operation: "ModifyEventSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Modifies the specified instance profile using the provided parameters.  All migration projects associated with the instance profile must be deleted  or modified before you can modify the instance profile.
+    public func modifyInstanceProfile(_ input: ModifyInstanceProfileMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyInstanceProfileResponse> {
+        return self.client.execute(operation: "ModifyInstanceProfile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Modifies the specified migration project using the provided parameters.  The migration project must be closed before you can modify it.
+    public func modifyMigrationProject(_ input: ModifyMigrationProjectMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyMigrationProjectResponse> {
+        return self.client.execute(operation: "ModifyMigrationProject", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Modifies an existing DMS Serverless replication configuration that you can use to start a replication. This command includes input validation and logic to check the state of any replication that uses this configuration. You can only modify a replication configuration before any replication that uses it has started. As soon as you have initially started a replication with a given configuiration, you can't modify that configuration, even if you stop it. Other run statuses that allow you to run this command include FAILED and CREATED. A provisioning state that allows you to run this command is FAILED_PROVISION.
+    public func modifyReplicationConfig(_ input: ModifyReplicationConfigMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyReplicationConfigResponse> {
+        return self.client.execute(operation: "ModifyReplicationConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Modifies the replication instance to apply new settings. You can change one or more parameters by specifying these parameters and the new values in the request. Some settings are applied during the maintenance window.
@@ -373,6 +513,11 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "RefreshSchemas", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Reloads the target database table with the source data for a given DMS Serverless replication configuration. You can only use this operation with a task in the RUNNING state, otherwise the service will throw an InvalidResourceStateFault exception.
+    public func reloadReplicationTables(_ input: ReloadReplicationTablesMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ReloadReplicationTablesResponse> {
+        return self.client.execute(operation: "ReloadReplicationTables", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Reloads the target database table with the source data.  You can only use this operation with a task in the RUNNING state, otherwise the service will throw an InvalidResourceStateFault exception.
     public func reloadTables(_ input: ReloadTablesMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ReloadTablesResponse> {
         return self.client.execute(operation: "ReloadTables", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -388,9 +533,44 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "RunFleetAdvisorLsaAnalysis", path: "/", httpMethod: .POST, serviceConfig: self.config, logger: logger, on: eventLoop)
     }
 
+    /// Applies the extension pack to your target database. An extension pack is an add-on  module that emulates functions present in a source database that are required when  converting objects to the target database.
+    public func startExtensionPackAssociation(_ input: StartExtensionPackAssociationMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartExtensionPackAssociationResponse> {
+        return self.client.execute(operation: "StartExtensionPackAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a database migration assessment report by assessing the migration complexity for  your source database. A database migration assessment report summarizes all of the schema  conversion tasks. It also details the action items for database objects that can't be converted  to the database engine of your target database instance.
+    public func startMetadataModelAssessment(_ input: StartMetadataModelAssessmentMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartMetadataModelAssessmentResponse> {
+        return self.client.execute(operation: "StartMetadataModelAssessment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Converts your source database objects to a format compatible with the target database.
+    public func startMetadataModelConversion(_ input: StartMetadataModelConversionMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartMetadataModelConversionResponse> {
+        return self.client.execute(operation: "StartMetadataModelConversion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Saves your converted code to a file as a SQL script, and stores this file on your Amazon S3 bucket.
+    public func startMetadataModelExportAsScript(_ input: StartMetadataModelExportAsScriptMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartMetadataModelExportAsScriptResponse> {
+        return self.client.execute(operation: "StartMetadataModelExportAsScript", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Applies converted database objects to your target database.
+    public func startMetadataModelExportToTarget(_ input: StartMetadataModelExportToTargetMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartMetadataModelExportToTargetResponse> {
+        return self.client.execute(operation: "StartMetadataModelExportToTarget", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Loads the metadata for all the dependent database objects of the parent object. This operation uses your project's Amazon S3 bucket as a metadata cache to improve performance.
+    public func startMetadataModelImport(_ input: StartMetadataModelImportMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartMetadataModelImportResponse> {
+        return self.client.execute(operation: "StartMetadataModelImport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Starts the analysis of your source database to provide recommendations of target engines. You can create recommendations for multiple source databases using BatchStartRecommendations.
     @discardableResult public func startRecommendations(_ input: StartRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "StartRecommendations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// For a given DMS Serverless replication configuration, DMS connects to the source endpoint and collects the metadata to analyze the replication workload. Using this metadata, DMS then computes and provisions the required capacity and starts replicating to the target endpoint using the server resources that DMS has provisioned for the DMS Serverless replication.
+    public func startReplication(_ input: StartReplicationMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartReplicationResponse> {
+        return self.client.execute(operation: "StartReplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Starts the replication task. For more information about DMS tasks, see Working with Migration Tasks  in the Database Migration Service User Guide.
@@ -408,6 +588,11 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "StartReplicationTaskAssessmentRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// For a given DMS Serverless replication configuration, DMS stops any and all ongoing DMS Serverless replications. This command doesn't deprovision the stopped replications.
+    public func stopReplication(_ input: StopReplicationMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopReplicationResponse> {
+        return self.client.execute(operation: "StopReplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Stops the replication task.
     public func stopReplicationTask(_ input: StopReplicationTaskMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopReplicationTaskResponse> {
         return self.client.execute(operation: "StopReplicationTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -418,7 +603,7 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "TestConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Migrates 10 active and enabled Amazon SNS subscriptions at a time and converts them to corresponding Amazon EventBridge rules. By default, this operation migrates subscriptions only when all your replication instance versions are 3.4.6 or higher. If any replication instances are from versions earlier than 3.4.6, the operation raises an error and tells you to upgrade these instances to version 3.4.6 or higher. To enable migration regardless of version, set the Force option to true. However, if you don't upgrade instances earlier than version 3.4.6, some types of events might not be available when you use Amazon EventBridge. To call this operation, make sure that you have certain permissions added to your user account. For more information, see Migrating event subscriptions to Amazon EventBridge in the Amazon Web Services Database Migration Service User Guide.
+    /// Migrates 10 active and enabled Amazon SNS subscriptions at a time and converts them to corresponding Amazon EventBridge rules. By default, this operation migrates subscriptions only when all your replication instance versions are 3.4.5 or higher. If any replication instances are from versions earlier than 3.4.5, the operation raises an error and tells you to upgrade these instances to version 3.4.5 or higher. To enable migration regardless of version, set the Force option to true. However, if you don't upgrade instances earlier than version 3.4.5, some types of events might not be available when you use Amazon EventBridge. To call this operation, make sure that you have certain permissions added to your user account. For more information, see Migrating event subscriptions to Amazon EventBridge in the Amazon Web Services Database Migration Service User Guide.
     public func updateSubscriptionsToEventBridge(_ input: UpdateSubscriptionsToEventBridgeMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSubscriptionsToEventBridgeResponse> {
         return self.client.execute(operation: "UpdateSubscriptionsToEventBridge", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -595,6 +780,59 @@ extension DatabaseMigrationService {
         )
     }
 
+    /// Returns a paginated list of data providers for your account in the current region.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeDataProvidersPaginator<Result>(
+        _ input: DescribeDataProvidersMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeDataProvidersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeDataProviders,
+            inputKey: \DescribeDataProvidersMessage.marker,
+            outputKey: \DescribeDataProvidersResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeDataProvidersPaginator(
+        _ input: DescribeDataProvidersMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeDataProvidersResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeDataProviders,
+            inputKey: \DescribeDataProvidersMessage.marker,
+            outputKey: \DescribeDataProvidersResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// Returns information about the possible endpoint settings available  when you create an endpoint for a specific database engine.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -754,6 +992,59 @@ extension DatabaseMigrationService {
         )
     }
 
+    /// Returns information about the replication instance versions used in the project.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeEngineVersionsPaginator<Result>(
+        _ input: DescribeEngineVersionsMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeEngineVersionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeEngineVersions,
+            inputKey: \DescribeEngineVersionsMessage.marker,
+            outputKey: \DescribeEngineVersionsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeEngineVersionsPaginator(
+        _ input: DescribeEngineVersionsMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeEngineVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeEngineVersions,
+            inputKey: \DescribeEngineVersionsMessage.marker,
+            outputKey: \DescribeEngineVersionsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// Lists all the event subscriptions for a customer account. The description of a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status.  If you specify SubscriptionName, this action lists the description for that subscription.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -855,6 +1146,59 @@ extension DatabaseMigrationService {
             command: self.describeEvents,
             inputKey: \DescribeEventsMessage.marker,
             outputKey: \DescribeEventsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Returns a paginated list of extension pack associations for the specified migration project. An extension pack is an add-on module  that emulates functions present in a source database that are required when converting objects  to the target database.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeExtensionPackAssociationsPaginator<Result>(
+        _ input: DescribeExtensionPackAssociationsMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeExtensionPackAssociationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeExtensionPackAssociations,
+            inputKey: \DescribeExtensionPackAssociationsMessage.marker,
+            outputKey: \DescribeExtensionPackAssociationsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeExtensionPackAssociationsPaginator(
+        _ input: DescribeExtensionPackAssociationsMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeExtensionPackAssociationsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeExtensionPackAssociations,
+            inputKey: \DescribeExtensionPackAssociationsMessage.marker,
+            outputKey: \DescribeExtensionPackAssociationsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1125,6 +1469,377 @@ extension DatabaseMigrationService {
         )
     }
 
+    /// Returns a paginated list of instance profiles for your account in the current region.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeInstanceProfilesPaginator<Result>(
+        _ input: DescribeInstanceProfilesMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeInstanceProfilesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeInstanceProfiles,
+            inputKey: \DescribeInstanceProfilesMessage.marker,
+            outputKey: \DescribeInstanceProfilesResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeInstanceProfilesPaginator(
+        _ input: DescribeInstanceProfilesMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeInstanceProfilesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeInstanceProfiles,
+            inputKey: \DescribeInstanceProfilesMessage.marker,
+            outputKey: \DescribeInstanceProfilesResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Returns a paginated list of metadata model assessments for your account in the current region.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeMetadataModelAssessmentsPaginator<Result>(
+        _ input: DescribeMetadataModelAssessmentsMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeMetadataModelAssessmentsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeMetadataModelAssessments,
+            inputKey: \DescribeMetadataModelAssessmentsMessage.marker,
+            outputKey: \DescribeMetadataModelAssessmentsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeMetadataModelAssessmentsPaginator(
+        _ input: DescribeMetadataModelAssessmentsMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeMetadataModelAssessmentsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeMetadataModelAssessments,
+            inputKey: \DescribeMetadataModelAssessmentsMessage.marker,
+            outputKey: \DescribeMetadataModelAssessmentsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Returns a paginated list of metadata model conversions for a migration project.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeMetadataModelConversionsPaginator<Result>(
+        _ input: DescribeMetadataModelConversionsMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeMetadataModelConversionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeMetadataModelConversions,
+            inputKey: \DescribeMetadataModelConversionsMessage.marker,
+            outputKey: \DescribeMetadataModelConversionsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeMetadataModelConversionsPaginator(
+        _ input: DescribeMetadataModelConversionsMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeMetadataModelConversionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeMetadataModelConversions,
+            inputKey: \DescribeMetadataModelConversionsMessage.marker,
+            outputKey: \DescribeMetadataModelConversionsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Returns a paginated list of metadata model exports.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeMetadataModelExportsAsScriptPaginator<Result>(
+        _ input: DescribeMetadataModelExportsAsScriptMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeMetadataModelExportsAsScriptResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeMetadataModelExportsAsScript,
+            inputKey: \DescribeMetadataModelExportsAsScriptMessage.marker,
+            outputKey: \DescribeMetadataModelExportsAsScriptResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeMetadataModelExportsAsScriptPaginator(
+        _ input: DescribeMetadataModelExportsAsScriptMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeMetadataModelExportsAsScriptResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeMetadataModelExportsAsScript,
+            inputKey: \DescribeMetadataModelExportsAsScriptMessage.marker,
+            outputKey: \DescribeMetadataModelExportsAsScriptResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Returns a paginated list of metadata model exports.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeMetadataModelExportsToTargetPaginator<Result>(
+        _ input: DescribeMetadataModelExportsToTargetMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeMetadataModelExportsToTargetResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeMetadataModelExportsToTarget,
+            inputKey: \DescribeMetadataModelExportsToTargetMessage.marker,
+            outputKey: \DescribeMetadataModelExportsToTargetResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeMetadataModelExportsToTargetPaginator(
+        _ input: DescribeMetadataModelExportsToTargetMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeMetadataModelExportsToTargetResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeMetadataModelExportsToTarget,
+            inputKey: \DescribeMetadataModelExportsToTargetMessage.marker,
+            outputKey: \DescribeMetadataModelExportsToTargetResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Returns a paginated list of metadata model imports.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeMetadataModelImportsPaginator<Result>(
+        _ input: DescribeMetadataModelImportsMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeMetadataModelImportsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeMetadataModelImports,
+            inputKey: \DescribeMetadataModelImportsMessage.marker,
+            outputKey: \DescribeMetadataModelImportsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeMetadataModelImportsPaginator(
+        _ input: DescribeMetadataModelImportsMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeMetadataModelImportsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeMetadataModelImports,
+            inputKey: \DescribeMetadataModelImportsMessage.marker,
+            outputKey: \DescribeMetadataModelImportsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Returns a paginated list of migration projects for your account in the current region.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeMigrationProjectsPaginator<Result>(
+        _ input: DescribeMigrationProjectsMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeMigrationProjectsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeMigrationProjects,
+            inputKey: \DescribeMigrationProjectsMessage.marker,
+            outputKey: \DescribeMigrationProjectsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeMigrationProjectsPaginator(
+        _ input: DescribeMigrationProjectsMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeMigrationProjectsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeMigrationProjects,
+            inputKey: \DescribeMigrationProjectsMessage.marker,
+            outputKey: \DescribeMigrationProjectsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// Returns information about the replication instance types that can be created in the specified region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1337,6 +2052,59 @@ extension DatabaseMigrationService {
         )
     }
 
+    /// Returns one or more existing DMS Serverless replication configurations as a list of structures.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeReplicationConfigsPaginator<Result>(
+        _ input: DescribeReplicationConfigsMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeReplicationConfigsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeReplicationConfigs,
+            inputKey: \DescribeReplicationConfigsMessage.marker,
+            outputKey: \DescribeReplicationConfigsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeReplicationConfigsPaginator(
+        _ input: DescribeReplicationConfigsMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeReplicationConfigsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeReplicationConfigs,
+            inputKey: \DescribeReplicationConfigsMessage.marker,
+            outputKey: \DescribeReplicationConfigsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// Returns information about the task logs for the specified task.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1491,6 +2259,59 @@ extension DatabaseMigrationService {
             command: self.describeReplicationSubnetGroups,
             inputKey: \DescribeReplicationSubnetGroupsMessage.marker,
             outputKey: \DescribeReplicationSubnetGroupsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Returns table and schema statistics for one or more provisioned replications that use a given DMS Serverless replication configuration.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeReplicationTableStatisticsPaginator<Result>(
+        _ input: DescribeReplicationTableStatisticsMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeReplicationTableStatisticsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeReplicationTableStatistics,
+            inputKey: \DescribeReplicationTableStatisticsMessage.marker,
+            outputKey: \DescribeReplicationTableStatisticsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeReplicationTableStatisticsPaginator(
+        _ input: DescribeReplicationTableStatisticsMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeReplicationTableStatisticsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeReplicationTableStatistics,
+            inputKey: \DescribeReplicationTableStatisticsMessage.marker,
+            outputKey: \DescribeReplicationTableStatisticsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1708,6 +2529,59 @@ extension DatabaseMigrationService {
         )
     }
 
+    /// Provides details on replication progress by returning status information for one or more provisioned DMS Serverless replications.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeReplicationsPaginator<Result>(
+        _ input: DescribeReplicationsMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeReplicationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeReplications,
+            inputKey: \DescribeReplicationsMessage.marker,
+            outputKey: \DescribeReplicationsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeReplicationsPaginator(
+        _ input: DescribeReplicationsMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeReplicationsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeReplications,
+            inputKey: \DescribeReplicationsMessage.marker,
+            outputKey: \DescribeReplicationsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// Returns information about the schema for the specified endpoint.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1849,6 +2723,16 @@ extension DatabaseMigrationService.DescribeConnectionsMessage: AWSPaginateToken 
     }
 }
 
+extension DatabaseMigrationService.DescribeDataProvidersMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeDataProvidersMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
+        )
+    }
+}
+
 extension DatabaseMigrationService.DescribeEndpointSettingsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeEndpointSettingsMessage {
         return .init(
@@ -1879,6 +2763,15 @@ extension DatabaseMigrationService.DescribeEndpointsMessage: AWSPaginateToken {
     }
 }
 
+extension DatabaseMigrationService.DescribeEngineVersionsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeEngineVersionsMessage {
+        return .init(
+            marker: token,
+            maxRecords: self.maxRecords
+        )
+    }
+}
+
 extension DatabaseMigrationService.DescribeEventSubscriptionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeEventSubscriptionsMessage {
         return .init(
@@ -1902,6 +2795,17 @@ extension DatabaseMigrationService.DescribeEventsMessage: AWSPaginateToken {
             sourceIdentifier: self.sourceIdentifier,
             sourceType: self.sourceType,
             startTime: self.startTime
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeExtensionPackAssociationsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeExtensionPackAssociationsMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            migrationProjectIdentifier: self.migrationProjectIdentifier
         )
     }
 }
@@ -1955,6 +2859,81 @@ extension DatabaseMigrationService.DescribeFleetAdvisorSchemasRequest: AWSPagina
     }
 }
 
+extension DatabaseMigrationService.DescribeInstanceProfilesMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeInstanceProfilesMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeMetadataModelAssessmentsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeMetadataModelAssessmentsMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            migrationProjectIdentifier: self.migrationProjectIdentifier
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeMetadataModelConversionsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeMetadataModelConversionsMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            migrationProjectIdentifier: self.migrationProjectIdentifier
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeMetadataModelExportsAsScriptMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeMetadataModelExportsAsScriptMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            migrationProjectIdentifier: self.migrationProjectIdentifier
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeMetadataModelExportsToTargetMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeMetadataModelExportsToTargetMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            migrationProjectIdentifier: self.migrationProjectIdentifier
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeMetadataModelImportsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeMetadataModelImportsMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            migrationProjectIdentifier: self.migrationProjectIdentifier
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeMigrationProjectsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeMigrationProjectsMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
+        )
+    }
+}
+
 extension DatabaseMigrationService.DescribeOrderableReplicationInstancesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeOrderableReplicationInstancesMessage {
         return .init(
@@ -1995,6 +2974,16 @@ extension DatabaseMigrationService.DescribeRecommendationsRequest: AWSPaginateTo
     }
 }
 
+extension DatabaseMigrationService.DescribeReplicationConfigsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeReplicationConfigsMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
+        )
+    }
+}
+
 extension DatabaseMigrationService.DescribeReplicationInstanceTaskLogsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeReplicationInstanceTaskLogsMessage {
         return .init(
@@ -2021,6 +3010,17 @@ extension DatabaseMigrationService.DescribeReplicationSubnetGroupsMessage: AWSPa
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeReplicationTableStatisticsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeReplicationTableStatisticsMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            replicationConfigArn: self.replicationConfigArn
         )
     }
 }
@@ -2062,6 +3062,16 @@ extension DatabaseMigrationService.DescribeReplicationTasksMessage: AWSPaginateT
             marker: token,
             maxRecords: self.maxRecords,
             withoutSettings: self.withoutSettings
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeReplicationsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeReplicationsMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
         )
     }
 }

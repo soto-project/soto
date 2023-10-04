@@ -167,6 +167,7 @@ extension Lambda {
         case providedal2 = "provided.al2"
         case python27 = "python2.7"
         case python310 = "python3.10"
+        case python311 = "python3.11"
         case python36 = "python3.6"
         case python37 = "python3.7"
         case python38 = "python3.8"
@@ -829,9 +830,9 @@ extension Lambda {
         public let selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig?
         /// An array of authentication protocols or VPC components required to secure your event source.
         public let sourceAccessConfigurations: [SourceAccessConfiguration]?
-        /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK Streams sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams and Amazon DocumentDB.
+        /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Stream event sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams, Amazon DocumentDB, Amazon MSK, and self-managed Apache Kafka.
         public let startingPosition: EventSourcePosition?
-        /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
+        /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future.
         public let startingPositionTimestamp: Date?
         /// The name of the Kafka topic.
         public let topics: [String]?
@@ -1582,9 +1583,9 @@ extension Lambda {
         public let selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig?
         /// An array of the authentication protocol, VPC components, or virtual host to secure and define your event source.
         public let sourceAccessConfigurations: [SourceAccessConfiguration]?
-        /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK stream sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams and Amazon DocumentDB.
+        /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Stream event sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams, Amazon DocumentDB, Amazon MSK, and self-managed Apache Kafka.
         public let startingPosition: EventSourcePosition?
-        /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
+        /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future.
         public let startingPositionTimestamp: Date?
         /// The state of the event source mapping. It can be one of the following: Creating, Enabling, Enabled, Disabling, Disabled, Updating, or Deleting.
         public let state: String?

@@ -87,7 +87,7 @@ public struct IAM: AWSService {
         return self.client.execute(operation: "AddClientIDToOpenIDConnectProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds the specified IAM role to the specified instance profile. An instance profile can contain only one role, and this quota cannot be increased. You can remove the existing role and then add a different role to an instance profile. You must then wait for the change to appear across all of Amazon Web Services because of eventual consistency. To force the change, you must disassociate the instance profile and then associate the instance profile, or you can stop your instance and then restart it.  The caller of this operation must be granted the PassRole permission on the IAM role by a permissions policy.  For more information about roles, see Working with roles. For more information about instance profiles, see About instance profiles.
+    /// Adds the specified IAM role to the specified instance profile. An instance profile can contain only one role, and this quota cannot be increased. You can remove the existing role and then add a different role to an instance profile. You must then wait for the change to appear across all of Amazon Web Services because of eventual consistency. To force the change, you must disassociate the instance profile and then associate the instance profile, or you can stop your instance and then restart it.  The caller of this operation must be granted the PassRole permission on the IAM role by a permissions policy.  For more information about roles, see IAM roles in the IAM User Guide. For more information about instance profiles, see Using instance profiles in the IAM User Guide.
     @discardableResult public func addRoleToInstanceProfile(_ input: AddRoleToInstanceProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "AddRoleToInstanceProfile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -97,17 +97,17 @@ public struct IAM: AWSService {
         return self.client.execute(operation: "AddUserToGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Attaches the specified managed policy to the specified IAM group. You use this operation to attach a managed policy to a group. To embed an inline policy in a group, use PutGroupPolicy. As a best practice, you can validate your IAM policies.  To learn more, see Validating IAM policies  in the IAM User Guide. For more information about policies, see Managed policies and inline policies in the IAM User Guide.
+    /// Attaches the specified managed policy to the specified IAM group. You use this operation to attach a managed policy to a group. To embed an inline policy in a group, use  PutGroupPolicy . As a best practice, you can validate your IAM policies.  To learn more, see Validating IAM policies  in the IAM User Guide. For more information about policies, see Managed policies and inline policies in the IAM User Guide.
     @discardableResult public func attachGroupPolicy(_ input: AttachGroupPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "AttachGroupPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy.  You cannot use a managed policy as the role's trust policy. The role's trust policy is created at the same time as the role, using CreateRole. You can update a role's trust policy using UpdateAssumeRolePolicy.  Use this operation to attach a managed policy to a role. To embed an inline policy in a role, use PutRolePolicy. For more information about policies, see Managed policies and inline policies in the IAM User Guide. As a best practice, you can validate your IAM policies.  To learn more, see Validating IAM policies  in the IAM User Guide.
+    /// Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy.  You cannot use a managed policy as the role's trust policy. The role's trust policy is created at the same time as the role, using  CreateRole . You can update a role's trust policy using  UpdateAssumerolePolicy .  Use this operation to attach a managed policy to a role. To embed an inline policy in a role, use  PutRolePolicy . For more information about policies, see Managed policies and inline policies in the IAM User Guide. As a best practice, you can validate your IAM policies.  To learn more, see Validating IAM policies  in the IAM User Guide.
     @discardableResult public func attachRolePolicy(_ input: AttachRolePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "AttachRolePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Attaches the specified managed policy to the specified user. You use this operation to attach a managed policy to a user. To embed an inline policy in a user, use PutUserPolicy. As a best practice, you can validate your IAM policies.  To learn more, see Validating IAM policies  in the IAM User Guide. For more information about policies, see Managed policies and inline policies in the IAM User Guide.
+    /// Attaches the specified managed policy to the specified user. You use this operation to attach a managed policy to a user. To embed an inline policy in a user, use  PutUserPolicy . As a best practice, you can validate your IAM policies.  To learn more, see Validating IAM policies  in the IAM User Guide. For more information about policies, see Managed policies and inline policies in the IAM User Guide.
     @discardableResult public func attachUserPolicy(_ input: AttachUserPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "AttachUserPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -142,7 +142,7 @@ public struct IAM: AWSService {
         return self.client.execute(operation: "CreateLoginProfile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an IAM entity to describe an identity provider (IdP) that supports OpenID Connect (OIDC). The OIDC provider that you create with this operation can be used as a principal in a role's trust policy. Such a policy establishes a trust relationship between Amazon Web Services and the OIDC provider. If you are using an OIDC identity provider from Google, Facebook, or Amazon Cognito, you don't need to create a separate IAM identity provider. These OIDC identity providers are already built-in to Amazon Web Services and are available for your use. Instead, you can move directly to creating new roles using your identity provider. To learn more, see Creating a role for web identity or OpenID connect federation in the IAM User Guide. When you create the IAM OIDC provider, you specify the following:   The URL of the OIDC identity provider (IdP) to trust   A list of client IDs (also known as audiences) that identify the application or applications allowed to authenticate using the OIDC provider   A list of tags that are attached to the specified IAM OIDC provider   A list of thumbprints of one or more server certificates that the IdP uses   You get all of this information from the OIDC IdP you want to use to access Amazon Web Services.  Amazon Web Services secures communication with some OIDC identity providers (IdPs) through our library of trusted certificate authorities (CAs) instead of using a certificate thumbprint to verify your IdP server certificate. These OIDC IdPs include Google, Auth0, and those that use an Amazon S3 bucket to host a JSON Web Key Set (JWKS) endpoint. In these cases, your legacy thumbprint remains in your configuration, but is no longer used for validation.   The trust for the OIDC provider is derived from the IAM provider that this operation creates. Therefore, it is best to limit access to the CreateOpenIDConnectProvider operation to highly privileged users.
+    /// Creates an IAM entity to describe an identity provider (IdP) that supports OpenID Connect (OIDC). The OIDC provider that you create with this operation can be used as a principal in a role's trust policy. Such a policy establishes a trust relationship between Amazon Web Services and the OIDC provider. If you are using an OIDC identity provider from Google, Facebook, or Amazon Cognito, you don't need to create a separate IAM identity provider. These OIDC identity providers are already built-in to Amazon Web Services and are available for your use. Instead, you can move directly to creating new roles using your identity provider. To learn more, see Creating a role for web identity or OpenID connect federation in the IAM User Guide. When you create the IAM OIDC provider, you specify the following:   The URL of the OIDC identity provider (IdP) to trust   A list of client IDs (also known as audiences) that identify the application or applications allowed to authenticate using the OIDC provider   A list of tags that are attached to the specified IAM OIDC provider   A list of thumbprints of one or more server certificates that the IdP uses   You get all of this information from the OIDC IdP you want to use to access Amazon Web Services.  Amazon Web Services secures communication with some OIDC identity providers (IdPs) through our library of trusted root certificate authorities (CAs) instead of using a certificate thumbprint to verify your IdP server certificate. These OIDC IdPs include Auth0, GitHub, Google, and those that use an Amazon S3 bucket to host a JSON Web Key Set (JWKS) endpoint. In these cases, your legacy thumbprint remains in your configuration, but is no longer used for validation.   The trust for the OIDC provider is derived from the IAM provider that this operation creates. Therefore, it is best to limit access to the CreateOpenIDConnectProvider operation to highly privileged users.
     public func createOpenIDConnectProvider(_ input: CreateOpenIDConnectProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateOpenIDConnectProviderResponse> {
         return self.client.execute(operation: "CreateOpenIDConnectProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -157,7 +157,7 @@ public struct IAM: AWSService {
         return self.client.execute(operation: "CreatePolicyVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new role for your Amazon Web Services account. For more information about roles, see IAM roles. For information about quotas for role names and the number of roles you can create, see IAM and STS quotas in the IAM User Guide.
+    /// Creates a new role for your Amazon Web Services account. For more information about roles, see IAM roles in the IAM User Guide. For information about quotas for role names and the number of roles you can create, see IAM and STS quotas in the IAM User Guide.
     public func createRole(_ input: CreateRoleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRoleResponse> {
         return self.client.execute(operation: "CreateRole", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -217,7 +217,7 @@ public struct IAM: AWSService {
         return self.client.execute(operation: "DeleteGroupPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified instance profile. The instance profile must not have an associated role.  Make sure that you do not have any Amazon EC2 instances running with the instance profile you are about to delete. Deleting a role or instance profile that is associated with a running instance will break any applications running on the instance.  For more information about instance profiles, see About instance profiles.
+    /// Deletes the specified instance profile. The instance profile must not have an associated role.  Make sure that you do not have any Amazon EC2 instances running with the instance profile you are about to delete. Deleting a role or instance profile that is associated with a running instance will break any applications running on the instance.  For more information about instance profiles, see Using instance profiles in the IAM User Guide.
     @discardableResult public func deleteInstanceProfile(_ input: DeleteInstanceProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteInstanceProfile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -387,7 +387,7 @@ public struct IAM: AWSService {
         return self.client.execute(operation: "GetGroupPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Retrieves information about the specified instance profile, including the instance profile's path, GUID, ARN, and role. For more information about instance profiles, see About instance profiles in the IAM User Guide.
+    ///  Retrieves information about the specified instance profile, including the instance profile's path, GUID, ARN, and role. For more information about instance profiles, see Using instance profiles in the IAM User Guide.
     public func getInstanceProfile(_ input: GetInstanceProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInstanceProfileResponse> {
         return self.client.execute(operation: "GetInstanceProfile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -395,6 +395,11 @@ public struct IAM: AWSService {
     /// Retrieves the user name for the specified IAM user. A login profile is created when you create a password for the user to access the Amazon Web Services Management Console. If the user does not exist or does not have a password, the operation returns a 404 (NoSuchEntity) error. If you create an IAM user with access to the console, the CreateDate reflects the date you created the initial password for the user. If you create an IAM user with programmatic access, and then later add a password for the user to access the Amazon Web Services Management Console, the CreateDate reflects the initial password creation date. A user with programmatic access does not have a login profile unless you create a password for the user to access the Amazon Web Services Management Console.
     public func getLoginProfile(_ input: GetLoginProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLoginProfileResponse> {
         return self.client.execute(operation: "GetLoginProfile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves information about an MFA device for a specified user.
+    public func getMFADevice(_ input: GetMFADeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMFADeviceResponse> {
+        return self.client.execute(operation: "GetMFADevice", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns information about the specified OpenID Connect (OIDC) provider resource object in IAM.
@@ -417,12 +422,12 @@ public struct IAM: AWSService {
         return self.client.execute(operation: "GetPolicyVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves information about the specified role, including the role's path, GUID, ARN, and the role's trust policy that grants permission to assume the role. For more information about roles, see Working with roles.  Policies returned by this operation are URL-encoded compliant  with RFC 3986. You can use a URL  decoding method to convert the policy back to plain JSON text. For example, if you use Java, you  can use the decode method of the java.net.URLDecoder utility class in  the Java SDK. Other languages and SDKs provide similar functionality.
+    /// Retrieves information about the specified role, including the role's path, GUID, ARN, and the role's trust policy that grants permission to assume the role. For more information about roles, see IAM roles in the IAM User Guide.  Policies returned by this operation are URL-encoded compliant  with RFC 3986. You can use a URL  decoding method to convert the policy back to plain JSON text. For example, if you use Java, you  can use the decode method of the java.net.URLDecoder utility class in  the Java SDK. Other languages and SDKs provide similar functionality.
     public func getRole(_ input: GetRoleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRoleResponse> {
         return self.client.execute(operation: "GetRole", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the specified inline policy document that is embedded with the specified IAM role.  Policies returned by this operation are URL-encoded compliant  with RFC 3986. You can use a URL  decoding method to convert the policy back to plain JSON text. For example, if you use Java, you  can use the decode method of the java.net.URLDecoder utility class in  the Java SDK. Other languages and SDKs provide similar functionality.  An IAM role can also have managed policies attached to it. To retrieve a managed policy document that is attached to a role, use GetPolicy to determine the policy's default version, then use GetPolicyVersion to retrieve the policy document. For more information about policies, see Managed policies and inline policies in the IAM User Guide. For more information about roles, see Using roles to delegate permissions and federate identities.
+    /// Retrieves the specified inline policy document that is embedded with the specified IAM role.  Policies returned by this operation are URL-encoded compliant  with RFC 3986. You can use a URL  decoding method to convert the policy back to plain JSON text. For example, if you use Java, you  can use the decode method of the java.net.URLDecoder utility class in  the Java SDK. Other languages and SDKs provide similar functionality.  An IAM role can also have managed policies attached to it. To retrieve a managed policy document that is attached to a role, use GetPolicy to determine the policy's default version, then use GetPolicyVersion to retrieve the policy document. For more information about policies, see Managed policies and inline policies in the IAM User Guide. For more information about roles, see IAM roles in the IAM User Guide.
     public func getRolePolicy(_ input: GetRolePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRolePolicyResponse> {
         return self.client.execute(operation: "GetRolePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -517,12 +522,12 @@ public struct IAM: AWSService {
         return self.client.execute(operation: "ListInstanceProfileTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the instance profiles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about instance profiles, see About instance profiles.  IAM resource-listing operations return a subset of the available  attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for an instance profile, see GetInstanceProfile.  You can paginate the results using the MaxItems and Marker parameters.
+    /// Lists the instance profiles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about instance profiles, see Using instance profiles in the IAM User Guide.  IAM resource-listing operations return a subset of the available  attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for an instance profile, see GetInstanceProfile.  You can paginate the results using the MaxItems and Marker parameters.
     public func listInstanceProfiles(_ input: ListInstanceProfilesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInstanceProfilesResponse> {
         return self.client.execute(operation: "ListInstanceProfiles", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the instance profiles that have the specified associated IAM role. If there are none, the operation returns an empty list. For more information about instance profiles, go to About instance profiles. You can paginate the results using the MaxItems and Marker parameters.
+    /// Lists the instance profiles that have the specified associated IAM role. If there are none, the operation returns an empty list. For more information about instance profiles, go to Using instance profiles in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters.
     public func listInstanceProfilesForRole(_ input: ListInstanceProfilesForRoleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInstanceProfilesForRoleResponse> {
         return self.client.execute(operation: "ListInstanceProfilesForRole", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -577,7 +582,7 @@ public struct IAM: AWSService {
         return self.client.execute(operation: "ListRoleTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the IAM roles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about roles, see Working with roles.  IAM resource-listing operations return a subset of the available  attributes for the resource. This operation does not return the following attributes, even though they are an attribute of the returned object:   PermissionsBoundary   RoleLastUsed   Tags   To view all of the information for a role, see GetRole.  You can paginate the results using the MaxItems and Marker parameters.
+    /// Lists the IAM roles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about roles, see IAM roles in the IAM User Guide.  IAM resource-listing operations return a subset of the available  attributes for the resource. This operation does not return the following attributes, even though they are an attribute of the returned object:   PermissionsBoundary   RoleLastUsed   Tags   To view all of the information for a role, see GetRole.  You can paginate the results using the MaxItems and Marker parameters.
     public func listRoles(_ input: ListRolesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRolesResponse> {
         return self.client.execute(operation: "ListRoles", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -637,7 +642,7 @@ public struct IAM: AWSService {
         return self.client.execute(operation: "ListVirtualMFADevices", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds or updates an inline policy document that is embedded in the specified IAM group. A user can also have managed policies attached to it. To attach a managed policy to a group, use AttachGroupPolicy. To create a new managed policy, use CreatePolicy. For information about policies, see Managed policies and inline policies in the IAM User Guide. For information about the maximum number of inline policies that you can embed in a group, see IAM and STS quotas in the IAM User Guide.  Because policy documents can be large, you should use POST rather than GET when calling PutGroupPolicy. For general information about using the Query API with IAM, see Making query requests in the IAM User Guide.
+    /// Adds or updates an inline policy document that is embedded in the specified IAM group. A user can also have managed policies attached to it. To attach a managed policy to a group, use  AttachGroupPolicy . To create a new managed policy, use  CreatePolicy . For information about policies, see Managed policies and inline policies in the IAM User Guide. For information about the maximum number of inline policies that you can embed in a group, see IAM and STS quotas in the IAM User Guide.  Because policy documents can be large, you should use POST rather than GET when calling PutGroupPolicy. For general information about using the Query API with IAM, see Making query requests in the IAM User Guide.
     @discardableResult public func putGroupPolicy(_ input: PutGroupPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "PutGroupPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -647,7 +652,7 @@ public struct IAM: AWSService {
         return self.client.execute(operation: "PutRolePermissionsBoundary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds or updates an inline policy document that is embedded in the specified IAM role. When you embed an inline policy in a role, the inline policy is used as part of the role's access (permissions) policy. The role's trust policy is created at the same time as the role, using CreateRole. You can update a role's trust policy using UpdateAssumeRolePolicy. For more information about IAM roles, see Using roles to delegate permissions and federate identities. A role can also have a managed policy attached to it. To attach a managed policy to a role, use AttachRolePolicy. To create a new managed policy, use CreatePolicy. For information about policies, see Managed policies and inline policies in the IAM User Guide. For information about the maximum number of inline policies that you can embed with a role, see IAM and STS quotas in the IAM User Guide.  Because policy documents can be large, you should use POST rather than GET when calling PutRolePolicy. For general information about using the Query API with IAM, see Making query requests in the IAM User Guide.
+    /// Adds or updates an inline policy document that is embedded in the specified IAM role. When you embed an inline policy in a role, the inline policy is used as part of the role's access (permissions) policy. The role's trust policy is created at the same time as the role, using  CreateRole . You can update a role's trust policy using  UpdateAssumeRolePolicy . For more information about roles, see IAM roles in the IAM User Guide. A role can also have a managed policy attached to it. To attach a managed policy to a role, use  AttachRolePolicy . To create a new managed policy, use  CreatePolicy . For information about policies, see Managed policies and inline policies in the IAM User Guide. For information about the maximum number of inline policies that you can embed with a role, see IAM and STS quotas in the IAM User Guide.  Because policy documents can be large, you should use POST rather than GET when calling PutRolePolicy. For general information about using the Query API with IAM, see Making query requests in the IAM User Guide.
     @discardableResult public func putRolePolicy(_ input: PutRolePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "PutRolePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -657,7 +662,7 @@ public struct IAM: AWSService {
         return self.client.execute(operation: "PutUserPermissionsBoundary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds or updates an inline policy document that is embedded in the specified IAM user. An IAM user can also have a managed policy attached to it. To attach a managed policy to a user, use AttachUserPolicy. To create a new managed policy, use CreatePolicy. For information about policies, see Managed policies and inline policies in the IAM User Guide. For information about the maximum number of inline policies that you can embed in a user, see IAM and STS quotas in the IAM User Guide.  Because policy documents can be large, you should use POST rather than GET when calling PutUserPolicy. For general information about using the Query API with IAM, see Making query requests in the IAM User Guide.
+    /// Adds or updates an inline policy document that is embedded in the specified IAM user. An IAM user can also have a managed policy attached to it. To attach a managed policy to a user, use  AttachUserPolicy . To create a new managed policy, use  CreatePolicy . For information about policies, see Managed policies and inline policies in the IAM User Guide. For information about the maximum number of inline policies that you can embed in a user, see IAM and STS quotas in the IAM User Guide.  Because policy documents can be large, you should use POST rather than GET when calling PutUserPolicy. For general information about using the Query API with IAM, see Making query requests in the IAM User Guide.
     @discardableResult public func putUserPolicy(_ input: PutUserPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "PutUserPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -667,7 +672,7 @@ public struct IAM: AWSService {
         return self.client.execute(operation: "RemoveClientIDFromOpenIDConnectProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes the specified IAM role from the specified EC2 instance profile.  Make sure that you do not have any Amazon EC2 instances running with the role you are about to remove from the instance profile. Removing a role from an instance profile that is associated with a running instance might break any applications running on the instance.  For more information about IAM roles, see Working with roles. For more information about instance profiles, see About instance profiles.
+    /// Removes the specified IAM role from the specified EC2 instance profile.  Make sure that you do not have any Amazon EC2 instances running with the role you are about to remove from the instance profile. Removing a role from an instance profile that is associated with a running instance might break any applications running on the instance.  For more information about roles, see IAM roles in the IAM User Guide. For more information about instance profiles, see Using instance profiles in the IAM User Guide.
     @discardableResult public func removeRoleFromInstanceProfile(_ input: RemoveRoleFromInstanceProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "RemoveRoleFromInstanceProfile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -812,7 +817,7 @@ public struct IAM: AWSService {
         return self.client.execute(operation: "UpdateLoginProfile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Replaces the existing list of server certificate thumbprints associated with an OpenID Connect (OIDC) provider resource object with a new list of thumbprints. The list that you pass with this operation completely replaces the existing list of thumbprints. (The lists are not merged.) Typically, you need to update a thumbprint only when the identity provider certificate changes, which occurs rarely. However, if the provider's certificate does change, any attempt to assume an IAM role that specifies the OIDC provider as a principal fails until the certificate thumbprint is updated.  Amazon Web Services secures communication with some OIDC identity providers (IdPs) through our library of trusted certificate authorities (CAs) instead of using a certificate thumbprint to verify your IdP server certificate. These OIDC IdPs include Google, Auth0, and those that use an Amazon S3 bucket to host a JSON Web Key Set (JWKS) endpoint. In these cases, your legacy thumbprint remains in your configuration, but is no longer used for validation.   Trust for the OIDC provider is derived from the provider certificate and is validated by the thumbprint. Therefore, it is best to limit access to the UpdateOpenIDConnectProviderThumbprint operation to highly privileged users.
+    /// Replaces the existing list of server certificate thumbprints associated with an OpenID Connect (OIDC) provider resource object with a new list of thumbprints. The list that you pass with this operation completely replaces the existing list of thumbprints. (The lists are not merged.) Typically, you need to update a thumbprint only when the identity provider certificate changes, which occurs rarely. However, if the provider's certificate does change, any attempt to assume an IAM role that specifies the OIDC provider as a principal fails until the certificate thumbprint is updated.  Amazon Web Services secures communication with some OIDC identity providers (IdPs) through our library of trusted root certificate authorities (CAs) instead of using a certificate thumbprint to verify your IdP server certificate. These OIDC IdPs include Auth0, GitHub, Google, and those that use an Amazon S3 bucket to host a JSON Web Key Set (JWKS) endpoint. In these cases, your legacy thumbprint remains in your configuration, but is no longer used for validation.   Trust for the OIDC provider is derived from the provider certificate and is validated by the thumbprint. Therefore, it is best to limit access to the UpdateOpenIDConnectProviderThumbprint operation to highly privileged users.
     @discardableResult public func updateOpenIDConnectProviderThumbprint(_ input: UpdateOpenIDConnectProviderThumbprintRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateOpenIDConnectProviderThumbprint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1468,7 +1473,60 @@ extension IAM {
         )
     }
 
-    /// Lists the instance profiles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about instance profiles, see About instance profiles.  IAM resource-listing operations return a subset of the available  attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for an instance profile, see GetInstanceProfile.  You can paginate the results using the MaxItems and Marker parameters.
+    /// Lists the tags that are attached to the specified IAM instance profile. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listInstanceProfileTagsPaginator<Result>(
+        _ input: ListInstanceProfileTagsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListInstanceProfileTagsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listInstanceProfileTags,
+            inputKey: \ListInstanceProfileTagsRequest.marker,
+            outputKey: \ListInstanceProfileTagsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listInstanceProfileTagsPaginator(
+        _ input: ListInstanceProfileTagsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListInstanceProfileTagsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listInstanceProfileTags,
+            inputKey: \ListInstanceProfileTagsRequest.marker,
+            outputKey: \ListInstanceProfileTagsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Lists the instance profiles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about instance profiles, see Using instance profiles in the IAM User Guide.  IAM resource-listing operations return a subset of the available  attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for an instance profile, see GetInstanceProfile.  You can paginate the results using the MaxItems and Marker parameters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1521,7 +1579,7 @@ extension IAM {
         )
     }
 
-    /// Lists the instance profiles that have the specified associated IAM role. If there are none, the operation returns an empty list. For more information about instance profiles, go to About instance profiles. You can paginate the results using the MaxItems and Marker parameters.
+    /// Lists the instance profiles that have the specified associated IAM role. If there are none, the operation returns an empty list. For more information about instance profiles, go to Using instance profiles in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1569,6 +1627,59 @@ extension IAM {
             command: self.listInstanceProfilesForRole,
             inputKey: \ListInstanceProfilesForRoleRequest.marker,
             outputKey: \ListInstanceProfilesForRoleResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Lists the tags that are attached to the specified IAM virtual multi-factor authentication (MFA) device. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listMFADeviceTagsPaginator<Result>(
+        _ input: ListMFADeviceTagsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListMFADeviceTagsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listMFADeviceTags,
+            inputKey: \ListMFADeviceTagsRequest.marker,
+            outputKey: \ListMFADeviceTagsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listMFADeviceTagsPaginator(
+        _ input: ListMFADeviceTagsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListMFADeviceTagsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listMFADeviceTags,
+            inputKey: \ListMFADeviceTagsRequest.marker,
+            outputKey: \ListMFADeviceTagsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1627,6 +1738,59 @@ extension IAM {
         )
     }
 
+    /// Lists the tags that are attached to the specified OpenID Connect (OIDC)-compatible identity provider. The returned list of tags is sorted by tag key. For more information, see About web identity federation. For more information about tagging, see Tagging IAM resources in the IAM User Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listOpenIDConnectProviderTagsPaginator<Result>(
+        _ input: ListOpenIDConnectProviderTagsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListOpenIDConnectProviderTagsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listOpenIDConnectProviderTags,
+            inputKey: \ListOpenIDConnectProviderTagsRequest.marker,
+            outputKey: \ListOpenIDConnectProviderTagsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listOpenIDConnectProviderTagsPaginator(
+        _ input: ListOpenIDConnectProviderTagsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListOpenIDConnectProviderTagsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listOpenIDConnectProviderTags,
+            inputKey: \ListOpenIDConnectProviderTagsRequest.marker,
+            outputKey: \ListOpenIDConnectProviderTagsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// Lists all the managed policies that are available in your Amazon Web Services account, including your own customer-defined managed policies and all Amazon Web Services managed policies. You can filter the list of policies that is returned using the optional OnlyAttached, Scope, and PathPrefix parameters. For example, to list only the customer managed policies in your Amazon Web Services account, set Scope to Local. To list only Amazon Web Services managed policies, set Scope to AWS. You can paginate the results using the MaxItems and Marker parameters. For more information about managed policies, see Managed policies and inline policies in the IAM User Guide.  IAM resource-listing operations return a subset of the available  attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a customer manged policy, see GetPolicy.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1675,6 +1839,59 @@ extension IAM {
             command: self.listPolicies,
             inputKey: \ListPoliciesRequest.marker,
             outputKey: \ListPoliciesResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Lists the tags that are attached to the specified IAM customer managed policy. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listPolicyTagsPaginator<Result>(
+        _ input: ListPolicyTagsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListPolicyTagsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listPolicyTags,
+            inputKey: \ListPolicyTagsRequest.marker,
+            outputKey: \ListPolicyTagsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listPolicyTagsPaginator(
+        _ input: ListPolicyTagsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListPolicyTagsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listPolicyTags,
+            inputKey: \ListPolicyTagsRequest.marker,
+            outputKey: \ListPolicyTagsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1786,7 +2003,60 @@ extension IAM {
         )
     }
 
-    /// Lists the IAM roles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about roles, see Working with roles.  IAM resource-listing operations return a subset of the available  attributes for the resource. This operation does not return the following attributes, even though they are an attribute of the returned object:   PermissionsBoundary   RoleLastUsed   Tags   To view all of the information for a role, see GetRole.  You can paginate the results using the MaxItems and Marker parameters.
+    /// Lists the tags that are attached to the specified role. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listRoleTagsPaginator<Result>(
+        _ input: ListRoleTagsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListRoleTagsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listRoleTags,
+            inputKey: \ListRoleTagsRequest.marker,
+            outputKey: \ListRoleTagsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listRoleTagsPaginator(
+        _ input: ListRoleTagsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListRoleTagsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listRoleTags,
+            inputKey: \ListRoleTagsRequest.marker,
+            outputKey: \ListRoleTagsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Lists the IAM roles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about roles, see IAM roles in the IAM User Guide.  IAM resource-listing operations return a subset of the available  attributes for the resource. This operation does not return the following attributes, even though they are an attribute of the returned object:   PermissionsBoundary   RoleLastUsed   Tags   To view all of the information for a role, see GetRole.  You can paginate the results using the MaxItems and Marker parameters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1834,6 +2104,59 @@ extension IAM {
             command: self.listRoles,
             inputKey: \ListRolesRequest.marker,
             outputKey: \ListRolesResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Lists the tags that are attached to the specified Security Assertion Markup Language (SAML) identity provider. The returned list of tags is sorted by tag key. For more information, see About SAML 2.0-based federation. For more information about tagging, see Tagging IAM resources in the IAM User Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listSAMLProviderTagsPaginator<Result>(
+        _ input: ListSAMLProviderTagsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListSAMLProviderTagsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listSAMLProviderTags,
+            inputKey: \ListSAMLProviderTagsRequest.marker,
+            outputKey: \ListSAMLProviderTagsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listSAMLProviderTagsPaginator(
+        _ input: ListSAMLProviderTagsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListSAMLProviderTagsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listSAMLProviderTags,
+            inputKey: \ListSAMLProviderTagsRequest.marker,
+            outputKey: \ListSAMLProviderTagsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1887,6 +2210,59 @@ extension IAM {
             command: self.listSSHPublicKeys,
             inputKey: \ListSSHPublicKeysRequest.marker,
             outputKey: \ListSSHPublicKeysResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Lists the tags that are attached to the specified IAM server certificate. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide.  For certificates in a Region supported by Certificate Manager (ACM), we recommend that you don't use IAM server certificates. Instead, use ACM to provision, manage, and deploy your server certificates. For more information about IAM server certificates, Working with server certificates in the IAM User Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listServerCertificateTagsPaginator<Result>(
+        _ input: ListServerCertificateTagsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListServerCertificateTagsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listServerCertificateTags,
+            inputKey: \ListServerCertificateTagsRequest.marker,
+            outputKey: \ListServerCertificateTagsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listServerCertificateTagsPaginator(
+        _ input: ListServerCertificateTagsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListServerCertificateTagsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listServerCertificateTags,
+            inputKey: \ListServerCertificateTagsRequest.marker,
+            outputKey: \ListServerCertificateTagsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -2432,6 +2808,16 @@ extension IAM.ListGroupsRequest: AWSPaginateToken {
     }
 }
 
+extension IAM.ListInstanceProfileTagsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IAM.ListInstanceProfileTagsRequest {
+        return .init(
+            instanceProfileName: self.instanceProfileName,
+            marker: token,
+            maxItems: self.maxItems
+        )
+    }
+}
+
 extension IAM.ListInstanceProfilesForRoleRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListInstanceProfilesForRoleRequest {
         return .init(
@@ -2452,12 +2838,32 @@ extension IAM.ListInstanceProfilesRequest: AWSPaginateToken {
     }
 }
 
+extension IAM.ListMFADeviceTagsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IAM.ListMFADeviceTagsRequest {
+        return .init(
+            marker: token,
+            maxItems: self.maxItems,
+            serialNumber: self.serialNumber
+        )
+    }
+}
+
 extension IAM.ListMFADevicesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListMFADevicesRequest {
         return .init(
             marker: token,
             maxItems: self.maxItems,
             userName: self.userName
+        )
+    }
+}
+
+extension IAM.ListOpenIDConnectProviderTagsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IAM.ListOpenIDConnectProviderTagsRequest {
+        return .init(
+            marker: token,
+            maxItems: self.maxItems,
+            openIDConnectProviderArn: self.openIDConnectProviderArn
         )
     }
 }
@@ -2471,6 +2877,16 @@ extension IAM.ListPoliciesRequest: AWSPaginateToken {
             pathPrefix: self.pathPrefix,
             policyUsageFilter: self.policyUsageFilter,
             scope: self.scope
+        )
+    }
+}
+
+extension IAM.ListPolicyTagsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IAM.ListPolicyTagsRequest {
+        return .init(
+            marker: token,
+            maxItems: self.maxItems,
+            policyArn: self.policyArn
         )
     }
 }
@@ -2495,6 +2911,16 @@ extension IAM.ListRolePoliciesRequest: AWSPaginateToken {
     }
 }
 
+extension IAM.ListRoleTagsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IAM.ListRoleTagsRequest {
+        return .init(
+            marker: token,
+            maxItems: self.maxItems,
+            roleName: self.roleName
+        )
+    }
+}
+
 extension IAM.ListRolesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListRolesRequest {
         return .init(
@@ -2505,12 +2931,32 @@ extension IAM.ListRolesRequest: AWSPaginateToken {
     }
 }
 
+extension IAM.ListSAMLProviderTagsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IAM.ListSAMLProviderTagsRequest {
+        return .init(
+            marker: token,
+            maxItems: self.maxItems,
+            samlProviderArn: self.samlProviderArn
+        )
+    }
+}
+
 extension IAM.ListSSHPublicKeysRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListSSHPublicKeysRequest {
         return .init(
             marker: token,
             maxItems: self.maxItems,
             userName: self.userName
+        )
+    }
+}
+
+extension IAM.ListServerCertificateTagsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IAM.ListServerCertificateTagsRequest {
+        return .init(
+            marker: token,
+            maxItems: self.maxItems,
+            serverCertificateName: self.serverCertificateName
         )
     }
 }

@@ -41,6 +41,11 @@ extension Health {
         return try await self.client.execute(operation: "DescribeEntityAggregates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns a list of entity aggregates for your Organizations that are affected by each of the specified events.
+    public func describeEntityAggregatesForOrganization(_ input: DescribeEntityAggregatesForOrganizationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeEntityAggregatesForOrganizationResponse {
+        return try await self.client.execute(operation: "DescribeEntityAggregatesForOrganization", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns the number of events of each event type (issue, scheduled change, and account notification). If no filter is specified, the counts of all events in each category are returned.  This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.
     public func describeEventAggregates(_ input: DescribeEventAggregatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeEventAggregatesResponse {
         return try await self.client.execute(operation: "DescribeEventAggregates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

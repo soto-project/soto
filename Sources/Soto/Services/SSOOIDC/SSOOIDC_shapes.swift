@@ -37,9 +37,7 @@ extension SSOOIDC {
         public let code: String?
         /// Used only when calling this API for the device code grant type. This short-term code is used to identify this authentication attempt. This should come from an in-memory reference to the result of the StartDeviceAuthorization API.
         public let deviceCode: String?
-        /// Supports grant types for the authorization code, refresh token, and device code request. For device code requests, specify the following value:
-        ///   urn:ietf:params:oauth:grant-type:device_code
-        ///  For information about how to obtain the device code, see the StartDeviceAuthorization topic.
+        /// Supports grant types for the authorization code, refresh token, and device code request. For device code requests, specify the following value:  urn:ietf:params:oauth:grant-type:device_code   For information about how to obtain the device code, see the StartDeviceAuthorization topic.
         public let grantType: String
         /// The location of the application that will receive the authorization code. Users authorize the service to send the request to this location.
         public let redirectUri: String?

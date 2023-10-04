@@ -579,7 +579,7 @@ extension M2 {
         public let kmsKeyId: String?
         /// The unique identifier of the application.
         public let name: String
-        /// The Amazon Resource Name (ARN) of the role associated with the application.
+        /// The Amazon Resource Name (ARN) that identifies a role that the application uses to access Amazon Web Services resources that are not part of the application or are in a different Amazon Web Services account.
         public let roleArn: String?
         /// A list of tags to apply to the application.
         public let tags: [String: String]?
@@ -781,7 +781,6 @@ extension M2 {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.validate(self.engineVersion, name: "engineVersion", parent: name, pattern: "^\\S{1,10}$")
-            try self.highAvailabilityConfig?.validate(name: "\(name).highAvailabilityConfig")
             try self.validate(self.instanceType, name: "instanceType", parent: name, pattern: "^\\S{1,20}$")
             try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9_\\-]{1,59}$")
             try self.validate(self.preferredMaintenanceWindow, name: "preferredMaintenanceWindow", parent: name, pattern: "^\\S{1,50}$")
@@ -1811,17 +1810,25 @@ extension M2 {
         }
     }
 
+    public struct GetSignedBluinsightsUrlResponse: AWSDecodableShape {
+        /// Single sign-on AWS Blu Insights URL.
+        public let signedBiUrl: String
+
+        public init(signedBiUrl: String) {
+            self.signedBiUrl = signedBiUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case signedBiUrl = "signedBiUrl"
+        }
+    }
+
     public struct HighAvailabilityConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The number of instances in a high availability configuration.
+        /// The number of instances in a high availability configuration. The minimum possible value is 1 and the maximum is 100.
         public let desiredCapacity: Int
 
         public init(desiredCapacity: Int) {
             self.desiredCapacity = desiredCapacity
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.desiredCapacity, name: "desiredCapacity", parent: name, max: 100)
-            try self.validate(self.desiredCapacity, name: "desiredCapacity", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1851,7 +1858,7 @@ extension M2 {
 
         public func validate(name: String) throws {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^\\S{1,80}$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
         }
@@ -1902,7 +1909,7 @@ extension M2 {
 
         public func validate(name: String) throws {
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^\\S{1,80}$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9_\\-]{1,59}$")
@@ -1958,7 +1965,7 @@ extension M2 {
 
         public func validate(name: String) throws {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^\\S{1,80}$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
         }
@@ -2031,7 +2038,7 @@ extension M2 {
             try self.validate(self.executionIds, name: "executionIds", parent: name, max: 10)
             try self.validate(self.executionIds, name: "executionIds", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^\\S{1,100}$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
         }
@@ -2078,7 +2085,7 @@ extension M2 {
 
         public func validate(name: String) throws {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^\\S{1,80}$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
         }
@@ -2129,7 +2136,7 @@ extension M2 {
 
         public func validate(name: String) throws {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^\\S{1,80}$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
             try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^\\S{1,200}$")
@@ -2177,7 +2184,7 @@ extension M2 {
 
         public func validate(name: String) throws {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^\\S{1,80}$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
         }
@@ -2223,7 +2230,7 @@ extension M2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
         }
@@ -2273,7 +2280,7 @@ extension M2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9_\\-]{1,59}$")
@@ -2751,7 +2758,7 @@ extension M2 {
 
         /// Indicates whether to update the runtime environment during the maintenance window. The default is false. Currently, Amazon Web Services Mainframe Modernization accepts the engineVersion parameter only if applyDuringMaintenanceWindow is true. If any parameter other than engineVersion is provided in UpdateEnvironmentRequest, it will fail if applyDuringMaintenanceWindow is set to true.
         public let applyDuringMaintenanceWindow: Bool?
-        /// The desired capacity for the runtime environment to update.
+        /// The desired capacity for the runtime environment to update. The minimum possible value is 0 and the maximum is 100.
         public let desiredCapacity: Int?
         /// The version of the runtime engine for the runtime environment.
         public let engineVersion: String?
@@ -2772,8 +2779,6 @@ extension M2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.desiredCapacity, name: "desiredCapacity", parent: name, max: 100)
-            try self.validate(self.desiredCapacity, name: "desiredCapacity", parent: name, min: 1)
             try self.validate(self.engineVersion, name: "engineVersion", parent: name, pattern: "^\\S{1,10}$")
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^\\S{1,80}$")
             try self.validate(self.instanceType, name: "instanceType", parent: name, pattern: "^\\S{1,20}$")

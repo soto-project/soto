@@ -153,7 +153,7 @@ extension Amp {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -199,7 +199,7 @@ extension Amp {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^arn:aws[a-z0-9-]*:logs:[a-z0-9-]+:\\d{12}:log-group:[A-Za-z0-9\\.\\-\\_\\#/]{1,512}\\:\\*$")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
@@ -252,7 +252,7 @@ extension Amp {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -321,7 +321,7 @@ extension Amp {
             try self.validate(self.alias, name: "alias", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -383,7 +383,7 @@ extension Amp {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -411,7 +411,7 @@ extension Amp {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -443,7 +443,7 @@ extension Amp {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -474,7 +474,7 @@ extension Amp {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -818,7 +818,7 @@ extension Amp {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -868,7 +868,7 @@ extension Amp {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -1081,7 +1081,7 @@ extension Amp {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^arn:aws[a-z0-9-]*:logs:[a-z0-9-]+:\\d{12}:log-group:[A-Za-z0-9\\.\\-\\_\\#/]{1,512}\\:\\*$")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
@@ -1130,7 +1130,7 @@ extension Amp {
             try self.validate(self.alias, name: "alias", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")

@@ -125,7 +125,12 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "AssociateSecurityKey", path: "/instance/{InstanceId}/security-key", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Claims an available phone number to your Amazon Connect instance or traffic distribution group. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance or traffic distribution group was created. For more information about how to use this operation, see Claim a phone number in your country and Claim phone numbers to traffic distribution groups in the Amazon Connect Administrator Guide.   You can call the SearchAvailablePhoneNumbers API for available phone numbers that you can claim. Call the DescribePhoneNumber API to verify the status of a previous ClaimPhoneNumber operation.
+    /// Associates an agent with a traffic distribution group.
+    public func associateTrafficDistributionGroupUser(_ input: AssociateTrafficDistributionGroupUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateTrafficDistributionGroupUserResponse> {
+        return self.client.execute(operation: "AssociateTrafficDistributionGroupUser", path: "/traffic-distribution-group/{TrafficDistributionGroupId}/user", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Claims an available phone number to your Amazon Connect instance or traffic distribution group. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance or traffic distribution group was created. For more information about how to use this operation, see Claim a phone number in your country and Claim phone numbers to traffic distribution groups in the Amazon Connect Administrator Guide.   You can call the SearchAvailablePhoneNumbers API for available phone numbers that you can claim. Call the DescribePhoneNumber API to verify the status of a previous ClaimPhoneNumber operation.  If you plan to claim and release numbers frequently during a 30 day period, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until 30 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers during any 30 day period. If you claim and release phone numbers using the UI or API during a rolling 30 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 30 days past the oldest number released has expired.  For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 30 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
     public func claimPhoneNumber(_ input: ClaimPhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ClaimPhoneNumberResponse> {
         return self.client.execute(operation: "ClaimPhoneNumber", path: "/phone-number/claim", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -145,7 +150,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "CreateContactFlowModule", path: "/contact-flow-modules/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an evaluation form in the specified Amazon Connect instance. The form can be used to define questions related to agent performance, and create sections to organize such questions.  Question and section identifiers cannot be duplicated within the same evaluation form.
+    /// Creates an evaluation form in the specified Amazon Connect instance. The form can be used to define questions related to agent performance, and create sections to organize such questions. Question and section identifiers cannot be duplicated within the same evaluation form.
     public func createEvaluationForm(_ input: CreateEvaluationFormRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEvaluationFormResponse> {
         return self.client.execute(operation: "CreateEvaluationForm", path: "/evaluation-forms/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -177,7 +182,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "CreatePrompt", path: "/prompts/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Creates a new queue for the specified Amazon Connect instance.  If the number being used in the input is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the OutboundCallerIdNumberId value of the OutboundCallerConfig request body parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
+    /// This API is in preview release for Amazon Connect and is subject to change. Creates a new queue for the specified Amazon Connect instance.    If the phone number is claimed to a traffic distribution group that was created in the same Region as the Amazon Connect instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId. However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.   Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the ListPhoneNumbersV2 API.   If you plan to use IAM policies to allow/deny access to this API for phone number resources claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
     public func createQueue(_ input: CreateQueueRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateQueueResponse> {
         return self.client.execute(operation: "CreateQueue", path: "/queues/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -197,7 +202,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "CreateRule", path: "/rules/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Creates a security profile.
+    /// Creates a security profile.
     public func createSecurityProfile(_ input: CreateSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSecurityProfileResponse> {
         return self.client.execute(operation: "CreateSecurityProfile", path: "/security-profiles/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -207,7 +212,9 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "CreateTaskTemplate", path: "/instance/{InstanceId}/task/template", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a traffic distribution group given an Amazon Connect instance that has been replicated.  For more information about creating traffic distribution groups, see Set up traffic distribution groups in the Amazon Connect Administrator Guide.
+    /// Creates a traffic distribution group given an Amazon Connect instance that has been replicated.   You can change the SignInConfig distribution only for a
+    /// default TrafficDistributionGroup (see the IsDefault parameter in the
+    /// TrafficDistributionGroup data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned.  For more information about creating traffic distribution groups, see Set up traffic distribution groups in the Amazon Connect Administrator Guide.
     public func createTrafficDistributionGroup(_ input: CreateTrafficDistributionGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTrafficDistributionGroupResponse> {
         return self.client.execute(operation: "CreateTrafficDistributionGroup", path: "/traffic-distribution-group", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -225,6 +232,16 @@ public struct Connect: AWSService {
     /// Creates a new user hierarchy group.
     public func createUserHierarchyGroup(_ input: CreateUserHierarchyGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUserHierarchyGroupResponse> {
         return self.client.execute(operation: "CreateUserHierarchyGroup", path: "/user-hierarchy-groups/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a new view with the possible status of SAVED or PUBLISHED. The views will have a unique name for each connect instance. It performs basic content validation if the status is SAVED or full content validation if the status is set to PUBLISHED. An error is returned if validation fails. It associates either the $SAVED qualifier or both of the $SAVED and $LATEST qualifiers with the provided view content based on the status. The view is idempotent if ClientToken is provided.
+    public func createView(_ input: CreateViewRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateViewResponse> {
+        return self.client.execute(operation: "CreateView", path: "/views/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Publishes a new version of the view identifier. Versions are immutable and monotonically increasing. It returns the highest version if there is no change in content compared to that version. An error is displayed if the supplied ViewContentSha256 is different from the ViewContentSha256 of the $LATEST alias.
+    public func createViewVersion(_ input: CreateViewVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateViewVersionResponse> {
+        return self.client.execute(operation: "CreateViewVersion", path: "/views/{InstanceId}/{ViewId}/versions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a custom vocabulary associated with your Amazon Connect instance. You can set a custom vocabulary to be your default vocabulary for a given language. Contact Lens for Amazon Connect uses the default vocabulary in post-call and real-time contact analysis sessions for that language.
@@ -279,9 +296,19 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "DeletePrompt", path: "/prompts/{InstanceId}/{PromptId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes a queue.
+    @discardableResult public func deleteQueue(_ input: DeleteQueueRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteQueue", path: "/queues/{InstanceId}/{QueueId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a quick connect.
     @discardableResult public func deleteQuickConnect(_ input: DeleteQuickConnectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteQuickConnect", path: "/quick-connects/{InstanceId}/{QuickConnectId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a routing profile.
+    @discardableResult public func deleteRoutingProfile(_ input: DeleteRoutingProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteRoutingProfile", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a rule for the specified Amazon Connect instance.
@@ -289,7 +316,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "DeleteRule", path: "/rules/{InstanceId}/{RuleId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Deletes a security profile.
+    /// Deletes a security profile.
     @discardableResult public func deleteSecurityProfile(_ input: DeleteSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteSecurityProfile", path: "/security-profiles/{InstanceId}/{SecurityProfileId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -317,6 +344,16 @@ public struct Connect: AWSService {
     /// Deletes an existing user hierarchy group. It must not be associated with any agents or have any active child groups.
     @discardableResult public func deleteUserHierarchyGroup(_ input: DeleteUserHierarchyGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteUserHierarchyGroup", path: "/user-hierarchy-groups/{InstanceId}/{HierarchyGroupId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the view entirely. It deletes the view and all associated qualifiers (versions and aliases).
+    public func deleteView(_ input: DeleteViewRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteViewResponse> {
+        return self.client.execute(operation: "DeleteView", path: "/views/{InstanceId}/{ViewId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the particular version specified in ViewVersion identifier.
+    public func deleteViewVersion(_ input: DeleteViewVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteViewVersionResponse> {
+        return self.client.execute(operation: "DeleteViewVersion", path: "/views/{InstanceId}/{ViewId}/versions/{ViewVersion}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the vocabulary that has the given identifier.
@@ -404,7 +441,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "DescribeRule", path: "/rules/{InstanceId}/{RuleId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Gets basic information about the security profle.
+    /// Gets basic information about the security profle.
     public func describeSecurityProfile(_ input: DescribeSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSecurityProfileResponse> {
         return self.client.execute(operation: "DescribeSecurityProfile", path: "/security-profiles/{InstanceId}/{SecurityProfileId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -427,6 +464,11 @@ public struct Connect: AWSService {
     /// Describes the hierarchy structure of the specified Amazon Connect instance.
     public func describeUserHierarchyStructure(_ input: DescribeUserHierarchyStructureRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeUserHierarchyStructureResponse> {
         return self.client.execute(operation: "DescribeUserHierarchyStructure", path: "/user-hierarchy-structure/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the view for the specified Amazon Connect instance and view identifier. The view identifier can be supplied as a ViewId or ARN.  $SAVED needs to be supplied if a view is unpublished. The view identifier can contain an optional qualifier, for example, :$SAVED, which is either an actual version number or an Amazon Connect managed qualifier $SAVED | $LATEST. If it is not supplied, then $LATEST is assumed for customer managed views and an error is returned if there is no published content available. Version 1 is assumed for Amazon Web Services managed views.
+    public func describeView(_ input: DescribeViewRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeViewResponse> {
+        return self.client.execute(operation: "DescribeView", path: "/views/{InstanceId}/{ViewId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Describes the specified vocabulary.
@@ -479,6 +521,11 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "DisassociateSecurityKey", path: "/instance/{InstanceId}/security-key/{AssociationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Disassociates an agent from a traffic distribution group.
+    public func disassociateTrafficDistributionGroupUser(_ input: DisassociateTrafficDistributionGroupUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateTrafficDistributionGroupUserResponse> {
+        return self.client.execute(operation: "DisassociateTrafficDistributionGroupUser", path: "/traffic-distribution-group/{TrafficDistributionGroupId}/user", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Dismisses contacts from an agent’s CCP and returns the agent to an available state, which allows the agent to receive a new routed contact. Contacts can only be dismissed if they are in a MISSED, ERROR, ENDED, or REJECTED state in the Agent Event Stream.
     public func dismissUserContact(_ input: DismissUserContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DismissUserContactResponse> {
         return self.client.execute(operation: "DismissUserContact", path: "/users/{InstanceId}/{UserId}/contact", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -509,7 +556,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "GetMetricData", path: "/metrics/historical/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 35 days, in 24-hour intervals. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator's Guide.
+    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals.  For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator's Guide.
     public func getMetricDataV2(_ input: GetMetricDataV2Request, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMetricDataV2Response> {
         return self.client.execute(operation: "GetMetricDataV2", path: "/metrics/data", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -614,12 +661,12 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "ListLexBots", path: "/instance/{InstanceId}/lex-bots", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Provides information about the phone numbers for the specified Amazon Connect instance.  For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.  The phone number Arn value that is returned from each of the items in the PhoneNumberSummaryList cannot be used to tag phone number resources. It will fail with a ResourceNotFoundException. Instead, use the ListPhoneNumbersV2 API. It returns the new phone number ARN that can be used to tag phone number resources.
+    /// Provides information about the phone numbers for the specified Amazon Connect instance.  For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.    We recommend using ListPhoneNumbersV2 to return phone number types. ListPhoneNumbers doesn't support number types UIFN, SHARED, THIRD_PARTY_TF, and THIRD_PARTY_DID. While it returns numbers of those types, it incorrectly lists them as TOLL_FREE or DID.    The phone number Arn value that is returned from each of the items in the PhoneNumberSummaryList cannot be used to tag phone number resources. It will fail with a ResourceNotFoundException. Instead, use the ListPhoneNumbersV2 API. It returns the new phone number ARN that can be used to tag phone number resources.
     public func listPhoneNumbers(_ input: ListPhoneNumbersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPhoneNumbersResponse> {
         return self.client.execute(operation: "ListPhoneNumbers", path: "/phone-numbers-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists phone numbers claimed to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.
+    /// Lists phone numbers claimed to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.    When given an instance ARN, ListPhoneNumbersV2 returns only the phone numbers claimed to the instance.   When given a traffic distribution group ARN ListPhoneNumbersV2 returns only the phone numbers claimed to the traffic distribution group.
     public func listPhoneNumbersV2(_ input: ListPhoneNumbersV2Request, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPhoneNumbersV2Response> {
         return self.client.execute(operation: "ListPhoneNumbersV2", path: "/phone-number/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -664,7 +711,12 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "ListSecurityKeys", path: "/instance/{InstanceId}/security-keys", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Lists the permissions granted to a security profile.
+    /// Returns a list of third party applications in a specific security profile.
+    public func listSecurityProfileApplications(_ input: ListSecurityProfileApplicationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSecurityProfileApplicationsResponse> {
+        return self.client.execute(operation: "ListSecurityProfileApplications", path: "/security-profiles-applications/{InstanceId}/{SecurityProfileId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists the permissions granted to a security profile.
     public func listSecurityProfilePermissions(_ input: ListSecurityProfilePermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSecurityProfilePermissionsResponse> {
         return self.client.execute(operation: "ListSecurityProfilePermissions", path: "/security-profiles-permissions/{InstanceId}/{SecurityProfileId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -682,6 +734,11 @@ public struct Connect: AWSService {
     /// Lists task templates for the specified Amazon Connect instance.
     public func listTaskTemplates(_ input: ListTaskTemplatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTaskTemplatesResponse> {
         return self.client.execute(operation: "ListTaskTemplates", path: "/instance/{InstanceId}/task/template", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists traffic distribution group users.
+    public func listTrafficDistributionGroupUsers(_ input: ListTrafficDistributionGroupUsersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTrafficDistributionGroupUsersResponse> {
+        return self.client.execute(operation: "ListTrafficDistributionGroupUsers", path: "/traffic-distribution-group/{TrafficDistributionGroupId}/user", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists traffic distribution groups.
@@ -704,6 +761,16 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "ListUsers", path: "/users-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns all the available versions for the specified Amazon Connect instance and view identifier. Results will be sorted from highest to lowest.
+    public func listViewVersions(_ input: ListViewVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListViewVersionsResponse> {
+        return self.client.execute(operation: "ListViewVersions", path: "/views/{InstanceId}/{ViewId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns views in the given instance. Results are sorted primarily by type, and secondarily by name.
+    public func listViews(_ input: ListViewsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListViewsResponse> {
+        return self.client.execute(operation: "ListViews", path: "/views/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Initiates silent monitoring of a contact. The Contact Control Panel (CCP) of the user specified by userId will be set to silent monitoring mode on the contact.
     public func monitorContact(_ input: MonitorContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MonitorContactResponse> {
         return self.client.execute(operation: "MonitorContact", path: "/contact/monitor", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -714,7 +781,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "PutUserStatus", path: "/users/{InstanceId}/{UserId}/status", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed.  To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Amazon Connect console. After releasing a phone number, the phone number enters into a cooldown period of 30 days. It cannot be searched for or claimed again until the period has ended. If you accidentally release a phone number, contact Amazon Web Services Support.
+    /// Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed.  To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Amazon Connect console. After releasing a phone number, the phone number enters into a cooldown period of 30 days. It cannot be searched for or claimed again until the period has ended. If you accidentally release a phone number, contact Amazon Web Services Support.  If you plan to claim and release numbers frequently during a 30 day period, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until 30 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers during any 30 day period. If you claim and release phone numbers using the UI or API during a rolling 30 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 30 days past the oldest number released has expired.  For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 30 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
     @discardableResult public func releasePhoneNumber(_ input: ReleasePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "ReleasePhoneNumber", path: "/phone-number/{PhoneNumberId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -724,7 +791,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "ReplicateInstance", path: "/instance/{InstanceId}/replicate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// When a contact is being recorded, and the recording has been suspended using  SuspendContactRecording, this API resumes recording the call or screen. Voice and screen recordings are supported.
+    /// When a contact is being recorded, and the recording has been suspended using SuspendContactRecording, this API resumes recording the call or screen. Voice and screen recordings are supported.
     public func resumeContactRecording(_ input: ResumeContactRecordingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ResumeContactRecordingResponse> {
         return self.client.execute(operation: "ResumeContactRecording", path: "/contact/resume-recording", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -744,7 +811,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "SearchPrompts", path: "/search-prompts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Searches queues in an Amazon Connect instance, with optional filtering.
+    /// Searches queues in an Amazon Connect instance, with optional filtering.
     public func searchQueues(_ input: SearchQueuesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchQueuesResponse> {
         return self.client.execute(operation: "SearchQueues", path: "/search-queues", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -754,12 +821,17 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "SearchQuickConnects", path: "/search-quick-connects", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Searches routing profiles in an Amazon Connect instance, with optional filtering.
+    /// Searches tags used in an Amazon Connect instance using optional search criteria.
+    public func searchResourceTags(_ input: SearchResourceTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchResourceTagsResponse> {
+        return self.client.execute(operation: "SearchResourceTags", path: "/search-resource-tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Searches routing profiles in an Amazon Connect instance, with optional filtering.
     public func searchRoutingProfiles(_ input: SearchRoutingProfilesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchRoutingProfilesResponse> {
         return self.client.execute(operation: "SearchRoutingProfiles", path: "/search-routing-profiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Searches security profiles in an Amazon Connect instance, with optional filtering.
+    /// Searches security profiles in an Amazon Connect instance, with optional filtering.
     public func searchSecurityProfiles(_ input: SearchSecurityProfilesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchSecurityProfilesResponse> {
         return self.client.execute(operation: "SearchSecurityProfiles", path: "/search-security-profiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -804,7 +876,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "StartTaskContact", path: "/contact/task", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Ends the specified contact. This call does not work for the following initiation methods:   DISCONNECT   TRANSFER   QUEUE_TRANSFER
+    /// Ends the specified contact. This call does not work for voice contacts that use the following initiation methods:   DISCONNECT   TRANSFER   QUEUE_TRANSFER   Chat and task contacts, however, can be terminated in any state, regardless of initiation method.
     public func stopContact(_ input: StopContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopContactResponse> {
         return self.client.execute(operation: "StopContact", path: "/contact/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -824,7 +896,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "SubmitContactEvaluation", path: "/contact-evaluations/{InstanceId}/{EvaluationId}/submit", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// When a contact is being recorded, this API suspends recording the call or screen. For  example, you might suspend the call or screen recording while collecting sensitive  information, such as a credit card number. Then use ResumeContactRecording to restart recording. The period of time that the recording is suspended is filled with silence in the final recording. Voice and screen recordings are supported.
+    /// When a contact is being recorded, this API suspends recording the call or screen. For example, you might suspend the call or screen recording while collecting sensitive information, such as a credit card number. Then use ResumeContactRecording to restart recording. The period of time that the recording is suspended is filled with silence in the final recording. Voice and screen recordings are supported.
     public func suspendContactRecording(_ input: SuspendContactRecordingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SuspendContactRecordingResponse> {
         return self.client.execute(operation: "SuspendContactRecording", path: "/contact/suspend-recording", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -944,7 +1016,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "UpdateQueueName", path: "/queues/{InstanceId}/{QueueId}/name", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue.  If the number being used in the input is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the OutboundCallerIdNumberId value of the OutboundCallerConfig request body parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
+    /// This API is in preview release for Amazon Connect and is subject to change. Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue.    If the phone number is claimed to a traffic distribution group that was created in the same Region as the Amazon Connect instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId. However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.   Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the ListPhoneNumbersV2 API.   If you plan to use IAM policies to allow/deny access to this API for phone number resources claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
     @discardableResult public func updateQueueOutboundCallerConfig(_ input: UpdateQueueOutboundCallerConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateQueueOutboundCallerConfig", path: "/queues/{InstanceId}/{QueueId}/outbound-caller-config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -962,6 +1034,11 @@ public struct Connect: AWSService {
     /// Updates the name and description of a quick connect. The request accepts the following data in JSON format. At least Name or Description must be provided.
     @discardableResult public func updateQuickConnectName(_ input: UpdateQuickConnectNameRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateQuickConnectName", path: "/quick-connects/{InstanceId}/{QuickConnectId}/name", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Whether agents with this routing profile will have their routing order calculated based on time since their last inbound contact or longest idle time.
+    @discardableResult public func updateRoutingProfileAgentAvailabilityTimer(_ input: UpdateRoutingProfileAgentAvailabilityTimerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateRoutingProfileAgentAvailabilityTimer", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/agent-availability-timer", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the channels that agents can handle in the Contact Control Panel (CCP) for a routing profile.
@@ -989,7 +1066,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "UpdateRule", path: "/rules/{InstanceId}/{RuleId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates a security profile.
+    /// Updates a security profile.
     @discardableResult public func updateSecurityProfile(_ input: UpdateSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateSecurityProfile", path: "/security-profiles/{InstanceId}/{SecurityProfileId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -999,7 +1076,9 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "UpdateTaskTemplate", path: "/instance/{InstanceId}/task/template/{TaskTemplateId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the traffic distribution for a given traffic distribution group.  For more information about updating a traffic distribution group, see Update telephony traffic distribution across Amazon Web Services Regions in the Amazon Connect Administrator Guide.
+    /// Updates the traffic distribution for a given traffic distribution group.   You can change the SignInConfig distribution only for a
+    /// default TrafficDistributionGroup (see the IsDefault parameter in the
+    /// TrafficDistributionGroup data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned.  For more information about updating a traffic distribution group, see Update telephony traffic distribution across Amazon Web Services Regions in the Amazon Connect Administrator Guide.
     public func updateTrafficDistribution(_ input: UpdateTrafficDistributionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTrafficDistributionResponse> {
         return self.client.execute(operation: "UpdateTrafficDistribution", path: "/traffic-distribution/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1037,6 +1116,16 @@ public struct Connect: AWSService {
     /// Assigns the specified security profiles to the specified user.
     @discardableResult public func updateUserSecurityProfiles(_ input: UpdateUserSecurityProfilesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateUserSecurityProfiles", path: "/users/{InstanceId}/{UserId}/security-profiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the view content of the given view identifier in the specified Amazon Connect instance. It performs content validation if Status is set to SAVED and performs full content validation if Status is PUBLISHED. Note that the $SAVED alias' content will always be updated, but the $LATEST alias' content will only be updated if Status is PUBLISHED.
+    public func updateViewContent(_ input: UpdateViewContentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateViewContentResponse> {
+        return self.client.execute(operation: "UpdateViewContent", path: "/views/{InstanceId}/{ViewId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the view metadata. Note that either Name or Description must be provided.
+    public func updateViewMetadata(_ input: UpdateViewMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateViewMetadataResponse> {
+        return self.client.execute(operation: "UpdateViewMetadata", path: "/views/{InstanceId}/{ViewId}/metadata", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 
@@ -1211,7 +1300,7 @@ extension Connect {
         )
     }
 
-    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 35 days, in 24-hour intervals. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator's Guide.
+    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals.  For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator's Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2165,7 +2254,7 @@ extension Connect {
         )
     }
 
-    /// Provides information about the phone numbers for the specified Amazon Connect instance.  For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.  The phone number Arn value that is returned from each of the items in the PhoneNumberSummaryList cannot be used to tag phone number resources. It will fail with a ResourceNotFoundException. Instead, use the ListPhoneNumbersV2 API. It returns the new phone number ARN that can be used to tag phone number resources.
+    /// Provides information about the phone numbers for the specified Amazon Connect instance.  For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.    We recommend using ListPhoneNumbersV2 to return phone number types. ListPhoneNumbers doesn't support number types UIFN, SHARED, THIRD_PARTY_TF, and THIRD_PARTY_DID. While it returns numbers of those types, it incorrectly lists them as TOLL_FREE or DID.    The phone number Arn value that is returned from each of the items in the PhoneNumberSummaryList cannot be used to tag phone number resources. It will fail with a ResourceNotFoundException. Instead, use the ListPhoneNumbersV2 API. It returns the new phone number ARN that can be used to tag phone number resources.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2218,7 +2307,7 @@ extension Connect {
         )
     }
 
-    /// Lists phone numbers claimed to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.
+    /// Lists phone numbers claimed to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.    When given an instance ARN, ListPhoneNumbersV2 returns only the phone numbers claimed to the instance.   When given a traffic distribution group ARN ListPhoneNumbersV2 returns only the phone numbers claimed to the traffic distribution group.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2695,7 +2784,60 @@ extension Connect {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Lists the permissions granted to a security profile.
+    /// Returns a list of third party applications in a specific security profile.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listSecurityProfileApplicationsPaginator<Result>(
+        _ input: ListSecurityProfileApplicationsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListSecurityProfileApplicationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listSecurityProfileApplications,
+            inputKey: \ListSecurityProfileApplicationsRequest.nextToken,
+            outputKey: \ListSecurityProfileApplicationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listSecurityProfileApplicationsPaginator(
+        _ input: ListSecurityProfileApplicationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListSecurityProfileApplicationsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listSecurityProfileApplications,
+            inputKey: \ListSecurityProfileApplicationsRequest.nextToken,
+            outputKey: \ListSecurityProfileApplicationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Lists the permissions granted to a security profile.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2849,6 +2991,59 @@ extension Connect {
             command: self.listTaskTemplates,
             inputKey: \ListTaskTemplatesRequest.nextToken,
             outputKey: \ListTaskTemplatesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Lists traffic distribution group users.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listTrafficDistributionGroupUsersPaginator<Result>(
+        _ input: ListTrafficDistributionGroupUsersRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListTrafficDistributionGroupUsersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listTrafficDistributionGroupUsers,
+            inputKey: \ListTrafficDistributionGroupUsersRequest.nextToken,
+            outputKey: \ListTrafficDistributionGroupUsersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listTrafficDistributionGroupUsersPaginator(
+        _ input: ListTrafficDistributionGroupUsersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListTrafficDistributionGroupUsersResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listTrafficDistributionGroupUsers,
+            inputKey: \ListTrafficDistributionGroupUsersRequest.nextToken,
+            outputKey: \ListTrafficDistributionGroupUsersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3066,6 +3261,112 @@ extension Connect {
         )
     }
 
+    /// Returns all the available versions for the specified Amazon Connect instance and view identifier. Results will be sorted from highest to lowest.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listViewVersionsPaginator<Result>(
+        _ input: ListViewVersionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListViewVersionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listViewVersions,
+            inputKey: \ListViewVersionsRequest.nextToken,
+            outputKey: \ListViewVersionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listViewVersionsPaginator(
+        _ input: ListViewVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListViewVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listViewVersions,
+            inputKey: \ListViewVersionsRequest.nextToken,
+            outputKey: \ListViewVersionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Returns views in the given instance. Results are sorted primarily by type, and secondarily by name.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listViewsPaginator<Result>(
+        _ input: ListViewsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListViewsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listViews,
+            inputKey: \ListViewsRequest.nextToken,
+            outputKey: \ListViewsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listViewsPaginator(
+        _ input: ListViewsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListViewsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listViews,
+            inputKey: \ListViewsRequest.nextToken,
+            outputKey: \ListViewsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// Searches for available phone numbers that you can claim to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with the traffic distribution group.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -3225,7 +3526,7 @@ extension Connect {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Searches queues in an Amazon Connect instance, with optional filtering.
+    /// Searches queues in an Amazon Connect instance, with optional filtering.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3331,7 +3632,60 @@ extension Connect {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Searches routing profiles in an Amazon Connect instance, with optional filtering.
+    /// Searches tags used in an Amazon Connect instance using optional search criteria.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func searchResourceTagsPaginator<Result>(
+        _ input: SearchResourceTagsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, SearchResourceTagsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.searchResourceTags,
+            inputKey: \SearchResourceTagsRequest.nextToken,
+            outputKey: \SearchResourceTagsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func searchResourceTagsPaginator(
+        _ input: SearchResourceTagsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (SearchResourceTagsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.searchResourceTags,
+            inputKey: \SearchResourceTagsRequest.nextToken,
+            outputKey: \SearchResourceTagsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Searches routing profiles in an Amazon Connect instance, with optional filtering.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3384,7 +3738,7 @@ extension Connect {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Searches security profiles in an Amazon Connect instance, with optional filtering.
+    /// Searches security profiles in an Amazon Connect instance, with optional filtering.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3590,6 +3944,7 @@ extension Connect.GetMetricDataV2Request: AWSPaginateToken {
             endTime: self.endTime,
             filters: self.filters,
             groupings: self.groupings,
+            interval: self.interval,
             maxResults: self.maxResults,
             metrics: self.metrics,
             nextToken: token,
@@ -3888,6 +4243,17 @@ extension Connect.ListSecurityKeysRequest: AWSPaginateToken {
     }
 }
 
+extension Connect.ListSecurityProfileApplicationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.ListSecurityProfileApplicationsRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            securityProfileId: self.securityProfileId
+        )
+    }
+}
+
 extension Connect.ListSecurityProfilePermissionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListSecurityProfilePermissionsRequest {
         return .init(
@@ -3917,6 +4283,16 @@ extension Connect.ListTaskTemplatesRequest: AWSPaginateToken {
             name: self.name,
             nextToken: token,
             status: self.status
+        )
+    }
+}
+
+extension Connect.ListTrafficDistributionGroupUsersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.ListTrafficDistributionGroupUsersRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            trafficDistributionGroupId: self.trafficDistributionGroupId
         )
     }
 }
@@ -3958,6 +4334,28 @@ extension Connect.ListUsersRequest: AWSPaginateToken {
             instanceId: self.instanceId,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Connect.ListViewVersionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.ListViewVersionsRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            viewId: self.viewId
+        )
+    }
+}
+
+extension Connect.ListViewsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.ListViewsRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            type: self.type
         )
     }
 }
@@ -4019,6 +4417,18 @@ extension Connect.SearchQuickConnectsRequest: AWSPaginateToken {
             nextToken: token,
             searchCriteria: self.searchCriteria,
             searchFilter: self.searchFilter
+        )
+    }
+}
+
+extension Connect.SearchResourceTagsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.SearchResourceTagsRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceTypes: self.resourceTypes,
+            searchCriteria: self.searchCriteria
         )
     }
 }

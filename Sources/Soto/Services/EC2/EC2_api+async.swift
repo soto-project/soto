@@ -92,7 +92,7 @@ extension EC2 {
         return try await self.client.execute(operation: "AssignPrivateIpAddresses", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Assigns one or more private IPv4 addresses to a private NAT gateway. For more information, see Work with NAT gateways in the Amazon Virtual Private Cloud User Guide.
+    /// Assigns one or more private IPv4 addresses to a private NAT gateway. For more information, see  Work with NAT gateways in the Amazon VPC User Guide.
     public func assignPrivateNatGatewayAddress(_ input: AssignPrivateNatGatewayAddressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssignPrivateNatGatewayAddressResult {
         return try await self.client.execute(operation: "AssignPrivateNatGatewayAddress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -107,7 +107,7 @@ extension EC2 {
         return try await self.client.execute(operation: "AssociateClientVpnTargetNetwork", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Associates a set of DHCP options (that you've previously created) with the specified VPC, or associates no DHCP options with the VPC. After you associate the options with the VPC, any existing instances and all new instances that you launch in that VPC use the options. You don't need to restart or relaunch the instances. They automatically pick up the changes within a few hours, depending on how frequently the instance renews its DHCP lease. You can explicitly renew the lease using the operating system on the instance. For more information, see DHCP options sets in the Amazon Virtual Private Cloud User Guide.
+    /// Associates a set of DHCP options (that you've previously created) with the specified VPC, or associates no DHCP options with the VPC. After you associate the options with the VPC, any existing instances and all new instances that you launch in that VPC use the options. You don't need to restart or relaunch the instances. They automatically pick up the changes within a few hours, depending on how frequently the instance renews its DHCP lease. You can explicitly renew the lease using the operating system on the instance. For more information, see DHCP options sets in the Amazon VPC User Guide.
     public func associateDhcpOptions(_ input: AssociateDhcpOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "AssociateDhcpOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -142,12 +142,12 @@ extension EC2 {
         return try await self.client.execute(operation: "AssociateIpamResourceDiscovery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Associates Elastic IP addresses (EIPs) and private IPv4 addresses with a public NAT gateway. For more information, see Work with NAT gateways in the Amazon Virtual Private Cloud User Guide. By default, you can associate up to 2 Elastic IP addresses per public NAT gateway. You can increase the limit by requesting a quota adjustment. For more information, see Elastic IP address quotas in the Amazon Virtual Private Cloud User Guide.
+    /// Associates Elastic IP addresses (EIPs) and private IPv4 addresses with a public NAT gateway. For more information,  see Work with NAT gateways in the Amazon VPC User Guide. By default, you can associate up to 2 Elastic IP addresses per public NAT gateway. You can increase the limit by requesting a quota adjustment. For more information, see Elastic IP address quotas in the Amazon VPC User Guide.
     public func associateNatGatewayAddress(_ input: AssociateNatGatewayAddressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateNatGatewayAddressResult {
         return try await self.client.execute(operation: "AssociateNatGatewayAddress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Associates a subnet in your VPC or an internet gateway or virtual private gateway attached to your VPC with a route table in your VPC. This association causes traffic from the subnet or gateway to be routed according to the routes in the route table. The action returns an association ID, which you need in order to disassociate the route table later. A route table can be associated with multiple subnets. For more information, see Route tables in the Amazon Virtual Private Cloud User Guide.
+    /// Associates a subnet in your VPC or an internet gateway or virtual private gateway attached to your VPC with a route table in your VPC. This association causes traffic from the subnet or gateway to be routed according to the routes in the route table. The action returns an association ID, which you need in order to disassociate the route table later. A route table can be associated with multiple subnets. For more information, see Route tables in the Amazon VPC User Guide.
     public func associateRouteTable(_ input: AssociateRouteTableRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateRouteTableResult {
         return try await self.client.execute(operation: "AssociateRouteTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -177,12 +177,12 @@ extension EC2 {
         return try await self.client.execute(operation: "AssociateTrunkInterface", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Associates a CIDR block with your VPC. You can associate a secondary IPv4 CIDR block, an Amazon-provided IPv6 CIDR block, or an IPv6 CIDR block from an IPv6 address pool that you provisioned through bring your own IP addresses (BYOIP). The IPv6 CIDR block size is fixed at /56. You must specify one of the following in the request: an IPv4 CIDR block, an IPv6 pool, or an Amazon-provided IPv6 CIDR block. For more information about associating CIDR blocks with your VPC and applicable restrictions, see VPC and subnet sizing in the Amazon Virtual Private Cloud User Guide.
+    /// Associates a CIDR block with your VPC. You can associate a secondary IPv4 CIDR block, an Amazon-provided IPv6 CIDR block, or an IPv6 CIDR block from an IPv6 address pool that you provisioned through bring your own IP addresses (BYOIP). The IPv6 CIDR block size is fixed at /56. You must specify one of the following in the request: an IPv4 CIDR block, an IPv6 pool, or an Amazon-provided IPv6 CIDR block. For more information about associating CIDR blocks with your VPC and applicable restrictions, see IP addressing for your VPCs and subnets  in the Amazon VPC User Guide.
     public func associateVpcCidrBlock(_ input: AssociateVpcCidrBlockRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateVpcCidrBlockResult {
         return try await self.client.execute(operation: "AssociateVpcCidrBlock", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  Links an EC2-Classic instance to a ClassicLink-enabled VPC through one or more of the VPC's
+    ///  This action is deprecated.  Links an EC2-Classic instance to a ClassicLink-enabled VPC through one or more of the VPC
     /// 			security groups. You cannot link an EC2-Classic instance to more than one VPC at a time. You
     /// 			can only link an instance that's in the running state. An instance is
     /// 			automatically unlinked from a VPC when it's stopped - you can link it to the VPC again when
@@ -191,8 +191,9 @@ extension EC2 {
         return try await self.client.execute(operation: "AttachClassicLinkVpc", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Attaches an internet gateway or a virtual private gateway to a VPC, enabling connectivity between the internet and
-    /// 			the VPC. For more information about your VPC and internet gateway, see the Amazon Virtual Private Cloud User Guide.
+    /// Attaches an internet gateway or a virtual private gateway to a VPC, enabling connectivity
+    /// 		        between the internet and the VPC. For more information, see Internet gateways in the
+    /// 		        Amazon VPC User Guide.
     public func attachInternetGateway(_ input: AttachInternetGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "AttachInternetGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -224,12 +225,12 @@ extension EC2 {
         return try await self.client.execute(operation: "AuthorizeClientVpnIngress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// [VPC only] Adds the specified outbound (egress) rules to a security group for use with a VPC. An outbound rule permits instances to send traffic to the specified IPv4 or IPv6 CIDR address ranges, or to the instances that are associated with the specified source security groups. When specifying an outbound rule for your security group in a VPC, the IpPermissions must include a destination for the traffic. You specify a protocol for each rule (for example, TCP).  For the TCP and UDP protocols, you must also specify the destination port or port range.  For the ICMP protocol, you must also specify the ICMP type and code.  You can use -1 for the type or code to mean all types or all codes. Rule changes are propagated to affected instances as quickly as possible. However, a small delay might occur. For information about VPC security group quotas, see Amazon VPC quotas.
+    /// Adds the specified outbound (egress) rules to a security group for use with a VPC. An outbound rule permits instances to send traffic to the specified IPv4 or IPv6 CIDR address ranges, or to the instances that are associated with the specified source security groups. When specifying an outbound rule for your security group in a VPC, the IpPermissions must include a destination for the traffic. You specify a protocol for each rule (for example, TCP).  For the TCP and UDP protocols, you must also specify the destination port or port range.  For the ICMP protocol, you must also specify the ICMP type and code.  You can use -1 for the type or code to mean all types or all codes. Rule changes are propagated to affected instances as quickly as possible. However, a small delay might occur. For information about VPC security group quotas, see Amazon VPC quotas.
     public func authorizeSecurityGroupEgress(_ input: AuthorizeSecurityGroupEgressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AuthorizeSecurityGroupEgressResult {
         return try await self.client.execute(operation: "AuthorizeSecurityGroupEgress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds the specified inbound (ingress) rules to a security group. An inbound rule permits instances to receive traffic from the specified IPv4 or IPv6 CIDR address range, or from the instances that are associated with the specified destination security  groups. When specifying an inbound rule for your security group in a VPC, the IpPermissions must include a source for the traffic. You specify a protocol for each rule (for example, TCP).  For TCP and UDP, you must also specify the destination port or port range.  For ICMP/ICMPv6, you must also specify the ICMP/ICMPv6 type and code.  You can use -1 to mean all types or all codes. Rule changes are propagated to instances within the security group as quickly as possible.  However, a small delay might occur. For more information about VPC security group quotas, see Amazon VPC quotas.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// Adds the specified inbound (ingress) rules to a security group. An inbound rule permits instances to receive traffic from the specified IPv4 or IPv6 CIDR address range, or from the instances that are associated with the specified destination security  groups. When specifying an inbound rule for your security group in a VPC, the IpPermissions must include a source for the traffic. You specify a protocol for each rule (for example, TCP).  For TCP and UDP, you must also specify the destination port or port range.  For ICMP/ICMPv6, you must also specify the ICMP/ICMPv6 type and code.  You can use -1 to mean all types or all codes. Rule changes are propagated to instances within the security group as quickly as possible.  However, a small delay might occur. For more information about VPC security group quotas, see Amazon VPC quotas.
     public func authorizeSecurityGroupIngress(_ input: AuthorizeSecurityGroupIngressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AuthorizeSecurityGroupIngressResult {
         return try await self.client.execute(operation: "AuthorizeSecurityGroupIngress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -371,21 +372,17 @@ extension EC2 {
         return try await self.client.execute(operation: "CreateCustomerGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a default subnet with a size /20 IPv4 CIDR block in the specified Availability Zone in your default VPC. You can have only one default subnet per Availability Zone. For more information, see Creating a default subnet in the Amazon Virtual Private Cloud User Guide.
+    /// Creates a default subnet with a size /20 IPv4 CIDR block in the specified Availability Zone in your default VPC. You can have only one default subnet per Availability Zone. For more information, see Create a default subnet in the Amazon VPC User Guide.
     public func createDefaultSubnet(_ input: CreateDefaultSubnetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateDefaultSubnetResult {
         return try await self.client.execute(operation: "CreateDefaultSubnet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a default VPC with a size /16 IPv4 CIDR block and a default subnet
     /// 			in each Availability Zone. For more information about the components of a default VPC,
-    /// 			see Default VPC and
-    /// 			default subnets in the Amazon Virtual Private Cloud User Guide. You cannot
-    /// 			specify the components of the default VPC yourself. If you deleted your previous default VPC, you can create a default VPC. You cannot have
-    /// 			more than one default VPC per Region. If your account supports EC2-Classic, you cannot use this action to create a default VPC
-    /// 			in a Region that supports EC2-Classic. If you want a default VPC in a Region that
-    /// 			supports EC2-Classic, see "I really want a default VPC for my existing EC2 account. Is
-    /// 			that possible?" in the Default VPCs
-    /// 			FAQ.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 			see Default VPCs
+    /// 		    in the Amazon VPC User Guide. You cannot specify the components of the
+    /// 		    default VPC yourself. If you deleted your previous default VPC, you can create a default VPC. You cannot have
+    /// 			more than one default VPC per Region.
     public func createDefaultVpc(_ input: CreateDefaultVpcRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateDefaultVpcResult {
         return try await self.client.execute(operation: "CreateDefaultVpc", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -398,7 +395,7 @@ extension EC2 {
     /// 			VPC has an internet gateway, make sure to set the domain-name-servers
     /// 			option either to AmazonProvidedDNS or to a domain name server of your
     /// 			choice. For more information, see DHCP options sets in the
-    /// 			Amazon Virtual Private Cloud User Guide.
+    /// 			Amazon VPC User Guide.
     public func createDhcpOptions(_ input: CreateDhcpOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateDhcpOptionsResult {
         return try await self.client.execute(operation: "CreateDhcpOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -426,18 +423,12 @@ extension EC2 {
         return try await self.client.execute(operation: "CreateFpgaImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance  	that is either running or stopped. By default, when Amazon EC2 creates the new AMI, it reboots the instance so that it can
-    /// 					take snapshots of the attached volumes while data is at rest, in order to ensure a consistent
-    /// 					state. You can set the NoReboot parameter to true in the API request,
-    /// 					or use the --no-reboot option in the CLI to prevent Amazon EC2 from shutting down and
-    /// 					rebooting the instance.  If you choose to bypass the shutdown and reboot process by setting the NoReboot
-    /// 					parameter to true in the API request, or by using the --no-reboot option
-    /// 					in the CLI, we can't guarantee the file system integrity of the created image.  If you customized your instance with instance store volumes or Amazon EBS volumes in addition to the root device volume, the  	new AMI contains block device mapping information for those volumes. When you launch an instance from this new AMI,  	the instance automatically launches with those additional volumes. For more information, see Create an Amazon EBS-backed Linux AMI in the Amazon Elastic Compute Cloud User Guide.
+    /// Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance  	that is either running or stopped. If you customized your instance with instance store volumes or Amazon EBS volumes in addition to the root device volume, the  	new AMI contains block device mapping information for those volumes. When you launch an instance from this new AMI,  	the instance automatically launches with those additional volumes. For more information, see Create an Amazon EBS-backed Linux AMI in the Amazon Elastic Compute Cloud User Guide.
     public func createImage(_ input: CreateImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateImageResult {
         return try await self.client.execute(operation: "CreateImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an EC2 Instance Connect Endpoint. An EC2 Instance Connect Endpoint allows you to connect to a resource, without requiring the resource to have a public IPv4 address. For more information, see Connect to your resources without requiring a public IPv4 address using EC2 Instance Connect Endpoint in the Amazon EC2 User Guide.
+    /// Creates an EC2 Instance Connect Endpoint. An EC2 Instance Connect Endpoint allows you to connect to an instance, without requiring the instance to have a public IPv4 address. For more information, see Connect to your instances without requiring a public IPv4 address using EC2 Instance Connect Endpoint in the Amazon EC2 User Guide.
     public func createInstanceConnectEndpoint(_ input: CreateInstanceConnectEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateInstanceConnectEndpointResult {
         return try await self.client.execute(operation: "CreateInstanceConnectEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -447,13 +438,13 @@ extension EC2 {
         return try await self.client.execute(operation: "CreateInstanceEventWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Exports a running or stopped instance to an Amazon S3 bucket. For information about the supported operating systems, image formats, and known limitations for the types of instances you can export, see Exporting an instance as a VM Using VM Import/Export in the VM Import/Export User Guide.
+    /// Exports a running or stopped instance to an Amazon S3 bucket. For information about the prerequisites for your Amazon S3 bucket, supported operating systems, image formats, and known limitations for the types of instances you can export, see Exporting an instance as a VM Using VM Import/Export in the VM Import/Export User Guide.
     public func createInstanceExportTask(_ input: CreateInstanceExportTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateInstanceExportTaskResult {
         return try await self.client.execute(operation: "CreateInstanceExportTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates an internet gateway for use with a VPC. After creating the internet gateway,
-    /// 			you attach it to a VPC using AttachInternetGateway. For more information about your VPC and internet gateway, see the Amazon Virtual Private Cloud User Guide.
+    /// 			you attach it to a VPC using AttachInternetGateway. For more information, see Internet gateways in the  Amazon VPC User Guide.
     public func createInternetGateway(_ input: CreateInternetGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateInternetGatewayResult {
         return try await self.client.execute(operation: "CreateInternetGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -518,13 +509,13 @@ extension EC2 {
         return try await self.client.execute(operation: "CreateManagedPrefixList", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a NAT gateway in the specified subnet. This action creates a network interface in the specified subnet with a private IP address from the IP address range of the subnet. You can create either a public NAT gateway or a private NAT gateway. With a public NAT gateway, internet-bound traffic from a private subnet can be routed to the NAT gateway, so that instances in a private subnet can connect to the internet. With a private NAT gateway, private communication is routed across VPCs and on-premises networks through a transit gateway or virtual private gateway. Common use cases include running large workloads behind a small pool of allowlisted IPv4 addresses, preserving private IPv4 addresses, and communicating between overlapping networks. For more information, see NAT gateways in the Amazon Virtual Private Cloud User Guide.
+    /// Creates a NAT gateway in the specified subnet. This action creates a network interface in the specified subnet with a private IP address from the IP address range of the subnet. You can create either a public NAT gateway or a private NAT gateway. With a public NAT gateway, internet-bound traffic from a private subnet can be routed to the NAT gateway, so that instances in a private subnet can connect to the internet. With a private NAT gateway, private communication is routed across VPCs and on-premises networks through a transit gateway or virtual private gateway. Common use cases include running large workloads behind a small pool of allowlisted IPv4 addresses, preserving private IPv4 addresses, and communicating between overlapping networks. For more information, see NAT gateways in the Amazon VPC User Guide.
     public func createNatGateway(_ input: CreateNatGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateNatGatewayResult {
         return try await self.client.execute(operation: "CreateNatGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a network ACL in a VPC. Network ACLs provide an optional layer of security (in addition to security groups) for the instances in your VPC. For more information, see Network ACLs in the
-    /// 				Amazon Virtual Private Cloud User Guide.
+    /// 				Amazon VPC User Guide.
     public func createNetworkAcl(_ input: CreateNetworkAclRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateNetworkAclResult {
         return try await self.client.execute(operation: "CreateNetworkAcl", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -533,7 +524,7 @@ extension EC2 {
     /// 		        and a separate set of numbered egress rules. When determining whether a packet should be allowed in or out of a subnet associated
     /// 		        with the ACL, we process the entries in the ACL according to the rule numbers, in ascending order. Each network ACL has a set of
     /// 		        ingress rules and a separate set of egress rules. We recommend that you leave room between the rule numbers (for example, 100, 110, 120, ...), and not number them one right after the
-    /// 		        other (for example, 101, 102, 103, ...). This makes it easier to add a rule between existing ones without having to renumber the rules. After you add an entry, you can't modify it; you must either replace it, or create an entry and delete the old one. For more information about network ACLs, see Network ACLs in the Amazon Virtual Private Cloud User Guide.
+    /// 		        other (for example, 101, 102, 103, ...). This makes it easier to add a rule between existing ones without having to renumber the rules. After you add an entry, you can't modify it; you must either replace it, or create an entry and delete the old one. For more information about network ACLs, see Network ACLs  in the Amazon VPC User Guide.
     public func createNetworkAclEntry(_ input: CreateNetworkAclEntryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "CreateNetworkAclEntry", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -588,13 +579,13 @@ extension EC2 {
 
     /// Creates a route in a route table within a VPC. You must specify either a destination CIDR block or a prefix list ID. You must also specify   exactly one of the resources from the parameter list. When determining how to route traffic, we use the route with the most specific match. For example, traffic is destined for the IPv4 address 192.0.2.3, and the route table includes the following two IPv4 routes:    192.0.2.0/24 (goes to some target A)    192.0.2.0/28 (goes to some target B)   Both routes apply to the traffic destined for 192.0.2.3. However, the second route
     /// 				in the list covers a smaller number of IP addresses and is therefore more specific,
-    /// 				so we use that route to determine where to target the traffic. For more information about route tables, see Route tables in the Amazon Virtual Private Cloud User Guide.
+    /// 				so we use that route to determine where to target the traffic. For more information about route tables, see Route tables in the Amazon VPC User Guide.
     public func createRoute(_ input: CreateRouteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateRouteResult {
         return try await self.client.execute(operation: "CreateRoute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a route table for the specified VPC. After you create a route table, you can add routes and associate the table with a subnet. For more information, see Route tables in the
-    /// 				Amazon Virtual Private Cloud User Guide.
+    /// 				Amazon VPC User Guide.
     public func createRouteTable(_ input: CreateRouteTableRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateRouteTableResult {
         return try await self.client.execute(operation: "CreateRouteTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -603,11 +594,11 @@ extension EC2 {
     /// 				Amazon EC2 security groups in
     /// 				the Amazon Elastic Compute Cloud User Guide and
     /// 				Security groups for your VPC in the
-    /// 				Amazon Virtual Private Cloud User Guide. When you create a security group, you specify a friendly name of your choice. You can have a security group for use in EC2-Classic with the same name as a security group for use in a VPC. However, you can't have two security groups for use in EC2-Classic with the same name or two security groups for use in a VPC with the same name. You have a default security group for use in EC2-Classic and a default security group for use in your VPC. If you don't specify a security group when you launch an instance, the instance is launched into the appropriate default security group. A default security group includes a default rule that grants instances unrestricted network access to each other. You can add or remove rules from your security groups using
+    /// 				Amazon Virtual Private Cloud User Guide. When you create a security group, you specify a friendly name of your choice.  You can't have two security groups for the same VPC with the same name. You have a default security group for use in your VPC. If you don't specify a security group  when you launch an instance, the instance is launched into the appropriate default security group.  A default security group includes a default rule that grants instances unrestricted network access  to each other. You can add or remove rules from your security groups using
     /// 					AuthorizeSecurityGroupIngress,
     /// 					AuthorizeSecurityGroupEgress,
     /// 					RevokeSecurityGroupIngress, and
-    /// 					RevokeSecurityGroupEgress. For more information about VPC security group limits, see Amazon VPC Limits.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 					RevokeSecurityGroupEgress. For more information about VPC security group limits, see Amazon VPC Limits.
     public func createSecurityGroup(_ input: CreateSecurityGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateSecurityGroupResult {
         return try await self.client.execute(operation: "CreateSecurityGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -632,12 +623,12 @@ extension EC2 {
         return try await self.client.execute(operation: "CreateStoreImageTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a subnet in the specified VPC. For an IPv4 only subnet, specify an IPv4 CIDR block. If the VPC has an IPv6 CIDR block, you can create an IPv6 only subnet or a dual stack subnet instead. For an IPv6 only subnet, specify an IPv6 CIDR block. For a dual stack subnet, specify both an IPv4 CIDR block and an IPv6 CIDR block. A subnet CIDR block must not overlap the CIDR block of an existing subnet in the VPC. After you create a subnet, you can't change its CIDR block. The allowed size for an IPv4 subnet is between a /28 netmask (16 IP addresses) and   a /16 netmask (65,536 IP addresses). Amazon Web Services reserves both the first four and  the last IPv4 address in each subnet's CIDR block. They're not available for your use. If you've associated an IPv6 CIDR block with your VPC, you can associate an IPv6 CIDR block  with a subnet when you create it. The allowed block size for an IPv6 subnet is a /64 netmask. If you add more than one subnet to a VPC, they're set up in a star topology with a logical router in the middle. When you stop an instance in a subnet, it retains its private IPv4 address. It's therefore possible to have a subnet with no running instances (they're all stopped), but no remaining IP addresses available. For more information, see Subnets in the Amazon Virtual Private Cloud User Guide.
+    /// Creates a subnet in the specified VPC. For an IPv4 only subnet, specify an IPv4 CIDR block. If the VPC has an IPv6 CIDR block, you can create an IPv6 only subnet or a dual stack subnet instead. For an IPv6 only subnet, specify an IPv6 CIDR block. For a dual stack subnet, specify both an IPv4 CIDR block and an IPv6 CIDR block. A subnet CIDR block must not overlap the CIDR block of an existing subnet in the VPC. After you create a subnet, you can't change its CIDR block. The allowed size for an IPv4 subnet is between a /28 netmask (16 IP addresses) and   a /16 netmask (65,536 IP addresses). Amazon Web Services reserves both the first four and  the last IPv4 address in each subnet's CIDR block. They're not available for your use. If you've associated an IPv6 CIDR block with your VPC, you can associate an IPv6 CIDR block  with a subnet when you create it. The allowed block size for an IPv6 subnet is a /64 netmask. If you add more than one subnet to a VPC, they're set up in a star topology with a logical router in the middle. When you stop an instance in a subnet, it retains its private IPv4 address. It's therefore possible to have a subnet with no running instances (they're all stopped), but no remaining IP addresses available. For more information, see Subnets in the Amazon VPC User Guide.
     public func createSubnet(_ input: CreateSubnetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateSubnetResult {
         return try await self.client.execute(operation: "CreateSubnet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a subnet CIDR reservation. For information about subnet CIDR reservations, see Subnet CIDR reservations in the Amazon Virtual Private Cloud User Guide.
+    /// Creates a subnet CIDR reservation. For more information, see Subnet CIDR reservations  in the Amazon Virtual Private Cloud User Guide and Assign prefixes  to network interfaces in the Amazon Elastic Compute Cloud User Guide.
     public func createSubnetCidrReservation(_ input: CreateSubnetCidrReservationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateSubnetCidrReservationResult {
         return try await self.client.execute(operation: "CreateSubnetCidrReservation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -747,15 +738,14 @@ extension EC2 {
         return try await self.client.execute(operation: "CreateVolume", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a VPC with the specified CIDR blocks. For more information, see
-    /// 	      VPC CIDR blocks in the Amazon Virtual Private Cloud User Guide. You can optionally request an IPv6 CIDR block for the VPC. You can request an Amazon-provided  IPv6 CIDR block from Amazon's pool of IPv6 addresses, or an IPv6 CIDR block from an IPv6 address  pool that you provisioned through bring your own IP addresses (BYOIP). By default, each instance that you launch in the VPC has the default DHCP options, which
+    /// Creates a VPC with the specified CIDR blocks. For more information, see IP addressing for your VPCs and subnets in the  Amazon VPC User Guide. You can optionally request an IPv6 CIDR block for the VPC. You can request an Amazon-provided  IPv6 CIDR block from Amazon's pool of IPv6 addresses, or an IPv6 CIDR block from an IPv6 address  pool that you provisioned through bring your own IP addresses (BYOIP). By default, each instance that you launch in the VPC has the default DHCP options, which
     /// 			include only a default DNS server that we provide (AmazonProvidedDNS). For more
-    /// 			information, see DHCP option sets in the Amazon Virtual Private Cloud User Guide. You can specify the instance tenancy value for the VPC when you create it. You can't change this value for the VPC after you create it. For more information, see Dedicated Instances in the Amazon Elastic Compute Cloud User Guide.
+    /// 			information, see DHCP option sets in the Amazon VPC User Guide. You can specify the instance tenancy value for the VPC when you create it. You can't change this value for the VPC after you create it. For more information, see Dedicated Instances in the Amazon EC2 User Guide.
     public func createVpc(_ input: CreateVpcRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateVpcResult {
         return try await self.client.execute(operation: "CreateVpc", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a VPC endpoint for a specified service. An endpoint enables you to create a private connection between your VPC and the service. The service may be provided by Amazon Web Services, an Amazon Web Services Marketplace Partner, or another Amazon Web Services account. For more information,  see the Amazon Web Services PrivateLink Guide.
+    /// Creates a VPC endpoint. A VPC endpoint provides a private connection between the specified VPC and the specified endpoint service. You can use an endpoint service provided by Amazon Web Services, an Amazon Web Services Marketplace Partner, or another Amazon Web Services account. For more information, see the Amazon Web Services PrivateLink User Guide.
     public func createVpcEndpoint(_ input: CreateVpcEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateVpcEndpointResult {
         return try await self.client.execute(operation: "CreateVpcEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -889,7 +879,7 @@ extension EC2 {
     }
 
     /// Deletes the specified key pair, by removing the public key from Amazon EC2.
-    public func deleteKeyPair(_ input: DeleteKeyPairRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+    public func deleteKeyPair(_ input: DeleteKeyPairRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteKeyPairResult {
         return try await self.client.execute(operation: "DeleteKeyPair", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
@@ -898,7 +888,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DeleteLaunchTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes one or more versions of a launch template. You cannot delete the default version of a launch template; you must first assign a different version as the default. If the default version is the only version for the launch template, you must delete the entire launch template using DeleteLaunchTemplate.
+    /// Deletes one or more versions of a launch template. You can't delete the default version of a launch template; you must first assign a different version as the default. If the default version is the only version for the launch template, you must delete the entire launch template using DeleteLaunchTemplate. You can delete up to 200 launch template versions in a single request. To delete more than 200 versions in a single request, use DeleteLaunchTemplate, which deletes the launch template and all of its versions. For more information, see Delete a launch template version in the EC2 User Guide.
     public func deleteLaunchTemplateVersions(_ input: DeleteLaunchTemplateVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteLaunchTemplateVersionsResult {
         return try await self.client.execute(operation: "DeleteLaunchTemplateVersions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1001,10 +991,9 @@ extension EC2 {
         return try await self.client.execute(operation: "DeleteRouteTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a security group. If you attempt to delete a security group that is associated with an instance, or is
+    /// Deletes a security group. If you attempt to delete a security group that is associated with an instance or network interface or is
     /// 			  referenced by another security group, the operation fails with
-    /// 				InvalidGroup.InUse in EC2-Classic or
-    /// 				DependencyViolation in EC2-VPC.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 				DependencyViolation.
     public func deleteSecurityGroup(_ input: DeleteSecurityGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteSecurityGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1274,9 +1263,9 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeCarrierGateways", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes one or more of your linked EC2-Classic instances. This request only returns
+    ///  This action is deprecated.  Describes one or more of your linked EC2-Classic instances. This request only returns
     /// 			information about EC2-Classic instances linked to a VPC through ClassicLink. You cannot
-    /// 			use this request to return information about other instances.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 			use this request to return information about other instances.
     public func describeClassicLinkInstances(_ input: DescribeClassicLinkInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeClassicLinkInstancesResult {
         return try await self.client.execute(operation: "DescribeClassicLinkInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1323,7 +1312,7 @@ extension EC2 {
     }
 
     /// Describes one or more of your DHCP options sets. For more information, see DHCP options sets in the
-    /// 				Amazon Virtual Private Cloud User Guide.
+    /// 				Amazon VPC User Guide.
     public func describeDhcpOptions(_ input: DescribeDhcpOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeDhcpOptionsResult {
         return try await self.client.execute(operation: "DescribeDhcpOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1582,7 +1571,7 @@ extension EC2 {
     }
 
     /// Describes one or more of your network ACLs. For more information, see Network ACLs in the
-    /// 				Amazon Virtual Private Cloud User Guide.
+    /// 				Amazon VPC User Guide.
     public func describeNetworkAcls(_ input: DescribeNetworkAclsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeNetworkAclsResult {
         return try await self.client.execute(operation: "DescribeNetworkAcls", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1675,7 +1664,7 @@ extension EC2 {
     }
 
     /// Describes one or more of your route tables. Each subnet in your VPC must be associated with a route table. If a subnet is not explicitly associated with any route table, it is implicitly associated with the main route table. This command does not return the subnet ID for implicit associations. For more information, see Route tables in the
-    /// 				Amazon Virtual Private Cloud User Guide.
+    /// 				Amazon VPC User Guide.
     public func describeRouteTables(_ input: DescribeRouteTablesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeRouteTablesResult {
         return try await self.client.execute(operation: "DescribeRouteTables", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1690,7 +1679,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeScheduledInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// [VPC only] Describes the VPCs on the other side of a VPC peering connection that are referencing the security groups you've specified in this request.
+    /// Describes the VPCs on the other side of a VPC peering connection that are referencing the security groups you've specified in this request.
     public func describeSecurityGroupReferences(_ input: DescribeSecurityGroupReferencesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeSecurityGroupReferencesResult {
         return try await self.client.execute(operation: "DescribeSecurityGroupReferences", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1700,12 +1689,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeSecurityGroupRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the specified security groups or all of your security groups. A security group is for use with instances either in the EC2-Classic platform
-    /// 				or in a specific VPC. For more information, see
-    /// 				Amazon EC2 security groups in
-    /// 				the Amazon Elastic Compute Cloud User Guide and
-    /// 				Security groups for your VPC in the
-    /// 				Amazon Virtual Private Cloud User Guide.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes the specified security groups or all of your security groups.
     public func describeSecurityGroups(_ input: DescribeSecurityGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeSecurityGroupsResult {
         return try await self.client.execute(operation: "DescribeSecurityGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1755,7 +1739,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeSpotPriceHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// [VPC only] Describes the stale security group rules for security groups in a specified VPC.  Rules are stale when they reference a deleted security group in the same VPC or in a peer VPC,  or if they reference a security group in a peer VPC for which the VPC peering connection has  been deleted.
+    /// Describes the stale security group rules for security groups in a specified VPC.  Rules are stale when they reference a deleted security group in the same VPC or in a peer VPC,  or if they reference a security group in a peer VPC for which the VPC peering connection has  been deleted.
     public func describeStaleSecurityGroups(_ input: DescribeStaleSecurityGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeStaleSecurityGroupsResult {
         return try await self.client.execute(operation: "DescribeStaleSecurityGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1765,8 +1749,8 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeStoreImageTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes one or more of your subnets. For more information, see Your VPC and subnets in the
-    /// 				Amazon Virtual Private Cloud User Guide.
+    /// Describes one or more of your subnets. For more information, see Subnets in the
+    /// 				Amazon VPC User Guide.
     public func describeSubnets(_ input: DescribeSubnetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeSubnetsResult {
         return try await self.client.execute(operation: "DescribeSubnets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1896,12 +1880,12 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeVpcAttribute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the ClassicLink status of one or more VPCs.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    ///  This action is deprecated.  Describes the ClassicLink status of the specified VPCs.
     public func describeVpcClassicLink(_ input: DescribeVpcClassicLinkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeVpcClassicLinkResult {
         return try await self.client.execute(operation: "DescribeVpcClassicLink", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  Describes the ClassicLink DNS support status of one or more VPCs. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
+    ///  This action is deprecated.  Describes the ClassicLink DNS support status of one or more VPCs. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance.
     public func describeVpcClassicLinkDnsSupport(_ input: DescribeVpcClassicLinkDnsSupportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeVpcClassicLinkDnsSupportResult {
         return try await self.client.execute(operation: "DescribeVpcClassicLinkDnsSupport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1956,7 +1940,9 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeVpnGateways", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  Unlinks (detaches) a linked EC2-Classic instance from a VPC. After the instance has been unlinked, the VPC security groups are no longer associated with it. An instance is automatically unlinked from a VPC when it's stopped.
+    ///  This action is deprecated.  Unlinks (detaches) a linked EC2-Classic instance from a VPC. After the instance has been unlinked,
+    /// 		    the VPC security groups are no longer associated with it. An instance is automatically unlinked from
+    /// 		    a VPC when it's stopped.
     public func detachClassicLinkVpc(_ input: DetachClassicLinkVpcRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DetachClassicLinkVpcResult {
         return try await self.client.execute(operation: "DetachClassicLinkVpc", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2015,6 +2001,11 @@ extension EC2 {
         return try await self.client.execute(operation: "DisableFastSnapshotRestores", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Disables block public access for AMIs at the account level in the specified Amazon Web Services Region. This removes the block public access restriction from your account. With the restriction removed, you can publicly share your AMIs in the specified Amazon Web Services Region. The API can take up to 10 minutes to configure this setting. During this time, if you run GetImageBlockPublicAccessState, the response will be block-new-sharing. When the API has completed the configuration, the response will be unblocked. For more information, see Block public access to your AMIs in the Amazon EC2 User Guide.
+    public func disableImageBlockPublicAccess(_ input: DisableImageBlockPublicAccessRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisableImageBlockPublicAccessResult {
+        return try await self.client.execute(operation: "DisableImageBlockPublicAccess", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Cancels the deprecation of the specified AMI. For more information, see Deprecate an AMI in the Amazon EC2 User Guide.
     public func disableImageDeprecation(_ input: DisableImageDeprecationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisableImageDeprecationResult {
         return try await self.client.execute(operation: "DisableImageDeprecation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -2043,15 +2034,14 @@ extension EC2 {
         return try await self.client.execute(operation: "DisableVgwRoutePropagation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disables ClassicLink for a VPC. You cannot disable ClassicLink for a VPC that has EC2-Classic instances linked to it.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    ///  This action is deprecated.  Disables ClassicLink for a VPC. You cannot disable ClassicLink for a VPC that has EC2-Classic instances linked to it.
     public func disableVpcClassicLink(_ input: DisableVpcClassicLinkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisableVpcClassicLinkResult {
         return try await self.client.execute(operation: "DisableVpcClassicLink", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disables ClassicLink DNS support for a VPC. If disabled, DNS hostnames resolve to
+    ///  This action is deprecated.  Disables ClassicLink DNS support for a VPC. If disabled, DNS hostnames resolve to
     /// 			public IP addresses when addressed between a linked EC2-Classic instance and instances
-    /// 			in the VPC to which it's linked. For more information, see ClassicLink in the
-    /// 				Amazon Elastic Compute Cloud User Guide. You must specify a VPC ID in the request.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 			in the VPC to which it's linked. You must specify a VPC ID in the request.
     public func disableVpcClassicLinkDnsSupport(_ input: DisableVpcClassicLinkDnsSupportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisableVpcClassicLinkDnsSupportResult {
         return try await self.client.execute(operation: "DisableVpcClassicLinkDnsSupport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2091,7 +2081,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DisassociateIpamResourceDiscovery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disassociates secondary Elastic IP addresses (EIPs) from a public NAT gateway. You cannot disassociate your primary EIP. For more information, see Edit secondary IP address associations in the Amazon Virtual Private Cloud User Guide. While disassociating is in progress, you cannot associate/disassociate additional EIPs while the connections are being drained. You are, however, allowed to delete the NAT gateway. An EIP will only be released at the end of MaxDrainDurationSeconds. The EIPs stay associated and support the existing connections but do not support any new connections (new connections are distributed across the remaining associated EIPs). As the existing connections drain out, the EIPs (and the corresponding private IPs mapped to them) get released.
+    /// Disassociates secondary Elastic IP addresses (EIPs) from a public NAT gateway.  You cannot disassociate your primary EIP. For more information, see Edit secondary IP address associations in the Amazon VPC User Guide. While disassociating is in progress, you cannot associate/disassociate additional EIPs while the connections are being drained. You are, however, allowed to delete the NAT gateway. An EIP is released only at the end of MaxDrainDurationSeconds. It stays associated and supports the existing connections but does not support any new connections (new connections are distributed across the remaining associated EIPs). As the existing connections drain out, the EIPs (and the corresponding private IP addresses mapped to them)  are released.
     public func disassociateNatGatewayAddress(_ input: DisassociateNatGatewayAddressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisassociateNatGatewayAddressResult {
         return try await self.client.execute(operation: "DisassociateNatGatewayAddress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2099,7 +2089,7 @@ extension EC2 {
     /// Disassociates a subnet or gateway from a route table. After you perform this action, the subnet no longer uses the routes in the route table.
     /// 				Instead, it uses the routes in the VPC's main route table. For more information
     /// 				about route tables, see Route
-    /// 				tables in the Amazon Virtual Private Cloud User Guide.
+    /// 				tables in the Amazon VPC User Guide.
     public func disassociateRouteTable(_ input: DisassociateRouteTableRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DisassociateRouteTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2165,6 +2155,11 @@ extension EC2 {
         return try await self.client.execute(operation: "EnableFastSnapshotRestores", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Enables block public access for AMIs at the account level in the specified Amazon Web Services Region. This prevents the public sharing of your AMIs. However, if you already have public AMIs, they will remain publicly available. The API can take up to 10 minutes to configure this setting. During this time, if you run GetImageBlockPublicAccessState, the response will be unblocked. When the API has completed the configuration, the response will be block-new-sharing. For more information, see Block public access to your AMIs in the Amazon EC2 User Guide.
+    public func enableImageBlockPublicAccess(_ input: EnableImageBlockPublicAccessRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> EnableImageBlockPublicAccessResult {
+        return try await self.client.execute(operation: "EnableImageBlockPublicAccess", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Enables deprecation of the specified AMI at the specified date and time. For more information, see Deprecate an AMI in the Amazon EC2 User Guide.
     public func enableImageDeprecation(_ input: EnableImageDeprecationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> EnableImageDeprecationResult {
         return try await self.client.execute(operation: "EnableImageDeprecation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -2202,23 +2197,21 @@ extension EC2 {
         return try await self.client.execute(operation: "EnableVolumeIO", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  Enables a VPC for ClassicLink. You can then link EC2-Classic instances to your
+    ///  This action is deprecated.  Enables a VPC for ClassicLink. You can then link EC2-Classic instances to your
     /// 			ClassicLink-enabled VPC to allow communication over private IP addresses. You cannot
     /// 			enable your VPC for ClassicLink if any of your VPC route tables have existing routes for
     /// 			address ranges within the 10.0.0.0/8 IP address range, excluding local
     /// 			routes for VPCs in the 10.0.0.0/16 and 10.1.0.0/16 IP address
-    /// 			ranges. For more information, see ClassicLink in the
-    /// 				Amazon Elastic Compute Cloud User Guide.
+    /// 			ranges.
     public func enableVpcClassicLink(_ input: EnableVpcClassicLinkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> EnableVpcClassicLinkResult {
         return try await self.client.execute(operation: "EnableVpcClassicLink", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  Enables a VPC to support DNS hostname resolution for ClassicLink. If enabled, the DNS
+    ///  This action is deprecated.  Enables a VPC to support DNS hostname resolution for ClassicLink. If enabled, the DNS
     /// 			hostname of a linked EC2-Classic instance resolves to its private IP address when
     /// 			addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname
     /// 			of an instance in a VPC resolves to its private IP address when addressed from a linked
-    /// 			EC2-Classic instance. For more information, see ClassicLink in the
-    /// 				Amazon Elastic Compute Cloud User Guide. You must specify a VPC ID in the request.
+    /// 			EC2-Classic instance. You must specify a VPC ID in the request.
     public func enableVpcClassicLinkDnsSupport(_ input: EnableVpcClassicLinkDnsSupportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> EnableVpcClassicLinkDnsSupportResult {
         return try await self.client.execute(operation: "EnableVpcClassicLinkDnsSupport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2300,7 +2293,7 @@ extension EC2 {
         return try await self.client.execute(operation: "GetEbsEncryptionByDefault", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Generates a CloudFormation template that streamlines and automates the integration of VPC flow logs  with Amazon Athena. This make it easier for you to query and gain insights from VPC flow logs data.  Based on the information that you provide, we configure resources in the template to do the following:   Create a table in Athena that maps fields to a custom log format   Create a Lambda function that updates the table with new partitions on a daily, weekly, or monthly basis   Create a table partitioned between two timestamps in the past   Create a set of named queries in Athena that you can use to get started quickly
+    /// Generates a CloudFormation template that streamlines and automates the integration of VPC flow logs  with Amazon Athena. This make it easier for you to query and gain insights from VPC flow logs data.  Based on the information that you provide, we configure resources in the template to do the following:   Create a table in Athena that maps fields to a custom log format   Create a Lambda function that updates the table with new partitions on a daily, weekly, or monthly basis   Create a table partitioned between two timestamps in the past   Create a set of named queries in Athena that you can use to get started quickly     GetFlowLogsIntegrationTemplate does not support integration between Amazon Web Services Transit Gateway Flow Logs and Amazon Athena.
     public func getFlowLogsIntegrationTemplate(_ input: GetFlowLogsIntegrationTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetFlowLogsIntegrationTemplateResult {
         return try await self.client.execute(operation: "GetFlowLogsIntegrationTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2313,6 +2306,11 @@ extension EC2 {
     /// Preview a reservation purchase with configurations that match those of your Dedicated Host. You must have active Dedicated Hosts in your account before you purchase a reservation. This is a preview of the PurchaseHostReservation action and does not result in the offering being purchased.
     public func getHostReservationPurchasePreview(_ input: GetHostReservationPurchasePreviewRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetHostReservationPurchasePreviewResult {
         return try await self.client.execute(operation: "GetHostReservationPurchasePreview", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets the current state of block public access for AMIs at the account level in the specified Amazon Web Services Region. For more information, see Block public access to your AMIs in the Amazon EC2 User Guide.
+    public func getImageBlockPublicAccessState(_ input: GetImageBlockPublicAccessStateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetImageBlockPublicAccessStateResult {
+        return try await self.client.execute(operation: "GetImageBlockPublicAccessState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns a list of instance types with the specified instance attributes. You can use the response to preview the instance types without launching instances. Note that the response does not consider capacity. When you specify multiple parameters, you get instance types that satisfy all of the specified parameters. If you specify multiple values for a parameter, you get instance types that satisfy any of the specified values. For more information, see Preview instance types with specified attributes, Attribute-based instance type selection for EC2 Fleet, Attribute-based instance type selection for Spot Fleet, and Spot placement score in the Amazon EC2 User Guide, and Creating an Auto Scaling group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide.
@@ -2478,7 +2476,7 @@ extension EC2 {
         return try await self.client.execute(operation: "ImportImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an import instance task using metadata from the specified disk image. This API action supports only single-volume VMs. To import multi-volume VMs, use ImportImage instead. This API action is not supported by the Command Line Interface (CLI). For  information about using the Amazon EC2 CLI, which is deprecated, see Importing a VM to Amazon EC2 in the Amazon EC2 CLI Reference PDF file. For information about the import manifest referenced by this API action, see VM Import Manifest.
+    ///  We recommend that you use the  ImportImage  API. For more information, see Importing a VM as an image using VM Import/Export in the VM Import/Export User Guide.  Creates an import instance task using metadata from the specified disk image. This API action is not supported by the Command Line Interface (CLI). For information about using the Amazon EC2 CLI, which is deprecated, see Importing a VM to Amazon EC2 in the Amazon EC2 CLI Reference PDF file. This API action supports only single-volume VMs. To import multi-volume VMs, use ImportImage instead. For information about the import manifest referenced by this API action, see VM Import Manifest.
     public func importInstance(_ input: ImportInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ImportInstanceResult {
         return try await self.client.execute(operation: "ImportInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2811,13 +2809,13 @@ extension EC2 {
         return try await self.client.execute(operation: "ModifyVpcEndpointServicePermissions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  Modifies the VPC peering connection options on one side of a VPC peering connection. You can do the following:   Enable/disable communication over the peering connection between an EC2-Classic instance that's linked to your VPC (using ClassicLink) and instances in the peer VPC.   Enable/disable communication over the peering connection between instances in your VPC and an EC2-Classic instance that's linked to the peer VPC.   Enable/disable the ability to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC.   If the peered VPCs are in the same Amazon Web Services account, you can enable DNS resolution for queries from the local VPC. This ensures that queries from the local VPC resolve to private IP addresses in the peer VPC. This option is not available if the peered VPCs are in different Amazon Web Services accounts or different Regions. For peered VPCs in different Amazon Web Services accounts, each Amazon Web Services account owner must initiate a separate request to modify the peering connection options. For inter-region peering connections, you must use the Region for the requester VPC to modify the requester VPC peering options and the Region for the accepter VPC to modify the accepter VPC peering options. To verify which VPCs are the accepter and the requester for a VPC peering connection, use the DescribeVpcPeeringConnections command.
+    /// Modifies the VPC peering connection options on one side of a VPC peering connection. If the peered VPCs are in the same Amazon Web Services account, you can enable DNS resolution for queries from the local VPC. This ensures that queries from the local VPC resolve to private IP addresses in the peer VPC. This option is not available if the peered VPCs are in different Amazon Web Services accounts or different Regions. For peered VPCs in different Amazon Web Services accounts, each Amazon Web Services account owner must initiate a separate request to modify the peering connection options. For inter-region peering connections, you must use the Region for the requester VPC to modify the requester VPC peering options and the Region for the accepter VPC to modify the accepter VPC peering options. To verify which VPCs are the accepter and the requester for a VPC peering connection, use the DescribeVpcPeeringConnections command.
     public func modifyVpcPeeringConnectionOptions(_ input: ModifyVpcPeeringConnectionOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyVpcPeeringConnectionOptionsResult {
         return try await self.client.execute(operation: "ModifyVpcPeeringConnectionOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Modifies the instance tenancy attribute of the specified VPC. You can change the instance tenancy attribute of a VPC to default only. You cannot change the instance tenancy attribute to dedicated. After you modify the tenancy of the VPC, any new instances that you launch into the VPC have a tenancy of default, unless you specify otherwise during launch. The tenancy of any existing instances in the VPC is not affected. For more information, see Dedicated Instances in the
-    /// 				Amazon Elastic Compute Cloud User Guide.
+    /// 				Amazon EC2 User Guide.
     public func modifyVpcTenancy(_ input: ModifyVpcTenancyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyVpcTenancyResult {
         return try await self.client.execute(operation: "ModifyVpcTenancy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2967,24 +2965,23 @@ extension EC2 {
 
     /// Changes which network ACL a subnet is associated with. By default when you create a
     /// 			subnet, it's automatically associated with the default network ACL. For more
-    /// 			information, see Network
-    /// 			ACLs in the Amazon Virtual Private Cloud User Guide. This is an idempotent operation.
+    /// 			information, see Network ACLs in the Amazon VPC User Guide. This is an idempotent operation.
     public func replaceNetworkAclAssociation(_ input: ReplaceNetworkAclAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ReplaceNetworkAclAssociationResult {
         return try await self.client.execute(operation: "ReplaceNetworkAclAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Replaces an entry (rule) in a network ACL. For more information, see Network ACLs in the
-    /// 				Amazon Virtual Private Cloud User Guide.
+    /// 				Amazon VPC User Guide.
     public func replaceNetworkAclEntry(_ input: ReplaceNetworkAclEntryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "ReplaceNetworkAclEntry", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Replaces an existing route within a route table in a VPC. You must specify either a destination CIDR block or a prefix list ID. You must also specify   exactly one of the resources from the parameter list, or reset the local route to its default  target. For more information, see Route tables in the Amazon Virtual Private Cloud User Guide.
+    /// Replaces an existing route within a route table in a VPC. You must specify either a destination CIDR block or a prefix list ID. You must also specify   exactly one of the resources from the parameter list, or reset the local route to its default  target. For more information, see Route tables in the Amazon VPC User Guide.
     public func replaceRoute(_ input: ReplaceRouteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "ReplaceRoute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Changes the route table associated with a given subnet, internet gateway, or virtual private gateway in a VPC. After the operation completes, the subnet or gateway uses the routes in the new route table. For more information about route tables, see Route tables in the Amazon Virtual Private Cloud User Guide. You can also use this operation to change which table is the main route table in the VPC. Specify the main route table's association ID and the route table ID of the new main route table.
+    /// Changes the route table associated with a given subnet, internet gateway, or virtual private gateway in a VPC. After the operation completes, the subnet or gateway uses the routes in the new route table. For more information about route tables, see Route tables in the Amazon VPC User Guide. You can also use this operation to change which table is the main route table in the VPC. Specify the main route table's association ID and the route table ID of the new main route table.
     public func replaceRouteTableAssociation(_ input: ReplaceRouteTableAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ReplaceRouteTableAssociationResult {
         return try await self.client.execute(operation: "ReplaceRouteTableAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -3080,12 +3077,12 @@ extension EC2 {
         return try await self.client.execute(operation: "RevokeClientVpnIngress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// [VPC only] Removes the specified outbound (egress) rules from a security group for EC2-VPC. This action does not apply to security groups for use in EC2-Classic. You can specify rules using either rule IDs or security group rule properties. If you use rule properties, the values that you specify (for example, ports) must match the existing rule's  values exactly. Each rule has a protocol, from and to ports, and destination (CIDR range,  security group, or prefix list). For the TCP and UDP protocols, you must also specify the  destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type  and code. If the security group rule has a description, you do not need to specify the description  to revoke the rule. [Default VPC] If the values you specify do not match the existing rule's values, no error is returned, and the output describes the security group rules that were not revoked. Amazon Web Services recommends that you describe the security group to verify that the rules were removed. Rule changes are propagated to instances within the security group as quickly as possible. However,  a small delay might occur.
+    /// Removes the specified outbound (egress) rules from the specified security group. You can specify rules using either rule IDs or security group rule properties. If you use rule properties, the values that you specify (for example, ports) must match the existing rule's  values exactly. Each rule has a protocol, from and to ports, and destination (CIDR range,  security group, or prefix list). For the TCP and UDP protocols, you must also specify the  destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type  and code. If the security group rule has a description, you do not need to specify the description  to revoke the rule. For a default VPC, if the values you specify do not match the existing rule's values, no error is returned, and the output describes the security group rules that were not revoked. Amazon Web Services recommends that you describe the security group to verify that the rules were removed. Rule changes are propagated to instances within the security group as quickly as possible. However,  a small delay might occur.
     public func revokeSecurityGroupEgress(_ input: RevokeSecurityGroupEgressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RevokeSecurityGroupEgressResult {
         return try await self.client.execute(operation: "RevokeSecurityGroupEgress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes the specified inbound (ingress) rules from a security group. You can specify rules using either rule IDs or security group rule properties. If you use rule properties, the values that you specify (for example, ports) must match the existing rule's  values exactly. Each rule has a protocol, from and to ports, and source (CIDR range,  security group, or prefix list). For the TCP and UDP protocols, you must also specify the  destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type  and code. If the security group rule has a description, you do not need to specify the description  to revoke the rule. [EC2-Classic, default VPC] If the values you specify do not match the existing rule's values, no error is returned, and the output describes the security group rules that were not revoked. Amazon Web Services recommends that you describe the security group to verify that the rules were removed. Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// Removes the specified inbound (ingress) rules from a security group. You can specify rules using either rule IDs or security group rule properties. If you use rule properties, the values that you specify (for example, ports) must match the existing rule's  values exactly. Each rule has a protocol, from and to ports, and source (CIDR range,  security group, or prefix list). For the TCP and UDP protocols, you must also specify the  destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type  and code. If the security group rule has a description, you do not need to specify the description  to revoke the rule. For a default VPC, if the values you specify do not match the existing rule's values, no error is returned, and the output describes the security group rules that were not revoked. For a non-default VPC, if the values you specify do not match the existing rule's values, an InvalidPermission.NotFound client error is returned, and no rules are revoked. Amazon Web Services recommends that you describe the security group to verify that the rules were removed. Rule changes are propagated to instances within the security group as quickly as possible.  However, a small delay might occur.
     public func revokeSecurityGroupIngress(_ input: RevokeSecurityGroupIngressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RevokeSecurityGroupIngressResult {
         return try await self.client.execute(operation: "RevokeSecurityGroupIngress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -3165,7 +3162,7 @@ extension EC2 {
         return try await self.client.execute(operation: "UnassignPrivateIpAddresses", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Unassigns secondary private IPv4 addresses from a private NAT gateway. You cannot unassign your primary private IP. For more information, see Edit secondary IP address associations in the Amazon Virtual Private Cloud User Guide. While unassigning is in progress, you cannot assign/unassign additional IP addresses while the connections are being drained. You are, however, allowed to delete the NAT gateway. A private IP address will only be released at the end of MaxDrainDurationSeconds. The private IP addresses stay associated and support the existing connections but do not support any new connections (new connections are distributed across the remaining assigned private IP address). After the existing connections drain out, the private IP addresses get released.
+    /// Unassigns secondary private IPv4 addresses from a private NAT gateway. You cannot unassign your primary private IP. For more information, see Edit secondary IP address associations in the Amazon VPC User Guide. While unassigning is in progress, you cannot assign/unassign additional IP addresses while the connections are being drained. You are, however, allowed to delete the NAT gateway. A private IP address will only be released at the end of MaxDrainDurationSeconds. The private IP addresses stay associated and support the existing connections, but do not support any new connections (new connections are distributed across the remaining assigned private IP address). After the existing connections drain out, the private IP addresses are released.
     public func unassignPrivateNatGatewayAddress(_ input: UnassignPrivateNatGatewayAddressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UnassignPrivateNatGatewayAddressResult {
         return try await self.client.execute(operation: "UnassignPrivateNatGatewayAddress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -3175,7 +3172,7 @@ extension EC2 {
         return try await self.client.execute(operation: "UnmonitorInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// [VPC only] Updates the description of an egress (outbound) security group rule. You
+    /// Updates the description of an egress (outbound) security group rule. You
     /// 			can replace an existing description, or add a description to a rule that did not have one
     /// 			previously. You can remove a description for a security group rule by omitting the
     /// 			description parameter in the request.
@@ -3356,9 +3353,9 @@ extension EC2 {
         )
     }
 
-    /// Describes one or more of your linked EC2-Classic instances. This request only returns
+    ///  This action is deprecated.  Describes one or more of your linked EC2-Classic instances. This request only returns
     /// 			information about EC2-Classic instances linked to a VPC through ClassicLink. You cannot
-    /// 			use this request to return information about other instances.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 			use this request to return information about other instances.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -3514,7 +3511,7 @@ extension EC2 {
     }
 
     /// Describes one or more of your DHCP options sets. For more information, see DHCP options sets in the
-    /// 				Amazon Virtual Private Cloud User Guide.
+    /// 				Amazon VPC User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -4397,7 +4394,7 @@ extension EC2 {
     }
 
     /// Describes one or more of your network ACLs. For more information, see Network ACLs in the
-    /// 				Amazon Virtual Private Cloud User Guide.
+    /// 				Amazon VPC User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -4685,7 +4682,7 @@ extension EC2 {
     }
 
     /// Describes one or more of your route tables. Each subnet in your VPC must be associated with a route table. If a subnet is not explicitly associated with any route table, it is implicitly associated with the main route table. This command does not return the subnet ID for implicit associations. For more information, see Route tables in the
-    /// 				Amazon Virtual Private Cloud User Guide.
+    /// 				Amazon VPC User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -4773,12 +4770,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the specified security groups or all of your security groups. A security group is for use with instances either in the EC2-Classic platform
-    /// 				or in a specific VPC. For more information, see
-    /// 				Amazon EC2 security groups in
-    /// 				the Amazon Elastic Compute Cloud User Guide and
-    /// 				Security groups for your VPC in the
-    /// 				Amazon Virtual Private Cloud User Guide.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes the specified security groups or all of your security groups.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -4910,7 +4902,7 @@ extension EC2 {
         )
     }
 
-    /// [VPC only] Describes the stale security group rules for security groups in a specified VPC.  Rules are stale when they reference a deleted security group in the same VPC or in a peer VPC,  or if they reference a security group in a peer VPC for which the VPC peering connection has  been deleted.
+    /// Describes the stale security group rules for security groups in a specified VPC.  Rules are stale when they reference a deleted security group in the same VPC or in a peer VPC,  or if they reference a security group in a peer VPC for which the VPC peering connection has  been deleted.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -4954,8 +4946,8 @@ extension EC2 {
         )
     }
 
-    /// Describes one or more of your subnets. For more information, see Your VPC and subnets in the
-    /// 				Amazon Virtual Private Cloud User Guide.
+    /// Describes one or more of your subnets. For more information, see Subnets in the
+    /// 				Amazon VPC User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -5483,7 +5475,7 @@ extension EC2 {
         )
     }
 
-    ///  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  Describes the ClassicLink DNS support status of one or more VPCs. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
+    ///  This action is deprecated.  Describes the ClassicLink DNS support status of one or more VPCs. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -6628,6 +6620,24 @@ extension EC2 {
             ],
             minDelayTime: .seconds(15),
             command: self.describeSpotInstanceRequests
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func waitUntilStoreImageTaskComplete(
+        _ input: DescribeStoreImageTasksRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESAllPathMatcher("storeImageTaskResults[].storeTaskState", expected: "Completed")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("storeImageTaskResults[].storeTaskState", expected: "Failed")),
+                .init(state: .retry, matcher: try! JMESAnyPathMatcher("storeImageTaskResults[].storeTaskState", expected: "InProgress")),
+            ],
+            minDelayTime: .seconds(5),
+            command: self.describeStoreImageTasks
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }

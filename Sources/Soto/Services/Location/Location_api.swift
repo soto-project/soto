@@ -54,6 +54,11 @@ public struct Location: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-11-19",
             endpoint: endpoint,
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-gov-west-1": "geo-fips.us-gov-west-1.amazonaws.com"
+                ])
+            ],
             errorType: LocationErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
@@ -113,7 +118,7 @@ public struct Location: AWSService {
         return self.client.execute(operation: "CreateGeofenceCollection", path: "/geofencing/v0/collections", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "geofencing.", logger: logger, on: eventLoop)
     }
 
-    /// Creates an API key resource in your Amazon Web Services account, which lets you grant geo:GetMap* actions for Amazon Location Map resources to the API key bearer.  The API keys feature is in preview. We may add, change, or remove  features before announcing general availability. For more information, see Using API keys.
+    /// Creates an API key resource in your Amazon Web Services account, which lets you grant actions for Amazon Location resources to the API key bearer.  For more information, see Using API keys.
     public func createKey(_ input: CreateKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateKeyResponse> {
         return self.client.execute(operation: "CreateKey", path: "/metadata/v0/keys", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "metadata.", logger: logger, on: eventLoop)
     }
@@ -173,7 +178,7 @@ public struct Location: AWSService {
         return self.client.execute(operation: "DescribeGeofenceCollection", path: "/geofencing/v0/collections/{CollectionName}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "geofencing.", logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the API key resource details.  The API keys feature is in preview. We may add, change, or remove  features before announcing general availability. For more information, see Using API keys.
+    /// Retrieves the API key resource details.
     public func describeKey(_ input: DescribeKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeKeyResponse> {
         return self.client.execute(operation: "DescribeKey", path: "/metadata/v0/keys/{KeyName}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "metadata.", logger: logger, on: eventLoop)
     }
@@ -258,7 +263,7 @@ public struct Location: AWSService {
         return self.client.execute(operation: "ListGeofences", path: "/geofencing/v0/collections/{CollectionName}/list-geofences", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "geofencing.", logger: logger, on: eventLoop)
     }
 
-    /// Lists API key resources in your Amazon Web Services account.  The API keys feature is in preview. We may add, change, or remove  features before announcing general availability. For more information, see Using API keys.
+    /// Lists API key resources in your Amazon Web Services account.
     public func listKeys(_ input: ListKeysRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListKeysResponse> {
         return self.client.execute(operation: "ListKeys", path: "/metadata/v0/list-keys", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "metadata.", logger: logger, on: eventLoop)
     }
@@ -328,7 +333,7 @@ public struct Location: AWSService {
         return self.client.execute(operation: "UpdateGeofenceCollection", path: "/geofencing/v0/collections/{CollectionName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, hostPrefix: "geofencing.", logger: logger, on: eventLoop)
     }
 
-    /// Updates the specified properties of a given API key resource.  The API keys feature is in preview. We may add, change, or remove  features before announcing general availability. For more information, see Using API keys.
+    /// Updates the specified properties of a given API key resource.
     public func updateKey(_ input: UpdateKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateKeyResponse> {
         return self.client.execute(operation: "UpdateKey", path: "/metadata/v0/keys/{KeyName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, hostPrefix: "metadata.", logger: logger, on: eventLoop)
     }
@@ -578,7 +583,7 @@ extension Location {
         )
     }
 
-    /// Lists API key resources in your Amazon Web Services account.  The API keys feature is in preview. We may add, change, or remove  features before announcing general availability. For more information, see Using API keys.
+    /// Lists API key resources in your Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -913,6 +918,7 @@ extension Location.GetDevicePositionHistoryRequest: AWSPaginateToken {
 extension Location.ListDevicePositionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Location.ListDevicePositionsRequest {
         return .init(
+            filterGeometry: self.filterGeometry,
             maxResults: self.maxResults,
             nextToken: token,
             trackerName: self.trackerName

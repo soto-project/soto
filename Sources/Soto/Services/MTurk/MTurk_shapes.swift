@@ -34,12 +34,12 @@ extension MTurk {
     }
 
     public enum Comparator: String, CustomStringConvertible, Codable, Sendable {
+        case `in` = "In"
         case doesNotExist = "DoesNotExist"
         case equalTo = "EqualTo"
         case exists = "Exists"
         case greaterThan = "GreaterThan"
         case greaterThanOrEqualTo = "GreaterThanOrEqualTo"
-        case `in` = "In"
         case lessThan = "LessThan"
         case lessThanOrEqualTo = "LessThanOrEqualTo"
         case notEqualTo = "NotEqualTo"

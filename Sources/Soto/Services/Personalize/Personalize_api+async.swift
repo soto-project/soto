@@ -341,6 +341,11 @@ extension Personalize {
         return try await self.client.execute(operation: "UpdateCampaign", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Update a dataset to replace its schema with a new or existing one. For more information, see Replacing a dataset's schema.
+    public func updateDataset(_ input: UpdateDatasetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateDatasetResponse {
+        return try await self.client.execute(operation: "UpdateDataset", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Updates a metric attribution.
     public func updateMetricAttribution(_ input: UpdateMetricAttributionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateMetricAttributionResponse {
         return try await self.client.execute(operation: "UpdateMetricAttribution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

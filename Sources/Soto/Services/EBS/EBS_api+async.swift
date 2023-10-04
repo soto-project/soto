@@ -21,39 +21,39 @@ import SotoCore
 extension EBS {
     // MARK: Async API Calls
 
-    /// Seals and completes the snapshot after all of the required blocks of data have been written to it. Completing the snapshot changes the status to completed. You cannot write new blocks to a snapshot after it has been completed.
+    /// Seals and completes the snapshot after all of the required blocks of data have been written to it. Completing the snapshot changes the status to completed. You cannot write new blocks to a snapshot after it has been completed.  You should always retry requests that receive server (5xx)  error responses, and ThrottlingException and RequestThrottledException  client error responses. For more information see Error retries in the  Amazon Elastic Compute Cloud User Guide.
     public func completeSnapshot(_ input: CompleteSnapshotRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CompleteSnapshotResponse {
         return try await self.client.execute(operation: "CompleteSnapshot", path: "/snapshots/completion/{SnapshotId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns the data in a block in an Amazon Elastic Block Store snapshot.
+    /// Returns the data in a block in an Amazon Elastic Block Store snapshot.  You should always retry requests that receive server (5xx)  error responses, and ThrottlingException and RequestThrottledException  client error responses. For more information see Error retries in the  Amazon Elastic Compute Cloud User Guide.
     public func getSnapshotBlock(_ input: GetSnapshotBlockRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetSnapshotBlockResponse {
         return try await self.client.execute(operation: "GetSnapshotBlock", path: "/snapshots/{SnapshotId}/blocks/{BlockIndex}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about the blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage.
+    /// Returns information about the blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage.  You should always retry requests that receive server (5xx)  error responses, and ThrottlingException and RequestThrottledException  client error responses. For more information see Error retries in the  Amazon Elastic Compute Cloud User Guide.
     public func listChangedBlocks(_ input: ListChangedBlocksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListChangedBlocksResponse {
         return try await self.client.execute(operation: "ListChangedBlocks", path: "/snapshots/{SecondSnapshotId}/changedblocks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about the blocks in an Amazon Elastic Block Store snapshot.
+    /// Returns information about the blocks in an Amazon Elastic Block Store snapshot.  You should always retry requests that receive server (5xx)  error responses, and ThrottlingException and RequestThrottledException  client error responses. For more information see Error retries in the  Amazon Elastic Compute Cloud User Guide.
     public func listSnapshotBlocks(_ input: ListSnapshotBlocksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListSnapshotBlocksResponse {
         return try await self.client.execute(operation: "ListSnapshotBlocks", path: "/snapshots/{SnapshotId}/blocks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Writes a block of data to a snapshot. If the specified block contains data, the existing data is overwritten. The target snapshot must be in the pending state.  	 	    Data written to a snapshot must be aligned with 512-KiB sectors.
+    /// Writes a block of data to a snapshot. If the specified block contains data, the existing data is overwritten. The target snapshot must be in the pending state. Data written to a snapshot must be aligned with 512-KiB sectors.  You should always retry requests that receive server (5xx)  error responses, and ThrottlingException and RequestThrottledException  client error responses. For more information see Error retries in the  Amazon Elastic Compute Cloud User Guide.
     public func putSnapshotBlock(_ input: PutSnapshotBlockRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutSnapshotBlockResponse {
         return try await self.client.execute(operation: "PutSnapshotBlock", path: "/snapshots/{SnapshotId}/blocks/{BlockIndex}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new Amazon EBS snapshot. The new snapshot enters the pending state after the request completes.  After creating the snapshot, use  PutSnapshotBlock to write blocks of data to the snapshot.
+    /// Creates a new Amazon EBS snapshot. The new snapshot enters the pending state after the request completes.  After creating the snapshot, use  PutSnapshotBlock to write blocks of data to the snapshot.  You should always retry requests that receive server (5xx)  error responses, and ThrottlingException and RequestThrottledException  client error responses. For more information see Error retries in the  Amazon Elastic Compute Cloud User Guide.
     public func startSnapshot(_ input: StartSnapshotRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartSnapshotResponse {
         return try await self.client.execute(operation: "StartSnapshot", path: "/snapshots", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     // MARK: Streaming Async API Calls
 
-    /// Returns the data in a block in an Amazon Elastic Block Store snapshot.
+    /// Returns the data in a block in an Amazon Elastic Block Store snapshot.  You should always retry requests that receive server (5xx)  error responses, and ThrottlingException and RequestThrottledException  client error responses. For more information see Error retries in the  Amazon Elastic Compute Cloud User Guide.
     public func getSnapshotBlockStreaming(_ input: GetSnapshotBlockRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil, _ stream: @escaping (ByteBuffer, EventLoop) -> EventLoopFuture<Void>) async throws -> GetSnapshotBlockResponse {
         return try await self.client.execute(operation: "GetSnapshotBlock", path: "/snapshots/{SnapshotId}/blocks/{BlockIndex}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop, stream: stream)
     }
@@ -63,7 +63,7 @@ extension EBS {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension EBS {
-    /// Returns information about the blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage.
+    /// Returns information about the blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage.  You should always retry requests that receive server (5xx)  error responses, and ThrottlingException and RequestThrottledException  client error responses. For more information see Error retries in the  Amazon Elastic Compute Cloud User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -85,7 +85,7 @@ extension EBS {
         )
     }
 
-    /// Returns information about the blocks in an Amazon Elastic Block Store snapshot.
+    /// Returns information about the blocks in an Amazon Elastic Block Store snapshot.  You should always retry requests that receive server (5xx)  error responses, and ThrottlingException and RequestThrottledException  client error responses. For more information see Error retries in the  Amazon Elastic Compute Cloud User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

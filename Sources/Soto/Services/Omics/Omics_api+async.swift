@@ -26,6 +26,11 @@ extension Omics {
         return try await self.client.execute(operation: "AbortMultipartReadSetUpload", path: "/sequencestore/{sequenceStoreId}/upload/{uploadId}/abort", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
     }
 
+    /// Accepts a share for an analytics store.
+    public func acceptShare(_ input: AcceptShareRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AcceptShareResponse {
+        return try await self.client.execute(operation: "AcceptShare", path: "/share/{shareId}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
+    }
+
     /// Deletes one or more read sets.
     public func batchDeleteReadSet(_ input: BatchDeleteReadSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchDeleteReadSetResponse {
         return try await self.client.execute(operation: "BatchDeleteReadSet", path: "/sequencestore/{sequenceStoreId}/readset/batch/delete", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
@@ -56,6 +61,11 @@ extension Omics {
         return try await self.client.execute(operation: "CreateAnnotationStore", path: "/annotationStore", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
     }
 
+    /// Creates a new version of an annotation store.
+    public func createAnnotationStoreVersion(_ input: CreateAnnotationStoreVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateAnnotationStoreVersionResponse {
+        return try await self.client.execute(operation: "CreateAnnotationStoreVersion", path: "/annotationStore/{name}/version", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
+    }
+
     ///  Begins a multipart read set upload.
     public func createMultipartReadSetUpload(_ input: CreateMultipartReadSetUploadRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateMultipartReadSetUploadResponse {
         return try await self.client.execute(operation: "CreateMultipartReadSetUpload", path: "/sequencestore/{sequenceStoreId}/upload", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
@@ -76,6 +86,11 @@ extension Omics {
         return try await self.client.execute(operation: "CreateSequenceStore", path: "/sequencestore", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
     }
 
+    ///  Creates a share offer that can be accepted outside the account by a subscriber. The share is created by the owner and accepted by the principal subscriber.
+    public func createShare(_ input: CreateShareRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateShareResponse {
+        return try await self.client.execute(operation: "CreateShare", path: "/share", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
+    }
+
     /// Creates a variant store.
     public func createVariantStore(_ input: CreateVariantStoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateVariantStoreResponse {
         return try await self.client.execute(operation: "CreateVariantStore", path: "/variantStore", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
@@ -89,6 +104,11 @@ extension Omics {
     /// Deletes an annotation store.
     public func deleteAnnotationStore(_ input: DeleteAnnotationStoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteAnnotationStoreResponse {
         return try await self.client.execute(operation: "DeleteAnnotationStore", path: "/annotationStore/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
+    }
+
+    /// Deletes one or multiple versions of an annotation store.
+    public func deleteAnnotationStoreVersions(_ input: DeleteAnnotationStoreVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteAnnotationStoreVersionsResponse {
+        return try await self.client.execute(operation: "DeleteAnnotationStoreVersions", path: "/annotationStore/{name}/versions/delete", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
     }
 
     /// Deletes a genome reference.
@@ -116,6 +136,11 @@ extension Omics {
         return try await self.client.execute(operation: "DeleteSequenceStore", path: "/sequencestore/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
     }
 
+    ///  Deletes a share of an analytics store.
+    public func deleteShare(_ input: DeleteShareRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteShareResponse {
+        return try await self.client.execute(operation: "DeleteShare", path: "/share/{shareId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
+    }
+
     /// Deletes a variant store.
     public func deleteVariantStore(_ input: DeleteVariantStoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteVariantStoreResponse {
         return try await self.client.execute(operation: "DeleteVariantStore", path: "/variantStore/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
@@ -134,6 +159,11 @@ extension Omics {
     /// Gets information about an annotation store.
     public func getAnnotationStore(_ input: GetAnnotationStoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetAnnotationStoreResponse {
         return try await self.client.execute(operation: "GetAnnotationStore", path: "/annotationStore/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the metadata for an annotation store version.
+    public func getAnnotationStoreVersion(_ input: GetAnnotationStoreVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetAnnotationStoreVersionResponse {
+        return try await self.client.execute(operation: "GetAnnotationStoreVersion", path: "/annotationStore/{name}/version/{versionName}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
     }
 
     /// Gets a file from a read set.
@@ -201,6 +231,11 @@ extension Omics {
         return try await self.client.execute(operation: "GetSequenceStore", path: "/sequencestore/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
     }
 
+    ///  Retrieves the metadata for a share.
+    public func getShare(_ input: GetShareRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetShareResponse {
+        return try await self.client.execute(operation: "GetShare", path: "/share/{shareId}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
+    }
+
     /// Gets information about a variant import job.
     public func getVariantImportJob(_ input: GetVariantImportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetVariantImportResponse {
         return try await self.client.execute(operation: "GetVariantImportJob", path: "/import/variant/{jobId}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
@@ -219,6 +254,11 @@ extension Omics {
     /// Retrieves a list of annotation import jobs.
     public func listAnnotationImportJobs(_ input: ListAnnotationImportJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAnnotationImportJobsResponse {
         return try await self.client.execute(operation: "ListAnnotationImportJobs", path: "/import/annotations", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
+    }
+
+    /// Lists the versions of an annotation store.
+    public func listAnnotationStoreVersions(_ input: ListAnnotationStoreVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAnnotationStoreVersionsResponse {
+        return try await self.client.execute(operation: "ListAnnotationStoreVersions", path: "/annotationStore/{name}/versions", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
     }
 
     /// Retrieves a list of annotation stores.
@@ -291,6 +331,11 @@ extension Omics {
         return try await self.client.execute(operation: "ListSequenceStores", path: "/sequencestores", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
     }
 
+    ///  Lists all shares associated with an account.
+    public func listShares(_ input: ListSharesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListSharesResponse {
+        return try await self.client.execute(operation: "ListShares", path: "/shares", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
+    }
+
     /// Retrieves a list of tags for a resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTagsForResourceResponse {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "tags-", logger: logger, on: eventLoop)
@@ -336,7 +381,7 @@ extension Omics {
         return try await self.client.execute(operation: "StartReferenceImportJob", path: "/referencestore/{referenceStoreId}/importjob", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
     }
 
-    /// Starts a run.
+    /// Starts a workflow run. To duplicate a run, specify the run's ID and a role ARN. The remaining parameters are copied from the previous run. The total number of runs in your account is subject to a quota per Region. To avoid needing to delete runs manually, you can set the retention mode to REMOVE. Runs with this setting are deleted automatically when the run quoata is exceeded.
     public func startRun(_ input: StartRunRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartRunResponse {
         return try await self.client.execute(operation: "StartRun", path: "/run", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "workflows-", logger: logger, on: eventLoop)
     }
@@ -359,6 +404,11 @@ extension Omics {
     /// Updates an annotation store.
     public func updateAnnotationStore(_ input: UpdateAnnotationStoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateAnnotationStoreResponse {
         return try await self.client.execute(operation: "UpdateAnnotationStore", path: "/annotationStore/{name}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
+    }
+
+    /// Updates the description of an annotation store version.
+    public func updateAnnotationStoreVersion(_ input: UpdateAnnotationStoreVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateAnnotationStoreVersionResponse {
+        return try await self.client.execute(operation: "UpdateAnnotationStoreVersion", path: "/annotationStore/{name}/version/{versionName}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
     }
 
     /// Updates a run group.
@@ -415,6 +465,28 @@ extension Omics {
             command: self.listAnnotationImportJobs,
             inputKey: \ListAnnotationImportJobsRequest.nextToken,
             outputKey: \ListAnnotationImportJobsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists the versions of an annotation store.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listAnnotationStoreVersionsPaginator(
+        _ input: ListAnnotationStoreVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListAnnotationStoreVersionsRequest, ListAnnotationStoreVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listAnnotationStoreVersions,
+            inputKey: \ListAnnotationStoreVersionsRequest.nextToken,
+            outputKey: \ListAnnotationStoreVersionsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -728,6 +800,28 @@ extension Omics {
         )
     }
 
+    ///  Lists all shares associated with an account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listSharesPaginator(
+        _ input: ListSharesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListSharesRequest, ListSharesResponse> {
+        return .init(
+            input: input,
+            command: self.listShares,
+            inputKey: \ListSharesRequest.nextToken,
+            outputKey: \ListSharesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     /// Retrieves a list of variant import jobs.
     /// Return PaginatorSequence for operation.
     ///
@@ -855,6 +949,45 @@ extension Omics {
             minDelayTime: .seconds(30),
             maxDelayTime: .seconds(600),
             command: self.getAnnotationStore
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func waitUntilAnnotationStoreVersionCreated(
+        _ input: GetAnnotationStoreVersionRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "ACTIVE")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("status", expected: "CREATING")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("status", expected: "UPDATING")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(30),
+            maxDelayTime: .seconds(600),
+            command: self.getAnnotationStoreVersion
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func waitUntilAnnotationStoreVersionDeleted(
+        _ input: GetAnnotationStoreVersionRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "DELETED")),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("status", expected: "DELETING")),
+            ],
+            minDelayTime: .seconds(30),
+            maxDelayTime: .seconds(600),
+            command: self.getAnnotationStoreVersion
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }

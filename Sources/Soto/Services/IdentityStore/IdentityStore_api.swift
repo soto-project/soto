@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS IdentityStore service.
 ///
-/// The Identity Store service used by AWS IAM Identity Center (successor to AWS Single Sign-On) provides a single place to retrieve all of your identities (users and groups). For more information, see the IAM Identity Center User Guide.   Although AWS Single Sign-On was renamed, the sso and identitystore API namespaces will continue to retain their original name for backward compatibility purposes. For more information, see IAM Identity Center rename.   This reference guide describes the identity store operations that you can call programatically and includes detailed information about data types and errors.
+/// The Identity Store service used by IAM Identity Center provides a single place to retrieve all of your identities (users and groups). For more information, see the IAM Identity Center User Guide. This reference guide describes the identity store operations that you can call programmatically and includes detailed information about data types and errors.  IAM Identity Center uses the sso and identitystore API namespaces.
 public struct IdentityStore: AWSService {
     // MARK: Member variables
 
@@ -100,57 +100,57 @@ public struct IdentityStore: AWSService {
         return self.client.execute(operation: "DeleteUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the group metadata and attributes from GroupId in an identity store.
+    /// Retrieves the group metadata and attributes from GroupId in an identity store.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
     public func describeGroup(_ input: DescribeGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeGroupResponse> {
         return self.client.execute(operation: "DescribeGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves membership metadata and attributes from MembershipId in an identity store.
+    /// Retrieves membership metadata and attributes from MembershipId in an identity store.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
     public func describeGroupMembership(_ input: DescribeGroupMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeGroupMembershipResponse> {
         return self.client.execute(operation: "DescribeGroupMembership", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the user metadata and attributes from the UserId in an identity store.
+    /// Retrieves the user metadata and attributes from the UserId in an identity store.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
     public func describeUser(_ input: DescribeUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeUserResponse> {
         return self.client.execute(operation: "DescribeUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves GroupId in an identity store.
+    /// Retrieves GroupId in an identity store.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
     public func getGroupId(_ input: GetGroupIdRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGroupIdResponse> {
         return self.client.execute(operation: "GetGroupId", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the MembershipId in an identity store.
+    /// Retrieves the MembershipId in an identity store.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
     public func getGroupMembershipId(_ input: GetGroupMembershipIdRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGroupMembershipIdResponse> {
         return self.client.execute(operation: "GetGroupMembershipId", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the UserId in an identity store.
+    /// Retrieves the UserId in an identity store.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
     public func getUserId(_ input: GetUserIdRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUserIdResponse> {
         return self.client.execute(operation: "GetUserId", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Checks the user's membership in all requested groups and returns if the member exists in all queried groups.
+    /// Checks the user's membership in all requested groups and returns if the member exists in all queried groups.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
     public func isMemberInGroups(_ input: IsMemberInGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<IsMemberInGroupsResponse> {
         return self.client.execute(operation: "IsMemberInGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// For the specified group in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.
+    /// For the specified group in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
     public func listGroupMemberships(_ input: ListGroupMembershipsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGroupMembershipsResponse> {
         return self.client.execute(operation: "ListGroupMemberships", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.
+    /// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
     public func listGroupMembershipsForMember(_ input: ListGroupMembershipsForMemberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGroupMembershipsForMemberResponse> {
         return self.client.execute(operation: "ListGroupMembershipsForMember", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all groups in the identity store. Returns a paginated list of complete Group objects.  Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action.
+    /// Lists all groups in the identity store. Returns a paginated list of complete Group objects.  Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
     public func listGroups(_ input: ListGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGroupsResponse> {
         return self.client.execute(operation: "ListGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all users in the identity store. Returns a paginated list of complete User objects.  Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action.
+    /// Lists all users in the identity store. Returns a paginated list of complete User objects.  Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
     public func listUsers(_ input: ListUsersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListUsersResponse> {
         return self.client.execute(operation: "ListUsers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -178,7 +178,7 @@ extension IdentityStore {
 // MARK: Paginators
 
 extension IdentityStore {
-    /// For the specified group in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.
+    /// For the specified group in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -231,7 +231,7 @@ extension IdentityStore {
         )
     }
 
-    /// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.
+    /// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -284,7 +284,7 @@ extension IdentityStore {
         )
     }
 
-    /// Lists all groups in the identity store. Returns a paginated list of complete Group objects.  Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action.
+    /// Lists all groups in the identity store. Returns a paginated list of complete Group objects.  Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -337,7 +337,7 @@ extension IdentityStore {
         )
     }
 
-    /// Lists all users in the identity store. Returns a paginated list of complete User objects.  Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action.
+    /// Lists all users in the identity store. Returns a paginated list of complete User objects.  Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

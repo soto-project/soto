@@ -19,49 +19,33 @@
 
 /// Service object for interacting with AWS GlobalAccelerator service.
 ///
-/// Global Accelerator
-/// 	        This is the Global Accelerator API Reference. This guide is for developers who need detailed information about
+/// Global Accelerator This is the Global Accelerator API Reference. This guide is for developers who need detailed information about
 /// 		    Global Accelerator API actions, data types, and errors. For more information about Global Accelerator features, see the
-/// 	    	Global Accelerator Developer Guide.
-/// 	        Global Accelerator is a service in which you create accelerators to improve the performance
+/// 	    	Global Accelerator Developer Guide. Global Accelerator is a service in which you create accelerators to improve the performance
 /// 			of your applications for local and global users. Depending on the type of accelerator you choose, you can
-/// 			gain additional benefits.
-/// 		         By using a standard accelerator, you can improve availability of your internet applications
+/// 			gain additional benefits.    By using a standard accelerator, you can improve availability of your internet applications
 /// 			    that are used by a global audience. With a standard accelerator, Global Accelerator directs traffic to optimal endpoints over the Amazon Web Services
 /// 				global network.    For other scenarios, you might choose a custom routing accelerator. With a custom routing accelerator, you
-/// 				can use application logic to directly map one or more users to a specific endpoint among many endpoints.
-///
-/// 		          Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the
+/// 				can use application logic to directly map one or more users to a specific endpoint among many endpoints.    Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the
 /// 		    	US West (Oregon) Region to create, update, or otherwise work with accelerators.  That is, for example, specify --region us-west-2
-/// 		    	on AWS CLI commands.
-///
-///
-///
-/// 		       By default, Global Accelerator provides you with static IP addresses that you associate with your accelerator. The static IP addresses
+/// 		    	on Amazon Web Services CLI commands.  By default, Global Accelerator provides you with static IP addresses that you associate with your accelerator. The static IP addresses
 /// 			are anycast from the Amazon Web Services edge network. For IPv4, Global Accelerator provides two static IPv4 addresses. For dual-stack,
 /// 			Global Accelerator provides a total of four addresses: two static IPv4 addresses and two static IPv6 addresses.
 /// 			With a standard accelerator for IPv4, instead of using the addresses that Global Accelerator provides, you can configure
-/// 			these entry points to be IPv4 addresses from your own IP address ranges that you bring toGlobal Accelerator (BYOIP).
-///
-///
-/// 	        For a standard accelerator,
+/// 			these entry points to be IPv4 addresses from your own IP address ranges that you bring toGlobal Accelerator (BYOIP).  For a standard accelerator,
 /// 	        they distribute incoming application traffic across multiple endpoint resources in multiple Amazon Web Services Regions , which increases
 /// 			the availability of your applications. Endpoints for standard accelerators can be Network Load Balancers, Application Load Balancers,
 /// 	    	Amazon EC2 instances, or Elastic IP addresses that are located in one Amazon Web Services Region or multiple Amazon Web Services Regions. For custom routing
 /// 	        accelerators, you map traffic that arrives to the static IP addresses to specific Amazon EC2 servers in endpoints that
-/// 			are virtual private cloud (VPC) subnets.
-///
-/// 		        The static IP addresses remain assigned to your accelerator for as long as it exists, even if you
+/// 			are virtual private cloud (VPC) subnets.  The static IP addresses remain assigned to your accelerator for as long as it exists, even if you
 /// 				disable the accelerator and it no longer accepts or routes traffic. However, when you
 /// 					delete an accelerator, you lose the static IP addresses that
 /// 				are assigned to it, so you can no longer route traffic by using them. You can use
 /// 				IAM policies like tag-based permissions with Global Accelerator to limit the users who have
-/// 				permissions to delete an accelerator. For more information, see Tag-based policies.
-/// 	        For standard accelerators, Global Accelerator uses the Amazon Web Services global network to route traffic to the optimal regional endpoint based
+/// 				permissions to delete an accelerator. For more information, see Tag-based policies.  For standard accelerators, Global Accelerator uses the Amazon Web Services global network to route traffic to the optimal regional endpoint based
 /// 			on health, client location, and policies that you configure. The service reacts instantly to
 /// 			changes in health or configuration to ensure that internet traffic from clients is always
-/// 			directed to healthy endpoints.
-/// 		       For more information about understanding and using Global Accelerator, see the
+/// 			directed to healthy endpoints. For more information about understanding and using Global Accelerator, see the
 /// 			Global Accelerator Developer Guide.
 public struct GlobalAccelerator: AWSService {
     // MARK: Member variables
@@ -107,14 +91,11 @@ public struct GlobalAccelerator: AWSService {
 
     // MARK: API Calls
 
-    /// Associate a virtual private cloud (VPC) subnet endpoint with your custom routing accelerator.
-    /// 	        The listener port range must be large enough to support the number of IP addresses that can be
+    /// Associate a virtual private cloud (VPC) subnet endpoint with your custom routing accelerator. The listener port range must be large enough to support the number of IP addresses that can be
     /// 		specified in your subnet. The number of ports required is: subnet size times the number
     /// 		of ports per destination EC2 instances. For example, a subnet defined as /24 requires a listener
-    /// 		port range of at least 255 ports.
-    /// 	        Note: You must have enough remaining listener ports available to
-    /// 		map to the subnet ports, or the call will fail with a LimitExceededException.
-    /// 	        By default, all destinations in a subnet in a custom routing accelerator cannot receive traffic. To enable all
+    /// 		port range of at least 255 ports.  Note: You must have enough remaining listener ports available to
+    /// 		map to the subnet ports, or the call will fail with a LimitExceededException. By default, all destinations in a subnet in a custom routing accelerator cannot receive traffic. To enable all
     /// 			destinations to receive traffic, or to specify individual port mappings that can receive
     /// 			traffic, see the
     /// 				AllowCustomRoutingTraffic operation.
@@ -126,21 +107,20 @@ public struct GlobalAccelerator: AWSService {
     /// 			alternative options are to add endpoints when you create an endpoint group (with the
     /// 			CreateEndpointGroup API)
     /// 			or when you update an endpoint group (with the
-    /// 			UpdateEndpointGroup API).
-    /// 		       There are two advantages to using AddEndpoints to add endpoints:
-    /// 			        It's faster, because Global Accelerator only has to resolve the new endpoints that
-    /// 					you're adding.   It's more convenient, because you don't need to specify all of the current
-    /// 					endpoints that are already in the endpoint group in addition to the new endpoints that you want to add.
+    /// 			UpdateEndpointGroup API).  There are two advantages to using AddEndpoints to add endpoints in Global Accelerator:   It's faster, because Global Accelerator only has to resolve the new endpoints that
+    /// 					you're adding, rather than resolving new and existing endpoints.   It's more convenient, because you don't need to specify the current
+    /// 					endpoints that are already in the endpoint group, in addition to the new endpoints that
+    /// 					you want to add.   For information about endpoint types and requirements for endpoints that you can add
+    /// 			to Global Accelerator, see
+    /// 				Endpoints for standard accelerators in the Global Accelerator Developer Guide.
     public func addEndpoints(_ input: AddEndpointsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddEndpointsResponse> {
         return self.client.execute(operation: "AddEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Advertises an IPv4 address range that is provisioned for use with your Amazon Web Services resources
     /// 			through bring your own IP addresses (BYOIP). It can take a few minutes before traffic to
-    /// 			the specified addresses starts routing to Amazon Web Services because of propagation delays.
-    /// 		       To stop advertising the BYOIP address range, use
-    /// 			WithdrawByoipCidr.
-    /// 		       For more information, see Bring your own
+    /// 			the specified addresses starts routing to Amazon Web Services because of propagation delays.  To stop advertising the BYOIP address range, use
+    /// 			WithdrawByoipCidr. For more information, see Bring your own
     /// 		    IP addresses (BYOIP) in the Global Accelerator Developer Guide.
     public func advertiseByoipCidr(_ input: AdvertiseByoipCidrRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AdvertiseByoipCidrResponse> {
         return self.client.execute(operation: "AdvertiseByoipCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -149,35 +129,27 @@ public struct GlobalAccelerator: AWSService {
     /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that can receive traffic
     /// 			for a custom routing accelerator. You can allow traffic to all destinations in the subnet endpoint, or allow traffic to a
     /// 			specified list of destination IP addresses and ports in the subnet. Note that you cannot specify IP addresses or ports
-    /// 			outside of the range that you configured for the endpoint group.
-    /// 		       After you make changes, you can verify that the updates are complete by checking the status of your
+    /// 			outside of the range that you configured for the endpoint group. After you make changes, you can verify that the updates are complete by checking the status of your
     /// 			accelerator: the status changes from IN_PROGRESS to DEPLOYED.
     @discardableResult public func allowCustomRoutingTraffic(_ input: AllowCustomRoutingTrafficRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "AllowCustomRoutingTraffic", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Create an accelerator. An accelerator includes one or more listeners that process inbound connections and direct traffic
-    /// 			to one or more endpoint groups, each of which includes endpoints, such as Network Load Balancers.
-    ///
-    /// 			         Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the
+    /// 			to one or more endpoint groups, each of which includes endpoints, such as Network Load Balancers.   Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the
     /// 				US West (Oregon) Region to create, update, or otherwise work with accelerators.  That is, for example, specify --region us-west-2
-    /// 				on AWS CLI commands.
-    ///
+    /// 				on Amazon Web Services CLI commands.
     public func createAccelerator(_ input: CreateAcceleratorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAcceleratorResponse> {
         return self.client.execute(operation: "CreateAccelerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Create a custom routing accelerator. A custom routing accelerator directs traffic to one of possibly thousands
-    /// 	    of Amazon EC2 instance destinations running in a single or multiple virtual private clouds (VPC) subnet endpoints.
-    /// 	        Be aware that, by default, all destination EC2 instances in a VPC subnet endpoint cannot receive
+    /// 	    of Amazon EC2 instance destinations running in a single or multiple virtual private clouds (VPC) subnet endpoints. Be aware that, by default, all destination EC2 instances in a VPC subnet endpoint cannot receive
     /// 			traffic. To enable all destinations to receive traffic, or to specify individual port
     /// 			mappings that can receive traffic, see the
-    /// 				AllowCustomRoutingTraffic operation.
-    ///
-    /// 		          Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the
+    /// 				AllowCustomRoutingTraffic operation.  Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the
     /// 			US West (Oregon) Region to create, update, or otherwise work with accelerators.  That is, for example, specify --region us-west-2
-    /// 			on AWS CLI commands.
-    ///
+    /// 			on Amazon Web Services CLI commands.
     public func createCustomRoutingAccelerator(_ input: CreateCustomRoutingAcceleratorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCustomRoutingAcceleratorResponse> {
         return self.client.execute(operation: "CreateCustomRoutingAccelerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -196,7 +168,9 @@ public struct GlobalAccelerator: AWSService {
     }
 
     /// Create an endpoint group for the specified listener. An endpoint group is a collection of endpoints in one Amazon Web Services
-    /// 			Region. A resource must be valid and active when you add it as an endpoint.
+    /// 			Region. A resource must be valid and active when you add it as an endpoint. For more information about endpoint types and requirements for endpoints that you can add
+    /// 				to Global Accelerator, see
+    /// 					Endpoints for standard accelerators in the Global Accelerator Developer Guide.
     public func createEndpointGroup(_ input: CreateEndpointGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEndpointGroupResponse> {
         return self.client.execute(operation: "CreateEndpointGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -208,11 +182,9 @@ public struct GlobalAccelerator: AWSService {
     }
 
     /// Delete an accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources
-    /// 			(listeners and endpoint groups). To disable the accelerator, update the accelerator to set Enabled to false.
-    /// 	         When you create an accelerator, by default, Global Accelerator provides you with a set of two static IP addresses.
+    /// 			(listeners and endpoint groups). To disable the accelerator, update the accelerator to set Enabled to false.  When you create an accelerator, by default, Global Accelerator provides you with a set of two static IP addresses.
     /// 	        Alternatively, you can bring your own IP address ranges to Global Accelerator and assign IP addresses from those ranges.
-    ///
-    /// 		          The IP addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and
+    /// 		 The IP addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and
     /// 			it no longer accepts or routes traffic. However, when you delete an accelerator, you lose the
     /// 			static IP addresses that are assigned to the accelerator, so you can no longer route traffic by using them.
     /// 			As a best practice, ensure that you have permissions in place to avoid inadvertently deleting accelerators. You
@@ -225,8 +197,7 @@ public struct GlobalAccelerator: AWSService {
 
     /// Delete a custom routing accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources
     /// 		(listeners and endpoint groups). To disable the accelerator, update the accelerator to set Enabled to false.  When you create a custom routing accelerator, by default, Global Accelerator provides you with a set of two static IP addresses.
-    ///
-    /// 		          The IP
+    /// 	 The IP
     /// 			addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and
     /// 			it no longer accepts or routes traffic. However, when you delete an accelerator, you lose the
     /// 			static IP addresses that are assigned to the accelerator, so you can no longer route traffic by using them.
@@ -261,19 +232,16 @@ public struct GlobalAccelerator: AWSService {
     /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that cannot receive traffic
     /// 			for a custom routing accelerator. You can deny traffic to all destinations in the VPC endpoint, or deny traffic to a
     /// 			specified list of destination IP addresses and ports. Note that you cannot specify IP addresses
-    /// 			or ports outside of the range that you configured for the endpoint group.
-    /// 		       After you make changes, you can verify that the updates are complete by checking the status of your
+    /// 			or ports outside of the range that you configured for the endpoint group. After you make changes, you can verify that the updates are complete by checking the status of your
     /// 			accelerator: the status changes from IN_PROGRESS to DEPLOYED.
     @discardableResult public func denyCustomRoutingTraffic(_ input: DenyCustomRoutingTrafficRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DenyCustomRoutingTraffic", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Releases the specified address range that you provisioned to use with your Amazon Web Services resources
-    /// 			through bring your own IP addresses (BYOIP) and deletes the corresponding address pool.
-    /// 		       Before you can release an address range, you must stop advertising it by using WithdrawByoipCidr and you must not have
+    /// 			through bring your own IP addresses (BYOIP) and deletes the corresponding address pool.  Before you can release an address range, you must stop advertising it by using WithdrawByoipCidr and you must not have
     /// 			any accelerators that are using static IP addresses allocated from its address range.
-    ///
-    /// 		       For more information, see Bring
+    /// 		 For more information, see Bring
     /// 			your own IP addresses (BYOIP) in the Global Accelerator Developer Guide.
     public func deprovisionByoipCidr(_ input: DeprovisionByoipCidrRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeprovisionByoipCidrResponse> {
         return self.client.execute(operation: "DeprovisionByoipCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -349,8 +317,7 @@ public struct GlobalAccelerator: AWSService {
     /// Provides a complete mapping from the public accelerator IP address and port to destination EC2 instance
     /// 		IP addresses and ports in the virtual public cloud (VPC) subnet endpoint for a custom routing accelerator.
     /// 		For each subnet endpoint that you add, Global Accelerator creates a new static port mapping for the accelerator. The port
-    /// 	    mappings don't change after Global Accelerator generates them, so you can retrieve and cache the full mapping on your servers.  If you remove a subnet from your accelerator, Global Accelerator removes (reclaims) the port mappings. If you add a subnet to  your accelerator, Global Accelerator creates new port mappings (the existing ones don't change). If you add or remove EC2 instances in your subnet, the port mappings don't change, because the mappings are created when you add the subnet to Global Accelerator.
-    /// 	        The mappings also include a flag for each destination denoting which destination IP addresses and
+    /// 	    mappings don't change after Global Accelerator generates them, so you can retrieve and cache the full mapping on your servers.  If you remove a subnet from your accelerator, Global Accelerator removes (reclaims) the port mappings. If you add a subnet to  your accelerator, Global Accelerator creates new port mappings (the existing ones don't change). If you add or remove EC2 instances in your subnet, the port mappings don't change, because the mappings are created when you add the subnet to Global Accelerator. The mappings also include a flag for each destination denoting which destination IP addresses and
     /// 		ports are allowed or denied traffic.
     public func listCustomRoutingPortMappings(_ input: ListCustomRoutingPortMappingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCustomRoutingPortMappingsResponse> {
         return self.client.execute(operation: "ListCustomRoutingPortMappings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -374,8 +341,7 @@ public struct GlobalAccelerator: AWSService {
         return self.client.execute(operation: "ListListeners", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List all tags for an accelerator.
-    /// 		       For more information, see Tagging
+    /// List all tags for an accelerator.  For more information, see Tagging
     /// 		    in Global Accelerator in the Global Accelerator Developer Guide.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -384,8 +350,7 @@ public struct GlobalAccelerator: AWSService {
     /// Provisions an IP address range to use with your Amazon Web Services resources through bring your own IP
     /// 			addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned,
     /// 			it is ready to be advertised using
-    /// 			AdvertiseByoipCidr.
-    /// 		       For more information, see Bring your own
+    /// 			AdvertiseByoipCidr. For more information, see Bring your own
     /// 			IP addresses (BYOIP) in the Global Accelerator Developer Guide.
     public func provisionByoipCidr(_ input: ProvisionByoipCidrRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ProvisionByoipCidrResponse> {
         return self.client.execute(operation: "ProvisionByoipCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -396,12 +361,10 @@ public struct GlobalAccelerator: AWSService {
         return self.client.execute(operation: "RemoveCustomRoutingEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Remove endpoints from an endpoint group.
-    /// 		       The RemoveEndpoints API operation is the recommended option for removing endpoints. The alternative is to remove
+    /// Remove endpoints from an endpoint group.  The RemoveEndpoints API operation is the recommended option for removing endpoints. The alternative is to remove
     /// 			endpoints by updating an endpoint group by using the
     /// 			UpdateEndpointGroup
-    /// 			API operation. There are two advantages to using AddEndpoints to remove endpoints instead:
-    /// 		         It's more convenient, because you only need to specify the endpoints that you want to remove. With the
+    /// 			API operation. There are two advantages to using AddEndpoints to remove endpoints instead:   It's more convenient, because you only need to specify the endpoints that you want to remove. With the
     /// 				UpdateEndpointGroup API operation, you must specify all of the endpoints in the
     /// 				endpoint group except the ones that you want to remove from the group.   It's faster, because Global Accelerator doesn't need to resolve any endpoints. With the
     /// 				UpdateEndpointGroup API operation, Global Accelerator must resolve all of the endpoints that
@@ -410,28 +373,24 @@ public struct GlobalAccelerator: AWSService {
         return self.client.execute(operation: "RemoveEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Add tags to an accelerator resource.
-    /// 		       For more information, see Tagging
+    /// Add tags to an accelerator resource.  For more information, see Tagging
     /// 		    in Global Accelerator in the Global Accelerator Developer Guide.
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
         return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Remove tags from a Global Accelerator resource. When you specify a tag key, the action removes both that key and its associated value.
-    /// 			The operation succeeds even if you attempt to remove tags from an accelerator that was already removed.
-    /// 		       For more information, see Tagging
+    /// 			The operation succeeds even if you attempt to remove tags from an accelerator that was already removed. For more information, see Tagging
     /// 		    in Global Accelerator in the Global Accelerator Developer Guide.
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
         return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Update an accelerator.
-    ///
-    ///
-    /// 			         Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the
+    /// Update an accelerator to make changes, such as the following:    Change the name of the accelerator.   Disable the accelerator so that it no longer accepts or routes traffic, or so that you can delete it.   Enable the accelerator, if it is disabled.   Change the IP address type to dual-stack if it is IPv4, or change the IP address type to IPv4 if it's dual-stack.   Be aware that static IP addresses remain assigned to your accelerator for as long as it exists, even if you disable the accelerator and it no
+    /// 			longer accepts or routes traffic. However, when you delete the accelerator, you lose the static IP addresses that are assigned to it, so you
+    /// 			can no longer route traffic by using them.  Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the
     /// 				US West (Oregon) Region to create, update, or otherwise work with accelerators.  That is, for example, specify --region us-west-2
-    /// 				on AWS CLI commands.
-    ///
+    /// 				on Amazon Web Services CLI commands.
     public func updateAccelerator(_ input: UpdateAcceleratorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAcceleratorResponse> {
         return self.client.execute(operation: "UpdateAccelerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -468,10 +427,8 @@ public struct GlobalAccelerator: AWSService {
 
     /// Stops advertising an address range that is provisioned as an address pool.
     /// 			You can perform this operation at most once every 10 seconds, even if you specify different address
-    /// 			ranges each time.
-    /// 	        It can take a few minutes before traffic to the specified addresses stops routing to Amazon Web Services because of
-    /// 			propagation delays.
-    /// 		       For more information, see Bring your own
+    /// 			ranges each time. It can take a few minutes before traffic to the specified addresses stops routing to Amazon Web Services because of
+    /// 			propagation delays. For more information, see Bring your own
     /// 			IP addresses (BYOIP) in the Global Accelerator Developer Guide.
     public func withdrawByoipCidr(_ input: WithdrawByoipCidrRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<WithdrawByoipCidrResponse> {
         return self.client.execute(operation: "WithdrawByoipCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -759,8 +716,7 @@ extension GlobalAccelerator {
     /// Provides a complete mapping from the public accelerator IP address and port to destination EC2 instance
     /// 		IP addresses and ports in the virtual public cloud (VPC) subnet endpoint for a custom routing accelerator.
     /// 		For each subnet endpoint that you add, Global Accelerator creates a new static port mapping for the accelerator. The port
-    /// 	    mappings don't change after Global Accelerator generates them, so you can retrieve and cache the full mapping on your servers.  If you remove a subnet from your accelerator, Global Accelerator removes (reclaims) the port mappings. If you add a subnet to  your accelerator, Global Accelerator creates new port mappings (the existing ones don't change). If you add or remove EC2 instances in your subnet, the port mappings don't change, because the mappings are created when you add the subnet to Global Accelerator.
-    /// 	        The mappings also include a flag for each destination denoting which destination IP addresses and
+    /// 	    mappings don't change after Global Accelerator generates them, so you can retrieve and cache the full mapping on your servers.  If you remove a subnet from your accelerator, Global Accelerator removes (reclaims) the port mappings. If you add a subnet to  your accelerator, Global Accelerator creates new port mappings (the existing ones don't change). If you add or remove EC2 instances in your subnet, the port mappings don't change, because the mappings are created when you add the subnet to Global Accelerator. The mappings also include a flag for each destination denoting which destination IP addresses and
     /// 		ports are allowed or denied traffic.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.

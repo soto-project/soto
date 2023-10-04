@@ -26,6 +26,11 @@ extension SESv2 {
         return try await self.client.execute(operation: "BatchGetMetricData", path: "/v2/email/metrics/batch", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Cancels an export job.
+    public func cancelExportJob(_ input: CancelExportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CancelExportJobResponse {
+        return try await self.client.execute(operation: "CancelExportJob", path: "/v2/email/export-jobs/{JobId}/cancel", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Create a configuration set. Configuration sets are groups of rules that you can apply to the emails that you send. You apply a configuration set to an email by specifying the name of the configuration set when you call the Amazon SES API v2. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     public func createConfigurationSet(_ input: CreateConfigurationSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateConfigurationSetResponse {
         return try await self.client.execute(operation: "CreateConfigurationSet", path: "/v2/email/configuration-sets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -74,6 +79,11 @@ extension SESv2 {
     /// Creates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     public func createEmailTemplate(_ input: CreateEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateEmailTemplateResponse {
         return try await self.client.execute(operation: "CreateEmailTemplate", path: "/v2/email/templates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates an export job for a data source and destination. You can execute this operation no more than once per second.
+    public func createExportJob(_ input: CreateExportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateExportJobResponse {
+        return try await self.client.execute(operation: "CreateExportJob", path: "/v2/email/export-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates an import job for a data destination.
@@ -216,9 +226,19 @@ extension SESv2 {
         return try await self.client.execute(operation: "GetEmailTemplate", path: "/v2/email/templates/{TemplateName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Provides information about an export job.
+    public func getExportJob(_ input: GetExportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetExportJobResponse {
+        return try await self.client.execute(operation: "GetExportJob", path: "/v2/email/export-jobs/{JobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Provides information about an import job.
     public func getImportJob(_ input: GetImportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetImportJobResponse {
         return try await self.client.execute(operation: "GetImportJob", path: "/v2/email/import-jobs/{JobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Provides information about a specific message, including the from address, the subject, the recipient address, email tags, as well as events associated with the message. You can execute this operation no more than once per second.
+    public func getMessageInsights(_ input: GetMessageInsightsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetMessageInsightsResponse {
+        return try await self.client.execute(operation: "GetMessageInsights", path: "/v2/email/insights/{MessageId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves information about a specific email address that's on the suppression list for your account.
@@ -269,6 +289,11 @@ extension SESv2 {
     /// Lists the email templates present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
     public func listEmailTemplates(_ input: ListEmailTemplatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListEmailTemplatesResponse {
         return try await self.client.execute(operation: "ListEmailTemplates", path: "/v2/email/templates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists all of the export jobs.
+    public func listExportJobs(_ input: ListExportJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListExportJobsResponse {
+        return try await self.client.execute(operation: "ListExportJobs", path: "/v2/email/list-export-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists all of the import jobs.
@@ -675,6 +700,28 @@ extension SESv2 {
             command: self.listEmailTemplates,
             inputKey: \ListEmailTemplatesRequest.nextToken,
             outputKey: \ListEmailTemplatesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists all of the export jobs.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listExportJobsPaginator(
+        _ input: ListExportJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListExportJobsRequest, ListExportJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listExportJobs,
+            inputKey: \ListExportJobsRequest.nextToken,
+            outputKey: \ListExportJobsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

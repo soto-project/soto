@@ -57,6 +57,7 @@ extension ConnectParticipant {
 
     public enum ParticipantRole: String, CustomStringConvertible, Codable, Sendable {
         case agent = "AGENT"
+        case customBot = "CUSTOM_BOT"
         case customer = "CUSTOMER"
         case system = "SYSTEM"
         public var description: String { return self.rawValue }
@@ -168,7 +169,7 @@ extension ConnectParticipant {
         public let connectParticipant: Bool?
         /// This is a header parameter. The ParticipantToken as obtained from StartChatContact API response.
         public let participantToken: String
-        /// Type of connection information required. This can be omitted if ConnectParticipant is true.
+        /// Type of connection information required. If you need CONNECTION_CREDENTIALS along with marking  participant as connected, pass CONNECTION_CREDENTIALS in  Type.
         public let type: [ConnectionType]?
 
         public init(connectParticipant: Bool? = nil, participantToken: String, type: [ConnectionType]? = nil) {
@@ -203,6 +204,45 @@ extension ConnectParticipant {
         private enum CodingKeys: String, CodingKey {
             case connectionCredentials = "ConnectionCredentials"
             case websocket = "Websocket"
+        }
+    }
+
+    public struct DescribeViewRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "connectionToken", location: .header("X-Amz-Bearer")),
+            AWSMemberEncoding(label: "viewToken", location: .uri("ViewToken"))
+        ]
+
+        /// The connection token.
+        public let connectionToken: String
+        /// An encrypted token originating from the interactive message of a ShowView block operation.  Represents the desired view.
+        public let viewToken: String
+
+        public init(connectionToken: String, viewToken: String) {
+            self.connectionToken = connectionToken
+            self.viewToken = viewToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectionToken, name: "connectionToken", parent: name, max: 1000)
+            try self.validate(self.connectionToken, name: "connectionToken", parent: name, min: 1)
+            try self.validate(self.viewToken, name: "viewToken", parent: name, max: 1000)
+            try self.validate(self.viewToken, name: "viewToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeViewResponse: AWSDecodableShape {
+        /// A view resource object. Contains metadata and content necessary to render the view.
+        public let view: View?
+
+        public init(view: View? = nil) {
+            self.view = view
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case view = "View"
         }
     }
 
@@ -672,6 +712,56 @@ extension ConnectParticipant {
         }
     }
 
+    public struct View: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the view.
+        public let arn: String?
+        /// View content containing all content necessary to render a view except for runtime input data.
+        public let content: ViewContent?
+        /// The identifier of the view.
+        public let id: String?
+        /// The name of the view.
+        public let name: String?
+        /// The current version of the view.
+        public let version: Int?
+
+        public init(arn: String? = nil, content: ViewContent? = nil, id: String? = nil, name: String? = nil, version: Int? = nil) {
+            self.arn = arn
+            self.content = content
+            self.id = id
+            self.name = name
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case content = "Content"
+            case id = "Id"
+            case name = "Name"
+            case version = "Version"
+        }
+    }
+
+    public struct ViewContent: AWSDecodableShape {
+        /// A list of actions possible from the view
+        public let actions: [String]?
+        /// The schema representing the input data that the view template must be supplied to render.
+        public let inputSchema: String?
+        /// The view template representing the structure of the view.
+        public let template: String?
+
+        public init(actions: [String]? = nil, inputSchema: String? = nil, template: String? = nil) {
+            self.actions = actions
+            self.inputSchema = inputSchema
+            self.template = template
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case inputSchema = "InputSchema"
+            case template = "Template"
+        }
+    }
+
     public struct Websocket: AWSDecodableShape {
         /// The URL expiration timestamp in ISO date format. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
         public let connectionExpiry: String?
@@ -698,6 +788,7 @@ public struct ConnectParticipantErrorType: AWSErrorType {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
+        case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
@@ -727,6 +818,8 @@ public struct ConnectParticipantErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// This exception occurs when there is an internal failure in the Amazon Connect service.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The resource was not found.
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The number of attachments per contact exceeds the quota.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The request was denied due to request throttling.

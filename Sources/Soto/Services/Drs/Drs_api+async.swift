@@ -51,6 +51,11 @@ extension Drs {
         return try await self.client.execute(operation: "DeleteJob", path: "/DeleteJob", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes a resource launch action.
+    public func deleteLaunchAction(_ input: DeleteLaunchActionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteLaunchActionResponse {
+        return try await self.client.execute(operation: "DeleteLaunchAction", path: "/DeleteLaunchAction", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a single Launch Configuration Template by ID.
     public func deleteLaunchConfigurationTemplate(_ input: DeleteLaunchConfigurationTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteLaunchConfigurationTemplateResponse {
         return try await self.client.execute(operation: "DeleteLaunchConfigurationTemplate", path: "/DeleteLaunchConfigurationTemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -156,6 +161,11 @@ extension Drs {
         return try await self.client.execute(operation: "ListExtensibleSourceServers", path: "/ListExtensibleSourceServers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists resource launch actions.
+    public func listLaunchActions(_ input: ListLaunchActionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListLaunchActionsResponse {
+        return try await self.client.execute(operation: "ListLaunchActions", path: "/ListLaunchActions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns an array of staging accounts for existing extended source servers.
     public func listStagingAccounts(_ input: ListStagingAccountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListStagingAccountsResponse {
         return try await self.client.execute(operation: "ListStagingAccounts", path: "/ListStagingAccounts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -164,6 +174,11 @@ extension Drs {
     /// List all tags for your Elastic Disaster Recovery resources.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTagsForResourceResponse {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Puts a resource launch action.
+    public func putLaunchAction(_ input: PutLaunchActionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutLaunchActionResponse {
+        return try await self.client.execute(operation: "PutLaunchAction", path: "/PutLaunchAction", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// WARNING: RetryDataReplication is deprecated. Causes the data replication initiation sequence to begin immediately upon next Handshake for the specified Source Server ID, regardless of when the previous initiation started. This command will work only if the Source Server is stalled or is in a DISCONNECTED or STOPPED state.
@@ -455,6 +470,28 @@ extension Drs {
             command: self.listExtensibleSourceServers,
             inputKey: \ListExtensibleSourceServersRequest.nextToken,
             outputKey: \ListExtensibleSourceServersResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists resource launch actions.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listLaunchActionsPaginator(
+        _ input: ListLaunchActionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListLaunchActionsRequest, ListLaunchActionsResponse> {
+        return .init(
+            input: input,
+            command: self.listLaunchActions,
+            inputKey: \ListLaunchActionsRequest.nextToken,
+            outputKey: \ListLaunchActionsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

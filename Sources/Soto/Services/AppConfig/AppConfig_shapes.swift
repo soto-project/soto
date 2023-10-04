@@ -392,7 +392,7 @@ extension AppConfig {
         public let applicationId: String
         /// A description of the configuration profile.
         public let description: String?
-        /// A URI to locate the configuration. You can specify the following:   For the AppConfig hosted configuration store and for feature flags, specify hosted.   For an Amazon Web Services Systems Manager Parameter Store parameter, specify either the parameter name in the format ssm-parameter:// or the ARN.   For an Secrets Manager secret, specify the URI in the following format: secrets-manager://.   For an Amazon S3 object, specify the URI in the following format: s3:/// . Here is an example: s3://my-bucket/my-app/us-east-1/my-config.json    For an SSM document, specify either the document name in the format ssm-document:// or the Amazon Resource Name (ARN).
+        /// A URI to locate the configuration. You can specify the following:   For the AppConfig hosted configuration store and for feature flags, specify hosted.   For an Amazon Web Services Systems Manager Parameter Store parameter, specify either the parameter name in the format ssm-parameter:// or the ARN.   For an Amazon Web Services CodePipeline pipeline, specify the URI in the following format: codepipeline://.   For an Secrets Manager secret, specify the URI in the following format: secretsmanager://.   For an Amazon S3 object, specify the URI in the following format: s3:/// . Here is an example: s3://my-bucket/my-app/us-east-1/my-config.json    For an SSM document, specify either the document name in the format ssm-document:// or the Amazon Resource Name (ARN).
         public let locationUri: String
         /// A name for the configuration profile.
         public let name: String
@@ -922,8 +922,10 @@ extension AppConfig {
         public var startedAt: Date?
         /// The state of the deployment.
         public let state: DeploymentState?
+        /// A user-defined label for an AppConfig hosted configuration version.
+        public let versionLabel: String?
 
-        public init(applicationId: String? = nil, appliedExtensions: [AppliedExtension]? = nil, completedAt: Date? = nil, configurationLocationUri: String? = nil, configurationName: String? = nil, configurationProfileId: String? = nil, configurationVersion: String? = nil, deploymentDurationInMinutes: Int? = nil, deploymentNumber: Int? = nil, deploymentStrategyId: String? = nil, description: String? = nil, environmentId: String? = nil, eventLog: [DeploymentEvent]? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil, kmsKeyArn: String? = nil, kmsKeyIdentifier: String? = nil, percentageComplete: Float? = nil, startedAt: Date? = nil, state: DeploymentState? = nil) {
+        public init(applicationId: String? = nil, appliedExtensions: [AppliedExtension]? = nil, completedAt: Date? = nil, configurationLocationUri: String? = nil, configurationName: String? = nil, configurationProfileId: String? = nil, configurationVersion: String? = nil, deploymentDurationInMinutes: Int? = nil, deploymentNumber: Int? = nil, deploymentStrategyId: String? = nil, description: String? = nil, environmentId: String? = nil, eventLog: [DeploymentEvent]? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil, kmsKeyArn: String? = nil, kmsKeyIdentifier: String? = nil, percentageComplete: Float? = nil, startedAt: Date? = nil, state: DeploymentState? = nil, versionLabel: String? = nil) {
             self.applicationId = applicationId
             self.appliedExtensions = appliedExtensions
             self.completedAt = completedAt
@@ -945,6 +947,7 @@ extension AppConfig {
             self.percentageComplete = percentageComplete
             self.startedAt = startedAt
             self.state = state
+            self.versionLabel = versionLabel
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -969,13 +972,14 @@ extension AppConfig {
             case percentageComplete = "PercentageComplete"
             case startedAt = "StartedAt"
             case state = "State"
+            case versionLabel = "VersionLabel"
         }
     }
 
     public struct DeploymentEvent: AWSDecodableShape {
         /// The list of extensions that were invoked as part of the deployment.
         public let actionInvocations: [ActionInvocation]?
-        /// A description of the deployment event. Descriptions include, but are not limited to, the user account or the Amazon CloudWatch alarm ARN that initiated a rollback, the percentage of hosts that received the deployment, or in the case of an internal error, a recommendation to attempt a new deployment.
+        /// A description of the deployment event. Descriptions include, but are not limited to, the following:   The Amazon Web Services account or the Amazon CloudWatch alarm ARN that initiated a rollback.   The percentage of hosts that received the deployment.   A recommendation to attempt a new deployment (in the case of an internal error).
         public let description: String?
         /// The type of deployment event. Deployment event types include the start, stop, or completion of a deployment; a percentage update; the start or stop of a bake period; and the start or completion of a rollback.
         public let eventType: DeploymentEventType?
@@ -1085,8 +1089,10 @@ extension AppConfig {
         public var startedAt: Date?
         /// The state of the deployment.
         public let state: DeploymentState?
+        /// A user-defined label for an AppConfig hosted configuration version.
+        public let versionLabel: String?
 
-        public init(completedAt: Date? = nil, configurationName: String? = nil, configurationVersion: String? = nil, deploymentDurationInMinutes: Int? = nil, deploymentNumber: Int? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil, percentageComplete: Float? = nil, startedAt: Date? = nil, state: DeploymentState? = nil) {
+        public init(completedAt: Date? = nil, configurationName: String? = nil, configurationVersion: String? = nil, deploymentDurationInMinutes: Int? = nil, deploymentNumber: Int? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil, percentageComplete: Float? = nil, startedAt: Date? = nil, state: DeploymentState? = nil, versionLabel: String? = nil) {
             self.completedAt = completedAt
             self.configurationName = configurationName
             self.configurationVersion = configurationVersion
@@ -1098,6 +1104,7 @@ extension AppConfig {
             self.percentageComplete = percentageComplete
             self.startedAt = startedAt
             self.state = state
+            self.versionLabel = versionLabel
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1112,6 +1119,7 @@ extension AppConfig {
             case percentageComplete = "PercentageComplete"
             case startedAt = "StartedAt"
             case state = "State"
+            case versionLabel = "VersionLabel"
         }
     }
 
@@ -2027,7 +2035,7 @@ extension AppConfig {
         public let applicationId: String
         /// The configuration profile ID.
         public let configurationProfileId: String
-        /// The configuration version to deploy. If deploying an AppConfig hosted configuration version, you can specify either the version number or version label.
+        /// The configuration version to deploy. If deploying an AppConfig hosted configuration version, you can specify either the version number or version label. For all other configurations, you must specify the version number.
         public let configurationVersion: String
         /// The deployment strategy ID.
         public let deploymentStrategyId: String
@@ -2517,7 +2525,7 @@ public struct AppConfigErrorType: AWSErrorType {
     public static var payloadTooLargeException: Self { .init(.payloadTooLargeException) }
     /// The requested resource could not be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The number of hosted configuration versions exceeds the limit for the AppConfig hosted configuration store. Delete one or more versions and try again.
+    /// The number of one more AppConfig resources exceeds the maximum allowed. Verify that your environment doesn't exceed the following service quotas: Applications: 100 max Deployment strategies: 20 max Configuration profiles: 100 max per application Environments: 20 max per application To resolve this issue, you can delete one or more resources and try again. Or, you can request a quota increase. For more information about quotas and to request an increase, see Service quotas for AppConfig in the Amazon Web Services General Reference.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
 }
 

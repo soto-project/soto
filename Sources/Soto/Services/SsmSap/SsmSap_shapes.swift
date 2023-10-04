@@ -26,6 +26,15 @@ import SotoCore
 extension SsmSap {
     // MARK: Enums
 
+    public enum ApplicationDiscoveryStatus: String, CustomStringConvertible, Codable, Sendable {
+        case deleting = "DELETING"
+        case refreshFailed = "REFRESH_FAILED"
+        case registering = "REGISTERING"
+        case registrationFailed = "REGISTRATION_FAILED"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ApplicationStatus: String, CustomStringConvertible, Codable, Sendable {
         case activated = "ACTIVATED"
         case deleting = "DELETING"
@@ -43,13 +52,34 @@ extension SsmSap {
         public var description: String { return self.rawValue }
     }
 
+    public enum BackintMode: String, CustomStringConvertible, Codable, Sendable {
+        case awsBackup = "AWSBackup"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClusterStatus: String, CustomStringConvertible, Codable, Sendable {
+        case maintenance = "MAINTENANCE"
+        case none = "NONE"
+        case offline = "OFFLINE"
+        case online = "ONLINE"
+        case standby = "STANDBY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ComponentStatus: String, CustomStringConvertible, Codable, Sendable {
         case activated = "ACTIVATED"
+        case running = "RUNNING"
+        case runningWithError = "RUNNING_WITH_ERROR"
+        case starting = "STARTING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
+        case undefined = "UNDEFINED"
         public var description: String { return self.rawValue }
     }
 
     public enum ComponentType: String, CustomStringConvertible, Codable, Sendable {
         case hana = "HANA"
+        case hanaNode = "HANA_NODE"
         public var description: String { return self.rawValue }
     }
 
@@ -59,6 +89,7 @@ extension SsmSap {
     }
 
     public enum DatabaseStatus: String, CustomStringConvertible, Codable, Sendable {
+        case error = "ERROR"
         case running = "RUNNING"
         case starting = "STARTING"
         case stopped = "STOPPED"
@@ -88,6 +119,15 @@ extension SsmSap {
         public var description: String { return self.rawValue }
     }
 
+    public enum OperationMode: String, CustomStringConvertible, Codable, Sendable {
+        case deltaDatashipping = "DELTA_DATASHIPPING"
+        case logreplay = "LOGREPLAY"
+        case logreplayReadaccess = "LOGREPLAY_READACCESS"
+        case none = "NONE"
+        case primary = "PRIMARY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OperationStatus: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case inprogress = "INPROGRESS"
@@ -100,6 +140,15 @@ extension SsmSap {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReplicationMode: String, CustomStringConvertible, Codable, Sendable {
+        case `async` = "ASYNC"
+        case none = "NONE"
+        case primary = "PRIMARY"
+        case sync = "SYNC"
+        case syncmem = "SYNCMEM"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct Application: AWSDecodableShape {
@@ -109,6 +158,8 @@ extension SsmSap {
         public let arn: String?
         /// The components of the application.
         public let components: [String]?
+        /// The latest discovery result for the application.
+        public let discoveryStatus: ApplicationDiscoveryStatus?
         /// The ID of the application.
         public let id: String?
         /// The time at which the application was last updated.
@@ -120,10 +171,11 @@ extension SsmSap {
         /// The type of the application.
         public let type: ApplicationType?
 
-        public init(appRegistryArn: String? = nil, arn: String? = nil, components: [String]? = nil, id: String? = nil, lastUpdated: Date? = nil, status: ApplicationStatus? = nil, statusMessage: String? = nil, type: ApplicationType? = nil) {
+        public init(appRegistryArn: String? = nil, arn: String? = nil, components: [String]? = nil, discoveryStatus: ApplicationDiscoveryStatus? = nil, id: String? = nil, lastUpdated: Date? = nil, status: ApplicationStatus? = nil, statusMessage: String? = nil, type: ApplicationType? = nil) {
             self.appRegistryArn = appRegistryArn
             self.arn = arn
             self.components = components
+            self.discoveryStatus = discoveryStatus
             self.id = id
             self.lastUpdated = lastUpdated
             self.status = status
@@ -135,6 +187,7 @@ extension SsmSap {
             case appRegistryArn = "AppRegistryArn"
             case arn = "Arn"
             case components = "Components"
+            case discoveryStatus = "DiscoveryStatus"
             case id = "Id"
             case lastUpdated = "LastUpdated"
             case status = "Status"
@@ -196,43 +249,132 @@ extension SsmSap {
         }
     }
 
+    public struct AssociatedHost: AWSDecodableShape {
+        /// The ID of the Amazon EC2 instance.
+        public let ec2InstanceId: String?
+        /// The name of the host.
+        public let hostname: String?
+        /// The version of the operating system.
+        public let osVersion: String?
+
+        public init(ec2InstanceId: String? = nil, hostname: String? = nil, osVersion: String? = nil) {
+            self.ec2InstanceId = ec2InstanceId
+            self.hostname = hostname
+            self.osVersion = osVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ec2InstanceId = "Ec2InstanceId"
+            case hostname = "Hostname"
+            case osVersion = "OsVersion"
+        }
+    }
+
+    public struct BackintConfig: AWSEncodableShape {
+        /// AWS service for your database backup.
+        public let backintMode: BackintMode
+        public let ensureNoBackupInProcess: Bool
+
+        public init(backintMode: BackintMode, ensureNoBackupInProcess: Bool) {
+            self.backintMode = backintMode
+            self.ensureNoBackupInProcess = ensureNoBackupInProcess
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backintMode = "BackintMode"
+            case ensureNoBackupInProcess = "EnsureNoBackupInProcess"
+        }
+    }
+
     public struct Component: AWSDecodableShape {
         /// The ID of the application.
         public let applicationId: String?
+        /// The Amazon Resource Name (ARN) of the component.
+        public let arn: String?
+        /// The associated host of the component.
+        public let associatedHost: AssociatedHost?
+        /// The child components of a highly available environment. For example, in a highly available SAP on AWS workload, the child component consists of the primary and secondar instances.
+        public let childComponents: [String]?
         /// The ID of the component.
         public let componentId: String?
         /// The type of the component.
         public let componentType: ComponentType?
         /// The SAP HANA databases of the component.
         public let databases: [String]?
+        /// The SAP HANA version of the component.
+        public let hdbVersion: String?
         /// The hosts of the component.
         public let hosts: [Host]?
         /// The time at which the component was last updated.
         public let lastUpdated: Date?
+        /// The parent component of a highly available environment. For example, in a highly available SAP on AWS workload, the parent component consists of the entire setup, including the child components.
+        public let parentComponent: String?
         /// The primary host of the component.
         public let primaryHost: String?
+        /// Details of the SAP HANA system replication for the component.
+        public let resilience: Resilience?
+        /// The hostname of the component.
+        public let sapHostname: String?
+        /// The kernel version of the component.
+        public let sapKernelVersion: String?
         /// The status of the component.
         public let status: ComponentStatus?
 
-        public init(applicationId: String? = nil, componentId: String? = nil, componentType: ComponentType? = nil, databases: [String]? = nil, hosts: [Host]? = nil, lastUpdated: Date? = nil, primaryHost: String? = nil, status: ComponentStatus? = nil) {
+        public init(applicationId: String? = nil, arn: String? = nil, associatedHost: AssociatedHost? = nil, childComponents: [String]? = nil, componentId: String? = nil, componentType: ComponentType? = nil, databases: [String]? = nil, hdbVersion: String? = nil, lastUpdated: Date? = nil, parentComponent: String? = nil, resilience: Resilience? = nil, sapHostname: String? = nil, sapKernelVersion: String? = nil, status: ComponentStatus? = nil) {
             self.applicationId = applicationId
+            self.arn = arn
+            self.associatedHost = associatedHost
+            self.childComponents = childComponents
             self.componentId = componentId
             self.componentType = componentType
             self.databases = databases
+            self.hdbVersion = hdbVersion
+            self.hosts = nil
+            self.lastUpdated = lastUpdated
+            self.parentComponent = parentComponent
+            self.primaryHost = nil
+            self.resilience = resilience
+            self.sapHostname = sapHostname
+            self.sapKernelVersion = sapKernelVersion
+            self.status = status
+        }
+
+        @available(*, deprecated, message: "Members hosts, primaryHost have been deprecated")
+        public init(applicationId: String? = nil, arn: String? = nil, associatedHost: AssociatedHost? = nil, childComponents: [String]? = nil, componentId: String? = nil, componentType: ComponentType? = nil, databases: [String]? = nil, hdbVersion: String? = nil, hosts: [Host]? = nil, lastUpdated: Date? = nil, parentComponent: String? = nil, primaryHost: String? = nil, resilience: Resilience? = nil, sapHostname: String? = nil, sapKernelVersion: String? = nil, status: ComponentStatus? = nil) {
+            self.applicationId = applicationId
+            self.arn = arn
+            self.associatedHost = associatedHost
+            self.childComponents = childComponents
+            self.componentId = componentId
+            self.componentType = componentType
+            self.databases = databases
+            self.hdbVersion = hdbVersion
             self.hosts = hosts
             self.lastUpdated = lastUpdated
+            self.parentComponent = parentComponent
             self.primaryHost = primaryHost
+            self.resilience = resilience
+            self.sapHostname = sapHostname
+            self.sapKernelVersion = sapKernelVersion
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case applicationId = "ApplicationId"
+            case arn = "Arn"
+            case associatedHost = "AssociatedHost"
+            case childComponents = "ChildComponents"
             case componentId = "ComponentId"
             case componentType = "ComponentType"
             case databases = "Databases"
+            case hdbVersion = "HdbVersion"
             case hosts = "Hosts"
             case lastUpdated = "LastUpdated"
+            case parentComponent = "ParentComponent"
             case primaryHost = "PrimaryHost"
+            case resilience = "Resilience"
+            case sapHostname = "SapHostname"
+            case sapKernelVersion = "SapKernelVersion"
             case status = "Status"
         }
     }
@@ -240,6 +382,8 @@ extension SsmSap {
     public struct ComponentSummary: AWSDecodableShape {
         /// The ID of the application.
         public let applicationId: String?
+        /// The Amazon Resource Name (ARN) of the component summary.
+        public let arn: String?
         /// The ID of the component.
         public let componentId: String?
         /// The type of the component.
@@ -247,8 +391,9 @@ extension SsmSap {
         /// The tags of the component.
         public let tags: [String: String]?
 
-        public init(applicationId: String? = nil, componentId: String? = nil, componentType: ComponentType? = nil, tags: [String: String]? = nil) {
+        public init(applicationId: String? = nil, arn: String? = nil, componentId: String? = nil, componentType: ComponentType? = nil, tags: [String: String]? = nil) {
             self.applicationId = applicationId
+            self.arn = arn
             self.componentId = componentId
             self.componentType = componentType
             self.tags = tags
@@ -256,6 +401,7 @@ extension SsmSap {
 
         private enum CodingKeys: String, CodingKey {
             case applicationId = "ApplicationId"
+            case arn = "Arn"
             case componentId = "ComponentId"
             case componentType = "ComponentType"
             case tags = "Tags"
@@ -505,13 +651,17 @@ extension SsmSap {
     public struct GetComponentOutput: AWSDecodableShape {
         /// The component of an application registered with AWS Systems Manager for SAP.
         public let component: Component?
+        /// The tags of a component.
+        public let tags: [String: String]?
 
-        public init(component: Component? = nil) {
+        public init(component: Component? = nil, tags: [String: String]? = nil) {
             self.component = component
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case component = "Component"
+            case tags = "Tags"
         }
     }
 
@@ -627,6 +777,8 @@ extension SsmSap {
     }
 
     public struct Host: AWSDecodableShape {
+        /// The ID of Amazon EC2 instance.
+        public let ec2InstanceId: String?
         /// The IP address of the Dedicated Host.
         public let hostIp: String?
         /// The name of the Dedicated Host.
@@ -635,19 +787,25 @@ extension SsmSap {
         public let hostRole: HostRole?
         /// The instance ID of the instance on the Dedicated Host.
         public let instanceId: String?
+        /// The version of the operating system.
+        public let osVersion: String?
 
-        public init(hostIp: String? = nil, hostName: String? = nil, hostRole: HostRole? = nil, instanceId: String? = nil) {
+        public init(ec2InstanceId: String? = nil, hostIp: String? = nil, hostName: String? = nil, hostRole: HostRole? = nil, instanceId: String? = nil, osVersion: String? = nil) {
+            self.ec2InstanceId = ec2InstanceId
             self.hostIp = hostIp
             self.hostName = hostName
             self.hostRole = hostRole
             self.instanceId = instanceId
+            self.osVersion = osVersion
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ec2InstanceId = "EC2InstanceId"
             case hostIp = "HostIp"
             case hostName = "HostName"
             case hostRole = "HostRole"
             case instanceId = "InstanceId"
+            case osVersion = "OsVersion"
         }
     }
 
@@ -1034,6 +1192,61 @@ extension SsmSap {
         }
     }
 
+    public struct Resilience: AWSDecodableShape {
+        /// The cluster status of the component.
+        public let clusterStatus: ClusterStatus?
+        /// The operation mode of the component.
+        public let hsrOperationMode: OperationMode?
+        /// The replication mode of the component.
+        public let hsrReplicationMode: ReplicationMode?
+        /// The tier of the component.
+        public let hsrTier: String?
+
+        public init(clusterStatus: ClusterStatus? = nil, hsrOperationMode: OperationMode? = nil, hsrReplicationMode: ReplicationMode? = nil, hsrTier: String? = nil) {
+            self.clusterStatus = clusterStatus
+            self.hsrOperationMode = hsrOperationMode
+            self.hsrReplicationMode = hsrReplicationMode
+            self.hsrTier = hsrTier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterStatus = "ClusterStatus"
+            case hsrOperationMode = "HsrOperationMode"
+            case hsrReplicationMode = "HsrReplicationMode"
+            case hsrTier = "HsrTier"
+        }
+    }
+
+    public struct StartApplicationRefreshInput: AWSEncodableShape {
+        /// The ID of the application.
+        public let applicationId: String
+
+        public init(applicationId: String) {
+            self.applicationId = applicationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d]{1,50}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+        }
+    }
+
+    public struct StartApplicationRefreshOutput: AWSDecodableShape {
+        /// The ID of the operation.
+        public let operationId: String?
+
+        public init(operationId: String? = nil) {
+            self.operationId = operationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
@@ -1100,13 +1313,16 @@ extension SsmSap {
     public struct UpdateApplicationSettingsInput: AWSEncodableShape {
         /// The ID of the application.
         public let applicationId: String
+        /// Installation of AWS Backint Agent for SAP HANA.
+        public let backint: BackintConfig?
         /// The credentials to be added or updated.
         public let credentialsToAddOrUpdate: [ApplicationCredential]?
         /// The credentials to be removed.
         public let credentialsToRemove: [ApplicationCredential]?
 
-        public init(applicationId: String, credentialsToAddOrUpdate: [ApplicationCredential]? = nil, credentialsToRemove: [ApplicationCredential]? = nil) {
+        public init(applicationId: String, backint: BackintConfig? = nil, credentialsToAddOrUpdate: [ApplicationCredential]? = nil, credentialsToRemove: [ApplicationCredential]? = nil) {
             self.applicationId = applicationId
+            self.backint = backint
             self.credentialsToAddOrUpdate = credentialsToAddOrUpdate
             self.credentialsToRemove = credentialsToRemove
         }
@@ -1127,6 +1343,7 @@ extension SsmSap {
 
         private enum CodingKeys: String, CodingKey {
             case applicationId = "ApplicationId"
+            case backint = "Backint"
             case credentialsToAddOrUpdate = "CredentialsToAddOrUpdate"
             case credentialsToRemove = "CredentialsToRemove"
         }

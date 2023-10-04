@@ -54,6 +54,28 @@ public struct IoTTwinMaker: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2021-11-29",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "api-ap-southeast-1": "api.iottwinmaker.ap-southeast-1.amazonaws.com",
+                "api-ap-southeast-2": "api.iottwinmaker.ap-southeast-2.amazonaws.com",
+                "api-eu-central-1": "api.iottwinmaker.eu-central-1.amazonaws.com",
+                "api-eu-west-1": "api.iottwinmaker.eu-west-1.amazonaws.com",
+                "api-us-east-1": "api.iottwinmaker.us-east-1.amazonaws.com",
+                "api-us-gov-west-1": "api.iottwinmaker.us-gov-west-1.amazonaws.com",
+                "api-us-west-2": "api.iottwinmaker.us-west-2.amazonaws.com",
+                "data-ap-southeast-1": "data.iottwinmaker.ap-southeast-1.amazonaws.com",
+                "data-ap-southeast-2": "data.iottwinmaker.ap-southeast-2.amazonaws.com",
+                "data-eu-central-1": "data.iottwinmaker.eu-central-1.amazonaws.com",
+                "data-eu-west-1": "data.iottwinmaker.eu-west-1.amazonaws.com",
+                "data-us-east-1": "data.iottwinmaker.us-east-1.amazonaws.com",
+                "data-us-gov-west-1": "data.iottwinmaker.us-gov-west-1.amazonaws.com",
+                "data-us-west-2": "data.iottwinmaker.us-west-2.amazonaws.com",
+                "fips-api-us-east-1": "api.iottwinmaker-fips.us-east-1.amazonaws.com",
+                "fips-api-us-gov-west-1": "api.iottwinmaker-fips.us-gov-west-1.amazonaws.com",
+                "fips-api-us-west-2": "api.iottwinmaker-fips.us-west-2.amazonaws.com",
+                "fips-data-us-east-1": "data.iottwinmaker-fips.us-east-1.amazonaws.com",
+                "fips-data-us-gov-west-1": "data.iottwinmaker-fips.us-gov-west-1.amazonaws.com",
+                "fips-data-us-west-2": "data.iottwinmaker-fips.us-west-2.amazonaws.com"
+            ],
             variantEndpoints: [
                 [.fips]: .init(endpoints: [
                     "us-east-1": "iottwinmaker-fips.us-east-1.amazonaws.com",

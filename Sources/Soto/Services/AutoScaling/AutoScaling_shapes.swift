@@ -409,6 +409,28 @@ extension AutoScaling {
         }
     }
 
+    public struct AlarmSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// The names of one or more CloudWatch alarms to monitor for the instance refresh. You can specify up to 10 alarms.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var alarms: [String]?
+
+        public init(alarms: [String]? = nil) {
+            self.alarms = alarms
+        }
+
+        public func validate(name: String) throws {
+            try self.alarms?.forEach {
+                try validate($0, name: "alarms[]", parent: name, max: 255)
+                try validate($0, name: "alarms[]", parent: name, min: 1)
+                try validate($0, name: "alarms[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarms = "Alarms"
+        }
+    }
+
     public struct AttachInstancesQuery: AWSEncodableShape {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -3057,14 +3079,14 @@ extension AutoScaling {
             try self.allowedInstanceTypes?.forEach {
                 try validate($0, name: "allowedInstanceTypes[]", parent: name, max: 30)
                 try validate($0, name: "allowedInstanceTypes[]", parent: name, min: 1)
-                try validate($0, name: "allowedInstanceTypes[]", parent: name, pattern: "^[a-zA-Z0-9\\.\\*]+$")
+                try validate($0, name: "allowedInstanceTypes[]", parent: name, pattern: "^[a-zA-Z0-9\\.\\*\\-]+$")
             }
             try self.validate(self.allowedInstanceTypes, name: "allowedInstanceTypes", parent: name, max: 400)
             try self.baselineEbsBandwidthMbps?.validate(name: "\(name).baselineEbsBandwidthMbps")
             try self.excludedInstanceTypes?.forEach {
                 try validate($0, name: "excludedInstanceTypes[]", parent: name, max: 30)
                 try validate($0, name: "excludedInstanceTypes[]", parent: name, min: 1)
-                try validate($0, name: "excludedInstanceTypes[]", parent: name, pattern: "^[a-zA-Z0-9\\.\\*]+$")
+                try validate($0, name: "excludedInstanceTypes[]", parent: name, pattern: "^[a-zA-Z0-9\\.\\*\\-]+$")
             }
             try self.validate(self.excludedInstanceTypes, name: "excludedInstanceTypes", parent: name, max: 400)
             try self.memoryGiBPerVCpu?.validate(name: "\(name).memoryGiBPerVCpu")
@@ -4248,7 +4270,7 @@ extension AutoScaling {
         public let policyType: String?
         /// A predictive scaling policy. Provides support for predefined and custom metrics. Predefined metrics include CPU utilization, network in/out, and the Application Load Balancer request count. For more information, see PredictiveScalingConfiguration in the Amazon EC2 Auto Scaling API Reference. Required if the policy type is PredictiveScaling.
         public let predictiveScalingConfiguration: PredictiveScalingConfiguration?
-        /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity. For exact capacity, you must specify a positive value. Required if the policy type is SimpleScaling. (Not used with any other policy type.)
+        /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity. For exact capacity, you must specify a non-negative value. Required if the policy type is SimpleScaling. (Not used with any other policy type.)
         public let scalingAdjustment: Int?
         /// A set of adjustments that enable you to scale based on the size of the alarm breach. Required if the policy type is StepScaling. (Not used with any other policy type.)
         @OptionalCustomCoding<StandardArrayCoder>
@@ -4460,7 +4482,9 @@ extension AutoScaling {
     }
 
     public struct RefreshPreferences: AWSEncodableShape & AWSDecodableShape {
-        /// (Optional) Indicates whether to roll back the Auto Scaling group to its previous configuration if the instance refresh fails. The default is false. A rollback is not supported in the following situations:    There is no desired configuration specified for the instance refresh.   The Auto Scaling group has a launch template that uses an Amazon Web Services Systems Manager parameter instead of an AMI ID for the ImageId property.   The Auto Scaling group uses the launch template's $Latest or $Default version.
+        /// (Optional) The CloudWatch alarm specification. CloudWatch alarms can be used to identify any issues and fail the operation if an alarm threshold is met.
+        public let alarmSpecification: AlarmSpecification?
+        /// (Optional) Indicates whether to roll back the Auto Scaling group to its previous configuration if the instance refresh fails or a CloudWatch alarm threshold is met. The default is false. A rollback is not supported in the following situations:    There is no desired configuration specified for the instance refresh.   The Auto Scaling group has a launch template that uses an Amazon Web Services Systems Manager parameter instead of an AMI ID for the ImageId property.   The Auto Scaling group uses the launch template's $Latest or $Default version.   For more information, see Undo changes with a rollback in the Amazon EC2 Auto Scaling User Guide.
         public let autoRollback: Bool?
         /// (Optional) The amount of time, in seconds, to wait after a checkpoint before continuing. This property is optional, but if you specify a value for it, you must also specify a value for CheckpointPercentages. If you specify a value for CheckpointPercentages and not for CheckpointDelay, the CheckpointDelay defaults to 3600 (1 hour).
         public let checkpointDelay: Int?
@@ -4478,7 +4502,8 @@ extension AutoScaling {
         /// Choose the behavior that you want Amazon EC2 Auto Scaling to use if instances in Standby state are found. The following lists the valid values:  Terminate  Amazon EC2 Auto Scaling terminates instances that are in Standby.  Ignore  Amazon EC2 Auto Scaling ignores instances that are in Standby and continues to replace instances that are in the InService state.  Wait (default)  Amazon EC2 Auto Scaling waits one hour for you to return the instances to service. Otherwise, the instance refresh will fail.
         public let standbyInstances: StandbyInstances?
 
-        public init(autoRollback: Bool? = nil, checkpointDelay: Int? = nil, checkpointPercentages: [Int]? = nil, instanceWarmup: Int? = nil, minHealthyPercentage: Int? = nil, scaleInProtectedInstances: ScaleInProtectedInstances? = nil, skipMatching: Bool? = nil, standbyInstances: StandbyInstances? = nil) {
+        public init(alarmSpecification: AlarmSpecification? = nil, autoRollback: Bool? = nil, checkpointDelay: Int? = nil, checkpointPercentages: [Int]? = nil, instanceWarmup: Int? = nil, minHealthyPercentage: Int? = nil, scaleInProtectedInstances: ScaleInProtectedInstances? = nil, skipMatching: Bool? = nil, standbyInstances: StandbyInstances? = nil) {
+            self.alarmSpecification = alarmSpecification
             self.autoRollback = autoRollback
             self.checkpointDelay = checkpointDelay
             self.checkpointPercentages = checkpointPercentages
@@ -4490,6 +4515,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
+            try self.alarmSpecification?.validate(name: "\(name).alarmSpecification")
             try self.validate(self.checkpointDelay, name: "checkpointDelay", parent: name, max: 172800)
             try self.validate(self.checkpointDelay, name: "checkpointDelay", parent: name, min: 0)
             try self.checkpointPercentages?.forEach {
@@ -4502,6 +4528,7 @@ extension AutoScaling {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarmSpecification = "AlarmSpecification"
             case autoRollback = "AutoRollback"
             case checkpointDelay = "CheckpointDelay"
             case checkpointPercentages = "CheckpointPercentages"
@@ -4557,9 +4584,9 @@ extension AutoScaling {
 
     public struct RollbackInstanceRefreshType: AWSEncodableShape {
         /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String?
+        public let autoScalingGroupName: String
 
-        public init(autoScalingGroupName: String? = nil) {
+        public init(autoScalingGroupName: String) {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
@@ -4914,7 +4941,7 @@ extension AutoScaling {
         public let autoScalingGroupName: String
         /// The desired configuration. For example, the desired configuration can specify a new launch template or a new version of the current launch template. Once the instance refresh succeeds, Amazon EC2 Auto Scaling updates the settings of the Auto Scaling group to reflect the new desired configuration.   When you specify a new launch template or a new version of the current launch template for your desired configuration, consider enabling the SkipMatching property in preferences. If it's enabled, Amazon EC2 Auto Scaling skips replacing instances that already use the specified launch template and instance types. This can help you reduce the number of replacements that are required to apply updates.
         public let desiredConfiguration: DesiredConfiguration?
-        /// Sets your preferences for the instance refresh so that it performs as expected when you start it. Includes the instance warmup time, the minimum healthy percentage, and the behaviors that you want Amazon EC2 Auto Scaling to use if instances that are in Standby state or protected from scale in are found. You can also choose to enable additional features, such as the following:   Auto rollback   Checkpoints   Skip matching
+        /// Sets your preferences for the instance refresh so that it performs as expected when you start it. Includes the instance warmup time, the minimum healthy percentage, and the behaviors that you want Amazon EC2 Auto Scaling to use if instances that are in Standby state or protected from scale in are found. You can also choose to enable additional features, such as the following:   Auto rollback   Checkpoints   CloudWatch alarms   Skip matching
         public let preferences: RefreshPreferences?
         /// The strategy to use for the instance refresh. The only valid value is Rolling.
         public let strategy: RefreshStrategy?
@@ -4947,7 +4974,7 @@ extension AutoScaling {
         public let metricIntervalLowerBound: Double?
         /// The upper bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the upper bound is exclusive (the metric must be less than the threshold plus the upper bound). Otherwise, it is inclusive (the metric must be less than or equal to the threshold plus the upper bound). A null value indicates positive infinity. The upper bound must be greater than the lower bound.
         public let metricIntervalUpperBound: Double?
-        /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity. The amount by which to scale. The adjustment is based on the value that you specified in the AdjustmentType property (either an absolute number or a percentage). A positive value adds to the current capacity and a negative number subtracts from the current capacity.
+        /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity. For exact capacity, you must specify a non-negative value.
         public let scalingAdjustment: Int
 
         public init(metricIntervalLowerBound: Double? = nil, metricIntervalUpperBound: Double? = nil, scalingAdjustment: Int) {

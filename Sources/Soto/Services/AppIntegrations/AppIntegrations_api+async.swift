@@ -21,6 +21,11 @@ import SotoCore
 extension AppIntegrations {
     // MARK: Async API Calls
 
+    /// This API is in preview release and subject to change. Creates and persists an Application resource.
+    public func createApplication(_ input: CreateApplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateApplicationResponse {
+        return try await self.client.execute(operation: "CreateApplication", path: "/applications", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates and persists a DataIntegration resource.  You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API.
     public func createDataIntegration(_ input: CreateDataIntegrationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateDataIntegrationResponse {
         return try await self.client.execute(operation: "CreateDataIntegration", path: "/dataIntegrations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -43,6 +48,11 @@ extension AppIntegrations {
         return try await self.client.execute(operation: "DeleteEventIntegration", path: "/eventIntegrations/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// This API is in preview release and subject to change. Get an Application resource.
+    public func getApplication(_ input: GetApplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetApplicationResponse {
+        return try await self.client.execute(operation: "GetApplication", path: "/applications/{Arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns information about the DataIntegration.  You cannot create a DataIntegration association for a DataIntegration that has been previously associated.
     /// Use a different DataIntegration, or recreate the DataIntegration using the
     /// CreateDataIntegration API.
@@ -53,6 +63,11 @@ extension AppIntegrations {
     /// Returns information about the event integration.
     public func getEventIntegration(_ input: GetEventIntegrationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetEventIntegrationResponse {
         return try await self.client.execute(operation: "GetEventIntegration", path: "/eventIntegrations/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// This API is in preview release and subject to change. Lists applications in the account.
+    public func listApplications(_ input: ListApplicationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListApplicationsResponse {
+        return try await self.client.execute(operation: "ListApplications", path: "/applications", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns a paginated list of DataIntegration associations in the account.  You cannot create a DataIntegration association for a DataIntegration that has been previously associated.
@@ -94,6 +109,11 @@ extension AppIntegrations {
         return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// This API is in preview release and subject to change. Updates and persists an Application resource.
+    public func updateApplication(_ input: UpdateApplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateApplicationResponse {
+        return try await self.client.execute(operation: "UpdateApplication", path: "/applications/{Arn}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Updates the description of a DataIntegration.  You cannot create a DataIntegration association for a DataIntegration that has been previously associated.
     /// Use a different DataIntegration, or recreate the DataIntegration using the
     /// CreateDataIntegration API.
@@ -104,5 +124,124 @@ extension AppIntegrations {
     /// Updates the description of an event integration.
     public func updateEventIntegration(_ input: UpdateEventIntegrationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateEventIntegrationResponse {
         return try await self.client.execute(operation: "UpdateEventIntegration", path: "/eventIntegrations/{Name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+}
+
+// MARK: Paginators
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension AppIntegrations {
+    /// This API is in preview release and subject to change. Lists applications in the account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listApplicationsPaginator(
+        _ input: ListApplicationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListApplicationsRequest, ListApplicationsResponse> {
+        return .init(
+            input: input,
+            command: self.listApplications,
+            inputKey: \ListApplicationsRequest.nextToken,
+            outputKey: \ListApplicationsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Returns a paginated list of DataIntegration associations in the account.  You cannot create a DataIntegration association for a DataIntegration that has been previously associated.
+    /// Use a different DataIntegration, or recreate the DataIntegration using the
+    /// CreateDataIntegration API.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listDataIntegrationAssociationsPaginator(
+        _ input: ListDataIntegrationAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListDataIntegrationAssociationsRequest, ListDataIntegrationAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listDataIntegrationAssociations,
+            inputKey: \ListDataIntegrationAssociationsRequest.nextToken,
+            outputKey: \ListDataIntegrationAssociationsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Returns a paginated list of DataIntegrations in the account.  You cannot create a DataIntegration association for a DataIntegration that has been previously associated.
+    /// Use a different DataIntegration, or recreate the DataIntegration using the
+    /// CreateDataIntegration API.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listDataIntegrationsPaginator(
+        _ input: ListDataIntegrationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListDataIntegrationsRequest, ListDataIntegrationsResponse> {
+        return .init(
+            input: input,
+            command: self.listDataIntegrations,
+            inputKey: \ListDataIntegrationsRequest.nextToken,
+            outputKey: \ListDataIntegrationsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Returns a paginated list of event integration associations in the account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listEventIntegrationAssociationsPaginator(
+        _ input: ListEventIntegrationAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListEventIntegrationAssociationsRequest, ListEventIntegrationAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listEventIntegrationAssociations,
+            inputKey: \ListEventIntegrationAssociationsRequest.nextToken,
+            outputKey: \ListEventIntegrationAssociationsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Returns a paginated list of event integrations in the account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listEventIntegrationsPaginator(
+        _ input: ListEventIntegrationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListEventIntegrationsRequest, ListEventIntegrationsResponse> {
+        return .init(
+            input: input,
+            command: self.listEventIntegrations,
+            inputKey: \ListEventIntegrationsRequest.nextToken,
+            outputKey: \ListEventIntegrationsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
     }
 }

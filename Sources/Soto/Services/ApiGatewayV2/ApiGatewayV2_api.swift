@@ -187,7 +187,7 @@ public struct ApiGatewayV2: AWSService {
         return self.client.execute(operation: "DeleteRoute", path: "/v2/apis/{ApiId}/routes/{RouteId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a route request parameter.
+    /// Deletes a route request parameter. Supported only for WebSocket APIs.
     @discardableResult public func deleteRouteRequestParameter(_ input: DeleteRouteRequestParameterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteRouteRequestParameter", path: "/v2/apis/{ApiId}/routes/{RouteId}/requestparameters/{RequestParameterKey}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

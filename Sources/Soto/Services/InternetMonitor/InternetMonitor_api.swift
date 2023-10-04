@@ -20,7 +20,7 @@
 /// Service object for interacting with AWS InternetMonitor service.
 ///
 /// Amazon CloudWatch Internet Monitor provides visibility into how internet issues impact the performance and availability
-/// 			between your applications hosted on Amazon Web Services and your end users. It reduces the time it takes for you to diagnose
+/// 			between your applications hosted on Amazon Web Services and your end users. It can reduce the time it takes for you to diagnose
 /// 			internet issues from days to minutes. Internet Monitor uses the connectivity data that Amazon Web Services captures from its global
 /// 			networking footprint to calculate a baseline of performance and availability for internet traffic. This
 /// 			is the same data that Amazon Web Services uses to monitor internet uptime and availability. With those measurements
@@ -29,9 +29,9 @@
 /// 			to easily support using CloudWatch tools with health information for geographies and networks specific to your application.
 /// 			Internet Monitor sends health events to Amazon EventBridge so that you can set up notifications. If an issue is caused by the Amazon Web Services network,
 /// 			you also automatically receive an Amazon Web Services Health Dashboard notification with the steps that Amazon Web Services is taking to mitigate the problem. To use Internet Monitor, you create a monitor and associate your application's resources
-/// 			with it, VPCs, CloudFront distributions, or WorkSpaces directories, to enable Internet Monitor to know
+/// 			with it - VPCs, NLBs, CloudFront distributions, or WorkSpaces directories - so Internet Monitor can determine
 /// 			where your application's internet traffic is. Internet Monitor then provides internet measurements from Amazon Web Services that are specific to
-/// 			the locations and networks that communicate with your application. For more information, see Using Amazon CloudWatch Internet Monitor in the Amazon CloudWatch User Guide.
+/// 			the locations and ASNs (typically, internet service providers or ISPs) that communicate with your application. For more information, see Using Amazon CloudWatch Internet Monitor in the Amazon CloudWatch User Guide.
 public struct InternetMonitor: AWSService {
     // MARK: Member variables
 
@@ -71,18 +71,26 @@ public struct InternetMonitor: AWSService {
                 "ap-east-1": "internetmonitor.ap-east-1.api.aws",
                 "ap-northeast-1": "internetmonitor.ap-northeast-1.api.aws",
                 "ap-northeast-2": "internetmonitor.ap-northeast-2.api.aws",
+                "ap-northeast-3": "internetmonitor.ap-northeast-3.api.aws",
                 "ap-south-1": "internetmonitor.ap-south-1.api.aws",
+                "ap-south-2": "internetmonitor.ap-south-2.api.aws",
                 "ap-southeast-1": "internetmonitor.ap-southeast-1.api.aws",
                 "ap-southeast-2": "internetmonitor.ap-southeast-2.api.aws",
+                "ap-southeast-3": "internetmonitor.ap-southeast-3.api.aws",
+                "ap-southeast-4": "internetmonitor.ap-southeast-4.api.aws",
                 "ca-central-1": "internetmonitor.ca-central-1.api.aws",
                 "cn-north-1": "internetmonitor.cn-north-1.api.amazonwebservices.com.cn",
                 "cn-northwest-1": "internetmonitor.cn-northwest-1.api.amazonwebservices.com.cn",
                 "eu-central-1": "internetmonitor.eu-central-1.api.aws",
+                "eu-central-2": "internetmonitor.eu-central-2.api.aws",
                 "eu-north-1": "internetmonitor.eu-north-1.api.aws",
                 "eu-south-1": "internetmonitor.eu-south-1.api.aws",
+                "eu-south-2": "internetmonitor.eu-south-2.api.aws",
                 "eu-west-1": "internetmonitor.eu-west-1.api.aws",
                 "eu-west-2": "internetmonitor.eu-west-2.api.aws",
                 "eu-west-3": "internetmonitor.eu-west-3.api.aws",
+                "il-central-1": "internetmonitor.il-central-1.api.aws",
+                "me-central-1": "internetmonitor.me-central-1.api.aws",
                 "me-south-1": "internetmonitor.me-south-1.api.aws",
                 "sa-east-1": "internetmonitor.sa-east-1.api.aws",
                 "us-east-1": "internetmonitor.us-east-1.api.aws",
@@ -98,26 +106,34 @@ public struct InternetMonitor: AWSService {
                     "ap-east-1": "internetmonitor-fips.ap-east-1.api.aws",
                     "ap-northeast-1": "internetmonitor-fips.ap-northeast-1.api.aws",
                     "ap-northeast-2": "internetmonitor-fips.ap-northeast-2.api.aws",
+                    "ap-northeast-3": "internetmonitor-fips.ap-northeast-3.api.aws",
                     "ap-south-1": "internetmonitor-fips.ap-south-1.api.aws",
+                    "ap-south-2": "internetmonitor-fips.ap-south-2.api.aws",
                     "ap-southeast-1": "internetmonitor-fips.ap-southeast-1.api.aws",
                     "ap-southeast-2": "internetmonitor-fips.ap-southeast-2.api.aws",
-                    "ca-central-1": "internetmonitor-fips.ca-central-1.api.aws",
+                    "ap-southeast-3": "internetmonitor-fips.ap-southeast-3.api.aws",
+                    "ap-southeast-4": "internetmonitor-fips.ap-southeast-4.api.aws",
+                    "ca-central-1": "internetmonitor-fips.ca-central-1.amazonaws.com",
                     "cn-north-1": "internetmonitor-fips.cn-north-1.api.amazonwebservices.com.cn",
                     "cn-northwest-1": "internetmonitor-fips.cn-northwest-1.api.amazonwebservices.com.cn",
                     "eu-central-1": "internetmonitor-fips.eu-central-1.api.aws",
+                    "eu-central-2": "internetmonitor-fips.eu-central-2.api.aws",
                     "eu-north-1": "internetmonitor-fips.eu-north-1.api.aws",
                     "eu-south-1": "internetmonitor-fips.eu-south-1.api.aws",
+                    "eu-south-2": "internetmonitor-fips.eu-south-2.api.aws",
                     "eu-west-1": "internetmonitor-fips.eu-west-1.api.aws",
                     "eu-west-2": "internetmonitor-fips.eu-west-2.api.aws",
                     "eu-west-3": "internetmonitor-fips.eu-west-3.api.aws",
+                    "il-central-1": "internetmonitor-fips.il-central-1.api.aws",
+                    "me-central-1": "internetmonitor-fips.me-central-1.api.aws",
                     "me-south-1": "internetmonitor-fips.me-south-1.api.aws",
                     "sa-east-1": "internetmonitor-fips.sa-east-1.api.aws",
-                    "us-east-1": "internetmonitor-fips.us-east-1.api.aws",
-                    "us-east-2": "internetmonitor-fips.us-east-2.api.aws",
+                    "us-east-1": "internetmonitor-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "internetmonitor-fips.us-east-2.amazonaws.com",
                     "us-gov-east-1": "internetmonitor-fips.us-gov-east-1.api.aws",
                     "us-gov-west-1": "internetmonitor-fips.us-gov-west-1.api.aws",
-                    "us-west-1": "internetmonitor-fips.us-west-1.api.aws",
-                    "us-west-2": "internetmonitor-fips.us-west-2.api.aws"
+                    "us-west-1": "internetmonitor-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "internetmonitor-fips.us-west-2.amazonaws.com"
                 ])
             ],
             errorType: InternetMonitorErrorType.self,
@@ -129,12 +145,14 @@ public struct InternetMonitor: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a monitor in Amazon CloudWatch Internet Monitor. A monitor is built based on information from the application resources that you add: Amazon Virtual Private Clouds (VPCs),
-    /// 			Amazon CloudFront distributions, and WorkSpaces directories. Internet Monitor then publishes internet measurements from Amazon Web Services that are specific to
-    /// 			the city-networks, that is, the locations and ASNs (typically internet service providers or ISPs),
-    /// 			where clients access your application. For more information, see Using Amazon CloudWatch Internet Monitor in the Amazon CloudWatch User Guide. When you create a monitor, you set a maximum limit for the number of city-networks where client traffic is monitored. The city-network maximum
-    /// 			that you choose is the limit, but you only pay for the number of city-networks that are actually monitored. You can change the maximum at any time
-    /// 			by updating your monitor. For more information, see Choosing a city-network maximum value in the Amazon CloudWatch User Guide.
+    /// Creates a monitor in Amazon CloudWatch Internet Monitor. A monitor is built based on information from the application resources that you add: VPCs,
+    /// 			Network Load Balancers (NLBs), Amazon CloudFront distributions, and Amazon WorkSpaces directories. Internet Monitor then publishes internet measurements from Amazon Web Services
+    /// 			that are specific to the city-networks. That is, the locations and ASNs (typically internet service providers or ISPs),
+    /// 			where clients access your application. For more information, see Using Amazon CloudWatch Internet Monitor in the Amazon CloudWatch User
+    /// 					Guide. When you create a monitor, you choose the percentage of traffic that you want to monitor. You can also set a maximum limit for the
+    /// 			number of city-networks where client traffic is monitored, that caps the total traffic that Internet Monitor monitors. A city-network
+    /// 			maximum is the limit of city-networks, but you only pay for the number of city-networks that are actually monitored. You can update your monitor
+    /// 			at any time to change the percentage of traffic to monitor or the city-networks maximum. For more information, see Choosing a city-network maximum value in the Amazon CloudWatch User Guide.
     public func createMonitor(_ input: CreateMonitorInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMonitorOutput> {
         return self.client.execute(operation: "CreateMonitor", path: "/v20210603/Monitors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -145,8 +163,8 @@ public struct InternetMonitor: AWSService {
     }
 
     /// Gets information the Amazon CloudWatch Internet Monitor has created and stored about a health event for a specified monitor. This information includes the impacted locations,
-    /// 			and all of the information related to the event by location. The information returned includes the performance, availability, and round-trip time impact, information about the network providers, the event type,
-    /// 			and so on. Information rolled up at the global traffic level is also returned, including the impact type and total traffic impact.
+    /// 			and all the information related to the event, by location. The information returned includes the impact on performance, availability, and round-trip time, information about the network providers (ASNs),
+    /// 			the event type, and so on. Information rolled up at the global traffic level is also returned, including the impact type and total traffic impact.
     public func getHealthEvent(_ input: GetHealthEventInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetHealthEventOutput> {
         return self.client.execute(operation: "GetHealthEvent", path: "/v20210603/Monitors/{MonitorName}/HealthEvents/{EventId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -157,8 +175,8 @@ public struct InternetMonitor: AWSService {
         return self.client.execute(operation: "GetMonitor", path: "/v20210603/Monitors/{MonitorName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all health events for a monitor in Amazon CloudWatch Internet Monitor. Returns all information for health events including the client location information the network
-    /// 			cause and status, event start and end time, percentage of total traffic impacted, and status.  Health events that have start times during the time frame that is requested are not included in the list of health events.
+    /// Lists all health events for a monitor in Amazon CloudWatch Internet Monitor. Returns information for health events including the event start and end time and
+    /// 			the status.  Health events that have start times during the time frame that is requested are not included in the list of health events.
     public func listHealthEvents(_ input: ListHealthEventsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListHealthEventsOutput> {
         return self.client.execute(operation: "ListHealthEvents", path: "/v20210603/Monitors/{MonitorName}/HealthEvents", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -183,9 +201,8 @@ public struct InternetMonitor: AWSService {
         return self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates a monitor. You can update a monitor to change the maximum number of city-networks (locations and ASNs or
-    /// 			internet service providers), to add or remove resources,
-    /// 			or to change the status of the monitor. Note that you can't change the name of a monitor. The city-network maximum that you choose is the limit, but you only pay for the number of city-networks that are actually monitored.
+    /// Updates a monitor. You can update a monitor to change the percentage of traffic to monitor or the maximum number of city-networks
+    /// 			(locations and ASNs), to add or remove resources, or to change the status of the monitor. Note that you can't change the name of a monitor. The city-network maximum that you choose is the limit, but you only pay for the number of city-networks that are actually monitored.
     /// 			For more information, see Choosing a city-network maximum value in the Amazon CloudWatch User Guide.
     public func updateMonitor(_ input: UpdateMonitorInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMonitorOutput> {
         return self.client.execute(operation: "UpdateMonitor", path: "/v20210603/Monitors/{MonitorName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -204,8 +221,8 @@ extension InternetMonitor {
 // MARK: Paginators
 
 extension InternetMonitor {
-    /// Lists all health events for a monitor in Amazon CloudWatch Internet Monitor. Returns all information for health events including the client location information the network
-    /// 			cause and status, event start and end time, percentage of total traffic impacted, and status.  Health events that have start times during the time frame that is requested are not included in the list of health events.
+    /// Lists all health events for a monitor in Amazon CloudWatch Internet Monitor. Returns information for health events including the event start and end time and
+    /// 			the status.  Health events that have start times during the time frame that is requested are not included in the list of health events.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

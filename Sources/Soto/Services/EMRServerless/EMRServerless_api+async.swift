@@ -41,7 +41,7 @@ extension EMRServerless {
         return try await self.client.execute(operation: "GetApplication", path: "/applications/{applicationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a URL to access the job run dashboard. The generated URL is valid for one hour, after which you must invoke the API again to generate a new URL.
+    /// Creates and returns a URL that you can use to access the application UIs for a job run. For jobs in a running state, the application UI is a live user interface such as the Spark or Tez web UI. For completed jobs, the application UI is a persistent application user interface such as the Spark History Server or persistent Tez UI.  The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL.
     public func getDashboardForJobRun(_ input: GetDashboardForJobRunRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetDashboardForJobRunResponse {
         return try await self.client.execute(operation: "GetDashboardForJobRun", path: "/applications/{applicationId}/jobruns/{jobRunId}/dashboard", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

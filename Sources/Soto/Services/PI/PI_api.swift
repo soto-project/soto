@@ -65,6 +65,16 @@ public struct PI: AWSService {
 
     // MARK: API Calls
 
+    /// Creates a new performance analysis report for a specific time period for the DB instance.
+    public func createPerformanceAnalysisReport(_ input: CreatePerformanceAnalysisReportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePerformanceAnalysisReportResponse> {
+        return self.client.execute(operation: "CreatePerformanceAnalysisReport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a performance analysis report.
+    public func deletePerformanceAnalysisReport(_ input: DeletePerformanceAnalysisReportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePerformanceAnalysisReportResponse> {
+        return self.client.execute(operation: "DeletePerformanceAnalysisReport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// For a specific time period, retrieve the top N dimension keys for a metric.   Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements,  only the first 500 bytes are returned.
     public func describeDimensionKeys(_ input: DescribeDimensionKeysRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDimensionKeysResponse> {
         return self.client.execute(operation: "DescribeDimensionKeys", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -73,6 +83,11 @@ public struct PI: AWSService {
     /// Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID, GetDimensionKeyDetails retrieves the full text of the dimension db.sql.statement associated with this ID. This operation is useful because GetResourceMetrics and DescribeDimensionKeys don't support retrieval of large SQL statement text.
     public func getDimensionKeyDetails(_ input: GetDimensionKeyDetailsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDimensionKeyDetailsResponse> {
         return self.client.execute(operation: "GetDimensionKeyDetails", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the report including the report ID, status, time details, and the insights with recommendations. The report status can be RUNNING, SUCCEEDED, or FAILED. The insights include the description and recommendation fields.
+    public func getPerformanceAnalysisReport(_ input: GetPerformanceAnalysisReportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPerformanceAnalysisReportResponse> {
+        return self.client.execute(operation: "GetPerformanceAnalysisReport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieve the metadata for different features. For example, the metadata might indicate  that a feature is turned on or off on a specific DB instance.
@@ -93,6 +108,26 @@ public struct PI: AWSService {
     /// Retrieve metrics of the specified types that can be queried for a specified DB instance.
     public func listAvailableResourceMetrics(_ input: ListAvailableResourceMetricsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAvailableResourceMetricsResponse> {
         return self.client.execute(operation: "ListAvailableResourceMetrics", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists all the analysis reports created for the DB instance. The reports are sorted based on the start time of each report.
+    public func listPerformanceAnalysisReports(_ input: ListPerformanceAnalysisReportsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPerformanceAnalysisReportsResponse> {
+        return self.client.execute(operation: "ListPerformanceAnalysisReports", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves all the metadata tags associated with Amazon RDS Performance Insights resource.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Adds metadata tags to the Amazon RDS Performance Insights resource.
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
+        return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the metadata tags from the Amazon RDS Performance Insights resource.
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
+        return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 
@@ -319,6 +354,59 @@ extension PI {
             onPage: onPage
         )
     }
+
+    /// Lists all the analysis reports created for the DB instance. The reports are sorted based on the start time of each report.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listPerformanceAnalysisReportsPaginator<Result>(
+        _ input: ListPerformanceAnalysisReportsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListPerformanceAnalysisReportsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listPerformanceAnalysisReports,
+            inputKey: \ListPerformanceAnalysisReportsRequest.nextToken,
+            outputKey: \ListPerformanceAnalysisReportsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listPerformanceAnalysisReportsPaginator(
+        _ input: ListPerformanceAnalysisReportsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListPerformanceAnalysisReportsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listPerformanceAnalysisReports,
+            inputKey: \ListPerformanceAnalysisReportsRequest.nextToken,
+            outputKey: \ListPerformanceAnalysisReportsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
 }
 
 extension PI.DescribeDimensionKeysRequest: AWSPaginateToken {
@@ -374,6 +462,18 @@ extension PI.ListAvailableResourceMetricsRequest: AWSPaginateToken {
             identifier: self.identifier,
             maxResults: self.maxResults,
             metricTypes: self.metricTypes,
+            nextToken: token,
+            serviceType: self.serviceType
+        )
+    }
+}
+
+extension PI.ListPerformanceAnalysisReportsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> PI.ListPerformanceAnalysisReportsRequest {
+        return .init(
+            identifier: self.identifier,
+            listTags: self.listTags,
+            maxResults: self.maxResults,
             nextToken: token,
             serviceType: self.serviceType
         )

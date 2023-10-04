@@ -36,6 +36,11 @@ extension CodeCatalyst {
         return try await self.client.execute(operation: "CreateProject", path: "/v1/spaces/{spaceName}/projects", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates an empty Git-based source repository in a specified project. The repository is created with an initial empty commit with a default branch named main.
+    public func createSourceRepository(_ input: CreateSourceRepositoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateSourceRepositoryResponse {
+        return try await self.client.execute(operation: "CreateSourceRepository", path: "/v1/spaces/{spaceName}/projects/{projectName}/sourceRepositories/{name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a branch in a specified source repository in Amazon CodeCatalyst.   This API only creates a branch in a source repository hosted in Amazon CodeCatalyst. You cannot use this API to create a branch in a linked repository.
     public func createSourceRepositoryBranch(_ input: CreateSourceRepositoryBranchRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateSourceRepositoryBranchResponse {
         return try await self.client.execute(operation: "CreateSourceRepositoryBranch", path: "/v1/spaces/{spaceName}/projects/{projectName}/sourceRepositories/{sourceRepositoryName}/branches/{name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -51,6 +56,21 @@ extension CodeCatalyst {
         return try await self.client.execute(operation: "DeleteDevEnvironment", path: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes a project in a space.
+    public func deleteProject(_ input: DeleteProjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteProjectResponse {
+        return try await self.client.execute(operation: "DeleteProject", path: "/v1/spaces/{spaceName}/projects/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a source repository in Amazon CodeCatalyst. You cannot use this API to delete a linked repository. It can only be used to delete a Amazon CodeCatalyst source repository.
+    public func deleteSourceRepository(_ input: DeleteSourceRepositoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteSourceRepositoryResponse {
+        return try await self.client.execute(operation: "DeleteSourceRepository", path: "/v1/spaces/{spaceName}/projects/{projectName}/sourceRepositories/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a space.  Deleting a space cannot be undone. Additionally, since space names must be unique across Amazon CodeCatalyst, you cannot reuse names of deleted spaces.
+    public func deleteSpace(_ input: DeleteSpaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteSpaceResponse {
+        return try await self.client.execute(operation: "DeleteSpace", path: "/v1/spaces/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns information about a Dev Environment for a source repository in a project. Dev Environments are specific to the user who creates them.
     public func getDevEnvironment(_ input: GetDevEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetDevEnvironmentResponse {
         return try await self.client.execute(operation: "GetDevEnvironment", path: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -59,6 +79,11 @@ extension CodeCatalyst {
     /// Returns information about a project.
     public func getProject(_ input: GetProjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetProjectResponse {
         return try await self.client.execute(operation: "GetProject", path: "/v1/spaces/{spaceName}/projects/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns information about a source repository.
+    public func getSourceRepository(_ input: GetSourceRepositoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetSourceRepositoryResponse {
+        return try await self.client.execute(operation: "GetSourceRepository", path: "/v1/spaces/{spaceName}/projects/{projectName}/sourceRepositories/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns information about the URLs that can be used with a Git client to clone a source repository.
@@ -144,6 +169,16 @@ extension CodeCatalyst {
     /// Changes one or more values for a Dev Environment. Updating certain values of the Dev Environment will cause a restart.
     public func updateDevEnvironment(_ input: UpdateDevEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateDevEnvironmentResponse {
         return try await self.client.execute(operation: "UpdateDevEnvironment", path: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Changes one or more values for a project.
+    public func updateProject(_ input: UpdateProjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateProjectResponse {
+        return try await self.client.execute(operation: "UpdateProject", path: "/v1/spaces/{spaceName}/projects/{name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Changes one or more values for a space.
+    public func updateSpace(_ input: UpdateSpaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateSpaceResponse {
+        return try await self.client.execute(operation: "UpdateSpace", path: "/v1/spaces/{name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Verifies whether the calling user has a valid Amazon CodeCatalyst login and session.  If successful, this returns the ID of the user in Amazon CodeCatalyst.

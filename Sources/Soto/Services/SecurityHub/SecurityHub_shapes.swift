@@ -126,7 +126,9 @@ extension SecurityHub {
     }
 
     public enum MapFilterComparison: String, CustomStringConvertible, Codable, Sendable {
+        case contains = "CONTAINS"
         case equals = "EQUALS"
+        case notContains = "NOT_CONTAINS"
         case notEquals = "NOT_EQUALS"
         public var description: String { return self.rawValue }
     }
@@ -201,7 +203,9 @@ extension SecurityHub {
     }
 
     public enum StringFilterComparison: String, CustomStringConvertible, Codable, Sendable {
+        case contains = "CONTAINS"
         case equals = "EQUALS"
+        case notContains = "NOT_CONTAINS"
         case notEquals = "NOT_EQUALS"
         case prefix = "PREFIX"
         case prefixNotEquals = "PREFIX_NOT_EQUALS"
@@ -246,6 +250,12 @@ extension SecurityHub {
         case falsePositive = "FALSE_POSITIVE"
         case truePositive = "TRUE_POSITIVE"
         case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VulnerabilityExploitAvailable: String, CustomStringConvertible, Codable, Sendable {
+        case no = "NO"
+        case yes = "YES"
         public var description: String { return self.rawValue }
     }
 
@@ -623,7 +633,7 @@ extension SecurityHub {
     public struct AutomationRulesAction: AWSEncodableShape & AWSDecodableShape {
         ///  Specifies that the automation rule action is an update to a finding field.
         public let findingFieldsUpdate: AutomationRulesFindingFieldsUpdate?
-        ///  Specifies that the rule action should update the Types finding field. The Types  finding field provides one or more finding types in the format of  namespace/category/classifier that classify a finding. For more information, see Types taxonomy for ASFF in  the Security Hub User Guide.
+        ///  Specifies that the rule action should update the Types finding field. The Types  finding field classifies findings in the format of namespace/category/classifier. For more information, see Types taxonomy for ASFF in  the Security Hub User Guide.
         public let type: AutomationRulesActionType?
 
         public init(findingFieldsUpdate: AutomationRulesFindingFieldsUpdate? = nil, type: AutomationRulesActionType? = nil) {
@@ -649,11 +659,11 @@ extension SecurityHub {
         public var createdAt: Date?
         ///  The principal that created a rule.
         public let createdBy: String?
-        ///  A set of Amazon Web Services Security Finding Format finding field attributes and corresponding expected values that  Security Hub uses to filter findings. If a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
+        ///  A set of Amazon Web Services  Security Finding Format finding field attributes and corresponding expected values that  Security Hub uses to filter findings. If a rule is enabled and a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
         public let criteria: AutomationRulesFindingFilters?
         ///  A description of the rule.
         public let description: String?
-        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful  when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this  field is set to true for a rule, Security Hub applies the rule action to a finding that matches  the rule criteria and won't evaluate other rules for the finding.  The default value of this field is false.
+        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding  matches the criteria for multiple rules, and each rule has different actions. If a rule is terminal, Security Hub applies the rule action to a finding that matches  the rule criteria and doesn't evaluate other rules for the finding. By default, a rule isn't terminal.
         public let isTerminal: Bool?
         ///  The Amazon Resource Name (ARN) of a rule.
         public let ruleArn: String?
@@ -661,7 +671,7 @@ extension SecurityHub {
         public let ruleName: String?
         ///  An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
         public let ruleOrder: Int?
-        ///  Whether the rule is active after it is created. If  this parameter is equal to >ENABLED, Security Hub will apply the rule to findings  and finding updates after the rule is created.
+        ///  Whether the rule is active after it is created. If  this parameter is equal to ENABLED, Security Hub starts applying the rule to findings  and finding updates after the rule is created.
         public let ruleStatus: RuleStatus?
         ///  A timestamp that indicates when the rule was most recently updated.  Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -697,19 +707,19 @@ extension SecurityHub {
     }
 
     public struct AutomationRulesFindingFieldsUpdate: AWSEncodableShape & AWSDecodableShape {
-        ///  The rule action will update the Confidence field of a finding.
+        ///  The rule action updates the Confidence field of a finding.
         public let confidence: Int?
-        ///  The rule action will update the Criticality field of a finding.
+        ///  The rule action updates the Criticality field of a finding.
         public let criticality: Int?
         public let note: NoteUpdate?
-        ///  A list of findings that are related to a finding.
+        ///  The rule action updates the RelatedFindings field of a finding.
         public let relatedFindings: [RelatedFinding]?
         public let severity: SeverityUpdate?
-        ///  The rule action will update the Types field of a finding.
+        ///  The rule action updates the Types field of a finding.
         public let types: [String]?
-        ///  The rule action will update the UserDefinedFields field of a finding.
+        ///  The rule action updates the UserDefinedFields field of a finding.
         public let userDefinedFields: [String: String]?
-        ///  The rule action will update the VerificationState field of a finding.
+        ///  The rule action updates the VerificationState field of a finding.
         public let verificationState: VerificationState?
         public let workflow: WorkflowUpdate?
 
@@ -758,75 +768,75 @@ extension SecurityHub {
     }
 
     public struct AutomationRulesFindingFilters: AWSEncodableShape & AWSDecodableShape {
-        ///  The Amazon Web Services account ID in which a finding was generated.
+        ///  The Amazon Web Services account ID in which a finding was generated.   		Array Members: Minimum number of 1 item. Maximum number of 100 items.
         public let awsAccountId: [StringFilter]?
-        ///  The name of the company for the product that generated the finding.  For control-based findings, the company is Amazon Web Services.
+        ///  The name of the company for the product that generated the finding.  For control-based findings, the company is Amazon Web Services.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let companyName: [StringFilter]?
-        /// The unique identifier of a standard in which a control is enabled. This field consists of the resource portion of  the Amazon Resource Name (ARN) returned for a standard in the DescribeStandards API response.
+        /// The unique identifier of a standard in which a control is enabled. This field consists of the resource portion of  the Amazon Resource Name (ARN) returned for a standard in the DescribeStandards API response.  		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let complianceAssociatedStandardsId: [StringFilter]?
-        ///  The security control ID for which a finding was generated. Security control IDs are the same across standards.
+        ///  The security control ID for which a finding was generated. Security control IDs are the same across standards.  		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let complianceSecurityControlId: [StringFilter]?
-        ///  The result of a security check. This field is only used for findings generated  from controls.
+        ///  The result of a security check. This field is only used for findings generated  from controls.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let complianceStatus: [StringFilter]?
-        /// The likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0–100 basis using a ratio scale. A value of 0 means 0 percent confidence, and a value of 100 means 100 percent confidence. For example, a data exfiltration detection based on a statistical deviation of network traffic has low confidence because an actual exfiltration hasn't been verified. For more information, see Confidence in the Security Hub User Guide.
+        /// The likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0–100 basis using a ratio scale. A value of 0 means 0 percent confidence, and a value of 100 means 100 percent confidence. For example, a data exfiltration detection based on a statistical deviation of network traffic has low confidence because an actual exfiltration hasn't been verified. For more information, see Confidence in the Security Hub User Guide.  		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let confidence: [NumberFilter]?
-        ///  A timestamp that indicates when this finding record was created.  Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        ///  A timestamp that indicates when this finding record was created.  Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.  		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let createdAt: [DateFilter]?
-        ///  The level of importance that is assigned to the resources that are associated with a  finding. Criticality is scored on a 0–100 basis, using a ratio scale that supports  only full integers. A score of 0 means that the underlying resources have no  criticality, and a score of 100 is reserved for the most critical resources. For  more information, see Criticality in the Security Hub User Guide.
+        ///  The level of importance that is assigned to the resources that are associated with a  finding. Criticality is scored on a 0–100 basis, using a ratio scale that supports  only full integers. A score of 0 means that the underlying resources have no  criticality, and a score of 100 is reserved for the most critical resources. For  more information, see Criticality in the Security Hub User Guide.  		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let criticality: [NumberFilter]?
-        ///  A finding's description.
+        ///  A finding's description.    		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let description: [StringFilter]?
-        ///  A timestamp that indicates when the potential security issue captured by a  finding was first observed by the security findings product.  Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        ///  A timestamp that indicates when the potential security issue captured by a  finding was first observed by the security findings product.  Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.  		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let firstObservedAt: [DateFilter]?
-        ///  The identifier for the solution-specific component that  generated a finding.
+        ///  The identifier for the solution-specific component that  generated a finding.   		Array Members: Minimum number of 1 item. Maximum number of 100 items.
         public let generatorId: [StringFilter]?
-        ///  The product-specific identifier for a finding.
+        ///  The product-specific identifier for a finding.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let id: [StringFilter]?
-        ///  A timestamp that indicates when the potential security issue captured by a finding  was most recently observed by the security findings product.  Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        ///  A timestamp that indicates when the potential security issue captured by a finding  was most recently observed by the security findings product.  Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.  		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let lastObservedAt: [DateFilter]?
-        ///  The text of a user-defined note that's added to a finding.
+        ///  The text of a user-defined note that's added to a finding.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let noteText: [StringFilter]?
-        ///  The timestamp of when the note was updated. Uses the date-time format specified in  RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces.  For example, 2020-03-22T13:22:13.933Z.
+        ///  The timestamp of when the note was updated. Uses the date-time format specified in  RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces.  For example, 2020-03-22T13:22:13.933Z.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let noteUpdatedAt: [DateFilter]?
-        ///  The principal that created a note.
+        ///  The principal that created a note.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let noteUpdatedBy: [StringFilter]?
-        ///  The Amazon Resource Name (ARN) for a third-party product that generated a finding in  Security Hub.
+        ///  The Amazon Resource Name (ARN) for a third-party product that generated a finding in  Security Hub.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let productArn: [StringFilter]?
-        ///  Provides the name of the product that generated the finding. For  control-based findings, the product name is Security Hub.
+        ///  Provides the name of the product that generated the finding. For  control-based findings, the product name is Security Hub.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let productName: [StringFilter]?
-        ///  Provides the current state of a finding.
+        ///  Provides the current state of a finding.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let recordState: [StringFilter]?
-        ///  The product-generated identifier for a related finding.
+        ///  The product-generated identifier for a related finding.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let relatedFindingsId: [StringFilter]?
-        ///  The ARN for the product that generated a related finding.
+        ///  The ARN for the product that generated a related finding.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let relatedFindingsProductArn: [StringFilter]?
-        ///  Custom fields and values about the resource that a finding pertains to.
+        ///  Custom fields and values about the resource that a finding pertains to.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let resourceDetailsOther: [MapFilter]?
-        ///  The identifier for the given resource type. For Amazon Web Services resources that are identified by  Amazon Resource Names (ARNs), this is the ARN. For Amazon Web Services resources that lack ARNs,  this is the identifier as defined by the Amazon Web Service that created the resource.  For non-Amazon Web Services resources, this is a unique identifier that is associated with the  resource.
+        ///  The identifier for the given resource type. For Amazon Web Services resources that are identified by  Amazon Resource Names (ARNs), this is the ARN. For Amazon Web Services resources that lack ARNs,  this is the identifier as defined by the Amazon Web Service that created the resource.  For non-Amazon Web Services resources, this is a unique identifier that is associated with the  resource.   		Array Members: Minimum number of 1 item. Maximum number of 100 items.
         public let resourceId: [StringFilter]?
-        ///  The partition in which the resource that the finding pertains to is located.  A partition is a group of Amazon Web Services Regions. Each Amazon Web Services account is scoped to one partition.
+        ///  The partition in which the resource that the finding pertains to is located.  A partition is a group of Amazon Web Services Regions. Each Amazon Web Services account is scoped to one partition.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let resourcePartition: [StringFilter]?
-        ///  The Amazon Web Services Region where the resource that a finding pertains to is located.
+        ///  The Amazon Web Services Region where the resource that a finding pertains to is located.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let resourceRegion: [StringFilter]?
-        ///  A list of Amazon Web Services tags associated with a resource at the time the finding was processed.
+        ///  A list of Amazon Web Services tags associated with a resource at the time the finding was processed.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let resourceTags: [MapFilter]?
-        ///  The type of resource that the finding pertains to.
+        ///  The type of resource that the finding pertains to.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let resourceType: [StringFilter]?
-        ///  The severity value of the finding.
+        ///  The severity value of the finding.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let severityLabel: [StringFilter]?
-        ///  Provides a URL that links to a page about the current finding in the finding product.
+        ///  Provides a URL that links to a page about the current finding in the finding product.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let sourceUrl: [StringFilter]?
-        ///  A finding's title.
+        ///  A finding's title.   		Array Members: Minimum number of 1 item. Maximum number of 100 items.
         public let title: [StringFilter]?
-        ///  One or more finding types in the format of namespace/category/classifier that classify a finding. For a list of namespaces, classifiers, and categories, see Types taxonomy for ASFF in the Security Hub User Guide.
+        ///  One or more finding types in the format of namespace/category/classifier that classify a finding. For a list of namespaces, classifiers, and categories, see Types taxonomy for ASFF in the Security Hub User Guide.  		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let type: [StringFilter]?
-        ///  A timestamp that indicates when the finding record was most recently updated.   Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        ///  A timestamp that indicates when the finding record was most recently updated.   Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.  		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let updatedAt: [DateFilter]?
-        ///  A list of user-defined name and value string pairs added to a finding.
+        ///  A list of user-defined name and value string pairs added to a finding.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let userDefinedFields: [MapFilter]?
-        ///  Provides the veracity of a finding.
+        ///  Provides the veracity of a finding.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let verificationState: [StringFilter]?
-        ///  Provides information about the status of the investigation into a finding.
+        ///  Provides information about the status of the investigation into a finding.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let workflowStatus: [StringFilter]?
 
         public init(awsAccountId: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceAssociatedStandardsId: [StringFilter]? = nil, complianceSecurityControlId: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, productArn: [StringFilter]? = nil, productName: [StringFilter]? = nil, recordState: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severityLabel: [StringFilter]? = nil, sourceUrl: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, workflowStatus: [StringFilter]? = nil) {
@@ -1016,7 +1026,7 @@ extension SecurityHub {
         public let createdBy: String?
         ///  A description of the rule.
         public let description: String?
-        ///  Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful  when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this  field is set to true for a rule, Security Hub applies the rule action to a finding that matches  the rule criteria and won't evaluate other rules for the finding.  The default value of this field is false.
+        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding  matches the criteria for multiple rules, and each rule has different actions. If a rule is terminal, Security Hub applies the rule action to a finding that matches  the rule criteria and doesn't evaluate other rules for the finding. By default, a rule isn't terminal.
         public let isTerminal: Bool?
         ///  The Amazon Resource Name (ARN) for the rule.
         public let ruleArn: String?
@@ -1024,7 +1034,7 @@ extension SecurityHub {
         public let ruleName: String?
         /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
         public let ruleOrder: Int?
-        ///  Whether the rule is active after it is created. If  this parameter is equal to ENABLED, Security Hub will apply the rule to findings  and finding updates after the rule is created. To change the value of this parameter after creating a rule, use BatchUpdateAutomationRules.
+        ///  Whether the rule is active after it is created. If  this parameter is equal to ENABLED, Security Hub starts applying the rule to findings  and finding updates after the rule is created. To change the value of this parameter after creating a rule, use  BatchUpdateAutomationRules .
         public let ruleStatus: RuleStatus?
         ///  A timestamp that indicates when the rule was most recently updated.  Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -2118,6 +2128,94 @@ extension SecurityHub {
             case awsRegion = "AwsRegion"
             case defaultAction = "DefaultAction"
             case userPoolId = "UserPoolId"
+        }
+    }
+
+    public struct AwsAthenaWorkGroupConfigurationDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The location in Amazon S3 where query and calculation results are stored and the  encryption option, if any, used for query and calculation results. These are known as client-side settings. If  workgroup settings override client-side settings, then the query uses the workgroup settings.
+        public let resultConfiguration: AwsAthenaWorkGroupConfigurationResultConfigurationDetails?
+
+        public init(resultConfiguration: AwsAthenaWorkGroupConfigurationResultConfigurationDetails? = nil) {
+            self.resultConfiguration = resultConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.resultConfiguration?.validate(name: "\(name).resultConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resultConfiguration = "ResultConfiguration"
+        }
+    }
+
+    public struct AwsAthenaWorkGroupConfigurationResultConfigurationDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  Specifies the method used to encrypt the user’s data stores in the Athena workgroup.
+        public let encryptionConfiguration: AwsAthenaWorkGroupConfigurationResultConfigurationEncryptionConfigurationDetails?
+
+        public init(encryptionConfiguration: AwsAthenaWorkGroupConfigurationResultConfigurationEncryptionConfigurationDetails? = nil) {
+            self.encryptionConfiguration = encryptionConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionConfiguration = "EncryptionConfiguration"
+        }
+    }
+
+    public struct AwsAthenaWorkGroupConfigurationResultConfigurationEncryptionConfigurationDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  Indicates whether Amazon Simple Storage Service (Amazon S3) server-side encryption with Amazon S3 managed  keys (SSE_S3), server-side encryption with KMS keys (SSE_KMS), or client-side encryption with  KMS customer managed keys (CSE_KMS) is used.
+        public let encryptionOption: String?
+        ///  For SSE_KMS and CSE_KMS, this is the KMS key Amazon Resource Name (ARN) or ID.
+        public let kmsKey: String?
+
+        public init(encryptionOption: String? = nil, kmsKey: String? = nil) {
+            self.encryptionOption = encryptionOption
+            self.kmsKey = kmsKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.encryptionOption, name: "encryptionOption", parent: name, pattern: "\\S")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionOption = "EncryptionOption"
+            case kmsKey = "KmsKey"
+        }
+    }
+
+    public struct AwsAthenaWorkGroupDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The configuration of the workgroup, which includes the location in Amazon Simple Storage Service (Amazon S3)  where query results are stored, the encryption option, if any, used for query results, whether  Amazon CloudWatch metrics are enabled for the workgroup, and the limit for the amount of bytes scanned  (cutoff) per query, if it is specified.
+        public let configuration: AwsAthenaWorkGroupConfigurationDetails?
+        ///  The workgroup description.
+        public let description: String?
+        ///  The workgroup name.
+        public let name: String?
+        ///  Whether the workgroup is enabled or disabled.
+        public let state: String?
+
+        public init(configuration: AwsAthenaWorkGroupConfigurationDetails? = nil, description: String? = nil, name: String? = nil, state: String? = nil) {
+            self.configuration = configuration
+            self.description = description
+            self.name = name
+            self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration?.validate(name: "\(name).configuration")
+            try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+            try self.validate(self.state, name: "state", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+            case description = "Description"
+            case name = "Name"
+            case state = "State"
         }
     }
 
@@ -12912,6 +13010,30 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute: AWSEncodableShape & AWSDecodableShape {
+        ///  The name of the manual DB cluster snapshot attribute. The attribute named restore refers to the list of  Amazon Web Services accounts that have permission to copy or restore the manual DB cluster snapshot.
+        public let attributeName: String?
+        ///  The value(s) for the manual DB cluster snapshot attribute. If the AttributeName field is set to  restore, then this element returns a list of IDs of the Amazon Web Services accounts that are authorized  to copy or restore the manual DB cluster snapshot. If a value of all is in the list, then the manual  DB cluster snapshot is public and available for any Amazon Web Services account to copy or restore.
+        public let attributeValues: [String]?
+
+        public init(attributeName: String? = nil, attributeValues: [String]? = nil) {
+            self.attributeName = attributeName
+            self.attributeValues = attributeValues
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "\\S")
+            try self.attributeValues?.forEach {
+                try validate($0, name: "attributeValues[]", parent: name, pattern: "\\S")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case attributeValues = "AttributeValues"
+        }
+    }
+
     public struct AwsRdsDbClusterSnapshotDetails: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the allocated storage size in gibibytes (GiB).
         public let allocatedStorage: Int?
@@ -12921,6 +13043,8 @@ extension SecurityHub {
         public let clusterCreateTime: String?
         /// The DB cluster identifier.
         public let dbClusterIdentifier: String?
+        ///  Contains the name and values of a manual DB cluster snapshot attribute.
+        public let dbClusterSnapshotAttributes: [AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute]?
         /// The identifier of the DB cluster snapshot.
         public let dbClusterSnapshotIdentifier: String?
         /// The name of the database engine that you want to use for this DB instance.
@@ -12950,11 +13074,12 @@ extension SecurityHub {
         /// The VPC ID that is associated with the DB cluster snapshot.
         public let vpcId: String?
 
-        public init(allocatedStorage: Int? = nil, availabilityZones: [String]? = nil, clusterCreateTime: String? = nil, dbClusterIdentifier: String? = nil, dbClusterSnapshotIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, percentProgress: Int? = nil, port: Int? = nil, snapshotCreateTime: String? = nil, snapshotType: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcId: String? = nil) {
+        public init(allocatedStorage: Int? = nil, availabilityZones: [String]? = nil, clusterCreateTime: String? = nil, dbClusterIdentifier: String? = nil, dbClusterSnapshotAttributes: [AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute]? = nil, dbClusterSnapshotIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, percentProgress: Int? = nil, port: Int? = nil, snapshotCreateTime: String? = nil, snapshotType: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcId: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZones = availabilityZones
             self.clusterCreateTime = clusterCreateTime
             self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbClusterSnapshotAttributes = dbClusterSnapshotAttributes
             self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
             self.engine = engine
             self.engineVersion = engineVersion
@@ -12977,6 +13102,9 @@ extension SecurityHub {
             }
             try self.validate(self.clusterCreateTime, name: "clusterCreateTime", parent: name, pattern: "\\S")
             try self.validate(self.dbClusterIdentifier, name: "dbClusterIdentifier", parent: name, pattern: "\\S")
+            try self.dbClusterSnapshotAttributes?.forEach {
+                try $0.validate(name: "\(name).dbClusterSnapshotAttributes[]")
+            }
             try self.validate(self.dbClusterSnapshotIdentifier, name: "dbClusterSnapshotIdentifier", parent: name, pattern: "\\S")
             try self.validate(self.engine, name: "engine", parent: name, pattern: "\\S")
             try self.validate(self.engineVersion, name: "engineVersion", parent: name, pattern: "\\S")
@@ -12994,6 +13122,7 @@ extension SecurityHub {
             case availabilityZones = "AvailabilityZones"
             case clusterCreateTime = "ClusterCreateTime"
             case dbClusterIdentifier = "DbClusterIdentifier"
+            case dbClusterSnapshotAttributes = "DbClusterSnapshotAttributes"
             case dbClusterSnapshotIdentifier = "DbClusterSnapshotIdentifier"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
@@ -15747,6 +15876,11 @@ extension SecurityHub {
         public let findingProviderFields: FindingProviderFields?
         /// Indicates when the security findings provider first observed the potential security issue that a finding captured. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let firstObservedAt: String?
+        /// Provides metadata for the Amazon CodeGuru detector associated with a finding. This field pertains to
+        /// findings that relate to Lambda functions. Amazon Inspector identifies policy violations and
+        /// vulnerabilities in Lambda function code based on internal detectors developed
+        /// in collaboration with Amazon CodeGuru. Security Hub receives those findings.
+        public let generatorDetails: GeneratorDetails?
         /// The identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security findings providers' solutions, this generator can be called a rule, a check, a detector, a plugin, etc.
         public let generatorId: String
         /// The security findings provider-specific identifier for a finding.
@@ -15810,7 +15944,7 @@ extension SecurityHub {
         /// The workflow state of a finding.
         public let workflowState: WorkflowState?
 
-        public init(action: Action? = nil, awsAccountId: String, companyName: String? = nil, compliance: Compliance? = nil, confidence: Int? = nil, createdAt: String, criticality: Int? = nil, description: String, findingProviderFields: FindingProviderFields? = nil, firstObservedAt: String? = nil, generatorId: String, id: String, lastObservedAt: String? = nil, malware: [Malware]? = nil, network: Network? = nil, networkPath: [NetworkPathComponent]? = nil, note: Note? = nil, patchSummary: PatchSummary? = nil, process: ProcessDetails? = nil, productArn: String, productFields: [String: String]? = nil, productName: String? = nil, recordState: RecordState? = nil, region: String? = nil, relatedFindings: [RelatedFinding]? = nil, remediation: Remediation? = nil, resources: [Resource], sample: Bool? = nil, schemaVersion: String, severity: Severity? = nil, sourceUrl: String? = nil, threatIntelIndicators: [ThreatIntelIndicator]? = nil, threats: [Threat]? = nil, title: String, types: [String]? = nil, updatedAt: String, userDefinedFields: [String: String]? = nil, verificationState: VerificationState? = nil, vulnerabilities: [Vulnerability]? = nil, workflow: Workflow? = nil, workflowState: WorkflowState? = nil) {
+        public init(action: Action? = nil, awsAccountId: String, companyName: String? = nil, compliance: Compliance? = nil, confidence: Int? = nil, createdAt: String, criticality: Int? = nil, description: String, findingProviderFields: FindingProviderFields? = nil, firstObservedAt: String? = nil, generatorDetails: GeneratorDetails? = nil, generatorId: String, id: String, lastObservedAt: String? = nil, malware: [Malware]? = nil, network: Network? = nil, networkPath: [NetworkPathComponent]? = nil, note: Note? = nil, patchSummary: PatchSummary? = nil, process: ProcessDetails? = nil, productArn: String, productFields: [String: String]? = nil, productName: String? = nil, recordState: RecordState? = nil, region: String? = nil, relatedFindings: [RelatedFinding]? = nil, remediation: Remediation? = nil, resources: [Resource], sample: Bool? = nil, schemaVersion: String, severity: Severity? = nil, sourceUrl: String? = nil, threatIntelIndicators: [ThreatIntelIndicator]? = nil, threats: [Threat]? = nil, title: String, types: [String]? = nil, updatedAt: String, userDefinedFields: [String: String]? = nil, verificationState: VerificationState? = nil, vulnerabilities: [Vulnerability]? = nil, workflow: Workflow? = nil, workflowState: WorkflowState? = nil) {
             self.action = action
             self.awsAccountId = awsAccountId
             self.companyName = companyName
@@ -15821,6 +15955,7 @@ extension SecurityHub {
             self.description = description
             self.findingProviderFields = findingProviderFields
             self.firstObservedAt = firstObservedAt
+            self.generatorDetails = generatorDetails
             self.generatorId = generatorId
             self.id = id
             self.lastObservedAt = lastObservedAt
@@ -15863,6 +15998,7 @@ extension SecurityHub {
             try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
             try self.findingProviderFields?.validate(name: "\(name).findingProviderFields")
             try self.validate(self.firstObservedAt, name: "firstObservedAt", parent: name, pattern: "\\S")
+            try self.generatorDetails?.validate(name: "\(name).generatorDetails")
             try self.validate(self.generatorId, name: "generatorId", parent: name, pattern: "\\S")
             try self.validate(self.id, name: "id", parent: name, pattern: "\\S")
             try self.validate(self.lastObservedAt, name: "lastObservedAt", parent: name, pattern: "\\S")
@@ -15924,6 +16060,7 @@ extension SecurityHub {
             case description = "Description"
             case findingProviderFields = "FindingProviderFields"
             case firstObservedAt = "FirstObservedAt"
+            case generatorDetails = "GeneratorDetails"
             case generatorId = "GeneratorId"
             case id = "Id"
             case lastObservedAt = "LastObservedAt"
@@ -18732,6 +18869,36 @@ extension SecurityHub {
         }
     }
 
+    public struct CodeVulnerabilitiesFilePath: AWSEncodableShape & AWSDecodableShape {
+        ///  	The line number of the last line of code in which the vulnerability is located.
+        public let endLine: Int?
+        ///  The name of the file in which the code vulnerability is located.
+        public let fileName: String?
+        ///  The file path to the code in which the vulnerability is located.
+        public let filePath: String?
+        ///  The line number of the first line of code in which the vulnerability is located.
+        public let startLine: Int?
+
+        public init(endLine: Int? = nil, fileName: String? = nil, filePath: String? = nil, startLine: Int? = nil) {
+            self.endLine = endLine
+            self.fileName = fileName
+            self.filePath = filePath
+            self.startLine = startLine
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fileName, name: "fileName", parent: name, pattern: "\\S")
+            try self.validate(self.filePath, name: "filePath", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endLine = "EndLine"
+            case fileName = "FileName"
+            case filePath = "FilePath"
+            case startLine = "StartLine"
+        }
+    }
+
     public struct Compliance: AWSEncodableShape & AWSDecodableShape {
         /// The enabled security standards in which a security control is currently enabled.
         public let associatedStandards: [AssociatedStandard]?
@@ -18888,17 +19055,17 @@ extension SecurityHub {
     public struct CreateAutomationRuleRequest: AWSEncodableShape {
         ///  One or more actions to update finding fields if a finding matches the conditions  specified in Criteria.
         public let actions: [AutomationRulesAction]
-        ///  A set of ASFF finding field attributes and corresponding expected values that  Security Hub uses to filter findings. If a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
+        ///  A set of ASFF finding field attributes and corresponding expected values that  Security Hub uses to filter findings. If a rule is enabled and a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
         public let criteria: AutomationRulesFindingFilters
         ///  A description of the rule.
         public let description: String
-        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding  matches the criteria for multiple rules, and each rule has different actions. If the value of this field is  set to true for a rule, Security Hub applies the rule action to a finding that matches  the rule criteria and won't evaluate other rules for the finding. The default value of this field is false.
+        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding  matches the criteria for multiple rules, and each rule has different actions. If a rule is terminal, Security Hub applies the rule action to a finding that matches  the rule criteria and doesn't evaluate other rules for the finding. By default, a rule isn't terminal.
         public let isTerminal: Bool?
         ///  The name of the rule.
         public let ruleName: String
         /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
         public let ruleOrder: Int
-        ///  Whether the rule is active after it is created. If  this parameter is equal to Enabled, Security Hub will apply the rule to findings  and finding updates after the rule is created. To change the value of this parameter after creating a rule, use BatchUpdateAutomationRules.
+        ///  Whether the rule is active after it is created. If  this parameter is equal to ENABLED, Security Hub starts applying the rule to findings  and finding updates after the rule is created. To change the value of this parameter after creating a rule, use  BatchUpdateAutomationRules .
         public let ruleStatus: RuleStatus?
         ///  User-defined tags that help you label the purpose of a rule.
         public let tags: [String: String]?
@@ -20164,6 +20331,35 @@ extension SecurityHub {
         }
     }
 
+    public struct GeneratorDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The description of the detector used to identify the code vulnerability.
+        public let description: String?
+        ///  An array of tags used to identify the detector associated with the finding.
+        public let labels: [String]?
+        ///  The name of the detector used to identify the code vulnerability.
+        public let name: String?
+
+        public init(description: String? = nil, labels: [String]? = nil, name: String? = nil) {
+            self.description = description
+            self.labels = labels
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
+            try self.labels?.forEach {
+                try validate($0, name: "labels[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case labels = "Labels"
+            case name = "Name"
+        }
+    }
+
     public struct GeoLocation: AWSEncodableShape & AWSDecodableShape {
         /// The latitude of the location.
         public let lat: Double?
@@ -21219,11 +21415,11 @@ extension SecurityHub {
     }
 
     public struct MapFilter: AWSEncodableShape & AWSDecodableShape {
-        /// The condition to apply to the key value when querying for findings with a map filter. To search for values that exactly match the filter value, use EQUALS. For example, for the ResourceTags field, the filter Department EQUALS Security matches findings that have the value Security for the tag Department. To search for values other than the filter value, use NOT_EQUALS. For example, for the ResourceTags field, the filter Department NOT_EQUALS Finance matches findings that do not have the value Finance for the tag Department.  EQUALS filters on the same field are joined by OR. A finding matches if it matches any one of those filters.  NOT_EQUALS filters on the same field are joined by AND. A finding matches only if it matches all of those filters. You cannot have both an EQUALS filter and a NOT_EQUALS filter on the same field.
+        /// The condition to apply to the key value when filtering Security Hub findings with a map filter. To search for values that have the filter value, use one of the following comparison operators:   To search for values that include the filter value, use CONTAINS. For example, for the  ResourceTags field, the filter Department CONTAINS Security matches findings that  include the value Security for the Department tag. In the same example, a finding with a value of Security team for the Department tag is a match.   To search for values that exactly match the filter value, use EQUALS. For example, for  the ResourceTags field, the filter Department EQUALS Security matches findings that  have the value Security for the Department tag.    CONTAINS and EQUALS filters on the same field are joined by OR. A  finding matches if it matches any one of those filters. For example, the filters Department CONTAINS Security OR  Department CONTAINS Finance match a finding that includes either Security,  Finance, or both values. To search for values that don't have the filter value, use one of the following comparison operators:   To search for values that exclude the filter value, use NOT_CONTAINS. For example, for  the ResourceTags field, the filter Department NOT_CONTAINS Finance matches findings  that exclude the value Finance for the Department tag.   To search for values other than the filter value, use NOT_EQUALS. For example, for the  ResourceTags field, the filter Department NOT_EQUALS Finance matches findings that  don’t have the value Finance for the Department tag.    NOT_CONTAINS and NOT_EQUALS filters on the same field are joined by AND.  A finding matches only if it matches all of those filters. For example, the filters Department NOT_CONTAINS Security AND  Department NOT_CONTAINS Finance match a finding that excludes both the Security and  Finance values.  CONTAINS filters can only be used with other CONTAINS filters. NOT_CONTAINS  filters can only be used with other NOT_CONTAINS filters. You can’t have both a CONTAINS filter and a NOT_CONTAINS filter on the same field.  Similarly, you can’t have both an EQUALS filter and a NOT_EQUALS filter on the same field.  Combining filters in this way returns an error.   CONTAINS and NOT_CONTAINS operators can be used only with automation rules. For more information,  see Automation rules in the Security Hub User Guide.
         public let comparison: MapFilterComparison?
         /// The key of the map filter. For example, for ResourceTags, Key identifies the name of the tag. For UserDefinedFields, Key is the name of the field.
         public let key: String?
-        /// The value for the key in the map filter. Filter values are case sensitive. For example, one of the values for a tag called Department might be Security. If you provide security as the filter value, then there is no match.
+        /// The value for the key in the map filter. Filter values are case sensitive. For example, one of the values for a tag called Department might be Security. If you provide security as the filter value, then there's no match.
         public let value: String?
 
         public init(comparison: MapFilterComparison? = nil, key: String? = nil, value: String? = nil) {
@@ -22031,6 +22227,8 @@ extension SecurityHub {
         public let awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails?
         ///  Provides details about an AppSync Graph QL API, which lets you query multiple databases, microservices,  and APIs from a single GraphQL endpoint.
         public let awsAppSyncGraphQlApi: AwsAppSyncGraphQlApiDetails?
+        ///  Provides information about an Amazon Athena workgroup. A workgroup helps you separate users, teams,  applications, or workloads. It also helps you set limits on data processing and track costs.
+        public let awsAthenaWorkGroup: AwsAthenaWorkGroupDetails?
         /// Details for an autoscaling group.
         public let awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails?
         /// Provides details about a launch configuration.
@@ -22195,13 +22393,14 @@ extension SecurityHub {
         /// Details about a resource that are not available in a type-specific details object. Use the Other object in the following cases.   The type-specific object does not contain all of the fields that you want to populate. In this case, first use the type-specific object to populate those fields. Use the Other object to populate the fields that are missing from the type-specific object.   The resource type does not have a corresponding object. This includes resources for which the type is Other.
         public let other: [String: String]?
 
-        public init(awsAmazonMqBroker: AwsAmazonMqBrokerDetails? = nil, awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAppSyncGraphQlApi: AwsAppSyncGraphQlApiDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsAutoScalingLaunchConfiguration: AwsAutoScalingLaunchConfigurationDetails? = nil, awsBackupBackupPlan: AwsBackupBackupPlanDetails? = nil, awsBackupBackupVault: AwsBackupBackupVaultDetails? = nil, awsBackupRecoveryPoint: AwsBackupRecoveryPointDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFormationStack: AwsCloudFormationStackDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCloudWatchAlarm: AwsCloudWatchAlarmDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2LaunchTemplate: AwsEc2LaunchTemplateDetails? = nil, awsEc2NetworkAcl: AwsEc2NetworkAclDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2RouteTable: AwsEc2RouteTableDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Subnet: AwsEc2SubnetDetails? = nil, awsEc2TransitGateway: AwsEc2TransitGatewayDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsEc2VpcEndpointService: AwsEc2VpcEndpointServiceDetails? = nil, awsEc2VpcPeeringConnection: AwsEc2VpcPeeringConnectionDetails? = nil, awsEc2VpnConnection: AwsEc2VpnConnectionDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil, awsEcrRepository: AwsEcrRepositoryDetails? = nil, awsEcsCluster: AwsEcsClusterDetails? = nil, awsEcsContainer: AwsEcsContainerDetails? = nil, awsEcsService: AwsEcsServiceDetails? = nil, awsEcsTask: AwsEcsTaskDetails? = nil, awsEcsTaskDefinition: AwsEcsTaskDefinitionDetails? = nil, awsEfsAccessPoint: AwsEfsAccessPointDetails? = nil, awsEksCluster: AwsEksClusterDetails? = nil, awsElasticBeanstalkEnvironment: AwsElasticBeanstalkEnvironmentDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsEventSchemasRegistry: AwsEventSchemasRegistryDetails? = nil, awsGuardDutyDetector: AwsGuardDutyDetectorDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKinesisStream: AwsKinesisStreamDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsNetworkFirewallFirewall: AwsNetworkFirewallFirewallDetails? = nil, awsNetworkFirewallFirewallPolicy: AwsNetworkFirewallFirewallPolicyDetails? = nil, awsNetworkFirewallRuleGroup: AwsNetworkFirewallRuleGroupDetails? = nil, awsOpenSearchServiceDomain: AwsOpenSearchServiceDomainDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSecurityGroup: AwsRdsDbSecurityGroupDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRdsEventSubscription: AwsRdsEventSubscriptionDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsS3AccountPublicAccessBlock: AwsS3AccountPublicAccessBlockDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSageMakerNotebookInstance: AwsSageMakerNotebookInstanceDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsSsmPatchCompliance: AwsSsmPatchComplianceDetails? = nil, awsStepFunctionStateMachine: AwsStepFunctionStateMachineDetails? = nil, awsWafRateBasedRule: AwsWafRateBasedRuleDetails? = nil, awsWafRegionalRateBasedRule: AwsWafRegionalRateBasedRuleDetails? = nil, awsWafRegionalRule: AwsWafRegionalRuleDetails? = nil, awsWafRegionalRuleGroup: AwsWafRegionalRuleGroupDetails? = nil, awsWafRegionalWebAcl: AwsWafRegionalWebAclDetails? = nil, awsWafRule: AwsWafRuleDetails? = nil, awsWafRuleGroup: AwsWafRuleGroupDetails? = nil, awsWafv2RuleGroup: AwsWafv2RuleGroupDetails? = nil, awsWafv2WebAcl: AwsWafv2WebAclDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, awsXrayEncryptionConfig: AwsXrayEncryptionConfigDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
+        public init(awsAmazonMqBroker: AwsAmazonMqBrokerDetails? = nil, awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAppSyncGraphQlApi: AwsAppSyncGraphQlApiDetails? = nil, awsAthenaWorkGroup: AwsAthenaWorkGroupDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsAutoScalingLaunchConfiguration: AwsAutoScalingLaunchConfigurationDetails? = nil, awsBackupBackupPlan: AwsBackupBackupPlanDetails? = nil, awsBackupBackupVault: AwsBackupBackupVaultDetails? = nil, awsBackupRecoveryPoint: AwsBackupRecoveryPointDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFormationStack: AwsCloudFormationStackDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCloudWatchAlarm: AwsCloudWatchAlarmDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2LaunchTemplate: AwsEc2LaunchTemplateDetails? = nil, awsEc2NetworkAcl: AwsEc2NetworkAclDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2RouteTable: AwsEc2RouteTableDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Subnet: AwsEc2SubnetDetails? = nil, awsEc2TransitGateway: AwsEc2TransitGatewayDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsEc2VpcEndpointService: AwsEc2VpcEndpointServiceDetails? = nil, awsEc2VpcPeeringConnection: AwsEc2VpcPeeringConnectionDetails? = nil, awsEc2VpnConnection: AwsEc2VpnConnectionDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil, awsEcrRepository: AwsEcrRepositoryDetails? = nil, awsEcsCluster: AwsEcsClusterDetails? = nil, awsEcsContainer: AwsEcsContainerDetails? = nil, awsEcsService: AwsEcsServiceDetails? = nil, awsEcsTask: AwsEcsTaskDetails? = nil, awsEcsTaskDefinition: AwsEcsTaskDefinitionDetails? = nil, awsEfsAccessPoint: AwsEfsAccessPointDetails? = nil, awsEksCluster: AwsEksClusterDetails? = nil, awsElasticBeanstalkEnvironment: AwsElasticBeanstalkEnvironmentDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsEventSchemasRegistry: AwsEventSchemasRegistryDetails? = nil, awsGuardDutyDetector: AwsGuardDutyDetectorDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKinesisStream: AwsKinesisStreamDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsNetworkFirewallFirewall: AwsNetworkFirewallFirewallDetails? = nil, awsNetworkFirewallFirewallPolicy: AwsNetworkFirewallFirewallPolicyDetails? = nil, awsNetworkFirewallRuleGroup: AwsNetworkFirewallRuleGroupDetails? = nil, awsOpenSearchServiceDomain: AwsOpenSearchServiceDomainDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSecurityGroup: AwsRdsDbSecurityGroupDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRdsEventSubscription: AwsRdsEventSubscriptionDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsS3AccountPublicAccessBlock: AwsS3AccountPublicAccessBlockDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSageMakerNotebookInstance: AwsSageMakerNotebookInstanceDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsSsmPatchCompliance: AwsSsmPatchComplianceDetails? = nil, awsStepFunctionStateMachine: AwsStepFunctionStateMachineDetails? = nil, awsWafRateBasedRule: AwsWafRateBasedRuleDetails? = nil, awsWafRegionalRateBasedRule: AwsWafRegionalRateBasedRuleDetails? = nil, awsWafRegionalRule: AwsWafRegionalRuleDetails? = nil, awsWafRegionalRuleGroup: AwsWafRegionalRuleGroupDetails? = nil, awsWafRegionalWebAcl: AwsWafRegionalWebAclDetails? = nil, awsWafRule: AwsWafRuleDetails? = nil, awsWafRuleGroup: AwsWafRuleGroupDetails? = nil, awsWafv2RuleGroup: AwsWafv2RuleGroupDetails? = nil, awsWafv2WebAcl: AwsWafv2WebAclDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, awsXrayEncryptionConfig: AwsXrayEncryptionConfigDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
             self.awsAmazonMqBroker = awsAmazonMqBroker
             self.awsApiGatewayRestApi = awsApiGatewayRestApi
             self.awsApiGatewayStage = awsApiGatewayStage
             self.awsApiGatewayV2Api = awsApiGatewayV2Api
             self.awsApiGatewayV2Stage = awsApiGatewayV2Stage
             self.awsAppSyncGraphQlApi = awsAppSyncGraphQlApi
+            self.awsAthenaWorkGroup = awsAthenaWorkGroup
             self.awsAutoScalingAutoScalingGroup = awsAutoScalingAutoScalingGroup
             self.awsAutoScalingLaunchConfiguration = awsAutoScalingLaunchConfiguration
             self.awsBackupBackupPlan = awsBackupBackupPlan
@@ -22294,6 +22493,7 @@ extension SecurityHub {
             try self.awsApiGatewayV2Api?.validate(name: "\(name).awsApiGatewayV2Api")
             try self.awsApiGatewayV2Stage?.validate(name: "\(name).awsApiGatewayV2Stage")
             try self.awsAppSyncGraphQlApi?.validate(name: "\(name).awsAppSyncGraphQlApi")
+            try self.awsAthenaWorkGroup?.validate(name: "\(name).awsAthenaWorkGroup")
             try self.awsAutoScalingAutoScalingGroup?.validate(name: "\(name).awsAutoScalingAutoScalingGroup")
             try self.awsAutoScalingLaunchConfiguration?.validate(name: "\(name).awsAutoScalingLaunchConfiguration")
             try self.awsBackupBackupPlan?.validate(name: "\(name).awsBackupBackupPlan")
@@ -22388,6 +22588,7 @@ extension SecurityHub {
             case awsApiGatewayV2Api = "AwsApiGatewayV2Api"
             case awsApiGatewayV2Stage = "AwsApiGatewayV2Stage"
             case awsAppSyncGraphQlApi = "AwsAppSyncGraphQlApi"
+            case awsAthenaWorkGroup = "AwsAthenaWorkGroup"
             case awsAutoScalingAutoScalingGroup = "AwsAutoScalingAutoScalingGroup"
             case awsAutoScalingLaunchConfiguration = "AwsAutoScalingLaunchConfiguration"
             case awsBackupBackupPlan = "AwsBackupBackupPlan"
@@ -23066,7 +23267,7 @@ extension SecurityHub {
         public let securityControlArn: String
         ///  The unique identifier of a security control across standards. Values for this field typically consist of an Amazon Web Service name and a  number, such as APIGateway.3.
         public let securityControlId: String
-        ///  The status of a security control based on the compliance status of its findings. For more information about how control  status is determined, see Determining the overall status of a control from its findings in the  Security Hub User Guide.
+        ///  The enablement status of a security control in a specific standard.
         public let securityControlStatus: ControlStatus
         ///  The severity of a security control. For more information about how Security Hub determines control severity, see  Assigning severity to control findings in the  Security Hub User Guide.
         public let severityRating: SeverityRating
@@ -23712,9 +23913,9 @@ extension SecurityHub {
     }
 
     public struct StringFilter: AWSEncodableShape & AWSDecodableShape {
-        /// The condition to apply to a string value when querying for findings. To search for values that contain the filter criteria value, use one of the following comparison operators:   To search for values that exactly match the filter value, use EQUALS. For example, the filter ResourceType EQUALS AwsEc2SecurityGroup only matches findings that have a resource type of AwsEc2SecurityGroup.   To search for values that start with the filter value, use PREFIX. For example, the filter ResourceType PREFIX AwsIam matches findings that have a resource type that starts with AwsIam. Findings with a resource type of AwsIamPolicy, AwsIamRole, or AwsIamUser would all match.    EQUALS and PREFIX filters on the same field are joined by OR. A finding matches if it matches any one of those filters. To search for values that do not contain the filter criteria value, use one of the following comparison operators:   To search for values that do not exactly match the filter value, use NOT_EQUALS. For example, the filter ResourceType NOT_EQUALS AwsIamPolicy matches findings that have a resource type other than AwsIamPolicy.   To search for values that do not start with the filter value, use PREFIX_NOT_EQUALS. For example, the filter ResourceType PREFIX_NOT_EQUALS AwsIam matches findings that have a resource type that does not start with AwsIam. Findings with a resource type of AwsIamPolicy, AwsIamRole, or AwsIamUser would all be excluded from the results.    NOT_EQUALS and PREFIX_NOT_EQUALS filters on the same field are joined by AND. A finding matches only if it matches all of those filters. For filters on the same field, you cannot provide both an EQUALS filter and a NOT_EQUALS or PREFIX_NOT_EQUALS filter. Combining filters in this way always returns an error, even if the provided filter values would return valid results. You can combine PREFIX filters with NOT_EQUALS or PREFIX_NOT_EQUALS filters for the same field. Security Hub first processes the PREFIX filters, then the NOT_EQUALS or PREFIX_NOT_EQUALS filters. For example, for the following filter, Security Hub first identifies findings that have resource types that start with either AwsIAM or AwsEc2. It then excludes findings that have a resource type of AwsIamPolicy and findings that have a resource type of AwsEc2NetworkInterface.    ResourceType PREFIX AwsIam     ResourceType PREFIX AwsEc2     ResourceType NOT_EQUALS AwsIamPolicy     ResourceType NOT_EQUALS AwsEc2NetworkInterface
+        /// The condition to apply to a string value when filtering Security Hub findings. To search for values that have the filter value, use one of the following comparison operators:   To search for values that include the filter value, use CONTAINS. For example, the  filter Title CONTAINS CloudFront matches findings that have a Title that  includes the string CloudFront.   To search for values that exactly match the filter value, use EQUALS. For example,  the filter AwsAccountId EQUALS 123456789012 only matches findings that have an account ID of  123456789012.   To search for values that start with the filter value, use PREFIX. For example, the  filter ResourceRegion PREFIX us matches findings that have a ResourceRegion that starts  with us. A ResourceRegion that starts with a different value, such as af,  ap, or ca, doesn't match.    CONTAINS, EQUALS, and PREFIX filters on the same field are joined by  OR. A finding matches if it matches any one of those filters. For example, the filters Title CONTAINS CloudFront OR  Title CONTAINS CloudWatch match a finding that includes either CloudFront,  CloudWatch, or both strings in the title. To search for values that don’t have the filter value, use one of the following comparison operators:   To search for values that exclude the filter value, use NOT_CONTAINS. For example, the  filter Title NOT_CONTAINS CloudFront matches findings that have a Title that  excludes the string CloudFront.   To search for values other than the filter value, use NOT_EQUALS. For  example, the filter AwsAccountId NOT_EQUALS 123456789012 only matches findings that have an account  ID other than 123456789012.   To search for values that don't start with the filter value, use PREFIX_NOT_EQUALS. For  example, the filter ResourceRegion PREFIX_NOT_EQUALS us matches findings with a  ResourceRegion that starts with a value other than us.    NOT_CONTAINS, NOT_EQUALS, and PREFIX_NOT_EQUALS filters on the same field  are joined by AND. A finding matches only if it matches all of those filters. For example, the filters Title NOT_CONTAINS CloudFront AND  Title NOT_CONTAINS CloudWatch match a finding that excludes both CloudFront and  CloudWatch in the title. You can’t have both a CONTAINS filter and a NOT_CONTAINS filter on the same field. Similarly,  you can't provide both an EQUALS filter and a NOT_EQUALS or  PREFIX_NOT_EQUALS filter on the same field. Combining filters in this way returns an error. CONTAINS filters  can only be used with other CONTAINS filters. NOT_CONTAINS filters can only be used with  other NOT_CONTAINS filters.  You can combine PREFIX filters with NOT_EQUALS or PREFIX_NOT_EQUALS filters for the same field.  Security Hub first processes the PREFIX filters, and then the NOT_EQUALS or PREFIX_NOT_EQUALS filters. For example, for the following filters, Security Hub first identifies findings that have resource types  that start with either AwsIam or AwsEc2. It then excludes findings that have a resource  type of AwsIamPolicy and findings that have a resource type of AwsEc2NetworkInterface.    ResourceType PREFIX AwsIam     ResourceType PREFIX AwsEc2     ResourceType NOT_EQUALS AwsIamPolicy     ResourceType NOT_EQUALS AwsEc2NetworkInterface     CONTAINS and NOT_CONTAINS operators can be used only with automation rules. For more information,  see Automation rules in the Security Hub User Guide.
         public let comparison: StringFilterComparison?
-        /// The string filter value. Filter values are case sensitive. For example, the product name for control-based findings is Security Hub. If you provide security hub as the filter text, then there is no match.
+        /// The string filter value. Filter values are case sensitive. For example, the product name for control-based findings is Security Hub. If you provide security hub as the filter value, there's no match.
         public let value: String?
 
         public init(comparison: StringFilterComparison? = nil, value: String? = nil) {
@@ -24000,11 +24201,11 @@ extension SecurityHub {
     public struct UpdateAutomationRulesRequestItem: AWSEncodableShape {
         ///  One or more actions to update finding fields if a finding matches the conditions  specified in Criteria.
         public let actions: [AutomationRulesAction]?
-        ///  A set of ASFF finding field attributes and corresponding expected values that  Security Hub uses to filter findings. If a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
+        ///  A set of ASFF finding field attributes and corresponding expected values that  Security Hub uses to filter findings. If a rule is enabled and a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
         public let criteria: AutomationRulesFindingFilters?
         ///  A description of the rule.
         public let description: String?
-        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful  when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this  field is set to true for a rule, Security Hub applies the rule action to a finding that matches  the rule criteria and won't evaluate other rules for the finding.  The default value of this field is false.
+        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding  matches the criteria for multiple rules, and each rule has different actions. If a rule is terminal, Security Hub applies the rule action to a finding that matches  the rule criteria and doesn't evaluate other rules for the finding. By default, a rule isn't terminal.
         public let isTerminal: Bool?
         ///  The Amazon Resource Name (ARN) for the rule.
         public let ruleArn: String
@@ -24012,7 +24213,7 @@ extension SecurityHub {
         public let ruleName: String?
         ///  An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
         public let ruleOrder: Int?
-        ///  Whether the rule is active after it is created. If  this parameter is equal to ENABLED, Security Hub will apply the rule to findings  and finding updates after the rule is created. To change the value of this parameter after creating a rule, use BatchUpdateAutomationRules.
+        ///  Whether the rule is active after it is created. If  this parameter is equal to ENABLED, Security Hub starts applying the rule to findings  and finding updates after the rule is created. To change the value of this parameter after creating a rule, use  BatchUpdateAutomationRules .
         public let ruleStatus: RuleStatus?
 
         public init(actions: [AutomationRulesAction]? = nil, criteria: AutomationRulesFindingFilters? = nil, description: String? = nil, isTerminal: Bool? = nil, ruleArn: String, ruleName: String? = nil, ruleOrder: Int? = nil, ruleStatus: RuleStatus? = nil) {
@@ -24328,8 +24529,17 @@ extension SecurityHub {
     }
 
     public struct Vulnerability: AWSEncodableShape & AWSDecodableShape {
+        /// The vulnerabilities found in your Lambda function code. This field pertains to findings that
+        /// Security Hub receives from Amazon Inspector.
+        public let codeVulnerabilities: [VulnerabilityCodeVulnerabilities]?
         /// CVSS scores from the advisory related to the vulnerability.
         public let cvss: [Cvss]?
+        /// The Exploit Prediction Scoring System (EPSS) score for a finding.
+        ///
+        public let epssScore: Double?
+        /// Whether an exploit is available for a finding.
+        ///
+        public let exploitAvailable: VulnerabilityExploitAvailable?
         /// Specifies if all vulnerable packages in a finding have a value for FixedInVersion
         /// and Remediation.
         /// This field is evaluated for each vulnerability Id based on the number of vulnerable packages that have a value for both
@@ -24346,8 +24556,11 @@ extension SecurityHub {
         /// List of software packages that have the vulnerability.
         public let vulnerablePackages: [SoftwarePackage]?
 
-        public init(cvss: [Cvss]? = nil, fixAvailable: VulnerabilityFixAvailable? = nil, id: String, referenceUrls: [String]? = nil, relatedVulnerabilities: [String]? = nil, vendor: VulnerabilityVendor? = nil, vulnerablePackages: [SoftwarePackage]? = nil) {
+        public init(codeVulnerabilities: [VulnerabilityCodeVulnerabilities]? = nil, cvss: [Cvss]? = nil, epssScore: Double? = nil, exploitAvailable: VulnerabilityExploitAvailable? = nil, fixAvailable: VulnerabilityFixAvailable? = nil, id: String, referenceUrls: [String]? = nil, relatedVulnerabilities: [String]? = nil, vendor: VulnerabilityVendor? = nil, vulnerablePackages: [SoftwarePackage]? = nil) {
+            self.codeVulnerabilities = codeVulnerabilities
             self.cvss = cvss
+            self.epssScore = epssScore
+            self.exploitAvailable = exploitAvailable
             self.fixAvailable = fixAvailable
             self.id = id
             self.referenceUrls = referenceUrls
@@ -24357,6 +24570,9 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
+            try self.codeVulnerabilities?.forEach {
+                try $0.validate(name: "\(name).codeVulnerabilities[]")
+            }
             try self.cvss?.forEach {
                 try $0.validate(name: "\(name).cvss[]")
             }
@@ -24374,13 +24590,45 @@ extension SecurityHub {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case codeVulnerabilities = "CodeVulnerabilities"
             case cvss = "Cvss"
+            case epssScore = "EpssScore"
+            case exploitAvailable = "ExploitAvailable"
             case fixAvailable = "FixAvailable"
             case id = "Id"
             case referenceUrls = "ReferenceUrls"
             case relatedVulnerabilities = "RelatedVulnerabilities"
             case vendor = "Vendor"
             case vulnerablePackages = "VulnerablePackages"
+        }
+    }
+
+    public struct VulnerabilityCodeVulnerabilities: AWSEncodableShape & AWSDecodableShape {
+        ///  The Common Weakness Enumeration (CWE) item associated with the detected code vulnerability.
+        public let cwes: [String]?
+        ///  Provides details about where a code vulnerability is located in your Lambda function.
+        public let filePath: CodeVulnerabilitiesFilePath?
+        ///  The Amazon Resource Name (ARN) of the Lambda layer in which the code vulnerability is located.
+        public let sourceArn: String?
+
+        public init(cwes: [String]? = nil, filePath: CodeVulnerabilitiesFilePath? = nil, sourceArn: String? = nil) {
+            self.cwes = cwes
+            self.filePath = filePath
+            self.sourceArn = sourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.cwes?.forEach {
+                try validate($0, name: "cwes[]", parent: name, pattern: "\\S")
+            }
+            try self.filePath?.validate(name: "\(name).filePath")
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cwes = "Cwes"
+            case filePath = "FilePath"
+            case sourceArn = "SourceArn"
         }
     }
 

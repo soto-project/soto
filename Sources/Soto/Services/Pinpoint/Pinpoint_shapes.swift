@@ -256,6 +256,12 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
+    public enum TimezoneEstimationMethodsElement: String, CustomStringConvertible, Codable, Sendable {
+        case phoneNumber = "PHONE_NUMBER"
+        case postalCode = "POSTAL_CODE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum `Type`: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case any = "ANY"
@@ -1195,11 +1201,34 @@ extension Pinpoint {
         }
     }
 
+    public struct ApplicationSettingsJourneyLimits: AWSEncodableShape & AWSDecodableShape {
+        /// The daily number of messages that an endpoint can receive from all journeys. The maximum value is 100. If set to 0, this limit will not apply.
+        public let dailyCap: Int?
+        /// The default maximum number of messages that can be sent to an endpoint during the specified timeframe for all journeys.
+        public let timeframeCap: JourneyTimeframeCap?
+        /// The default maximum number of messages that a single journey can sent to a single endpoint. The maximum value is 100. If set to 0, this limit will not apply.
+        public let totalCap: Int?
+
+        public init(dailyCap: Int? = nil, timeframeCap: JourneyTimeframeCap? = nil, totalCap: Int? = nil) {
+            self.dailyCap = dailyCap
+            self.timeframeCap = timeframeCap
+            self.totalCap = totalCap
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dailyCap = "DailyCap"
+            case timeframeCap = "TimeframeCap"
+            case totalCap = "TotalCap"
+        }
+    }
+
     public struct ApplicationSettingsResource: AWSDecodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The settings for the AWS Lambda function to invoke by default as a code hook for campaigns in the application. You can use this hook to customize segments that are used by campaigns in the application.
         public let campaignHook: CampaignHook?
+        /// The default sending limits for journeys in the application. These limits apply to each journey for the application but can be overridden, on a per journey basis, with the JourneyLimits resource.
+        public let journeyLimits: ApplicationSettingsJourneyLimits?
         /// The date and time, in ISO 8601 format, when the application's settings were last modified.
         public let lastModifiedDate: String?
         /// The default sending limits for campaigns in the application.
@@ -1207,9 +1236,10 @@ extension Pinpoint {
         /// The default quiet time for campaigns in the application. Quiet time is a specific time range when messages aren't sent to endpoints, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint is set to a valid value. The current time in the endpoint's time zone is later than or equal to the time specified by the QuietTime.Start property for the application (or a campaign or journey that has custom quiet time settings). The current time in the endpoint's time zone is earlier than or equal to the time specified by the QuietTime.End property for the application (or a campaign or journey that has custom quiet time settings). If any of the preceding conditions isn't met, the endpoint will receive messages from a campaign or journey, even if quiet time is enabled.
         public let quietTime: QuietTime?
 
-        public init(applicationId: String, campaignHook: CampaignHook? = nil, lastModifiedDate: String? = nil, limits: CampaignLimits? = nil, quietTime: QuietTime? = nil) {
+        public init(applicationId: String, campaignHook: CampaignHook? = nil, journeyLimits: ApplicationSettingsJourneyLimits? = nil, lastModifiedDate: String? = nil, limits: CampaignLimits? = nil, quietTime: QuietTime? = nil) {
             self.applicationId = applicationId
             self.campaignHook = campaignHook
+            self.journeyLimits = journeyLimits
             self.lastModifiedDate = lastModifiedDate
             self.limits = limits
             self.quietTime = quietTime
@@ -1218,6 +1248,7 @@ extension Pinpoint {
         private enum CodingKeys: String, CodingKey {
             case applicationId = "ApplicationId"
             case campaignHook = "CampaignHook"
+            case journeyLimits = "JourneyLimits"
             case lastModifiedDate = "LastModifiedDate"
             case limits = "Limits"
             case quietTime = "QuietTime"
@@ -4475,18 +4506,26 @@ extension Pinpoint {
 
     public struct GCMChannelRequest: AWSEncodableShape {
         /// The Web API Key, also referred to as an API_KEY or server key, that you received from Google to communicate with Google services.
-        public let apiKey: String
+        public let apiKey: String?
+        /// The default authentication method used for GCM. Values are either "TOKEN" or "KEY". Defaults to "KEY".
+        public let defaultAuthenticationMethod: String?
         /// Specifies whether to enable the GCM channel for the application.
         public let enabled: Bool?
+        /// The contents of the JSON file provided by Google during registration in order to generate an access token for authentication. For more information see Migrate from legacy FCM APIs to HTTP v1.
+        public let serviceJson: String?
 
-        public init(apiKey: String, enabled: Bool? = nil) {
+        public init(apiKey: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, serviceJson: String? = nil) {
             self.apiKey = apiKey
+            self.defaultAuthenticationMethod = defaultAuthenticationMethod
             self.enabled = enabled
+            self.serviceJson = serviceJson
         }
 
         private enum CodingKeys: String, CodingKey {
             case apiKey = "ApiKey"
+            case defaultAuthenticationMethod = "DefaultAuthenticationMethod"
             case enabled = "Enabled"
+            case serviceJson = "ServiceJson"
         }
     }
 
@@ -4496,11 +4535,15 @@ extension Pinpoint {
         /// The date and time when the GCM channel was enabled.
         public let creationDate: String?
         /// The Web API Key, also referred to as an API_KEY or server key, that you received from Google to communicate with Google services.
-        public let credential: String
+        public let credential: String?
+        /// The default authentication method used for GCM. Values are either "TOKEN" or "KEY". Defaults to "KEY".
+        public let defaultAuthenticationMethod: String?
         /// Specifies whether the GCM channel is enabled for the application.
         public let enabled: Bool?
         /// (Not used) This property is retained only for backward compatibility.
         public let hasCredential: Bool?
+        /// Returns true if the JSON file provided by Google during registration process was used in the ServiceJson field of the request.
+        public let hasFcmServiceCredentials: Bool?
         /// (Deprecated) An identifier for the GCM channel. This property is retained only for backward compatibility.
         public let id: String?
         /// Specifies whether the GCM channel is archived.
@@ -4514,12 +4557,14 @@ extension Pinpoint {
         /// The current version of the GCM channel.
         public let version: Int?
 
-        public init(applicationId: String? = nil, creationDate: String? = nil, credential: String, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int? = nil) {
+        public init(applicationId: String? = nil, creationDate: String? = nil, credential: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, hasFcmServiceCredentials: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.credential = credential
+            self.defaultAuthenticationMethod = defaultAuthenticationMethod
             self.enabled = enabled
             self.hasCredential = hasCredential
+            self.hasFcmServiceCredentials = hasFcmServiceCredentials
             self.id = id
             self.isArchived = isArchived
             self.lastModifiedBy = lastModifiedBy
@@ -4532,8 +4577,10 @@ extension Pinpoint {
             case applicationId = "ApplicationId"
             case creationDate = "CreationDate"
             case credential = "Credential"
+            case defaultAuthenticationMethod = "DefaultAuthenticationMethod"
             case enabled = "Enabled"
             case hasCredential = "HasCredential"
+            case hasFcmServiceCredentials = "HasFcmServiceCredentials"
             case id = "Id"
             case isArchived = "IsArchived"
             case lastModifiedBy = "LastModifiedBy"
@@ -4558,7 +4605,9 @@ extension Pinpoint {
         public let imageIconUrl: String?
         /// The URL of an image to display in the push notification.
         public let imageUrl: String?
-        /// para>normal - The notification might be delayed. Delivery is optimized for battery usage on the recipient's device. Use this value unless immediate delivery is required./listitem> high - The notification is sent immediately and might wake a sleeping device./para> Amazon Pinpoint specifies this value in the FCM priority parameter when it sends the notification message to FCM. The equivalent values for Apple Push Notification service (APNs) are 5, for normal, and 10, for high. If you specify an APNs value for this property, Amazon Pinpoint accepts and converts the value to the corresponding FCM value.
+        /// The preferred authentication method, with valid values "KEY" or "TOKEN". If a value isn't provided then the DefaultAuthenticationMethod is used.
+        public let preferredAuthenticationMethod: String?
+        /// para>normal – The notification might be delayed. Delivery is optimized for battery usage on the recipient's device. Use this value unless immediate delivery is required./listitem> high – The notification is sent immediately and might wake a sleeping device./para> Amazon Pinpoint specifies this value in the FCM priority parameter when it sends the notification message to FCM. The equivalent values for Apple Push Notification service (APNs) are 5, for normal, and 10, for high. If you specify an APNs value for this property, Amazon Pinpoint accepts and converts the value to the corresponding FCM value.
         public let priority: String?
         /// The raw, JSON-formatted string to use as the payload for the notification message. If specified, this value overrides all other content for the message.
         public let rawContent: String?
@@ -4579,7 +4628,7 @@ extension Pinpoint {
         /// The URL to open in the recipient's default mobile browser, if a recipient taps the push notification and the value of the Action property is URL.
         public let url: String?
 
-        public init(action: Action? = nil, body: String? = nil, collapseKey: String? = nil, data: [String: String]? = nil, iconReference: String? = nil, imageIconUrl: String? = nil, imageUrl: String? = nil, priority: String? = nil, rawContent: String? = nil, restrictedPackageName: String? = nil, silentPush: Bool? = nil, smallImageIconUrl: String? = nil, sound: String? = nil, substitutions: [String: [String]]? = nil, timeToLive: Int? = nil, title: String? = nil, url: String? = nil) {
+        public init(action: Action? = nil, body: String? = nil, collapseKey: String? = nil, data: [String: String]? = nil, iconReference: String? = nil, imageIconUrl: String? = nil, imageUrl: String? = nil, preferredAuthenticationMethod: String? = nil, priority: String? = nil, rawContent: String? = nil, restrictedPackageName: String? = nil, silentPush: Bool? = nil, smallImageIconUrl: String? = nil, sound: String? = nil, substitutions: [String: [String]]? = nil, timeToLive: Int? = nil, title: String? = nil, url: String? = nil) {
             self.action = action
             self.body = body
             self.collapseKey = collapseKey
@@ -4587,6 +4636,7 @@ extension Pinpoint {
             self.iconReference = iconReference
             self.imageIconUrl = imageIconUrl
             self.imageUrl = imageUrl
+            self.preferredAuthenticationMethod = preferredAuthenticationMethod
             self.priority = priority
             self.rawContent = rawContent
             self.restrictedPackageName = restrictedPackageName
@@ -4607,6 +4657,7 @@ extension Pinpoint {
             case iconReference = "IconReference"
             case imageIconUrl = "ImageIconUrl"
             case imageUrl = "ImageUrl"
+            case preferredAuthenticationMethod = "PreferredAuthenticationMethod"
             case priority = "Priority"
             case rawContent = "RawContent"
             case restrictedPackageName = "RestrictedPackageName"
@@ -7210,12 +7261,18 @@ extension Pinpoint {
         public let endpointReentryInterval: String?
         /// The maximum number of messages that the journey can send each second.
         public let messagesPerSecond: Int?
+        /// The number of messages that an endpoint can receive during the specified timeframe.
+        public let timeframeCap: JourneyTimeframeCap?
+        /// The maximum number of messages a journey can sent to a single endpoint. The maximum value is 100. If set to 0, this limit will not apply.
+        public let totalCap: Int?
 
-        public init(dailyCap: Int? = nil, endpointReentryCap: Int? = nil, endpointReentryInterval: String? = nil, messagesPerSecond: Int? = nil) {
+        public init(dailyCap: Int? = nil, endpointReentryCap: Int? = nil, endpointReentryInterval: String? = nil, messagesPerSecond: Int? = nil, timeframeCap: JourneyTimeframeCap? = nil, totalCap: Int? = nil) {
             self.dailyCap = dailyCap
             self.endpointReentryCap = endpointReentryCap
             self.endpointReentryInterval = endpointReentryInterval
             self.messagesPerSecond = messagesPerSecond
+            self.timeframeCap = timeframeCap
+            self.totalCap = totalCap
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7223,6 +7280,8 @@ extension Pinpoint {
             case endpointReentryCap = "EndpointReentryCap"
             case endpointReentryInterval = "EndpointReentryInterval"
             case messagesPerSecond = "MessagesPerSecond"
+            case timeframeCap = "TimeframeCap"
+            case totalCap = "TotalCap"
         }
     }
 
@@ -7280,10 +7339,12 @@ extension Pinpoint {
         public let state: State?
         /// This object is not used or supported.
         public let tags: [String: String]?
+        /// An array of time zone estimation methods, if any, to use for determining an Endpoints time zone if the Endpoint does not have a value for the Demographic.Timezone attribute.  PHONE_NUMBER - A time zone is determined based on the Endpoint.Address and Endpoint.Location.Country. POSTAL_CODE - A time zone is determined based on the Endpoint.Location.PostalCode and Endpoint.Location.Country. POSTAL_CODE detection is only supported in the United States, United Kingdom, Australia, New Zealand, Canada, France, Italy, Spain, Germany and in regions where Amazon Pinpoint is available.
+        public let timezoneEstimationMethods: [TimezoneEstimationMethodsElement]?
         /// Indicates whether endpoints in quiet hours should enter a wait activity until quiet hours have elapsed.
         public let waitForQuietTime: Bool?
 
-        public init(activities: [String: Activity]? = nil, applicationId: String, closedDays: ClosedDays? = nil, creationDate: String? = nil, id: String, journeyChannelSettings: JourneyChannelSettings? = nil, lastModifiedDate: String? = nil, limits: JourneyLimits? = nil, localTime: Bool? = nil, name: String, openHours: OpenHours? = nil, quietTime: QuietTime? = nil, refreshFrequency: String? = nil, refreshOnSegmentUpdate: Bool? = nil, schedule: JourneySchedule? = nil, sendingSchedule: Bool? = nil, startActivity: String? = nil, startCondition: StartCondition? = nil, state: State? = nil, tags: [String: String]? = nil, waitForQuietTime: Bool? = nil) {
+        public init(activities: [String: Activity]? = nil, applicationId: String, closedDays: ClosedDays? = nil, creationDate: String? = nil, id: String, journeyChannelSettings: JourneyChannelSettings? = nil, lastModifiedDate: String? = nil, limits: JourneyLimits? = nil, localTime: Bool? = nil, name: String, openHours: OpenHours? = nil, quietTime: QuietTime? = nil, refreshFrequency: String? = nil, refreshOnSegmentUpdate: Bool? = nil, schedule: JourneySchedule? = nil, sendingSchedule: Bool? = nil, startActivity: String? = nil, startCondition: StartCondition? = nil, state: State? = nil, tags: [String: String]? = nil, timezoneEstimationMethods: [TimezoneEstimationMethodsElement]? = nil, waitForQuietTime: Bool? = nil) {
             self.activities = activities
             self.applicationId = applicationId
             self.closedDays = closedDays
@@ -7304,6 +7365,7 @@ extension Pinpoint {
             self.startCondition = startCondition
             self.state = state
             self.tags = tags
+            self.timezoneEstimationMethods = timezoneEstimationMethods
             self.waitForQuietTime = waitForQuietTime
         }
 
@@ -7328,6 +7390,7 @@ extension Pinpoint {
             case startCondition = "StartCondition"
             case state = "State"
             case tags = "tags"
+            case timezoneEstimationMethods = "TimezoneEstimationMethods"
             case waitForQuietTime = "WaitForQuietTime"
         }
     }
@@ -7502,6 +7565,23 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case state = "State"
+        }
+    }
+
+    public struct JourneyTimeframeCap: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of messages that all journeys can send to an endpoint during the specified timeframe. The maximum value is 100. If set to 0, this limit will not apply.
+        public let cap: Int?
+        /// The length of the timeframe in days. The maximum value is 30. If set to 0, this limit will not apply.
+        public let days: Int?
+
+        public init(cap: Int? = nil, days: Int? = nil) {
+            self.cap = cap
+            self.days = days
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cap = "Cap"
+            case days = "Days"
         }
     }
 
@@ -9595,6 +9675,8 @@ extension Pinpoint {
     public struct TemplateConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The email template to use for the message.
         public let emailTemplate: Template?
+        /// The InApp template to use for the message. The InApp template object is not supported for SendMessages.
+        public let inAppTemplate: Template?
         /// The push notification template to use for the message.
         public let pushTemplate: Template?
         /// The SMS template to use for the message.
@@ -9602,8 +9684,9 @@ extension Pinpoint {
         /// The voice template to use for the message. This object isn't supported for campaigns.
         public let voiceTemplate: Template?
 
-        public init(emailTemplate: Template? = nil, pushTemplate: Template? = nil, smsTemplate: Template? = nil, voiceTemplate: Template? = nil) {
+        public init(emailTemplate: Template? = nil, inAppTemplate: Template? = nil, pushTemplate: Template? = nil, smsTemplate: Template? = nil, voiceTemplate: Template? = nil) {
             self.emailTemplate = emailTemplate
+            self.inAppTemplate = inAppTemplate
             self.pushTemplate = pushTemplate
             self.smsTemplate = smsTemplate
             self.voiceTemplate = voiceTemplate
@@ -9611,6 +9694,7 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case emailTemplate = "EmailTemplate"
+            case inAppTemplate = "InAppTemplate"
             case pushTemplate = "PushTemplate"
             case smsTemplate = "SMSTemplate"
             case voiceTemplate = "VoiceTemplate"
@@ -9653,7 +9737,7 @@ extension Pinpoint {
         public let templateDescription: String?
         /// The name of the message template.
         public let templateName: String
-        /// The type of channel that the message template is designed for. Possible values are: EMAIL, PUSH, SMS, and VOICE.
+        /// The type of channel that the message template is designed for. Possible values are: EMAIL, PUSH, SMS, INAPP, and VOICE.
         public let templateType: TemplateType
         /// The unique identifier, as an integer, for the active version of the message template.
         public let version: String?
@@ -9694,7 +9778,7 @@ extension Pinpoint {
         public let templateDescription: String?
         /// The name of the message template.
         public let templateName: String
-        /// The type of channel that the message template is designed for. Possible values are: EMAIL, PUSH, SMS, and VOICE.
+        /// The type of channel that the message template is designed for. Possible values are: EMAIL, PUSH, SMS, INAPP, and VOICE.
         public let templateType: String
         /// The unique identifier for the version of the message template. This value is an integer that Amazon Pinpoint automatically increments and assigns to each new version of a template.
         public let version: String?
@@ -11203,15 +11287,18 @@ extension Pinpoint {
         /// Specifies whether to enable application-related alarms in Amazon CloudWatch.
         public let cloudWatchMetricsEnabled: Bool?
         public let eventTaggingEnabled: Bool?
+        /// The default sending limits for journeys in the application. These limits apply to each journey for the application but can be overridden, on a per journey basis, with the JourneyLimits resource.
+        public let journeyLimits: ApplicationSettingsJourneyLimits?
         /// The default sending limits for campaigns in the application. To override these limits and define custom limits for a specific campaign or journey, use the Campaign resource or the Journey resource, respectively.
         public let limits: CampaignLimits?
         /// The default quiet time for campaigns in the application. Quiet time is a specific time range when messages aren't sent to endpoints, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint is set to a valid value. The current time in the endpoint's time zone is later than or equal to the time specified by the QuietTime.Start property for the application (or a campaign or journey that has custom quiet time settings). The current time in the endpoint's time zone is earlier than or equal to the time specified by the QuietTime.End property for the application (or a campaign or journey that has custom quiet time settings). If any of the preceding conditions isn't met, the endpoint will receive messages from a campaign or journey, even if quiet time is enabled. To override the default quiet time settings for a specific campaign or journey, use the Campaign resource or the Journey resource to define a custom quiet time for the campaign or journey.
         public let quietTime: QuietTime?
 
-        public init(campaignHook: CampaignHook? = nil, cloudWatchMetricsEnabled: Bool? = nil, eventTaggingEnabled: Bool? = nil, limits: CampaignLimits? = nil, quietTime: QuietTime? = nil) {
+        public init(campaignHook: CampaignHook? = nil, cloudWatchMetricsEnabled: Bool? = nil, eventTaggingEnabled: Bool? = nil, journeyLimits: ApplicationSettingsJourneyLimits? = nil, limits: CampaignLimits? = nil, quietTime: QuietTime? = nil) {
             self.campaignHook = campaignHook
             self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
             self.eventTaggingEnabled = eventTaggingEnabled
+            self.journeyLimits = journeyLimits
             self.limits = limits
             self.quietTime = quietTime
         }
@@ -11220,6 +11307,7 @@ extension Pinpoint {
             case campaignHook = "CampaignHook"
             case cloudWatchMetricsEnabled = "CloudWatchMetricsEnabled"
             case eventTaggingEnabled = "EventTaggingEnabled"
+            case journeyLimits = "JourneyLimits"
             case limits = "Limits"
             case quietTime = "QuietTime"
         }
@@ -11354,10 +11442,12 @@ extension Pinpoint {
         public let startCondition: StartCondition?
         /// The status of the journey. Valid values are: DRAFT - Saves the journey and doesn't publish it. ACTIVE - Saves and publishes the journey. Depending on the journey's schedule, the journey starts running immediately or at the scheduled start time. If a journey's status is ACTIVE, you can't add, change, or remove activities from it. PAUSED, CANCELLED, COMPLETED, and CLOSED states are not supported in requests to create or update a journey. To cancel, pause, or resume a journey, use the Journey State resource.
         public let state: State?
+        /// An array of time zone estimation methods, if any, to use for determining an Endpoints time zone if the Endpoint does not have a value for the Demographic.Timezone attribute.  PHONE_NUMBER - A time zone is determined based on the Endpoint.Address and Endpoint.Location.Country. POSTAL_CODE - A time zone is determined based on the Endpoint.Location.PostalCode and Endpoint.Location.Country. POSTAL_CODE detection is only supported in the United States, United Kingdom, Australia, New Zealand, Canada, France, Italy, Spain, Germany and in regions where Amazon Pinpoint is available.
+        public let timezoneEstimationMethods: [TimezoneEstimationMethodsElement]?
         /// Specifies whether endpoints in quiet hours should enter a wait till the end of their quiet hours.
         public let waitForQuietTime: Bool?
 
-        public init(activities: [String: Activity]? = nil, closedDays: ClosedDays? = nil, creationDate: String? = nil, journeyChannelSettings: JourneyChannelSettings? = nil, lastModifiedDate: String? = nil, limits: JourneyLimits? = nil, localTime: Bool? = nil, name: String, openHours: OpenHours? = nil, quietTime: QuietTime? = nil, refreshFrequency: String? = nil, refreshOnSegmentUpdate: Bool? = nil, schedule: JourneySchedule? = nil, sendingSchedule: Bool? = nil, startActivity: String? = nil, startCondition: StartCondition? = nil, state: State? = nil, waitForQuietTime: Bool? = nil) {
+        public init(activities: [String: Activity]? = nil, closedDays: ClosedDays? = nil, creationDate: String? = nil, journeyChannelSettings: JourneyChannelSettings? = nil, lastModifiedDate: String? = nil, limits: JourneyLimits? = nil, localTime: Bool? = nil, name: String, openHours: OpenHours? = nil, quietTime: QuietTime? = nil, refreshFrequency: String? = nil, refreshOnSegmentUpdate: Bool? = nil, schedule: JourneySchedule? = nil, sendingSchedule: Bool? = nil, startActivity: String? = nil, startCondition: StartCondition? = nil, state: State? = nil, timezoneEstimationMethods: [TimezoneEstimationMethodsElement]? = nil, waitForQuietTime: Bool? = nil) {
             self.activities = activities
             self.closedDays = closedDays
             self.creationDate = creationDate
@@ -11375,6 +11465,7 @@ extension Pinpoint {
             self.startActivity = startActivity
             self.startCondition = startCondition
             self.state = state
+            self.timezoneEstimationMethods = timezoneEstimationMethods
             self.waitForQuietTime = waitForQuietTime
         }
 
@@ -11396,6 +11487,7 @@ extension Pinpoint {
             case startActivity = "StartActivity"
             case startCondition = "StartCondition"
             case state = "State"
+            case timezoneEstimationMethods = "TimezoneEstimationMethods"
             case waitForQuietTime = "WaitForQuietTime"
         }
     }

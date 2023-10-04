@@ -216,6 +216,8 @@ extension Transfer {
     // MARK: Shapes
 
     public struct As2ConnectorConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Provides Basic authentication support to the AS2 Connectors API. To use Basic authentication, you must provide the name or Amazon Resource Name (ARN) of a secret in Secrets Manager. The default value for this parameter is null, which indicates that Basic authentication is not enabled for the connector. If the connector should use Basic authentication, the secret needs to be in the following format:  { "Username": "user-name", "Password": "user-password" }  Replace user-name and user-password with the credentials for the actual user that is being authenticated. Note the following:   You are storing these credentials in Secrets Manager, not passing them directly into this API.   If you are using the API, SDKs, or CloudFormation to configure your connector, then you must create the secret before you can enable Basic authentication. However, if you are using the Amazon Web Services management console, you can have the system create the secret for you.   If you have previously enabled Basic authentication for a connector, you can disable it by using the UpdateConnector API call. For example, if you are using the CLI, you can run the following command to remove Basic authentication:  update-connector --connector-id my-connector-id --as2-config 'BasicAuthSecretId=""'
+        public let basicAuthSecretId: String?
         /// Specifies whether the AS2 file is compressed.
         public let compression: CompressionEnum?
         /// The algorithm that is used to encrypt the file.  You can only specify NONE if the URL for your connector uses HTTPS. This ensures that no traffic is sent in clear text.
@@ -233,7 +235,8 @@ extension Transfer {
         /// The algorithm that is used to sign the AS2 messages sent with the connector.
         public let signingAlgorithm: SigningAlg?
 
-        public init(compression: CompressionEnum? = nil, encryptionAlgorithm: EncryptionAlg? = nil, localProfileId: String? = nil, mdnResponse: MdnResponse? = nil, mdnSigningAlgorithm: MdnSigningAlg? = nil, messageSubject: String? = nil, partnerProfileId: String? = nil, signingAlgorithm: SigningAlg? = nil) {
+        public init(basicAuthSecretId: String? = nil, compression: CompressionEnum? = nil, encryptionAlgorithm: EncryptionAlg? = nil, localProfileId: String? = nil, mdnResponse: MdnResponse? = nil, mdnSigningAlgorithm: MdnSigningAlg? = nil, messageSubject: String? = nil, partnerProfileId: String? = nil, signingAlgorithm: SigningAlg? = nil) {
+            self.basicAuthSecretId = basicAuthSecretId
             self.compression = compression
             self.encryptionAlgorithm = encryptionAlgorithm
             self.localProfileId = localProfileId
@@ -245,6 +248,7 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.basicAuthSecretId, name: "basicAuthSecretId", parent: name, max: 2048)
             try self.validate(self.localProfileId, name: "localProfileId", parent: name, max: 19)
             try self.validate(self.localProfileId, name: "localProfileId", parent: name, min: 19)
             try self.validate(self.localProfileId, name: "localProfileId", parent: name, pattern: "^p-([0-9a-f]{17})$")
@@ -257,6 +261,7 @@ extension Transfer {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case basicAuthSecretId = "BasicAuthSecretId"
             case compression = "Compression"
             case encryptionAlgorithm = "EncryptionAlgorithm"
             case localProfileId = "LocalProfileId"
@@ -304,11 +309,11 @@ extension Transfer {
     public struct CreateAccessRequest: AWSEncodableShape {
         /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.  Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid  In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
         public let externalId: String
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  The HomeDirectory parameter is only used if HomeDirectoryType is set to LOGICAL.
         public let homeDirectory: String?
         /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM)  role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ]  In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
-        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer  protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.
+        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer  protocol clients. If you set it to LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.  If HomeDirectoryType is LOGICAL, you must provide mappings, using the HomeDirectoryMappings parameter. If, on the other hand, HomeDirectoryType is PATH, you provide an absolute path using the HomeDirectory parameter. You cannot have both HomeDirectory and HomeDirectoryMappings in your template.
         public let homeDirectoryType: HomeDirectoryType?
         /// A session policy for your user so that you can use the same Identity and Access Management (IAM) role across multiple users. This policy scopes down a user's access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.  This policy applies only when the domain of ServerId is Amazon S3. Amazon EFS does not use session policies. For session policies, Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy argument. For an example of a session policy, see Example session policy. For more information, see AssumeRole in the Security Token Service API Reference.
         public let policy: String?
@@ -380,7 +385,7 @@ extension Transfer {
     }
 
     public struct CreateAgreementRequest: AWSEncodableShape {
-        /// With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer.
+        /// Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use.  For AS2 connectors  With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key.  For SFTP connectors  Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally,  make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager.
         public let accessRole: String
         /// The landing directory (folder) for files transferred by using the AS2 protocol. A BaseDirectory example is /DOC-EXAMPLE-BUCKET/home/mydirectory.
         public let baseDirectory: String
@@ -459,21 +464,24 @@ extension Transfer {
     }
 
     public struct CreateConnectorRequest: AWSEncodableShape {
-        /// With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer.
+        /// Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use.  For AS2 connectors  With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key.  For SFTP connectors  Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally,  make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager.
         public let accessRole: String
-        /// A structure that contains the parameters for a connector object.
-        public let as2Config: As2ConnectorConfig
+        /// A structure that contains the parameters for an AS2 connector object.
+        public let as2Config: As2ConnectorConfig?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
         public let loggingRole: String?
+        /// A structure that contains the parameters for an SFTP connector object.
+        public let sftpConfig: SftpConnectorConfig?
         /// Key-value pairs that can be used to group and search for connectors. Tags are metadata attached to connectors for any purpose.
         public let tags: [Tag]?
-        /// The URL of the partner's AS2 endpoint.
+        /// The URL of the partner's AS2 or SFTP endpoint.
         public let url: String
 
-        public init(accessRole: String, as2Config: As2ConnectorConfig, loggingRole: String? = nil, tags: [Tag]? = nil, url: String) {
+        public init(accessRole: String, as2Config: As2ConnectorConfig? = nil, loggingRole: String? = nil, sftpConfig: SftpConnectorConfig? = nil, tags: [Tag]? = nil, url: String) {
             self.accessRole = accessRole
             self.as2Config = as2Config
             self.loggingRole = loggingRole
+            self.sftpConfig = sftpConfig
             self.tags = tags
             self.url = url
         }
@@ -482,10 +490,11 @@ extension Transfer {
             try self.validate(self.accessRole, name: "accessRole", parent: name, max: 2048)
             try self.validate(self.accessRole, name: "accessRole", parent: name, min: 20)
             try self.validate(self.accessRole, name: "accessRole", parent: name, pattern: "^arn:.*role/")
-            try self.as2Config.validate(name: "\(name).as2Config")
+            try self.as2Config?.validate(name: "\(name).as2Config")
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, max: 2048)
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, min: 20)
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, pattern: "^arn:.*role/")
+            try self.sftpConfig?.validate(name: "\(name).sftpConfig")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -498,6 +507,7 @@ extension Transfer {
             case accessRole = "AccessRole"
             case as2Config = "As2Config"
             case loggingRole = "LoggingRole"
+            case sftpConfig = "SftpConfig"
             case tags = "Tags"
             case url = "Url"
         }
@@ -688,11 +698,11 @@ extension Transfer {
     }
 
     public struct CreateUserRequest: AWSEncodableShape {
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  The HomeDirectory parameter is only used if HomeDirectoryType is set to LOGICAL.
         public let homeDirectory: String?
-        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM)  role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ]  In most cases, you can use this value instead of the session policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
+        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM)  role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ]  In most cases, you can use this value instead of the session policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the value the user should see for their home directory when they log in. The following is an Entry and Target pair example for chroot.  [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
-        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer  protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.
+        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer  protocol clients. If you set it to LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.  If HomeDirectoryType is LOGICAL, you must provide mappings, using the HomeDirectoryMappings parameter. If, on the other hand, HomeDirectoryType is PATH, you provide an absolute path using the HomeDirectory parameter. You cannot have both HomeDirectory and HomeDirectoryMappings in your template.
         public let homeDirectoryType: HomeDirectoryType?
         /// A session policy for your user so that you can use the same Identity and Access Management (IAM) role across multiple users. This policy scopes down a user's access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.  This policy applies only when the domain of ServerId is Amazon S3. Amazon EFS does not use session policies. For session policies, Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy argument. For an example of a session policy, see Example session policy. For more information, see AssumeRole in the Amazon Web Services Security Token Service API Reference.
         public let policy: String?
@@ -1566,11 +1576,11 @@ extension Transfer {
     public struct DescribedAccess: AWSDecodableShape {
         /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.  Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid  In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
         public let externalId: String?
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  The HomeDirectory parameter is only used if HomeDirectoryType is set to LOGICAL.
         public let homeDirectory: String?
         /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM)  role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. In most cases, you can use this value instead of the session policy to lock down the associated access to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value.
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
-        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer  protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.
+        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer  protocol clients. If you set it to LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.  If HomeDirectoryType is LOGICAL, you must provide mappings, using the HomeDirectoryMappings parameter. If, on the other hand, HomeDirectoryType is PATH, you provide an absolute path using the HomeDirectory parameter. You cannot have both HomeDirectory and HomeDirectoryMappings in your template.
         public let homeDirectoryType: HomeDirectoryType?
         /// A session policy for your user so that you can use the same Identity and Access Management (IAM) role across multiple users. This policy scopes down a user's access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.
         public let policy: String?
@@ -1600,7 +1610,7 @@ extension Transfer {
     }
 
     public struct DescribedAgreement: AWSDecodableShape {
-        /// With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer.
+        /// Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use.  For AS2 connectors  With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key.  For SFTP connectors  Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally,  make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager.
         public let accessRole: String?
         /// A unique identifier for the agreement. This identifier is returned when you create an agreement.
         public let agreementId: String?
@@ -1714,27 +1724,30 @@ extension Transfer {
     }
 
     public struct DescribedConnector: AWSDecodableShape {
-        /// With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer.
+        /// Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use.  For AS2 connectors  With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key.  For SFTP connectors  Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally,  make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager.
         public let accessRole: String?
         /// The unique Amazon Resource Name (ARN) for the connector.
         public let arn: String
-        /// A structure that contains the parameters for a connector object.
+        /// A structure that contains the parameters for an AS2 connector object.
         public let as2Config: As2ConnectorConfig?
         /// The unique identifier for the connector.
         public let connectorId: String?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
         public let loggingRole: String?
+        /// A structure that contains the parameters for an SFTP connector object.
+        public let sftpConfig: SftpConnectorConfig?
         /// Key-value pairs that can be used to group and search for connectors.
         public let tags: [Tag]?
-        /// The URL of the partner's AS2 endpoint.
+        /// The URL of the partner's AS2 or SFTP endpoint.
         public let url: String?
 
-        public init(accessRole: String? = nil, arn: String, as2Config: As2ConnectorConfig? = nil, connectorId: String? = nil, loggingRole: String? = nil, tags: [Tag]? = nil, url: String? = nil) {
+        public init(accessRole: String? = nil, arn: String, as2Config: As2ConnectorConfig? = nil, connectorId: String? = nil, loggingRole: String? = nil, sftpConfig: SftpConnectorConfig? = nil, tags: [Tag]? = nil, url: String? = nil) {
             self.accessRole = accessRole
             self.arn = arn
             self.as2Config = as2Config
             self.connectorId = connectorId
             self.loggingRole = loggingRole
+            self.sftpConfig = sftpConfig
             self.tags = tags
             self.url = url
         }
@@ -1745,6 +1758,7 @@ extension Transfer {
             case as2Config = "As2Config"
             case connectorId = "ConnectorId"
             case loggingRole = "LoggingRole"
+            case sftpConfig = "SftpConfig"
             case tags = "Tags"
             case url = "Url"
         }
@@ -1985,11 +1999,11 @@ extension Transfer {
     public struct DescribedUser: AWSDecodableShape {
         /// Specifies the unique Amazon Resource Name (ARN) for the user that was requested to be described.
         public let arn: String
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  The HomeDirectory parameter is only used if HomeDirectoryType is set to LOGICAL.
         public let homeDirectory: String?
         /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM)  role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. In most cases, you can use this value instead of the session policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value.
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
-        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer  protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.
+        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer  protocol clients. If you set it to LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.  If HomeDirectoryType is LOGICAL, you must provide mappings, using the HomeDirectoryMappings parameter. If, on the other hand, HomeDirectoryType is PATH, you provide an absolute path using the HomeDirectory parameter. You cannot have both HomeDirectory and HomeDirectoryMappings in your template.
         public let homeDirectoryType: HomeDirectoryType?
         /// A session policy for your user so that you can use the same Identity and Access Management (IAM) role across multiple users. This policy scopes down a user's access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.
         public let policy: String?
@@ -2939,7 +2953,7 @@ extension Transfer {
     public struct ListUsersRequest: AWSEncodableShape {
         /// Specifies the number of users to return as a response to the ListUsers request.
         public let maxResults: Int?
-        /// When you can get additional results from the ListUsers call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional users.
+        /// If there are additional results from the ListUsers call, a NextToken parameter is returned in the output. You can then pass  the NextToken to a subsequent ListUsers command, to continue listing additional users.
         public let nextToken: String?
         /// A system-assigned unique identifier for a server that has users assigned to it.
         public let serverId: String
@@ -3032,9 +3046,9 @@ extension Transfer {
     public struct ListedAccess: AWSDecodableShape {
         /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.  Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid  In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
         public let externalId: String?
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  The HomeDirectory parameter is only used if HomeDirectoryType is set to LOGICAL.
         public let homeDirectory: String?
-        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer  protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.
+        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer  protocol clients. If you set it to LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.  If HomeDirectoryType is LOGICAL, you must provide mappings, using the HomeDirectoryMappings parameter. If, on the other hand, HomeDirectoryType is PATH, you provide an absolute path using the HomeDirectory parameter. You cannot have both HomeDirectory and HomeDirectoryMappings in your template.
         public let homeDirectoryType: HomeDirectoryType?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that controls your users' access to your Amazon S3  bucket or Amazon EFS file system. The policies attached to this role determine the level of access that you want to provide your users  when transferring files into and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should also contain a trust  relationship that allows the server to access your resources when servicing your users' transfer requests.
         public let role: String?
@@ -3137,7 +3151,7 @@ extension Transfer {
         public let arn: String?
         /// The unique identifier for the connector.
         public let connectorId: String?
-        /// The URL of the partner's AS2 endpoint.
+        /// The URL of the partner's AS2 or SFTP endpoint.
         public let url: String?
 
         public init(arn: String? = nil, connectorId: String? = nil, url: String? = nil) {
@@ -3280,9 +3294,9 @@ extension Transfer {
     public struct ListedUser: AWSDecodableShape {
         /// Provides the unique Amazon Resource Name (ARN) for the user that you want to learn about.
         public let arn: String
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  The HomeDirectory parameter is only used if HomeDirectoryType is set to LOGICAL.
         public let homeDirectory: String?
-        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer  protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.
+        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer  protocol clients. If you set it to LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.  If HomeDirectoryType is LOGICAL, you must provide mappings, using the HomeDirectoryMappings parameter. If, on the other hand, HomeDirectoryType is PATH, you provide an absolute path using the HomeDirectory parameter. You cannot have both HomeDirectory and HomeDirectoryMappings in your template.
         public let homeDirectoryType: HomeDirectoryType?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that controls your users' access to your Amazon S3  bucket or Amazon EFS file system. The policies attached to this role determine the level of access that you want to provide your users  when transferring files into and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should also contain a trust  relationship that allows the server to access your resources when servicing your users' transfer requests.  The IAM role that controls your users' access to your Amazon S3 bucket for servers with Domain=S3, or your EFS file system for servers with Domain=EFS.   The policies attached to this role determine the level of access you want to provide your users when  transferring files into and out of your S3 buckets or EFS file systems.
         public let role: String?
@@ -3541,6 +3555,34 @@ extension Transfer {
         }
     }
 
+    public struct SftpConnectorConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The public portion of the host key, or keys, that are used to authenticate the user to the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to retrieve the necessary key. The three standard SSH public key format elements are , , and an optional , with spaces between each element. Specify only the   and : do not enter the  portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys.   For RSA keys, the key type  is ssh-rsa.   For ECDSA keys, the key type is either ecdsa-sha2-nistp256, ecdsa-sha2-nistp384, or ecdsa-sha2-nistp521, depending on the size of the key you generated.
+        public let trustedHostKeys: [String]?
+        /// The identifier for the secret (in Amazon Web Services Secrets Manager) that contains the SFTP user's private key, password, or both. The identifier can be either the Amazon Resource Name (ARN) or the name of the secret.
+        public let userSecretId: String?
+
+        public init(trustedHostKeys: [String]? = nil, userSecretId: String? = nil) {
+            self.trustedHostKeys = trustedHostKeys
+            self.userSecretId = userSecretId
+        }
+
+        public func validate(name: String) throws {
+            try self.trustedHostKeys?.forEach {
+                try validate($0, name: "trustedHostKeys[]", parent: name, max: 2048)
+                try validate($0, name: "trustedHostKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.trustedHostKeys, name: "trustedHostKeys", parent: name, max: 10)
+            try self.validate(self.trustedHostKeys, name: "trustedHostKeys", parent: name, min: 1)
+            try self.validate(self.userSecretId, name: "userSecretId", parent: name, max: 2048)
+            try self.validate(self.userSecretId, name: "userSecretId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trustedHostKeys = "TrustedHostKeys"
+            case userSecretId = "UserSecretId"
+        }
+    }
+
     public struct SshPublicKey: AWSDecodableShape {
         /// Specifies the date that the public key was added to the Transfer Family user.
         public let dateImported: Date
@@ -3565,11 +3607,20 @@ extension Transfer {
     public struct StartFileTransferRequest: AWSEncodableShape {
         /// The unique identifier for the connector.
         public let connectorId: String
-        /// An array of strings. Each string represents the absolute path for one outbound file transfer. For example,  DOC-EXAMPLE-BUCKET/myfile.txt .
-        public let sendFilePaths: [String]
+        /// For an inbound transfer, the LocaDirectoryPath specifies the destination for one or more files that are transferred from the partner's SFTP server.
+        public let localDirectoryPath: String?
+        /// For an outbound transfer, the RemoteDirectoryPath specifies the destination for one or more files that are transferred to the partner's SFTP server. If you don't specify a RemoteDirectoryPath, the destination for transferred files is the SFTP user's home directory.
+        public let remoteDirectoryPath: String?
+        /// One or more source paths for the partner's SFTP server. Each string represents a source file path for one inbound file transfer.
+        public let retrieveFilePaths: [String]?
+        /// One or more source paths for the Amazon S3 storage. Each string represents a source file path for one outbound file transfer. For example,  DOC-EXAMPLE-BUCKET/myfile.txt .  Replace  DOC-EXAMPLE-BUCKET with one of your actual buckets.
+        public let sendFilePaths: [String]?
 
-        public init(connectorId: String, sendFilePaths: [String]) {
+        public init(connectorId: String, localDirectoryPath: String? = nil, remoteDirectoryPath: String? = nil, retrieveFilePaths: [String]? = nil, sendFilePaths: [String]? = nil) {
             self.connectorId = connectorId
+            self.localDirectoryPath = localDirectoryPath
+            self.remoteDirectoryPath = remoteDirectoryPath
+            self.retrieveFilePaths = retrieveFilePaths
             self.sendFilePaths = sendFilePaths
         }
 
@@ -3577,7 +3628,20 @@ extension Transfer {
             try self.validate(self.connectorId, name: "connectorId", parent: name, max: 19)
             try self.validate(self.connectorId, name: "connectorId", parent: name, min: 19)
             try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "^c-([0-9a-f]{17})$")
-            try self.sendFilePaths.forEach {
+            try self.validate(self.localDirectoryPath, name: "localDirectoryPath", parent: name, max: 1024)
+            try self.validate(self.localDirectoryPath, name: "localDirectoryPath", parent: name, min: 1)
+            try self.validate(self.localDirectoryPath, name: "localDirectoryPath", parent: name, pattern: "^(.)+$")
+            try self.validate(self.remoteDirectoryPath, name: "remoteDirectoryPath", parent: name, max: 1024)
+            try self.validate(self.remoteDirectoryPath, name: "remoteDirectoryPath", parent: name, min: 1)
+            try self.validate(self.remoteDirectoryPath, name: "remoteDirectoryPath", parent: name, pattern: "^(.)+$")
+            try self.retrieveFilePaths?.forEach {
+                try validate($0, name: "retrieveFilePaths[]", parent: name, max: 1024)
+                try validate($0, name: "retrieveFilePaths[]", parent: name, min: 1)
+                try validate($0, name: "retrieveFilePaths[]", parent: name, pattern: "^(.)+$")
+            }
+            try self.validate(self.retrieveFilePaths, name: "retrieveFilePaths", parent: name, max: 10)
+            try self.validate(self.retrieveFilePaths, name: "retrieveFilePaths", parent: name, min: 1)
+            try self.sendFilePaths?.forEach {
                 try validate($0, name: "sendFilePaths[]", parent: name, max: 1024)
                 try validate($0, name: "sendFilePaths[]", parent: name, min: 1)
                 try validate($0, name: "sendFilePaths[]", parent: name, pattern: "^(.)+$")
@@ -3588,12 +3652,15 @@ extension Transfer {
 
         private enum CodingKeys: String, CodingKey {
             case connectorId = "ConnectorId"
+            case localDirectoryPath = "LocalDirectoryPath"
+            case remoteDirectoryPath = "RemoteDirectoryPath"
+            case retrieveFilePaths = "RetrieveFilePaths"
             case sendFilePaths = "SendFilePaths"
         }
     }
 
     public struct StartFileTransferResponse: AWSDecodableShape {
-        /// Returns the unique identifier for this file transfer.
+        /// Returns the unique identifier for the file transfer.
         public let transferId: String
 
         public init(transferId: String) {
@@ -3726,6 +3793,46 @@ extension Transfer {
         }
     }
 
+    public struct TestConnectionRequest: AWSEncodableShape {
+        /// The unique identifier for the connector.
+        public let connectorId: String
+
+        public init(connectorId: String) {
+            self.connectorId = connectorId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectorId, name: "connectorId", parent: name, max: 19)
+            try self.validate(self.connectorId, name: "connectorId", parent: name, min: 19)
+            try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "^c-([0-9a-f]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorId = "ConnectorId"
+        }
+    }
+
+    public struct TestConnectionResponse: AWSDecodableShape {
+        /// Returns the identifier of the connector object that you are testing.
+        public let connectorId: String?
+        /// Returns OK for successful test, or ERROR if the test fails.
+        public let status: String?
+        /// Returns Connection succeeded if the test is successful. Or, returns a descriptive error message  if the test fails. The following list provides troubleshooting details, depending on the error message that you receive.   Verify that your secret name aligns with the one in Transfer Role permissions.   Verify the server URL in the connector configuration , and verify that the login credentials work successfully outside of the connector.   Verify that the secret exists and is formatted correctly.   Verify that the trusted host key in the connector configuration matches the ssh-keyscan output.
+        public let statusMessage: String?
+
+        public init(connectorId: String? = nil, status: String? = nil, statusMessage: String? = nil) {
+            self.connectorId = connectorId
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorId = "ConnectorId"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
     public struct TestIdentityProviderRequest: AWSEncodableShape {
         /// A system-assigned identifier for a specific server. That server's user authentication method is tested with a user name and password.
         public let serverId: String
@@ -3823,11 +3930,11 @@ extension Transfer {
     public struct UpdateAccessRequest: AWSEncodableShape {
         /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.  Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid  In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
         public let externalId: String
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  The HomeDirectory parameter is only used if HomeDirectoryType is set to LOGICAL.
         public let homeDirectory: String?
         /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM)  role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ]  In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
-        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer  protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.
+        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer  protocol clients. If you set it to LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.  If HomeDirectoryType is LOGICAL, you must provide mappings, using the HomeDirectoryMappings parameter. If, on the other hand, HomeDirectoryType is PATH, you provide an absolute path using the HomeDirectory parameter. You cannot have both HomeDirectory and HomeDirectoryMappings in your template.
         public let homeDirectoryType: HomeDirectoryType?
         /// A session policy for your user so that you can use the same Identity and Access Management (IAM) role across multiple users. This policy scopes down a user's access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.  This policy applies only when the domain of ServerId is Amazon S3. Amazon EFS does not use session policies. For session policies, Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy argument. For an example of a session policy, see Example session policy. For more information, see AssumeRole in the Amazon Web ServicesSecurity Token Service API Reference.
         public let policy: String?
@@ -3899,7 +4006,7 @@ extension Transfer {
     }
 
     public struct UpdateAgreementRequest: AWSEncodableShape {
-        /// With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer.
+        /// Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use.  For AS2 connectors  With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key.  For SFTP connectors  Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally,  make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager.
         public let accessRole: String?
         /// A unique identifier for the agreement. This identifier is returned when you create an agreement.
         public let agreementId: String
@@ -4023,22 +4130,25 @@ extension Transfer {
     }
 
     public struct UpdateConnectorRequest: AWSEncodableShape {
-        /// With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer.
+        /// Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use.  For AS2 connectors  With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key.  For SFTP connectors  Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally,  make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager.
         public let accessRole: String?
-        /// A structure that contains the parameters for a connector object.
+        /// A structure that contains the parameters for an AS2 connector object.
         public let as2Config: As2ConnectorConfig?
         /// The unique identifier for the connector.
         public let connectorId: String
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
         public let loggingRole: String?
-        /// The URL of the partner's AS2 endpoint.
+        /// A structure that contains the parameters for an SFTP connector object.
+        public let sftpConfig: SftpConnectorConfig?
+        /// The URL of the partner's AS2 or SFTP endpoint.
         public let url: String?
 
-        public init(accessRole: String? = nil, as2Config: As2ConnectorConfig? = nil, connectorId: String, loggingRole: String? = nil, url: String? = nil) {
+        public init(accessRole: String? = nil, as2Config: As2ConnectorConfig? = nil, connectorId: String, loggingRole: String? = nil, sftpConfig: SftpConnectorConfig? = nil, url: String? = nil) {
             self.accessRole = accessRole
             self.as2Config = as2Config
             self.connectorId = connectorId
             self.loggingRole = loggingRole
+            self.sftpConfig = sftpConfig
             self.url = url
         }
 
@@ -4053,6 +4163,7 @@ extension Transfer {
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, max: 2048)
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, min: 20)
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, pattern: "^arn:.*role/")
+            try self.sftpConfig?.validate(name: "\(name).sftpConfig")
             try self.validate(self.url, name: "url", parent: name, max: 255)
         }
 
@@ -4061,6 +4172,7 @@ extension Transfer {
             case as2Config = "As2Config"
             case connectorId = "ConnectorId"
             case loggingRole = "LoggingRole"
+            case sftpConfig = "SftpConfig"
             case url = "Url"
         }
     }
@@ -4275,11 +4387,11 @@ extension Transfer {
     }
 
     public struct UpdateUserRequest: AWSEncodableShape {
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  The HomeDirectory parameter is only used if HomeDirectoryType is set to LOGICAL.
         public let homeDirectory: String?
         /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM)  role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ]  In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
-        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer  protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.
+        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer  protocol clients. If you set it to LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.  If HomeDirectoryType is LOGICAL, you must provide mappings, using the HomeDirectoryMappings parameter. If, on the other hand, HomeDirectoryType is PATH, you provide an absolute path using the HomeDirectory parameter. You cannot have both HomeDirectory and HomeDirectoryMappings in your template.
         public let homeDirectoryType: HomeDirectoryType?
         /// A session policy for your user so that you can use the same Identity and Access Management (IAM) role across multiple users. This policy scopes down a user's access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.  This policy applies only when the domain of ServerId is Amazon S3. Amazon EFS does not use session policies. For session policies, Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy argument. For an example of a session policy, see Creating a session policy. For more information, see AssumeRole in the Amazon Web Services Security Token Service API Reference.
         public let policy: String?
@@ -4508,13 +4620,13 @@ public struct TransferErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// This exception is thrown when the UpdateServer is called for a file transfer protocol-enabled server that has VPC as the endpoint type and the server's VpcEndpointID is not in the available state.
     public static var conflictException: Self { .init(.conflictException) }
-    /// This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// This exception is thrown when an error occurs in the Transfer Family service.
     public static var internalServiceError: Self { .init(.internalServiceError) }
     /// The NextToken parameter that was passed is invalid.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
     /// This exception is thrown when the client submits a malformed request.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
-    /// The requested resource does not exist.
+    /// The requested resource does not exist, or exists in a region other than the one specified for the command.
     public static var resourceExistsException: Self { .init(.resourceExistsException) }
     /// This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }

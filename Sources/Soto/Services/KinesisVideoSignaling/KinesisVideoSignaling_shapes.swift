@@ -53,13 +53,13 @@ extension KinesisVideoSignaling {
         public func validate(name: String) throws {
             try self.validate(self.channelARN, name: "channelARN", parent: name, max: 1024)
             try self.validate(self.channelARN, name: "channelARN", parent: name, min: 1)
-            try self.validate(self.channelARN, name: "channelARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.channelARN, name: "channelARN", parent: name, pattern: "^arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+$")
             try self.validate(self.clientId, name: "clientId", parent: name, max: 256)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
-            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.validate(self.username, name: "username", parent: name, max: 256)
             try self.validate(self.username, name: "username", parent: name, min: 1)
-            try self.validate(self.username, name: "username", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.username, name: "username", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -125,13 +125,13 @@ extension KinesisVideoSignaling {
         public func validate(name: String) throws {
             try self.validate(self.channelARN, name: "channelARN", parent: name, max: 1024)
             try self.validate(self.channelARN, name: "channelARN", parent: name, min: 1)
-            try self.validate(self.channelARN, name: "channelARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.channelARN, name: "channelARN", parent: name, pattern: "^arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+$")
             try self.validate(self.messagePayload, name: "messagePayload", parent: name, max: 10000)
             try self.validate(self.messagePayload, name: "messagePayload", parent: name, min: 1)
-            try self.validate(self.messagePayload, name: "messagePayload", parent: name, pattern: "[a-zA-Z0-9+/=]+")
+            try self.validate(self.messagePayload, name: "messagePayload", parent: name, pattern: "^[a-zA-Z0-9+/=]+$")
             try self.validate(self.senderClientId, name: "senderClientId", parent: name, max: 256)
             try self.validate(self.senderClientId, name: "senderClientId", parent: name, min: 1)
-            try self.validate(self.senderClientId, name: "senderClientId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.senderClientId, name: "senderClientId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

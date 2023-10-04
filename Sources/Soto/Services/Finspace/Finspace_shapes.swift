@@ -119,8 +119,20 @@ extension Finspace {
         public var description: String { return self.rawValue }
     }
 
+    public enum KxDeploymentStrategy: String, CustomStringConvertible, Codable, Sendable {
+        case noRestart = "NO_RESTART"
+        case rolling = "ROLLING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum KxSavedownStorageType: String, CustomStringConvertible, Codable, Sendable {
         case sds01 = "SDS01"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleAction: String, CustomStringConvertible, Codable, Sendable {
+        case allow = "allow"
+        case deny = "deny"
         public var description: String { return self.rawValue }
     }
 
@@ -159,11 +171,9 @@ extension Finspace {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxNodeCount, name: "maxNodeCount", parent: name, max: 5)
             try self.validate(self.maxNodeCount, name: "maxNodeCount", parent: name, min: 1)
             try self.validate(self.metricTarget, name: "metricTarget", parent: name, max: 100.0)
             try self.validate(self.metricTarget, name: "metricTarget", parent: name, min: 1.0)
-            try self.validate(self.minNodeCount, name: "minNodeCount", parent: name, max: 5)
             try self.validate(self.minNodeCount, name: "minNodeCount", parent: name, min: 1)
             try self.validate(self.scaleInCooldownSeconds, name: "scaleInCooldownSeconds", parent: name, max: 100000.0)
             try self.validate(self.scaleInCooldownSeconds, name: "scaleInCooldownSeconds", parent: name, min: 0.0)
@@ -193,7 +203,6 @@ extension Finspace {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.nodeCount, name: "nodeCount", parent: name, max: 5)
             try self.validate(self.nodeCount, name: "nodeCount", parent: name, min: 1)
             try self.validate(self.nodeType, name: "nodeType", parent: name, max: 32)
             try self.validate(self.nodeType, name: "nodeType", parent: name, min: 1)
@@ -458,7 +467,7 @@ extension Finspace {
         public let azMode: KxAzMode
         /// The configurations for a read only cache storage associated with a cluster. This cache will be stored as an FSx Lustre that reads from the S3 store.
         public let cacheStorageConfigurations: [KxCacheStorageConfiguration]?
-        /// A structure for the metadata of a cluster. It includes information about like the CPUs needed, memory of instances, number of instances, and the port used while establishing a connection.
+        /// A structure for the metadata of a cluster. It includes information like the CPUs needed, memory of instances, and number of instances.
         public let capacityConfiguration: CapacityConfiguration
         /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?
@@ -590,7 +599,7 @@ extension Finspace {
         public let azMode: KxAzMode?
         /// The configurations for a read only cache storage associated with a cluster. This cache will be stored as an FSx Lustre that reads from the S3 store.
         public let cacheStorageConfigurations: [KxCacheStorageConfiguration]?
-        /// A structure for the metadata of a cluster. It includes information like the CPUs needed, memory of instances, number of instances, and the port used while establishing a connection.
+        /// A structure for the metadata of a cluster. It includes information like the CPUs needed, memory of instances, and number of instances.
         public let capacityConfiguration: CapacityConfiguration?
         /// A description of the cluster.
         public let clusterDescription: String?
@@ -1404,7 +1413,7 @@ extension Finspace {
         public let azMode: KxAzMode?
         /// The configurations for a read only cache storage associated with a cluster. This cache will be stored as an FSx Lustre that reads from the S3 store.
         public let cacheStorageConfigurations: [KxCacheStorageConfiguration]?
-        /// A structure for the metadata of a cluster. It includes information like the CPUs needed, memory of instances, number of instances, and the port used while establishing a connection.
+        /// A structure for the metadata of a cluster. It includes information like the CPUs needed, memory of instances, and number of instances.
         public let capacityConfiguration: CapacityConfiguration?
         /// A description of the cluster.
         public let clusterDescription: String?
@@ -1759,6 +1768,23 @@ extension Finspace {
         }
     }
 
+    public struct IcmpTypeCode: AWSEncodableShape & AWSDecodableShape {
+        ///  The ICMP code. A value of -1 means all codes for the specified ICMP type.
+        public let code: Int
+        /// The ICMP type. A value of -1 means all types.
+        public let type: Int
+
+        public init(code: Int, type: Int) {
+            self.code = code
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case type = "type"
+        }
+    }
+
     public struct KxCacheStorageConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The size of cache in Gigabytes.
         public let size: Int
@@ -1815,7 +1841,7 @@ extension Finspace {
     public struct KxCluster: AWSDecodableShape {
         ///  The availability zone identifiers for the requested regions.
         public let availabilityZoneId: String?
-        /// The number of availability zones assigned per cluster. This can be one of the following     SINGLE – Assigns one availability zone per cluster.    MULTI – Assigns all the availability zones per cluster.
+        /// The number of availability zones assigned per cluster. This can be one of the following:    SINGLE – Assigns one availability zone per cluster.    MULTI – Assigns all the availability zones per cluster.
         public let azMode: KxAzMode?
         /// A description of the cluster.
         public let clusterDescription: String?
@@ -1886,7 +1912,7 @@ extension Finspace {
             try self.validate(self.key, name: "key", parent: name, pattern: "^(?![Aa][Ww][Ss])(s|([a-zA-Z][a-zA-Z0-9_]+))$")
             try self.validate(self.value, name: "value", parent: name, max: 50)
             try self.validate(self.value, name: "value", parent: name, min: 1)
-            try self.validate(self.value, name: "value", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_:.]*$")
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[a-zA-Z0-9_:./]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1972,6 +1998,19 @@ extension Finspace {
             case createdTimestamp = "createdTimestamp"
             case databaseName = "databaseName"
             case lastModifiedTimestamp = "lastModifiedTimestamp"
+        }
+    }
+
+    public struct KxDeploymentConfiguration: AWSEncodableShape {
+        ///  The type of deployment that you want on a cluster.     ROLLING – This options loads the updated database by stopping the exiting q process and starting a new q process with updated configuration.   NO_RESTART – This option loads the updated database on the running q process without stopping it. This option is quicker as it reduces the turn around time to update a kdb database changeset configuration on a cluster.
+        public let deploymentStrategy: KxDeploymentStrategy
+
+        public init(deploymentStrategy: KxDeploymentStrategy) {
+            self.deploymentStrategy = deploymentStrategy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentStrategy = "deploymentStrategy"
         }
     }
 
@@ -2074,7 +2113,7 @@ extension Finspace {
     }
 
     public struct KxSavedownStorageConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The size of temporary storage in bytes.
+        /// The size of temporary storage in gibibytes.
         public let size: Int
         /// The type of writeable storage space for temporarily storing your savedown data. The valid values are:   SDS01 – This type represents 3000 IOPS and io2 ebs volume type.
         public let type: KxSavedownStorageType
@@ -2517,6 +2556,75 @@ extension Finspace {
         }
     }
 
+    public struct NetworkACLEntry: AWSEncodableShape & AWSDecodableShape {
+        ///  The IPv4 network range to allow or deny, in CIDR notation. For example, 172.16.0.0/24. We modify the specified CIDR block to its canonical form. For example, if you specify 100.68.0.18/18, we modify it to 100.68.0.0/18.
+        public let cidrBlock: String
+        ///  Defines the ICMP protocol that consists of the ICMP type and code.
+        public let icmpTypeCode: IcmpTypeCode?
+        ///  The range of ports the rule applies to.
+        public let portRange: PortRange?
+        ///  The protocol number. A value of -1 means all the protocols.
+        public let `protocol`: String
+        ///  Indicates whether to allow or deny the traffic that matches the rule.
+        public let ruleAction: RuleAction
+        ///  The rule number for the entry. For example 100. All the network ACL entries are processed in ascending order by rule number.
+        public let ruleNumber: Int
+
+        public init(cidrBlock: String, icmpTypeCode: IcmpTypeCode? = nil, portRange: PortRange? = nil, protocol: String, ruleAction: RuleAction, ruleNumber: Int) {
+            self.cidrBlock = cidrBlock
+            self.icmpTypeCode = icmpTypeCode
+            self.portRange = portRange
+            self.`protocol` = `protocol`
+            self.ruleAction = ruleAction
+            self.ruleNumber = ruleNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cidrBlock, name: "cidrBlock", parent: name, max: 18)
+            try self.validate(self.cidrBlock, name: "cidrBlock", parent: name, min: 1)
+            try self.validate(self.cidrBlock, name: "cidrBlock", parent: name, pattern: "^(?:\\d{1,3}\\.){3}\\d{1,3}(?:\\/(?:3[0-2]|[12]\\d|\\d))$")
+            try self.portRange?.validate(name: "\(name).portRange")
+            try self.validate(self.`protocol`, name: "`protocol`", parent: name, max: 5)
+            try self.validate(self.`protocol`, name: "`protocol`", parent: name, min: 1)
+            try self.validate(self.`protocol`, name: "`protocol`", parent: name, pattern: "^-1|[0-9]+$")
+            try self.validate(self.ruleNumber, name: "ruleNumber", parent: name, max: 32766)
+            try self.validate(self.ruleNumber, name: "ruleNumber", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidrBlock = "cidrBlock"
+            case icmpTypeCode = "icmpTypeCode"
+            case portRange = "portRange"
+            case `protocol` = "protocol"
+            case ruleAction = "ruleAction"
+            case ruleNumber = "ruleNumber"
+        }
+    }
+
+    public struct PortRange: AWSEncodableShape & AWSDecodableShape {
+        ///  The first port in the range.
+        public let from: Int
+        ///  The last port in the range.
+        public let to: Int
+
+        public init(from: Int, to: Int) {
+            self.from = from
+            self.to = to
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.from, name: "from", parent: name, max: 65535)
+            try self.validate(self.from, name: "from", parent: name, min: 0)
+            try self.validate(self.to, name: "to", parent: name, max: 65535)
+            try self.validate(self.to, name: "to", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case from = "from"
+            case to = "to"
+        }
+    }
+
     public struct SuperuserParameters: AWSEncodableShape {
         /// The email address of the superuser.
         public let emailAddress: String
@@ -2591,23 +2699,31 @@ extension Finspace {
     }
 
     public struct TransitGatewayConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  The rules that define how you manage the outbound traffic from kdb network to your internal network.
+        public let attachmentNetworkAclConfiguration: [NetworkACLEntry]?
         /// The routing CIDR on behalf of kdb environment. It could be any "/26 range in the 100.64.0.0 CIDR space. After providing, it will be added to the customer's transit gateway routing table so that the traffics could be routed to kdb network.
         public let routableCIDRSpace: String
         /// The identifier of the transit gateway created by the customer to connect outbound traffics from kdb network to your internal network.
         public let transitGatewayID: String
 
-        public init(routableCIDRSpace: String, transitGatewayID: String) {
+        public init(attachmentNetworkAclConfiguration: [NetworkACLEntry]? = nil, routableCIDRSpace: String, transitGatewayID: String) {
+            self.attachmentNetworkAclConfiguration = attachmentNetworkAclConfiguration
             self.routableCIDRSpace = routableCIDRSpace
             self.transitGatewayID = transitGatewayID
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.routableCIDRSpace, name: "routableCIDRSpace", parent: name, pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/26$")
+            try self.attachmentNetworkAclConfiguration?.forEach {
+                try $0.validate(name: "\(name).attachmentNetworkAclConfiguration[]")
+            }
+            try self.validate(self.attachmentNetworkAclConfiguration, name: "attachmentNetworkAclConfiguration", parent: name, max: 100)
+            try self.validate(self.attachmentNetworkAclConfiguration, name: "attachmentNetworkAclConfiguration", parent: name, min: 1)
             try self.validate(self.transitGatewayID, name: "transitGatewayID", parent: name, max: 32)
             try self.validate(self.transitGatewayID, name: "transitGatewayID", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case attachmentNetworkAclConfiguration = "attachmentNetworkAclConfiguration"
             case routableCIDRSpace = "routableCIDRSpace"
             case transitGatewayID = "transitGatewayID"
         }
@@ -2718,13 +2834,16 @@ extension Finspace {
         public let clusterName: String
         ///  The structure of databases mounted on the cluster.
         public let databases: [KxDatabaseConfiguration]
+        ///  The configuration that allows you to choose how you want to update the databases on a cluster.
+        public let deploymentConfiguration: KxDeploymentConfiguration?
         /// The unique identifier of a kdb environment.
         public let environmentId: String
 
-        public init(clientToken: String? = nil, clusterName: String, databases: [KxDatabaseConfiguration], environmentId: String) {
+        public init(clientToken: String? = UpdateKxClusterDatabasesRequest.idempotencyToken(), clusterName: String, databases: [KxDatabaseConfiguration], deploymentConfiguration: KxDeploymentConfiguration? = nil, environmentId: String) {
             self.clientToken = clientToken
             self.clusterName = clusterName
             self.databases = databases
+            self.deploymentConfiguration = deploymentConfiguration
             self.environmentId = environmentId
         }
 
@@ -2746,6 +2865,7 @@ extension Finspace {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case databases = "databases"
+            case deploymentConfiguration = "deploymentConfiguration"
         }
     }
 

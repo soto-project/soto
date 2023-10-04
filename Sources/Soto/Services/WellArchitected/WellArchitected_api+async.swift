@@ -56,7 +56,17 @@ extension WellArchitected {
         return try await self.client.execute(operation: "CreateProfileShare", path: "/profiles/{ProfileArn}/shares", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, users, an organization, and organizational units (OUs)  in the same Amazon Web Services Region. Only the owner of a workload can delete it. For more information, see Defining a Workload in the Well-Architected Tool User Guide.  Either AwsRegions, NonAwsRegions, or both must be specified when creating a workload. You also must specify ReviewOwner, even though the parameter is listed as not being required in the following section.
+    /// Create a review template.   Disclaimer  Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your review templates. If your review template or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
+    public func createReviewTemplate(_ input: CreateReviewTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateReviewTemplateOutput {
+        return try await self.client.execute(operation: "CreateReviewTemplate", path: "/reviewTemplates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Create a review template share. The owner of a review template can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region.  Shared access to a review template is not removed until the review template share invitation is deleted. If you share a review template with an organization or OU, all accounts in the organization or OU are granted access to the review template.   Disclaimer  By sharing your review template with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your review template available to those other accounts.
+    public func createTemplateShare(_ input: CreateTemplateShareInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateTemplateShareOutput {
+        return try await self.client.execute(operation: "CreateTemplateShare", path: "/templates/shares/{TemplateArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, users, an organization, and organizational units (OUs)  in the same Amazon Web Services Region. Only the owner of a workload can delete it. For more information, see Defining a Workload in the Well-Architected Tool User Guide.  Either AwsRegions, NonAwsRegions, or both must be specified when creating a workload. You also must specify ReviewOwner, even though the parameter is listed as not being required in the following section.   When creating a workload using a review template, you must have the following IAM permissions:    wellarchitected:GetReviewTemplate     wellarchitected:GetReviewTemplateAnswer     wellarchitected:ListReviewTemplateAnswers     wellarchitected:GetReviewTemplateLensReview
     public func createWorkload(_ input: CreateWorkloadInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateWorkloadOutput {
         return try await self.client.execute(operation: "CreateWorkload", path: "/workloads", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -84,6 +94,16 @@ extension WellArchitected {
     /// Delete a profile share.
     public func deleteProfileShare(_ input: DeleteProfileShareInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteProfileShare", path: "/profiles/{ProfileArn}/shares/{ShareId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Delete a review template. Only the owner of a review template can delete it. After the review template is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the review template with will no longer be able to apply it to new workloads.
+    public func deleteReviewTemplate(_ input: DeleteReviewTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+        return try await self.client.execute(operation: "DeleteReviewTemplate", path: "/reviewTemplates/{TemplateArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Delete a review template share. After the review template share is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the review template with will no longer be able to apply it to new workloads.
+    public func deleteTemplateShare(_ input: DeleteTemplateShareInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+        return try await self.client.execute(operation: "DeleteTemplateShare", path: "/templates/shares/{TemplateArn}/{ShareId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Delete an existing workload.
@@ -156,6 +176,21 @@ extension WellArchitected {
         return try await self.client.execute(operation: "GetProfileTemplate", path: "/profileTemplate", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Get review template.
+    public func getReviewTemplate(_ input: GetReviewTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetReviewTemplateOutput {
+        return try await self.client.execute(operation: "GetReviewTemplate", path: "/reviewTemplates/{TemplateArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get review template answer.
+    public func getReviewTemplateAnswer(_ input: GetReviewTemplateAnswerInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetReviewTemplateAnswerOutput {
+        return try await self.client.execute(operation: "GetReviewTemplateAnswer", path: "/reviewTemplates/{TemplateArn}/lensReviews/{LensAlias}/answers/{QuestionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get a lens review associated with a review template.
+    public func getReviewTemplateLensReview(_ input: GetReviewTemplateLensReviewInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetReviewTemplateLensReviewOutput {
+        return try await self.client.execute(operation: "GetReviewTemplateLensReview", path: "/reviewTemplates/{TemplateArn}/lensReviews/{LensAlias}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Get an existing workload.
     public func getWorkload(_ input: GetWorkloadInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetWorkloadOutput {
         return try await self.client.execute(operation: "GetWorkload", path: "/workloads/{WorkloadId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -226,14 +261,29 @@ extension WellArchitected {
         return try await self.client.execute(operation: "ListProfiles", path: "/profileSummaries", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List  the workload invitations.
+    /// List the answers of a review template.
+    public func listReviewTemplateAnswers(_ input: ListReviewTemplateAnswersInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListReviewTemplateAnswersOutput {
+        return try await self.client.execute(operation: "ListReviewTemplateAnswers", path: "/reviewTemplates/{TemplateArn}/lensReviews/{LensAlias}/answers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List review templates.
+    public func listReviewTemplates(_ input: ListReviewTemplatesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListReviewTemplatesOutput {
+        return try await self.client.execute(operation: "ListReviewTemplates", path: "/reviewTemplates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List the share invitations.  WorkloadNamePrefix, LensNamePrefix, ProfileNamePrefix, and TemplateNamePrefix are mutually exclusive. Use the parameter that matches your ShareResourceType.
     public func listShareInvitations(_ input: ListShareInvitationsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListShareInvitationsOutput {
         return try await self.client.execute(operation: "ListShareInvitations", path: "/shareInvitations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List the tags for a resource.  The WorkloadArn parameter can be a workload ARN, a custom lens ARN, or a profile ARN.
+    /// List the tags for a resource.  The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
     public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTagsForResourceOutput {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{WorkloadArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List review template shares.
+    public func listTemplateShares(_ input: ListTemplateSharesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTemplateSharesOutput {
+        return try await self.client.execute(operation: "ListTemplateShares", path: "/templates/shares/{TemplateArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// List the workload shares associated with the workload.
@@ -246,12 +296,12 @@ extension WellArchitected {
         return try await self.client.execute(operation: "ListWorkloads", path: "/workloadsSummaries", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds one or more tags to the specified resource.  The WorkloadArn parameter can be a workload ARN, a custom lens ARN, or a profile ARN.
+    /// Adds one or more tags to the specified resource.  The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TagResourceOutput {
         return try await self.client.execute(operation: "TagResource", path: "/tags/{WorkloadArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes specified tags from a resource.  The WorkloadArn parameter can be a workload ARN, a custom lens ARN, or a profile ARN.  To specify multiple tags, use separate tagKeys parameters, for example:  DELETE /tags/WorkloadArn?tagKeys=key1&tagKeys=key2
+    /// Deletes specified tags from a resource.  The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.  To specify multiple tags, use separate tagKeys parameters, for example:  DELETE /tags/WorkloadArn?tagKeys=key1&tagKeys=key2
     public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UntagResourceOutput {
         return try await self.client.execute(operation: "UntagResource", path: "/tags/{WorkloadArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -274,6 +324,21 @@ extension WellArchitected {
     /// Update a profile.
     public func updateProfile(_ input: UpdateProfileInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateProfileOutput {
         return try await self.client.execute(operation: "UpdateProfile", path: "/profiles/{ProfileArn}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Update a review template.
+    public func updateReviewTemplate(_ input: UpdateReviewTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateReviewTemplateOutput {
+        return try await self.client.execute(operation: "UpdateReviewTemplate", path: "/reviewTemplates/{TemplateArn}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Update a review template answer.
+    public func updateReviewTemplateAnswer(_ input: UpdateReviewTemplateAnswerInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateReviewTemplateAnswerOutput {
+        return try await self.client.execute(operation: "UpdateReviewTemplateAnswer", path: "/reviewTemplates/{TemplateArn}/lensReviews/{LensAlias}/answers/{QuestionId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Update a lens review associated with a review template.
+    public func updateReviewTemplateLensReview(_ input: UpdateReviewTemplateLensReviewInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateReviewTemplateLensReviewOutput {
+        return try await self.client.execute(operation: "UpdateReviewTemplateLensReview", path: "/reviewTemplates/{TemplateArn}/lensReviews/{LensAlias}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Update a workload or custom lens share invitation.  This API operation can be called independently of any resource. Previous documentation implied that a workload ARN must be specified.
@@ -299,6 +364,11 @@ extension WellArchitected {
     /// Upgrade a profile.
     public func upgradeProfileVersion(_ input: UpgradeProfileVersionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "UpgradeProfileVersion", path: "/workloads/{WorkloadId}/profiles/{ProfileArn}/upgrade", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Upgrade the lens review of a review template.
+    public func upgradeReviewTemplateLensReview(_ input: UpgradeReviewTemplateLensReviewInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+        return try await self.client.execute(operation: "UpgradeReviewTemplateLensReview", path: "/reviewTemplates/{TemplateArn}/lensReviews/{LensAlias}/upgrade", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 
@@ -592,7 +662,51 @@ extension WellArchitected {
         )
     }
 
-    /// List  the workload invitations.
+    /// List the answers of a review template.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listReviewTemplateAnswersPaginator(
+        _ input: ListReviewTemplateAnswersInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListReviewTemplateAnswersInput, ListReviewTemplateAnswersOutput> {
+        return .init(
+            input: input,
+            command: self.listReviewTemplateAnswers,
+            inputKey: \ListReviewTemplateAnswersInput.nextToken,
+            outputKey: \ListReviewTemplateAnswersOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// List review templates.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listReviewTemplatesPaginator(
+        _ input: ListReviewTemplatesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListReviewTemplatesInput, ListReviewTemplatesOutput> {
+        return .init(
+            input: input,
+            command: self.listReviewTemplates,
+            inputKey: \ListReviewTemplatesInput.nextToken,
+            outputKey: \ListReviewTemplatesOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// List the share invitations.  WorkloadNamePrefix, LensNamePrefix, ProfileNamePrefix, and TemplateNamePrefix are mutually exclusive. Use the parameter that matches your ShareResourceType.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -609,6 +723,28 @@ extension WellArchitected {
             command: self.listShareInvitations,
             inputKey: \ListShareInvitationsInput.nextToken,
             outputKey: \ListShareInvitationsOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// List review template shares.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listTemplateSharesPaginator(
+        _ input: ListTemplateSharesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListTemplateSharesInput, ListTemplateSharesOutput> {
+        return .init(
+            input: input,
+            command: self.listTemplateShares,
+            inputKey: \ListTemplateSharesInput.nextToken,
+            outputKey: \ListTemplateSharesOutput.nextToken,
             logger: logger,
             on: eventLoop
         )

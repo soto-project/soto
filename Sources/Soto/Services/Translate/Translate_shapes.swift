@@ -276,7 +276,7 @@ extension Translate {
     public struct Document: AWSEncodableShape {
         /// The Contentfield type is Binary large object (blob). This object contains the document content converted into base64-encoded binary data.    If you use one of the AWS SDKs, the SDK performs the Base64-encoding on this field before sending the request.
         public let content: AWSBase64Data
-        /// Describes the format of the document. You can specify one of the following:   text/html - The input data consists of HTML content.  Amazon Translate translates only the text in the HTML element.   text/plain - The input data consists of unformatted text.  Amazon Translate translates every character in the content.
+        /// Describes the format of the document. You can specify one of the following:    text/html - The input data consists of HTML content.  Amazon Translate translates only the text in the HTML element.    text/plain - The input data consists of unformatted text.  Amazon Translate translates every character in the content.     application/vnd.openxmlformats-officedocument.wordprocessingml.document - The  input data consists of a Word document (.docx).
         public let contentType: String
 
         public init(content: AWSBase64Data, contentType: String) {

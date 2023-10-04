@@ -34,7 +34,7 @@ extension LexRuntimeService {
     }
 
     public enum ContentType: String, CustomStringConvertible, Codable, Sendable {
-        case applicationVndAmazonawsCardGeneric = "application/vnd.amazonaws.card.generic"
+        case generic = "application/vnd.amazonaws.card.generic"
         public var description: String { return self.rawValue }
     }
 
@@ -173,7 +173,7 @@ extension LexRuntimeService {
         public func validate(name: String) throws {
             try self.validate(self.userId, name: "userId", parent: name, max: 100)
             try self.validate(self.userId, name: "userId", parent: name, min: 2)
-            try self.validate(self.userId, name: "userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^[0-9a-zA-Z._:-]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -302,10 +302,10 @@ extension LexRuntimeService {
         public func validate(name: String) throws {
             try self.validate(self.checkpointLabelFilter, name: "checkpointLabelFilter", parent: name, max: 255)
             try self.validate(self.checkpointLabelFilter, name: "checkpointLabelFilter", parent: name, min: 1)
-            try self.validate(self.checkpointLabelFilter, name: "checkpointLabelFilter", parent: name, pattern: "[a-zA-Z0-9-]+")
+            try self.validate(self.checkpointLabelFilter, name: "checkpointLabelFilter", parent: name, pattern: "^[a-zA-Z0-9-]+$")
             try self.validate(self.userId, name: "userId", parent: name, max: 100)
             try self.validate(self.userId, name: "userId", parent: name, min: 2)
-            try self.validate(self.userId, name: "userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^[0-9a-zA-Z._:-]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -382,7 +382,7 @@ extension LexRuntimeService {
         public func validate(name: String) throws {
             try self.validate(self.checkpointLabel, name: "checkpointLabel", parent: name, max: 255)
             try self.validate(self.checkpointLabel, name: "checkpointLabel", parent: name, min: 1)
-            try self.validate(self.checkpointLabel, name: "checkpointLabel", parent: name, pattern: "[a-zA-Z0-9-]+")
+            try self.validate(self.checkpointLabel, name: "checkpointLabel", parent: name, pattern: "^[a-zA-Z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -445,7 +445,7 @@ extension LexRuntimeService {
         public func validate(name: String) throws {
             try self.validate(self.userId, name: "userId", parent: name, max: 100)
             try self.validate(self.userId, name: "userId", parent: name, min: 2)
-            try self.validate(self.userId, name: "userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^[0-9a-zA-Z._:-]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -618,7 +618,7 @@ extension LexRuntimeService {
             try self.validate(self.inputText, name: "inputText", parent: name, min: 1)
             try self.validate(self.userId, name: "userId", parent: name, max: 100)
             try self.validate(self.userId, name: "userId", parent: name, min: 2)
-            try self.validate(self.userId, name: "userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^[0-9a-zA-Z._:-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -764,7 +764,7 @@ extension LexRuntimeService {
             try self.validate(self.recentIntentSummaryView, name: "recentIntentSummaryView", parent: name, max: 3)
             try self.validate(self.userId, name: "userId", parent: name, max: 100)
             try self.validate(self.userId, name: "userId", parent: name, min: 2)
-            try self.validate(self.userId, name: "userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^[0-9a-zA-Z._:-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

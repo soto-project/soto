@@ -255,7 +255,9 @@ extension ECS {
         return try await self.client.execute(operation: "DescribeTaskSets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes a specified task or tasks. Currently, stopped tasks appear in the returned results for at least one hour.
+    /// Describes a specified task or tasks. Currently, stopped tasks appear in the returned results for at least one hour. If you have tasks with tags, and then delete the cluster, the tagged tasks are
+    /// 			returned in the response. If you create a new cluster with the same name as the deleted
+    /// 			cluster, the tagged tasks are not included in the response.
     public func describeTasks(_ input: DescribeTasksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeTasksResponse {
         return try await self.client.execute(operation: "DescribeTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -346,8 +348,7 @@ extension ECS {
 
     /// Returns a list of tasks. You can filter the results by cluster, task definition
     /// 			family, container instance, launch type, what IAM principal started the task, or by the
-    /// 			desired status of the task. Recently stopped tasks might appear in the returned results. Currently, stopped tasks
-    /// 			appear in the returned results for at least one hour.
+    /// 			desired status of the task. Recently stopped tasks might appear in the returned results.
     public func listTasks(_ input: ListTasksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTasksResponse {
         return try await self.client.execute(operation: "ListTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -355,18 +356,18 @@ extension ECS {
     /// Modifies an account setting. Account settings are set on a per-Region basis. If you change the root user account setting, the default settings are reset for  users
     /// 			and roles that do not have specified individual account settings. For more information,
     /// 			see Account
-    /// 				Settings in the Amazon Elastic Container Service Developer Guide. When serviceLongArnFormat, taskLongArnFormat, or
-    /// 				containerInstanceLongArnFormat are specified, the Amazon Resource Name
-    /// 			(ARN) and resource ID format of the resource type for a specified user, role, or
-    /// 			the root user for an account is affected. The opt-in and opt-out account setting must be
-    /// 			set for each Amazon ECS resource separately. The ARN and resource ID format of a resource
-    /// 			is defined by the opt-in status of the user or role that created the resource. You
-    /// 			must turn on this setting to use Amazon ECS features such as resource tagging. When awsvpcTrunking is specified, the elastic network interface (ENI)
-    /// 			limit for any new container instances that support the feature is changed. If
-    /// 				awsvpcTrunking is turned on, any new container instances that support the
-    /// 			feature are launched have the increased ENI limits available to them. For more
+    /// 				Settings in the Amazon Elastic Container Service Developer Guide. When  you specify serviceLongArnFormat, taskLongArnFormat, or
+    /// 				containerInstanceLongArnFormat, the Amazon Resource Name (ARN) and
+    /// 			resource ID format of the resource type for a specified user, role, or the root user for an
+    /// 			account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS
+    /// 			resource separately. The ARN and resource ID format of a resource is defined by the
+    /// 			opt-in status of the user or role that created the resource. You must turn on this
+    /// 			setting to use Amazon ECS features such as resource tagging. When you specify awsvpcTrunking, the elastic network interface (ENI) limit for
+    /// 			any new container instances that support the feature is changed. If
+    /// 				awsvpcTrunking is turned on, any new container instances that support
+    /// 			the feature are launched have the increased ENI limits available to them. For more
     /// 			information, see Elastic Network
-    /// 				Interface Trunking in the Amazon Elastic Container Service Developer Guide. When containerInsights is specified, the default setting indicating whether
+    /// 				Interface Trunking in the Amazon Elastic Container Service Developer Guide. When you specify containerInsights, the default setting indicating whether
     /// 			Amazon Web Services CloudWatch Container Insights is turned on for your clusters is changed. If
     /// 				containerInsights is turned on, any new clusters that are created will
     /// 			have Container Insights turned on unless you disable it during cluster creation. For
@@ -378,6 +379,10 @@ extension ECS {
     /// 			you must grant explicit permissions to use the ecs:TagResource action. For
     /// 			more information, see Grant
     /// 				permission to tag resources on creation in the Amazon ECS Developer
+    /// 					Guide. When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS
+    /// 			task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace
+    /// 			them. Use fargateTaskRetirementWaitPeriod to configure the wait time to
+    /// 			retire a Fargate task. For information about the Fargate tasks maintenance, see Amazon Web Services Fargate task maintenance in the Amazon ECS Developer
     /// 					Guide.
     public func putAccountSetting(_ input: PutAccountSettingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutAccountSettingResponse {
         return try await self.client.execute(operation: "PutAccountSetting", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -636,9 +641,8 @@ extension ECS {
     /// 					instances in either zone B or C are considered optimal for termination.   Stop the task on a container instance in an optimal Availability Zone (based
     /// 					on the previous steps), favoring container instances with the largest number of
     /// 					running tasks for this service.    You must have a service-linked role when you update any of the following service
-    /// 				properties. If you specified a custom role when you created the service, Amazon ECS
-    /// 				automatically replaces the roleARN associated with the service with the ARN of your
-    /// 				service-linked role. For more information, see Service-linked roles in the Amazon Elastic Container Service Developer Guide.    loadBalancers,     serviceRegistries
+    /// 				properties:    loadBalancers,    serviceRegistries    For more information about the role see the CreateService request parameter
+    /// 				 role .
     public func updateService(_ input: UpdateServiceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateServiceResponse {
         return try await self.client.execute(operation: "UpdateService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -882,8 +886,7 @@ extension ECS {
 
     /// Returns a list of tasks. You can filter the results by cluster, task definition
     /// 			family, container instance, launch type, what IAM principal started the task, or by the
-    /// 			desired status of the task. Recently stopped tasks might appear in the returned results. Currently, stopped tasks
-    /// 			appear in the returned results for at least one hour.
+    /// 			desired status of the task. Recently stopped tasks might appear in the returned results.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

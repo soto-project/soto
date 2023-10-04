@@ -38,6 +38,9 @@ extension STS {
         /// The Amazon Resource Names (ARNs) of the IAM managed policies that you want to use as managed session policies. The policies must exist in the same account as the role. This parameter is optional. You can provide up to 10 managed policy ARNs. However, the plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.  An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.  Passing policies to this operation returns new  temporary credentials. The resulting session's permissions are the intersection of the  role's identity-based policy and the session policies. You can use the role's temporary  credentials in subsequent Amazon Web Services API calls to access resources in the account that owns  the role. You cannot use session policies to grant more permissions than those allowed  by the identity-based policy of the role that is being assumed. For more information, see Session Policies in the IAM User Guide.
         @OptionalCustomCoding<StandardArrayCoder>
         public var policyArns: [PolicyDescriptorType]?
+        /// Reserved for future use.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var providedContexts: [ProvidedContext]?
         /// The Amazon Resource Name (ARN) of the role to assume.
         public let roleArn: String
         /// An identifier for the assumed role session. Use the role session name to uniquely identify a session when the same role is assumed by different principals or for different reasons. In cross-account scenarios, the role session name is visible to, and can be logged by the account that owns the role. The role session name is also used in the ARN of the assumed role principal. This means that subsequent cross-account API requests that use the temporary security credentials will expose the role session name to the external account in their CloudTrail logs. The regex used to validate this parameter is a string of characters  consisting of upper- and lower-case alphanumeric characters with no spaces. You can  also include underscores or any of the following characters: =,.@-
@@ -55,11 +58,12 @@ extension STS {
         @OptionalCustomCoding<StandardArrayCoder>
         public var transitiveTagKeys: [String]?
 
-        public init(durationSeconds: Int? = nil, externalId: String? = nil, policy: String? = nil, policyArns: [PolicyDescriptorType]? = nil, roleArn: String, roleSessionName: String, serialNumber: String? = nil, sourceIdentity: String? = nil, tags: [Tag]? = nil, tokenCode: String? = nil, transitiveTagKeys: [String]? = nil) {
+        public init(durationSeconds: Int? = nil, externalId: String? = nil, policy: String? = nil, policyArns: [PolicyDescriptorType]? = nil, providedContexts: [ProvidedContext]? = nil, roleArn: String, roleSessionName: String, serialNumber: String? = nil, sourceIdentity: String? = nil, tags: [Tag]? = nil, tokenCode: String? = nil, transitiveTagKeys: [String]? = nil) {
             self.durationSeconds = durationSeconds
             self.externalId = externalId
             self.policy = policy
             self.policyArns = policyArns
+            self.providedContexts = providedContexts
             self.roleArn = roleArn
             self.roleSessionName = roleSessionName
             self.serialNumber = serialNumber
@@ -75,12 +79,15 @@ extension STS {
             try self.validate(self.externalId, name: "externalId", parent: name, max: 1224)
             try self.validate(self.externalId, name: "externalId", parent: name, min: 2)
             try self.validate(self.externalId, name: "externalId", parent: name, pattern: "^[\\w+=,.@:\\/-]*$")
-            try self.validate(self.policy, name: "policy", parent: name, max: 2048)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             try self.policyArns?.forEach {
                 try $0.validate(name: "\(name).policyArns[]")
             }
+            try self.providedContexts?.forEach {
+                try $0.validate(name: "\(name).providedContexts[]")
+            }
+            try self.validate(self.providedContexts, name: "providedContexts", parent: name, max: 5)
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+$")
@@ -113,6 +120,7 @@ extension STS {
             case externalId = "ExternalId"
             case policy = "Policy"
             case policyArns = "PolicyArns"
+            case providedContexts = "ProvidedContexts"
             case roleArn = "RoleArn"
             case roleSessionName = "RoleSessionName"
             case serialNumber = "SerialNumber"
@@ -260,7 +268,7 @@ extension STS {
         public let roleArn: String
         /// An identifier for the assumed role session. Typically, you pass the name or identifier that is associated with the user who is using your application. That way, the temporary security credentials that your application will use are associated with that user. This session name is included as part of the ARN and assumed role ID in the AssumedRoleUser response element. The regex used to validate this parameter is a string of characters  consisting of upper- and lower-case alphanumeric characters with no spaces. You can  also include underscores or any of the following characters: =,.@-
         public let roleSessionName: String
-        /// The OAuth 2.0 access token or OpenID Connect ID token that is provided by the identity provider. Your application must get this token by authenticating the user who is using your application with a web identity provider before the application makes an AssumeRoleWithWebIdentity call.
+        /// The OAuth 2.0 access token or OpenID Connect ID token that is provided by the identity provider. Your application must get this token by authenticating the user who is using your application with a web identity provider before the application makes an AssumeRoleWithWebIdentity call. Only tokens with RSA algorithms (RS256) are supported.
         public let webIdentityToken: String
 
         public init(durationSeconds: Int? = nil, policy: String? = nil, policyArns: [PolicyDescriptorType]? = nil, providerId: String? = nil, roleArn: String, roleSessionName: String, webIdentityToken: String) {
@@ -620,6 +628,31 @@ extension STS {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+        }
+    }
+
+    public struct ProvidedContext: AWSEncodableShape {
+        /// Reserved for future use.
+        public let contextAssertion: String?
+        /// Reserved for future use.
+        public let providerArn: String?
+
+        public init(contextAssertion: String? = nil, providerArn: String? = nil) {
+            self.contextAssertion = contextAssertion
+            self.providerArn = providerArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contextAssertion, name: "contextAssertion", parent: name, max: 2048)
+            try self.validate(self.contextAssertion, name: "contextAssertion", parent: name, min: 4)
+            try self.validate(self.providerArn, name: "providerArn", parent: name, max: 2048)
+            try self.validate(self.providerArn, name: "providerArn", parent: name, min: 20)
+            try self.validate(self.providerArn, name: "providerArn", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextAssertion = "ContextAssertion"
+            case providerArn = "ProviderArn"
         }
     }
 

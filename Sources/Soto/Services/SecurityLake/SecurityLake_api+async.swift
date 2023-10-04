@@ -21,7 +21,7 @@ import SotoCore
 extension SecurityLake {
     // MARK: Async API Calls
 
-    /// Adds a natively supported Amazon Web Service as an Amazon Security Lake source. Enables source types for member accounts in required Amazon Web Services Regions, based on the parameters you specify. You can choose any source type in any Region for either accounts that are part of a trusted organization or standalone accounts. Once you add an Amazon Web Service as a source, Security Lake starts collecting logs and events from it,  You can use this API only to enable natively supported Amazon Web Services as a source. Use CreateCustomLogSource to enable data collection from a custom source.
+    /// Adds a natively supported Amazon Web Service as an Amazon Security Lake source. Enables source types for member accounts in required Amazon Web Services Regions, based on the parameters you specify. You can choose any source type in any Region for either accounts that are part of a trusted organization or standalone accounts. Once you add an Amazon Web Service as a source, Security Lake starts collecting logs and events from it. You can use this API only to enable natively supported Amazon Web Services as a source. Use CreateCustomLogSource to enable data collection from a custom source.
     public func createAwsLogSource(_ input: CreateAwsLogSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateAwsLogSourceResponse {
         return try await self.client.execute(operation: "CreateAwsLogSource", path: "/v1/datalake/logsources/aws", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -31,7 +31,7 @@ extension SecurityLake {
         return try await self.client.execute(operation: "CreateCustomLogSource", path: "/v1/datalake/logsources/custom", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Initializes an Amazon Security Lake instance with the provided (or default) configuration. You can enable Security Lake in Amazon Web Services Regions with customized settings before enabling log collection in Regions. By default, the CreateDataLake Security Lake in all Regions. To specify particular Regions, configure these Regions using the configurations parameter. If you have already enabled Security Lake in a Region when you call this command, the command will update the Region if you provide new configuration parameters. If you have not already enabled Security Lake in the Region when you call this API, it will set up the data lake in the Region with the specified configurations. When you enable Security Lake, it starts ingesting security data after the CreateAwsLogSource call. This includes ingesting security data from sources, storing data, and making data accessible to subscribers. Security Lake also enables all the existing settings and resources that it stores or maintains for your Amazon Web Services account in the current Region, including security log and event data. For more information, see the Amazon Security Lake User Guide.
+    /// Initializes an Amazon Security Lake instance with the provided (or default) configuration. You can enable Security Lake in Amazon Web Services Regions with customized settings before enabling log collection in Regions. To specify particular Regions, configure these Regions using the configurations parameter. If you have already enabled Security Lake in a Region when you call this command, the command will update the Region if you provide new configuration parameters. If you have not already enabled Security Lake in the Region when you call this API, it will set up the data lake in the Region with the specified configurations. When you enable Security Lake, it starts ingesting security data after the CreateAwsLogSource call. This includes ingesting security data from sources, storing data, and making data accessible to subscribers. Security Lake also enables all the existing settings and resources that it stores or maintains for your Amazon Web Services account in the current Region, including security log and event data. For more information, see the Amazon Security Lake User Guide.
     public func createDataLake(_ input: CreateDataLakeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateDataLakeResponse {
         return try await self.client.execute(operation: "CreateDataLake", path: "/v1/datalake", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -76,7 +76,7 @@ extension SecurityLake {
         return try await self.client.execute(operation: "DeleteDataLakeExceptionSubscription", path: "/v1/datalake/exceptions/subscription", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes automatic the enablement of configuration settings for new member accounts (but retains the settings for the delegated administrator) from Amazon Security Lake. You must run this API using the credentials of the delegated administrator. When you run this API, new member accounts that are added after the organization enables Security Lake won't contribute to the data lake.
+    /// Turns off automatic enablement of Amazon Security Lake for member accounts that are added to an organization in Organizations. Only the delegated  Security Lake administrator for an organization can perform this operation. If the delegated Security Lake administrator performs this operation, new member accounts won't automatically contribute data to the data lake.
     public func deleteDataLakeOrganizationConfiguration(_ input: DeleteDataLakeOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteDataLakeOrganizationConfigurationResponse {
         return try await self.client.execute(operation: "DeleteDataLakeOrganizationConfiguration", path: "/v1/datalake/organization/configuration/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -121,7 +121,7 @@ extension SecurityLake {
         return try await self.client.execute(operation: "ListDataLakeExceptions", path: "/v1/datalake/exceptions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the Amazon Security Lake configuration object for the specified Amazon Web Services account ID. You can use the ListDataLakes API to know whether Security Lake is enabled for any region.
+    /// Retrieves the Amazon Security Lake configuration object for the specified Amazon Web Services Regions. You can use this operation to determine whether Security Lake is enabled for a Region.
     public func listDataLakes(_ input: ListDataLakesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListDataLakesResponse {
         return try await self.client.execute(operation: "ListDataLakes", path: "/v1/datalakes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -136,9 +136,24 @@ extension SecurityLake {
         return try await self.client.execute(operation: "ListSubscribers", path: "/v1/subscribers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves the tags (keys and values) that are associated with an Amazon Security Lake resource: a subscriber, or the data lake configuration for  your Amazon Web Services account in a particular Amazon Web Services Region.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/v1/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Designates the Amazon Security Lake delegated administrator account for the organization. This API can only be called by the organization management account. The organization management account cannot be the delegated administrator account.
     public func registerDataLakeDelegatedAdministrator(_ input: RegisterDataLakeDelegatedAdministratorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RegisterDataLakeDelegatedAdministratorResponse {
         return try await self.client.execute(operation: "RegisterDataLakeDelegatedAdministrator", path: "/v1/datalake/delegate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Adds or updates one or more tags that are associated with an Amazon Security Lake resource: a subscriber, or the data lake configuration for your  Amazon Web Services account in a particular Amazon Web Services Region. A tag is a label that you can define and associate with  Amazon Web Services resources. Each tag consists of a required tag key and an associated tag value. A  tag key is a general label that acts as a category for a more specific tag value. A tag value acts as a  descriptor for a tag key. Tags can help you identify, categorize, and manage resources in different ways, such as by owner, environment, or other  criteria. For more information, see  Tagging Amazon Security Lake resources in the  Amazon Security Lake User Guide.
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/v1/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Removes one or more tags (keys and values) from an Amazon Security Lake resource: a subscriber, or the data lake configuration for your  Amazon Web Services account in a particular Amazon Web Services Region.
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/v1/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Specifies where to store your security data and for how long. You can add a rollup Region to consolidate data from multiple Amazon Web Services Regions.

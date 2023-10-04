@@ -42,6 +42,37 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
+    public enum AppBlockBuilderAttribute: String, CustomStringConvertible, Codable, Sendable {
+        case accessEndpoints = "ACCESS_ENDPOINTS"
+        case iamRoleArn = "IAM_ROLE_ARN"
+        case vpcConfigurationSecurityGroupIds = "VPC_CONFIGURATION_SECURITY_GROUP_IDS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppBlockBuilderPlatformType: String, CustomStringConvertible, Codable, Sendable {
+        case windowsServer2019 = "WINDOWS_SERVER_2019"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppBlockBuilderState: String, CustomStringConvertible, Codable, Sendable {
+        case running = "RUNNING"
+        case starting = "STARTING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppBlockBuilderStateChangeReasonCode: String, CustomStringConvertible, Codable, Sendable {
+        case internalError = "INTERNAL_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppBlockState: String, CustomStringConvertible, Codable, Sendable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AppVisibility: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case associated = "ASSOCIATED"
@@ -173,6 +204,12 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
+    public enum PackagingType: String, CustomStringConvertible, Codable, Sendable {
+        case appstream2 = "APPSTREAM2"
+        case custom = "CUSTOM"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Permission: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -292,6 +329,8 @@ extension AppStream {
     }
 
     public struct AppBlock: AWSDecodableShape {
+        /// The errors of the app block.
+        public let appBlockErrors: [ErrorDetails]?
         /// The ARN of the app block.
         public let arn: String
         /// The created time of the app block.
@@ -302,29 +341,142 @@ extension AppStream {
         public let displayName: String?
         /// The name of the app block.
         public let name: String
-        /// The setup script details of the app block.
-        public let setupScriptDetails: ScriptDetails
+        /// The packaging type of the app block.
+        public let packagingType: PackagingType?
+        /// The post setup script details of the app block. This only applies to app blocks with PackagingType APPSTREAM2.
+        public let postSetupScriptDetails: ScriptDetails?
+        /// The setup script details of the app block. This only applies to app blocks with PackagingType CUSTOM.
+        public let setupScriptDetails: ScriptDetails?
         /// The source S3 location of the app block.
         public let sourceS3Location: S3Location?
+        /// The state of the app block. An app block with AppStream 2.0 packaging will be in the INACTIVE state if no application package (VHD) is assigned to it. After an application package (VHD) is created by an app block builder for an app block, it becomes ACTIVE.  Custom app blocks are always in the ACTIVE state and no action is required to use them.
+        public let state: AppBlockState?
 
-        public init(arn: String, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, name: String, setupScriptDetails: ScriptDetails, sourceS3Location: S3Location? = nil) {
+        public init(appBlockErrors: [ErrorDetails]? = nil, arn: String, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, name: String, packagingType: PackagingType? = nil, postSetupScriptDetails: ScriptDetails? = nil, setupScriptDetails: ScriptDetails? = nil, sourceS3Location: S3Location? = nil, state: AppBlockState? = nil) {
+            self.appBlockErrors = appBlockErrors
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
             self.displayName = displayName
             self.name = name
+            self.packagingType = packagingType
+            self.postSetupScriptDetails = postSetupScriptDetails
             self.setupScriptDetails = setupScriptDetails
             self.sourceS3Location = sourceS3Location
+            self.state = state
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appBlockErrors = "AppBlockErrors"
             case arn = "Arn"
             case createdTime = "CreatedTime"
             case description = "Description"
             case displayName = "DisplayName"
             case name = "Name"
+            case packagingType = "PackagingType"
+            case postSetupScriptDetails = "PostSetupScriptDetails"
             case setupScriptDetails = "SetupScriptDetails"
             case sourceS3Location = "SourceS3Location"
+            case state = "State"
+        }
+    }
+
+    public struct AppBlockBuilder: AWSDecodableShape {
+        /// The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the app block builder only through the specified endpoints.
+        public let accessEndpoints: [AccessEndpoint]?
+        /// The app block builder errors.
+        public let appBlockBuilderErrors: [ResourceError]?
+        /// The ARN of the app block builder.
+        public let arn: String
+        /// The creation time of the app block builder.
+        public let createdTime: Date?
+        /// The description of the app block builder.
+        public let description: String?
+        /// The display name of the app block builder.
+        public let displayName: String?
+        /// Indicates whether default internet access is enabled for the app block builder.
+        public let enableDefaultInternetAccess: Bool?
+        /// The ARN of the IAM role that is applied to the app block builder.
+        public let iamRoleArn: String?
+        /// The instance type of the app block builder.
+        public let instanceType: String
+        /// The name of the app block builder.
+        public let name: String
+        /// The platform of the app block builder.  WINDOWS_SERVER_2019 is the only valid value.
+        public let platform: AppBlockBuilderPlatformType
+        /// The state of the app block builder.
+        public let state: AppBlockBuilderState
+        /// The state change reason.
+        public let stateChangeReason: AppBlockBuilderStateChangeReason?
+        /// The VPC configuration for the app block builder.
+        public let vpcConfig: VpcConfig
+
+        public init(accessEndpoints: [AccessEndpoint]? = nil, appBlockBuilderErrors: [ResourceError]? = nil, arn: String, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, instanceType: String, name: String, platform: AppBlockBuilderPlatformType, state: AppBlockBuilderState, stateChangeReason: AppBlockBuilderStateChangeReason? = nil, vpcConfig: VpcConfig) {
+            self.accessEndpoints = accessEndpoints
+            self.appBlockBuilderErrors = appBlockBuilderErrors
+            self.arn = arn
+            self.createdTime = createdTime
+            self.description = description
+            self.displayName = displayName
+            self.enableDefaultInternetAccess = enableDefaultInternetAccess
+            self.iamRoleArn = iamRoleArn
+            self.instanceType = instanceType
+            self.name = name
+            self.platform = platform
+            self.state = state
+            self.stateChangeReason = stateChangeReason
+            self.vpcConfig = vpcConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessEndpoints = "AccessEndpoints"
+            case appBlockBuilderErrors = "AppBlockBuilderErrors"
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
+            case iamRoleArn = "IamRoleArn"
+            case instanceType = "InstanceType"
+            case name = "Name"
+            case platform = "Platform"
+            case state = "State"
+            case stateChangeReason = "StateChangeReason"
+            case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct AppBlockBuilderAppBlockAssociation: AWSDecodableShape {
+        /// The ARN of the app block.
+        public let appBlockArn: String
+        /// The name of the app block builder.
+        public let appBlockBuilderName: String
+
+        public init(appBlockArn: String, appBlockBuilderName: String) {
+            self.appBlockArn = appBlockArn
+            self.appBlockBuilderName = appBlockBuilderName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockArn = "AppBlockArn"
+            case appBlockBuilderName = "AppBlockBuilderName"
+        }
+    }
+
+    public struct AppBlockBuilderStateChangeReason: AWSDecodableShape {
+        /// The state change reason code.
+        public let code: AppBlockBuilderStateChangeReasonCode?
+        /// The state change reason message.
+        public let message: String?
+
+        public init(code: AppBlockBuilderStateChangeReasonCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
@@ -453,6 +605,41 @@ extension AppStream {
             case enabled = "Enabled"
             case s3BucketName = "S3BucketName"
             case settingsGroup = "SettingsGroup"
+        }
+    }
+
+    public struct AssociateAppBlockBuilderAppBlockRequest: AWSEncodableShape {
+        /// The ARN of the app block.
+        public let appBlockArn: String
+        /// The name of the app block builder.
+        public let appBlockBuilderName: String
+
+        public init(appBlockArn: String, appBlockBuilderName: String) {
+            self.appBlockArn = appBlockArn
+            self.appBlockBuilderName = appBlockBuilderName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appBlockArn, name: "appBlockArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
+            try self.validate(self.appBlockBuilderName, name: "appBlockBuilderName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockArn = "AppBlockArn"
+            case appBlockBuilderName = "AppBlockBuilderName"
+        }
+    }
+
+    public struct AssociateAppBlockBuilderAppBlockResult: AWSDecodableShape {
+        /// The list of app block builders associated with app blocks.
+        public let appBlockBuilderAppBlockAssociation: AppBlockBuilderAppBlockAssociation?
+
+        public init(appBlockBuilderAppBlockAssociation: AppBlockBuilderAppBlockAssociation? = nil) {
+            self.appBlockBuilderAppBlockAssociation = appBlockBuilderAppBlockAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockBuilderAppBlockAssociation = "AppBlockBuilderAppBlockAssociation"
         }
     }
 
@@ -721,6 +908,128 @@ extension AppStream {
         }
     }
 
+    public struct CreateAppBlockBuilderRequest: AWSEncodableShape {
+        /// The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the app block builder only through the specified endpoints.
+        public let accessEndpoints: [AccessEndpoint]?
+        /// The description of the app block builder.
+        public let description: String?
+        /// The display name of the app block builder.
+        public let displayName: String?
+        /// Enables or disables default internet access for the app block builder.
+        public let enableDefaultInternetAccess: Bool?
+        /// The Amazon Resource Name (ARN) of the IAM role to apply to the app block builder. To assume a role, the app block builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
+        public let iamRoleArn: String?
+        /// The instance type to use when launching the app block builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
+        public let instanceType: String
+        /// The unique name for the app block builder.
+        public let name: String
+        /// The platform of the app block builder.  WINDOWS_SERVER_2019 is the only valid value.
+        public let platform: AppBlockBuilderPlatformType
+        /// The tags to associate with the app block builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ For more information, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+        public let tags: [String: String]?
+        /// The VPC configuration for the app block builder. App block builders require that you specify at least two subnets in different availability zones.
+        public let vpcConfig: VpcConfig
+
+        public init(accessEndpoints: [AccessEndpoint]? = nil, description: String? = nil, displayName: String? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, instanceType: String, name: String, platform: AppBlockBuilderPlatformType, tags: [String: String]? = nil, vpcConfig: VpcConfig) {
+            self.accessEndpoints = accessEndpoints
+            self.description = description
+            self.displayName = displayName
+            self.enableDefaultInternetAccess = enableDefaultInternetAccess
+            self.iamRoleArn = iamRoleArn
+            self.instanceType = instanceType
+            self.name = name
+            self.platform = platform
+            self.tags = tags
+            self.vpcConfig = vpcConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.accessEndpoints?.forEach {
+                try $0.validate(name: "\(name).accessEndpoints[]")
+            }
+            try self.validate(self.accessEndpoints, name: "accessEndpoints", parent: name, max: 4)
+            try self.validate(self.accessEndpoints, name: "accessEndpoints", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
+            try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(^(?!aws:).[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.vpcConfig.validate(name: "\(name).vpcConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessEndpoints = "AccessEndpoints"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
+            case iamRoleArn = "IamRoleArn"
+            case instanceType = "InstanceType"
+            case name = "Name"
+            case platform = "Platform"
+            case tags = "Tags"
+            case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct CreateAppBlockBuilderResult: AWSDecodableShape {
+        public let appBlockBuilder: AppBlockBuilder?
+
+        public init(appBlockBuilder: AppBlockBuilder? = nil) {
+            self.appBlockBuilder = appBlockBuilder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockBuilder = "AppBlockBuilder"
+        }
+    }
+
+    public struct CreateAppBlockBuilderStreamingURLRequest: AWSEncodableShape {
+        /// The name of the app block builder.
+        public let appBlockBuilderName: String
+        /// The time that the streaming URL will be valid, in seconds.  Specify a value between 1 and 604800 seconds. The default is 3600 seconds.
+        public let validity: Int64?
+
+        public init(appBlockBuilderName: String, validity: Int64? = nil) {
+            self.appBlockBuilderName = appBlockBuilderName
+            self.validity = validity
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appBlockBuilderName, name: "appBlockBuilderName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockBuilderName = "AppBlockBuilderName"
+            case validity = "Validity"
+        }
+    }
+
+    public struct CreateAppBlockBuilderStreamingURLResult: AWSDecodableShape {
+        /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
+        public let expires: Date?
+        /// The URL to start the streaming session.
+        public let streamingURL: String?
+
+        public init(expires: Date? = nil, streamingURL: String? = nil) {
+            self.expires = expires
+            self.streamingURL = streamingURL
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expires = "Expires"
+            case streamingURL = "StreamingURL"
+        }
+    }
+
     public struct CreateAppBlockRequest: AWSEncodableShape {
         /// The description of the app block.
         public let description: String?
@@ -728,17 +1037,23 @@ extension AppStream {
         public let displayName: String?
         /// The name of the app block.
         public let name: String
-        /// The setup script details of the app block.
-        public let setupScriptDetails: ScriptDetails
+        /// The packaging type of the app block.
+        public let packagingType: PackagingType?
+        /// The post setup script details of the app block. This can only be provided for the APPSTREAM2 PackagingType.
+        public let postSetupScriptDetails: ScriptDetails?
+        /// The setup script details of the app block. This must be provided for the CUSTOM PackagingType.
+        public let setupScriptDetails: ScriptDetails?
         /// The source S3 location of the app block.
         public let sourceS3Location: S3Location
         /// The tags assigned to the app block.
         public let tags: [String: String]?
 
-        public init(description: String? = nil, displayName: String? = nil, name: String, setupScriptDetails: ScriptDetails, sourceS3Location: S3Location, tags: [String: String]? = nil) {
+        public init(description: String? = nil, displayName: String? = nil, name: String, packagingType: PackagingType? = nil, postSetupScriptDetails: ScriptDetails? = nil, setupScriptDetails: ScriptDetails? = nil, sourceS3Location: S3Location, tags: [String: String]? = nil) {
             self.description = description
             self.displayName = displayName
             self.name = name
+            self.packagingType = packagingType
+            self.postSetupScriptDetails = postSetupScriptDetails
             self.setupScriptDetails = setupScriptDetails
             self.sourceS3Location = sourceS3Location
             self.tags = tags
@@ -748,7 +1063,8 @@ extension AppStream {
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
-            try self.setupScriptDetails.validate(name: "\(name).setupScriptDetails")
+            try self.postSetupScriptDetails?.validate(name: "\(name).postSetupScriptDetails")
+            try self.setupScriptDetails?.validate(name: "\(name).setupScriptDetails")
             try self.sourceS3Location.validate(name: "\(name).sourceS3Location")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -765,6 +1081,8 @@ extension AppStream {
             case description = "Description"
             case displayName = "DisplayName"
             case name = "Name"
+            case packagingType = "PackagingType"
+            case postSetupScriptDetails = "PostSetupScriptDetails"
             case setupScriptDetails = "SetupScriptDetails"
             case sourceS3Location = "SourceS3Location"
             case tags = "Tags"
@@ -1045,7 +1363,7 @@ extension AppStream {
             try self.domainJoinInfo?.validate(name: "\(name).domainJoinInfo")
             try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
             try self.validate(self.imageArn, name: "imageArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
-            try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
+            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
             try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
             try self.sessionScriptS3Location?.validate(name: "\(name).sessionScriptS3Location")
@@ -1535,6 +1853,27 @@ extension AppStream {
         public init() {}
     }
 
+    public struct DeleteAppBlockBuilderRequest: AWSEncodableShape {
+        /// The name of the app block builder.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteAppBlockBuilderResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteAppBlockRequest: AWSEncodableShape {
         /// The name of the app block.
         public let name: String
@@ -1781,6 +2120,99 @@ extension AppStream {
 
     public struct DeleteUserResult: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DescribeAppBlockBuilderAppBlockAssociationsRequest: AWSEncodableShape {
+        /// The ARN of the app block.
+        public let appBlockArn: String?
+        /// The name of the app block builder.
+        public let appBlockBuilderName: String?
+        /// The maximum size of each page of results.
+        public let maxResults: Int?
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+
+        public init(appBlockArn: String? = nil, appBlockBuilderName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.appBlockArn = appBlockArn
+            self.appBlockBuilderName = appBlockBuilderName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appBlockArn, name: "appBlockArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
+            try self.validate(self.appBlockBuilderName, name: "appBlockBuilderName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockArn = "AppBlockArn"
+            case appBlockBuilderName = "AppBlockBuilderName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeAppBlockBuilderAppBlockAssociationsResult: AWSDecodableShape {
+        /// This list of app block builders associated with app blocks.
+        public let appBlockBuilderAppBlockAssociations: [AppBlockBuilderAppBlockAssociation]?
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+
+        public init(appBlockBuilderAppBlockAssociations: [AppBlockBuilderAppBlockAssociation]? = nil, nextToken: String? = nil) {
+            self.appBlockBuilderAppBlockAssociations = appBlockBuilderAppBlockAssociations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockBuilderAppBlockAssociations = "AppBlockBuilderAppBlockAssociations"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeAppBlockBuildersRequest: AWSEncodableShape {
+        /// The maximum size of each page of results. The maximum value is 25.
+        public let maxResults: Int?
+        /// The names of the app block builders.
+        public let names: [String]?
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, names: [String]? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.names = names
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.names?.forEach {
+                try validate($0, name: "names[]", parent: name, min: 1)
+            }
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case names = "Names"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeAppBlockBuildersResult: AWSDecodableShape {
+        /// The list that describes one or more app block builders.
+        public let appBlockBuilders: [AppBlockBuilder]?
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+
+        public init(appBlockBuilders: [AppBlockBuilder]? = nil, nextToken: String? = nil) {
+            self.appBlockBuilders = appBlockBuilders
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockBuilders = "AppBlockBuilders"
+            case nextToken = "NextToken"
+        }
     }
 
     public struct DescribeAppBlocksRequest: AWSEncodableShape {
@@ -2504,6 +2936,32 @@ extension AppStream {
         public init() {}
     }
 
+    public struct DisassociateAppBlockBuilderAppBlockRequest: AWSEncodableShape {
+        /// The ARN of the app block.
+        public let appBlockArn: String
+        /// The name of the app block builder.
+        public let appBlockBuilderName: String
+
+        public init(appBlockArn: String, appBlockBuilderName: String) {
+            self.appBlockArn = appBlockArn
+            self.appBlockBuilderName = appBlockBuilderName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appBlockArn, name: "appBlockArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
+            try self.validate(self.appBlockBuilderName, name: "appBlockBuilderName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockArn = "AppBlockArn"
+            case appBlockBuilderName = "AppBlockBuilderName"
+        }
+    }
+
+    public struct DisassociateAppBlockBuilderAppBlockResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DisassociateApplicationFleetRequest: AWSEncodableShape {
         /// The ARN of the application.
         public let applicationArn: String
@@ -2704,6 +3162,23 @@ extension AppStream {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case value = "Value"
+        }
+    }
+
+    public struct ErrorDetails: AWSDecodableShape {
+        /// The error code.
+        public let errorCode: String?
+        /// The error message.
+        public let errorMessage: String?
+
+        public init(errorCode: String? = nil, errorMessage: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
         }
     }
 
@@ -3272,10 +3747,10 @@ extension AppStream {
     public struct S3Location: AWSEncodableShape & AWSDecodableShape {
         /// The S3 bucket of the S3 object.
         public let s3Bucket: String
-        /// The S3 key of the S3 object.
-        public let s3Key: String
+        /// The S3 key of the S3 object. This is required when used for the following:   IconS3Location (Actions: CreateApplication and UpdateApplication)   SessionScriptS3Location (Actions: CreateFleet and UpdateFleet)   ScriptDetails (Actions: CreateAppBlock)   SourceS3Location when creating an app block with CUSTOM PackagingType (Actions: CreateAppBlock)   SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock)
+        public let s3Key: String?
 
-        public init(s3Bucket: String, s3Key: String) {
+        public init(s3Bucket: String, s3Key: String? = nil) {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
         }
@@ -3496,6 +3971,35 @@ extension AppStream {
         }
     }
 
+    public struct StartAppBlockBuilderRequest: AWSEncodableShape {
+        /// The name of the app block builder.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct StartAppBlockBuilderResult: AWSDecodableShape {
+        public let appBlockBuilder: AppBlockBuilder?
+
+        public init(appBlockBuilder: AppBlockBuilder? = nil) {
+            self.appBlockBuilder = appBlockBuilder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockBuilder = "AppBlockBuilder"
+        }
+    }
+
     public struct StartFleetRequest: AWSEncodableShape {
         /// The name of the fleet.
         public let name: String
@@ -3550,6 +4054,35 @@ extension AppStream {
 
         private enum CodingKeys: String, CodingKey {
             case imageBuilder = "ImageBuilder"
+        }
+    }
+
+    public struct StopAppBlockBuilderRequest: AWSEncodableShape {
+        /// The name of the app block builder.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct StopAppBlockBuilderResult: AWSDecodableShape {
+        public let appBlockBuilder: AppBlockBuilder?
+
+        public init(appBlockBuilder: AppBlockBuilder? = nil) {
+            self.appBlockBuilder = appBlockBuilder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockBuilder = "AppBlockBuilder"
         }
     }
 
@@ -3712,6 +4245,81 @@ extension AppStream {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateAppBlockBuilderRequest: AWSEncodableShape {
+        /// The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the app block builder only through the specified endpoints.
+        public let accessEndpoints: [AccessEndpoint]?
+        /// The attributes to delete from the app block builder.
+        public let attributesToDelete: [AppBlockBuilderAttribute]?
+        /// The description of the app block builder.
+        public let description: String?
+        /// The display name of the app block builder.
+        public let displayName: String?
+        /// Enables or disables default internet access for the app block builder.
+        public let enableDefaultInternetAccess: Bool?
+        /// The Amazon Resource Name (ARN) of the IAM role to apply to the app block builder. To assume a role, the app block builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
+        public let iamRoleArn: String?
+        /// The instance type to use when launching the app block builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
+        public let instanceType: String?
+        /// The unique name for the app block builder.
+        public let name: String
+        /// The platform of the app block builder.  WINDOWS_SERVER_2019 is the only valid value.
+        public let platform: PlatformType?
+        /// The VPC configuration for the app block builder. App block builders require that you specify at least two subnets in different availability zones.
+        public let vpcConfig: VpcConfig?
+
+        public init(accessEndpoints: [AccessEndpoint]? = nil, attributesToDelete: [AppBlockBuilderAttribute]? = nil, description: String? = nil, displayName: String? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, instanceType: String? = nil, name: String, platform: PlatformType? = nil, vpcConfig: VpcConfig? = nil) {
+            self.accessEndpoints = accessEndpoints
+            self.attributesToDelete = attributesToDelete
+            self.description = description
+            self.displayName = displayName
+            self.enableDefaultInternetAccess = enableDefaultInternetAccess
+            self.iamRoleArn = iamRoleArn
+            self.instanceType = instanceType
+            self.name = name
+            self.platform = platform
+            self.vpcConfig = vpcConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.accessEndpoints?.forEach {
+                try $0.validate(name: "\(name).accessEndpoints[]")
+            }
+            try self.validate(self.accessEndpoints, name: "accessEndpoints", parent: name, max: 4)
+            try self.validate(self.accessEndpoints, name: "accessEndpoints", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
+            try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessEndpoints = "AccessEndpoints"
+            case attributesToDelete = "AttributesToDelete"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
+            case iamRoleArn = "IamRoleArn"
+            case instanceType = "InstanceType"
+            case name = "Name"
+            case platform = "Platform"
+            case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct UpdateAppBlockBuilderResult: AWSDecodableShape {
+        public let appBlockBuilder: AppBlockBuilder?
+
+        public init(appBlockBuilder: AppBlockBuilder? = nil) {
+            self.appBlockBuilder = appBlockBuilder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockBuilder = "AppBlockBuilder"
+        }
     }
 
     public struct UpdateApplicationRequest: AWSEncodableShape {
@@ -3910,7 +4518,7 @@ extension AppStream {
         public let instanceType: String?
         /// The maximum number of concurrent sessions for a fleet.
         public let maxConcurrentSessions: Int?
-        /// The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance. Specify a value between 600 and 360000.
+        /// The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance. Specify a value between 600 and 432000.
         public let maxUserDurationInSeconds: Int?
         /// A unique name for the fleet.
         public let name: String?

@@ -351,6 +351,7 @@ extension CloudFormation {
 
     public enum StackInstanceFilterName: String, CustomStringConvertible, Codable, Sendable {
         case detailedStatus = "DETAILED_STATUS"
+        case driftStatus = "DRIFT_STATUS"
         case lastOperationId = "LAST_OPERATION_ID"
         public var description: String { return self.rawValue }
     }
@@ -1059,6 +1060,8 @@ extension CloudFormation {
         /// The template resource types that you have permissions to work with for this create stack action, such as AWS::EC2::Instance, AWS::EC2::*, or Custom::MyCustomInstance. Use the following syntax to describe template resource types: AWS::* (for all Amazon Web Services resources), Custom::* (for all custom resources), Custom::logical_ID (for a specific custom resource), AWS::service_name::* (for all resources of a particular Amazon Web Services service), and AWS::service_name::resource_logical_ID (for a specific Amazon Web Services resource). If the list of resource types doesn't include a resource that you're creating, the stack creation fails. By default, CloudFormation grants permissions to all resource types. Identity and Access Management (IAM) uses this parameter for CloudFormation-specific condition keys in IAM policies. For more information, see Controlling Access with Identity and Access Management.
         @OptionalCustomCoding<StandardArrayCoder>
         public var resourceTypes: [String]?
+        /// When set to true, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain. Default: false
+        public let retainExceptOnCreate: Bool?
         /// The Amazon Resource Name (ARN) of an Identity and Access Management (IAM) role that CloudFormation assumes to create the stack. CloudFormation uses the role's credentials to make calls on your behalf. CloudFormation always uses this role for all future operations on the stack. Provided that users have permission to operate on the stack, CloudFormation uses this role even if the users don't have permission to pass it. Ensure that the role grants least privilege. If you don't specify a value, CloudFormation uses the role that was previously associated with the stack. If no role is available, CloudFormation uses a temporary session that's generated from your user credentials.
         public let roleARN: String?
         /// The rollback triggers for CloudFormation to monitor during stack creation and updating operations, and for the specified monitoring period afterwards.
@@ -1079,7 +1082,7 @@ extension CloudFormation {
         /// The amount of time that can pass before the stack status becomes CREATE_FAILED; if DisableRollback is not set or is set to false, the stack will be rolled back.
         public let timeoutInMinutes: Int?
 
-        public init(capabilities: [Capability]? = nil, clientRequestToken: String? = nil, disableRollback: Bool? = nil, enableTerminationProtection: Bool? = nil, notificationARNs: [String]? = nil, onFailure: OnFailure? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackName: String, stackPolicyBody: String? = nil, stackPolicyURL: String? = nil, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, timeoutInMinutes: Int? = nil) {
+        public init(capabilities: [Capability]? = nil, clientRequestToken: String? = nil, disableRollback: Bool? = nil, enableTerminationProtection: Bool? = nil, notificationARNs: [String]? = nil, onFailure: OnFailure? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, retainExceptOnCreate: Bool? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackName: String, stackPolicyBody: String? = nil, stackPolicyURL: String? = nil, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, timeoutInMinutes: Int? = nil) {
             self.capabilities = capabilities
             self.clientRequestToken = clientRequestToken
             self.disableRollback = disableRollback
@@ -1088,6 +1091,7 @@ extension CloudFormation {
             self.onFailure = onFailure
             self.parameters = parameters
             self.resourceTypes = resourceTypes
+            self.retainExceptOnCreate = retainExceptOnCreate
             self.roleARN = roleARN
             self.rollbackConfiguration = rollbackConfiguration
             self.stackName = stackName
@@ -1134,6 +1138,7 @@ extension CloudFormation {
             case onFailure = "OnFailure"
             case parameters = "Parameters"
             case resourceTypes = "ResourceTypes"
+            case retainExceptOnCreate = "RetainExceptOnCreate"
             case roleARN = "RoleARN"
             case rollbackConfiguration = "RollbackConfiguration"
             case stackName = "StackName"
@@ -2244,7 +2249,7 @@ extension CloudFormation {
     public struct DescribeStacksInput: AWSEncodableShape {
         /// A string that identifies the next page of stacks that you want to retrieve.
         public let nextToken: String?
-        ///  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account. This requires ListStacks and DescribeStacks permissions. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }  The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
+        ///  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the ListStacks API if you're not passing a parameter to StackName. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }  The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
         public let stackName: String?
 
         public init(nextToken: String? = nil, stackName: String? = nil) {
@@ -2659,13 +2664,16 @@ extension CloudFormation {
         public let clientRequestToken: String?
         /// Preserves the state of previously provisioned resources when an operation fails. This parameter can't be specified when the OnStackFailure parameter to the CreateChangeSet API operation was specified.    True - if the stack creation fails, do nothing. This is equivalent to specifying DO_NOTHING for the OnStackFailure parameter to the CreateChangeSet API operation.    False - if the stack creation fails, roll back the stack. This is equivalent to specifying ROLLBACK for the OnStackFailure parameter to the CreateChangeSet API operation.   Default: True
         public let disableRollback: Bool?
+        /// When set to true, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain. Default: false
+        public let retainExceptOnCreate: Bool?
         /// If you specified the name of a change set, specify the stack name or Amazon Resource Name (ARN) that's associated with the change set you want to execute.
         public let stackName: String?
 
-        public init(changeSetName: String, clientRequestToken: String? = nil, disableRollback: Bool? = nil, stackName: String? = nil) {
+        public init(changeSetName: String, clientRequestToken: String? = nil, disableRollback: Bool? = nil, retainExceptOnCreate: Bool? = nil, stackName: String? = nil) {
             self.changeSetName = changeSetName
             self.clientRequestToken = clientRequestToken
             self.disableRollback = disableRollback
+            self.retainExceptOnCreate = retainExceptOnCreate
             self.stackName = stackName
         }
 
@@ -2684,6 +2692,7 @@ extension CloudFormation {
             case changeSetName = "ChangeSetName"
             case clientRequestToken = "ClientRequestToken"
             case disableRollback = "DisableRollback"
+            case retainExceptOnCreate = "RetainExceptOnCreate"
             case stackName = "StackName"
         }
     }
@@ -2793,14 +2802,17 @@ extension CloudFormation {
         public let stackSetName: String?
         /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. For more information about templates, see Template anatomy in the CloudFormation User Guide. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
         public let templateBody: String?
+        /// Specifies options for the GetTemplateSummary API action.
+        public let templateSummaryConfig: TemplateSummaryConfig?
         /// Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that's located in an Amazon S3 bucket or a Systems Manager document. For more information about templates, see Template anatomy in the CloudFormation User Guide. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
         public let templateURL: String?
 
-        public init(callAs: CallAs? = nil, stackName: String? = nil, stackSetName: String? = nil, templateBody: String? = nil, templateURL: String? = nil) {
+        public init(callAs: CallAs? = nil, stackName: String? = nil, stackSetName: String? = nil, templateBody: String? = nil, templateSummaryConfig: TemplateSummaryConfig? = nil, templateURL: String? = nil) {
             self.callAs = callAs
             self.stackName = stackName
             self.stackSetName = stackSetName
             self.templateBody = templateBody
+            self.templateSummaryConfig = templateSummaryConfig
             self.templateURL = templateURL
         }
 
@@ -2818,6 +2830,7 @@ extension CloudFormation {
             case stackName = "StackName"
             case stackSetName = "StackSetName"
             case templateBody = "TemplateBody"
+            case templateSummaryConfig = "TemplateSummaryConfig"
             case templateURL = "TemplateURL"
         }
     }
@@ -2846,8 +2859,10 @@ extension CloudFormation {
         public var resourceTypes: [String]?
         /// The Amazon Web Services template format version, which identifies the capabilities of the template.
         public let version: String?
+        /// An object containing any warnings returned.
+        public let warnings: Warnings?
 
-        public init(capabilities: [Capability]? = nil, capabilitiesReason: String? = nil, declaredTransforms: [String]? = nil, description: String? = nil, metadata: String? = nil, parameters: [ParameterDeclaration]? = nil, resourceIdentifierSummaries: [ResourceIdentifierSummary]? = nil, resourceTypes: [String]? = nil, version: String? = nil) {
+        public init(capabilities: [Capability]? = nil, capabilitiesReason: String? = nil, declaredTransforms: [String]? = nil, description: String? = nil, metadata: String? = nil, parameters: [ParameterDeclaration]? = nil, resourceIdentifierSummaries: [ResourceIdentifierSummary]? = nil, resourceTypes: [String]? = nil, version: String? = nil, warnings: Warnings? = nil) {
             self.capabilities = capabilities
             self.capabilitiesReason = capabilitiesReason
             self.declaredTransforms = declaredTransforms
@@ -2857,6 +2872,7 @@ extension CloudFormation {
             self.resourceIdentifierSummaries = resourceIdentifierSummaries
             self.resourceTypes = resourceTypes
             self.version = version
+            self.warnings = warnings
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2869,6 +2885,7 @@ extension CloudFormation {
             case resourceIdentifierSummaries = "ResourceIdentifierSummaries"
             case resourceTypes = "ResourceTypes"
             case version = "Version"
+            case warnings = "Warnings"
         }
     }
 
@@ -3056,6 +3073,81 @@ extension CloudFormation {
         }
     }
 
+    public struct ListStackInstanceResourceDriftsInput: AWSEncodableShape {
+        /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide.
+        public let callAs: CallAs?
+        /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
+        public let maxResults: Int?
+        /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+        public let nextToken: String?
+        /// The unique ID of the drift operation.
+        public let operationId: String
+        /// The name of the Amazon Web Services account that you want to list resource drifts for.
+        public let stackInstanceAccount: String
+        /// The name of the Region where you want to list resource drifts.
+        public let stackInstanceRegion: String
+        /// The resource drift status of the stack instance.     DELETED: The resource differs from its expected template configuration in that the resource has been deleted.    MODIFIED: One or more resource properties differ from their expected template values.    IN_SYNC: The resource's actual configuration matches its expected template configuration.    NOT_CHECKED: CloudFormation doesn't currently return this value.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var stackInstanceResourceDriftStatuses: [StackResourceDriftStatus]?
+        /// The name or unique ID of the stack set that you want to list drifted resources for.
+        public let stackSetName: String
+
+        public init(callAs: CallAs? = nil, maxResults: Int? = nil, nextToken: String? = nil, operationId: String, stackInstanceAccount: String, stackInstanceRegion: String, stackInstanceResourceDriftStatuses: [StackResourceDriftStatus]? = nil, stackSetName: String) {
+            self.callAs = callAs
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.operationId = operationId
+            self.stackInstanceAccount = stackInstanceAccount
+            self.stackInstanceRegion = stackInstanceRegion
+            self.stackInstanceResourceDriftStatuses = stackInstanceResourceDriftStatuses
+            self.stackSetName = stackSetName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.operationId, name: "operationId", parent: name, max: 128)
+            try self.validate(self.operationId, name: "operationId", parent: name, min: 1)
+            try self.validate(self.operationId, name: "operationId", parent: name, pattern: "^[a-zA-Z0-9][-a-zA-Z0-9]*$")
+            try self.validate(self.stackInstanceAccount, name: "stackInstanceAccount", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.stackInstanceRegion, name: "stackInstanceRegion", parent: name, pattern: "^[a-zA-Z0-9-]{1,128}$")
+            try self.validate(self.stackInstanceResourceDriftStatuses, name: "stackInstanceResourceDriftStatuses", parent: name, max: 4)
+            try self.validate(self.stackInstanceResourceDriftStatuses, name: "stackInstanceResourceDriftStatuses", parent: name, min: 1)
+            try self.validate(self.stackSetName, name: "stackSetName", parent: name, pattern: "^[a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case callAs = "CallAs"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case operationId = "OperationId"
+            case stackInstanceAccount = "StackInstanceAccount"
+            case stackInstanceRegion = "StackInstanceRegion"
+            case stackInstanceResourceDriftStatuses = "StackInstanceResourceDriftStatuses"
+            case stackSetName = "StackSetName"
+        }
+    }
+
+    public struct ListStackInstanceResourceDriftsOutput: AWSDecodableShape {
+        /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+        public let nextToken: String?
+        /// A list of StackInstanceResourceDriftSummary structures that contain information about the specified stack instances.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var summaries: [StackInstanceResourceDriftsSummary]?
+
+        public init(nextToken: String? = nil, summaries: [StackInstanceResourceDriftsSummary]? = nil) {
+            self.nextToken = nextToken
+            self.summaries = summaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case summaries = "Summaries"
+        }
+    }
+
     public struct ListStackInstancesInput: AWSEncodableShape {
         /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide.
         public let callAs: CallAs?
@@ -3087,7 +3179,7 @@ extension CloudFormation {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try self.validate(self.filters, name: "filters", parent: name, max: 2)
+            try self.validate(self.filters, name: "filters", parent: name, max: 3)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
@@ -4187,13 +4279,16 @@ extension CloudFormation {
     public struct RollbackStackInput: AWSEncodableShape {
         /// A unique identifier for this RollbackStack request.
         public let clientRequestToken: String?
+        /// When set to true, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain. Default: false
+        public let retainExceptOnCreate: Bool?
         /// The Amazon Resource Name (ARN) of an Identity and Access Management role that CloudFormation assumes to rollback the stack.
         public let roleARN: String?
         /// The name that's associated with the stack.
         public let stackName: String
 
-        public init(clientRequestToken: String? = nil, roleARN: String? = nil, stackName: String) {
+        public init(clientRequestToken: String? = nil, retainExceptOnCreate: Bool? = nil, roleARN: String? = nil, stackName: String) {
             self.clientRequestToken = clientRequestToken
+            self.retainExceptOnCreate = retainExceptOnCreate
             self.roleARN = roleARN
             self.stackName = stackName
         }
@@ -4210,6 +4305,7 @@ extension CloudFormation {
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
+            case retainExceptOnCreate = "RetainExceptOnCreate"
             case roleARN = "RoleARN"
             case stackName = "StackName"
         }
@@ -4432,6 +4528,8 @@ extension CloudFormation {
         public var parameters: [Parameter]?
         /// For nested stacks--stacks created as resources for another stack--the stack ID of the direct parent of this stack. For the first level of nested stacks, the root stack is also the parent stack. For more information, see Working with Nested Stacks in the CloudFormation User Guide.
         public let parentId: String?
+        /// When set to true, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain. Default: false
+        public let retainExceptOnCreate: Bool?
         /// The Amazon Resource Name (ARN) of an Identity and Access Management (IAM) role that's associated with the stack. During a stack operation, CloudFormation uses this role's credentials to make calls on your behalf.
         public let roleARN: String?
         /// The rollback triggers for CloudFormation to monitor during stack creation and updating operations, and for the specified monitoring period afterwards.
@@ -4452,7 +4550,7 @@ extension CloudFormation {
         /// The amount of time within which stack creation should complete.
         public let timeoutInMinutes: Int?
 
-        public init(capabilities: [Capability]? = nil, changeSetId: String? = nil, creationTime: Date, deletionTime: Date? = nil, description: String? = nil, disableRollback: Bool? = nil, driftInformation: StackDriftInformation? = nil, enableTerminationProtection: Bool? = nil, lastUpdatedTime: Date? = nil, notificationARNs: [String]? = nil, outputs: [Output]? = nil, parameters: [Parameter]? = nil, parentId: String? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, rootId: String? = nil, stackId: String? = nil, stackName: String, stackStatus: StackStatus, stackStatusReason: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil) {
+        public init(capabilities: [Capability]? = nil, changeSetId: String? = nil, creationTime: Date, deletionTime: Date? = nil, description: String? = nil, disableRollback: Bool? = nil, driftInformation: StackDriftInformation? = nil, enableTerminationProtection: Bool? = nil, lastUpdatedTime: Date? = nil, notificationARNs: [String]? = nil, outputs: [Output]? = nil, parameters: [Parameter]? = nil, parentId: String? = nil, retainExceptOnCreate: Bool? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, rootId: String? = nil, stackId: String? = nil, stackName: String, stackStatus: StackStatus, stackStatusReason: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil) {
             self.capabilities = capabilities
             self.changeSetId = changeSetId
             self.creationTime = creationTime
@@ -4466,6 +4564,7 @@ extension CloudFormation {
             self.outputs = outputs
             self.parameters = parameters
             self.parentId = parentId
+            self.retainExceptOnCreate = retainExceptOnCreate
             self.roleARN = roleARN
             self.rollbackConfiguration = rollbackConfiguration
             self.rootId = rootId
@@ -4491,6 +4590,7 @@ extension CloudFormation {
             case outputs = "Outputs"
             case parameters = "Parameters"
             case parentId = "ParentId"
+            case retainExceptOnCreate = "RetainExceptOnCreate"
             case roleARN = "RoleARN"
             case rollbackConfiguration = "RollbackConfiguration"
             case rootId = "RootId"
@@ -4701,6 +4801,49 @@ extension CloudFormation {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case values = "Values"
+        }
+    }
+
+    public struct StackInstanceResourceDriftsSummary: AWSDecodableShape {
+        /// The logical name of the resource specified in the template.
+        public let logicalResourceId: String
+        /// The name or unique identifier that corresponds to a physical instance ID of a resource supported by CloudFormation.
+        public let physicalResourceId: String?
+        /// Context information that enables CloudFormation to uniquely identify a resource. CloudFormation uses context key-value pairs in cases where a resource's logical and physical IDs aren't enough to uniquely identify that resource. Each context key-value pair specifies a unique resource that contains the targeted resource.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var physicalResourceIdContext: [PhysicalResourceIdContextKeyValuePair]?
+        /// Status of the actual configuration of the resource compared to its expected configuration. These will be present only for resources whose StackInstanceResourceDriftStatus is MODIFIED.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var propertyDifferences: [PropertyDifference]?
+        /// Type of resource. For more information, go to Amazon Web Services Resource Types Reference in the CloudFormation User Guide.
+        public let resourceType: String
+        /// The ID of the stack instance.
+        public let stackId: String
+        /// The drift status of the resource in a stack instance.    DELETED: The resource differs from its expected template configuration in that the resource has been deleted.    MODIFIED: One or more resource properties differ from their expected template values.    IN_SYNC: The resource's actual configuration matches its expected template configuration.    NOT_CHECKED: CloudFormation doesn't currently return this value.
+        public let stackResourceDriftStatus: StackResourceDriftStatus
+        /// Time at which the stack instance drift detection operation was initiated.
+        public let timestamp: Date
+
+        public init(logicalResourceId: String, physicalResourceId: String? = nil, physicalResourceIdContext: [PhysicalResourceIdContextKeyValuePair]? = nil, propertyDifferences: [PropertyDifference]? = nil, resourceType: String, stackId: String, stackResourceDriftStatus: StackResourceDriftStatus, timestamp: Date) {
+            self.logicalResourceId = logicalResourceId
+            self.physicalResourceId = physicalResourceId
+            self.physicalResourceIdContext = physicalResourceIdContext
+            self.propertyDifferences = propertyDifferences
+            self.resourceType = resourceType
+            self.stackId = stackId
+            self.stackResourceDriftStatus = stackResourceDriftStatus
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logicalResourceId = "LogicalResourceId"
+            case physicalResourceId = "PhysicalResourceId"
+            case physicalResourceIdContext = "PhysicalResourceIdContext"
+            case propertyDifferences = "PropertyDifferences"
+            case resourceType = "ResourceType"
+            case stackId = "StackId"
+            case stackResourceDriftStatus = "StackResourceDriftStatus"
+            case timestamp = "Timestamp"
         }
     }
 
@@ -5496,6 +5639,19 @@ extension CloudFormation {
         }
     }
 
+    public struct TemplateSummaryConfig: AWSEncodableShape {
+        /// If set to True, any unrecognized resource types generate warnings and not an error. Any unrecognized resource types are returned in the Warnings output parameter.
+        public let treatUnrecognizedResourceTypesAsWarnings: Bool?
+
+        public init(treatUnrecognizedResourceTypesAsWarnings: Bool? = nil) {
+            self.treatUnrecognizedResourceTypesAsWarnings = treatUnrecognizedResourceTypesAsWarnings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case treatUnrecognizedResourceTypesAsWarnings = "TreatUnrecognizedResourceTypesAsWarnings"
+        }
+    }
+
     public struct TestTypeInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the extension. Conditional: You must specify Arn, or TypeName and Type.
         public let arn: String?
@@ -5780,6 +5936,8 @@ extension CloudFormation {
         /// The template resource types that you have permissions to work with for this update stack action, such as AWS::EC2::Instance, AWS::EC2::*, or Custom::MyCustomInstance. If the list of resource types doesn't include a resource that you're updating, the stack update fails. By default, CloudFormation grants permissions to all resource types. Identity and Access Management (IAM) uses this parameter for CloudFormation-specific condition keys in IAM policies. For more information, see Controlling Access with Identity and Access Management.
         @OptionalCustomCoding<StandardArrayCoder>
         public var resourceTypes: [String]?
+        /// When set to true, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain. Default: false
+        public let retainExceptOnCreate: Bool?
         /// The Amazon Resource Name (ARN) of an Identity and Access Management (IAM) role that CloudFormation assumes to update the stack. CloudFormation uses the role's credentials to make calls on your behalf. CloudFormation always uses this role for all future operations on the stack. Provided that users have permission to operate on the stack, CloudFormation uses this role even if the users don't have permission to pass it. Ensure that the role grants least privilege. If you don't specify a value, CloudFormation uses the role that was previously associated with the stack. If no role is available, CloudFormation uses a temporary session that is generated from your user credentials.
         public let roleARN: String?
         /// The rollback triggers for CloudFormation to monitor during stack creation and updating operations, and for the specified monitoring period afterwards.
@@ -5804,13 +5962,14 @@ extension CloudFormation {
         /// Reuse the existing template that is associated with the stack that you are updating. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
         public let usePreviousTemplate: Bool?
 
-        public init(capabilities: [Capability]? = nil, clientRequestToken: String? = nil, disableRollback: Bool? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackName: String, stackPolicyBody: String? = nil, stackPolicyDuringUpdateBody: String? = nil, stackPolicyDuringUpdateURL: String? = nil, stackPolicyURL: String? = nil, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, usePreviousTemplate: Bool? = nil) {
+        public init(capabilities: [Capability]? = nil, clientRequestToken: String? = nil, disableRollback: Bool? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, retainExceptOnCreate: Bool? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackName: String, stackPolicyBody: String? = nil, stackPolicyDuringUpdateBody: String? = nil, stackPolicyDuringUpdateURL: String? = nil, stackPolicyURL: String? = nil, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, usePreviousTemplate: Bool? = nil) {
             self.capabilities = capabilities
             self.clientRequestToken = clientRequestToken
             self.disableRollback = disableRollback
             self.notificationARNs = notificationARNs
             self.parameters = parameters
             self.resourceTypes = resourceTypes
+            self.retainExceptOnCreate = retainExceptOnCreate
             self.roleARN = roleARN
             self.rollbackConfiguration = rollbackConfiguration
             self.stackName = stackName
@@ -5860,6 +6019,7 @@ extension CloudFormation {
             case notificationARNs = "NotificationARNs"
             case parameters = "Parameters"
             case resourceTypes = "ResourceTypes"
+            case retainExceptOnCreate = "RetainExceptOnCreate"
             case roleARN = "RoleARN"
             case rollbackConfiguration = "RollbackConfiguration"
             case stackName = "StackName"
@@ -6177,6 +6337,20 @@ extension CloudFormation {
             case declaredTransforms = "DeclaredTransforms"
             case description = "Description"
             case parameters = "Parameters"
+        }
+    }
+
+    public struct Warnings: AWSDecodableShape {
+        /// A list of all of the unrecognized resource types. This is only returned if the TemplateSummaryConfig parameter has the TreatUnrecognizedResourceTypesAsWarning configuration set to True.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var unrecognizedResourceTypes: [String]?
+
+        public init(unrecognizedResourceTypes: [String]? = nil) {
+            self.unrecognizedResourceTypes = unrecognizedResourceTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unrecognizedResourceTypes = "UnrecognizedResourceTypes"
         }
     }
 }

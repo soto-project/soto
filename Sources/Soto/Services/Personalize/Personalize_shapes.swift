@@ -1350,7 +1350,7 @@ extension Personalize {
         public let performAutoML: Bool?
         /// Whether to perform hyperparameter optimization (HPO) on the specified or selected recipe. The default is false. When performing AutoML, this parameter is always true and you should not set it to false.
         public let performHPO: Bool?
-        /// The ARN of the recipe to use for model training. Only specified when performAutoML is false.
+        /// The ARN of the recipe to use for model training. This is required when performAutoML is false.
         public let recipeArn: String?
         /// The configuration to use with the solution. When performAutoML is set to true, Amazon Personalize only evaluates the autoMLConfig section of the solution configuration.  Amazon Personalize doesn't support configuring the hpoObjective  at this time.
         public let solutionConfig: SolutionConfig?
@@ -1488,6 +1488,8 @@ extension Personalize {
         public let datasetType: String?
         /// A time stamp that shows when the dataset was updated.
         public let lastUpdatedDateTime: Date?
+        /// Describes the latest update to the dataset.
+        public let latestDatasetUpdate: DatasetUpdateSummary?
         /// The name of the dataset.
         public let name: String?
         /// The ARN of the associated schema.
@@ -1495,12 +1497,13 @@ extension Personalize {
         /// The status of the dataset. A dataset can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS
         public let status: String?
 
-        public init(creationDateTime: Date? = nil, datasetArn: String? = nil, datasetGroupArn: String? = nil, datasetType: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, schemaArn: String? = nil, status: String? = nil) {
+        public init(creationDateTime: Date? = nil, datasetArn: String? = nil, datasetGroupArn: String? = nil, datasetType: String? = nil, lastUpdatedDateTime: Date? = nil, latestDatasetUpdate: DatasetUpdateSummary? = nil, name: String? = nil, schemaArn: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetArn = datasetArn
             self.datasetGroupArn = datasetGroupArn
             self.datasetType = datasetType
             self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.latestDatasetUpdate = latestDatasetUpdate
             self.name = name
             self.schemaArn = schemaArn
             self.status = status
@@ -1512,6 +1515,7 @@ extension Personalize {
             case datasetGroupArn = "datasetGroupArn"
             case datasetType = "datasetType"
             case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case latestDatasetUpdate = "latestDatasetUpdate"
             case name = "name"
             case schemaArn = "schemaArn"
             case status = "status"
@@ -1879,6 +1883,35 @@ extension Personalize {
             case datasetType = "datasetType"
             case lastUpdatedDateTime = "lastUpdatedDateTime"
             case name = "name"
+            case status = "status"
+        }
+    }
+
+    public struct DatasetUpdateSummary: AWSDecodableShape {
+        /// The creation date and time (in Unix time) of the dataset update.
+        public let creationDateTime: Date?
+        /// If updating a dataset fails, provides the reason why.
+        public let failureReason: String?
+        /// The last update date and time (in Unix time) of the dataset.
+        public let lastUpdatedDateTime: Date?
+        /// The Amazon Resource Name (ARN) of the schema that replaced the previous schema of the dataset.
+        public let schemaArn: String?
+        /// The status of the dataset update.
+        public let status: String?
+
+        public init(creationDateTime: Date? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, schemaArn: String? = nil, status: String? = nil) {
+            self.creationDateTime = creationDateTime
+            self.failureReason = failureReason
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.schemaArn = schemaArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "creationDateTime"
+            case failureReason = "failureReason"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case schemaArn = "schemaArn"
             case status = "status"
         }
     }
@@ -4196,7 +4229,7 @@ extension Personalize {
         public let performAutoML: Bool?
         /// Whether to perform hyperparameter optimization (HPO) on the chosen recipe. The default is false.
         public let performHPO: Bool?
-        /// The ARN of the recipe used to create the solution.
+        /// The ARN of the recipe used to create the solution. This is required when performAutoML is false.
         public let recipeArn: String?
         /// The ARN of the solution.
         public let solutionArn: String?
@@ -4673,6 +4706,43 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case campaignArn = "campaignArn"
+        }
+    }
+
+    public struct UpdateDatasetRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the dataset that you want to update.
+        public let datasetArn: String
+        /// The Amazon Resource Name (ARN) of the new schema you want use.
+        public let schemaArn: String
+
+        public init(datasetArn: String, schemaArn: String) {
+            self.datasetArn = datasetArn
+            self.schemaArn = schemaArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 256)
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
+            try self.validate(self.schemaArn, name: "schemaArn", parent: name, max: 256)
+            try self.validate(self.schemaArn, name: "schemaArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetArn = "datasetArn"
+            case schemaArn = "schemaArn"
+        }
+    }
+
+    public struct UpdateDatasetResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the dataset you updated.
+        public let datasetArn: String?
+
+        public init(datasetArn: String? = nil) {
+            self.datasetArn = datasetArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetArn = "datasetArn"
         }
     }
 

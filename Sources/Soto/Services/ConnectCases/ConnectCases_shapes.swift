@@ -78,6 +78,8 @@ extension ConnectCases {
         /// A list of fields to filter on.
         case field(FieldFilter)
         case not(CaseFilter)
+        /// Provides "or all" filtering.
+        case orAll([CaseFilter])
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -88,6 +90,8 @@ extension ConnectCases {
                 try container.encode(value, forKey: .field)
             case .not(let value):
                 try container.encode(value, forKey: .not)
+            case .orAll(let value):
+                try container.encode(value, forKey: .orAll)
             }
         }
 
@@ -101,6 +105,10 @@ extension ConnectCases {
                 try value.validate(name: "\(name).field")
             case .not(let value):
                 try value.validate(name: "\(name).not")
+            case .orAll(let value):
+                try value.forEach {
+                    try $0.validate(name: "\(name).orAll[]")
+                }
             }
         }
 
@@ -108,6 +116,7 @@ extension ConnectCases {
             case andAll = "andAll"
             case field = "field"
             case not = "not"
+            case orAll = "orAll"
         }
     }
 
@@ -175,6 +184,8 @@ extension ConnectCases {
         case booleanValue(Bool)
         /// Can be either null, or have a Double number value type. Only one value can be provided.
         case doubleValue(Double)
+        /// An empty value.
+        case emptyValue(EmptyFieldValue)
         /// String value type.
         case stringValue(String)
 
@@ -194,6 +205,9 @@ extension ConnectCases {
             case .doubleValue:
                 let value = try container.decode(Double.self, forKey: .doubleValue)
                 self = .doubleValue(value)
+            case .emptyValue:
+                let value = try container.decode(EmptyFieldValue.self, forKey: .emptyValue)
+                self = .emptyValue(value)
             case .stringValue:
                 let value = try container.decode(String.self, forKey: .stringValue)
                 self = .stringValue(value)
@@ -207,6 +221,8 @@ extension ConnectCases {
                 try container.encode(value, forKey: .booleanValue)
             case .doubleValue(let value):
                 try container.encode(value, forKey: .doubleValue)
+            case .emptyValue(let value):
+                try container.encode(value, forKey: .emptyValue)
             case .stringValue(let value):
                 try container.encode(value, forKey: .stringValue)
             }
@@ -215,6 +231,7 @@ extension ConnectCases {
         private enum CodingKeys: String, CodingKey {
             case booleanValue = "booleanValue"
             case doubleValue = "doubleValue"
+            case emptyValue = "emptyValue"
             case stringValue = "stringValue"
         }
     }
@@ -920,6 +937,10 @@ extension ConnectCases {
             case domainId = "domainId"
             case name = "name"
         }
+    }
+
+    public struct EmptyFieldValue: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
     }
 
     public struct EventBridgeConfiguration: AWSEncodableShape & AWSDecodableShape {

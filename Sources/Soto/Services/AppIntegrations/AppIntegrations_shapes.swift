@@ -28,6 +28,146 @@ extension AppIntegrations {
 
     // MARK: Shapes
 
+    public struct ApplicationSourceConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The external URL source for the application.
+        public let externalUrlConfig: ExternalUrlConfig?
+
+        public init(externalUrlConfig: ExternalUrlConfig? = nil) {
+            self.externalUrlConfig = externalUrlConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.externalUrlConfig?.validate(name: "\(name).externalUrlConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalUrlConfig = "ExternalUrlConfig"
+        }
+    }
+
+    public struct ApplicationSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Application.
+        public let arn: String?
+        /// The time when the application was created.
+        public let createdTime: Date?
+        /// A unique identifier for the Application.
+        public let id: String?
+        /// The time when the application was last modified.
+        public let lastModifiedTime: Date?
+        /// The name of the application.
+        public let name: String?
+        /// The namespace of the application.
+        public let namespace: String?
+
+        public init(arn: String? = nil, createdTime: Date? = nil, id: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.namespace = namespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case id = "Id"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case namespace = "Namespace"
+        }
+    }
+
+    public struct CreateApplicationRequest: AWSEncodableShape {
+        /// The configuration for where the application should be loaded from.
+        public let applicationSourceConfig: ApplicationSourceConfig
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
+        /// The description of the application.
+        public let description: String?
+        /// The name of the application.
+        public let name: String
+        /// The namespace of the application.
+        public let namespace: String
+        /// The events that the application publishes.
+        public let publications: [Publication]?
+        /// The events that the application subscribes.
+        public let subscriptions: [Subscription]?
+        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        public let tags: [String: String]?
+
+        public init(applicationSourceConfig: ApplicationSourceConfig, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, name: String, namespace: String, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil, tags: [String: String]? = nil) {
+            self.applicationSourceConfig = applicationSourceConfig
+            self.clientToken = clientToken
+            self.description = description
+            self.name = name
+            self.namespace = namespace
+            self.publications = publications
+            self.subscriptions = subscriptions
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.applicationSourceConfig.validate(name: "\(name).applicationSourceConfig")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: ".*")
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\/\\._ \\-]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 32)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9\\/\\._\\-]+$")
+            try self.publications?.forEach {
+                try $0.validate(name: "\(name).publications[]")
+            }
+            try self.validate(self.publications, name: "publications", parent: name, max: 50)
+            try self.subscriptions?.forEach {
+                try $0.validate(name: "\(name).subscriptions[]")
+            }
+            try self.validate(self.subscriptions, name: "subscriptions", parent: name, max: 50)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationSourceConfig = "ApplicationSourceConfig"
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case name = "Name"
+            case namespace = "Namespace"
+            case publications = "Publications"
+            case subscriptions = "Subscriptions"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateApplicationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Application.
+        public let arn: String?
+        /// A unique identifier for the Application.
+        public let id: String?
+
+        public init(arn: String? = nil, id: String? = nil) {
+            self.arn = arn
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+        }
+    }
+
     public struct CreateDataIntegrationRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
@@ -406,6 +546,36 @@ extension AppIntegrations {
         }
     }
 
+    public struct ExternalUrlConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The URL to access the application.
+        public let accessUrl: String
+        /// Additional URLs to allow list if different than the access URL.
+        public let approvedOrigins: [String]?
+
+        public init(accessUrl: String, approvedOrigins: [String]? = nil) {
+            self.accessUrl = accessUrl
+            self.approvedOrigins = approvedOrigins
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessUrl, name: "accessUrl", parent: name, max: 1000)
+            try self.validate(self.accessUrl, name: "accessUrl", parent: name, min: 1)
+            try self.validate(self.accessUrl, name: "accessUrl", parent: name, pattern: "^\\w+\\:\\/\\/.*$")
+            try self.approvedOrigins?.forEach {
+                try validate($0, name: "approvedOrigins[]", parent: name, max: 128)
+                try validate($0, name: "approvedOrigins[]", parent: name, min: 1)
+                try validate($0, name: "approvedOrigins[]", parent: name, pattern: "^\\w+\\:\\/\\/.*$")
+            }
+            try self.validate(self.approvedOrigins, name: "approvedOrigins", parent: name, max: 50)
+            try self.validate(self.approvedOrigins, name: "approvedOrigins", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessUrl = "AccessUrl"
+            case approvedOrigins = "ApprovedOrigins"
+        }
+    }
+
     public struct FileConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Restrictions for what files should be pulled from the source.
         public let filters: [String: [String]]?
@@ -437,6 +607,80 @@ extension AppIntegrations {
         private enum CodingKeys: String, CodingKey {
             case filters = "Filters"
             case folders = "Folders"
+        }
+    }
+
+    public struct GetApplicationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
+        ]
+
+        /// The Amazon Resource Name (ARN) of the Application.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 2048)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})(:[\\w\\$]+)?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetApplicationResponse: AWSDecodableShape {
+        /// The configuration for where the application should be loaded from.
+        public let applicationSourceConfig: ApplicationSourceConfig?
+        /// The Amazon Resource Name (ARN) of the Application.
+        public let arn: String?
+        /// The created time of the Application.
+        public let createdTime: Date?
+        /// The description of the application.
+        public let description: String?
+        /// A unique identifier for the Application.
+        public let id: String?
+        /// The last modified time of the Application.
+        public let lastModifiedTime: Date?
+        /// The name of the application.
+        public let name: String?
+        /// The namespace of the application.
+        public let namespace: String?
+        /// The events that the application publishes.
+        public let publications: [Publication]?
+        /// The events that the application subscribes.
+        public let subscriptions: [Subscription]?
+        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        public let tags: [String: String]?
+
+        public init(applicationSourceConfig: ApplicationSourceConfig? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil, tags: [String: String]? = nil) {
+            self.applicationSourceConfig = applicationSourceConfig
+            self.arn = arn
+            self.createdTime = createdTime
+            self.description = description
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.namespace = namespace
+            self.publications = publications
+            self.subscriptions = subscriptions
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationSourceConfig = "ApplicationSourceConfig"
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case id = "Id"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case namespace = "Namespace"
+            case publications = "Publications"
+            case subscriptions = "Subscriptions"
+            case tags = "Tags"
         }
     }
 
@@ -561,6 +805,51 @@ extension AppIntegrations {
             case eventIntegrationArn = "EventIntegrationArn"
             case name = "Name"
             case tags = "Tags"
+        }
+    }
+
+    public struct ListApplicationsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListApplicationsResponse: AWSDecodableShape {
+        /// The Applications associated with this account.
+        public let applications: [ApplicationSummary]?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        public init(applications: [ApplicationSummary]? = nil, nextToken: String? = nil) {
+            self.applications = applications
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applications = "Applications"
+            case nextToken = "NextToken"
         }
     }
 
@@ -792,6 +1081,39 @@ extension AppIntegrations {
         }
     }
 
+    public struct Publication: AWSEncodableShape & AWSDecodableShape {
+        /// The description of the publication.
+        public let description: String?
+        /// The name of the publication.
+        public let event: String
+        /// The JSON schema of the publication event.
+        public let schema: String
+
+        public init(description: String? = nil, event: String, schema: String) {
+            self.description = description
+            self.event = event
+            self.schema = schema
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.validate(self.event, name: "event", parent: name, max: 255)
+            try self.validate(self.event, name: "event", parent: name, min: 1)
+            try self.validate(self.event, name: "event", parent: name, pattern: "^[a-zA-Z0-9\\/\\._\\-]+::[a-zA-Z0-9\\/\\._\\-]+(?:\\*)?$")
+            try self.validate(self.schema, name: "schema", parent: name, max: 10240)
+            try self.validate(self.schema, name: "schema", parent: name, min: 1)
+            try self.validate(self.schema, name: "schema", parent: name, pattern: "^.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case event = "Event"
+            case schema = "Schema"
+        }
+    }
+
     public struct ScheduleConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The start date for objects to import in the first flow run as an Unix/epoch timestamp in milliseconds or in ISO-8601 format.
         public let firstExecutionFrom: String?
@@ -822,6 +1144,32 @@ extension AppIntegrations {
             case firstExecutionFrom = "FirstExecutionFrom"
             case object = "Object"
             case scheduleExpression = "ScheduleExpression"
+        }
+    }
+
+    public struct Subscription: AWSEncodableShape & AWSDecodableShape {
+        /// The description of the subscription.
+        public let description: String?
+        /// The name of the subscription.
+        public let event: String
+
+        public init(description: String? = nil, event: String) {
+            self.description = description
+            self.event = event
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.validate(self.event, name: "event", parent: name, max: 255)
+            try self.validate(self.event, name: "event", parent: name, min: 1)
+            try self.validate(self.event, name: "event", parent: name, pattern: "^[a-zA-Z0-9\\/\\._\\-]+::[a-zA-Z0-9\\/\\._\\-]+(?:\\*)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case event = "Event"
         }
     }
 
@@ -899,6 +1247,67 @@ extension AppIntegrations {
         public init() {}
     }
 
+    public struct UpdateApplicationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
+        ]
+
+        /// The configuration for where the application should be loaded from.
+        public let applicationSourceConfig: ApplicationSourceConfig?
+        /// The Amazon Resource Name (ARN) of the Application.
+        public let arn: String
+        /// The description of the application.
+        public let description: String?
+        /// The name of the application.
+        public let name: String?
+        /// The events that the application publishes.
+        public let publications: [Publication]?
+        /// The events that the application subscribes.
+        public let subscriptions: [Subscription]?
+
+        public init(applicationSourceConfig: ApplicationSourceConfig? = nil, arn: String, description: String? = nil, name: String? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil) {
+            self.applicationSourceConfig = applicationSourceConfig
+            self.arn = arn
+            self.description = description
+            self.name = name
+            self.publications = publications
+            self.subscriptions = subscriptions
+        }
+
+        public func validate(name: String) throws {
+            try self.applicationSourceConfig?.validate(name: "\(name).applicationSourceConfig")
+            try self.validate(self.arn, name: "arn", parent: name, max: 2048)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})(:[\\w\\$]+)?$")
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\/\\._ \\-]+$")
+            try self.publications?.forEach {
+                try $0.validate(name: "\(name).publications[]")
+            }
+            try self.validate(self.publications, name: "publications", parent: name, max: 50)
+            try self.subscriptions?.forEach {
+                try $0.validate(name: "\(name).subscriptions[]")
+            }
+            try self.validate(self.subscriptions, name: "subscriptions", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationSourceConfig = "ApplicationSourceConfig"
+            case description = "Description"
+            case name = "Name"
+            case publications = "Publications"
+            case subscriptions = "Subscriptions"
+        }
+    }
+
+    public struct UpdateApplicationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateDataIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
@@ -944,7 +1353,7 @@ extension AppIntegrations {
             AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
-        /// The description of the event inegration.
+        /// The description of the event integration.
         public let description: String?
         /// The name of the event integration.
         public let name: String

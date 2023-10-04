@@ -588,11 +588,11 @@ extension SimSpaceWeaver {
 
     public struct S3Destination: AWSEncodableShape {
         /// The name of an Amazon S3 bucket. For more information about buckets, see Creating, configuring, and working with Amazon S3 buckets in the Amazon Simple Storage Service User Guide.
-        public let bucketName: String?
+        public let bucketName: String
         /// A string prefix for an Amazon S3 object key. It's usually a folder name. For more information about folders in Amazon S3, see Organizing objects in the Amazon S3 console using folders in the Amazon Simple Storage Service User Guide.
         public let objectKeyPrefix: String?
 
-        public init(bucketName: String? = nil, objectKeyPrefix: String? = nil) {
+        public init(bucketName: String, objectKeyPrefix: String? = nil) {
             self.bucketName = bucketName
             self.objectKeyPrefix = objectKeyPrefix
         }
@@ -611,11 +611,11 @@ extension SimSpaceWeaver {
 
     public struct S3Location: AWSEncodableShape & AWSDecodableShape {
         /// The name of an Amazon S3 bucket. For more information about buckets, see Creating, configuring, and working with Amazon S3 buckets in the Amazon Simple Storage Service User Guide.
-        public let bucketName: String?
+        public let bucketName: String
         /// The key name of an object in Amazon S3. For more information about Amazon S3 objects and object keys, see Uploading, downloading, and working with objects in Amazon S3 in the Amazon Simple Storage Service User Guide.
-        public let objectKey: String?
+        public let objectKey: String
 
-        public init(bucketName: String? = nil, objectKey: String? = nil) {
+        public init(bucketName: String, objectKey: String) {
             self.bucketName = bucketName
             self.objectKey = objectKey
         }

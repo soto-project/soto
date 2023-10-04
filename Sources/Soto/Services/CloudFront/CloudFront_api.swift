@@ -91,7 +91,7 @@ public struct CloudFront: AWSService {
     /// 			primary distribution) that you can use in a continuous deployment workflow. After you create a staging distribution, you can use UpdateDistribution
     /// 			to modify the staging distribution's configuration. Then you can use
     /// 				CreateContinuousDeploymentPolicy to incrementally move traffic to the
-    /// 			staging distribution.
+    /// 			staging distribution. This API operation requires the following IAM permissions:    GetDistribution     CreateDistribution     CopyDistribution
     public func copyDistribution(_ input: CopyDistributionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CopyDistributionResult> {
         return self.client.execute(operation: "CopyDistribution", path: "/2020-05-31/distribution/{PrimaryDistributionId}/copy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -137,7 +137,8 @@ public struct CloudFront: AWSService {
         return self.client.execute(operation: "CreateDistribution", path: "/2020-05-31/distribution", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Create a new distribution with tags.
+    /// Create a new distribution with tags. This API operation requires the following IAM
+    /// 			permissions:    CreateDistribution     TagResource
     public func createDistributionWithTags(_ input: CreateDistributionWithTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDistributionWithTagsResult> {
         return self.client.execute(operation: "CreateDistributionWithTags", path: "/2020-05-31/distribution?WithTags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -855,7 +856,7 @@ public struct CloudFront: AWSService {
     /// 			policy to move a portion of your domain name's traffic to the staging distribution and
     /// 			verifying that it works as intended, you can use this operation to copy the staging
     /// 			distribution's configuration to the primary distribution. This action will disable the
-    /// 			continuous deployment policy and move your domain's traffic back to the primary distribution.
+    /// 			continuous deployment policy and move your domain's traffic back to the primary distribution. This API operation requires the following IAM permissions:    GetDistribution     UpdateDistribution
     public func updateDistributionWithStagingConfig(_ input: UpdateDistributionWithStagingConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDistributionWithStagingConfigResult> {
         return self.client.execute(operation: "UpdateDistributionWithStagingConfig", path: "/2020-05-31/distribution/{Id}/promote-staging-config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

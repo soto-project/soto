@@ -93,6 +93,11 @@ public struct Drs: AWSService {
         return self.client.execute(operation: "DeleteJob", path: "/DeleteJob", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes a resource launch action.
+    public func deleteLaunchAction(_ input: DeleteLaunchActionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteLaunchActionResponse> {
+        return self.client.execute(operation: "DeleteLaunchAction", path: "/DeleteLaunchAction", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a single Launch Configuration Template by ID.
     public func deleteLaunchConfigurationTemplate(_ input: DeleteLaunchConfigurationTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteLaunchConfigurationTemplateResponse> {
         return self.client.execute(operation: "DeleteLaunchConfigurationTemplate", path: "/DeleteLaunchConfigurationTemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -198,6 +203,11 @@ public struct Drs: AWSService {
         return self.client.execute(operation: "ListExtensibleSourceServers", path: "/ListExtensibleSourceServers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists resource launch actions.
+    public func listLaunchActions(_ input: ListLaunchActionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLaunchActionsResponse> {
+        return self.client.execute(operation: "ListLaunchActions", path: "/ListLaunchActions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns an array of staging accounts for existing extended source servers.
     public func listStagingAccounts(_ input: ListStagingAccountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStagingAccountsResponse> {
         return self.client.execute(operation: "ListStagingAccounts", path: "/ListStagingAccounts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -206,6 +216,11 @@ public struct Drs: AWSService {
     /// List all tags for your Elastic Disaster Recovery resources.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Puts a resource launch action.
+    public func putLaunchAction(_ input: PutLaunchActionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutLaunchActionResponse> {
+        return self.client.execute(operation: "PutLaunchAction", path: "/PutLaunchAction", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// WARNING: RetryDataReplication is deprecated. Causes the data replication initiation sequence to begin immediately upon next Handshake for the specified Source Server ID, regardless of when the previous initiation started. This command will work only if the Source Server is stalled or is in a DISCONNECTED or STOPPED state.
@@ -789,6 +804,59 @@ extension Drs {
         )
     }
 
+    /// Lists resource launch actions.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listLaunchActionsPaginator<Result>(
+        _ input: ListLaunchActionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListLaunchActionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listLaunchActions,
+            inputKey: \ListLaunchActionsRequest.nextToken,
+            outputKey: \ListLaunchActionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listLaunchActionsPaginator(
+        _ input: ListLaunchActionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListLaunchActionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listLaunchActions,
+            inputKey: \ListLaunchActionsRequest.nextToken,
+            outputKey: \ListLaunchActionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// Returns an array of staging accounts for existing extended source servers.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -931,6 +999,17 @@ extension Drs.ListExtensibleSourceServersRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             stagingAccountID: self.stagingAccountID
+        )
+    }
+}
+
+extension Drs.ListLaunchActionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Drs.ListLaunchActionsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceId: self.resourceId
         )
     }
 }

@@ -182,8 +182,7 @@ extension Route53RecoveryCluster {
         public let routingControlState: RoutingControlState
         /// The Amazon Resource Names (ARNs) for the safety rules that you want to override when you're updating the state of
         /// 			a routing control. You can override one safety rule or multiple safety rules by including one or more ARNs, separated
-        /// 			by commas.
-        /// 		       For more information, see
+        /// 			by commas. For more information, see
         /// 			Override safety rules to reroute traffic in the Amazon Route 53 Application Recovery Controller Developer Guide.
         public let safetyRulesToOverride: [String]?
 
@@ -218,8 +217,7 @@ extension Route53RecoveryCluster {
     public struct UpdateRoutingControlStatesRequest: AWSEncodableShape {
         /// The Amazon Resource Names (ARNs) for the safety rules that you want to override when you're updating routing
         /// 			control states. You can override one safety rule or multiple safety rules by including one or more ARNs, separated
-        /// 			by commas.
-        /// 		       For more information, see
+        /// 			by commas. For more information, see
         /// 			Override safety rules to reroute traffic in the Amazon Route 53 Application Recovery Controller Developer Guide.
         public let safetyRulesToOverride: [String]?
         /// A set of routing control entries that you want to update.

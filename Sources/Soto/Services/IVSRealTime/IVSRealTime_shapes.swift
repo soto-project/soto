@@ -28,6 +28,8 @@ extension IVSRealTime {
 
     public enum EventErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case insufficientCapabilities = "INSUFFICIENT_CAPABILITIES"
+        case publisherNotFound = "PUBLISHER_NOT_FOUND"
+        case quotaExceeded = "QUOTA_EXCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -219,7 +221,7 @@ extension IVSRealTime {
     }
 
     public struct Event: AWSDecodableShape {
-        /// If the event is an error event, the error code is provided to give insight into the specific error that occurred. If the event is not an error event, this field is null. INSUFFICIENT_CAPABILITIES indicates that the participant tried to take an action that the participant’s token is not allowed to do. For more information about participant capabilities, see the capabilities field in CreateParticipantToken.
+        /// If the event is an error event, the error code is provided to give insight into the specific error that occurred. If the event is not an error event, this field is null. INSUFFICIENT_CAPABILITIES indicates that the participant tried to take an action that the participant’s token is not allowed to do. For more information about participant capabilities, see the capabilities field in CreateParticipantToken. QUOTA_EXCEEDED indicates that the number of participants who want to publish/subscribe to a stage exceeds the quota; for more information, see Service Quotas. PUBLISHER_NOT_FOUND indicates that the participant tried to subscribe to a publisher that doesn’t exist.
         public let errorCode: EventErrorCode?
         /// ISO 8601 timestamp (returned as a string) for when the event occurred.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -681,7 +683,7 @@ extension IVSRealTime {
         public let attributes: [String: String]?
         /// Set of capabilities that the user is allowed to perform in the stage.
         public let capabilities: [ParticipantTokenCapability]?
-        /// Duration (in minutes), after which the participant token expires. Default:  720 (12 hours).
+        /// Duration (in minutes), after which the participant token expires. Default: 720 (12 hours).
         public let duration: Int?
         /// ISO 8601 timestamp (returned as a string) for when this token expires.
         @OptionalCustomCoding<ISO8601DateCoder>

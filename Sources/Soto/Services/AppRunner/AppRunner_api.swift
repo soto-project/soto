@@ -82,7 +82,7 @@ public struct AppRunner: AWSService {
         return self.client.execute(operation: "CreateAutoScalingConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Create an App Runner connection resource. App Runner requires a connection resource when you create App Runner services that access private repositories from certain third-party providers. You can share a connection across multiple services. A connection resource is needed to access GitHub repositories. GitHub requires a user interface approval process through the App Runner console before you can use the connection.
+    /// Create an App Runner connection resource. App Runner requires a connection resource when you create App Runner services that access private repositories from certain third-party providers. You can share a connection across multiple services. A connection resource is needed to access GitHub and Bitbucket repositories. Both require a user interface approval process through the App Runner console before you can use the connection.
     public func createConnection(_ input: CreateConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConnectionResponse> {
         return self.client.execute(operation: "CreateConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -107,7 +107,7 @@ public struct AppRunner: AWSService {
         return self.client.execute(operation: "CreateVpcIngressConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Delete an App Runner automatic scaling configuration resource. You can delete a specific revision or the latest active revision. You can't delete a configuration that's used by one or more App Runner services.
+    /// Delete an App Runner automatic scaling configuration resource. You can delete a top level auto scaling configuration, a specific revision of one, or all revisions associated with the top level configuration. You can't delete the default auto scaling configuration or a configuration that's used by one or more App Runner services.
     public func deleteAutoScalingConfiguration(_ input: DeleteAutoScalingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAutoScalingConfigurationResponse> {
         return self.client.execute(operation: "DeleteAutoScalingConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -197,6 +197,11 @@ public struct AppRunner: AWSService {
         return self.client.execute(operation: "ListServices", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns a list of the associated App Runner services using an auto scaling configuration.
+    public func listServicesForAutoScalingConfiguration(_ input: ListServicesForAutoScalingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListServicesForAutoScalingConfigurationResponse> {
+        return self.client.execute(operation: "ListServicesForAutoScalingConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// List tags that are associated with for an App Runner resource. The response contains a list of tag key-value pairs.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -235,6 +240,11 @@ public struct AppRunner: AWSService {
     /// Remove tags from an App Runner resource.
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
         return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Update an auto scaling configuration to be the default. The existing default auto scaling configuration will be set to non-default automatically.
+    public func updateDefaultAutoScalingConfiguration(_ input: UpdateDefaultAutoScalingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDefaultAutoScalingConfigurationResponse> {
+        return self.client.execute(operation: "UpdateDefaultAutoScalingConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Update an App Runner service. You can update the source configuration and instance configuration of the service. You can also update the ARN of the auto scaling configuration resource that's associated with the service. However, you can't change the name or the encryption configuration of the service. These can be set only when you create the service. To update the tags applied to your service, use the separate actions TagResource and UntagResource. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the ListOperations call to track the operation's progress.
@@ -578,6 +588,59 @@ extension AppRunner {
         )
     }
 
+    /// Returns a list of the associated App Runner services using an auto scaling configuration.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listServicesForAutoScalingConfigurationPaginator<Result>(
+        _ input: ListServicesForAutoScalingConfigurationRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListServicesForAutoScalingConfigurationResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listServicesForAutoScalingConfiguration,
+            inputKey: \ListServicesForAutoScalingConfigurationRequest.nextToken,
+            outputKey: \ListServicesForAutoScalingConfigurationResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listServicesForAutoScalingConfigurationPaginator(
+        _ input: ListServicesForAutoScalingConfigurationRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListServicesForAutoScalingConfigurationResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listServicesForAutoScalingConfiguration,
+            inputKey: \ListServicesForAutoScalingConfigurationRequest.nextToken,
+            outputKey: \ListServicesForAutoScalingConfigurationResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// Returns a list of App Runner VPC connectors in your Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -733,6 +796,16 @@ extension AppRunner.ListOperationsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             serviceArn: self.serviceArn
+        )
+    }
+}
+
+extension AppRunner.ListServicesForAutoScalingConfigurationRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AppRunner.ListServicesForAutoScalingConfigurationRequest {
+        return .init(
+            autoScalingConfigurationArn: self.autoScalingConfigurationArn,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

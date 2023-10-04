@@ -281,7 +281,7 @@ extension MediaConnect {
         /// The network output TTL.
         public let ttl: Int
 
-        public init(ipAddress: String, name: String, networkName: String, port: Int = 0, protocol: `Protocol`, ttl: Int = 0) {
+        public init(ipAddress: String, name: String, networkName: String, port: Int, protocol: `Protocol`, ttl: Int) {
             self.ipAddress = ipAddress
             self.name = name
             self.networkName = networkName
@@ -312,7 +312,7 @@ extension MediaConnect {
         /// The network source protocol.
         public let `protocol`: `Protocol`
 
-        public init(multicastIp: String, name: String, networkName: String, port: Int = 0, protocol: `Protocol`) {
+        public init(multicastIp: String, name: String, networkName: String, port: Int, protocol: `Protocol`) {
             self.multicastIp = multicastIp
             self.name = name
             self.networkName = networkName
@@ -434,7 +434,7 @@ extension MediaConnect {
         /// The maximum expected bitrate (in bps).
         public let maxBitrate: Int
 
-        public init(maxBitrate: Int = 0) {
+        public init(maxBitrate: Int) {
             self.maxBitrate = maxBitrate
         }
 
@@ -597,7 +597,7 @@ extension MediaConnect {
         /// The maximum number of expected outputs.
         public let maxOutputs: Int
 
-        public init(maxBitrate: Int = 0, maxOutputs: Int = 0) {
+        public init(maxBitrate: Int, maxOutputs: Int) {
             self.maxBitrate = maxBitrate
             self.maxOutputs = maxOutputs
         }
@@ -641,7 +641,7 @@ extension MediaConnect {
         /// The resolution of the video.
         public let videoFormat: String?
 
-        public init(attributes: MediaStreamAttributesRequest? = nil, clockRate: Int? = nil, description: String? = nil, mediaStreamId: Int = 0, mediaStreamName: String, mediaStreamType: MediaStreamType, videoFormat: String? = nil) {
+        public init(attributes: MediaStreamAttributesRequest? = nil, clockRate: Int? = nil, description: String? = nil, mediaStreamId: Int, mediaStreamName: String, mediaStreamType: MediaStreamType, videoFormat: String? = nil) {
             self.attributes = attributes
             self.clockRate = clockRate
             self.description = description
@@ -1374,7 +1374,7 @@ extension MediaConnect {
         /// The VPC interface that you want to use for the media stream associated with the output.
         public let interface: InterfaceRequest
 
-        public init(destinationIp: String, destinationPort: Int = 0, interface: InterfaceRequest) {
+        public init(destinationIp: String, destinationPort: Int, interface: InterfaceRequest) {
             self.destinationIp = destinationIp
             self.destinationPort = destinationPort
             self.interface = interface
@@ -1427,7 +1427,7 @@ extension MediaConnect {
         /// A setting on the encoder that drives compression settings. This property only applies to video media streams associated with outputs that use the ST 2110 JPEG XS protocol, if at least one source on the flow uses the CDI protocol.
         public let encoderProfile: EncoderProfile
 
-        public init(compressionFactor: Double = 0, encoderProfile: EncoderProfile) {
+        public init(compressionFactor: Double, encoderProfile: EncoderProfile) {
             self.compressionFactor = compressionFactor
             self.encoderProfile = encoderProfile
         }
@@ -1903,7 +1903,7 @@ extension MediaConnect {
         /// The VPC interface that you want to use for the incoming media stream.
         public let interface: InterfaceRequest
 
-        public init(inputPort: Int = 0, interface: InterfaceRequest) {
+        public init(inputPort: Int, interface: InterfaceRequest) {
             self.inputPort = inputPort
             self.interface = interface
         }

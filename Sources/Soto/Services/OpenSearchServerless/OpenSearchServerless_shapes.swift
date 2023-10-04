@@ -49,6 +49,8 @@ extension OpenSearchServerless {
         case search = "SEARCH"
         /// Timeseries collection type
         case timeseries = "TIMESERIES"
+        /// Vectorsearch collection type
+        case vectorsearch = "VECTORSEARCH"
         public var description: String { return self.rawValue }
     }
 
@@ -1376,7 +1378,7 @@ extension OpenSearchServerless {
             try self.validate(self.groupAttribute, name: "groupAttribute", parent: name, max: 2048)
             try self.validate(self.groupAttribute, name: "groupAttribute", parent: name, min: 1)
             try self.validate(self.groupAttribute, name: "groupAttribute", parent: name, pattern: "[\\w+=,.@-]+")
-            try self.validate(self.metadata, name: "metadata", parent: name, max: 20480)
+            try self.validate(self.metadata, name: "metadata", parent: name, max: 51200)
             try self.validate(self.metadata, name: "metadata", parent: name, min: 1)
             try self.validate(self.metadata, name: "metadata", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]+")
             try self.validate(self.userAttribute, name: "userAttribute", parent: name, max: 2048)
@@ -2178,7 +2180,7 @@ public struct OpenSearchServerlessErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// Thrown when an error internal to the service occurs while processing a request.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// OCU Limit Exceeded for service limits
+    /// Thrown when the collection you're attempting to create results in a number of search or indexing OCUs that exceeds the account limit.
     public static var ocuLimitExceededException: Self { .init(.ocuLimitExceededException) }
     /// Thrown when accessing or deleting a resource that does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }

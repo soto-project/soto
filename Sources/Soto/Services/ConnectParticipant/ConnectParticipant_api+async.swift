@@ -31,6 +31,11 @@ extension ConnectParticipant {
         return try await self.client.execute(operation: "CreateParticipantConnection", path: "/participant/connection", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves the view for the specified view token.
+    public func describeView(_ input: DescribeViewRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeViewResponse {
+        return try await self.client.execute(operation: "DescribeView", path: "/participant/views/{ViewToken}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Disconnects a participant.    ConnectionToken is used for invoking this API instead of ParticipantToken.  The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication.
     public func disconnectParticipant(_ input: DisconnectParticipantRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisconnectParticipantResponse {
         return try await self.client.execute(operation: "DisconnectParticipant", path: "/participant/disconnect", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

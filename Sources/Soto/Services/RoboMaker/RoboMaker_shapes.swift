@@ -102,13 +102,13 @@ extension RoboMaker {
     }
 
     public enum RobotDeploymentStep: String, CustomStringConvertible, Codable, Sendable {
-        case downloadingExtracting = "DownloadingExtracting"
+        case downloadingExtractingStep = "DownloadingExtracting"
         case executingDownloadCondition = "ExecutingDownloadCondition"
-        case executingPostLaunch = "ExecutingPostLaunch"
-        case executingPreLaunch = "ExecutingPreLaunch"
-        case finished = "Finished"
-        case launching = "Launching"
-        case validating = "Validating"
+        case finishedStep = "Finished"
+        case launchingStep = "Launching"
+        case postLaunchStep = "ExecutingPostLaunch"
+        case preLaunchStep = "ExecutingPreLaunch"
+        case validatingStep = "Validating"
         public var description: String { return self.rawValue }
     }
 

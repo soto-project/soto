@@ -26,6 +26,12 @@ import SotoCore
 extension Snowball {
     // MARK: Enums
 
+    public enum AddressType: String, CustomStringConvertible, Codable, Sendable {
+        case awsShip = "AWS_SHIP"
+        case custPickup = "CUST_PICKUP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ClusterState: String, CustomStringConvertible, Codable, Sendable {
         case awaitingQuorum = "AwaitingQuorum"
         case cancelled = "Cancelled"
@@ -38,6 +44,15 @@ extension Snowball {
     public enum DeviceServiceName: String, CustomStringConvertible, Codable, Sendable {
         case nfsOnDeviceService = "NFS_ON_DEVICE_SERVICE"
         case s3OnDeviceService = "S3_ON_DEVICE_SERVICE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImpactLevel: String, CustomStringConvertible, Codable, Sendable {
+        case il2 = "IL2"
+        case il4 = "IL4"
+        case il5 = "IL5"
+        case il6 = "IL6"
+        case il99 = "IL99"
         public var description: String { return self.rawValue }
     }
 
@@ -75,6 +90,7 @@ extension Snowball {
     public enum RemoteManagement: String, CustomStringConvertible, Codable, Sendable {
         case installedAutostart = "INSTALLED_AUTOSTART"
         case installedOnly = "INSTALLED_ONLY"
+        case notInstalled = "NOT_INSTALLED"
         public var description: String { return self.rawValue }
     }
 
@@ -109,6 +125,7 @@ extension Snowball {
     public enum SnowballCapacity: String, CustomStringConvertible, Codable, Sendable {
         case noPreference = "NoPreference"
         case t100 = "T100"
+        case t13 = "T13"
         case t14 = "T14"
         case t240 = "T240"
         case t32 = "T32"
@@ -125,6 +142,7 @@ extension Snowball {
         case edgeC = "EDGE_C"
         case edgeCg = "EDGE_CG"
         case edgeS = "EDGE_S"
+        case rack5UC = "RACK_5U_C"
         case snc1Hdd = "SNC1_HDD"
         case snc1Ssd = "SNC1_SSD"
         case standard = "STANDARD"
@@ -176,8 +194,10 @@ extension Snowball {
         public let street2: String?
         /// The third line in a street address that a Snow device is to be delivered to.
         public let street3: String?
+        /// Differentiates between delivery address and pickup address in the customer account. Provided at job creation.
+        public let type: AddressType?
 
-        public init(addressId: String? = nil, city: String? = nil, company: String? = nil, country: String? = nil, isRestricted: Bool? = nil, landmark: String? = nil, name: String? = nil, phoneNumber: String? = nil, postalCode: String? = nil, prefectureOrDistrict: String? = nil, stateOrProvince: String? = nil, street1: String? = nil, street2: String? = nil, street3: String? = nil) {
+        public init(addressId: String? = nil, city: String? = nil, company: String? = nil, country: String? = nil, isRestricted: Bool? = nil, landmark: String? = nil, name: String? = nil, phoneNumber: String? = nil, postalCode: String? = nil, prefectureOrDistrict: String? = nil, stateOrProvince: String? = nil, street1: String? = nil, street2: String? = nil, street3: String? = nil, type: AddressType? = nil) {
             self.addressId = addressId
             self.city = city
             self.company = company
@@ -192,6 +212,7 @@ extension Snowball {
             self.street1 = street1
             self.street2 = street2
             self.street3 = street3
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -251,6 +272,7 @@ extension Snowball {
             case street1 = "Street1"
             case street2 = "Street2"
             case street3 = "Street3"
+            case type = "Type"
         }
     }
 
@@ -573,6 +595,8 @@ extension Snowball {
         public let deviceConfiguration: DeviceConfiguration?
         /// The forwarding address ID for a job. This field is not supported in most Regions.
         public let forwardingAddressId: String?
+        /// The highest impact level of data that will be stored or processed on the device, provided at job creation.
+        public let impactLevel: ImpactLevel?
         /// Defines the type of job that you're creating.
         public let jobType: JobType?
         /// The KmsKeyARN that you want to associate with this job. KmsKeyARNs are created using the CreateKey Key Management Service (KMS) API action.
@@ -583,7 +607,9 @@ extension Snowball {
         public let notification: Notification?
         /// Specifies the service or services on the Snow Family device that your transferred data will be exported from or imported into. Amazon Web Services Snow Family supports Amazon S3 and NFS (Network File System) and the Amazon Web Services Storage Gateway service Tape Gateway type.
         public let onDeviceServiceConfiguration: OnDeviceServiceConfiguration?
-        /// Allows you to securely operate and manage Snowcone devices remotely from outside of your internal network. When set to INSTALLED_AUTOSTART, remote management will automatically be available when the device arrives at your location. Otherwise, you need to use the Snowball Client to manage the device.
+        /// Information identifying the person picking up the device.
+        public let pickupDetails: PickupDetails?
+        /// Allows you to securely operate and manage Snowcone devices remotely from outside of your internal network. When set to INSTALLED_AUTOSTART, remote management will automatically be available when the device arrives at your location. Otherwise, you need to use the Snowball Edge client to manage the device. When set to NOT_INSTALLED, remote management will not be available on the device.
         public let remoteManagement: RemoteManagement?
         /// Defines the Amazon S3 buckets associated with this job. With IMPORT jobs, you specify the bucket or buckets that your transferred data will be imported into. With EXPORT jobs, you specify the bucket or buckets that your transferred data will be exported from. Optionally, you can also specify a KeyRange value. If you choose to export a range, you define the length of the range by providing either an inclusive BeginMarker value, an inclusive EndMarker value, or both. Ranges are UTF-8 binary sorted.
         public let resources: JobResource?
@@ -598,17 +624,19 @@ extension Snowball {
         /// The tax documents required in your Amazon Web Services Region.
         public let taxDocuments: TaxDocuments?
 
-        public init(addressId: String? = nil, clusterId: String? = nil, description: String? = nil, deviceConfiguration: DeviceConfiguration? = nil, forwardingAddressId: String? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, longTermPricingId: String? = nil, notification: Notification? = nil, onDeviceServiceConfiguration: OnDeviceServiceConfiguration? = nil, remoteManagement: RemoteManagement? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
+        public init(addressId: String? = nil, clusterId: String? = nil, description: String? = nil, deviceConfiguration: DeviceConfiguration? = nil, forwardingAddressId: String? = nil, impactLevel: ImpactLevel? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, longTermPricingId: String? = nil, notification: Notification? = nil, onDeviceServiceConfiguration: OnDeviceServiceConfiguration? = nil, pickupDetails: PickupDetails? = nil, remoteManagement: RemoteManagement? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
             self.addressId = addressId
             self.clusterId = clusterId
             self.description = description
             self.deviceConfiguration = deviceConfiguration
             self.forwardingAddressId = forwardingAddressId
+            self.impactLevel = impactLevel
             self.jobType = jobType
             self.kmsKeyARN = kmsKeyARN
             self.longTermPricingId = longTermPricingId
             self.notification = notification
             self.onDeviceServiceConfiguration = onDeviceServiceConfiguration
+            self.pickupDetails = pickupDetails
             self.remoteManagement = remoteManagement
             self.resources = resources
             self.roleARN = roleARN
@@ -638,6 +666,7 @@ extension Snowball {
             try self.validate(self.longTermPricingId, name: "longTermPricingId", parent: name, pattern: "^LTPID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.notification?.validate(name: "\(name).notification")
             try self.onDeviceServiceConfiguration?.validate(name: "\(name).onDeviceServiceConfiguration")
+            try self.pickupDetails?.validate(name: "\(name).pickupDetails")
             try self.resources?.validate(name: "\(name).resources")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 255)
             try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:aws.*:iam::[0-9]{12}:role/")
@@ -650,11 +679,13 @@ extension Snowball {
             case description = "Description"
             case deviceConfiguration = "DeviceConfiguration"
             case forwardingAddressId = "ForwardingAddressId"
+            case impactLevel = "ImpactLevel"
             case jobType = "JobType"
             case kmsKeyARN = "KmsKeyARN"
             case longTermPricingId = "LongTermPricingId"
             case notification = "Notification"
             case onDeviceServiceConfiguration = "OnDeviceServiceConfiguration"
+            case pickupDetails = "PickupDetails"
             case remoteManagement = "RemoteManagement"
             case resources = "Resources"
             case roleARN = "RoleARN"
@@ -684,9 +715,9 @@ extension Snowball {
         /// The type of long-term pricing option you want for the device, either 1-year or 3-year long-term pricing.
         public let longTermPricingType: LongTermPricingType
         /// The type of Snow Family devices to use for the long-term pricing job.
-        public let snowballType: SnowballType?
+        public let snowballType: SnowballType
 
-        public init(isLongTermPricingAutoRenew: Bool? = nil, longTermPricingType: LongTermPricingType, snowballType: SnowballType? = nil) {
+        public init(isLongTermPricingAutoRenew: Bool? = nil, longTermPricingType: LongTermPricingType, snowballType: SnowballType) {
             self.isLongTermPricingAutoRenew = isLongTermPricingAutoRenew
             self.longTermPricingType = longTermPricingType
             self.snowballType = snowballType
@@ -1267,6 +1298,8 @@ extension Snowball {
         public let deviceConfiguration: DeviceConfiguration?
         /// The ID of the address that you want a job shipped to, after it will be shipped to its primary address. This field is not supported in most regions.
         public let forwardingAddressId: String?
+        /// The highest impact level of data that will be stored or processed on the device, provided at job creation.
+        public let impactLevel: ImpactLevel?
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String?
         /// Links to Amazon S3 presigned URLs for the job report and logs. For import jobs, the PDF job report becomes available at the end of the import process. For export jobs, your job report typically becomes available while the Snow device for your job part is being delivered to you.
@@ -1283,6 +1316,8 @@ extension Snowball {
         public let notification: Notification?
         /// Represents metadata and configuration settings for services on an Amazon Web Services Snow Family device.
         public let onDeviceServiceConfiguration: OnDeviceServiceConfiguration?
+        /// Information identifying the person picking up the device.
+        public let pickupDetails: PickupDetails?
         /// Allows you to securely operate and manage Snowcone devices remotely from outside of your internal network. When set to INSTALLED_AUTOSTART, remote management will automatically be available when the device arrives at your location. Otherwise, you need to use the Snowball Client to manage the device.
         public let remoteManagement: RemoteManagement?
         /// An array of S3Resource objects. Each S3Resource object represents an Amazon S3 bucket that your transferred data will be exported from or imported into.
@@ -1293,12 +1328,14 @@ extension Snowball {
         public let shippingDetails: ShippingDetails?
         /// The Snow device capacity preference for this job, specified at job creation. In US regions, you can choose between 50 TB and 80 TB Snowballs. All other regions use 80 TB capacity Snowballs. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let snowballCapacityPreference: SnowballCapacity?
+        /// Unique ID associated with a device.
+        public let snowballId: String?
         /// The type of device used with this job.
         public let snowballType: SnowballType?
         /// The metadata associated with the tax documents required in your Amazon Web Services Region.
         public let taxDocuments: TaxDocuments?
 
-        public init(addressId: String? = nil, clusterId: String? = nil, creationDate: Date? = nil, dataTransferProgress: DataTransfer? = nil, description: String? = nil, deviceConfiguration: DeviceConfiguration? = nil, forwardingAddressId: String? = nil, jobId: String? = nil, jobLogInfo: JobLogs? = nil, jobState: JobState? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, longTermPricingId: String? = nil, notification: Notification? = nil, onDeviceServiceConfiguration: OnDeviceServiceConfiguration? = nil, remoteManagement: RemoteManagement? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingDetails: ShippingDetails? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
+        public init(addressId: String? = nil, clusterId: String? = nil, creationDate: Date? = nil, dataTransferProgress: DataTransfer? = nil, description: String? = nil, deviceConfiguration: DeviceConfiguration? = nil, forwardingAddressId: String? = nil, impactLevel: ImpactLevel? = nil, jobId: String? = nil, jobLogInfo: JobLogs? = nil, jobState: JobState? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, longTermPricingId: String? = nil, notification: Notification? = nil, onDeviceServiceConfiguration: OnDeviceServiceConfiguration? = nil, pickupDetails: PickupDetails? = nil, remoteManagement: RemoteManagement? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingDetails: ShippingDetails? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballId: String? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
             self.addressId = addressId
             self.clusterId = clusterId
             self.creationDate = creationDate
@@ -1306,6 +1343,7 @@ extension Snowball {
             self.description = description
             self.deviceConfiguration = deviceConfiguration
             self.forwardingAddressId = forwardingAddressId
+            self.impactLevel = impactLevel
             self.jobId = jobId
             self.jobLogInfo = jobLogInfo
             self.jobState = jobState
@@ -1314,11 +1352,13 @@ extension Snowball {
             self.longTermPricingId = longTermPricingId
             self.notification = notification
             self.onDeviceServiceConfiguration = onDeviceServiceConfiguration
+            self.pickupDetails = pickupDetails
             self.remoteManagement = remoteManagement
             self.resources = resources
             self.roleARN = roleARN
             self.shippingDetails = shippingDetails
             self.snowballCapacityPreference = snowballCapacityPreference
+            self.snowballId = snowballId
             self.snowballType = snowballType
             self.taxDocuments = taxDocuments
         }
@@ -1331,6 +1371,7 @@ extension Snowball {
             case description = "Description"
             case deviceConfiguration = "DeviceConfiguration"
             case forwardingAddressId = "ForwardingAddressId"
+            case impactLevel = "ImpactLevel"
             case jobId = "JobId"
             case jobLogInfo = "JobLogInfo"
             case jobState = "JobState"
@@ -1339,11 +1380,13 @@ extension Snowball {
             case longTermPricingId = "LongTermPricingId"
             case notification = "Notification"
             case onDeviceServiceConfiguration = "OnDeviceServiceConfiguration"
+            case pickupDetails = "PickupDetails"
             case remoteManagement = "RemoteManagement"
             case resources = "Resources"
             case roleARN = "RoleARN"
             case shippingDetails = "ShippingDetails"
             case snowballCapacityPreference = "SnowballCapacityPreference"
+            case snowballId = "SnowballId"
             case snowballType = "SnowballType"
             case taxDocuments = "TaxDocuments"
         }
@@ -1650,6 +1693,48 @@ extension Snowball {
         }
     }
 
+    public struct ListPickupLocationsRequest: AWSEncodableShape {
+        /// The maximum number of locations to list per page.
+        public let maxResults: Int?
+        /// HTTP requests are stateless. To identify what object comes "next" in the list of ListPickupLocationsRequest objects, you have the option of specifying NextToken as the starting point for your returned list.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListPickupLocationsResult: AWSDecodableShape {
+        /// Information about the address of pickup locations.
+        public let addresses: [Address]?
+        /// HTTP requests are stateless. To identify what object comes "next" in the list of ListPickupLocationsResult objects, you have the option of specifying NextToken as the starting point for your returned list.
+        public let nextToken: String?
+
+        public init(addresses: [Address]? = nil, nextToken: String? = nil) {
+            self.addresses = addresses
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addresses = "Addresses"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListServiceVersionsRequest: AWSEncodableShape {
         /// A list of names and versions of dependant services of the requested service.
         public let dependentServices: [DependentService]?
@@ -1782,6 +1867,8 @@ extension Snowball {
     }
 
     public struct Notification: AWSEncodableShape & AWSDecodableShape {
+        /// Used to send SNS notifications for the person picking up the device (identified during job creation).
+        public let devicePickupSnsTopicARN: String?
         /// The list of job states that will trigger a notification for this job.
         public let jobStatesToNotify: [JobState]?
         /// Any change in job state will trigger a notification for this job.
@@ -1789,18 +1876,22 @@ extension Snowball {
         /// The new SNS TopicArn that you want to associate with this job. You can create Amazon Resource Names (ARNs) for topics by using the CreateTopic Amazon SNS API action. You can subscribe email addresses to an Amazon SNS topic through the Amazon Web Services Management Console, or by using the Subscribe Amazon Simple Notification Service (Amazon SNS) API action.
         public let snsTopicARN: String?
 
-        public init(jobStatesToNotify: [JobState]? = nil, notifyAll: Bool? = nil, snsTopicARN: String? = nil) {
+        public init(devicePickupSnsTopicARN: String? = nil, jobStatesToNotify: [JobState]? = nil, notifyAll: Bool? = nil, snsTopicARN: String? = nil) {
+            self.devicePickupSnsTopicARN = devicePickupSnsTopicARN
             self.jobStatesToNotify = jobStatesToNotify
             self.notifyAll = notifyAll
             self.snsTopicARN = snsTopicARN
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.devicePickupSnsTopicARN, name: "devicePickupSnsTopicARN", parent: name, max: 255)
+            try self.validate(self.devicePickupSnsTopicARN, name: "devicePickupSnsTopicARN", parent: name, pattern: "^arn:aws.*:sns:.*:[0-9]{12}:")
             try self.validate(self.snsTopicARN, name: "snsTopicARN", parent: name, max: 255)
             try self.validate(self.snsTopicARN, name: "snsTopicARN", parent: name, pattern: "^arn:aws.*:sns:.*:[0-9]{12}:")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case devicePickupSnsTopicARN = "DevicePickupSnsTopicARN"
             case jobStatesToNotify = "JobStatesToNotify"
             case notifyAll = "NotifyAll"
             case snsTopicARN = "SnsTopicARN"
@@ -1836,6 +1927,64 @@ extension Snowball {
             case nfsOnDeviceService = "NFSOnDeviceService"
             case s3OnDeviceService = "S3OnDeviceService"
             case tgwOnDeviceService = "TGWOnDeviceService"
+        }
+    }
+
+    public struct PickupDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The unique ID for a device that will be picked up.
+        public let devicePickupId: String?
+        /// The email address of the person picking up the device.
+        public let email: String?
+        /// Expiration date of the credential identifying the person picking up the device.
+        public let identificationExpirationDate: Date?
+        /// Organization that issued the credential identifying the person picking up the device.
+        public let identificationIssuingOrg: String?
+        /// The number on the credential identifying the person picking up the device.
+        public let identificationNumber: String?
+        /// The name of the person picking up the device.
+        public let name: String?
+        /// The phone number of the person picking up the device.
+        public let phoneNumber: String?
+
+        public init(devicePickupId: String? = nil, email: String? = nil, identificationExpirationDate: Date? = nil, identificationIssuingOrg: String? = nil, identificationNumber: String? = nil, name: String? = nil, phoneNumber: String? = nil) {
+            self.devicePickupId = devicePickupId
+            self.email = email
+            self.identificationExpirationDate = identificationExpirationDate
+            self.identificationIssuingOrg = identificationIssuingOrg
+            self.identificationNumber = identificationNumber
+            self.name = name
+            self.phoneNumber = phoneNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.devicePickupId, name: "devicePickupId", parent: name, max: 40)
+            try self.validate(self.devicePickupId, name: "devicePickupId", parent: name, min: 40)
+            try self.validate(self.devicePickupId, name: "devicePickupId", parent: name, pattern: "^DPID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.email, name: "email", parent: name, max: 320)
+            try self.validate(self.email, name: "email", parent: name, min: 3)
+            try self.validate(self.email, name: "email", parent: name, pattern: "^(?=.{3,100}$).+@.+[.].+$")
+            try self.validate(self.identificationIssuingOrg, name: "identificationIssuingOrg", parent: name, max: 1024)
+            try self.validate(self.identificationIssuingOrg, name: "identificationIssuingOrg", parent: name, min: 1)
+            try self.validate(self.identificationIssuingOrg, name: "identificationIssuingOrg", parent: name, pattern: ".*")
+            try self.validate(self.identificationNumber, name: "identificationNumber", parent: name, max: 1024)
+            try self.validate(self.identificationNumber, name: "identificationNumber", parent: name, min: 1)
+            try self.validate(self.identificationNumber, name: "identificationNumber", parent: name, pattern: ".*")
+            try self.validate(self.name, name: "name", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: ".*")
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, max: 30)
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, min: 7)
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, pattern: "^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{4})(?: *x(\\d+))?\\s*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case devicePickupId = "DevicePickupId"
+            case email = "Email"
+            case identificationExpirationDate = "IdentificationExpirationDate"
+            case identificationIssuingOrg = "IdentificationIssuingOrg"
+            case identificationNumber = "IdentificationNumber"
+            case name = "Name"
+            case phoneNumber = "PhoneNumber"
         }
     }
 
@@ -2105,6 +2254,7 @@ extension Snowball {
         public let notification: Notification?
         /// Specifies the service or services on the Snow Family device that your transferred data will be exported from or imported into. Amazon Web Services Snow Family supports Amazon S3 and NFS (Network File System) and the Amazon Web Services Storage Gateway service Tape Gateway type.
         public let onDeviceServiceConfiguration: OnDeviceServiceConfiguration?
+        public let pickupDetails: PickupDetails?
         /// The updated JobResource object, or the updated JobResource object.
         public let resources: JobResource?
         /// The new role Amazon Resource Name (ARN) that you want to associate with this job. To create a role ARN, use the CreateRoleIdentity and Access Management (IAM) API action.
@@ -2114,13 +2264,14 @@ extension Snowball {
         /// The updated SnowballCapacityPreference of this job's JobMetadata object. The 50 TB Snowballs are only available in the US regions. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let snowballCapacityPreference: SnowballCapacity?
 
-        public init(addressId: String? = nil, description: String? = nil, forwardingAddressId: String? = nil, jobId: String, notification: Notification? = nil, onDeviceServiceConfiguration: OnDeviceServiceConfiguration? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil) {
+        public init(addressId: String? = nil, description: String? = nil, forwardingAddressId: String? = nil, jobId: String, notification: Notification? = nil, onDeviceServiceConfiguration: OnDeviceServiceConfiguration? = nil, pickupDetails: PickupDetails? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil) {
             self.addressId = addressId
             self.description = description
             self.forwardingAddressId = forwardingAddressId
             self.jobId = jobId
             self.notification = notification
             self.onDeviceServiceConfiguration = onDeviceServiceConfiguration
+            self.pickupDetails = pickupDetails
             self.resources = resources
             self.roleARN = roleARN
             self.shippingOption = shippingOption
@@ -2142,6 +2293,7 @@ extension Snowball {
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.notification?.validate(name: "\(name).notification")
             try self.onDeviceServiceConfiguration?.validate(name: "\(name).onDeviceServiceConfiguration")
+            try self.pickupDetails?.validate(name: "\(name).pickupDetails")
             try self.resources?.validate(name: "\(name).resources")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 255)
             try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:aws.*:iam::[0-9]{12}:role/")
@@ -2154,6 +2306,7 @@ extension Snowball {
             case jobId = "JobId"
             case notification = "Notification"
             case onDeviceServiceConfiguration = "OnDeviceServiceConfiguration"
+            case pickupDetails = "PickupDetails"
             case resources = "Resources"
             case roleARN = "RoleARN"
             case shippingOption = "ShippingOption"

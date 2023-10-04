@@ -26,6 +26,15 @@ import SotoCore
 extension LookoutEquipment {
     // MARK: Enums
 
+    public enum AutoPromotionResult: String, CustomStringConvertible, Codable, Sendable {
+        case modelNotPromoted = "MODEL_NOT_PROMOTED"
+        case modelPromoted = "MODEL_PROMOTED"
+        case retrainingCancelled = "RETRAINING_CANCELLED"
+        case retrainingCustomerError = "RETRAINING_CUSTOMER_ERROR"
+        case retrainingInternalError = "RETRAINING_INTERNAL_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataUploadFrequency: String, CustomStringConvertible, Codable, Sendable {
         case pt10m = "PT10M"
         case pt15m = "PT15M"
@@ -38,7 +47,15 @@ extension LookoutEquipment {
     public enum DatasetStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case created = "CREATED"
+        case importInProgress = "IMPORT_IN_PROGRESS"
         case ingestionInProgress = "INGESTION_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InferenceDataImportStrategy: String, CustomStringConvertible, Codable, Sendable {
+        case addWhenEmpty = "ADD_WHEN_EMPTY"
+        case noImport = "NO_IMPORT"
+        case overwrite = "OVERWRITE"
         public var description: String { return self.rawValue }
     }
 
@@ -59,6 +76,7 @@ extension LookoutEquipment {
 
     public enum IngestionJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
+        case importInProgress = "IMPORT_IN_PROGRESS"
         case inProgress = "IN_PROGRESS"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
@@ -77,8 +95,31 @@ extension LookoutEquipment {
         public var description: String { return self.rawValue }
     }
 
+    public enum ModelPromoteMode: String, CustomStringConvertible, Codable, Sendable {
+        case managed = "MANAGED"
+        case manual = "MANUAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ModelStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
+        case importInProgress = "IMPORT_IN_PROGRESS"
+        case inProgress = "IN_PROGRESS"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelVersionSourceType: String, CustomStringConvertible, Codable, Sendable {
+        case `import` = "IMPORT"
+        case retraining = "RETRAINING"
+        case training = "TRAINING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelVersionStatus: String, CustomStringConvertible, Codable, Sendable {
+        case canceled = "CANCELED"
+        case failed = "FAILED"
+        case importInProgress = "IMPORT_IN_PROGRESS"
         case inProgress = "IN_PROGRESS"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
@@ -88,6 +129,14 @@ extension LookoutEquipment {
         case `static` = "STATIC"
         case decreasing = "DECREASING"
         case increasing = "INCREASING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RetrainingSchedulerStatus: String, CustomStringConvertible, Codable, Sendable {
+        case pending = "PENDING"
+        case running = "RUNNING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
         public var description: String { return self.rawValue }
     }
 
@@ -228,7 +277,7 @@ extension LookoutEquipment {
         public let dataUploadFrequency: DataUploadFrequency
         /// The name of the inference scheduler being created.
         public let inferenceSchedulerName: String
-        /// The name of the previously trained ML model being used to create the inference scheduler.
+        /// The name of the previously trained machine learning model being used to create the inference scheduler.
         public let modelName: String
         /// The Amazon Resource Name (ARN) of a role with permission to access the data source being used for the inference.
         public let roleArn: String
@@ -312,14 +361,13 @@ extension LookoutEquipment {
     }
 
     public struct CreateLabelGroupRequest: AWSEncodableShape {
-        /// A unique identifier for the request to create a label group. If you do not set the client request token, Lookout for Equipment generates one.
+        ///  A unique identifier for the request to create a label group. If you do not set the client request token, Lookout for Equipment generates one.
         public let clientToken: String
-        /// The acceptable fault codes (indicating the type of anomaly associated with the label) that can be used with this label group. Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        ///  The acceptable fault codes (indicating the type of anomaly associated with the label) that can be used with this label group. Data in this field will be retained for service usage. Follow best practices for the security of your data.
         public let faultCodes: [String]?
-        /// Names a group of labels. Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        ///  Names a group of labels. Data in this field will be retained for service usage. Follow best practices for the security of your data.
         public let labelGroupName: String
-        /// Tags that provide metadata about the label group you are creating.
-        ///  Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        ///  Tags that provide metadata about the label group you are creating.  Data in this field will be retained for service usage. Follow best practices for the security of your data.
         public let tags: [Tag]?
 
         public init(clientToken: String = CreateLabelGroupRequest.idempotencyToken(), faultCodes: [String]? = nil, labelGroupName: String, tags: [Tag]? = nil) {
@@ -357,9 +405,9 @@ extension LookoutEquipment {
     }
 
     public struct CreateLabelGroupResponse: AWSDecodableShape {
-        /// The ARN of the label group that you have created.
+        ///  The Amazon Resource Name (ARN) of the label group that you have created.
         public let labelGroupArn: String?
-        /// The name of the label group that you have created. Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        ///  The name of the label group that you have created. Data in this field will be retained for service usage. Follow best practices for the security of your data.
         public let labelGroupName: String?
 
         public init(labelGroupArn: String? = nil, labelGroupName: String? = nil) {
@@ -374,23 +422,21 @@ extension LookoutEquipment {
     }
 
     public struct CreateLabelRequest: AWSEncodableShape {
-        /// A unique identifier for the request to create a label. If you do not set the client request token, Lookout for Equipment generates one.
+        ///  A unique identifier for the request to create a label. If you do not set the client request token, Lookout for Equipment generates one.
         public let clientToken: String
-        /// The end time of the labeled event.
+        ///  The end time of the labeled event.
         public let endTime: Date
-        /// Indicates that a label pertains to a particular piece of equipment.
-        ///  Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        ///  Indicates that a label pertains to a particular piece of equipment.  Data in this field will be retained for service usage. Follow best practices for the security of your data.
         public let equipment: String?
-        /// Provides additional information about the label. The fault code must be defined in the FaultCodes attribute of the label group. Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        ///  Provides additional information about the label. The fault code must be defined in the FaultCodes attribute of the label group. Data in this field will be retained for service usage. Follow best practices for the security of your data.
         public let faultCode: String?
-        /// The name of a group of labels.  Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        ///  The name of a group of labels.  Data in this field will be retained for service usage. Follow best practices for the security of your data.
         public let labelGroupName: String
-        /// Metadata providing additional information about the label.
-        ///  Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        ///  Metadata providing additional information about the label.  Data in this field will be retained for service usage. Follow best practices for the security of your data.
         public let notes: String?
-        /// Indicates whether a labeled event represents an anomaly.
+        ///  Indicates whether a labeled event represents an anomaly.
         public let rating: LabelRating
-        /// The start time of the labeled event.
+        ///  The start time of the labeled event.
         public let startTime: Date
 
         public init(clientToken: String = CreateLabelRequest.idempotencyToken(), endTime: Date, equipment: String? = nil, faultCode: String? = nil, labelGroupName: String, notes: String? = nil, rating: LabelRating, startTime: Date) {
@@ -435,7 +481,7 @@ extension LookoutEquipment {
     }
 
     public struct CreateLabelResponse: AWSDecodableShape {
-        /// The ID of the label that you have created.
+        ///  The ID of the label that you have created.
         public let labelId: String?
 
         public init(labelId: String? = nil) {
@@ -452,29 +498,29 @@ extension LookoutEquipment {
         public let clientToken: String
         /// The configuration is the TargetSamplingRate, which is the sampling rate of the data after post processing by Amazon Lookout for Equipment. For example, if you provide data that has been collected at a 1 second level and you want the system to resample the data at a 1 minute rate before training, the TargetSamplingRate is 1 minute. When providing a value for the TargetSamplingRate, you must attach the prefix "PT" to the rate you want. The value for a 1 second rate is therefore PT1S, the value for a 15 minute rate is PT15M, and the value for a 1 hour rate is PT1H
         public let dataPreProcessingConfiguration: DataPreProcessingConfiguration?
-        /// The name of the dataset for the ML model being created.
+        /// The name of the dataset for the machine learning model being created.
         public let datasetName: String
-        /// The data schema for the ML model being created.
+        /// The data schema for the machine learning model being created.
         public let datasetSchema: DatasetSchema?
-        ///  Indicates the time reference in the dataset that should be used to end the subset of evaluation data for the ML model.
+        ///  Indicates the time reference in the dataset that should be used to end the subset of evaluation data for the machine learning model.
         public let evaluationDataEndTime: Date?
-        /// Indicates the time reference in the dataset that should be used to begin the subset of evaluation data for the ML model.
+        /// Indicates the time reference in the dataset that should be used to begin the subset of evaluation data for the machine learning model.
         public let evaluationDataStartTime: Date?
-        /// The input configuration for the labels being used for the ML model that's being created.
+        /// The input configuration for the labels being used for the machine learning model that's being created.
         public let labelsInputConfiguration: LabelsInputConfiguration?
-        /// The name for the ML model to be created.
+        /// The name for the machine learning model to be created.
         public let modelName: String
         /// Indicates that the asset associated with this sensor has been shut off. As long as this condition is met, Lookout for Equipment will not use data from this asset for training, evaluation, or inference.
         public let offCondition: String?
-        ///  The Amazon Resource Name (ARN) of a role with permission to access the data source being used to create the ML model.
+        ///  The Amazon Resource Name (ARN) of a role with permission to access the data source being used to create the machine learning model.
         public let roleArn: String?
         /// Provides the identifier of the KMS key used to encrypt model data by Amazon Lookout for Equipment.
         public let serverSideKmsKeyId: String?
-        ///  Any tags associated with the ML model being created.
+        ///  Any tags associated with the machine learning model being created.
         public let tags: [Tag]?
-        /// Indicates the time reference in the dataset that should be used to end the subset of training data for the ML model.
+        /// Indicates the time reference in the dataset that should be used to end the subset of training data for the machine learning model.
         public let trainingDataEndTime: Date?
-        /// Indicates the time reference in the dataset that should be used to begin the subset of training data for the ML model.
+        /// Indicates the time reference in the dataset that should be used to begin the subset of training data for the machine learning model.
         public let trainingDataStartTime: Date?
 
         public init(clientToken: String = CreateModelRequest.idempotencyToken(), dataPreProcessingConfiguration: DataPreProcessingConfiguration? = nil, datasetName: String, datasetSchema: DatasetSchema? = nil, evaluationDataEndTime: Date? = nil, evaluationDataStartTime: Date? = nil, labelsInputConfiguration: LabelsInputConfiguration? = nil, modelName: String, offCondition: String? = nil, roleArn: String? = nil, serverSideKmsKeyId: String? = nil, tags: [Tag]? = nil, trainingDataEndTime: Date? = nil, trainingDataStartTime: Date? = nil) {
@@ -555,6 +601,73 @@ extension LookoutEquipment {
         }
     }
 
+    public struct CreateRetrainingSchedulerRequest: AWSEncodableShape {
+        /// A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one.
+        public let clientToken: String
+        /// The number of past days of data that will be used for retraining.
+        public let lookbackWindow: String
+        /// The name of the model to add the retraining scheduler to.
+        public let modelName: String
+        /// Indicates how the service will use new models. In MANAGED mode, new models will automatically be used for inference if they have better performance than the current model. In MANUAL mode, the new models will not be used until they are manually activated.
+        public let promoteMode: ModelPromoteMode?
+        /// This parameter uses the ISO 8601 standard to set the frequency at which you want retraining to occur in terms of Years, Months, and/or Days (note: other parameters like Time are not currently supported). The minimum value is 30 days (P30D) and the maximum value is 1 year (P1Y). For example, the following values are valid:   P3M15D – Every 3 months and 15 days   P2M – Every 2 months   P150D – Every 150 days
+        public let retrainingFrequency: String
+        /// The start date for the retraining scheduler. Lookout for Equipment truncates the time you provide to the nearest UTC day.
+        public let retrainingStartDate: Date?
+
+        public init(clientToken: String = CreateRetrainingSchedulerRequest.idempotencyToken(), lookbackWindow: String, modelName: String, promoteMode: ModelPromoteMode? = nil, retrainingFrequency: String, retrainingStartDate: Date? = nil) {
+            self.clientToken = clientToken
+            self.lookbackWindow = lookbackWindow
+            self.modelName = modelName
+            self.promoteMode = promoteMode
+            self.retrainingFrequency = retrainingFrequency
+            self.retrainingStartDate = retrainingStartDate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\p{ASCII}{1,256}$")
+            try self.validate(self.lookbackWindow, name: "lookbackWindow", parent: name, pattern: "^P180D$|^P360D$|^P540D$|^P720D$")
+            try self.validate(self.modelName, name: "modelName", parent: name, max: 200)
+            try self.validate(self.modelName, name: "modelName", parent: name, min: 1)
+            try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+            try self.validate(self.retrainingFrequency, name: "retrainingFrequency", parent: name, max: 10)
+            try self.validate(self.retrainingFrequency, name: "retrainingFrequency", parent: name, min: 1)
+            try self.validate(self.retrainingFrequency, name: "retrainingFrequency", parent: name, pattern: "^P(\\dY)?(\\d{1,2}M)?(\\d{1,3}D)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case lookbackWindow = "LookbackWindow"
+            case modelName = "ModelName"
+            case promoteMode = "PromoteMode"
+            case retrainingFrequency = "RetrainingFrequency"
+            case retrainingStartDate = "RetrainingStartDate"
+        }
+    }
+
+    public struct CreateRetrainingSchedulerResponse: AWSDecodableShape {
+        /// The ARN of the model that you added the retraining scheduler to.
+        public let modelArn: String?
+        /// The name of the model that you added the retraining scheduler to.
+        public let modelName: String?
+        /// The status of the retraining scheduler.
+        public let status: RetrainingSchedulerStatus?
+
+        public init(modelArn: String? = nil, modelName: String? = nil, status: RetrainingSchedulerStatus? = nil) {
+            self.modelArn = modelArn
+            self.modelName = modelName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelArn = "ModelArn"
+            case modelName = "ModelName"
+            case status = "Status"
+        }
+    }
+
     public struct DataIngestionJobSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the dataset used in the data ingestion job.
         public let datasetArn: String?
@@ -627,7 +740,7 @@ extension LookoutEquipment {
     }
 
     public struct DatasetSchema: AWSEncodableShape {
-        ///
+        /// The data schema used within the given dataset.
         public let inlineDataSchema: String?
 
         public init(inlineDataSchema: String? = nil) {
@@ -708,7 +821,7 @@ extension LookoutEquipment {
     }
 
     public struct DeleteLabelGroupRequest: AWSEncodableShape {
-        /// The name of the label group that you want to delete. Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        ///  The name of the label group that you want to delete. Data in this field will be retained for service usage. Follow best practices for the security of your data.
         public let labelGroupName: String
 
         public init(labelGroupName: String) {
@@ -727,9 +840,9 @@ extension LookoutEquipment {
     }
 
     public struct DeleteLabelRequest: AWSEncodableShape {
-        /// The name of the label group that contains the label that you want to delete. Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        ///  The name of the label group that contains the label that you want to delete. Data in this field will be retained for service usage. Follow best practices for the security of your data.
         public let labelGroupName: String
-        /// The ID of the label that you want to delete.
+        ///  The ID of the label that you want to delete.
         public let labelId: String
 
         public init(labelGroupName: String, labelId: String) {
@@ -752,7 +865,45 @@ extension LookoutEquipment {
     }
 
     public struct DeleteModelRequest: AWSEncodableShape {
-        /// The name of the ML model to be deleted.
+        /// The name of the machine learning model to be deleted.
+        public let modelName: String
+
+        public init(modelName: String) {
+            self.modelName = modelName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelName, name: "modelName", parent: name, max: 200)
+            try self.validate(self.modelName, name: "modelName", parent: name, min: 1)
+            try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelName = "ModelName"
+        }
+    }
+
+    public struct DeleteResourcePolicyRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource for which the resource policy should be deleted.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[^:]+)?:lookoutequipment:[a-zA-Z0-9\\-]*:[0-9]{12}:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct DeleteRetrainingSchedulerRequest: AWSEncodableShape {
+        /// The name of the model whose retraining scheduler you want to delete.
         public let modelName: String
 
         public init(modelName: String) {
@@ -810,12 +961,14 @@ extension LookoutEquipment {
         public let jobId: String?
         /// The Amazon Resource Name (ARN) of an IAM role with permission to access the data source being ingested.
         public let roleArn: String?
+        /// The Amazon Resource Name (ARN) of the source dataset from which the data used for the data ingestion job was imported from.
+        public let sourceDatasetArn: String?
         /// Indicates the status of the DataIngestionJob operation.
         public let status: IngestionJobStatus?
         ///  Provides details about status of the ingestion job that is currently in progress.
         public let statusDetail: String?
 
-        public init(createdAt: Date? = nil, dataEndTime: Date? = nil, dataQualitySummary: DataQualitySummary? = nil, datasetArn: String? = nil, dataStartTime: Date? = nil, failedReason: String? = nil, ingestedDataSize: Int64? = nil, ingestedFilesSummary: IngestedFilesSummary? = nil, ingestionInputConfiguration: IngestionInputConfiguration? = nil, jobId: String? = nil, roleArn: String? = nil, status: IngestionJobStatus? = nil, statusDetail: String? = nil) {
+        public init(createdAt: Date? = nil, dataEndTime: Date? = nil, dataQualitySummary: DataQualitySummary? = nil, datasetArn: String? = nil, dataStartTime: Date? = nil, failedReason: String? = nil, ingestedDataSize: Int64? = nil, ingestedFilesSummary: IngestedFilesSummary? = nil, ingestionInputConfiguration: IngestionInputConfiguration? = nil, jobId: String? = nil, roleArn: String? = nil, sourceDatasetArn: String? = nil, status: IngestionJobStatus? = nil, statusDetail: String? = nil) {
             self.createdAt = createdAt
             self.dataEndTime = dataEndTime
             self.dataQualitySummary = dataQualitySummary
@@ -827,6 +980,7 @@ extension LookoutEquipment {
             self.ingestionInputConfiguration = ingestionInputConfiguration
             self.jobId = jobId
             self.roleArn = roleArn
+            self.sourceDatasetArn = sourceDatasetArn
             self.status = status
             self.statusDetail = statusDetail
         }
@@ -843,6 +997,7 @@ extension LookoutEquipment {
             case ingestionInputConfiguration = "IngestionInputConfiguration"
             case jobId = "JobId"
             case roleArn = "RoleArn"
+            case sourceDatasetArn = "SourceDatasetArn"
             case status = "Status"
             case statusDetail = "StatusDetail"
         }
@@ -892,10 +1047,12 @@ extension LookoutEquipment {
         public let schema: String?
         /// Provides the identifier of the KMS key used to encrypt dataset data by Amazon Lookout for Equipment.
         public let serverSideKmsKeyId: String?
+        /// The Amazon Resource Name (ARN) of the source dataset from which the current data being described was imported from.
+        public let sourceDatasetArn: String?
         /// Indicates the status of the dataset.
         public let status: DatasetStatus?
 
-        public init(createdAt: Date? = nil, dataEndTime: Date? = nil, dataQualitySummary: DataQualitySummary? = nil, datasetArn: String? = nil, datasetName: String? = nil, dataStartTime: Date? = nil, ingestedFilesSummary: IngestedFilesSummary? = nil, ingestionInputConfiguration: IngestionInputConfiguration? = nil, lastUpdatedAt: Date? = nil, roleArn: String? = nil, schema: String? = nil, serverSideKmsKeyId: String? = nil, status: DatasetStatus? = nil) {
+        public init(createdAt: Date? = nil, dataEndTime: Date? = nil, dataQualitySummary: DataQualitySummary? = nil, datasetArn: String? = nil, datasetName: String? = nil, dataStartTime: Date? = nil, ingestedFilesSummary: IngestedFilesSummary? = nil, ingestionInputConfiguration: IngestionInputConfiguration? = nil, lastUpdatedAt: Date? = nil, roleArn: String? = nil, schema: String? = nil, serverSideKmsKeyId: String? = nil, sourceDatasetArn: String? = nil, status: DatasetStatus? = nil) {
             self.createdAt = createdAt
             self.dataEndTime = dataEndTime
             self.dataQualitySummary = dataQualitySummary
@@ -908,6 +1065,7 @@ extension LookoutEquipment {
             self.roleArn = roleArn
             self.schema = schema
             self.serverSideKmsKeyId = serverSideKmsKeyId
+            self.sourceDatasetArn = sourceDatasetArn
             self.status = status
         }
 
@@ -924,6 +1082,7 @@ extension LookoutEquipment {
             case roleArn = "RoleArn"
             case schema = "Schema"
             case serverSideKmsKeyId = "ServerSideKmsKeyId"
+            case sourceDatasetArn = "SourceDatasetArn"
             case status = "Status"
         }
     }
@@ -964,9 +1123,9 @@ extension LookoutEquipment {
         public let inferenceSchedulerName: String?
         /// Indicates whether the latest execution for the inference scheduler was Anomalous (anomalous events found) or Normal (no anomalous events found).
         public let latestInferenceResult: LatestInferenceResult?
-        /// The Amazon Resource Name (ARN) of the ML model of the inference scheduler being described.
+        /// The Amazon Resource Name (ARN) of the machine learning model of the inference scheduler being described.
         public let modelArn: String?
-        /// The name of the ML model of the inference scheduler being described.
+        /// The name of the machine learning model of the inference scheduler being described.
         public let modelName: String?
         ///  The Amazon Resource Name (ARN) of a role with permission to access the data source for the inference scheduler being described.
         public let roleArn: String?
@@ -1013,7 +1172,7 @@ extension LookoutEquipment {
     }
 
     public struct DescribeLabelGroupRequest: AWSEncodableShape {
-        /// Returns the name of the label group.
+        ///  Returns the name of the label group.
         public let labelGroupName: String
 
         public init(labelGroupName: String) {
@@ -1032,15 +1191,15 @@ extension LookoutEquipment {
     }
 
     public struct DescribeLabelGroupResponse: AWSDecodableShape {
-        /// The time at which the label group was created.
+        ///  The time at which the label group was created.
         public let createdAt: Date?
-        /// Codes indicating the type of anomaly associated with the labels in the lagbel group.
+        ///  Codes indicating the type of anomaly associated with the labels in the lagbel group.
         public let faultCodes: [String]?
-        /// The ARN of the label group.
+        ///  The Amazon Resource Name (ARN) of the label group.
         public let labelGroupArn: String?
-        /// The name of the label group.
+        ///  The name of the label group.
         public let labelGroupName: String?
-        /// The time at which the label group was updated.
+        ///  The time at which the label group was updated.
         public let updatedAt: Date?
 
         public init(createdAt: Date? = nil, faultCodes: [String]? = nil, labelGroupArn: String? = nil, labelGroupName: String? = nil, updatedAt: Date? = nil) {
@@ -1061,9 +1220,9 @@ extension LookoutEquipment {
     }
 
     public struct DescribeLabelRequest: AWSEncodableShape {
-        /// Returns the name of the group containing the label.
+        ///  Returns the name of the group containing the label.
         public let labelGroupName: String
-        /// Returns the ID of the label.
+        ///  Returns the ID of the label.
         public let labelId: String
 
         public init(labelGroupName: String, labelId: String) {
@@ -1086,26 +1245,25 @@ extension LookoutEquipment {
     }
 
     public struct DescribeLabelResponse: AWSDecodableShape {
-        /// The time at which the label was created.
+        ///  The time at which the label was created.
         public let createdAt: Date?
-        /// The end time of the requested label.
+        ///  The end time of the requested label.
         public let endTime: Date?
-        /// Indicates that a label pertains to a particular piece of equipment.
+        ///  Indicates that a label pertains to a particular piece of equipment.
         public let equipment: String?
-        /// Indicates the type of anomaly associated with the label.
-        ///  Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        ///  Indicates the type of anomaly associated with the label.  Data in this field will be retained for service usage. Follow best practices for the security of your data.
         public let faultCode: String?
-        /// The ARN of the requested label group.
+        ///  The Amazon Resource Name (ARN) of the requested label group.
         public let labelGroupArn: String?
-        /// The name of the requested label group.
+        ///  The name of the requested label group.
         public let labelGroupName: String?
-        /// The ID of the requested label.
+        ///  The ID of the requested label.
         public let labelId: String?
         /// Metadata providing additional information about the label. Data in this field will be retained for service usage. Follow best practices for the security of your data.
         public let notes: String?
-        /// Indicates whether a labeled event represents an anomaly.
+        ///  Indicates whether a labeled event represents an anomaly.
         public let rating: LabelRating?
-        /// The start time of the requested label.
+        ///  The start time of the requested label.
         public let startTime: Date?
 
         public init(createdAt: Date? = nil, endTime: Date? = nil, equipment: String? = nil, faultCode: String? = nil, labelGroupArn: String? = nil, labelGroupName: String? = nil, labelId: String? = nil, notes: String? = nil, rating: LabelRating? = nil, startTime: Date? = nil) {
@@ -1136,7 +1294,7 @@ extension LookoutEquipment {
     }
 
     public struct DescribeModelRequest: AWSEncodableShape {
-        /// The name of the ML model to be described.
+        /// The name of the machine learning model to be described.
         public let modelName: String
 
         public init(modelName: String) {
@@ -1155,50 +1313,92 @@ extension LookoutEquipment {
     }
 
     public struct DescribeModelResponse: AWSDecodableShape {
-        /// Indicates the time and date at which the ML model was created.
+        /// Indicates the end time of the inference data that has been accumulated.
+        public let accumulatedInferenceDataEndTime: Date?
+        /// Indicates the start time of the inference data that has been accumulated.
+        public let accumulatedInferenceDataStartTime: Date?
+        /// The name of the model version used by the inference schedular when running a scheduled inference execution.
+        public let activeModelVersion: Int64?
+        /// The Amazon Resource Name (ARN) of the model version used by the inference scheduler when running a scheduled inference execution.
+        public let activeModelVersionArn: String?
+        /// Indicates the time and date at which the machine learning model was created.
         public let createdAt: Date?
         /// The configuration is the TargetSamplingRate, which is the sampling rate of the data after post processing by Amazon Lookout for Equipment. For example, if you provide data that has been collected at a 1 second level and you want the system to resample the data at a 1 minute rate before training, the TargetSamplingRate is 1 minute. When providing a value for the TargetSamplingRate, you must attach the prefix "PT" to the rate you want. The value for a 1 second rate is therefore PT1S, the value for a 15 minute rate is PT15M, and the value for a 1 hour rate is PT1H
         public let dataPreProcessingConfiguration: DataPreProcessingConfiguration?
-        /// The Amazon Resouce Name (ARN) of the dataset used to create the ML model being described.
+        /// The Amazon Resouce Name (ARN) of the dataset used to create the machine learning model being described.
         public let datasetArn: String?
-        /// The name of the dataset being used by the ML being described.
+        /// The name of the dataset being used by the machine learning being described.
         public let datasetName: String?
-        ///  Indicates the time reference in the dataset that was used to end the subset of evaluation data for the ML model.
+        ///  Indicates the time reference in the dataset that was used to end the subset of evaluation data for the machine learning model.
         public let evaluationDataEndTime: Date?
-        ///  Indicates the time reference in the dataset that was used to begin the subset of evaluation data for the ML model.
+        ///  Indicates the time reference in the dataset that was used to begin the subset of evaluation data for the machine learning model.
         public let evaluationDataStartTime: Date?
-        /// If the training of the ML model failed, this indicates the reason for that failure.
+        /// If the training of the machine learning model failed, this indicates the reason for that failure.
         public let failedReason: String?
+        /// The date and time when the import job was completed. This field appears if the active model version was imported.
+        public let importJobEndTime: Date?
+        /// The date and time when the import job was started. This field appears if the active model version was imported.
+        public let importJobStartTime: Date?
         /// Specifies configuration information about the labels input, including its S3 location.
         public let labelsInputConfiguration: LabelsInputConfiguration?
-        /// Indicates the last time the ML model was updated. The type of update is not specified.
+        /// Indicates the last time the machine learning model was updated. The type of update is not specified.
         public let lastUpdatedTime: Date?
-        /// The Amazon Resource Name (ARN) of the ML model being described.
+        /// Indicates the number of days of data used in the most recent scheduled retraining run.
+        public let latestScheduledRetrainingAvailableDataInDays: Int?
+        /// If the model version was generated by retraining and the training failed, this indicates the reason for that failure.
+        public let latestScheduledRetrainingFailedReason: String?
+        /// Indicates the most recent model version that was generated by retraining.
+        public let latestScheduledRetrainingModelVersion: Int64?
+        /// Indicates the start time of the most recent scheduled retraining run.
+        public let latestScheduledRetrainingStartTime: Date?
+        /// Indicates the status of the most recent scheduled retraining run.
+        public let latestScheduledRetrainingStatus: ModelVersionStatus?
+        /// The Amazon Resource Name (ARN) of the machine learning model being described.
         public let modelArn: String?
         /// The Model Metrics show an aggregated summary of the model's performance within the evaluation time range. This is the JSON content of the metrics created when evaluating the model.
         public let modelMetrics: String?
-        /// The name of the ML model being described.
+        /// The name of the machine learning model being described.
         public let modelName: String?
+        /// The date the active model version was activated.
+        public let modelVersionActivatedAt: Date?
+        /// Indicates the date and time that the next scheduled retraining run will start on. Lookout for Equipment truncates the time you provide to the nearest UTC day.
+        public let nextScheduledRetrainingStartDate: Date?
         /// Indicates that the asset associated with this sensor has been shut off. As long as this condition is met, Lookout for Equipment will not use data from this asset for training, evaluation, or inference.
         public let offCondition: String?
-        ///  The Amazon Resource Name (ARN) of a role with permission to access the data source for the ML model being described.
+        /// The model version that was set as the active model version prior to the current active model version.
+        public let previousActiveModelVersion: Int64?
+        /// The ARN of the model version that was set as the active model version prior to the current active model version.
+        public let previousActiveModelVersionArn: String?
+        /// The date and time when the previous active model version was activated.
+        public let previousModelVersionActivatedAt: Date?
+        /// If the model version was retrained, this field shows a summary of the performance of the prior model on the new training range. You can use the information in this JSON-formatted object to compare the new model version and the prior model version.
+        public let priorModelMetrics: String?
+        /// Indicates the status of the retraining scheduler.
+        public let retrainingSchedulerStatus: RetrainingSchedulerStatus?
+        ///  The Amazon Resource Name (ARN) of a role with permission to access the data source for the machine learning model being described.
         public let roleArn: String?
         /// A JSON description of the data that is in each time series dataset, including names, column names, and data types.
         public let schema: String?
         /// Provides the identifier of the KMS key used to encrypt model data by Amazon Lookout for Equipment.
         public let serverSideKmsKeyId: String?
+        /// The Amazon Resource Name (ARN) of the source model version. This field appears if the active model version was imported.
+        public let sourceModelVersionArn: String?
         /// Specifies the current status of the model being described. Status describes the status of the most recent action of the model.
         public let status: ModelStatus?
-        ///  Indicates the time reference in the dataset that was used to end the subset of training data for the ML model.
+        ///  Indicates the time reference in the dataset that was used to end the subset of training data for the machine learning model.
         public let trainingDataEndTime: Date?
-        ///  Indicates the time reference in the dataset that was used to begin the subset of training data for the ML model.
+        ///  Indicates the time reference in the dataset that was used to begin the subset of training data for the machine learning model.
         public let trainingDataStartTime: Date?
-        /// Indicates the time at which the training of the ML model was completed.
+        /// Indicates the time at which the training of the machine learning model was completed.
         public let trainingExecutionEndTime: Date?
-        /// Indicates the time at which the training of the ML model began.
+        /// Indicates the time at which the training of the machine learning model began.
         public let trainingExecutionStartTime: Date?
 
-        public init(createdAt: Date? = nil, dataPreProcessingConfiguration: DataPreProcessingConfiguration? = nil, datasetArn: String? = nil, datasetName: String? = nil, evaluationDataEndTime: Date? = nil, evaluationDataStartTime: Date? = nil, failedReason: String? = nil, labelsInputConfiguration: LabelsInputConfiguration? = nil, lastUpdatedTime: Date? = nil, modelArn: String? = nil, modelMetrics: String? = nil, modelName: String? = nil, offCondition: String? = nil, roleArn: String? = nil, schema: String? = nil, serverSideKmsKeyId: String? = nil, status: ModelStatus? = nil, trainingDataEndTime: Date? = nil, trainingDataStartTime: Date? = nil, trainingExecutionEndTime: Date? = nil, trainingExecutionStartTime: Date? = nil) {
+        public init(accumulatedInferenceDataEndTime: Date? = nil, accumulatedInferenceDataStartTime: Date? = nil, activeModelVersion: Int64? = nil, activeModelVersionArn: String? = nil, createdAt: Date? = nil, dataPreProcessingConfiguration: DataPreProcessingConfiguration? = nil, datasetArn: String? = nil, datasetName: String? = nil, evaluationDataEndTime: Date? = nil, evaluationDataStartTime: Date? = nil, failedReason: String? = nil, importJobEndTime: Date? = nil, importJobStartTime: Date? = nil, labelsInputConfiguration: LabelsInputConfiguration? = nil, lastUpdatedTime: Date? = nil, latestScheduledRetrainingAvailableDataInDays: Int? = nil, latestScheduledRetrainingFailedReason: String? = nil, latestScheduledRetrainingModelVersion: Int64? = nil, latestScheduledRetrainingStartTime: Date? = nil, latestScheduledRetrainingStatus: ModelVersionStatus? = nil, modelArn: String? = nil, modelMetrics: String? = nil, modelName: String? = nil, modelVersionActivatedAt: Date? = nil, nextScheduledRetrainingStartDate: Date? = nil, offCondition: String? = nil, previousActiveModelVersion: Int64? = nil, previousActiveModelVersionArn: String? = nil, previousModelVersionActivatedAt: Date? = nil, priorModelMetrics: String? = nil, retrainingSchedulerStatus: RetrainingSchedulerStatus? = nil, roleArn: String? = nil, schema: String? = nil, serverSideKmsKeyId: String? = nil, sourceModelVersionArn: String? = nil, status: ModelStatus? = nil, trainingDataEndTime: Date? = nil, trainingDataStartTime: Date? = nil, trainingExecutionEndTime: Date? = nil, trainingExecutionStartTime: Date? = nil) {
+            self.accumulatedInferenceDataEndTime = accumulatedInferenceDataEndTime
+            self.accumulatedInferenceDataStartTime = accumulatedInferenceDataStartTime
+            self.activeModelVersion = activeModelVersion
+            self.activeModelVersionArn = activeModelVersionArn
             self.createdAt = createdAt
             self.dataPreProcessingConfiguration = dataPreProcessingConfiguration
             self.datasetArn = datasetArn
@@ -1206,15 +1406,30 @@ extension LookoutEquipment {
             self.evaluationDataEndTime = evaluationDataEndTime
             self.evaluationDataStartTime = evaluationDataStartTime
             self.failedReason = failedReason
+            self.importJobEndTime = importJobEndTime
+            self.importJobStartTime = importJobStartTime
             self.labelsInputConfiguration = labelsInputConfiguration
             self.lastUpdatedTime = lastUpdatedTime
+            self.latestScheduledRetrainingAvailableDataInDays = latestScheduledRetrainingAvailableDataInDays
+            self.latestScheduledRetrainingFailedReason = latestScheduledRetrainingFailedReason
+            self.latestScheduledRetrainingModelVersion = latestScheduledRetrainingModelVersion
+            self.latestScheduledRetrainingStartTime = latestScheduledRetrainingStartTime
+            self.latestScheduledRetrainingStatus = latestScheduledRetrainingStatus
             self.modelArn = modelArn
             self.modelMetrics = modelMetrics
             self.modelName = modelName
+            self.modelVersionActivatedAt = modelVersionActivatedAt
+            self.nextScheduledRetrainingStartDate = nextScheduledRetrainingStartDate
             self.offCondition = offCondition
+            self.previousActiveModelVersion = previousActiveModelVersion
+            self.previousActiveModelVersionArn = previousActiveModelVersionArn
+            self.previousModelVersionActivatedAt = previousModelVersionActivatedAt
+            self.priorModelMetrics = priorModelMetrics
+            self.retrainingSchedulerStatus = retrainingSchedulerStatus
             self.roleArn = roleArn
             self.schema = schema
             self.serverSideKmsKeyId = serverSideKmsKeyId
+            self.sourceModelVersionArn = sourceModelVersionArn
             self.status = status
             self.trainingDataEndTime = trainingDataEndTime
             self.trainingDataStartTime = trainingDataStartTime
@@ -1223,6 +1438,10 @@ extension LookoutEquipment {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accumulatedInferenceDataEndTime = "AccumulatedInferenceDataEndTime"
+            case accumulatedInferenceDataStartTime = "AccumulatedInferenceDataStartTime"
+            case activeModelVersion = "ActiveModelVersion"
+            case activeModelVersionArn = "ActiveModelVersionArn"
             case createdAt = "CreatedAt"
             case dataPreProcessingConfiguration = "DataPreProcessingConfiguration"
             case datasetArn = "DatasetArn"
@@ -1230,20 +1449,302 @@ extension LookoutEquipment {
             case evaluationDataEndTime = "EvaluationDataEndTime"
             case evaluationDataStartTime = "EvaluationDataStartTime"
             case failedReason = "FailedReason"
+            case importJobEndTime = "ImportJobEndTime"
+            case importJobStartTime = "ImportJobStartTime"
             case labelsInputConfiguration = "LabelsInputConfiguration"
             case lastUpdatedTime = "LastUpdatedTime"
+            case latestScheduledRetrainingAvailableDataInDays = "LatestScheduledRetrainingAvailableDataInDays"
+            case latestScheduledRetrainingFailedReason = "LatestScheduledRetrainingFailedReason"
+            case latestScheduledRetrainingModelVersion = "LatestScheduledRetrainingModelVersion"
+            case latestScheduledRetrainingStartTime = "LatestScheduledRetrainingStartTime"
+            case latestScheduledRetrainingStatus = "LatestScheduledRetrainingStatus"
             case modelArn = "ModelArn"
             case modelMetrics = "ModelMetrics"
             case modelName = "ModelName"
+            case modelVersionActivatedAt = "ModelVersionActivatedAt"
+            case nextScheduledRetrainingStartDate = "NextScheduledRetrainingStartDate"
             case offCondition = "OffCondition"
+            case previousActiveModelVersion = "PreviousActiveModelVersion"
+            case previousActiveModelVersionArn = "PreviousActiveModelVersionArn"
+            case previousModelVersionActivatedAt = "PreviousModelVersionActivatedAt"
+            case priorModelMetrics = "PriorModelMetrics"
+            case retrainingSchedulerStatus = "RetrainingSchedulerStatus"
             case roleArn = "RoleArn"
             case schema = "Schema"
             case serverSideKmsKeyId = "ServerSideKmsKeyId"
+            case sourceModelVersionArn = "SourceModelVersionArn"
             case status = "Status"
             case trainingDataEndTime = "TrainingDataEndTime"
             case trainingDataStartTime = "TrainingDataStartTime"
             case trainingExecutionEndTime = "TrainingExecutionEndTime"
             case trainingExecutionStartTime = "TrainingExecutionStartTime"
+        }
+    }
+
+    public struct DescribeModelVersionRequest: AWSEncodableShape {
+        /// The name of the machine learning model that this version belongs to.
+        public let modelName: String
+        /// The version of the machine learning model.
+        public let modelVersion: Int64
+
+        public init(modelName: String, modelVersion: Int64) {
+            self.modelName = modelName
+            self.modelVersion = modelVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelName, name: "modelName", parent: name, max: 200)
+            try self.validate(self.modelName, name: "modelName", parent: name, min: 1)
+            try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+            try self.validate(self.modelVersion, name: "modelVersion", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelName = "ModelName"
+            case modelVersion = "ModelVersion"
+        }
+    }
+
+    public struct DescribeModelVersionResponse: AWSDecodableShape {
+        /// Indicates whether the model version was promoted to be the active version after retraining or if there was an error with or cancellation of the retraining.
+        public let autoPromotionResult: AutoPromotionResult?
+        /// Indicates the reason for the AutoPromotionResult. For example, a model might not be promoted if its performance was worse than the active version, if there was an error during training, or if the retraining scheduler was using MANUAL promote mode. The model will be promoted in MANAGED promote mode if the performance is better than the previous model.
+        public let autoPromotionResultReason: String?
+        /// Indicates the time and date at which the machine learning model version was created.
+        public let createdAt: Date?
+        public let dataPreProcessingConfiguration: DataPreProcessingConfiguration?
+        /// The Amazon Resource Name (ARN) of the dataset used to train the model version.
+        public let datasetArn: String?
+        /// The name of the dataset used to train the model version.
+        public let datasetName: String?
+        /// The date on which the data in the evaluation set began being gathered. If you imported the version, this is the date that the evaluation set data in the source version finished being gathered.
+        public let evaluationDataEndTime: Date?
+        /// The date on which the data in the evaluation set began being gathered. If you imported the version, this is the date that the evaluation set data in the source version began being gathered.
+        public let evaluationDataStartTime: Date?
+        /// The failure message if the training of the model version failed.
+        public let failedReason: String?
+        /// The size in bytes of the imported data. This field appears if the model version was imported.
+        public let importedDataSizeInBytes: Int64?
+        /// The date and time when the import job completed. This field appears if the model version was imported.
+        public let importJobEndTime: Date?
+        /// The date and time when the import job began. This field appears if the model version was imported.
+        public let importJobStartTime: Date?
+        public let labelsInputConfiguration: LabelsInputConfiguration?
+        /// Indicates the last time the machine learning model version was updated.
+        public let lastUpdatedTime: Date?
+        /// The Amazon Resource Name (ARN) of the parent machine learning model that this version belong to.
+        public let modelArn: String?
+        /// Shows an aggregated summary, in JSON format, of the model's performance within the evaluation time range. These metrics are created when evaluating the model.
+        public let modelMetrics: String?
+        /// The name of the machine learning model that this version belongs to.
+        public let modelName: String?
+        /// The version of the machine learning model.
+        public let modelVersion: Int64?
+        /// The Amazon Resource Name (ARN) of the model version.
+        public let modelVersionArn: String?
+        /// Indicates that the asset associated with this sensor has been shut off. As long as this condition is met, Lookout for Equipment will not use data from this asset for training, evaluation, or inference.
+        public let offCondition: String?
+        /// If the model version was retrained, this field shows a summary of the performance of the prior model on the new training range. You can use the information in this JSON-formatted object to compare the new model version and the prior model version.
+        public let priorModelMetrics: String?
+        /// Indicates the number of days of data used in the most recent scheduled retraining run.
+        public let retrainingAvailableDataInDays: Int?
+        /// The Amazon Resource Name (ARN) of the role that was used to train the model version.
+        public let roleArn: String?
+        /// The schema of the data used to train the model version.
+        public let schema: String?
+        /// The identifier of the KMS key key used to encrypt model version data by Amazon Lookout for Equipment.
+        public let serverSideKmsKeyId: String?
+        /// If model version was imported, then this field is the arn of the source model version.
+        public let sourceModelVersionArn: String?
+        /// Indicates whether this model version was created by training or by importing.
+        public let sourceType: ModelVersionSourceType?
+        /// The current status of the model version.
+        public let status: ModelVersionStatus?
+        /// The date on which the training data finished being gathered. If you imported the version, this is the date that the training data in the source version finished being gathered.
+        public let trainingDataEndTime: Date?
+        /// The date on which the training data began being gathered. If you imported the version, this is the date that the training data in the source version began being gathered.
+        public let trainingDataStartTime: Date?
+        /// The time when the training of the version completed.
+        public let trainingExecutionEndTime: Date?
+        /// The time when the training of the version began.
+        public let trainingExecutionStartTime: Date?
+
+        public init(autoPromotionResult: AutoPromotionResult? = nil, autoPromotionResultReason: String? = nil, createdAt: Date? = nil, dataPreProcessingConfiguration: DataPreProcessingConfiguration? = nil, datasetArn: String? = nil, datasetName: String? = nil, evaluationDataEndTime: Date? = nil, evaluationDataStartTime: Date? = nil, failedReason: String? = nil, importedDataSizeInBytes: Int64? = nil, importJobEndTime: Date? = nil, importJobStartTime: Date? = nil, labelsInputConfiguration: LabelsInputConfiguration? = nil, lastUpdatedTime: Date? = nil, modelArn: String? = nil, modelMetrics: String? = nil, modelName: String? = nil, modelVersion: Int64? = nil, modelVersionArn: String? = nil, offCondition: String? = nil, priorModelMetrics: String? = nil, retrainingAvailableDataInDays: Int? = nil, roleArn: String? = nil, schema: String? = nil, serverSideKmsKeyId: String? = nil, sourceModelVersionArn: String? = nil, sourceType: ModelVersionSourceType? = nil, status: ModelVersionStatus? = nil, trainingDataEndTime: Date? = nil, trainingDataStartTime: Date? = nil, trainingExecutionEndTime: Date? = nil, trainingExecutionStartTime: Date? = nil) {
+            self.autoPromotionResult = autoPromotionResult
+            self.autoPromotionResultReason = autoPromotionResultReason
+            self.createdAt = createdAt
+            self.dataPreProcessingConfiguration = dataPreProcessingConfiguration
+            self.datasetArn = datasetArn
+            self.datasetName = datasetName
+            self.evaluationDataEndTime = evaluationDataEndTime
+            self.evaluationDataStartTime = evaluationDataStartTime
+            self.failedReason = failedReason
+            self.importedDataSizeInBytes = importedDataSizeInBytes
+            self.importJobEndTime = importJobEndTime
+            self.importJobStartTime = importJobStartTime
+            self.labelsInputConfiguration = labelsInputConfiguration
+            self.lastUpdatedTime = lastUpdatedTime
+            self.modelArn = modelArn
+            self.modelMetrics = modelMetrics
+            self.modelName = modelName
+            self.modelVersion = modelVersion
+            self.modelVersionArn = modelVersionArn
+            self.offCondition = offCondition
+            self.priorModelMetrics = priorModelMetrics
+            self.retrainingAvailableDataInDays = retrainingAvailableDataInDays
+            self.roleArn = roleArn
+            self.schema = schema
+            self.serverSideKmsKeyId = serverSideKmsKeyId
+            self.sourceModelVersionArn = sourceModelVersionArn
+            self.sourceType = sourceType
+            self.status = status
+            self.trainingDataEndTime = trainingDataEndTime
+            self.trainingDataStartTime = trainingDataStartTime
+            self.trainingExecutionEndTime = trainingExecutionEndTime
+            self.trainingExecutionStartTime = trainingExecutionStartTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoPromotionResult = "AutoPromotionResult"
+            case autoPromotionResultReason = "AutoPromotionResultReason"
+            case createdAt = "CreatedAt"
+            case dataPreProcessingConfiguration = "DataPreProcessingConfiguration"
+            case datasetArn = "DatasetArn"
+            case datasetName = "DatasetName"
+            case evaluationDataEndTime = "EvaluationDataEndTime"
+            case evaluationDataStartTime = "EvaluationDataStartTime"
+            case failedReason = "FailedReason"
+            case importedDataSizeInBytes = "ImportedDataSizeInBytes"
+            case importJobEndTime = "ImportJobEndTime"
+            case importJobStartTime = "ImportJobStartTime"
+            case labelsInputConfiguration = "LabelsInputConfiguration"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case modelArn = "ModelArn"
+            case modelMetrics = "ModelMetrics"
+            case modelName = "ModelName"
+            case modelVersion = "ModelVersion"
+            case modelVersionArn = "ModelVersionArn"
+            case offCondition = "OffCondition"
+            case priorModelMetrics = "PriorModelMetrics"
+            case retrainingAvailableDataInDays = "RetrainingAvailableDataInDays"
+            case roleArn = "RoleArn"
+            case schema = "Schema"
+            case serverSideKmsKeyId = "ServerSideKmsKeyId"
+            case sourceModelVersionArn = "SourceModelVersionArn"
+            case sourceType = "SourceType"
+            case status = "Status"
+            case trainingDataEndTime = "TrainingDataEndTime"
+            case trainingDataStartTime = "TrainingDataStartTime"
+            case trainingExecutionEndTime = "TrainingExecutionEndTime"
+            case trainingExecutionStartTime = "TrainingExecutionStartTime"
+        }
+    }
+
+    public struct DescribeResourcePolicyRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource that is associated with the resource policy.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[^:]+)?:lookoutequipment:[a-zA-Z0-9\\-]*:[0-9]{12}:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct DescribeResourcePolicyResponse: AWSDecodableShape {
+        /// The time when the resource policy was created.
+        public let creationTime: Date?
+        /// The time when the resource policy was last modified.
+        public let lastModifiedTime: Date?
+        /// A unique identifier for a revision of the resource policy.
+        public let policyRevisionId: String?
+        /// The resource policy in a JSON-formatted string.
+        public let resourcePolicy: String?
+
+        public init(creationTime: Date? = nil, lastModifiedTime: Date? = nil, policyRevisionId: String? = nil, resourcePolicy: String? = nil) {
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.policyRevisionId = policyRevisionId
+            self.resourcePolicy = resourcePolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case lastModifiedTime = "LastModifiedTime"
+            case policyRevisionId = "PolicyRevisionId"
+            case resourcePolicy = "ResourcePolicy"
+        }
+    }
+
+    public struct DescribeRetrainingSchedulerRequest: AWSEncodableShape {
+        /// The name of the model that the retraining scheduler is attached to.
+        public let modelName: String
+
+        public init(modelName: String) {
+            self.modelName = modelName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelName, name: "modelName", parent: name, max: 200)
+            try self.validate(self.modelName, name: "modelName", parent: name, min: 1)
+            try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelName = "ModelName"
+        }
+    }
+
+    public struct DescribeRetrainingSchedulerResponse: AWSDecodableShape {
+        /// Indicates the time and date at which the retraining scheduler was created.
+        public let createdAt: Date?
+        /// The number of past days of data used for retraining.
+        public let lookbackWindow: String?
+        /// The ARN of the model that the retraining scheduler is attached to.
+        public let modelArn: String?
+        /// The name of the model that the retraining scheduler is attached to.
+        public let modelName: String?
+        /// Indicates how the service uses new models. In MANAGED mode, new models are used for inference if they have better performance than the current model. In MANUAL mode, the new models are not used until they are manually activated.
+        public let promoteMode: ModelPromoteMode?
+        /// The frequency at which the model retraining is set. This follows the ISO 8601 guidelines.
+        public let retrainingFrequency: String?
+        /// The start date for the retraining scheduler. Lookout for Equipment truncates the time you provide to the nearest UTC day.
+        public let retrainingStartDate: Date?
+        /// The status of the retraining scheduler.
+        public let status: RetrainingSchedulerStatus?
+        /// Indicates the time and date at which the retraining scheduler was updated.
+        public let updatedAt: Date?
+
+        public init(createdAt: Date? = nil, lookbackWindow: String? = nil, modelArn: String? = nil, modelName: String? = nil, promoteMode: ModelPromoteMode? = nil, retrainingFrequency: String? = nil, retrainingStartDate: Date? = nil, status: RetrainingSchedulerStatus? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.lookbackWindow = lookbackWindow
+            self.modelArn = modelArn
+            self.modelName = modelName
+            self.promoteMode = promoteMode
+            self.retrainingFrequency = retrainingFrequency
+            self.retrainingStartDate = retrainingStartDate
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case lookbackWindow = "LookbackWindow"
+            case modelArn = "ModelArn"
+            case modelName = "ModelName"
+            case promoteMode = "PromoteMode"
+            case retrainingFrequency = "RetrainingFrequency"
+            case retrainingStartDate = "RetrainingStartDate"
+            case status = "Status"
+            case updatedAt = "UpdatedAt"
         }
     }
 
@@ -1257,6 +1758,178 @@ extension LookoutEquipment {
 
         private enum CodingKeys: String, CodingKey {
             case totalNumberOfDuplicateTimestamps = "TotalNumberOfDuplicateTimestamps"
+        }
+    }
+
+    public struct ImportDatasetRequest: AWSEncodableShape {
+        /// A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one.
+        public let clientToken: String
+        /// The name of the machine learning dataset to be created. If the dataset already exists, Amazon Lookout for Equipment overwrites the existing dataset. If you don't specify this field, it is filled with the name of the source dataset.
+        public let datasetName: String?
+        /// Provides the identifier of the KMS key key used to encrypt model data by Amazon Lookout for Equipment.
+        public let serverSideKmsKeyId: String?
+        /// The Amazon Resource Name (ARN) of the dataset to import.
+        public let sourceDatasetArn: String
+        /// Any tags associated with the dataset to be created.
+        public let tags: [Tag]?
+
+        public init(clientToken: String = ImportDatasetRequest.idempotencyToken(), datasetName: String? = nil, serverSideKmsKeyId: String? = nil, sourceDatasetArn: String, tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.datasetName = datasetName
+            self.serverSideKmsKeyId = serverSideKmsKeyId
+            self.sourceDatasetArn = sourceDatasetArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\p{ASCII}{1,256}$")
+            try self.validate(self.datasetName, name: "datasetName", parent: name, max: 200)
+            try self.validate(self.datasetName, name: "datasetName", parent: name, min: 1)
+            try self.validate(self.datasetName, name: "datasetName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+            try self.validate(self.serverSideKmsKeyId, name: "serverSideKmsKeyId", parent: name, max: 2048)
+            try self.validate(self.serverSideKmsKeyId, name: "serverSideKmsKeyId", parent: name, min: 1)
+            try self.validate(self.serverSideKmsKeyId, name: "serverSideKmsKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
+            try self.validate(self.sourceDatasetArn, name: "sourceDatasetArn", parent: name, max: 2048)
+            try self.validate(self.sourceDatasetArn, name: "sourceDatasetArn", parent: name, min: 20)
+            try self.validate(self.sourceDatasetArn, name: "sourceDatasetArn", parent: name, pattern: "^arn:aws(-[^:]+)?:lookoutequipment:[a-zA-Z0-9\\-]*:[0-9]{12}:dataset\\/.+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case datasetName = "DatasetName"
+            case serverSideKmsKeyId = "ServerSideKmsKeyId"
+            case sourceDatasetArn = "SourceDatasetArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ImportDatasetResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the dataset that was imported.
+        public let datasetArn: String?
+        /// The name of the created machine learning dataset.
+        public let datasetName: String?
+        /// A unique identifier for the job of importing the dataset.
+        public let jobId: String?
+        /// The status of the ImportDataset operation.
+        public let status: DatasetStatus?
+
+        public init(datasetArn: String? = nil, datasetName: String? = nil, jobId: String? = nil, status: DatasetStatus? = nil) {
+            self.datasetArn = datasetArn
+            self.datasetName = datasetName
+            self.jobId = jobId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetArn = "DatasetArn"
+            case datasetName = "DatasetName"
+            case jobId = "JobId"
+            case status = "Status"
+        }
+    }
+
+    public struct ImportModelVersionRequest: AWSEncodableShape {
+        /// A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one.
+        public let clientToken: String
+        /// The name of the dataset for the machine learning model being imported.
+        public let datasetName: String
+        /// Indicates how to import the accumulated inference data when a model version is imported. The possible values are as follows:   NO_IMPORT – Don't import the data.   ADD_WHEN_EMPTY – Only import the data from the source model if there is no existing data in the target model.   OVERWRITE – Import the data from the source model and overwrite the existing data in the target model.
+        public let inferenceDataImportStrategy: InferenceDataImportStrategy?
+        public let labelsInputConfiguration: LabelsInputConfiguration?
+        /// The name for the machine learning model to be created. If the model already exists, Amazon Lookout for Equipment creates a new version. If you do not specify this field, it is filled with the name of the source model.
+        public let modelName: String?
+        /// The Amazon Resource Name (ARN) of a role with permission to access the data source being used to create the machine learning model.
+        public let roleArn: String?
+        /// Provides the identifier of the KMS key key used to encrypt model data by Amazon Lookout for Equipment.
+        public let serverSideKmsKeyId: String?
+        /// The Amazon Resource Name (ARN) of the model version to import.
+        public let sourceModelVersionArn: String
+        /// The tags associated with the machine learning model to be created.
+        public let tags: [Tag]?
+
+        public init(clientToken: String = ImportModelVersionRequest.idempotencyToken(), datasetName: String, inferenceDataImportStrategy: InferenceDataImportStrategy? = nil, labelsInputConfiguration: LabelsInputConfiguration? = nil, modelName: String? = nil, roleArn: String? = nil, serverSideKmsKeyId: String? = nil, sourceModelVersionArn: String, tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.datasetName = datasetName
+            self.inferenceDataImportStrategy = inferenceDataImportStrategy
+            self.labelsInputConfiguration = labelsInputConfiguration
+            self.modelName = modelName
+            self.roleArn = roleArn
+            self.serverSideKmsKeyId = serverSideKmsKeyId
+            self.sourceModelVersionArn = sourceModelVersionArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\p{ASCII}{1,256}$")
+            try self.validate(self.datasetName, name: "datasetName", parent: name, max: 200)
+            try self.validate(self.datasetName, name: "datasetName", parent: name, min: 1)
+            try self.validate(self.datasetName, name: "datasetName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+            try self.labelsInputConfiguration?.validate(name: "\(name).labelsInputConfiguration")
+            try self.validate(self.modelName, name: "modelName", parent: name, max: 200)
+            try self.validate(self.modelName, name: "modelName", parent: name, min: 1)
+            try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+$")
+            try self.validate(self.serverSideKmsKeyId, name: "serverSideKmsKeyId", parent: name, max: 2048)
+            try self.validate(self.serverSideKmsKeyId, name: "serverSideKmsKeyId", parent: name, min: 1)
+            try self.validate(self.serverSideKmsKeyId, name: "serverSideKmsKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
+            try self.validate(self.sourceModelVersionArn, name: "sourceModelVersionArn", parent: name, max: 2048)
+            try self.validate(self.sourceModelVersionArn, name: "sourceModelVersionArn", parent: name, min: 20)
+            try self.validate(self.sourceModelVersionArn, name: "sourceModelVersionArn", parent: name, pattern: "^arn:aws(-[^:]+)?:lookoutequipment:[a-zA-Z0-9\\-]*:[0-9]{12}:model\\/.+\\/.+\\/model-version\\/[0-9]{1,}$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case datasetName = "DatasetName"
+            case inferenceDataImportStrategy = "InferenceDataImportStrategy"
+            case labelsInputConfiguration = "LabelsInputConfiguration"
+            case modelName = "ModelName"
+            case roleArn = "RoleArn"
+            case serverSideKmsKeyId = "ServerSideKmsKeyId"
+            case sourceModelVersionArn = "SourceModelVersionArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ImportModelVersionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the model being created.
+        public let modelArn: String?
+        /// The name for the machine learning model.
+        public let modelName: String?
+        /// The version of the model being created.
+        public let modelVersion: Int64?
+        /// The Amazon Resource Name (ARN) of the model version being created.
+        public let modelVersionArn: String?
+        /// The status of the ImportModelVersion operation.
+        public let status: ModelVersionStatus?
+
+        public init(modelArn: String? = nil, modelName: String? = nil, modelVersion: Int64? = nil, modelVersionArn: String? = nil, status: ModelVersionStatus? = nil) {
+            self.modelArn = modelArn
+            self.modelName = modelName
+            self.modelVersion = modelVersion
+            self.modelVersionArn = modelVersionArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelArn = "ModelArn"
+            case modelName = "ModelName"
+            case modelVersion = "ModelVersion"
+            case modelVersionArn = "ModelVersionArn"
+            case status = "Status"
         }
     }
 
@@ -1294,7 +1967,7 @@ extension LookoutEquipment {
     }
 
     public struct InferenceExecutionSummary: AWSDecodableShape {
-        ///
+        /// The S3 object that the inference execution results were uploaded to.
         public let customerResultObject: S3Object?
         /// Indicates the time reference in the dataset at which the inference execution stopped.
         public let dataEndTime: Date?
@@ -1310,16 +1983,20 @@ extension LookoutEquipment {
         public let inferenceSchedulerArn: String?
         /// The name of the inference scheduler being used for the inference execution.
         public let inferenceSchedulerName: String?
-        /// The Amazon Resource Name (ARN) of the ML model used for the inference execution.
+        /// The Amazon Resource Name (ARN) of the machine learning model used for the inference execution.
         public let modelArn: String?
-        /// The name of the ML model being used for the inference execution.
+        /// The name of the machine learning model being used for the inference execution.
         public let modelName: String?
+        /// The model version used for the inference execution.
+        public let modelVersion: Int64?
+        /// The Amazon Resource Number (ARN) of the model version used for the inference execution.
+        public let modelVersionArn: String?
         /// Indicates the start time at which the inference scheduler began the specific inference execution.
         public let scheduledStartTime: Date?
         /// Indicates the status of the inference execution.
         public let status: InferenceExecutionStatus?
 
-        public init(customerResultObject: S3Object? = nil, dataEndTime: Date? = nil, dataInputConfiguration: InferenceInputConfiguration? = nil, dataOutputConfiguration: InferenceOutputConfiguration? = nil, dataStartTime: Date? = nil, failedReason: String? = nil, inferenceSchedulerArn: String? = nil, inferenceSchedulerName: String? = nil, modelArn: String? = nil, modelName: String? = nil, scheduledStartTime: Date? = nil, status: InferenceExecutionStatus? = nil) {
+        public init(customerResultObject: S3Object? = nil, dataEndTime: Date? = nil, dataInputConfiguration: InferenceInputConfiguration? = nil, dataOutputConfiguration: InferenceOutputConfiguration? = nil, dataStartTime: Date? = nil, failedReason: String? = nil, inferenceSchedulerArn: String? = nil, inferenceSchedulerName: String? = nil, modelArn: String? = nil, modelName: String? = nil, modelVersion: Int64? = nil, modelVersionArn: String? = nil, scheduledStartTime: Date? = nil, status: InferenceExecutionStatus? = nil) {
             self.customerResultObject = customerResultObject
             self.dataEndTime = dataEndTime
             self.dataInputConfiguration = dataInputConfiguration
@@ -1330,6 +2007,8 @@ extension LookoutEquipment {
             self.inferenceSchedulerName = inferenceSchedulerName
             self.modelArn = modelArn
             self.modelName = modelName
+            self.modelVersion = modelVersion
+            self.modelVersionArn = modelVersionArn
             self.scheduledStartTime = scheduledStartTime
             self.status = status
         }
@@ -1345,6 +2024,8 @@ extension LookoutEquipment {
             case inferenceSchedulerName = "InferenceSchedulerName"
             case modelArn = "ModelArn"
             case modelName = "ModelName"
+            case modelVersion = "ModelVersion"
+            case modelVersionArn = "ModelVersionArn"
             case scheduledStartTime = "ScheduledStartTime"
             case status = "Status"
         }
@@ -1401,7 +2082,7 @@ extension LookoutEquipment {
     }
 
     public struct InferenceOutputConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The ID number for the AWS KMS key used to encrypt the inference output.
+        /// The ID number for the KMS key key used to encrypt the inference output.
         public let kmsKeyId: String?
         ///  Specifies configuration information for the output results from for the inference, output S3 location.
         public let s3OutputConfiguration: InferenceS3OutputConfiguration
@@ -1485,9 +2166,9 @@ extension LookoutEquipment {
         public let inferenceSchedulerName: String?
         /// Indicates whether the latest execution for the inference scheduler was Anomalous (anomalous events found) or Normal (no anomalous events found).
         public let latestInferenceResult: LatestInferenceResult?
-        ///  The Amazon Resource Name (ARN) of the ML model used by the inference scheduler.
+        ///  The Amazon Resource Name (ARN) of the machine learning model used by the inference scheduler.
         public let modelArn: String?
-        /// The name of the ML model used for the inference scheduler.
+        /// The name of the machine learning model used for the inference scheduler.
         public let modelName: String?
         /// Indicates the status of the inference scheduler.
         public let status: InferenceSchedulerStatus?
@@ -1556,7 +2237,7 @@ extension LookoutEquipment {
     public struct IngestionS3InputConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The name of the S3 bucket used for the input data for the data ingestion.
         public let bucket: String
-        ///  Pattern for matching the Amazon S3 files which will be used for ingestion. If no KeyPattern is provided, we will use the default hierarchy file structure, which is same as KeyPattern {prefix}/{component_name}/*
+        ///  The pattern for matching the Amazon S3 files that will be used for ingestion. If the schema was created previously without any KeyPattern, then the default KeyPattern {prefix}/{component_name}/* is used to download files from Amazon S3 according to the schema. This field is required when ingestion is being done for the first time. Valid Values: {prefix}/{component_name}_* | {prefix}/{component_name}/* | {prefix}/{component_name}[DELIMITER]* (Allowed delimiters : space, dot, underscore, hyphen)
         public let keyPattern: String?
         /// The prefix for the S3 location being used for the input data for the data ingestion.
         public let prefix: String?
@@ -1619,13 +2300,13 @@ extension LookoutEquipment {
     }
 
     public struct LabelGroupSummary: AWSDecodableShape {
-        /// The time at which the label group was created.
+        ///  The time at which the label group was created.
         public let createdAt: Date?
-        /// The ARN of the label group.
+        ///  The Amazon Resource Name (ARN) of the label group.
         public let labelGroupArn: String?
-        /// The name of the label group.
+        ///  The name of the label group.
         public let labelGroupName: String?
-        /// The time at which the label group was updated.
+        ///  The time at which the label group was updated.
         public let updatedAt: Date?
 
         public init(createdAt: Date? = nil, labelGroupArn: String? = nil, labelGroupName: String? = nil, updatedAt: Date? = nil) {
@@ -1644,24 +2325,23 @@ extension LookoutEquipment {
     }
 
     public struct LabelSummary: AWSDecodableShape {
-        /// The time at which the label was created.
+        ///  The time at which the label was created.
         public let createdAt: Date?
-        /// The timestamp indicating the end of the label.
+        ///  The timestamp indicating the end of the label.
         public let endTime: Date?
-        /// Indicates that a label pertains to a particular piece of equipment.
+        ///  Indicates that a label pertains to a particular piece of equipment.
         public let equipment: String?
-        /// Indicates the type of anomaly associated with the label.
-        ///  Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        ///  Indicates the type of anomaly associated with the label.  Data in this field will be retained for service usage. Follow best practices for the security of your data.
         public let faultCode: String?
-        /// The ARN of the label group.
+        ///  The Amazon Resource Name (ARN) of the label group.
         public let labelGroupArn: String?
-        /// The name of the label group.
+        ///  The name of the label group.
         public let labelGroupName: String?
-        /// The ID of the label.
+        ///  The ID of the label.
         public let labelId: String?
-        /// Indicates whether a labeled event represents an anomaly.
+        ///  Indicates whether a labeled event represents an anomaly.
         public let rating: LabelRating?
-        /// The timestamp indicating the start of the label.
+        ///  The timestamp indicating the start of the label.
         public let startTime: Date?
 
         public init(createdAt: Date? = nil, endTime: Date? = nil, equipment: String? = nil, faultCode: String? = nil, labelGroupArn: String? = nil, labelGroupName: String? = nil, labelId: String? = nil, rating: LabelRating? = nil, startTime: Date? = nil) {
@@ -1690,7 +2370,7 @@ extension LookoutEquipment {
     }
 
     public struct LabelsInputConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the label group to be used for label data.
+        ///  The name of the label group to be used for label data.
         public let labelGroupName: String?
         /// Contains location information for the S3 location being used for label data.
         public let s3InputConfiguration: LabelsS3InputConfiguration?
@@ -1862,7 +2542,7 @@ extension LookoutEquipment {
     public struct ListInferenceEventsRequest: AWSEncodableShape {
         /// The name of the inference scheduler for the inference events listed.
         public let inferenceSchedulerName: String
-        /// Returns all the inference events with an end start time equal to or greater than less than the end time given
+        /// Returns all the inference events with an end start time equal to or greater than less than the end time given.
         public let intervalEndTime: Date
         ///  Lookout for Equipment will return all the inference events with an end time equal to or greater than the start time given.
         public let intervalStartTime: Date
@@ -1980,11 +2660,11 @@ extension LookoutEquipment {
         public let inferenceSchedulerNameBeginsWith: String?
         ///  Specifies the maximum number of inference schedulers to list.
         public let maxResults: Int?
-        /// The name of the ML model used by the inference scheduler to be listed.
+        /// The name of the machine learning model used by the inference scheduler to be listed.
         public let modelName: String?
         ///  An opaque pagination token indicating where to continue the listing of inference schedulers.
         public let nextToken: String?
-        /// Specifies the current status of the inference schedulers to list.
+        /// Specifies the current status of the inference schedulers.
         public let status: InferenceSchedulerStatus?
 
         public init(inferenceSchedulerNameBeginsWith: String? = nil, maxResults: Int? = nil, modelName: String? = nil, nextToken: String? = nil, status: InferenceSchedulerStatus? = nil) {
@@ -2035,11 +2715,11 @@ extension LookoutEquipment {
     }
 
     public struct ListLabelGroupsRequest: AWSEncodableShape {
-        /// The beginning of the name of the label groups to be listed.
+        ///  The beginning of the name of the label groups to be listed.
         public let labelGroupNameBeginsWith: String?
-        /// Specifies the maximum number of label groups to list.
+        ///  Specifies the maximum number of label groups to list.
         public let maxResults: Int?
-        /// An opaque pagination token indicating where to continue the listing of label groups.
+        ///  An opaque pagination token indicating where to continue the listing of label groups.
         public let nextToken: String?
 
         public init(labelGroupNameBeginsWith: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2066,9 +2746,9 @@ extension LookoutEquipment {
     }
 
     public struct ListLabelGroupsResponse: AWSDecodableShape {
-        /// A summary of the label groups.
+        ///  A summary of the label groups.
         public let labelGroupSummaries: [LabelGroupSummary]?
-        /// An opaque pagination token indicating where to continue the listing of label groups.
+        ///  An opaque pagination token indicating where to continue the listing of label groups.
         public let nextToken: String?
 
         public init(labelGroupSummaries: [LabelGroupSummary]? = nil, nextToken: String? = nil) {
@@ -2083,19 +2763,19 @@ extension LookoutEquipment {
     }
 
     public struct ListLabelsRequest: AWSEncodableShape {
-        /// Lists the labels that pertain to a particular piece of equipment.
+        ///  Lists the labels that pertain to a particular piece of equipment.
         public let equipment: String?
-        /// Returns labels with a particular fault code.
+        ///  Returns labels with a particular fault code.
         public let faultCode: String?
-        /// Returns all labels with a start time earlier than the end time given.
+        ///  Returns all labels with a start time earlier than the end time given.
         public let intervalEndTime: Date?
-        /// Returns all the labels with a end time equal to or later than the start time given.
+        ///  Returns all the labels with a end time equal to or later than the start time given.
         public let intervalStartTime: Date?
-        /// Retruns the name of the label group.
+        ///  Retruns the name of the label group.
         public let labelGroupName: String
-        /// Specifies the maximum number of labels to list.
+        ///  Specifies the maximum number of labels to list.
         public let maxResults: Int?
-        /// An opaque pagination token indicating where to continue the listing of label groups.
+        ///  An opaque pagination token indicating where to continue the listing of label groups.
         public let nextToken: String?
 
         public init(equipment: String? = nil, faultCode: String? = nil, intervalEndTime: Date? = nil, intervalStartTime: Date? = nil, labelGroupName: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2136,9 +2816,9 @@ extension LookoutEquipment {
     }
 
     public struct ListLabelsResponse: AWSDecodableShape {
-        /// A summary of the items in the label group.
+        ///  A summary of the items in the label group.
         public let labelSummaries: [LabelSummary]?
-        /// An opaque pagination token indicating where to continue the listing of datasets.
+        ///  An opaque pagination token indicating where to continue the listing of datasets.
         public let nextToken: String?
 
         public init(labelSummaries: [LabelSummary]? = nil, nextToken: String? = nil) {
@@ -2152,16 +2832,90 @@ extension LookoutEquipment {
         }
     }
 
-    public struct ListModelsRequest: AWSEncodableShape {
-        /// The beginning of the name of the dataset of the ML models to be listed.
-        public let datasetNameBeginsWith: String?
-        ///  Specifies the maximum number of ML models to list.
+    public struct ListModelVersionsRequest: AWSEncodableShape {
+        /// Filter results to return all the model versions created before this time.
+        public let createdAtEndTime: Date?
+        /// Filter results to return all the model versions created after this time.
+        public let createdAtStartTime: Date?
+        /// Specifies the highest version of the model to return in the list.
+        public let maxModelVersion: Int64?
+        /// Specifies the maximum number of machine learning model versions to list.
         public let maxResults: Int?
-        /// The beginning of the name of the ML models being listed.
-        public let modelNameBeginsWith: String?
-        ///  An opaque pagination token indicating where to continue the listing of ML models.
+        /// Specifies the lowest version of the model to return in the list.
+        public let minModelVersion: Int64?
+        /// Then name of the machine learning model for which the model versions are to be listed.
+        public let modelName: String
+        /// If the total number of results exceeds the limit that the response can display, the response returns an opaque pagination token indicating where to continue the listing of machine learning model versions. Use this token in the NextToken field in the request to list the next page of results.
         public let nextToken: String?
-        /// The status of the ML model.
+        /// Filter the results based on the way the model version was generated.
+        public let sourceType: ModelVersionSourceType?
+        /// Filter the results based on the current status of the model version.
+        public let status: ModelVersionStatus?
+
+        public init(createdAtEndTime: Date? = nil, createdAtStartTime: Date? = nil, maxModelVersion: Int64? = nil, maxResults: Int? = nil, minModelVersion: Int64? = nil, modelName: String, nextToken: String? = nil, sourceType: ModelVersionSourceType? = nil, status: ModelVersionStatus? = nil) {
+            self.createdAtEndTime = createdAtEndTime
+            self.createdAtStartTime = createdAtStartTime
+            self.maxModelVersion = maxModelVersion
+            self.maxResults = maxResults
+            self.minModelVersion = minModelVersion
+            self.modelName = modelName
+            self.nextToken = nextToken
+            self.sourceType = sourceType
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxModelVersion, name: "maxModelVersion", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.minModelVersion, name: "minModelVersion", parent: name, min: 1)
+            try self.validate(self.modelName, name: "modelName", parent: name, max: 200)
+            try self.validate(self.modelName, name: "modelName", parent: name, min: 1)
+            try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,8192}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAtEndTime = "CreatedAtEndTime"
+            case createdAtStartTime = "CreatedAtStartTime"
+            case maxModelVersion = "MaxModelVersion"
+            case maxResults = "MaxResults"
+            case minModelVersion = "MinModelVersion"
+            case modelName = "ModelName"
+            case nextToken = "NextToken"
+            case sourceType = "SourceType"
+            case status = "Status"
+        }
+    }
+
+    public struct ListModelVersionsResponse: AWSDecodableShape {
+        /// Provides information on the specified model version, including the created time, model and dataset ARNs, and status.
+        public let modelVersionSummaries: [ModelVersionSummary]?
+        /// If the total number of results exceeds the limit that the response can display, the response returns an opaque pagination token indicating where to continue the listing of machine learning model versions. Use this token in the NextToken field in the request to list the next page of results.
+        public let nextToken: String?
+
+        public init(modelVersionSummaries: [ModelVersionSummary]? = nil, nextToken: String? = nil) {
+            self.modelVersionSummaries = modelVersionSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelVersionSummaries = "ModelVersionSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListModelsRequest: AWSEncodableShape {
+        /// The beginning of the name of the dataset of the machine learning models to be listed.
+        public let datasetNameBeginsWith: String?
+        ///  Specifies the maximum number of machine learning models to list.
+        public let maxResults: Int?
+        /// The beginning of the name of the machine learning models being listed.
+        public let modelNameBeginsWith: String?
+        ///  An opaque pagination token indicating where to continue the listing of machine learning models.
+        public let nextToken: String?
+        /// The status of the machine learning model.
         public let status: ModelStatus?
 
         public init(datasetNameBeginsWith: String? = nil, maxResults: Int? = nil, modelNameBeginsWith: String? = nil, nextToken: String? = nil, status: ModelStatus? = nil) {
@@ -2197,7 +2951,7 @@ extension LookoutEquipment {
     public struct ListModelsResponse: AWSDecodableShape {
         /// Provides information on the specified model, including created time, model and dataset ARNs, and status.
         public let modelSummaries: [ModelSummary]?
-        ///  An opaque pagination token indicating where to continue the listing of ML models.
+        ///  An opaque pagination token indicating where to continue the listing of machine learning models.
         public let nextToken: String?
 
         public init(modelSummaries: [ModelSummary]? = nil, nextToken: String? = nil) {
@@ -2208,6 +2962,58 @@ extension LookoutEquipment {
         private enum CodingKeys: String, CodingKey {
             case modelSummaries = "ModelSummaries"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListRetrainingSchedulersRequest: AWSEncodableShape {
+        /// Specifies the maximum number of retraining schedulers to list.
+        public let maxResults: Int?
+        /// Specify this field to only list retraining schedulers whose machine learning models begin with the value you specify.
+        public let modelNameBeginsWith: String?
+        /// If the number of results exceeds the maximum, a pagination token is returned. Use the token in the request to show the next page of retraining schedulers.
+        public let nextToken: String?
+        /// Specify this field to only list retraining schedulers whose status matches the value you specify.
+        public let status: RetrainingSchedulerStatus?
+
+        public init(maxResults: Int? = nil, modelNameBeginsWith: String? = nil, nextToken: String? = nil, status: RetrainingSchedulerStatus? = nil) {
+            self.maxResults = maxResults
+            self.modelNameBeginsWith = modelNameBeginsWith
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.modelNameBeginsWith, name: "modelNameBeginsWith", parent: name, max: 200)
+            try self.validate(self.modelNameBeginsWith, name: "modelNameBeginsWith", parent: name, min: 1)
+            try self.validate(self.modelNameBeginsWith, name: "modelNameBeginsWith", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,8192}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case modelNameBeginsWith = "ModelNameBeginsWith"
+            case nextToken = "NextToken"
+            case status = "Status"
+        }
+    }
+
+    public struct ListRetrainingSchedulersResponse: AWSDecodableShape {
+        /// If the number of results exceeds the maximum, this pagination token is returned. Use this token in the request to show the next page of retraining schedulers.
+        public let nextToken: String?
+        /// Provides information on the specified retraining scheduler, including the model name, model ARN, status, and start date.
+        public let retrainingSchedulerSummaries: [RetrainingSchedulerSummary]?
+
+        public init(nextToken: String? = nil, retrainingSchedulerSummaries: [RetrainingSchedulerSummary]? = nil) {
+            self.nextToken = nextToken
+            self.retrainingSchedulerSummaries = retrainingSchedulerSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case retrainingSchedulerSummaries = "RetrainingSchedulerSummaries"
         }
     }
 
@@ -2327,34 +3133,99 @@ extension LookoutEquipment {
     }
 
     public struct ModelSummary: AWSDecodableShape {
+        /// The model version that the inference scheduler uses to run an inference execution.
+        public let activeModelVersion: Int64?
+        /// The Amazon Resource Name (ARN) of the model version that is set as active. The active model version is the model version that the inference scheduler uses to run an inference execution.
+        public let activeModelVersionArn: String?
         /// The time at which the specific model was created.
         public let createdAt: Date?
         ///  The Amazon Resource Name (ARN) of the dataset used to create the model.
         public let datasetArn: String?
-        /// The name of the dataset being used for the ML model.
+        /// The name of the dataset being used for the machine learning model.
         public let datasetName: String?
-        ///  The Amazon Resource Name (ARN) of the ML model.
+        /// Indicates the most recent model version that was generated by retraining.
+        public let latestScheduledRetrainingModelVersion: Int64?
+        /// Indicates the start time of the most recent scheduled retraining run.
+        public let latestScheduledRetrainingStartTime: Date?
+        /// Indicates the status of the most recent scheduled retraining run.
+        public let latestScheduledRetrainingStatus: ModelVersionStatus?
+        ///  The Amazon Resource Name (ARN) of the machine learning model.
         public let modelArn: String?
-        /// The name of the ML model.
+        /// The name of the machine learning model.
         public let modelName: String?
-        /// Indicates the status of the ML model.
+        /// Indicates the date that the next scheduled retraining run will start on. Lookout for Equipment truncates the time you provide to the nearest UTC day.
+        public let nextScheduledRetrainingStartDate: Date?
+        /// Indicates the status of the retraining scheduler.
+        public let retrainingSchedulerStatus: RetrainingSchedulerStatus?
+        /// Indicates the status of the machine learning model.
         public let status: ModelStatus?
 
-        public init(createdAt: Date? = nil, datasetArn: String? = nil, datasetName: String? = nil, modelArn: String? = nil, modelName: String? = nil, status: ModelStatus? = nil) {
+        public init(activeModelVersion: Int64? = nil, activeModelVersionArn: String? = nil, createdAt: Date? = nil, datasetArn: String? = nil, datasetName: String? = nil, latestScheduledRetrainingModelVersion: Int64? = nil, latestScheduledRetrainingStartTime: Date? = nil, latestScheduledRetrainingStatus: ModelVersionStatus? = nil, modelArn: String? = nil, modelName: String? = nil, nextScheduledRetrainingStartDate: Date? = nil, retrainingSchedulerStatus: RetrainingSchedulerStatus? = nil, status: ModelStatus? = nil) {
+            self.activeModelVersion = activeModelVersion
+            self.activeModelVersionArn = activeModelVersionArn
             self.createdAt = createdAt
             self.datasetArn = datasetArn
             self.datasetName = datasetName
+            self.latestScheduledRetrainingModelVersion = latestScheduledRetrainingModelVersion
+            self.latestScheduledRetrainingStartTime = latestScheduledRetrainingStartTime
+            self.latestScheduledRetrainingStatus = latestScheduledRetrainingStatus
             self.modelArn = modelArn
             self.modelName = modelName
+            self.nextScheduledRetrainingStartDate = nextScheduledRetrainingStartDate
+            self.retrainingSchedulerStatus = retrainingSchedulerStatus
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeModelVersion = "ActiveModelVersion"
+            case activeModelVersionArn = "ActiveModelVersionArn"
+            case createdAt = "CreatedAt"
+            case datasetArn = "DatasetArn"
+            case datasetName = "DatasetName"
+            case latestScheduledRetrainingModelVersion = "LatestScheduledRetrainingModelVersion"
+            case latestScheduledRetrainingStartTime = "LatestScheduledRetrainingStartTime"
+            case latestScheduledRetrainingStatus = "LatestScheduledRetrainingStatus"
+            case modelArn = "ModelArn"
+            case modelName = "ModelName"
+            case nextScheduledRetrainingStartDate = "NextScheduledRetrainingStartDate"
+            case retrainingSchedulerStatus = "RetrainingSchedulerStatus"
+            case status = "Status"
+        }
+    }
+
+    public struct ModelVersionSummary: AWSDecodableShape {
+        /// The time when this model version was created.
+        public let createdAt: Date?
+        /// The Amazon Resource Name (ARN) of the model that this model version is a version of.
+        public let modelArn: String?
+        /// The name of the model that this model version is a version of.
+        public let modelName: String?
+        /// The version of the model.
+        public let modelVersion: Int64?
+        /// The Amazon Resource Name (ARN) of the model version.
+        public let modelVersionArn: String?
+        /// Indicates how this model version was generated.
+        public let sourceType: ModelVersionSourceType?
+        /// The current status of the model version.
+        public let status: ModelVersionStatus?
+
+        public init(createdAt: Date? = nil, modelArn: String? = nil, modelName: String? = nil, modelVersion: Int64? = nil, modelVersionArn: String? = nil, sourceType: ModelVersionSourceType? = nil, status: ModelVersionStatus? = nil) {
+            self.createdAt = createdAt
+            self.modelArn = modelArn
+            self.modelName = modelName
+            self.modelVersion = modelVersion
+            self.modelVersionArn = modelVersionArn
+            self.sourceType = sourceType
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "CreatedAt"
-            case datasetArn = "DatasetArn"
-            case datasetName = "DatasetName"
             case modelArn = "ModelArn"
             case modelName = "ModelName"
+            case modelVersion = "ModelVersion"
+            case modelVersionArn = "ModelVersionArn"
+            case sourceType = "SourceType"
             case status = "Status"
         }
     }
@@ -2389,10 +3260,99 @@ extension LookoutEquipment {
         }
     }
 
+    public struct PutResourcePolicyRequest: AWSEncodableShape {
+        /// A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one.
+        public let clientToken: String
+        /// A unique identifier for a revision of the resource policy.
+        public let policyRevisionId: String?
+        /// The Amazon Resource Name (ARN) of the resource for which the policy is being created.
+        public let resourceArn: String
+        /// The JSON-formatted resource policy to create.
+        public let resourcePolicy: String
+
+        public init(clientToken: String = PutResourcePolicyRequest.idempotencyToken(), policyRevisionId: String? = nil, resourceArn: String, resourcePolicy: String) {
+            self.clientToken = clientToken
+            self.policyRevisionId = policyRevisionId
+            self.resourceArn = resourceArn
+            self.resourcePolicy = resourcePolicy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\p{ASCII}{1,256}$")
+            try self.validate(self.policyRevisionId, name: "policyRevisionId", parent: name, max: 50)
+            try self.validate(self.policyRevisionId, name: "policyRevisionId", parent: name, pattern: "^[0-9A-Fa-f]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[^:]+)?:lookoutequipment:[a-zA-Z0-9\\-]*:[0-9]{12}:.+$")
+            try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, max: 20000)
+            try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, min: 1)
+            try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case policyRevisionId = "PolicyRevisionId"
+            case resourceArn = "ResourceArn"
+            case resourcePolicy = "ResourcePolicy"
+        }
+    }
+
+    public struct PutResourcePolicyResponse: AWSDecodableShape {
+        /// A unique identifier for a revision of the resource policy.
+        public let policyRevisionId: String?
+        /// The Amazon Resource Name (ARN) of the resource for which the policy was created.
+        public let resourceArn: String?
+
+        public init(policyRevisionId: String? = nil, resourceArn: String? = nil) {
+            self.policyRevisionId = policyRevisionId
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyRevisionId = "PolicyRevisionId"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct RetrainingSchedulerSummary: AWSDecodableShape {
+        /// The number of past days of data used for retraining.
+        public let lookbackWindow: String?
+        /// The ARN of the model that the retraining scheduler is attached to.
+        public let modelArn: String?
+        /// The name of the model that the retraining scheduler is attached to.
+        public let modelName: String?
+        /// The frequency at which the model retraining is set. This follows the ISO 8601 guidelines.
+        public let retrainingFrequency: String?
+        /// The start date for the retraining scheduler. Lookout for Equipment truncates the time you provide to the nearest UTC day.
+        public let retrainingStartDate: Date?
+        /// The status of the retraining scheduler.
+        public let status: RetrainingSchedulerStatus?
+
+        public init(lookbackWindow: String? = nil, modelArn: String? = nil, modelName: String? = nil, retrainingFrequency: String? = nil, retrainingStartDate: Date? = nil, status: RetrainingSchedulerStatus? = nil) {
+            self.lookbackWindow = lookbackWindow
+            self.modelArn = modelArn
+            self.modelName = modelName
+            self.retrainingFrequency = retrainingFrequency
+            self.retrainingStartDate = retrainingStartDate
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lookbackWindow = "LookbackWindow"
+            case modelArn = "ModelArn"
+            case modelName = "ModelName"
+            case retrainingFrequency = "RetrainingFrequency"
+            case retrainingStartDate = "RetrainingStartDate"
+            case status = "Status"
+        }
+    }
+
     public struct S3Object: AWSDecodableShape {
         /// The name of the specific S3 bucket.
         public let bucket: String
-        /// The AWS Key Management Service (AWS KMS) key being used to encrypt the S3 object. Without this key, data in the bucket is not accessible.
+        /// The Amazon Web Services Key Management Service (KMS key) key being used to encrypt the S3 object. Without this key, data in the bucket is not accessible.
         public let key: String
 
         public init(bucket: String, key: String) {
@@ -2559,9 +3519,9 @@ extension LookoutEquipment {
         public let inferenceSchedulerArn: String?
         /// The name of the inference scheduler being started.
         public let inferenceSchedulerName: String?
-        /// The Amazon Resource Name (ARN) of the ML model being used by the inference scheduler.
+        /// The Amazon Resource Name (ARN) of the machine learning model being used by the inference scheduler.
         public let modelArn: String?
-        /// The name of the ML model being used by the inference scheduler.
+        /// The name of the machine learning model being used by the inference scheduler.
         public let modelName: String?
         /// Indicates the status of the inference scheduler.
         public let status: InferenceSchedulerStatus?
@@ -2577,6 +3537,46 @@ extension LookoutEquipment {
         private enum CodingKeys: String, CodingKey {
             case inferenceSchedulerArn = "InferenceSchedulerArn"
             case inferenceSchedulerName = "InferenceSchedulerName"
+            case modelArn = "ModelArn"
+            case modelName = "ModelName"
+            case status = "Status"
+        }
+    }
+
+    public struct StartRetrainingSchedulerRequest: AWSEncodableShape {
+        /// The name of the model whose retraining scheduler you want to start.
+        public let modelName: String
+
+        public init(modelName: String) {
+            self.modelName = modelName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelName, name: "modelName", parent: name, max: 200)
+            try self.validate(self.modelName, name: "modelName", parent: name, min: 1)
+            try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelName = "ModelName"
+        }
+    }
+
+    public struct StartRetrainingSchedulerResponse: AWSDecodableShape {
+        /// The ARN of the model whose retraining scheduler is being started.
+        public let modelArn: String?
+        /// The name of the model whose retraining scheduler is being started.
+        public let modelName: String?
+        /// The status of the retraining scheduler.
+        public let status: RetrainingSchedulerStatus?
+
+        public init(modelArn: String? = nil, modelName: String? = nil, status: RetrainingSchedulerStatus? = nil) {
+            self.modelArn = modelArn
+            self.modelName = modelName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case modelArn = "ModelArn"
             case modelName = "ModelName"
             case status = "Status"
@@ -2607,9 +3607,9 @@ extension LookoutEquipment {
         public let inferenceSchedulerArn: String?
         /// The name of the inference scheduler being stopped.
         public let inferenceSchedulerName: String?
-        /// The Amazon Resource Name (ARN) of the ML model used by the inference scheduler being stopped.
+        /// The Amazon Resource Name (ARN) of the machine learning model used by the inference scheduler being stopped.
         public let modelArn: String?
-        /// The name of the ML model used by the inference scheduler being stopped.
+        /// The name of the machine learning model used by the inference scheduler being stopped.
         public let modelName: String?
         /// Indicates the status of the inference scheduler.
         public let status: InferenceSchedulerStatus?
@@ -2625,6 +3625,46 @@ extension LookoutEquipment {
         private enum CodingKeys: String, CodingKey {
             case inferenceSchedulerArn = "InferenceSchedulerArn"
             case inferenceSchedulerName = "InferenceSchedulerName"
+            case modelArn = "ModelArn"
+            case modelName = "ModelName"
+            case status = "Status"
+        }
+    }
+
+    public struct StopRetrainingSchedulerRequest: AWSEncodableShape {
+        /// The name of the model whose retraining scheduler you want to stop.
+        public let modelName: String
+
+        public init(modelName: String) {
+            self.modelName = modelName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelName, name: "modelName", parent: name, max: 200)
+            try self.validate(self.modelName, name: "modelName", parent: name, min: 1)
+            try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelName = "ModelName"
+        }
+    }
+
+    public struct StopRetrainingSchedulerResponse: AWSDecodableShape {
+        /// The ARN of the model whose retraining scheduler is being stopped.
+        public let modelArn: String?
+        /// The name of the model whose retraining scheduler is being stopped.
+        public let modelName: String?
+        /// The status of the retraining scheduler.
+        public let status: RetrainingSchedulerStatus?
+
+        public init(modelArn: String? = nil, modelName: String? = nil, status: RetrainingSchedulerStatus? = nil) {
+            self.modelArn = modelArn
+            self.modelName = modelName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case modelArn = "ModelArn"
             case modelName = "ModelName"
             case status = "Status"
@@ -2731,6 +3771,63 @@ extension LookoutEquipment {
         public init() {}
     }
 
+    public struct UpdateActiveModelVersionRequest: AWSEncodableShape {
+        /// The name of the machine learning model for which the active model version is being set.
+        public let modelName: String
+        /// The version of the machine learning model for which the active model version is being set.
+        public let modelVersion: Int64
+
+        public init(modelName: String, modelVersion: Int64) {
+            self.modelName = modelName
+            self.modelVersion = modelVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelName, name: "modelName", parent: name, max: 200)
+            try self.validate(self.modelName, name: "modelName", parent: name, min: 1)
+            try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+            try self.validate(self.modelVersion, name: "modelVersion", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelName = "ModelName"
+            case modelVersion = "ModelVersion"
+        }
+    }
+
+    public struct UpdateActiveModelVersionResponse: AWSDecodableShape {
+        /// The version that is currently active of the machine learning model for which the active model version was set.
+        public let currentActiveVersion: Int64?
+        /// The Amazon Resource Name (ARN) of the machine learning model version that is the current active model version.
+        public let currentActiveVersionArn: String?
+        /// The Amazon Resource Name (ARN) of the machine learning model for which the active model version was set.
+        public let modelArn: String?
+        /// The name of the machine learning model for which the active model version was set.
+        public let modelName: String?
+        /// The previous version that was active of the machine learning model for which the active model version was set.
+        public let previousActiveVersion: Int64?
+        /// The Amazon Resource Name (ARN) of the machine learning model version that was the previous active model version.
+        public let previousActiveVersionArn: String?
+
+        public init(currentActiveVersion: Int64? = nil, currentActiveVersionArn: String? = nil, modelArn: String? = nil, modelName: String? = nil, previousActiveVersion: Int64? = nil, previousActiveVersionArn: String? = nil) {
+            self.currentActiveVersion = currentActiveVersion
+            self.currentActiveVersionArn = currentActiveVersionArn
+            self.modelArn = modelArn
+            self.modelName = modelName
+            self.previousActiveVersion = previousActiveVersion
+            self.previousActiveVersionArn = previousActiveVersionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentActiveVersion = "CurrentActiveVersion"
+            case currentActiveVersionArn = "CurrentActiveVersionArn"
+            case modelArn = "ModelArn"
+            case modelName = "ModelName"
+            case previousActiveVersion = "PreviousActiveVersion"
+            case previousActiveVersionArn = "PreviousActiveVersionArn"
+        }
+    }
+
     public struct UpdateInferenceSchedulerRequest: AWSEncodableShape {
         ///  A period of time (in minutes) by which inference on the data is delayed after the data starts. For instance, if you select an offset delay time of five minutes, inference will not begin on the data until the first data measurement after the five minute mark. For example, if five minutes is selected, the inference scheduler will wake up at the configured frequency with the additional five minute delay time to check the customer S3 bucket. The customer can upload data at the same frequency and they don't need to stop and restart the scheduler when uploading new data.
         public let dataDelayOffsetInMinutes: Int64?
@@ -2778,10 +3875,9 @@ extension LookoutEquipment {
     }
 
     public struct UpdateLabelGroupRequest: AWSEncodableShape {
-        /// Updates the code indicating the type of anomaly associated with the label.
-        ///  Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        ///  Updates the code indicating the type of anomaly associated with the label.  Data in this field will be retained for service usage. Follow best practices for the security of your data.
         public let faultCodes: [String]?
-        /// The name of the label group to be updated.
+        ///  The name of the label group to be updated.
         public let labelGroupName: String
 
         public init(faultCodes: [String]? = nil, labelGroupName: String) {
@@ -2804,6 +3900,75 @@ extension LookoutEquipment {
         private enum CodingKeys: String, CodingKey {
             case faultCodes = "FaultCodes"
             case labelGroupName = "LabelGroupName"
+        }
+    }
+
+    public struct UpdateModelRequest: AWSEncodableShape {
+        public let labelsInputConfiguration: LabelsInputConfiguration?
+        /// The name of the model to update.
+        public let modelName: String
+        /// The ARN of the model to update.
+        public let roleArn: String?
+
+        public init(labelsInputConfiguration: LabelsInputConfiguration? = nil, modelName: String, roleArn: String? = nil) {
+            self.labelsInputConfiguration = labelsInputConfiguration
+            self.modelName = modelName
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.labelsInputConfiguration?.validate(name: "\(name).labelsInputConfiguration")
+            try self.validate(self.modelName, name: "modelName", parent: name, max: 200)
+            try self.validate(self.modelName, name: "modelName", parent: name, min: 1)
+            try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labelsInputConfiguration = "LabelsInputConfiguration"
+            case modelName = "ModelName"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct UpdateRetrainingSchedulerRequest: AWSEncodableShape {
+        /// The number of past days of data that will be used for retraining.
+        public let lookbackWindow: String?
+        /// The name of the model whose retraining scheduler you want to update.
+        public let modelName: String
+        /// Indicates how the service will use new models. In MANAGED mode, new models will automatically be used for inference if they have better performance than the current model. In MANUAL mode, the new models will not be used until they are manually activated.
+        public let promoteMode: ModelPromoteMode?
+        /// This parameter uses the ISO 8601 standard to set the frequency at which you want retraining to occur in terms of Years, Months, and/or Days (note: other parameters like Time are not currently supported). The minimum value is 30 days (P30D) and the maximum value is 1 year (P1Y). For example, the following values are valid:   P3M15D – Every 3 months and 15 days   P2M – Every 2 months   P150D – Every 150 days
+        public let retrainingFrequency: String?
+        /// The start date for the retraining scheduler. Lookout for Equipment truncates the time you provide to the nearest UTC day.
+        public let retrainingStartDate: Date?
+
+        public init(lookbackWindow: String? = nil, modelName: String, promoteMode: ModelPromoteMode? = nil, retrainingFrequency: String? = nil, retrainingStartDate: Date? = nil) {
+            self.lookbackWindow = lookbackWindow
+            self.modelName = modelName
+            self.promoteMode = promoteMode
+            self.retrainingFrequency = retrainingFrequency
+            self.retrainingStartDate = retrainingStartDate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lookbackWindow, name: "lookbackWindow", parent: name, pattern: "^P180D$|^P360D$|^P540D$|^P720D$")
+            try self.validate(self.modelName, name: "modelName", parent: name, max: 200)
+            try self.validate(self.modelName, name: "modelName", parent: name, min: 1)
+            try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+            try self.validate(self.retrainingFrequency, name: "retrainingFrequency", parent: name, max: 10)
+            try self.validate(self.retrainingFrequency, name: "retrainingFrequency", parent: name, min: 1)
+            try self.validate(self.retrainingFrequency, name: "retrainingFrequency", parent: name, pattern: "^P(\\dY)?(\\d{1,2}M)?(\\d{1,3}D)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lookbackWindow = "LookbackWindow"
+            case modelName = "ModelName"
+            case promoteMode = "PromoteMode"
+            case retrainingFrequency = "RetrainingFrequency"
+            case retrainingStartDate = "RetrainingStartDate"
         }
     }
 }
@@ -2852,7 +4017,7 @@ public struct LookoutEquipmentErrorType: AWSErrorType {
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
-    ///  The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related AWS service that's being utilized.
+    ///  The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
     public static var validationException: Self { .init(.validationException) }
 }
 

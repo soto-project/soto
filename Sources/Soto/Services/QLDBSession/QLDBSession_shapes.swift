@@ -343,7 +343,7 @@ extension QLDBSession {
         public func validate(name: String) throws {
             try self.validate(self.ledgerName, name: "ledgerName", parent: name, max: 32)
             try self.validate(self.ledgerName, name: "ledgerName", parent: name, min: 1)
-            try self.validate(self.ledgerName, name: "ledgerName", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
+            try self.validate(self.ledgerName, name: "ledgerName", parent: name, pattern: "^(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

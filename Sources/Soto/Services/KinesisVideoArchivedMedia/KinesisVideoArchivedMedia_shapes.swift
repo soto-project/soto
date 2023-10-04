@@ -172,8 +172,7 @@ extension KinesisVideoArchivedMedia {
     }
 
     public struct DASHTimestampRange: AWSEncodableShape {
-        /// The end of the timestamp range for the requested media. This value must be within 24 hours of the specified StartTimestamp, and it must be later than the StartTimestamp value. If FragmentSelectorType for the request is SERVER_TIMESTAMP, this value must be in the past.
-        ///  The EndTimestamp value is required for ON_DEMAND mode, but optional for LIVE_REPLAY mode. If the EndTimestamp is not set for LIVE_REPLAY mode then the session will continue to include newly ingested fragments until the session expires.  This value is inclusive. The EndTimestamp is compared to the (starting) timestamp of the fragment. Fragments that start before the EndTimestamp value and continue past it are included in the session.
+        /// The end of the timestamp range for the requested media. This value must be within 24 hours of the specified StartTimestamp, and it must be later than the StartTimestamp value. If FragmentSelectorType for the request is SERVER_TIMESTAMP, this value must be in the past. The EndTimestamp value is required for ON_DEMAND mode, but optional for LIVE_REPLAY mode. If the EndTimestamp is not set for LIVE_REPLAY mode then the session will continue to include newly ingested fragments until the session expires.  This value is inclusive. The EndTimestamp is compared to the (starting) timestamp of the fragment. Fragments that start before the EndTimestamp value and continue past it are included in the session.
         public let endTimestamp: Date?
         /// The start of the timestamp range for the requested media. If the DASHTimestampRange value is specified, the StartTimestamp value is required. Only fragments that start exactly at or after StartTimestamp are included in the session. Fragments that start before StartTimestamp and continue past it aren't included in the session. If FragmentSelectorType is SERVER_TIMESTAMP, the StartTimestamp must be later than the stream head.
         public let startTimestamp: Date?
@@ -198,7 +197,7 @@ extension KinesisVideoArchivedMedia {
         public let fragmentSizeInBytes: Int64?
         /// The timestamp from the producer corresponding to the fragment.
         public let producerTimestamp: Date?
-        /// The timestamp from the AWS server corresponding to the fragment.
+        /// The timestamp from the Amazon Web Services server corresponding to the fragment.
         public let serverTimestamp: Date?
 
         public init(fragmentLengthInMilliseconds: Int64? = nil, fragmentNumber: String? = nil, fragmentSizeInBytes: Int64? = nil, producerTimestamp: Date? = nil, serverTimestamp: Date? = nil) {
@@ -429,7 +428,7 @@ extension KinesisVideoArchivedMedia {
     }
 
     public struct GetImagesInput: AWSEncodableShape {
-        /// The end timestamp for the range of images to be generated.
+        /// The end timestamp for the range of images to be generated. If the time range between StartTimestamp and EndTimestamp is more than 300 seconds above StartTimestamp, you will receive an IllegalArgumentException.
         public let endTimestamp: Date
         /// The format that will be used to encode the image.
         public let format: Format
@@ -439,12 +438,12 @@ extension KinesisVideoArchivedMedia {
         public let heightPixels: Int?
         /// The origin of the Server or Producer timestamps to use to generate the images.
         public let imageSelectorType: ImageSelectorType
-        /// The maximum number of images to be returned by the API.   The default limit is 100 images per API response. The additional results will be paginated.
+        /// The maximum number of images to be returned by the API.   The default limit is 25 images per API response. Providing a MaxResults greater than this value will result in a page size of 25. Any additional results will be paginated.
         public let maxResults: Int64?
         /// A token that specifies where to start paginating the next set of Images. This is the GetImages:NextToken from a previously truncated response.
         public let nextToken: String?
-        /// The time interval in milliseconds (ms) at which the images need to be generated from the stream. The minimum value that can be provided is 3000 ms. If the timestamp range is less than the sampling interval, the Image from the startTimestamp will be returned if available.   The minimum value of 3000 ms is a soft limit. If needed, a lower sampling frequency can be requested.
-        public let samplingInterval: Int
+        /// The time interval in milliseconds (ms) at which the images need to be generated from the stream, with a default of 3000 ms. The minimum value that can be provided is 200 ms. If the timestamp range is less than the sampling interval, the Image from the startTimestamp will be returned if available.   The minimum value of 200 ms is a hard limit.
+        public let samplingInterval: Int?
         /// The starting point from which the images should be generated. This StartTimestamp must be within an inclusive range of timestamps for an image to be returned.
         public let startTimestamp: Date
         /// The Amazon Resource Name (ARN) of the stream from which to retrieve the images. You must specify either the StreamName or the StreamARN.
@@ -454,7 +453,7 @@ extension KinesisVideoArchivedMedia {
         /// The width of the output image that is used in conjunction with the HeightPixels parameter. When both WidthPixels and HeightPixels parameters are provided,  the image will be stretched to fit the specified aspect ratio. If only the WidthPixels parameter is provided or if only the HeightPixels is provided, a ValidationException will be thrown.  If neither parameter is provided, the original image size from the stream will be returned.
         public let widthPixels: Int?
 
-        public init(endTimestamp: Date, format: Format, formatConfig: [FormatConfigKey: String]? = nil, heightPixels: Int? = nil, imageSelectorType: ImageSelectorType, maxResults: Int64? = nil, nextToken: String? = nil, samplingInterval: Int, startTimestamp: Date, streamARN: String? = nil, streamName: String? = nil, widthPixels: Int? = nil) {
+        public init(endTimestamp: Date, format: Format, formatConfig: [FormatConfigKey: String]? = nil, heightPixels: Int? = nil, imageSelectorType: ImageSelectorType, maxResults: Int64? = nil, nextToken: String? = nil, samplingInterval: Int? = nil, startTimestamp: Date, streamARN: String? = nil, streamName: String? = nil, widthPixels: Int? = nil) {
             self.endTimestamp = endTimestamp
             self.format = format
             self.formatConfig = formatConfig
@@ -483,8 +482,6 @@ extension KinesisVideoArchivedMedia {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/]+={0,2}$")
-            try self.validate(self.samplingInterval, name: "samplingInterval", parent: name, max: 20000)
-            try self.validate(self.samplingInterval, name: "samplingInterval", parent: name, min: 3000)
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+$")
@@ -576,7 +573,7 @@ extension KinesisVideoArchivedMedia {
 
         /// The content type of the requested media.
         public let contentType: String?
-        /// The payload that Kinesis Video Streams returns is a sequence of chunks from the specified stream. For information about the chunks, see PutMedia. The chunks that Kinesis Video Streams returns in the GetMediaForFragmentList call also include the following additional Matroska (MKV) tags:    AWS_KINESISVIDEO_FRAGMENT_NUMBER - Fragment number returned in the chunk.   AWS_KINESISVIDEO_SERVER_SIDE_TIMESTAMP - Server-side timestamp of the fragment.   AWS_KINESISVIDEO_PRODUCER_SIDE_TIMESTAMP - Producer-side timestamp of the fragment.   The following tags will be included if an exception occurs:   AWS_KINESISVIDEO_FRAGMENT_NUMBER - The number of the fragment that threw the exception   AWS_KINESISVIDEO_EXCEPTION_ERROR_CODE - The integer code of the exception   AWS_KINESISVIDEO_EXCEPTION_MESSAGE - A text description of the exception
+        /// The payload that Kinesis Video Streams returns is a sequence of chunks from the specified stream. For information about the chunks, see PutMedia. The chunks that Kinesis Video Streams returns in the GetMediaForFragmentList call also include the following additional Matroska (MKV) tags:    AWS_KINESISVIDEO_FRAGMENT_NUMBER - Fragment number returned in the chunk.   AWS_KINESISVIDEO_SERVER_SIDE_TIMESTAMP - Server-side timestamp of the fragment.   AWS_KINESISVIDEO_PRODUCER_SIDE_TIMESTAMP - Producer-side timestamp of the fragment.   The following tags will be included if an exception occurs:   AWS_KINESISVIDEO_FRAGMENT_NUMBER - The number of the fragment that threw the exception    AWS_KINESISVIDEO_EXCEPTION_ERROR_CODE - The integer code of the    AWS_KINESISVIDEO_EXCEPTION_MESSAGE - A text description of the exception
         public let payload: AWSPayload?
 
         public init(contentType: String? = nil, payload: AWSPayload? = nil) {
@@ -771,7 +768,7 @@ public struct KinesisVideoArchivedMediaErrorType: AWSErrorType {
     public static var noDataRetentionException: Self { .init(.noDataRetentionException) }
     /// Status Code: 403, The caller is not authorized to perform an operation on the given stream, or the token has expired.
     public static var notAuthorizedException: Self { .init(.notAuthorizedException) }
-    ///  GetMedia throws this error when Kinesis Video Streams can't find the stream that you specified.  GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
+    ///  GetImages will throw this error when Kinesis Video Streams can't find the stream that you specified.  GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The type of the media (for example, h.264 or h.265 video or ACC or G.711 audio) could not be determined from the codec IDs of the tracks in the first fragment for a playback session. The codec ID for track 1 should be V_MPEG/ISO/AVC and, optionally, the codec ID for track 2 should be A_AAC.
     public static var unsupportedStreamMediaTypeException: Self { .init(.unsupportedStreamMediaTypeException) }

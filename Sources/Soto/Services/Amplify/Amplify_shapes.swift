@@ -939,8 +939,7 @@ extension Amplify {
         public let condition: String?
         ///  The source pattern for a URL rewrite or redirect rule.
         public let source: String
-        ///  The status code for a URL rewrite or redirect rule.
-        ///   200  Represents a 200 rewrite rule.  301  Represents a 301 (moved pemanently) redirect rule. This and all future requests should be directed to the target URL.   302  Represents a 302 temporary redirect rule.  404  Represents a 404 redirect rule.  404-200  Represents a 404 rewrite rule.
+        ///  The status code for a URL rewrite or redirect rule.   200  Represents a 200 rewrite rule.  301  Represents a 301 (moved pemanently) redirect rule. This and all future requests should be directed to the target URL.   302  Represents a 302 temporary redirect rule.  404  Represents a 404 redirect rule.  404-200  Represents a 404 rewrite rule.
         public let status: String?
         ///  The target pattern for a URL rewrite or redirect rule.
         public let target: String

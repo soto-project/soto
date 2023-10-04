@@ -60,6 +60,7 @@ public struct CodePipeline: AWSService {
                     "ca-central-1": "codepipeline-fips.ca-central-1.amazonaws.com",
                     "us-east-1": "codepipeline-fips.us-east-1.amazonaws.com",
                     "us-east-2": "codepipeline-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "codepipeline-fips.us-gov-east-1.amazonaws.com",
                     "us-gov-west-1": "codepipeline-fips.us-gov-west-1.amazonaws.com",
                     "us-west-1": "codepipeline-fips.us-west-1.amazonaws.com",
                     "us-west-2": "codepipeline-fips.us-west-2.amazonaws.com"

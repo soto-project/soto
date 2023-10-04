@@ -21,12 +21,14 @@ import SotoCore
 extension InternetMonitor {
     // MARK: Async API Calls
 
-    /// Creates a monitor in Amazon CloudWatch Internet Monitor. A monitor is built based on information from the application resources that you add: Amazon Virtual Private Clouds (VPCs),
-    /// 			Amazon CloudFront distributions, and WorkSpaces directories. Internet Monitor then publishes internet measurements from Amazon Web Services that are specific to
-    /// 			the city-networks, that is, the locations and ASNs (typically internet service providers or ISPs),
-    /// 			where clients access your application. For more information, see Using Amazon CloudWatch Internet Monitor in the Amazon CloudWatch User Guide. When you create a monitor, you set a maximum limit for the number of city-networks where client traffic is monitored. The city-network maximum
-    /// 			that you choose is the limit, but you only pay for the number of city-networks that are actually monitored. You can change the maximum at any time
-    /// 			by updating your monitor. For more information, see Choosing a city-network maximum value in the Amazon CloudWatch User Guide.
+    /// Creates a monitor in Amazon CloudWatch Internet Monitor. A monitor is built based on information from the application resources that you add: VPCs,
+    /// 			Network Load Balancers (NLBs), Amazon CloudFront distributions, and Amazon WorkSpaces directories. Internet Monitor then publishes internet measurements from Amazon Web Services
+    /// 			that are specific to the city-networks. That is, the locations and ASNs (typically internet service providers or ISPs),
+    /// 			where clients access your application. For more information, see Using Amazon CloudWatch Internet Monitor in the Amazon CloudWatch User
+    /// 					Guide. When you create a monitor, you choose the percentage of traffic that you want to monitor. You can also set a maximum limit for the
+    /// 			number of city-networks where client traffic is monitored, that caps the total traffic that Internet Monitor monitors. A city-network
+    /// 			maximum is the limit of city-networks, but you only pay for the number of city-networks that are actually monitored. You can update your monitor
+    /// 			at any time to change the percentage of traffic to monitor or the city-networks maximum. For more information, see Choosing a city-network maximum value in the Amazon CloudWatch User Guide.
     public func createMonitor(_ input: CreateMonitorInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateMonitorOutput {
         return try await self.client.execute(operation: "CreateMonitor", path: "/v20210603/Monitors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -37,8 +39,8 @@ extension InternetMonitor {
     }
 
     /// Gets information the Amazon CloudWatch Internet Monitor has created and stored about a health event for a specified monitor. This information includes the impacted locations,
-    /// 			and all of the information related to the event by location. The information returned includes the performance, availability, and round-trip time impact, information about the network providers, the event type,
-    /// 			and so on. Information rolled up at the global traffic level is also returned, including the impact type and total traffic impact.
+    /// 			and all the information related to the event, by location. The information returned includes the impact on performance, availability, and round-trip time, information about the network providers (ASNs),
+    /// 			the event type, and so on. Information rolled up at the global traffic level is also returned, including the impact type and total traffic impact.
     public func getHealthEvent(_ input: GetHealthEventInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetHealthEventOutput {
         return try await self.client.execute(operation: "GetHealthEvent", path: "/v20210603/Monitors/{MonitorName}/HealthEvents/{EventId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -49,8 +51,8 @@ extension InternetMonitor {
         return try await self.client.execute(operation: "GetMonitor", path: "/v20210603/Monitors/{MonitorName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all health events for a monitor in Amazon CloudWatch Internet Monitor. Returns all information for health events including the client location information the network
-    /// 			cause and status, event start and end time, percentage of total traffic impacted, and status.  Health events that have start times during the time frame that is requested are not included in the list of health events.
+    /// Lists all health events for a monitor in Amazon CloudWatch Internet Monitor. Returns information for health events including the event start and end time and
+    /// 			the status.  Health events that have start times during the time frame that is requested are not included in the list of health events.
     public func listHealthEvents(_ input: ListHealthEventsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListHealthEventsOutput {
         return try await self.client.execute(operation: "ListHealthEvents", path: "/v20210603/Monitors/{MonitorName}/HealthEvents", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -75,9 +77,8 @@ extension InternetMonitor {
         return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates a monitor. You can update a monitor to change the maximum number of city-networks (locations and ASNs or
-    /// 			internet service providers), to add or remove resources,
-    /// 			or to change the status of the monitor. Note that you can't change the name of a monitor. The city-network maximum that you choose is the limit, but you only pay for the number of city-networks that are actually monitored.
+    /// Updates a monitor. You can update a monitor to change the percentage of traffic to monitor or the maximum number of city-networks
+    /// 			(locations and ASNs), to add or remove resources, or to change the status of the monitor. Note that you can't change the name of a monitor. The city-network maximum that you choose is the limit, but you only pay for the number of city-networks that are actually monitored.
     /// 			For more information, see Choosing a city-network maximum value in the Amazon CloudWatch User Guide.
     public func updateMonitor(_ input: UpdateMonitorInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateMonitorOutput {
         return try await self.client.execute(operation: "UpdateMonitor", path: "/v20210603/Monitors/{MonitorName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -88,8 +89,8 @@ extension InternetMonitor {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension InternetMonitor {
-    /// Lists all health events for a monitor in Amazon CloudWatch Internet Monitor. Returns all information for health events including the client location information the network
-    /// 			cause and status, event start and end time, percentage of total traffic impacted, and status.  Health events that have start times during the time frame that is requested are not included in the list of health events.
+    /// Lists all health events for a monitor in Amazon CloudWatch Internet Monitor. Returns information for health events including the event start and end time and
+    /// 			the status.  Health events that have start times during the time frame that is requested are not included in the list of health events.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

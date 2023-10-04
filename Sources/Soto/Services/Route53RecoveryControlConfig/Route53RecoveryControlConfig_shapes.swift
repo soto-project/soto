@@ -87,7 +87,7 @@ extension Route53RecoveryControlConfig {
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
         public let waitPeriodMs: Int
 
-        public init(name: String, safetyRuleArn: String, waitPeriodMs: Int = 0) {
+        public init(name: String, safetyRuleArn: String, waitPeriodMs: Int) {
             self.name = name
             self.safetyRuleArn = safetyRuleArn
             self.waitPeriodMs = waitPeriodMs
@@ -633,7 +633,7 @@ extension Route53RecoveryControlConfig {
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
         public let waitPeriodMs: Int
 
-        public init(name: String, safetyRuleArn: String, waitPeriodMs: Int = 0) {
+        public init(name: String, safetyRuleArn: String, waitPeriodMs: Int) {
             self.name = name
             self.safetyRuleArn = safetyRuleArn
             self.waitPeriodMs = waitPeriodMs
@@ -916,7 +916,7 @@ extension Route53RecoveryControlConfig {
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
         public let waitPeriodMs: Int
 
-        public init(assertedControls: [String], controlPanelArn: String, name: String, ruleConfig: RuleConfig, waitPeriodMs: Int = 0) {
+        public init(assertedControls: [String], controlPanelArn: String, name: String, ruleConfig: RuleConfig, waitPeriodMs: Int) {
             self.assertedControls = assertedControls
             self.controlPanelArn = controlPanelArn
             self.name = name
@@ -961,7 +961,7 @@ extension Route53RecoveryControlConfig {
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
         public let waitPeriodMs: Int
 
-        public init(controlPanelArn: String, gatingControls: [String], name: String, ruleConfig: RuleConfig, targetControls: [String], waitPeriodMs: Int = 0) {
+        public init(controlPanelArn: String, gatingControls: [String], name: String, ruleConfig: RuleConfig, targetControls: [String], waitPeriodMs: Int) {
             self.controlPanelArn = controlPanelArn
             self.gatingControls = gatingControls
             self.name = name

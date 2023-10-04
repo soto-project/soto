@@ -219,12 +219,15 @@ extension RAM {
         public let resourceArns: [String]?
         /// Specifies the Amazon Resource Name (ARN) of the resource share that you want to add principals or resources to.
         public let resourceShareArn: String
+        /// Specifies from which source accounts the service principal has access to the resources in this resource share.
+        public let sources: [String]?
 
-        public init(clientToken: String? = nil, principals: [String]? = nil, resourceArns: [String]? = nil, resourceShareArn: String) {
+        public init(clientToken: String? = nil, principals: [String]? = nil, resourceArns: [String]? = nil, resourceShareArn: String, sources: [String]? = nil) {
             self.clientToken = clientToken
             self.principals = principals
             self.resourceArns = resourceArns
             self.resourceShareArn = resourceShareArn
+            self.sources = sources
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -232,6 +235,7 @@ extension RAM {
             case principals = "principals"
             case resourceArns = "resourceArns"
             case resourceShareArn = "resourceShareArn"
+            case sources = "sources"
         }
     }
 
@@ -395,16 +399,19 @@ extension RAM {
         public let principals: [String]?
         /// Specifies a list of one or more ARNs of the resources to associate with the resource share.
         public let resourceArns: [String]?
+        /// Specifies from which source accounts the service principal has access to the resources in this resource share.
+        public let sources: [String]?
         /// Specifies one or more tags to attach to the resource share itself. It doesn't attach the tags to the resources associated with the resource share.
         public let tags: [Tag]?
 
-        public init(allowExternalPrincipals: Bool? = nil, clientToken: String? = nil, name: String, permissionArns: [String]? = nil, principals: [String]? = nil, resourceArns: [String]? = nil, tags: [Tag]? = nil) {
+        public init(allowExternalPrincipals: Bool? = nil, clientToken: String? = nil, name: String, permissionArns: [String]? = nil, principals: [String]? = nil, resourceArns: [String]? = nil, sources: [String]? = nil, tags: [Tag]? = nil) {
             self.allowExternalPrincipals = allowExternalPrincipals
             self.clientToken = clientToken
             self.name = name
             self.permissionArns = permissionArns
             self.principals = principals
             self.resourceArns = resourceArns
+            self.sources = sources
             self.tags = tags
         }
 
@@ -415,6 +422,7 @@ extension RAM {
             case permissionArns = "permissionArns"
             case principals = "principals"
             case resourceArns = "resourceArns"
+            case sources = "sources"
             case tags = "tags"
         }
     }
@@ -603,12 +611,15 @@ extension RAM {
         public let resourceArns: [String]?
         /// Specifies Amazon Resource Name (ARN) of the resource share that you want to remove resources or principals from.
         public let resourceShareArn: String
+        /// Specifies from which source accounts the service principal no longer has access to the resources in this resource share.
+        public let sources: [String]?
 
-        public init(clientToken: String? = nil, principals: [String]? = nil, resourceArns: [String]? = nil, resourceShareArn: String) {
+        public init(clientToken: String? = nil, principals: [String]? = nil, resourceArns: [String]? = nil, resourceShareArn: String, sources: [String]? = nil) {
             self.clientToken = clientToken
             self.principals = principals
             self.resourceArns = resourceArns
             self.resourceShareArn = resourceShareArn
+            self.sources = sources
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -616,6 +627,7 @@ extension RAM {
             case principals = "principals"
             case resourceArns = "resourceArns"
             case resourceShareArn = "resourceShareArn"
+            case sources = "sources"
         }
     }
 
@@ -739,7 +751,7 @@ extension RAM {
         public let maxResults: Int?
         /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
         public let nextToken: String?
-        /// Specifies the ID of the principal whose resource shares you want to retrieve. This can be an Amazon Web Services account ID, an organization ID, an organizational unit ID, or the Amazon Resource Name (ARN) of an individual IAM user or role. You cannot specify this parameter if the association type is RESOURCE.
+        /// Specifies the ID of the principal whose resource shares you want to retrieve. This can be an Amazon Web Services account ID, an organization ID, an organizational unit ID, or the Amazon Resource Name (ARN) of an individual IAM role or user. You cannot specify this parameter if the association type is RESOURCE.
         public let principal: String?
         /// Specifies the Amazon Resource Name (ARN) of a resource whose resource shares you want to retrieve. You cannot specify this parameter if the association type is PRINCIPAL.
         public let resourceArn: String?

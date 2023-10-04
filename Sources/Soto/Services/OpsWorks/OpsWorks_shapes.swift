@@ -35,13 +35,13 @@ extension OpsWorks {
     }
 
     public enum AppType: String, CustomStringConvertible, Codable, Sendable {
+        case `static` = "static"
         case awsFlowRuby = "aws-flow-ruby"
         case java = "java"
         case nodejs = "nodejs"
         case other = "other"
         case php = "php"
         case rails = "rails"
-        case `static` = "static"
         public var description: String { return self.rawValue }
     }
 

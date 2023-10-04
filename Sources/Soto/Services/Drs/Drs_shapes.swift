@@ -214,6 +214,34 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
+    public enum LaunchActionCategory: String, CustomStringConvertible, Codable, Sendable {
+        case configuration = "CONFIGURATION"
+        case monitoring = "MONITORING"
+        case other = "OTHER"
+        case security = "SECURITY"
+        case validation = "VALIDATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LaunchActionParameterType: String, CustomStringConvertible, Codable, Sendable {
+        case dynamic = "DYNAMIC"
+        case ssmStore = "SSM_STORE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LaunchActionRunStatus: String, CustomStringConvertible, Codable, Sendable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LaunchActionType: String, CustomStringConvertible, Codable, Sendable {
+        case ssmAutomation = "SSM_AUTOMATION"
+        case ssmCommand = "SSM_COMMAND"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LaunchDisposition: String, CustomStringConvertible, Codable, Sendable {
         case started = "STARTED"
         case stopped = "STOPPED"
@@ -354,6 +382,7 @@ extension Drs {
 
     public enum TargetInstanceTypeRightSizingMethod: String, CustomStringConvertible, Codable, Sendable {
         case basic = "BASIC"
+        case inAws = "IN_AWS"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
@@ -509,17 +538,20 @@ extension Drs {
         public let launchDisposition: LaunchDisposition?
         /// Licensing.
         public let licensing: Licensing?
+        /// Whether we want to activate post-launch actions.
+        public let postLaunchEnabled: Bool?
         /// Request to associate tags during creation of a Launch Configuration Template.
         public let tags: [String: String]?
         /// Target instance type right-sizing method.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
-        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, exportBucketArn: String? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, tags: [String: String]? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, exportBucketArn: String? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, postLaunchEnabled: Bool? = nil, tags: [String: String]? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
             self.exportBucketArn = exportBucketArn
             self.launchDisposition = launchDisposition
             self.licensing = licensing
+            self.postLaunchEnabled = postLaunchEnabled
             self.tags = tags
             self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
         }
@@ -540,6 +572,7 @@ extension Drs {
             case exportBucketArn = "exportBucketArn"
             case launchDisposition = "launchDisposition"
             case licensing = "licensing"
+            case postLaunchEnabled = "postLaunchEnabled"
             case tags = "tags"
             case targetInstanceTypeRightSizingMethod = "targetInstanceTypeRightSizingMethod"
         }
@@ -677,7 +710,7 @@ extension Drs {
             try self.validate(self.originAccountID, name: "originAccountID", parent: name, min: 12)
             try self.validate(self.originAccountID, name: "originAccountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.originRegion, name: "originRegion", parent: name, max: 255)
-            try self.validate(self.originRegion, name: "originRegion", parent: name, pattern: "^(us(-gov)?|ap|ca|cn|eu|sa|af|me)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9]$")
+            try self.validate(self.originRegion, name: "originRegion", parent: name, pattern: "^(us(-gov)?|ap|ca|cn|eu|sa|af|me|il)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9]$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
@@ -849,6 +882,32 @@ extension Drs {
     }
 
     public struct DeleteJobResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteLaunchActionRequest: AWSEncodableShape {
+        public let actionId: String
+        public let resourceId: String
+
+        public init(actionId: String, resourceId: String) {
+            self.actionId = actionId
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionId, name: "actionId", parent: name, max: 64)
+            try self.validate(self.actionId, name: "actionId", parent: name, min: 1)
+            try self.validate(self.actionId, name: "actionId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(s-[0-9a-zA-Z]{17}$|lct-[0-9a-zA-Z]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionId = "actionId"
+            case resourceId = "resourceId"
+        }
+    }
+
+    public struct DeleteLaunchActionResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -1390,7 +1449,7 @@ extension Drs {
             try self.validate(self.originAccountID, name: "originAccountID", parent: name, min: 12)
             try self.validate(self.originAccountID, name: "originAccountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.originRegion, name: "originRegion", parent: name, max: 255)
-            try self.validate(self.originRegion, name: "originRegion", parent: name, pattern: "^(us(-gov)?|ap|ca|cn|eu|sa|af|me)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9]$")
+            try self.validate(self.originRegion, name: "originRegion", parent: name, pattern: "^(us(-gov)?|ap|ca|cn|eu|sa|af|me|il)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9]$")
             try self.sourceNetworkIDs?.forEach {
                 try validate($0, name: "sourceNetworkIDs[]", parent: name, max: 20)
                 try validate($0, name: "sourceNetworkIDs[]", parent: name, min: 20)
@@ -1809,6 +1868,139 @@ extension Drs {
         }
     }
 
+    public struct LaunchAction: AWSDecodableShape {
+        /// Launch action code.
+        public let actionCode: String?
+        public let actionId: String?
+        public let actionVersion: String?
+        /// Whether the launch action is active.
+        public let active: Bool?
+        public let category: LaunchActionCategory?
+        public let description: String?
+        public let name: String?
+        /// Whether the launch will not be marked as failed if this action fails.
+        public let optional: Bool?
+        public let order: Int?
+        public let parameters: [String: LaunchActionParameter]?
+        /// Launch action type.
+        public let type: LaunchActionType?
+
+        public init(actionCode: String? = nil, actionId: String? = nil, actionVersion: String? = nil, active: Bool? = nil, category: LaunchActionCategory? = nil, description: String? = nil, name: String? = nil, optional: Bool? = nil, order: Int? = nil, parameters: [String: LaunchActionParameter]? = nil, type: LaunchActionType? = nil) {
+            self.actionCode = actionCode
+            self.actionId = actionId
+            self.actionVersion = actionVersion
+            self.active = active
+            self.category = category
+            self.description = description
+            self.name = name
+            self.optional = optional
+            self.order = order
+            self.parameters = parameters
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionCode = "actionCode"
+            case actionId = "actionId"
+            case actionVersion = "actionVersion"
+            case active = "active"
+            case category = "category"
+            case description = "description"
+            case name = "name"
+            case optional = "optional"
+            case order = "order"
+            case parameters = "parameters"
+            case type = "type"
+        }
+    }
+
+    public struct LaunchActionParameter: AWSEncodableShape & AWSDecodableShape {
+        /// Type.
+        public let type: LaunchActionParameterType?
+        /// Value.
+        public let value: String?
+
+        public init(type: LaunchActionParameterType? = nil, value: String? = nil) {
+            self.type = type
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 1011)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[A-Za-z0-9.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "type"
+            case value = "value"
+        }
+    }
+
+    public struct LaunchActionRun: AWSDecodableShape {
+        /// Action.
+        public let action: LaunchAction?
+        /// Failure reason.
+        public let failureReason: String?
+        /// Run Id.
+        public let runId: String?
+        /// Run status.
+        public let status: LaunchActionRunStatus?
+
+        public init(action: LaunchAction? = nil, failureReason: String? = nil, runId: String? = nil, status: LaunchActionRunStatus? = nil) {
+            self.action = action
+            self.failureReason = failureReason
+            self.runId = runId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case failureReason = "failureReason"
+            case runId = "runId"
+            case status = "status"
+        }
+    }
+
+    public struct LaunchActionsRequestFilters: AWSEncodableShape {
+        /// Launch actions Ids.
+        public let actionIds: [String]?
+
+        public init(actionIds: [String]? = nil) {
+            self.actionIds = actionIds
+        }
+
+        public func validate(name: String) throws {
+            try self.actionIds?.forEach {
+                try validate($0, name: "actionIds[]", parent: name, max: 64)
+                try validate($0, name: "actionIds[]", parent: name, min: 1)
+                try validate($0, name: "actionIds[]", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+            }
+            try self.validate(self.actionIds, name: "actionIds", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionIds = "actionIds"
+        }
+    }
+
+    public struct LaunchActionsStatus: AWSDecodableShape {
+        /// List of post launch action status.
+        public let runs: [LaunchActionRun]?
+        /// Time where the AWS Systems Manager was detected as running on the launched instance.
+        public let ssmAgentDiscoveryDatetime: String?
+
+        public init(runs: [LaunchActionRun]? = nil, ssmAgentDiscoveryDatetime: String? = nil) {
+            self.runs = runs
+            self.ssmAgentDiscoveryDatetime = ssmAgentDiscoveryDatetime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runs = "runs"
+            case ssmAgentDiscoveryDatetime = "ssmAgentDiscoveryDatetime"
+        }
+    }
+
     public struct LaunchConfiguration: AWSDecodableShape {
         /// Whether we should copy the Private IP of the Source Server to the Recovery Instance.
         public let copyPrivateIp: Bool?
@@ -1822,18 +2014,21 @@ extension Drs {
         public let licensing: Licensing?
         /// The name of the launch configuration.
         public let name: String?
+        /// Whether we want to activate post-launch actions for the Source Server.
+        public let postLaunchEnabled: Bool?
         /// The ID of the Source Server for this launch configuration.
         public let sourceServerID: String?
         /// Whether Elastic Disaster Recovery should try to automatically choose the instance type that best matches the OS, CPU, and RAM of your Source Server.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
-        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, ec2LaunchTemplateID: String? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, name: String? = nil, sourceServerID: String? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, ec2LaunchTemplateID: String? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, name: String? = nil, postLaunchEnabled: Bool? = nil, sourceServerID: String? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
             self.ec2LaunchTemplateID = ec2LaunchTemplateID
             self.launchDisposition = launchDisposition
             self.licensing = licensing
             self.name = name
+            self.postLaunchEnabled = postLaunchEnabled
             self.sourceServerID = sourceServerID
             self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
         }
@@ -1845,6 +2040,7 @@ extension Drs {
             case launchDisposition = "launchDisposition"
             case licensing = "licensing"
             case name = "name"
+            case postLaunchEnabled = "postLaunchEnabled"
             case sourceServerID = "sourceServerID"
             case targetInstanceTypeRightSizingMethod = "targetInstanceTypeRightSizingMethod"
         }
@@ -1865,12 +2061,14 @@ extension Drs {
         public let launchDisposition: LaunchDisposition?
         /// Licensing.
         public let licensing: Licensing?
+        /// Post-launch actions activated.
+        public let postLaunchEnabled: Bool?
         /// Tags of the Launch Configuration Template.
         public let tags: [String: String]?
         /// Target instance type right-sizing method.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
-        public init(arn: String? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, exportBucketArn: String? = nil, launchConfigurationTemplateID: String? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, tags: [String: String]? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(arn: String? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, exportBucketArn: String? = nil, launchConfigurationTemplateID: String? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, postLaunchEnabled: Bool? = nil, tags: [String: String]? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.arn = arn
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
@@ -1878,6 +2076,7 @@ extension Drs {
             self.launchConfigurationTemplateID = launchConfigurationTemplateID
             self.launchDisposition = launchDisposition
             self.licensing = licensing
+            self.postLaunchEnabled = postLaunchEnabled
             self.tags = tags
             self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
         }
@@ -1890,6 +2089,7 @@ extension Drs {
             case launchConfigurationTemplateID = "launchConfigurationTemplateID"
             case launchDisposition = "launchDisposition"
             case licensing = "licensing"
+            case postLaunchEnabled = "postLaunchEnabled"
             case tags = "tags"
             case targetInstanceTypeRightSizingMethod = "targetInstanceTypeRightSizingMethod"
         }
@@ -2012,6 +2212,55 @@ extension Drs {
         public let nextToken: String?
 
         public init(items: [StagingSourceServer]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListLaunchActionsRequest: AWSEncodableShape {
+        /// Filters to apply when listing resource launch actions.
+        public let filters: LaunchActionsRequestFilters?
+        /// Maximum amount of items to return when listing resource launch actions.
+        public let maxResults: Int?
+        /// Next token to use when listing resource launch actions.
+        public let nextToken: String?
+        public let resourceId: String
+
+        public init(filters: LaunchActionsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceId: String) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(s-[0-9a-zA-Z]{17}$|lct-[0-9a-zA-Z]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceId = "resourceId"
+        }
+    }
+
+    public struct ListLaunchActionsResponse: AWSDecodableShape {
+        /// List of resource launch actions.
+        public let items: [LaunchAction]?
+        /// Next token returned when listing resource launch actions.
+        public let nextToken: String?
+
+        public init(items: [LaunchAction]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
         }
@@ -2183,6 +2432,8 @@ extension Drs {
     }
 
     public struct ParticipatingServer: AWSDecodableShape {
+        /// The post-launch action runs of a participating server.
+        public let launchActionsStatus: LaunchActionsStatus?
         /// The launch status of a participating server.
         public let launchStatus: LaunchStatus?
         /// The Recovery Instance ID of a participating server.
@@ -2190,16 +2441,139 @@ extension Drs {
         /// The Source Server ID of a participating server.
         public let sourceServerID: String?
 
-        public init(launchStatus: LaunchStatus? = nil, recoveryInstanceID: String? = nil, sourceServerID: String? = nil) {
+        public init(launchActionsStatus: LaunchActionsStatus? = nil, launchStatus: LaunchStatus? = nil, recoveryInstanceID: String? = nil, sourceServerID: String? = nil) {
+            self.launchActionsStatus = launchActionsStatus
             self.launchStatus = launchStatus
             self.recoveryInstanceID = recoveryInstanceID
             self.sourceServerID = sourceServerID
         }
 
         private enum CodingKeys: String, CodingKey {
+            case launchActionsStatus = "launchActionsStatus"
             case launchStatus = "launchStatus"
             case recoveryInstanceID = "recoveryInstanceID"
             case sourceServerID = "sourceServerID"
+        }
+    }
+
+    public struct PutLaunchActionRequest: AWSEncodableShape {
+        /// Launch action code.
+        public let actionCode: String
+        public let actionId: String
+        public let actionVersion: String
+        /// Whether the launch action is active.
+        public let active: Bool
+        public let category: LaunchActionCategory
+        public let description: String?
+        public let name: String
+        /// Whether the launch will not be marked as failed if this action fails.
+        public let optional: Bool
+        public let order: Int
+        public let parameters: [String: LaunchActionParameter]?
+        public let resourceId: String
+
+        public init(actionCode: String, actionId: String, actionVersion: String, active: Bool, category: LaunchActionCategory, description: String? = nil, name: String, optional: Bool, order: Int = 0, parameters: [String: LaunchActionParameter]? = nil, resourceId: String) {
+            self.actionCode = actionCode
+            self.actionId = actionId
+            self.actionVersion = actionVersion
+            self.active = active
+            self.category = category
+            self.description = description
+            self.name = name
+            self.optional = optional
+            self.order = order
+            self.parameters = parameters
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionCode, name: "actionCode", parent: name, max: 1011)
+            try self.validate(self.actionCode, name: "actionCode", parent: name, min: 1)
+            try self.validate(self.actionCode, name: "actionCode", parent: name, pattern: "^([A-Za-z0-9-])+$")
+            try self.validate(self.actionId, name: "actionId", parent: name, max: 64)
+            try self.validate(self.actionId, name: "actionId", parent: name, min: 1)
+            try self.validate(self.actionId, name: "actionId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+            try self.validate(self.actionVersion, name: "actionVersion", parent: name, max: 10)
+            try self.validate(self.actionVersion, name: "actionVersion", parent: name, min: 1)
+            try self.validate(self.actionVersion, name: "actionVersion", parent: name, pattern: "^(\\$DEFAULT|\\$LATEST|[0-9]+)$")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[0-9a-zA-Z ():/.,'-_#*;\n]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9 /_-]*$")
+            try self.validate(self.order, name: "order", parent: name, max: 10000)
+            try self.validate(self.order, name: "order", parent: name, min: 2)
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 1011)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "^([A-Za-z0-9])+$")
+                try $0.value.validate(name: "\(name).parameters[\"\($0.key)\"]")
+            }
+            try self.validate(self.parameters, name: "parameters", parent: name, max: 20)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(s-[0-9a-zA-Z]{17}$|lct-[0-9a-zA-Z]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionCode = "actionCode"
+            case actionId = "actionId"
+            case actionVersion = "actionVersion"
+            case active = "active"
+            case category = "category"
+            case description = "description"
+            case name = "name"
+            case optional = "optional"
+            case order = "order"
+            case parameters = "parameters"
+            case resourceId = "resourceId"
+        }
+    }
+
+    public struct PutLaunchActionResponse: AWSDecodableShape {
+        /// Launch action code.
+        public let actionCode: String?
+        public let actionId: String?
+        public let actionVersion: String?
+        /// Whether the launch action is active.
+        public let active: Bool?
+        public let category: LaunchActionCategory?
+        public let description: String?
+        public let name: String?
+        /// Whether the launch will not be marked as failed if this action fails.
+        public let optional: Bool?
+        public let order: Int?
+        public let parameters: [String: LaunchActionParameter]?
+        public let resourceId: String?
+        /// Launch action type.
+        public let type: LaunchActionType?
+
+        public init(actionCode: String? = nil, actionId: String? = nil, actionVersion: String? = nil, active: Bool? = nil, category: LaunchActionCategory? = nil, description: String? = nil, name: String? = nil, optional: Bool? = nil, order: Int? = nil, parameters: [String: LaunchActionParameter]? = nil, resourceId: String? = nil, type: LaunchActionType? = nil) {
+            self.actionCode = actionCode
+            self.actionId = actionId
+            self.actionVersion = actionVersion
+            self.active = active
+            self.category = category
+            self.description = description
+            self.name = name
+            self.optional = optional
+            self.order = order
+            self.parameters = parameters
+            self.resourceId = resourceId
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionCode = "actionCode"
+            case actionId = "actionId"
+            case actionVersion = "actionVersion"
+            case active = "active"
+            case category = "category"
+            case description = "description"
+            case name = "name"
+            case optional = "optional"
+            case order = "order"
+            case parameters = "parameters"
+            case resourceId = "resourceId"
+            case type = "type"
         }
     }
 
@@ -3510,17 +3884,20 @@ extension Drs {
         public let licensing: Licensing?
         /// The name of the launch configuration.
         public let name: String?
+        /// Whether we want to enable post-launch actions for the Source Server.
+        public let postLaunchEnabled: Bool?
         /// The ID of the Source Server that we want to retrieve a Launch Configuration for.
         public let sourceServerID: String
         /// Whether Elastic Disaster Recovery should try to automatically choose the instance type that best matches the OS, CPU, and RAM of your Source Server.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
-        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, name: String? = nil, sourceServerID: String, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, name: String? = nil, postLaunchEnabled: Bool? = nil, sourceServerID: String, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
             self.launchDisposition = launchDisposition
             self.licensing = licensing
             self.name = name
+            self.postLaunchEnabled = postLaunchEnabled
             self.sourceServerID = sourceServerID
             self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
         }
@@ -3538,6 +3915,7 @@ extension Drs {
             case launchDisposition = "launchDisposition"
             case licensing = "licensing"
             case name = "name"
+            case postLaunchEnabled = "postLaunchEnabled"
             case sourceServerID = "sourceServerID"
             case targetInstanceTypeRightSizingMethod = "targetInstanceTypeRightSizingMethod"
         }
@@ -3556,16 +3934,19 @@ extension Drs {
         public let launchDisposition: LaunchDisposition?
         /// Licensing.
         public let licensing: Licensing?
+        /// Whether we want to activate post-launch actions.
+        public let postLaunchEnabled: Bool?
         /// Target instance type right-sizing method.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
-        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, exportBucketArn: String? = nil, launchConfigurationTemplateID: String, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, exportBucketArn: String? = nil, launchConfigurationTemplateID: String, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, postLaunchEnabled: Bool? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
             self.exportBucketArn = exportBucketArn
             self.launchConfigurationTemplateID = launchConfigurationTemplateID
             self.launchDisposition = launchDisposition
             self.licensing = licensing
+            self.postLaunchEnabled = postLaunchEnabled
             self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
         }
 
@@ -3585,6 +3966,7 @@ extension Drs {
             case launchConfigurationTemplateID = "launchConfigurationTemplateID"
             case launchDisposition = "launchDisposition"
             case licensing = "licensing"
+            case postLaunchEnabled = "postLaunchEnabled"
             case targetInstanceTypeRightSizingMethod = "targetInstanceTypeRightSizingMethod"
         }
     }

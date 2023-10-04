@@ -503,11 +503,27 @@ extension WAFV2 {
     }
 
     public struct AWSManagedRulesACFPRuleSet: AWSEncodableShape & AWSDecodableShape {
-        /// The path of the account creation endpoint for your application. This is the page on your website that accepts the completed registration form for a new user. This page must accept POST requests. For example, for the URL https://example.com/web/signup, you would provide the path /web/signup.
+        /// The path of the account creation endpoint for your application. This is the page on your website that accepts the completed registration form for a new user. This page must accept POST requests. For example, for the URL https://example.com/web/newaccount, you would provide
+        /// 	the path /web/newaccount. Account creation page paths that
+        /// 	start with the path that you provide are considered a match. For example
+        /// 	/web/newaccount matches the account creation paths
+        /// 		/web/newaccount, /web/newaccount/,
+        /// 		/web/newaccountPage, and
+        /// 		/web/newaccount/thisPage, but doesn't match the path
+        /// 		/home/web/newaccount or
+        /// 		/website/newaccount.
         public let creationPath: String
         /// Allow the use of regular expressions in the registration page path and the account creation path.
         public let enableRegexInPath: Bool?
-        /// The path of the account registration endpoint for your application. This is the page on your website that presents the registration form to new users.   This page must accept GET text/html requests.  For example, for the URL https://example.com/web/register, you would provide the path /web/register.
+        /// The path of the account registration endpoint for your application. This is the page on your website that presents the registration form to new users.   This page must accept GET text/html requests.  For example, for the URL https://example.com/web/registration, you would provide
+        /// 	the path /web/registration. Registration page paths that
+        /// 	start with the path that you provide are considered a match. For example
+        /// 	    /web/registration matches the registration paths
+        /// 	    /web/registration, /web/registration/,
+        /// 	    /web/registrationPage, and
+        /// 	    /web/registration/thisPage, but doesn't match the path
+        /// 	    /home/web/registration or
+        /// 	    /website/registration.
         public let registrationPagePath: String
         /// The criteria for inspecting account creation requests, used by the ACFP rule group to validate and track account creation attempts.
         public let requestInspection: RequestInspectionACFP
@@ -545,7 +561,7 @@ extension WAFV2 {
     public struct AWSManagedRulesATPRuleSet: AWSEncodableShape & AWSDecodableShape {
         /// Allow the use of regular expressions in the login page path.
         public let enableRegexInPath: Bool?
-        /// The path of the login endpoint for your application. For example, for the URL https://example.com/web/login, you would provide the path /web/login. The rule group inspects only HTTP POST requests to your specified login endpoint.
+        /// The path of the login endpoint for your application. For example, for the URL https://example.com/web/login, you would provide the path /web/login. Login paths that start with the path that you provide are considered a match. For example /web/login matches the login paths /web/login, /web/login/, /web/loginPage, and /web/login/thisPage, but doesn't match the login path /home/web/login or /website/login. The rule group inspects only HTTP POST requests to your specified login endpoint.
         public let loginPath: String
         /// The criteria for inspecting login requests, used by the ATP rule group to validate credentials usage.
         public let requestInspection: RequestInspection?
@@ -573,14 +589,19 @@ extension WAFV2 {
     }
 
     public struct AWSManagedRulesBotControlRuleSet: AWSEncodableShape & AWSDecodableShape {
+        /// Applies only to the targeted inspection level.  Determines whether to use machine learning (ML) to analyze your web traffic for bot-related activity. Machine learning is required for the Bot Control rules TGT_ML_CoordinatedActivityLow and TGT_ML_CoordinatedActivityMedium, which
+        /// inspect for anomalous behavior that might indicate distributed, coordinated bot activity. For more information about this choice, see the listing for these rules in the table at Bot Control rules listing in the WAF Developer Guide. Default: TRUE
+        public let enableMachineLearning: Bool?
         /// The inspection level to use for the Bot Control rule group. The common level is the least expensive. The  targeted level includes all common level rules and adds rules with more advanced inspection criteria. For  details, see WAF Bot Control rule group in the WAF Developer Guide.
         public let inspectionLevel: InspectionLevel
 
-        public init(inspectionLevel: InspectionLevel) {
+        public init(enableMachineLearning: Bool? = nil, inspectionLevel: InspectionLevel) {
+            self.enableMachineLearning = enableMachineLearning
             self.inspectionLevel = inspectionLevel
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enableMachineLearning = "EnableMachineLearning"
             case inspectionLevel = "InspectionLevel"
         }
     }
@@ -692,7 +713,7 @@ extension WAFV2 {
     }
 
     public struct AssociationConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Customizes the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default size is 16 KB (16,384 kilobytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.
+        /// Customizes the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default size is 16 KB (16,384 bytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.
         public let requestBody: [AssociatedResourceType: RequestBodyAssociatedResourceTypeConfig]?
 
         public init(requestBody: [AssociatedResourceType: RequestBodyAssociatedResourceTypeConfig]? = nil) {
@@ -722,7 +743,7 @@ extension WAFV2 {
     }
 
     public struct Body: AWSEncodableShape & AWSDecodableShape {
-        /// What WAF should do if the body is larger than WAF can inspect.  WAF does not support inspecting the entire contents of the web request body if the body  exceeds the limit for the resource type. If the body is larger than the limit, the underlying host service  only forwards the contents that are below the limit to WAF for inspection.  The default limit is 8 KB (8,192 kilobytes) for regional resources and 16 KB (16,384 kilobytes) for CloudFront distributions. For CloudFront distributions,  you can increase the limit in the web ACL AssociationConfig, for additional processing fees.  The options for oversize handling are the following:    CONTINUE - Inspect the available body contents normally, according to the rule inspection criteria.     MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.   You can combine the MATCH or NO_MATCH settings for oversize handling with your rule and web ACL action settings, so that you block any request whose body is over the limit.  Default: CONTINUE
+        /// What WAF should do if the body is larger than WAF can inspect.  WAF does not support inspecting the entire contents of the web request body if the body  exceeds the limit for the resource type. If the body is larger than the limit, the underlying host service  only forwards the contents that are below the limit to WAF for inspection.  The default limit is 8 KB (8,192 bytes) for regional resources and 16 KB (16,384 bytes) for CloudFront distributions. For CloudFront distributions,  you can increase the limit in the web ACL AssociationConfig, for additional processing fees.  The options for oversize handling are the following:    CONTINUE - Inspect the available body contents normally, according to the rule inspection criteria.     MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.   You can combine the MATCH or NO_MATCH settings for oversize handling with your rule and web ACL action settings, so that you block any request whose body is over the limit.  Default: CONTINUE
         public let oversizeHandling: OversizeHandling?
 
         public init(oversizeHandling: OversizeHandling? = nil) {
@@ -739,9 +760,12 @@ extension WAFV2 {
         public let fieldToMatch: FieldToMatch
         /// The area within the portion of the web request that you want WAF to search for SearchString. Valid values include the following:  CONTAINS  The specified part of the web request must include the value of SearchString, but the location doesn't matter.  CONTAINS_WORD  The specified part of the web request must include the value of SearchString, and SearchString must contain only alphanumeric characters or underscore (A-Z, a-z, 0-9, or _). In addition, SearchString must be a word, which means that both of the following are true:    SearchString is at the beginning of the specified part of the web request or is preceded by a character other than an alphanumeric character or underscore (_). Examples include the value of a header and ;BadBot.    SearchString is at the end of the specified part of the web request or is followed by a character other than an alphanumeric character or underscore (_), for example, BadBot; and -BadBot;.    EXACTLY  The value of the specified part of the web request must exactly match the value of SearchString.  STARTS_WITH  The value of SearchString must appear at the beginning of the specified part of the web request.  ENDS_WITH  The value of SearchString must appear at the end of the specified part of the web request.
         public let positionalConstraint: PositionalConstraint
-        /// A string value that you want WAF to search for. WAF searches only in the part of web requests that you designate for inspection in FieldToMatch. The maximum length of the value is 200 bytes. Valid values depend on the component that you specify for inspection in FieldToMatch:    Method: The HTTP method that you want WAF to search for. This indicates the type of operation specified in the request.     UriPath: The value that you want WAF to search for in the URI path, for example, /images/daily-ad.jpg.     HeaderOrder: The comma-separated list of header names to match for. WAF creates a  string that contains the ordered list of header names, from the headers in the web request, and then matches against that string.    If SearchString includes alphabetic characters A-Z and a-z, note that the value is case sensitive.  If you're using the WAF API  Specify a base64-encoded version of the value. The maximum length of the value before you base64-encode it is 200 bytes. For example, suppose the value of Type is HEADER and the value of Data is User-Agent. If you want to search the User-Agent header for the value BadBot, you base64-encode BadBot using MIME base64-encoding and include the resulting value, QmFkQm90, in the value of SearchString.  If you're using the CLI or one of the Amazon Web Services SDKs  The value that you want WAF to search for. The SDK automatically base64 encodes the value.
+        /// A string value that you want WAF to search for. WAF searches only in the part of web requests that you designate for inspection in FieldToMatch. The maximum length of the value is 200 bytes. Valid values depend on the component that you specify for inspection in FieldToMatch:    Method: The HTTP method that you want WAF to search for. This indicates the type of operation specified in the request.     UriPath: The value that you want WAF to search for in the URI path, for example, /images/daily-ad.jpg.     JA3Fingerprint: Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. You can use this choice only with a string match ByteMatchStatement with the PositionalConstraint set to  EXACTLY.  You can obtain the JA3 fingerprint for client requests from the web ACL logs.
+        /// 						If WAF is able to calculate the fingerprint, it includes it in the logs.
+        /// 						For information about the logging fields,
+        /// see Log fields in the WAF Developer Guide.     HeaderOrder: The comma-separated list of header names to match for. WAF creates a  string that contains the ordered list of header names, from the headers in the web request, and then matches against that string.    If SearchString includes alphabetic characters A-Z and a-z, note that the value is case sensitive.  If you're using the WAF API  Specify a base64-encoded version of the value. The maximum length of the value before you base64-encode it is 200 bytes. For example, suppose the value of Type is HEADER and the value of Data is User-Agent. If you want to search the User-Agent header for the value BadBot, you base64-encode BadBot using MIME base64-encoding and include the resulting value, QmFkQm90, in the value of SearchString.  If you're using the CLI or one of the Amazon Web Services SDKs  The value that you want WAF to search for. The SDK automatically base64 encodes the value.
         public let searchString: AWSBase64Data
-        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the component contents.
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
         public init(fieldToMatch: FieldToMatch, positionalConstraint: PositionalConstraint, searchString: AWSBase64Data, textTransformations: [TextTransformation]) {
@@ -973,7 +997,7 @@ extension WAFV2 {
     }
 
     public struct Cookies: AWSEncodableShape & AWSDecodableShape {
-        /// The filter to use to identify the subset of cookies to inspect in a web request.  You must specify exactly one setting: either All, IncludedCookies, or ExcludedCookies. Example JSON: "MatchPattern": { "IncludedCookies": {"KeyToInclude1", "KeyToInclude2", "KeyToInclude3"} }
+        /// The filter to use to identify the subset of cookies to inspect in a web request.  You must specify exactly one setting: either All, IncludedCookies, or ExcludedCookies. Example JSON: "MatchPattern": { "IncludedCookies": [ "session-id-time", "session-id" ] }
         public let matchPattern: CookieMatchPattern
         /// The parts of the cookies to inspect with the rule inspection criteria. If you specify All, WAF inspects both keys and values.
         public let matchScope: MapMatchScope
@@ -1054,7 +1078,7 @@ extension WAFV2 {
     }
 
     public struct CreateIPSetRequest: AWSEncodableShape {
-        /// Contains an array of strings that specifies zero or more IP addresses or blocks of IP addresses. All addresses must be specified using Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Example address strings:    To configure WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify  192.0.2.0/24.   To configure WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing. Example JSON Addresses specifications:    Empty array: "Addresses": []    Array with one address: "Addresses": ["192.0.2.44/32"]    Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]    INVALID specification: "Addresses": [""] INVALID
+        /// Contains an array of strings that specifies zero or more IP addresses or blocks of IP addresses that you want WAF to inspect for in incoming requests. All addresses must be specified using Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Example address strings:    For requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   For requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify  192.0.2.0/24.   For requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   For requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing. Example JSON Addresses specifications:    Empty array: "Addresses": []    Array with one address: "Addresses": ["192.0.2.44/32"]    Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]    INVALID specification: "Addresses": [""] INVALID
         public let addresses: [String]
         /// A description of the IP set that helps with identification.
         public let description: String?
@@ -1186,7 +1210,7 @@ extension WAFV2 {
         public let description: String?
         /// The name of the rule group. You cannot change the name of a rule group after you create it.
         public let name: String
-        /// The Rule statements used to identify the web requests that you  want to allow, block, or count. Each rule includes one top-level statement that WAF uses to identify matching   web requests, and parameters that govern how WAF handles them.
+        /// The Rule statements used to identify the web requests that you  want to manage. Each rule includes one top-level statement that WAF uses to identify matching   web requests, and parameters that govern how WAF handles them.
         public let rules: [Rule]?
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
@@ -1257,7 +1281,7 @@ extension WAFV2 {
     }
 
     public struct CreateWebACLRequest: AWSEncodableShape {
-        /// Specifies custom configurations for the associations between the web ACL and protected resources.   Use this to customize the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default is 16 KB (16,384 kilobytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.
+        /// Specifies custom configurations for the associations between the web ACL and protected resources.   Use this to customize the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default is 16 KB (16,384 bytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.
         public let associationConfig: AssociationConfig?
         /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
         public let captchaConfig: CaptchaConfig?
@@ -1272,7 +1296,7 @@ extension WAFV2 {
         public let description: String?
         /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
         public let name: String
-        /// The Rule statements used to identify the web requests that you  want to allow, block, or count. Each rule includes one top-level statement that WAF uses to identify matching   web requests, and parameters that govern how WAF handles them.
+        /// The Rule statements used to identify the web requests that you  want to manage. Each rule includes one top-level statement that WAF uses to identify matching   web requests, and parameters that govern how WAF handles them.
         public let rules: [Rule]?
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
@@ -1410,7 +1434,7 @@ extension WAFV2 {
         public let customResponseBodyKey: String?
         /// The HTTP status code to return to the client.  For a list of status codes that you can use in your custom responses, see Supported status codes for custom response  in the WAF Developer Guide.
         public let responseCode: Int
-        /// The HTTP headers to use in the response. Duplicate header names are not allowed.  For information about the limits on count and size for custom request and response settings, see WAF quotas  in the WAF Developer Guide.
+        /// The HTTP headers to use in the response. You can specify any header name except for content-type. Duplicate header names are not allowed. For information about the limits on count and size for custom request and response settings, see WAF quotas  in the WAF Developer Guide.
         public let responseHeaders: [CustomHTTPHeader]?
 
         public init(customResponseBodyKey: String? = nil, responseCode: Int, responseHeaders: [CustomHTTPHeader]? = nil) {
@@ -1933,7 +1957,7 @@ extension WAFV2 {
     public struct FieldToMatch: AWSEncodableShape & AWSDecodableShape {
         /// Inspect all query arguments.
         public let allQueryArguments: AllQueryArguments?
-        /// Inspect the request body as plain text. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form.  A limited amount of the request body is forwarded to WAF for inspection by the underlying host service. For regional resources, the limit is 8 KB (8,192 kilobytes) and for CloudFront distributions, the limit is 16 KB (16,384 kilobytes). For CloudFront distributions, you can increase the limit in the web ACL's AssociationConfig, for additional processing fees.  For information about how to handle oversized request bodies, see the Body object configuration.
+        /// Inspect the request body as plain text. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form.  A limited amount of the request body is forwarded to WAF for inspection by the underlying host service. For regional resources, the limit is 8 KB (8,192 bytes) and for CloudFront distributions, the limit is 16 KB (16,384 bytes). For CloudFront distributions, you can increase the limit in the web ACL's AssociationConfig, for additional processing fees.  For information about how to handle oversized request bodies, see the Body object configuration.
         public let body: Body?
         /// Inspect the request cookies. You must configure scope and pattern matching filters in the Cookies object, to define the set of cookies and the parts of the cookies that WAF inspects.  Only the first 8 KB (8192 bytes) of a request's cookies and only the first 200 cookies are forwarded to WAF for inspection by the underlying host service. You must configure how to handle any oversize cookie content in the Cookies object. WAF applies the pattern matching filters to the cookies that it receives from the underlying host service.
         public let cookies: Cookies?
@@ -1942,7 +1966,14 @@ extension WAFV2 {
         public let headerOrder: HeaderOrder?
         /// Inspect the request headers. You must configure scope and pattern matching filters in the Headers object, to define the set of headers to and the parts of the headers that WAF inspects.  Only the first 8 KB (8192 bytes) of a request's headers and only the first 200 headers are forwarded to WAF for inspection by the underlying host service. You must configure how to handle any oversize header content in the Headers object. WAF applies the pattern matching filters to the headers that it receives from the underlying host service.
         public let headers: Headers?
-        /// Inspect the request body as JSON. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form.  A limited amount of the request body is forwarded to WAF for inspection by the underlying host service. For regional resources, the limit is 8 KB (8,192 kilobytes) and for CloudFront distributions, the limit is 16 KB (16,384 kilobytes). For CloudFront distributions, you can increase the limit in the web ACL's AssociationConfig, for additional processing fees.  For information about how to handle oversized request bodies, see the JsonBody object configuration.
+        /// Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each
+        /// 						request that has enough TLS Client Hello information for the calculation. Almost  all web requests include this information.  You can use this choice only with a string match ByteMatchStatement with the PositionalConstraint set to  EXACTLY.    You can obtain the JA3 fingerprint for client requests from the web ACL logs.
+        /// 						If WAF is able to calculate the fingerprint, it includes it in the logs.
+        /// 						For information about the logging fields,
+        /// see Log fields in the WAF Developer Guide.  Provide the JA3 fingerprint string from the logs in your string match statement
+        /// 							specification, to match with any future requests that have the same TLS configuration.
+        public let ja3Fingerprint: JA3Fingerprint?
+        /// Inspect the request body as JSON. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form.  A limited amount of the request body is forwarded to WAF for inspection by the underlying host service. For regional resources, the limit is 8 KB (8,192 bytes) and for CloudFront distributions, the limit is 16 KB (16,384 bytes). For CloudFront distributions, you can increase the limit in the web ACL's AssociationConfig, for additional processing fees.  For information about how to handle oversized request bodies, see the JsonBody object configuration.
         public let jsonBody: JsonBody?
         /// Inspect the HTTP method. The method indicates the type of operation that the request is asking the origin to perform.
         public let method: Method?
@@ -1955,12 +1986,13 @@ extension WAFV2 {
         /// Inspect the request URI path. This is the part of the web request that identifies a resource, for example, /images/daily-ad.jpg.
         public let uriPath: UriPath?
 
-        public init(allQueryArguments: AllQueryArguments? = nil, body: Body? = nil, cookies: Cookies? = nil, headerOrder: HeaderOrder? = nil, headers: Headers? = nil, jsonBody: JsonBody? = nil, method: Method? = nil, queryString: QueryString? = nil, singleHeader: SingleHeader? = nil, singleQueryArgument: SingleQueryArgument? = nil, uriPath: UriPath? = nil) {
+        public init(allQueryArguments: AllQueryArguments? = nil, body: Body? = nil, cookies: Cookies? = nil, headerOrder: HeaderOrder? = nil, headers: Headers? = nil, ja3Fingerprint: JA3Fingerprint? = nil, jsonBody: JsonBody? = nil, method: Method? = nil, queryString: QueryString? = nil, singleHeader: SingleHeader? = nil, singleQueryArgument: SingleQueryArgument? = nil, uriPath: UriPath? = nil) {
             self.allQueryArguments = allQueryArguments
             self.body = body
             self.cookies = cookies
             self.headerOrder = headerOrder
             self.headers = headers
+            self.ja3Fingerprint = ja3Fingerprint
             self.jsonBody = jsonBody
             self.method = method
             self.queryString = queryString
@@ -1983,6 +2015,7 @@ extension WAFV2 {
             case cookies = "Cookies"
             case headerOrder = "HeaderOrder"
             case headers = "Headers"
+            case ja3Fingerprint = "JA3Fingerprint"
             case jsonBody = "JsonBody"
             case method = "Method"
             case queryString = "QueryString"
@@ -2787,7 +2820,7 @@ extension WAFV2 {
     }
 
     public struct Headers: AWSEncodableShape & AWSDecodableShape {
-        /// The filter to use to identify the subset of headers to inspect in a web request.  You must specify exactly one setting: either All, IncludedHeaders, or ExcludedHeaders. Example JSON: "MatchPattern": { "ExcludedHeaders": {"KeyToExclude1", "KeyToExclude2"} }
+        /// The filter to use to identify the subset of headers to inspect in a web request.  You must specify exactly one setting: either All, IncludedHeaders, or ExcludedHeaders. Example JSON: "MatchPattern": { "ExcludedHeaders": [ "KeyToExclude1", "KeyToExclude2" ] }
         public let matchPattern: HeaderMatchPattern
         /// The parts of the headers to match with the rule inspection criteria. If you specify All, WAF inspects both keys and values.
         public let matchScope: MapMatchScope
@@ -2812,7 +2845,7 @@ extension WAFV2 {
     }
 
     public struct IPSet: AWSDecodableShape {
-        /// Contains an array of strings that specifies zero or more IP addresses or blocks of IP addresses. All addresses must be specified using Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Example address strings:    To configure WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify  192.0.2.0/24.   To configure WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing. Example JSON Addresses specifications:    Empty array: "Addresses": []    Array with one address: "Addresses": ["192.0.2.44/32"]    Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]    INVALID specification: "Addresses": [""] INVALID
+        /// Contains an array of strings that specifies zero or more IP addresses or blocks of IP addresses that you want WAF to inspect for in incoming requests. All addresses must be specified using Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Example address strings:    For requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   For requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify  192.0.2.0/24.   For requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   For requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing. Example JSON Addresses specifications:    Empty array: "Addresses": []    Array with one address: "Addresses": ["192.0.2.44/32"]    Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]    INVALID specification: "Addresses": [""] INVALID
         public let addresses: [String]
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String
@@ -2942,6 +2975,19 @@ extension WAFV2 {
         }
     }
 
+    public struct JA3Fingerprint: AWSEncodableShape & AWSDecodableShape {
+        /// The match status to assign to the web request if the request doesn't have a JA3 fingerprint.  You can specify the following fallback behaviors:    MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.
+        public let fallbackBehavior: FallbackBehavior
+
+        public init(fallbackBehavior: FallbackBehavior) {
+            self.fallbackBehavior = fallbackBehavior
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fallbackBehavior = "FallbackBehavior"
+        }
+    }
+
     public struct JsonBody: AWSEncodableShape & AWSDecodableShape {
         /// What WAF should do if it fails to completely parse the JSON body. The options are the following:    EVALUATE_AS_STRING - Inspect the body as plain text. WAF applies the text transformations and inspection criteria that you defined for the JSON inspection to the body text string.    MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.   If you don't provide this setting, WAF parses and evaluates the content only up to the first parsing failure that it encounters.  WAF does its best to parse the entire JSON body, but might be forced to stop for reasons such as invalid characters, duplicate keys, truncation, and any content whose root node isn't an object or an array.  WAF parses the JSON in the following examples as two valid key, value pairs:    Missing comma: {"key1":"value1""key2":"value2"}    Missing colon: {"key1":"value1","key2""value2"}    Extra colons: {"key1"::"value1","key2""value2"}
         public let invalidFallbackBehavior: BodyParsingFallbackBehavior?
@@ -2949,7 +2995,7 @@ extension WAFV2 {
         public let matchPattern: JsonMatchPattern
         /// The parts of the JSON to match against using the MatchPattern. If you specify All, WAF matches against keys and values.
         public let matchScope: JsonMatchScope
-        /// What WAF should do if the body is larger than WAF can inspect.  WAF does not support inspecting the entire contents of the web request body if the body  exceeds the limit for the resource type. If the body is larger than the limit, the underlying host service  only forwards the contents that are below the limit to WAF for inspection.  The default limit is 8 KB (8,192 kilobytes) for regional resources and 16 KB (16,384 kilobytes) for CloudFront distributions. For CloudFront distributions,  you can increase the limit in the web ACL AssociationConfig, for additional processing fees.  The options for oversize handling are the following:    CONTINUE - Inspect the available body contents normally, according to the rule inspection criteria.     MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.   You can combine the MATCH or NO_MATCH settings for oversize handling with your rule and web ACL action settings, so that you block any request whose body is over the limit.  Default: CONTINUE
+        /// What WAF should do if the body is larger than WAF can inspect.  WAF does not support inspecting the entire contents of the web request body if the body  exceeds the limit for the resource type. If the body is larger than the limit, the underlying host service  only forwards the contents that are below the limit to WAF for inspection.  The default limit is 8 KB (8,192 bytes) for regional resources and 16 KB (16,384 bytes) for CloudFront distributions. For CloudFront distributions,  you can increase the limit in the web ACL AssociationConfig, for additional processing fees.  The options for oversize handling are the following:    CONTINUE - Inspect the available body contents normally, according to the rule inspection criteria.     MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.   You can combine the MATCH or NO_MATCH settings for oversize handling with your rule and web ACL action settings, so that you block any request whose body is over the limit.  Default: CONTINUE
         public let oversizeHandling: OversizeHandling?
 
         public init(invalidFallbackBehavior: BodyParsingFallbackBehavior? = nil, matchPattern: JsonMatchPattern, matchScope: JsonMatchScope, oversizeHandling: OversizeHandling? = nil) {
@@ -4336,8 +4382,10 @@ extension WAFV2 {
         public let queryArgument: RateLimitQueryArgument?
         /// Use the request's query string as an aggregate key. Each distinct string contributes to the aggregation instance. If you use just the  query string as your custom key, then each string fully defines an aggregation instance.
         public let queryString: RateLimitQueryString?
+        /// Use the request's URI path as an aggregate key. Each distinct URI path contributes to the aggregation instance. If you use just the  URI path as your custom key, then each URI path fully defines an aggregation instance.
+        public let uriPath: RateLimitUriPath?
 
-        public init(cookie: RateLimitCookie? = nil, forwardedIP: RateLimitForwardedIP? = nil, header: RateLimitHeader? = nil, httpMethod: RateLimitHTTPMethod? = nil, ip: RateLimitIP? = nil, labelNamespace: RateLimitLabelNamespace? = nil, queryArgument: RateLimitQueryArgument? = nil, queryString: RateLimitQueryString? = nil) {
+        public init(cookie: RateLimitCookie? = nil, forwardedIP: RateLimitForwardedIP? = nil, header: RateLimitHeader? = nil, httpMethod: RateLimitHTTPMethod? = nil, ip: RateLimitIP? = nil, labelNamespace: RateLimitLabelNamespace? = nil, queryArgument: RateLimitQueryArgument? = nil, queryString: RateLimitQueryString? = nil, uriPath: RateLimitUriPath? = nil) {
             self.cookie = cookie
             self.forwardedIP = forwardedIP
             self.header = header
@@ -4346,6 +4394,7 @@ extension WAFV2 {
             self.labelNamespace = labelNamespace
             self.queryArgument = queryArgument
             self.queryString = queryString
+            self.uriPath = uriPath
         }
 
         public func validate(name: String) throws {
@@ -4354,6 +4403,7 @@ extension WAFV2 {
             try self.labelNamespace?.validate(name: "\(name).labelNamespace")
             try self.queryArgument?.validate(name: "\(name).queryArgument")
             try self.queryString?.validate(name: "\(name).queryString")
+            try self.uriPath?.validate(name: "\(name).uriPath")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4365,6 +4415,7 @@ extension WAFV2 {
             case labelNamespace = "LabelNamespace"
             case queryArgument = "QueryArgument"
             case queryString = "QueryString"
+            case uriPath = "UriPath"
         }
     }
 
@@ -4388,7 +4439,7 @@ extension WAFV2 {
     public struct RateLimitCookie: AWSEncodableShape & AWSDecodableShape {
         /// The name of the cookie to use.
         public let name: String
-        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the component contents.
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
         public init(name: String, textTransformations: [TextTransformation]) {
@@ -4423,7 +4474,7 @@ extension WAFV2 {
     public struct RateLimitHeader: AWSEncodableShape & AWSDecodableShape {
         /// The name of the header to use.
         public let name: String
-        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the component contents.
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
         public init(name: String, textTransformations: [TextTransformation]) {
@@ -4473,7 +4524,7 @@ extension WAFV2 {
     public struct RateLimitQueryArgument: AWSEncodableShape & AWSDecodableShape {
         /// The name of the query argument to use.
         public let name: String
-        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the component contents.
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
         public init(name: String, textTransformations: [TextTransformation]) {
@@ -4498,7 +4549,27 @@ extension WAFV2 {
     }
 
     public struct RateLimitQueryString: AWSEncodableShape & AWSDecodableShape {
-        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the component contents.
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
+        public let textTransformations: [TextTransformation]
+
+        public init(textTransformations: [TextTransformation]) {
+            self.textTransformations = textTransformations
+        }
+
+        public func validate(name: String) throws {
+            try self.textTransformations.forEach {
+                try $0.validate(name: "\(name).textTransformations[]")
+            }
+            try self.validate(self.textTransformations, name: "textTransformations", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case textTransformations = "TextTransformations"
+        }
+    }
+
+    public struct RateLimitUriPath: AWSEncodableShape & AWSDecodableShape {
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
         public init(textTransformations: [TextTransformation]) {
@@ -4541,7 +4612,7 @@ extension WAFV2 {
         public let fieldToMatch: FieldToMatch
         /// The string representing the regular expression.
         public let regexString: String
-        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the component contents.
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
         public init(fieldToMatch: FieldToMatch, regexString: String, textTransformations: [TextTransformation]) {
@@ -4602,7 +4673,7 @@ extension WAFV2 {
         public let arn: String
         /// The part of the web request that you want WAF to inspect.
         public let fieldToMatch: FieldToMatch
-        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the component contents.
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
         public init(arn: String, fieldToMatch: FieldToMatch, textTransformations: [TextTransformation]) {
@@ -4676,7 +4747,7 @@ extension WAFV2 {
     }
 
     public struct RequestBodyAssociatedResourceTypeConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the maximum size of the web request body component that an associated CloudFront distribution should send to WAF for inspection. This applies to statements in the web ACL that inspect the body or JSON body.  Default: 16 KB (16,384 kilobytes)
+        /// Specifies the maximum size of the web request body component that an associated CloudFront distribution should send to WAF for inspection. This applies to statements in the web ACL that inspect the body or JSON body.  Default: 16 KB (16,384 bytes)
         public let defaultSizeInspectionLimit: SizeInspectionLimit
 
         public init(defaultSizeInspectionLimit: SizeInspectionLimit) {
@@ -4946,7 +5017,7 @@ extension WAFV2 {
         public let captchaConfig: CaptchaConfig?
         /// Specifies how WAF should handle Challenge evaluations. If you don't specify this, WAF uses the challenge configuration that's defined for the web ACL.
         public let challengeConfig: ChallengeConfig?
-        /// The name of the rule. You can't change the name of a Rule after you create it.
+        /// The name of the rule.  If you change the name of a Rule after you create it and you want the rule's metric name to reflect the change, update the metric name in the rule's VisibilityConfig settings. WAF  doesn't automatically update the metric name when you update the rule name.
         public let name: String
         /// The action to use in the place of the action that results from the rule group evaluation. Set the override action to none to leave the result of the rule group alone. Set it to count to override the result to count only.  You can only use this for rule statements that reference a rule group, like RuleGroupReferenceStatement and ManagedRuleGroupStatement.   This option is usually set to none. It does not affect how the rules in the rule group are evaluated. If you want the rules in the rule group to only count   matches, do not use this and instead use the rule action override option, with Count action, in your rule group reference statement settings.
         public let overrideAction: OverrideAction?
@@ -4956,7 +5027,7 @@ extension WAFV2 {
         public let ruleLabels: [Label]?
         /// The WAF processing statement for the rule, for example ByteMatchStatement or SizeConstraintStatement.
         public let statement: Statement
-        /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
+        /// Defines and enables Amazon CloudWatch metrics and web request sample collection.   If you change the name of a Rule after you create it and you want the rule's metric name to reflect the change, update the metric name as well. WAF  doesn't automatically update the metric name.
         public let visibilityConfig: VisibilityConfig
 
         public init(action: RuleAction? = nil, captchaConfig: CaptchaConfig? = nil, challengeConfig: ChallengeConfig? = nil, name: String, overrideAction: OverrideAction? = nil, priority: Int, ruleLabels: [Label]? = nil, statement: Statement, visibilityConfig: VisibilityConfig) {
@@ -5082,7 +5153,7 @@ extension WAFV2 {
         public let labelNamespace: String?
         /// The name of the rule group. You cannot change the name of a rule group after you create it.
         public let name: String
-        /// The Rule statements used to identify the web requests that you  want to allow, block, or count. Each rule includes one top-level statement that WAF uses to identify matching   web requests, and parameters that govern how WAF handles them.
+        /// The Rule statements used to identify the web requests that you  want to manage. Each rule includes one top-level statement that WAF uses to identify matching   web requests, and parameters that govern how WAF handles them.
         public let rules: [Rule]?
         /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public let visibilityConfig: VisibilityConfig
@@ -5296,7 +5367,7 @@ extension WAFV2 {
         public let fieldToMatch: FieldToMatch
         /// The size, in byte, to compare to the request part, after any transformations.
         public let size: Int64
-        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the component contents.
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
         public init(comparisonOperator: ComparisonOperator, fieldToMatch: FieldToMatch, size: Int64, textTransformations: [TextTransformation]) {
@@ -5329,7 +5400,7 @@ extension WAFV2 {
         public let fieldToMatch: FieldToMatch
         /// The sensitivity that you want WAF to use to inspect for SQL injection attacks.   HIGH detects more attacks, but might generate more false positives,  especially if your web requests frequently contain unusual strings.  For information about identifying and mitigating false positives, see  Testing and tuning in the                                                                              WAF Developer Guide.  LOW is generally a better choice for resources that already have other  protections against SQL injection attacks or that have a low tolerance for false positives.  Default: LOW
         public let sensitivityLevel: SensitivityLevel?
-        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the component contents.
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
         public init(fieldToMatch: FieldToMatch, sensitivityLevel: SensitivityLevel? = nil, textTransformations: [TextTransformation]) {
@@ -5364,7 +5435,7 @@ extension WAFV2 {
         public let ipSetReferenceStatement: IPSetReferenceStatement?
         /// A rule statement to match against labels that have been added to the web request by rules that have already run in the web ACL.  The label match statement provides the label or namespace string to search for. The label string can represent a part or all of the fully qualified label name that had been added to the web request. Fully qualified labels have a prefix, optional namespaces, and label name. The prefix identifies the rule group or web ACL context of the rule that added the label.  If you do not provide the fully qualified name in your label match string, WAF performs the search for labels that were added in the same context as the label match statement.
         public let labelMatchStatement: LabelMatchStatement?
-        /// A rule statement used to run the rules that are defined in a managed rule group. To use this, provide the vendor name and the name of the rule group in this statement. You can retrieve the required names by calling ListAvailableManagedRuleGroups. You cannot nest a ManagedRuleGroupStatement, for example for use inside a NotStatement or OrStatement. It can only be referenced as a top-level statement within a rule.  You are charged additional fees when you use the WAF Bot Control managed rule group AWSManagedRulesBotControlRuleSet, the WAF Fraud Control account takeover prevention (ATP) managed rule group AWSManagedRulesATPRuleSet, or the WAF Fraud Control account creation fraud prevention (ACFP) managed rule group AWSManagedRulesACFPRuleSet. For more information, see WAF Pricing.
+        /// A rule statement used to run the rules that are defined in a managed rule group. To use this, provide the vendor name and the name of the rule group in this statement. You can retrieve the required names by calling ListAvailableManagedRuleGroups. You cannot nest a ManagedRuleGroupStatement, for example for use inside a NotStatement or OrStatement. You cannot use a managed rule group  inside another rule group. You can only reference a managed rule group as a top-level statement within a rule that you define in a web ACL.  You are charged additional fees when you use the WAF Bot Control managed rule group AWSManagedRulesBotControlRuleSet, the WAF Fraud Control account takeover prevention (ATP) managed rule group AWSManagedRulesATPRuleSet, or the WAF Fraud Control account creation fraud prevention (ACFP) managed rule group AWSManagedRulesACFPRuleSet. For more information, see WAF Pricing.
         public let managedRuleGroupStatement: ManagedRuleGroupStatement?
         /// A logical rule statement used to negate the results of another rule statement. You provide one Statement within the NotStatement.
         public let notStatement: NotStatement?
@@ -5376,9 +5447,9 @@ extension WAFV2 {
         public let regexMatchStatement: RegexMatchStatement?
         /// A rule statement used to search web request components for matches with regular expressions. To use this, create a RegexPatternSet that specifies the expressions that you want to detect, then use the ARN of that set in this statement. A web request matches the pattern set rule statement if the request component matches any of the patterns in the set. To create a regex pattern set, see CreateRegexPatternSet. Each regex pattern set rule statement references a regex pattern set. You create and maintain the set independent of your rules. This allows you to use the single set in multiple rules. When you update the referenced set, WAF automatically updates all rules that reference it.
         public let regexPatternSetReferenceStatement: RegexPatternSetReferenceStatement?
-        /// A rule statement used to run the rules that are defined in a RuleGroup. To use this, create a rule group with your rules, then provide the ARN of the rule group in this statement. You cannot nest a RuleGroupReferenceStatement, for example for use inside a NotStatement or OrStatement. You  can only use a rule group reference statement at the top level inside a web ACL.
+        /// A rule statement used to run the rules that are defined in a RuleGroup. To use this, create a rule group with your rules, then provide the ARN of the rule group in this statement. You cannot nest a RuleGroupReferenceStatement, for example for use inside a NotStatement or OrStatement. You cannot use a rule group reference statement inside another rule group. You can only reference a rule group as a top-level statement within a rule that you define in a web ACL.
         public let ruleGroupReferenceStatement: RuleGroupReferenceStatement?
-        /// A rule statement that compares a number of bytes against the size of a request component, using a comparison operator, such as greater than (>) or less than ( If you configure WAF to inspect the request body, WAF inspects only the number of bytes of the body up to the limit for the web ACL. By default, for regional web ACLs, this limit is 8 KB (8,192 kilobytes) and for CloudFront web ACLs, this limit is 16 KB (16,384 kilobytes). For CloudFront web ACLs, you can increase the limit in the web ACL AssociationConfig, for additional fees. If you know that the request body for your web requests should never exceed the inspection limit, you could use a size constraint statement to block requests that have a larger request body size. If you choose URI for the value of Part of the request to filter on, the slash (/) in the URI counts as one character. For example, the URI /logo.jpg is nine characters long.
+        /// A rule statement that compares a number of bytes against the size of a request component, using a comparison operator, such as greater than (>) or less than ( If you configure WAF to inspect the request body, WAF inspects only the number of bytes of the body up to the limit for the web ACL. By default, for regional web ACLs, this limit is 8 KB (8,192 bytes) and for CloudFront web ACLs, this limit is 16 KB (16,384 bytes). For CloudFront web ACLs, you can increase the limit in the web ACL AssociationConfig, for additional fees. If you know that the request body for your web requests should never exceed the inspection limit, you could use a size constraint statement to block requests that have a larger request body size. If you choose URI for the value of Part of the request to filter on, the slash (/) in the URI counts as one character. For example, the URI /logo.jpg is nine characters long.
         public let sizeConstraintStatement: SizeConstraintStatement?
         /// A rule statement that inspects for malicious SQL code. Attackers insert malicious SQL code into web requests to do things like modify your database or extract data from it.
         public let sqliMatchStatement: SqliMatchStatement?
@@ -5517,7 +5588,7 @@ extension WAFV2 {
     public struct TextTransformation: AWSEncodableShape & AWSDecodableShape {
         /// Sets the relative processing order for multiple transformations. WAF processes all transformations, from lowest priority to highest, before inspecting the transformed content. The priorities don't need to be consecutive, but they must all be different.
         public let priority: Int
-        /// You can specify the following transformation types:  BASE64_DECODE - Decode a Base64-encoded string.  BASE64_DECODE_EXT - Decode a Base64-encoded string, but use a forgiving implementation that ignores characters that aren't valid.  CMD_LINE - Command-line transformations. These are helpful in reducing effectiveness of attackers who inject an operating system command-line  command and use unusual formatting to disguise some or all of the command.    Delete the following characters: \ " ' ^    Delete spaces before the following characters: / (    Replace the following characters with a space: , ;    Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE - Replace these characters with a space character (decimal 32):     \f, formfeed, decimal 12    \t, tab, decimal 9    \n, newline, decimal 10    \r, carriage return, decimal 13    \v, vertical tab, decimal 11   Non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  CSS_DECODE - Decode characters that were encoded using CSS 2.x escape rules syndata.html#characters. This function uses up to two bytes in the decoding process, so it can help to uncover ASCII characters that were encoded using CSS encoding that wouldn’t typically be encoded. It's also useful in countering evasion, which is a combination of a backslash and non-hexadecimal characters. For example, ja\vascript for javascript.   ESCAPE_SEQ_DECODE - Decode the following ANSI C escape sequences: \a, \b, \f, \n, \r, \t, \v, \\, \?, \', \", \xHH (hexadecimal), \0OOO (octal). Encodings that aren't valid remain in the output.   HEX_DECODE - Decode a string of hexadecimal characters into a binary.  HTML_ENTITY_DECODE - Replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs these operations:    Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with >    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    JS_DECODE - Decode JavaScript escape sequences. If a \ u HHHH code is in the full-width ASCII code range of FF01-FF5E, then the higher byte is used to detect and adjust the lower byte. If not, only the lower byte is used and the higher byte is zeroed, causing a possible loss of information.   LOWERCASE - Convert uppercase letters (A-Z) to lowercase (a-z).   MD5 - Calculate an MD5 hash from the data in the input. The computed hash is in a raw binary form.   NONE - Specify NONE if you don't want any text transformations.   NORMALIZE_PATH - Remove multiple slashes, directory self-references, and directory back-references that are not at the beginning of the input from an input string.   NORMALIZE_PATH_WIN - This is the same as NORMALIZE_PATH, but first converts backslash characters to forward slashes.   REMOVE_NULLS - Remove all NULL bytes from the input.   REPLACE_COMMENTS - Replace each occurrence of a C-style comment (/* ... */) with a single space. Multiple consecutive occurrences are not compressed. Unterminated comments are also replaced with a space (ASCII 0x20). However, a standalone termination of a comment (*/) is not acted upon.   REPLACE_NULLS - Replace NULL bytes in the input with space characters (ASCII 0x20).   SQL_HEX_DECODE - Decode SQL hex data. Example (0x414243) will be decoded to (ABC).  URL_DECODE - Decode a URL-encoded value.   URL_DECODE_UNI - Like URL_DECODE, but with support for Microsoft-specific %u encoding. If the code is in the full-width ASCII code range of FF01-FF5E, the higher byte is used to detect and adjust the lower byte. Otherwise, only the lower byte is used and the higher byte is zeroed.   UTF8_TO_UNICODE - Convert all UTF-8 character sequences to Unicode. This helps input normalization, and minimizing false-positives and false-negatives for non-English languages.
+        /// For detailed descriptions of each of the transformation types, see Text transformations  in the WAF Developer Guide.
         public let type: TextTransformationType
 
         public init(priority: Int, type: TextTransformationType) {
@@ -5586,7 +5657,7 @@ extension WAFV2 {
     }
 
     public struct UpdateIPSetRequest: AWSEncodableShape {
-        /// Contains an array of strings that specifies zero or more IP addresses or blocks of IP addresses. All addresses must be specified using Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Example address strings:    To configure WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify  192.0.2.0/24.   To configure WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing. Example JSON Addresses specifications:    Empty array: "Addresses": []    Array with one address: "Addresses": ["192.0.2.44/32"]    Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]    INVALID specification: "Addresses": [""] INVALID
+        /// Contains an array of strings that specifies zero or more IP addresses or blocks of IP addresses that you want WAF to inspect for in incoming requests. All addresses must be specified using Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Example address strings:    For requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   For requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify  192.0.2.0/24.   For requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   For requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing. Example JSON Addresses specifications:    Empty array: "Addresses": []    Array with one address: "Addresses": ["192.0.2.44/32"]    Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]    INVALID specification: "Addresses": [""] INVALID
         public let addresses: [String]
         /// A description of the IP set that helps with identification.
         public let description: String?
@@ -5794,7 +5865,7 @@ extension WAFV2 {
         public let lockToken: String
         /// The name of the rule group. You cannot change the name of a rule group after you create it.
         public let name: String
-        /// The Rule statements used to identify the web requests that you  want to allow, block, or count. Each rule includes one top-level statement that WAF uses to identify matching   web requests, and parameters that govern how WAF handles them.
+        /// The Rule statements used to identify the web requests that you  want to manage. Each rule includes one top-level statement that WAF uses to identify matching   web requests, and parameters that govern how WAF handles them.
         public let rules: [Rule]?
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
@@ -5864,7 +5935,7 @@ extension WAFV2 {
     }
 
     public struct UpdateWebACLRequest: AWSEncodableShape {
-        /// Specifies custom configurations for the associations between the web ACL and protected resources.   Use this to customize the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default is 16 KB (16,384 kilobytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.
+        /// Specifies custom configurations for the associations between the web ACL and protected resources.   Use this to customize the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default is 16 KB (16,384 bytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.
         public let associationConfig: AssociationConfig?
         /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
         public let captchaConfig: CaptchaConfig?
@@ -5883,7 +5954,7 @@ extension WAFV2 {
         public let lockToken: String
         /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
         public let name: String
-        /// The Rule statements used to identify the web requests that you  want to allow, block, or count. Each rule includes one top-level statement that WAF uses to identify matching   web requests, and parameters that govern how WAF handles them.
+        /// The Rule statements used to identify the web requests that you  want to manage. Each rule includes one top-level statement that WAF uses to identify matching   web requests, and parameters that govern how WAF handles them.
         public let rules: [Rule]?
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
@@ -6050,7 +6121,7 @@ extension WAFV2 {
     public struct WebACL: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
         public let arn: String
-        /// Specifies custom configurations for the associations between the web ACL and protected resources.   Use this to customize the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default is 16 KB (16,384 kilobytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.
+        /// Specifies custom configurations for the associations between the web ACL and protected resources.   Use this to customize the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default is 16 KB (16,384 bytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.
         public let associationConfig: AssociationConfig?
         /// The web ACL capacity units (WCUs) currently being used by this web ACL.  WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule.  Simple rules that cost little to run use fewer WCUs than more complex rules
         /// 				that use more processing power.
@@ -6079,7 +6150,7 @@ extension WAFV2 {
         public let postProcessFirewallManagerRuleGroups: [FirewallManagerRuleGroup]?
         /// The first set of rules for WAF to process in the web ACL. This is defined in an Firewall Manager WAF policy and contains only rule group references. You can't alter these. Any rules and rule groups that you define for the web ACL are prioritized after these.  In the Firewall Manager WAF policy, the Firewall Manager administrator can define a set of rule groups to run first in the web ACL and a set of rule groups to run last. Within each set, the administrator prioritizes the rule groups, to determine their relative processing order.
         public let preProcessFirewallManagerRuleGroups: [FirewallManagerRuleGroup]?
-        /// The Rule statements used to identify the web requests that you  want to allow, block, or count. Each rule includes one top-level statement that WAF uses to identify matching   web requests, and parameters that govern how WAF handles them.
+        /// The Rule statements used to identify the web requests that you  want to manage. Each rule includes one top-level statement that WAF uses to identify matching   web requests, and parameters that govern how WAF handles them.
         public let rules: [Rule]?
         /// Specifies the domains that WAF should accept in a web request token. This enables the use of tokens across multiple protected websites. When WAF provides a token, it uses the domain of the Amazon Web Services resource that the web ACL is protecting. If you don't specify a list of token domains, WAF accepts tokens only for the domain of the protected resource. With a token domain list, WAF accepts the resource's host domain plus all domains in the token domain list, including their prefixed subdomains.
         public let tokenDomains: [String]?
@@ -6159,7 +6230,7 @@ extension WAFV2 {
     public struct XssMatchStatement: AWSEncodableShape & AWSDecodableShape {
         /// The part of the web request that you want WAF to inspect.
         public let fieldToMatch: FieldToMatch
-        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the component contents.
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
         public init(fieldToMatch: FieldToMatch, textTransformations: [TextTransformation]) {

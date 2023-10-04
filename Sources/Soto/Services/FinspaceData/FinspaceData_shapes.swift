@@ -342,7 +342,7 @@ extension FinspaceData {
         public let clientToken: String?
         /// The unique identifier for the FinSpace Dataset where the Changeset will be created.
         public let datasetId: String
-        /// Options that define the structure of the source file(s) including the format type (formatType), header row (withHeader), data separation character (separator) and the type of compression (compression).   formatType is a required attribute and can have the following values:     PARQUET – Parquet source file format.    CSV – CSV source file format.    JSON – JSON source file format.    XML – XML source file format.    Here is an example of how you could specify the formatParams:   "formatParams":  { "formatType": "CSV", "withHeader": "true", "separator": ",", "compression":"None" }    Note that if you only provide formatType as CSV, the rest of the attributes will automatically default to CSV values as following:   { "withHeader": "true", "separator": "," }   For more information about supported file formats, see Supported Data Types and File Formats in the FinSpace User Guide.
+        /// Options that define the structure of the source file(s) including the format type (formatType), header row (withHeader), data separation character (separator) and the type of compression (compression).   formatType is a required attribute and can have the following values:     PARQUET – Parquet source file format.    CSV – CSV source file format.    JSON – JSON source file format.    XML – XML source file format.   Here is an example of how you could specify the formatParams:   "formatParams":  { "formatType": "CSV", "withHeader": "true", "separator": ",", "compression":"None" }    Note that if you only provide formatType as CSV, the rest of the attributes will automatically default to CSV values as following:   { "withHeader": "true", "separator": "," }   For more information about supported file formats, see Supported Data Types and File Formats in the FinSpace User Guide.
         public let formatParams: [String: String]
         /// Options that define the location of the data being ingested (s3SourcePath) and the source of the changeset (sourceType). Both s3SourcePath and sourceType are required attributes. Here is an example of how you could specify the sourceParams:   "sourceParams":  { "s3SourcePath": "s3://finspace-landing-us-east-2-bk7gcfvitndqa6ebnvys4d/scratch/wr5hh8pwkpqqkxa4sxrmcw/ingestion/equity.csv", "sourceType": "S3" }   The S3 path that you specify must allow the FinSpace role access. To do that, you first need to configure the IAM policy on S3 bucket. For more information, see Loading data from an Amazon S3 Bucket using the FinSpace API section.
         public let sourceParams: [String: String]
@@ -642,7 +642,7 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiAccess = "ApiAccess"
+            case apiAccess = "apiAccess"
             case apiAccessPrincipalArn = "apiAccessPrincipalArn"
             case clientToken = "clientToken"
             case emailAddress = "emailAddress"
@@ -691,7 +691,7 @@ extension FinspaceData {
         public let destinationType: String
         /// Dataview export file format.    PARQUET – Parquet export file format.    DELIMITED_TEXT – Delimited text export file format.
         public let s3DestinationExportFileFormat: ExportFileFormat?
-        /// Format Options for S3 Destination type. Here is an example of how you could specify the s3DestinationExportFileFormatOptions     { "header": "true", "delimiter": ",", "compression": "gzip" }
+        /// Format Options for S3 Destination type. Here is an example of how you could specify the s3DestinationExportFileFormatOptions    { "header": "true", "delimiter": ",", "compression": "gzip" }
         public let s3DestinationExportFileFormatOptions: [String: String]?
 
         public init(destinationType: String, s3DestinationExportFileFormat: ExportFileFormat? = nil, s3DestinationExportFileFormatOptions: [String: String]? = nil) {
@@ -756,7 +756,7 @@ extension FinspaceData {
         public let partitionColumns: [String]?
         /// Columns to be used for sorting the data.
         public let sortColumns: [String]?
-        /// The status of a Dataview creation.    RUNNING – Dataview creation is running.     STARTING – Dataview creation is starting.     FAILED – Dataview creation has failed.     CANCELLED – Dataview creation has been cancelled.     TIMEOUT – Dataview creation has timed out.     SUCCESS – Dataview creation has succeeded.     PENDING – Dataview creation is pending.     FAILED_CLEANUP_FAILED – Dataview creation failed and resource cleanup failed.
+        /// The status of a Dataview creation.    RUNNING – Dataview creation is running.    STARTING – Dataview creation is starting.    FAILED – Dataview creation has failed.    CANCELLED – Dataview creation has been cancelled.    TIMEOUT – Dataview creation has timed out.    SUCCESS – Dataview creation has succeeded.    PENDING – Dataview creation is pending.    FAILED_CLEANUP_FAILED – Dataview creation failed and resource cleanup failed.
         public let status: DataViewStatus?
 
         public init(asOfTimestamp: Int64? = nil, autoUpdate: Bool? = nil, createTime: Int64? = nil, datasetId: String? = nil, dataViewArn: String? = nil, dataViewId: String? = nil, destinationTypeProperties: DataViewDestinationTypeParams? = nil, errorInfo: DataViewErrorInfo? = nil, lastModifiedTime: Int64? = nil, partitionColumns: [String]? = nil, sortColumns: [String]? = nil, status: DataViewStatus? = nil) {
@@ -960,7 +960,7 @@ extension FinspaceData {
 
         /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?
-        /// The unique identifier for the user account that you want to disable.
+        /// The unique identifier for the user that you want to deactivate.
         public let userId: String
 
         public init(clientToken: String? = DisableUserRequest.idempotencyToken(), userId: String) {
@@ -983,7 +983,7 @@ extension FinspaceData {
     }
 
     public struct DisableUserResponse: AWSDecodableShape {
-        /// The unique identifier for the disabled user account.
+        /// The unique identifier for the deactivated user.
         public let userId: String?
 
         public init(userId: String? = nil) {
@@ -1054,7 +1054,7 @@ extension FinspaceData {
 
         /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?
-        /// The unique identifier for the user account that you want to enable.
+        /// The unique identifier for the user that you want to activate.
         public let userId: String
 
         public init(clientToken: String? = EnableUserRequest.idempotencyToken(), userId: String) {
@@ -1077,7 +1077,7 @@ extension FinspaceData {
     }
 
     public struct EnableUserResponse: AWSDecodableShape {
-        /// The unique identifier for the enabled user account.
+        /// The unique identifier for the active user.
         public let userId: String?
 
         public init(userId: String? = nil) {
@@ -1422,8 +1422,8 @@ extension FinspaceData {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.durationInMinutes, name: "durationInMinutes", parent: name, max: 720)
-            try self.validate(self.durationInMinutes, name: "durationInMinutes", parent: name, min: 60)
+            try self.validate(self.durationInMinutes, name: "durationInMinutes", parent: name, max: 60)
+            try self.validate(self.durationInMinutes, name: "durationInMinutes", parent: name, min: 1)
             try self.validate(self.environmentId, name: "environmentId", parent: name, max: 26)
             try self.validate(self.environmentId, name: "environmentId", parent: name, min: 1)
         }
@@ -1474,27 +1474,27 @@ extension FinspaceData {
         public let apiAccess: ApiAccess?
         /// The ARN identifier of an AWS user or role that is allowed to call the GetProgrammaticAccessCredentials API to obtain a credentials token for a specific FinSpace user. This must be an IAM role within your FinSpace account.
         public let apiAccessPrincipalArn: String?
-        /// The timestamp at which the user account was created in FinSpace. The value is determined as epoch time in milliseconds.
+        /// The timestamp at which the user was created in FinSpace. The value is determined as epoch time in milliseconds.
         public let createTime: Int64?
         /// The email address that is associated with the user.
         public let emailAddress: String?
         /// The first name of the user.
         public let firstName: String?
-        /// Describes the last time the user account was disabled. The value is determined as epoch time in milliseconds.
+        /// Describes the last time the user was deactivated. The value is determined as epoch time in milliseconds.
         public let lastDisabledTime: Int64?
-        /// Describes the last time the user account was enabled. The value is determined as epoch time in milliseconds.
+        /// Describes the last time the user was activated. The value is determined as epoch time in milliseconds.
         public let lastEnabledTime: Int64?
         /// Describes the last time that the user logged into their account. The value is determined as epoch time in milliseconds.
         public let lastLoginTime: Int64?
-        /// Describes the last time the user account was updated. The value is determined as epoch time in milliseconds.
+        /// Describes the last time the user details were updated. The value is determined as epoch time in milliseconds.
         public let lastModifiedTime: Int64?
         /// The last name of the user.
         public let lastName: String?
-        /// The current status of the user account.     CREATING – The user account creation is in progress.    ENABLED – The user account is created and is currently active.    DISABLED – The user account is currently inactive.
+        /// The current status of the user.     CREATING – The creation is in progress.    ENABLED – The user is created and is currently active.    DISABLED – The user is currently inactive.
         public let status: UserStatus?
         /// Indicates the type of user.      SUPER_USER – A user with permission to all the functionality and data in FinSpace.      APP_USER – A user with specific permissions in FinSpace. The users are assigned permissions by adding them to a permission group.
         public let type: UserType?
-        /// The unique identifier for the user account that is retrieved.
+        /// The unique identifier for the user that is retrieved.
         public let userId: String?
 
         public init(apiAccess: ApiAccess? = nil, apiAccessPrincipalArn: String? = nil, createTime: Int64? = nil, emailAddress: String? = nil, firstName: String? = nil, lastDisabledTime: Int64? = nil, lastEnabledTime: Int64? = nil, lastLoginTime: Int64? = nil, lastModifiedTime: Int64? = nil, lastName: String? = nil, status: UserStatus? = nil, type: UserType? = nil, userId: String? = nil) {
@@ -1863,7 +1863,7 @@ extension FinspaceData {
     public struct ListUsersResponse: AWSDecodableShape {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
-        /// A list of all the user accounts.
+        /// A list of all the users.
         public let users: [User]?
 
         public init(nextToken: String? = nil, users: [User]? = nil) {
@@ -1886,7 +1886,7 @@ extension FinspaceData {
         public let description: String?
         /// Describes the last time the permission group was updated. The value is determined as epoch time in milliseconds.
         public let lastModifiedTime: Int64?
-        /// Indicates the status of the user account within a permission group.    ADDITION_IN_PROGRESS – The user account is currently being added to the permission group.    ADDITION_SUCCESS – The user account is successfully added to the permission group.    REMOVAL_IN_PROGRESS – The user is currently being removed from the permission group.
+        /// Indicates the status of the user within a permission group.    ADDITION_IN_PROGRESS – The user is currently being added to the permission group.    ADDITION_SUCCESS – The user is successfully added to the permission group.    REMOVAL_IN_PROGRESS – The user is currently being removed from the permission group.
         public let membershipStatus: PermissionGroupMembershipStatus?
         /// The name of the permission group.
         public let name: String?
@@ -1915,7 +1915,7 @@ extension FinspaceData {
     }
 
     public struct PermissionGroupByUser: AWSDecodableShape {
-        /// Indicates the status of the user account within a permission group.    ADDITION_IN_PROGRESS – The user account is currently being added to the permission group.    ADDITION_SUCCESS – The user account is successfully added to the permission group.    REMOVAL_IN_PROGRESS – The user is currently being removed from the permission group.
+        /// Indicates the status of the user within a permission group.    ADDITION_IN_PROGRESS – The user is currently being added to the permission group.    ADDITION_SUCCESS – The user is successfully added to the permission group.    REMOVAL_IN_PROGRESS – The user is currently being removed from the permission group.
         public let membershipStatus: PermissionGroupMembershipStatus?
         /// The name of the permission group.
         public let name: String?
@@ -1991,7 +1991,7 @@ extension FinspaceData {
     }
 
     public struct ResetUserPasswordResponse: AWSDecodableShape {
-        /// A randomly generated temporary password for the requested user account. This password expires in 7 days.
+        /// A randomly generated temporary password for the requested user. This password expires in 7 days.
         public let temporaryPassword: String?
         /// The unique identifier of the user that a new password is generated for.
         public let userId: String?
@@ -2099,7 +2099,7 @@ extension FinspaceData {
         public let clientToken: String?
         /// The unique identifier for the FinSpace Dataset in which the Changeset is created.
         public let datasetId: String
-        /// Options that define the structure of the source file(s) including the format type (formatType), header row (withHeader), data separation character (separator) and the type of compression (compression).   formatType is a required attribute and can have the following values:     PARQUET – Parquet source file format.    CSV – CSV source file format.    JSON – JSON source file format.    XML – XML source file format.    Here is an example of how you could specify the formatParams:   "formatParams":  { "formatType": "CSV", "withHeader": "true", "separator": ",", "compression":"None" }    Note that if you only provide formatType as CSV, the rest of the attributes will automatically default to CSV values as following:   { "withHeader": "true", "separator": "," }   For more information about supported file formats, see Supported Data Types and File Formats in the FinSpace User Guide.
+        /// Options that define the structure of the source file(s) including the format type (formatType), header row (withHeader), data separation character (separator) and the type of compression (compression).   formatType is a required attribute and can have the following values:     PARQUET – Parquet source file format.    CSV – CSV source file format.    JSON – JSON source file format.    XML – XML source file format.   Here is an example of how you could specify the formatParams:   "formatParams":  { "formatType": "CSV", "withHeader": "true", "separator": ",", "compression":"None" }    Note that if you only provide formatType as CSV, the rest of the attributes will automatically default to CSV values as following:   { "withHeader": "true", "separator": "," }   For more information about supported file formats, see Supported Data Types and File Formats in the FinSpace User Guide.
         public let formatParams: [String: String]
         /// Options that define the location of the data being ingested (s3SourcePath) and the source of the changeset (sourceType). Both s3SourcePath and sourceType are required attributes. Here is an example of how you could specify the sourceParams:   "sourceParams":  { "s3SourcePath": "s3://finspace-landing-us-east-2-bk7gcfvitndqa6ebnvys4d/scratch/wr5hh8pwkpqqkxa4sxrmcw/ingestion/equity.csv", "sourceType": "S3" }   The S3 path that you specify must allow the FinSpace role access. To do that, you first need to configure the IAM policy on S3 bucket. For more information, see Loading data from an Amazon S3 Bucket using the FinSpace APIsection.
         public let sourceParams: [String: String]
@@ -2305,7 +2305,7 @@ extension FinspaceData {
         public let lastName: String?
         /// The option to indicate the type of user.    SUPER_USER– A user with permission to all the functionality and data in FinSpace.    APP_USER – A user with specific permissions in FinSpace. The users are assigned permissions by adding them to a permission group.
         public let type: UserType?
-        /// The unique identifier for the user account to update.
+        /// The unique identifier for the user that you want to update.
         public let userId: String
 
         public init(apiAccess: ApiAccess? = nil, apiAccessPrincipalArn: String? = nil, clientToken: String? = UpdateUserRequest.idempotencyToken(), firstName: String? = nil, lastName: String? = nil, type: UserType? = nil, userId: String) {
@@ -2347,7 +2347,7 @@ extension FinspaceData {
     }
 
     public struct UpdateUserResponse: AWSDecodableShape {
-        /// The unique identifier of the updated user account.
+        /// The unique identifier of the updated user.
         public let userId: String?
 
         public init(userId: String? = nil) {
@@ -2364,23 +2364,23 @@ extension FinspaceData {
         public let apiAccess: ApiAccess?
         /// The ARN identifier of an AWS user or role that is allowed to call the GetProgrammaticAccessCredentials API to obtain a credentials token for a specific FinSpace user. This must be an IAM role within your FinSpace account.
         public let apiAccessPrincipalArn: String?
-        /// The timestamp at which the user account was created in FinSpace. The value is determined as epoch time in milliseconds.
+        /// The timestamp at which the user was created in FinSpace. The value is determined as epoch time in milliseconds.
         public let createTime: Int64?
         /// The email address of the user. The email address serves as a uniquer identifier for each user and cannot be changed after it's created.
         public let emailAddress: String?
         /// The first name of the user.
         public let firstName: String?
-        /// Describes the last time the user account was disabled. The value is determined as epoch time in milliseconds.
+        /// Describes the last time the user was deactivated. The value is determined as epoch time in milliseconds.
         public let lastDisabledTime: Int64?
-        ///  Describes the last time the user account was enabled. The value is determined as epoch time in milliseconds.
+        ///  Describes the last time the user was activated. The value is determined as epoch time in milliseconds.
         public let lastEnabledTime: Int64?
         /// Describes the last time that the user logged into their account. The value is determined as epoch time in milliseconds.
         public let lastLoginTime: Int64?
-        /// Describes the last time the user account was updated. The value is determined as epoch time in milliseconds.
+        /// Describes the last time the user was updated. The value is determined as epoch time in milliseconds.
         public let lastModifiedTime: Int64?
         ///  The last name of the user.
         public let lastName: String?
-        /// The current status of the user account.     CREATING – The user account creation is in progress.    ENABLED – The user account is created and is currently active.    DISABLED – The user account is currently inactive.
+        /// The current status of the user.     CREATING – The user creation is in progress.    ENABLED – The user is created and is currently active.    DISABLED – The user is currently inactive.
         public let status: UserStatus?
         ///  Indicates the type of user.    SUPER_USER – A user with permission to all the functionality and data in FinSpace.    APP_USER – A user with specific permissions in FinSpace. The users are assigned permissions by adding them to a permission group.
         public let type: UserType?
@@ -2431,9 +2431,9 @@ extension FinspaceData {
         public let firstName: String?
         /// The last name of the user.
         public let lastName: String?
-        /// Indicates the status of the user account within a permission group.    ADDITION_IN_PROGRESS – The user account is currently being added to the permission group.    ADDITION_SUCCESS – The user account is successfully added to the permission group.    REMOVAL_IN_PROGRESS – The user is currently being removed from the permission group.
+        /// Indicates the status of the user within a permission group.    ADDITION_IN_PROGRESS – The user is currently being added to the permission group.    ADDITION_SUCCESS – The user is successfully added to the permission group.    REMOVAL_IN_PROGRESS – The user is currently being removed from the permission group.
         public let membershipStatus: PermissionGroupMembershipStatus?
-        /// The current status of the user account.     CREATING – The user account creation is in progress.    ENABLED – The user account is created and is currently active.    DISABLED – The user account is currently inactive.
+        /// The current status of the user.     CREATING – The user creation is in progress.    ENABLED – The user is created and is currently active.    DISABLED – The user is currently inactive.
         public let status: UserStatus?
         ///  Indicates the type of user.    SUPER_USER – A user with permission to all the functionality and data in FinSpace.    APP_USER – A user with specific permissions in FinSpace. The users are assigned permissions by adding them to a permission group.
         public let type: UserType?

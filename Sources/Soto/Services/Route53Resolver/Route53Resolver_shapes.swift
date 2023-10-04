@@ -105,6 +105,7 @@ extension Route53Resolver {
         case failedResourceGone = "FAILED_RESOURCE_GONE"
         case remapAttaching = "REMAP_ATTACHING"
         case remapDetaching = "REMAP_DETACHING"
+        case updateFailed = "UPDATE_FAILED"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
@@ -112,6 +113,17 @@ extension Route53Resolver {
     public enum MutationProtectionStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OutpostResolverStatus: String, CustomStringConvertible, Codable, Sendable {
+        case actionNeeded = "ACTION_NEEDED"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failedCreation = "FAILED_CREATION"
+        case failedDeletion = "FAILED_DELETION"
+        case operational = "OPERATIONAL"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -593,6 +605,75 @@ extension Route53Resolver {
         }
     }
 
+    public struct CreateOutpostResolverRequest: AWSEncodableShape {
+        /// A unique string that identifies the request
+        /// 		and that allows failed requests to be retried without the risk of running the operation twice.   CreatorRequestId can be any unique string, for example, a date/time stamp.
+        public let creatorRequestId: String
+        /// Number of Amazon EC2 instances for the
+        /// 		Resolver on Outpost.
+        /// 		The default and minimal value is 4.
+        public let instanceCount: Int?
+        /// A friendly name that lets you easily find a configuration in the
+        /// 		Resolver dashboard in the Route 53 console.
+        public let name: String
+        /// The Amazon Resource Name (ARN) of the Outpost. If you specify this, you must also specify a value for the PreferredInstanceType.
+        public let outpostArn: String
+        /// 		The Amazon EC2 instance type. If you specify this, you must also specify a value for the OutpostArn.
+        ///
+        public let preferredInstanceType: String
+        /// 			A string that helps identify the Route 53 Resolvers on Outpost.
+        ///
+        public let tags: [Tag]?
+
+        public init(creatorRequestId: String, instanceCount: Int? = nil, name: String, outpostArn: String, preferredInstanceType: String, tags: [Tag]? = nil) {
+            self.creatorRequestId = creatorRequestId
+            self.instanceCount = instanceCount
+            self.name = name
+            self.outpostArn = outpostArn
+            self.preferredInstanceType = preferredInstanceType
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 255)
+            try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.outpostArn, name: "outpostArn", parent: name, max: 255)
+            try self.validate(self.outpostArn, name: "outpostArn", parent: name, min: 1)
+            try self.validate(self.outpostArn, name: "outpostArn", parent: name, pattern: "^arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/op-[a-f0-9]{17}$")
+            try self.validate(self.preferredInstanceType, name: "preferredInstanceType", parent: name, max: 255)
+            try self.validate(self.preferredInstanceType, name: "preferredInstanceType", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creatorRequestId = "CreatorRequestId"
+            case instanceCount = "InstanceCount"
+            case name = "Name"
+            case outpostArn = "OutpostArn"
+            case preferredInstanceType = "PreferredInstanceType"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateOutpostResolverResponse: AWSDecodableShape {
+        /// Information about the CreateOutpostResolver
+        /// 		request, including the status of the request.
+        public let outpostResolver: OutpostResolver?
+
+        public init(outpostResolver: OutpostResolver? = nil) {
+            self.outpostResolver = outpostResolver
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outpostResolver = "OutpostResolver"
+        }
+    }
+
     public struct CreateResolverEndpointRequest: AWSEncodableShape {
         /// A unique string that identifies the request and that allows failed requests to be retried
         /// 			without the risk of running the operation twice. CreatorRequestId can be
@@ -605,7 +686,12 @@ extension Route53Resolver {
         public let ipAddresses: [IpAddressRequest]
         /// A friendly name that lets you easily find a configuration in the Resolver dashboard in the Route 53 console.
         public let name: String?
-        /// 			For the endpoint type you can choose either IPv4, IPv6. or dual-stack.
+        /// The Amazon Resource Name (ARN) of the Outpost. If you specify this, you must also specify a
+        /// 			value for the PreferredInstanceType.
+        public let outpostArn: String?
+        /// The  instance type. If you specify this, you must also specify a value for the OutpostArn.
+        public let preferredInstanceType: String?
+        /// 			For the endpoint type you can choose either IPv4, IPv6, or dual-stack.
         /// 			A dual-stack endpoint means that it will resolve via both IPv4 and IPv6. This
         /// 			endpoint type is applied to all IP addresses.
         ///
@@ -618,11 +704,13 @@ extension Route53Resolver {
         /// A list of the tag keys and values that you want to associate with the endpoint.
         public let tags: [Tag]?
 
-        public init(creatorRequestId: String, direction: ResolverEndpointDirection, ipAddresses: [IpAddressRequest], name: String? = nil, resolverEndpointType: ResolverEndpointType? = nil, securityGroupIds: [String], tags: [Tag]? = nil) {
+        public init(creatorRequestId: String, direction: ResolverEndpointDirection, ipAddresses: [IpAddressRequest], name: String? = nil, outpostArn: String? = nil, preferredInstanceType: String? = nil, resolverEndpointType: ResolverEndpointType? = nil, securityGroupIds: [String], tags: [Tag]? = nil) {
             self.creatorRequestId = creatorRequestId
             self.direction = direction
             self.ipAddresses = ipAddresses
             self.name = name
+            self.outpostArn = outpostArn
+            self.preferredInstanceType = preferredInstanceType
             self.resolverEndpointType = resolverEndpointType
             self.securityGroupIds = securityGroupIds
             self.tags = tags
@@ -638,6 +726,11 @@ extension Route53Resolver {
             try self.validate(self.ipAddresses, name: "ipAddresses", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)$")
+            try self.validate(self.outpostArn, name: "outpostArn", parent: name, max: 255)
+            try self.validate(self.outpostArn, name: "outpostArn", parent: name, min: 1)
+            try self.validate(self.outpostArn, name: "outpostArn", parent: name, pattern: "^arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/op-[a-f0-9]{17}$")
+            try self.validate(self.preferredInstanceType, name: "preferredInstanceType", parent: name, max: 255)
+            try self.validate(self.preferredInstanceType, name: "preferredInstanceType", parent: name, min: 1)
             try self.securityGroupIds.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 64)
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
@@ -653,6 +746,8 @@ extension Route53Resolver {
             case direction = "Direction"
             case ipAddresses = "IpAddresses"
             case name = "Name"
+            case outpostArn = "OutpostArn"
+            case preferredInstanceType = "PreferredInstanceType"
             case resolverEndpointType = "ResolverEndpointType"
             case securityGroupIds = "SecurityGroupIds"
             case tags = "Tags"
@@ -748,7 +843,7 @@ extension Route53Resolver {
         public let ruleType: RuleTypeOption
         /// A list of the tag keys and values that you want to associate with the endpoint.
         public let tags: [Tag]?
-        /// The IPs that you want Resolver to forward DNS queries to. You can specify only IPv4 addresses. Separate IP addresses with a space.  TargetIps is available only when the value of Rule type is FORWARD.
+        /// The IPs that you want Resolver to forward DNS queries to. You can specify either Ipv4 or Ipv6 addresses but not both in the same rule. Separate IP addresses with a space.  TargetIps is available only when the value of Rule type is FORWARD.
         public let targetIps: [TargetAddress]?
 
         public init(creatorRequestId: String, domainName: String, name: String? = nil, resolverEndpointId: String? = nil, ruleType: RuleTypeOption, tags: [Tag]? = nil, targetIps: [TargetAddress]? = nil) {
@@ -900,6 +995,38 @@ extension Route53Resolver {
 
         private enum CodingKeys: String, CodingKey {
             case firewallRule = "FirewallRule"
+        }
+    }
+
+    public struct DeleteOutpostResolverRequest: AWSEncodableShape {
+        /// A unique string that identifies the Resolver on the Outpost.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 64)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct DeleteOutpostResolverResponse: AWSDecodableShape {
+        /// Information about the DeleteOutpostResolver
+        /// 		request, including the status of the request.
+        public let outpostResolver: OutpostResolver?
+
+        public init(outpostResolver: OutpostResolver? = nil) {
+            self.outpostResolver = outpostResolver
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outpostResolver = "OutpostResolver"
         }
     }
 
@@ -1680,6 +1807,38 @@ extension Route53Resolver {
         }
     }
 
+    public struct GetOutpostResolverRequest: AWSEncodableShape {
+        /// The ID of the Resolver on the Outpost.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 64)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct GetOutpostResolverResponse: AWSDecodableShape {
+        /// Information about the GetOutpostResolver
+        /// 		request, including the status of the request.
+        public let outpostResolver: OutpostResolver?
+
+        public init(outpostResolver: OutpostResolver? = nil) {
+            self.outpostResolver = outpostResolver
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outpostResolver = "OutpostResolver"
+        }
+    }
+
     public struct GetResolverConfigRequest: AWSEncodableShape {
         /// Resource ID of the Amazon VPC that you want to get information about.
         public let resourceId: String
@@ -2408,6 +2567,56 @@ extension Route53Resolver {
         }
     }
 
+    public struct ListOutpostResolversRequest: AWSEncodableShape {
+        /// The maximum number of Resolvers on the Outpost that you want to return in the response to a
+        /// 				ListOutpostResolver request. If you don't specify a value for
+        /// 				MaxResults, the request returns up to 100 Resolvers.
+        public let maxResults: Int?
+        /// For the first ListOutpostResolver request, omit this value.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the Outpost.
+        public let outpostArn: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, outpostArn: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.outpostArn = outpostArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.outpostArn, name: "outpostArn", parent: name, max: 255)
+            try self.validate(self.outpostArn, name: "outpostArn", parent: name, min: 1)
+            try self.validate(self.outpostArn, name: "outpostArn", parent: name, pattern: "^arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/op-[a-f0-9]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case outpostArn = "OutpostArn"
+        }
+    }
+
+    public struct ListOutpostResolversResponse: AWSDecodableShape {
+        /// If more than MaxResults Resolvers match the specified criteria, you can submit another
+        /// 		ListOutpostResolver request to get the next group of results. In the next request, specify the value of NextToken from the previous response.
+        public let nextToken: String?
+        /// The Resolvers on Outposts that were created by using the current Amazon Web Services account,
+        /// 		and that match the specified filters, if any.
+        public let outpostResolvers: [OutpostResolver]?
+
+        public init(nextToken: String? = nil, outpostResolvers: [OutpostResolver]? = nil) {
+            self.nextToken = nextToken
+            self.outpostResolvers = outpostResolvers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case outpostResolvers = "OutpostResolvers"
+        }
+    }
+
     public struct ListResolverConfigsRequest: AWSEncodableShape {
         /// The maximum number of Resolver configurations that you want to return in the response to
         /// 			a ListResolverConfigs request. If you don't specify a value for MaxResults,
@@ -2940,6 +3149,61 @@ extension Route53Resolver {
         }
     }
 
+    public struct OutpostResolver: AWSDecodableShape {
+        /// The ARN (Amazon Resource Name) for the Resolver on an Outpost.
+        public let arn: String?
+        /// The date and time that the Outpost Resolver was created, in Unix time format and Coordinated Universal Time (UTC).
+        public let creationTime: String?
+        /// A unique string that identifies the request that created the Resolver endpoint.
+        /// 		The CreatorRequestId allows failed requests to be retried without the risk of running the operation twice.
+        public let creatorRequestId: String?
+        /// The ID of the Resolver on Outpost.
+        public let id: String?
+        /// Amazon EC2 instance count for the Resolver on the Outpost.
+        public let instanceCount: Int?
+        /// The date and time that the Outpost Resolver was modified, in Unix time format and Coordinated Universal Time (UTC).
+        public let modificationTime: String?
+        /// Name of the Resolver.
+        public let name: String?
+        /// The ARN (Amazon Resource Name) for the Outpost.
+        public let outpostArn: String?
+        /// 			The Amazon EC2 instance type.
+        ///
+        public let preferredInstanceType: String?
+        /// Status of the Resolver.
+        public let status: OutpostResolverStatus?
+        /// A detailed description of the Resolver.
+        public let statusMessage: String?
+
+        public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, id: String? = nil, instanceCount: Int? = nil, modificationTime: String? = nil, name: String? = nil, outpostArn: String? = nil, preferredInstanceType: String? = nil, status: OutpostResolverStatus? = nil, statusMessage: String? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.creatorRequestId = creatorRequestId
+            self.id = id
+            self.instanceCount = instanceCount
+            self.modificationTime = modificationTime
+            self.name = name
+            self.outpostArn = outpostArn
+            self.preferredInstanceType = preferredInstanceType
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTime = "CreationTime"
+            case creatorRequestId = "CreatorRequestId"
+            case id = "Id"
+            case instanceCount = "InstanceCount"
+            case modificationTime = "ModificationTime"
+            case name = "Name"
+            case outpostArn = "OutpostArn"
+            case preferredInstanceType = "PreferredInstanceType"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
     public struct PutFirewallRuleGroupPolicyRequest: AWSEncodableShape {
         /// The ARN (Amazon Resource Name) for the rule group that you want to share.
         public let arn: String
@@ -2980,7 +3244,7 @@ extension Route53Resolver {
         public let arn: String
         /// An Identity and Access Management policy statement that lists the query logging configurations that you want to share with another Amazon Web Services account
         /// 			and the operations that you want the account to be able to perform. You can specify the following operations in the Actions section
-        /// 			of the statement:    route53resolver:AssociateResolverQueryLogConfig     route53resolver:DisassociateResolverQueryLogConfig     route53resolver:ListResolverQueryLogConfigAssociations     route53resolver:ListResolverQueryLogConfigs    In the Resource section of the statement, you specify the ARNs for the query logging configurations that you want to share
+        /// 			of the statement:    route53resolver:AssociateResolverQueryLogConfig     route53resolver:DisassociateResolverQueryLogConfig     route53resolver:ListResolverQueryLogConfigs    In the Resource section of the statement, you specify the ARNs for the query logging configurations that you want to share
         /// 			with the account that you specified in Arn.
         public let resolverQueryLogConfigPolicy: String
 
@@ -3130,6 +3394,11 @@ extension Route53Resolver {
         /// 			CreateResolverEndpoint
         /// 			request.
         public let name: String?
+        /// The ARN (Amazon Resource Name) for the Outpost.
+        public let outpostArn: String?
+        /// 			The Amazon EC2 instance type.
+        ///
+        public let preferredInstanceType: String?
         /// 			The Resolver endpoint IP address type.
         ///
         public let resolverEndpointType: ResolverEndpointType?
@@ -3151,7 +3420,7 @@ extension Route53Resolver {
         /// A detailed description of the status of the Resolver endpoint.
         public let statusMessage: String?
 
-        public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, direction: ResolverEndpointDirection? = nil, hostVPCId: String? = nil, id: String? = nil, ipAddressCount: Int? = nil, modificationTime: String? = nil, name: String? = nil, resolverEndpointType: ResolverEndpointType? = nil, securityGroupIds: [String]? = nil, status: ResolverEndpointStatus? = nil, statusMessage: String? = nil) {
+        public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, direction: ResolverEndpointDirection? = nil, hostVPCId: String? = nil, id: String? = nil, ipAddressCount: Int? = nil, modificationTime: String? = nil, name: String? = nil, outpostArn: String? = nil, preferredInstanceType: String? = nil, resolverEndpointType: ResolverEndpointType? = nil, securityGroupIds: [String]? = nil, status: ResolverEndpointStatus? = nil, statusMessage: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
@@ -3161,6 +3430,8 @@ extension Route53Resolver {
             self.ipAddressCount = ipAddressCount
             self.modificationTime = modificationTime
             self.name = name
+            self.outpostArn = outpostArn
+            self.preferredInstanceType = preferredInstanceType
             self.resolverEndpointType = resolverEndpointType
             self.securityGroupIds = securityGroupIds
             self.status = status
@@ -3177,6 +3448,8 @@ extension Route53Resolver {
             case ipAddressCount = "IpAddressCount"
             case modificationTime = "ModificationTime"
             case name = "Name"
+            case outpostArn = "OutpostArn"
+            case preferredInstanceType = "PreferredInstanceType"
             case resolverEndpointType = "ResolverEndpointType"
             case securityGroupIds = "SecurityGroupIds"
             case status = "Status"
@@ -3313,7 +3586,7 @@ extension Route53Resolver {
         /// A detailed description of the status of a Resolver rule.
         public let statusMessage: String?
         /// An array that contains the IP addresses and ports that an outbound endpoint forwards DNS queries to. Typically,
-        /// 			these are the IP addresses of DNS resolvers on your network. Specify IPv4 addresses. IPv6 is not supported.
+        /// 			these are the IP addresses of DNS resolvers on your network.
         public let targetIps: [TargetAddress]?
 
         public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, domainName: String? = nil, id: String? = nil, modificationTime: String? = nil, name: String? = nil, ownerId: String? = nil, resolverEndpointId: String? = nil, ruleType: RuleTypeOption? = nil, shareStatus: ShareStatus? = nil, status: ResolverRuleStatus? = nil, statusMessage: String? = nil, targetIps: [TargetAddress]? = nil) {
@@ -3772,6 +4045,54 @@ extension Route53Resolver {
         }
     }
 
+    public struct UpdateOutpostResolverRequest: AWSEncodableShape {
+        /// A unique string that identifies Resolver on an Outpost.
+        public let id: String
+        /// The Amazon EC2 instance count for a Resolver on the Outpost.
+        public let instanceCount: Int?
+        /// Name of the Resolver on the Outpost.
+        public let name: String?
+        /// 			Amazon EC2 instance type.
+        ///
+        public let preferredInstanceType: String?
+
+        public init(id: String, instanceCount: Int? = nil, name: String? = nil, preferredInstanceType: String? = nil) {
+            self.id = id
+            self.instanceCount = instanceCount
+            self.name = name
+            self.preferredInstanceType = preferredInstanceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 64)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.preferredInstanceType, name: "preferredInstanceType", parent: name, max: 255)
+            try self.validate(self.preferredInstanceType, name: "preferredInstanceType", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case instanceCount = "InstanceCount"
+            case name = "Name"
+            case preferredInstanceType = "PreferredInstanceType"
+        }
+    }
+
+    public struct UpdateOutpostResolverResponse: AWSDecodableShape {
+        /// The response to an UpdateOutpostResolver request.
+        public let outpostResolver: OutpostResolver?
+
+        public init(outpostResolver: OutpostResolver? = nil) {
+            self.outpostResolver = outpostResolver
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outpostResolver = "OutpostResolver"
+        }
+    }
+
     public struct UpdateResolverConfigRequest: AWSEncodableShape {
         /// Indicates whether or not the Resolver will create autodefined rules for reverse DNS
         /// 			lookups. This is enabled by default. Disabling this option will also affect EC2-Classic
@@ -3853,9 +4174,10 @@ extension Route53Resolver {
         /// The ID of the Resolver endpoint that you want to update.
         public let resolverEndpointId: String
         /// 			Specifies the endpoint type for what type of IP address the endpoint uses to forward DNS queries.
-        ///
+        /// 		 Updating to IPV6 type isn't currently supported.
         public let resolverEndpointType: ResolverEndpointType?
-        /// 			Updates the Resolver endpoint type to IpV4, Ipv6, or dual-stack.
+        /// 			Specifies the IPv6 address when you update the Resolver endpoint from IPv4 to dual-stack.
+        /// 			If you don't specify an IPv6 address, one will be automatically chosen from your subnet.
         ///
         public let updateIpAddresses: [UpdateIpAddress]?
 
@@ -3953,6 +4275,7 @@ public struct Route53ResolverErrorType: AWSErrorType {
         case resourceInUseException = "ResourceInUseException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case resourceUnavailableException = "ResourceUnavailableException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
         case unknownResourceException = "UnknownResourceException"
         case validationException = "ValidationException"
@@ -4004,6 +4327,8 @@ public struct Route53ResolverErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The specified resource isn't available.
     public static var resourceUnavailableException: Self { .init(.resourceUnavailableException) }
+    /// Fulfilling the request would cause one or more quotas to be exceeded.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The request was throttled. Try again in a few minutes.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The specified resource doesn't exist.

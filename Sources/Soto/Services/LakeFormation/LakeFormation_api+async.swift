@@ -61,6 +61,11 @@ extension LakeFormation {
         return try await self.client.execute(operation: "CreateLFTag", path: "/CreateLFTag", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Enforce Lake Formation permissions for the given databases, tables, and principals.
+    public func createLakeFormationOptIn(_ input: CreateLakeFormationOptInRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateLakeFormationOptInResponse {
+        return try await self.client.execute(operation: "CreateLakeFormationOptIn", path: "/CreateLakeFormationOptIn", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a data cell filter.
     public func deleteDataCellsFilter(_ input: DeleteDataCellsFilterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteDataCellsFilterResponse {
         return try await self.client.execute(operation: "DeleteDataCellsFilter", path: "/DeleteDataCellsFilter", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -69,6 +74,11 @@ extension LakeFormation {
     /// Deletes the specified LF-tag given a key name. If the input parameter tag key was not found, then the operation will throw an exception. When you delete an LF-tag, the LFTagPolicy attached to the LF-tag becomes invalid. If the deleted LF-tag was still assigned to any resource, the tag policy attach to the deleted LF-tag will no longer be applied to the resource.
     public func deleteLFTag(_ input: DeleteLFTagRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteLFTagResponse {
         return try await self.client.execute(operation: "DeleteLFTag", path: "/DeleteLFTag", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Remove the Lake Formation permissions enforcement of the given databases, tables, and principals.
+    public func deleteLakeFormationOptIn(_ input: DeleteLakeFormationOptInRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteLakeFormationOptInResponse {
+        return try await self.client.execute(operation: "DeleteLakeFormationOptIn", path: "/DeleteLakeFormationOptIn", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// For a specific governed table, provides a list of Amazon S3 objects that will be written during the current transaction and that can be automatically deleted if the transaction is canceled. Without this call, no Amazon S3 objects are automatically deleted when a transaction cancels.   The Glue ETL library function write_dynamic_frame.from_catalog() includes an option to automatically  call DeleteObjectsOnCancel before writes. For more information, see  Rolling Back Amazon S3 Writes.
@@ -169,6 +179,11 @@ extension LakeFormation {
     /// Lists LF-tags that the requester has permission to view.
     public func listLFTags(_ input: ListLFTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListLFTagsResponse {
         return try await self.client.execute(operation: "ListLFTags", path: "/ListLFTags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieve the current list of resources and principals that are opt in to enforce Lake Formation permissions.
+    public func listLakeFormationOptIns(_ input: ListLakeFormationOptInsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListLakeFormationOptInsResponse {
+        return try await self.client.execute(operation: "ListLakeFormationOptIns", path: "/ListLakeFormationOptIns", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. For information about permissions, see Security and Access Control to Metadata and Data.
@@ -374,6 +389,28 @@ extension LakeFormation {
             command: self.listLFTags,
             inputKey: \ListLFTagsRequest.nextToken,
             outputKey: \ListLFTagsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Retrieve the current list of resources and principals that are opt in to enforce Lake Formation permissions.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listLakeFormationOptInsPaginator(
+        _ input: ListLakeFormationOptInsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListLakeFormationOptInsRequest, ListLakeFormationOptInsResponse> {
+        return .init(
+            input: input,
+            command: self.listLakeFormationOptIns,
+            inputKey: \ListLakeFormationOptInsRequest.nextToken,
+            outputKey: \ListLakeFormationOptInsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

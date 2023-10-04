@@ -540,7 +540,7 @@ extension ECR {
         public let imageTagMutability: ImageTagMutability?
         /// The Amazon Web Services account ID associated with the registry to create the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
-        /// The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app).
+        /// The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app). The repository name must start with a letter and can only contain lowercase letters, numbers, hyphens, underscores, and forward slashes.
         public let repositoryName: String
         /// The metadata that you apply to the repository to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [Tag]?
@@ -2509,7 +2509,7 @@ extension ECR {
     public struct RegistryScanningRule: AWSEncodableShape & AWSDecodableShape {
         /// The repository filters associated with the scanning configuration for a private registry.
         public let repositoryFilters: [ScanningRepositoryFilter]
-        /// The frequency that scans are performed at for a private registry. When the ENHANCED scan type is specified, the supported scan frequencies are CONTINUOUS_SCAN and SCAN_ON_PUSH. When the BASIC scan type is specified, the SCAN_ON_PUSH and MANUAL scan frequencies are supported.
+        /// The frequency that scans are performed at for a private registry. When the ENHANCED scan type is specified, the supported scan frequencies are CONTINUOUS_SCAN and SCAN_ON_PUSH. When the BASIC scan type is specified, the SCAN_ON_PUSH scan frequency is supported. If scan on push is not specified, then the MANUAL scan frequency is set by default.
         public let scanFrequency: ScanFrequency
 
         public init(repositoryFilters: [ScanningRepositoryFilter], scanFrequency: ScanFrequency) {
@@ -2626,7 +2626,7 @@ extension ECR {
         public let imageTagMutability: ImageTagMutability?
         /// The Amazon Web Services account ID associated with the registry that contains the repository.
         public let registryId: String?
-        /// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains the arn:aws:ecr namespace, followed by the region of the repository, Amazon Web Services account ID of the repository owner, repository namespace, and repository name. For example, arn:aws:ecr:region:012345678910:repository/test.
+        /// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains the arn:aws:ecr namespace, followed by the region of the repository, Amazon Web Services account ID of the repository owner, repository namespace, and repository name. For example, arn:aws:ecr:region:012345678910:repository-namespace/repository-name.
         public let repositoryArn: String?
         /// The name of the repository.
         public let repositoryName: String?
@@ -2966,11 +2966,11 @@ extension ECR {
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values.
-        public let key: String?
+        public let key: String
         /// A value acts as a descriptor within a tag category (key).
-        public let value: String?
+        public let value: String
 
-        public init(key: String? = nil, value: String? = nil) {
+        public init(key: String, value: String) {
             self.key = key
             self.value = value
         }

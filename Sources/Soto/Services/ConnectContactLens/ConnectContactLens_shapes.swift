@@ -116,15 +116,15 @@ extension ConnectContactLens {
         public func validate(name: String) throws {
             try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
             try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
-            try self.validate(self.contactId, name: "contactId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.contactId, name: "contactId", parent: name, pattern: "\\S")
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 256)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
-            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "\\S")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 131070)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {

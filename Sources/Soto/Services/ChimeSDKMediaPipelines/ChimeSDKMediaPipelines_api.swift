@@ -95,6 +95,16 @@ public struct ChimeSDKMediaPipelines: AWSService {
         return self.client.execute(operation: "CreateMediaLiveConnectorPipeline", path: "/sdk-media-live-connector-pipelines", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates an Kinesis video stream pool for the media pipeline.
+    public func createMediaPipelineKinesisVideoStreamPool(_ input: CreateMediaPipelineKinesisVideoStreamPoolRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMediaPipelineKinesisVideoStreamPoolResponse> {
+        return self.client.execute(operation: "CreateMediaPipelineKinesisVideoStreamPool", path: "/media-pipeline-kinesis-video-stream-pools", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a streaming media pipeline.
+    public func createMediaStreamPipeline(_ input: CreateMediaStreamPipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMediaStreamPipelineResponse> {
+        return self.client.execute(operation: "CreateMediaStreamPipeline", path: "/sdk-media-stream-pipelines", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes the media pipeline.
     @discardableResult public func deleteMediaCapturePipeline(_ input: DeleteMediaCapturePipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteMediaCapturePipeline", path: "/sdk-media-capture-pipelines/{MediaPipelineId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -108,6 +118,11 @@ public struct ChimeSDKMediaPipelines: AWSService {
     /// Deletes the media pipeline.
     @discardableResult public func deleteMediaPipeline(_ input: DeleteMediaPipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteMediaPipeline", path: "/sdk-media-pipelines/{MediaPipelineId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes an Kinesis video stream pool.
+    @discardableResult public func deleteMediaPipelineKinesisVideoStreamPool(_ input: DeleteMediaPipelineKinesisVideoStreamPoolRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteMediaPipelineKinesisVideoStreamPool", path: "/media-pipeline-kinesis-video-stream-pools/{Identifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets an existing media pipeline.
@@ -125,6 +140,21 @@ public struct ChimeSDKMediaPipelines: AWSService {
         return self.client.execute(operation: "GetMediaPipeline", path: "/sdk-media-pipelines/{MediaPipelineId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets an Kinesis video stream pool.
+    public func getMediaPipelineKinesisVideoStreamPool(_ input: GetMediaPipelineKinesisVideoStreamPoolRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMediaPipelineKinesisVideoStreamPoolResponse> {
+        return self.client.execute(operation: "GetMediaPipelineKinesisVideoStreamPool", path: "/media-pipeline-kinesis-video-stream-pools/{Identifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the details of the specified speaker search task.
+    public func getSpeakerSearchTask(_ input: GetSpeakerSearchTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSpeakerSearchTaskResponse> {
+        return self.client.execute(operation: "GetSpeakerSearchTask", path: "/media-insights-pipelines/{Identifier}/speaker-search-tasks/{SpeakerSearchTaskId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the details of a voice tone analysis task.
+    public func getVoiceToneAnalysisTask(_ input: GetVoiceToneAnalysisTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceToneAnalysisTaskResponse> {
+        return self.client.execute(operation: "GetVoiceToneAnalysisTask", path: "/media-insights-pipelines/{Identifier}/voice-tone-analysis-tasks/{VoiceToneAnalysisTaskId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns a list of media pipelines.
     public func listMediaCapturePipelines(_ input: ListMediaCapturePipelinesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMediaCapturePipelinesResponse> {
         return self.client.execute(operation: "ListMediaCapturePipelines", path: "/sdk-media-capture-pipelines", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -135,6 +165,11 @@ public struct ChimeSDKMediaPipelines: AWSService {
         return self.client.execute(operation: "ListMediaInsightsPipelineConfigurations", path: "/media-insights-pipeline-configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists the video stream pools in the media pipeline.
+    public func listMediaPipelineKinesisVideoStreamPools(_ input: ListMediaPipelineKinesisVideoStreamPoolsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMediaPipelineKinesisVideoStreamPoolsResponse> {
+        return self.client.execute(operation: "ListMediaPipelineKinesisVideoStreamPools", path: "/media-pipeline-kinesis-video-stream-pools", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns a list of media pipelines.
     public func listMediaPipelines(_ input: ListMediaPipelinesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMediaPipelinesResponse> {
         return self.client.execute(operation: "ListMediaPipelines", path: "/sdk-media-pipelines", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -143,6 +178,26 @@ public struct ChimeSDKMediaPipelines: AWSService {
     /// Lists the tags available for a media pipeline.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Starts a speaker search task.  Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK.
+    public func startSpeakerSearchTask(_ input: StartSpeakerSearchTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartSpeakerSearchTaskResponse> {
+        return self.client.execute(operation: "StartSpeakerSearchTask", path: "/media-insights-pipelines/{Identifier}/speaker-search-tasks?operation=start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Starts a voice tone analysis task. For more information about voice tone analysis, see Using Amazon Chime SDK voice analytics in the Amazon Chime SDK Developer Guide.  Before starting any voice tone analysis tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK.
+    public func startVoiceToneAnalysisTask(_ input: StartVoiceToneAnalysisTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartVoiceToneAnalysisTaskResponse> {
+        return self.client.execute(operation: "StartVoiceToneAnalysisTask", path: "/media-insights-pipelines/{Identifier}/voice-tone-analysis-tasks?operation=start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Stops a speaker search task.
+    @discardableResult public func stopSpeakerSearchTask(_ input: StopSpeakerSearchTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "StopSpeakerSearchTask", path: "/media-insights-pipelines/{Identifier}/speaker-search-tasks/{SpeakerSearchTaskId}?operation=stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Stops a voice tone analysis task.
+    @discardableResult public func stopVoiceToneAnalysisTask(_ input: StopVoiceToneAnalysisTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "StopVoiceToneAnalysisTask", path: "/media-insights-pipelines/{Identifier}/voice-tone-analysis-tasks/{VoiceToneAnalysisTaskId}?operation=stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// The ARN of the media pipeline that you want to tag. Consists of the pipeline's endpoint region, resource ID, and pipeline ID.
@@ -163,6 +218,11 @@ public struct ChimeSDKMediaPipelines: AWSService {
     /// Updates the status of a media insights pipeline.
     @discardableResult public func updateMediaInsightsPipelineStatus(_ input: UpdateMediaInsightsPipelineStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateMediaInsightsPipelineStatus", path: "/media-insights-pipeline-status/{Identifier}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates an Kinesis video stream pool in a media pipeline.
+    public func updateMediaPipelineKinesisVideoStreamPool(_ input: UpdateMediaPipelineKinesisVideoStreamPoolRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMediaPipelineKinesisVideoStreamPoolResponse> {
+        return self.client.execute(operation: "UpdateMediaPipelineKinesisVideoStreamPool", path: "/media-pipeline-kinesis-video-stream-pools/{Identifier}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 
@@ -284,6 +344,59 @@ extension ChimeSDKMediaPipelines {
         )
     }
 
+    /// Lists the video stream pools in the media pipeline.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listMediaPipelineKinesisVideoStreamPoolsPaginator<Result>(
+        _ input: ListMediaPipelineKinesisVideoStreamPoolsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListMediaPipelineKinesisVideoStreamPoolsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listMediaPipelineKinesisVideoStreamPools,
+            inputKey: \ListMediaPipelineKinesisVideoStreamPoolsRequest.nextToken,
+            outputKey: \ListMediaPipelineKinesisVideoStreamPoolsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listMediaPipelineKinesisVideoStreamPoolsPaginator(
+        _ input: ListMediaPipelineKinesisVideoStreamPoolsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListMediaPipelineKinesisVideoStreamPoolsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listMediaPipelineKinesisVideoStreamPools,
+            inputKey: \ListMediaPipelineKinesisVideoStreamPoolsRequest.nextToken,
+            outputKey: \ListMediaPipelineKinesisVideoStreamPoolsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// Returns a list of media pipelines.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -349,6 +462,15 @@ extension ChimeSDKMediaPipelines.ListMediaCapturePipelinesRequest: AWSPaginateTo
 
 extension ChimeSDKMediaPipelines.ListMediaInsightsPipelineConfigurationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ChimeSDKMediaPipelines.ListMediaInsightsPipelineConfigurationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension ChimeSDKMediaPipelines.ListMediaPipelineKinesisVideoStreamPoolsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ChimeSDKMediaPipelines.ListMediaPipelineKinesisVideoStreamPoolsRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token

@@ -85,6 +85,20 @@ extension ApplicationInsights {
         public var description: String { return self.rawValue }
     }
 
+    public enum RecommendationType: String, CustomStringConvertible, Codable, Sendable {
+        case all = "ALL"
+        case infraOnly = "INFRA_ONLY"
+        case workloadOnly = "WORKLOAD_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResolutionMethod: String, CustomStringConvertible, Codable, Sendable {
+        case automatic = "AUTOMATIC"
+        case manual = "MANUAL"
+        case unresolved = "UNRESOLVED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SeverityLevel: String, CustomStringConvertible, Codable, Sendable {
         case high = "High"
         case informative = "Informative"
@@ -96,15 +110,16 @@ extension ApplicationInsights {
     public enum Status: String, CustomStringConvertible, Codable, Sendable {
         case ignore = "IGNORE"
         case pending = "PENDING"
+        case recovering = "RECOVERING"
         case recurring = "RECURRING"
         case resolved = "RESOLVED"
         public var description: String { return self.rawValue }
     }
 
     public enum Tier: String, CustomStringConvertible, Codable, Sendable {
+        case `default` = "DEFAULT"
         case activeDirectory = "ACTIVE_DIRECTORY"
         case custom = "CUSTOM"
-        case `default` = "DEFAULT"
         case dotNetCore = "DOT_NET_CORE"
         case dotNetWeb = "DOT_NET_WEB"
         case dotNetWebTier = "DOT_NET_WEB_TIER"
@@ -116,6 +131,9 @@ extension ApplicationInsights {
         case sapHanaHighAvailability = "SAP_HANA_HIGH_AVAILABILITY"
         case sapHanaMultiNode = "SAP_HANA_MULTI_NODE"
         case sapHanaSingleNode = "SAP_HANA_SINGLE_NODE"
+        case sapNetweaverDistributed = "SAP_NETWEAVER_DISTRIBUTED"
+        case sapNetweaverHighAvailability = "SAP_NETWEAVER_HIGH_AVAILABILITY"
+        case sapNetweaverStandard = "SAP_NETWEAVER_STANDARD"
         case sharepoint = "SHAREPOINT"
         case sqlServer = "SQL_SERVER"
         case sqlServerAlwaysonAvailabilityGroup = "SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP"
@@ -123,7 +141,66 @@ extension ApplicationInsights {
         public var description: String { return self.rawValue }
     }
 
+    public enum UpdateStatus: String, CustomStringConvertible, Codable, Sendable {
+        case resolved = "RESOLVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Visibility: String, CustomStringConvertible, Codable, Sendable {
+        case ignored = "IGNORED"
+        case visible = "VISIBLE"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct AddWorkloadRequest: AWSEncodableShape {
+        /// The name of the component.
+        public let componentName: String
+        /// The name of the resource group.
+        public let resourceGroupName: String
+        /// The configuration settings of the workload. The value is the escaped JSON of the configuration.
+        public let workloadConfiguration: WorkloadConfiguration
+
+        public init(componentName: String, resourceGroupName: String, workloadConfiguration: WorkloadConfiguration) {
+            self.componentName = componentName
+            self.resourceGroupName = resourceGroupName
+            self.workloadConfiguration = workloadConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.componentName, name: "componentName", parent: name, max: 1011)
+            try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
+            try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^(?:^[\\d\\w\\-_\\.+]*$)|(?:^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$)$")
+            try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
+            try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
+            try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "^[a-zA-Z0-9\\.\\-_]*$")
+            try self.workloadConfiguration.validate(name: "\(name).workloadConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case componentName = "ComponentName"
+            case resourceGroupName = "ResourceGroupName"
+            case workloadConfiguration = "WorkloadConfiguration"
+        }
+    }
+
+    public struct AddWorkloadResponse: AWSDecodableShape {
+        /// The configuration settings of the workload. The value is the escaped JSON of the configuration.
+        public let workloadConfiguration: WorkloadConfiguration?
+        /// The ID of the workload.
+        public let workloadId: String?
+
+        public init(workloadConfiguration: WorkloadConfiguration? = nil, workloadId: String? = nil) {
+            self.workloadConfiguration = workloadConfiguration
+            self.workloadId = workloadId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workloadConfiguration = "WorkloadConfiguration"
+            case workloadId = "WorkloadId"
+        }
+    }
 
     public struct ApplicationComponent: AWSDecodableShape {
         /// The name of the component.
@@ -163,6 +240,8 @@ extension ApplicationInsights {
     }
 
     public struct ApplicationInfo: AWSDecodableShape {
+        /// The AWS account ID for the owner of the application.
+        public let accountId: String?
         ///  Indicates whether auto-configuration is turned on for this application.
         public let autoConfigEnabled: Bool?
         ///  Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated, failed deployment, and others.
@@ -180,7 +259,8 @@ extension ApplicationInsights {
         /// The name of the resource group used for the application.
         public let resourceGroupName: String?
 
-        public init(autoConfigEnabled: Bool? = nil, cweMonitorEnabled: Bool? = nil, discoveryType: DiscoveryType? = nil, lifeCycle: String? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, remarks: String? = nil, resourceGroupName: String? = nil) {
+        public init(accountId: String? = nil, autoConfigEnabled: Bool? = nil, cweMonitorEnabled: Bool? = nil, discoveryType: DiscoveryType? = nil, lifeCycle: String? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, remarks: String? = nil, resourceGroupName: String? = nil) {
+            self.accountId = accountId
             self.autoConfigEnabled = autoConfigEnabled
             self.cweMonitorEnabled = cweMonitorEnabled
             self.discoveryType = discoveryType
@@ -192,6 +272,7 @@ extension ApplicationInsights {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case autoConfigEnabled = "AutoConfigEnabled"
             case cweMonitorEnabled = "CWEMonitorEnabled"
             case discoveryType = "DiscoveryType"
@@ -204,6 +285,8 @@ extension ApplicationInsights {
     }
 
     public struct ConfigurationEvent: AWSDecodableShape {
+        /// The AWS account ID for the owner of the application to which the configuration event belongs.
+        public let accountId: String?
         ///  The details of the event in plain text.
         public let eventDetail: String?
         ///  The name of the resource Application Insights attempted to configure.
@@ -216,23 +299,29 @@ extension ApplicationInsights {
         public let eventTime: Date?
         ///  The resource monitored by Application Insights.
         public let monitoredResourceARN: String?
+        /// The name of the resource group of the application to which the configuration event belongs.
+        public let resourceGroupName: String?
 
-        public init(eventDetail: String? = nil, eventResourceName: String? = nil, eventResourceType: ConfigurationEventResourceType? = nil, eventStatus: ConfigurationEventStatus? = nil, eventTime: Date? = nil, monitoredResourceARN: String? = nil) {
+        public init(accountId: String? = nil, eventDetail: String? = nil, eventResourceName: String? = nil, eventResourceType: ConfigurationEventResourceType? = nil, eventStatus: ConfigurationEventStatus? = nil, eventTime: Date? = nil, monitoredResourceARN: String? = nil, resourceGroupName: String? = nil) {
+            self.accountId = accountId
             self.eventDetail = eventDetail
             self.eventResourceName = eventResourceName
             self.eventResourceType = eventResourceType
             self.eventStatus = eventStatus
             self.eventTime = eventTime
             self.monitoredResourceARN = monitoredResourceARN
+            self.resourceGroupName = resourceGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case eventDetail = "EventDetail"
             case eventResourceName = "EventResourceName"
             case eventResourceType = "EventResourceType"
             case eventStatus = "EventStatus"
             case eventTime = "EventTime"
             case monitoredResourceARN = "MonitoredResourceARN"
+            case resourceGroupName = "ResourceGroupName"
         }
     }
 
@@ -494,20 +583,27 @@ extension ApplicationInsights {
     }
 
     public struct DescribeApplicationRequest: AWSEncodableShape {
+        /// The AWS account ID for the resource group owner.
+        public let accountId: String?
         /// The name of the resource group.
         public let resourceGroupName: String
 
-        public init(resourceGroupName: String) {
+        public init(accountId: String? = nil, resourceGroupName: String) {
+            self.accountId = accountId
             self.resourceGroupName = resourceGroupName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "^[a-zA-Z0-9\\.\\-_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case resourceGroupName = "ResourceGroupName"
         }
     }
@@ -528,13 +624,16 @@ extension ApplicationInsights {
     public struct DescribeComponentConfigurationRecommendationRequest: AWSEncodableShape {
         /// The name of the component.
         public let componentName: String
+        /// The recommended configuration type.
+        public let recommendationType: RecommendationType?
         /// The name of the resource group.
         public let resourceGroupName: String
         /// The tier of the application component.
         public let tier: Tier
 
-        public init(componentName: String, resourceGroupName: String, tier: Tier) {
+        public init(componentName: String, recommendationType: RecommendationType? = nil, resourceGroupName: String, tier: Tier) {
             self.componentName = componentName
+            self.recommendationType = recommendationType
             self.resourceGroupName = resourceGroupName
             self.tier = tier
         }
@@ -550,6 +649,7 @@ extension ApplicationInsights {
 
         private enum CodingKeys: String, CodingKey {
             case componentName = "ComponentName"
+            case recommendationType = "RecommendationType"
             case resourceGroupName = "ResourceGroupName"
             case tier = "Tier"
         }
@@ -569,17 +669,23 @@ extension ApplicationInsights {
     }
 
     public struct DescribeComponentConfigurationRequest: AWSEncodableShape {
+        /// The AWS account ID for the resource group owner.
+        public let accountId: String?
         /// The name of the component.
         public let componentName: String
         /// The name of the resource group.
         public let resourceGroupName: String
 
-        public init(componentName: String, resourceGroupName: String) {
+        public init(accountId: String? = nil, componentName: String, resourceGroupName: String) {
+            self.accountId = accountId
             self.componentName = componentName
             self.resourceGroupName = resourceGroupName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.componentName, name: "componentName", parent: name, max: 1011)
             try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
             try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^(?:^[\\d\\w\\-_\\.+]*$)|(?:^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$)$")
@@ -589,6 +695,7 @@ extension ApplicationInsights {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case componentName = "ComponentName"
             case resourceGroupName = "ResourceGroupName"
         }
@@ -616,17 +723,23 @@ extension ApplicationInsights {
     }
 
     public struct DescribeComponentRequest: AWSEncodableShape {
+        /// The AWS account ID for the resource group owner.
+        public let accountId: String?
         /// The name of the component.
         public let componentName: String
         /// The name of the resource group.
         public let resourceGroupName: String
 
-        public init(componentName: String, resourceGroupName: String) {
+        public init(accountId: String? = nil, componentName: String, resourceGroupName: String) {
+            self.accountId = accountId
             self.componentName = componentName
             self.resourceGroupName = resourceGroupName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.componentName, name: "componentName", parent: name, max: 1011)
             try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
             try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^(?:^[\\d\\w\\-_\\.+]*$)|(?:^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$)$")
@@ -636,6 +749,7 @@ extension ApplicationInsights {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case componentName = "ComponentName"
             case resourceGroupName = "ResourceGroupName"
         }
@@ -658,6 +772,8 @@ extension ApplicationInsights {
     }
 
     public struct DescribeLogPatternRequest: AWSEncodableShape {
+        /// The AWS account ID for the resource group owner.
+        public let accountId: String?
         /// The name of the log pattern.
         public let patternName: String
         /// The name of the log pattern set.
@@ -665,13 +781,17 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String
 
-        public init(patternName: String, patternSetName: String, resourceGroupName: String) {
+        public init(accountId: String? = nil, patternName: String, patternSetName: String, resourceGroupName: String) {
+            self.accountId = accountId
             self.patternName = patternName
             self.patternSetName = patternSetName
             self.resourceGroupName = resourceGroupName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.patternName, name: "patternName", parent: name, max: 50)
             try self.validate(self.patternName, name: "patternName", parent: name, min: 1)
             try self.validate(self.patternName, name: "patternName", parent: name, pattern: "^[a-zA-Z0-9\\.\\-_]*$")
@@ -684,6 +804,7 @@ extension ApplicationInsights {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case patternName = "PatternName"
             case patternSetName = "PatternSetName"
             case resourceGroupName = "ResourceGroupName"
@@ -691,37 +812,48 @@ extension ApplicationInsights {
     }
 
     public struct DescribeLogPatternResponse: AWSDecodableShape {
+        /// The AWS account ID for the resource group owner.
+        public let accountId: String?
         /// The successfully created log pattern.
         public let logPattern: LogPattern?
         /// The name of the resource group.
         public let resourceGroupName: String?
 
-        public init(logPattern: LogPattern? = nil, resourceGroupName: String? = nil) {
+        public init(accountId: String? = nil, logPattern: LogPattern? = nil, resourceGroupName: String? = nil) {
+            self.accountId = accountId
             self.logPattern = logPattern
             self.resourceGroupName = resourceGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case logPattern = "LogPattern"
             case resourceGroupName = "ResourceGroupName"
         }
     }
 
     public struct DescribeObservationRequest: AWSEncodableShape {
+        /// The AWS account ID for the resource group owner.
+        public let accountId: String?
         /// The ID of the observation.
         public let observationId: String
 
-        public init(observationId: String) {
+        public init(accountId: String? = nil, observationId: String) {
+            self.accountId = accountId
             self.observationId = observationId
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.observationId, name: "observationId", parent: name, max: 38)
             try self.validate(self.observationId, name: "observationId", parent: name, min: 38)
             try self.validate(self.observationId, name: "observationId", parent: name, pattern: "^o-[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case observationId = "ObservationId"
         }
     }
@@ -740,20 +872,27 @@ extension ApplicationInsights {
     }
 
     public struct DescribeProblemObservationsRequest: AWSEncodableShape {
+        /// The AWS account ID for the resource group owner.
+        public let accountId: String?
         /// The ID of the problem.
         public let problemId: String
 
-        public init(problemId: String) {
+        public init(accountId: String? = nil, problemId: String) {
+            self.accountId = accountId
             self.problemId = problemId
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.problemId, name: "problemId", parent: name, max: 38)
             try self.validate(self.problemId, name: "problemId", parent: name, min: 38)
             try self.validate(self.problemId, name: "problemId", parent: name, pattern: "^p-[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case problemId = "ProblemId"
         }
     }
@@ -772,20 +911,27 @@ extension ApplicationInsights {
     }
 
     public struct DescribeProblemRequest: AWSEncodableShape {
+        /// The AWS account ID for the owner of the resource group affected by the problem.
+        public let accountId: String?
         /// The ID of the problem.
         public let problemId: String
 
-        public init(problemId: String) {
+        public init(accountId: String? = nil, problemId: String) {
+            self.accountId = accountId
             self.problemId = problemId
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.problemId, name: "problemId", parent: name, max: 38)
             try self.validate(self.problemId, name: "problemId", parent: name, min: 38)
             try self.validate(self.problemId, name: "problemId", parent: name, pattern: "^p-[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case problemId = "ProblemId"
         }
     }
@@ -803,18 +949,85 @@ extension ApplicationInsights {
         }
     }
 
+    public struct DescribeWorkloadRequest: AWSEncodableShape {
+        /// The AWS account ID for the workload owner.
+        public let accountId: String?
+        /// The name of the component.
+        public let componentName: String
+        /// The name of the resource group.
+        public let resourceGroupName: String
+        /// The ID of the workload.
+        public let workloadId: String
+
+        public init(accountId: String? = nil, componentName: String, resourceGroupName: String, workloadId: String) {
+            self.accountId = accountId
+            self.componentName = componentName
+            self.resourceGroupName = resourceGroupName
+            self.workloadId = workloadId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.componentName, name: "componentName", parent: name, max: 1011)
+            try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
+            try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^(?:^[\\d\\w\\-_\\.+]*$)|(?:^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$)$")
+            try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
+            try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
+            try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "^[a-zA-Z0-9\\.\\-_]*$")
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 38)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 38)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^w-[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case componentName = "ComponentName"
+            case resourceGroupName = "ResourceGroupName"
+            case workloadId = "WorkloadId"
+        }
+    }
+
+    public struct DescribeWorkloadResponse: AWSDecodableShape {
+        /// The configuration settings of the workload. The value is the escaped JSON of the configuration.
+        public let workloadConfiguration: WorkloadConfiguration?
+        /// The ID of the workload.
+        public let workloadId: String?
+        /// If logging is supported for the resource type, shows whether the component has configured logs to be monitored.
+        public let workloadRemarks: String?
+
+        public init(workloadConfiguration: WorkloadConfiguration? = nil, workloadId: String? = nil, workloadRemarks: String? = nil) {
+            self.workloadConfiguration = workloadConfiguration
+            self.workloadId = workloadId
+            self.workloadRemarks = workloadRemarks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workloadConfiguration = "WorkloadConfiguration"
+            case workloadId = "WorkloadId"
+            case workloadRemarks = "WorkloadRemarks"
+        }
+    }
+
     public struct ListApplicationsRequest: AWSEncodableShape {
+        /// The AWS account ID for the resource group owner.
+        public let accountId: String?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
         /// The token to request the next page of results.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(accountId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.accountId = accountId
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 40)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
@@ -823,6 +1036,7 @@ extension ApplicationInsights {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
@@ -846,6 +1060,8 @@ extension ApplicationInsights {
     }
 
     public struct ListComponentsRequest: AWSEncodableShape {
+        /// The AWS account ID for the resource group owner.
+        public let accountId: String?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
         /// The token to request the next page of results.
@@ -853,13 +1069,17 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceGroupName: String) {
+        public init(accountId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceGroupName: String) {
+            self.accountId = accountId
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceGroupName = resourceGroupName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 40)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
@@ -871,6 +1091,7 @@ extension ApplicationInsights {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case resourceGroupName = "ResourceGroupName"
@@ -895,6 +1116,8 @@ extension ApplicationInsights {
     }
 
     public struct ListConfigurationHistoryRequest: AWSEncodableShape {
+        /// The AWS account ID for the resource group owner.
+        public let accountId: String?
         /// The end time of the event.
         public let endTime: Date?
         /// The status of the configuration update event. Possible values include INFO, WARN, and ERROR.
@@ -908,7 +1131,8 @@ extension ApplicationInsights {
         /// The start time of the event.
         public let startTime: Date?
 
-        public init(endTime: Date? = nil, eventStatus: ConfigurationEventStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceGroupName: String? = nil, startTime: Date? = nil) {
+        public init(accountId: String? = nil, endTime: Date? = nil, eventStatus: ConfigurationEventStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceGroupName: String? = nil, startTime: Date? = nil) {
+            self.accountId = accountId
             self.endTime = endTime
             self.eventStatus = eventStatus
             self.maxResults = maxResults
@@ -918,6 +1142,9 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 40)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
@@ -929,6 +1156,7 @@ extension ApplicationInsights {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case endTime = "EndTime"
             case eventStatus = "EventStatus"
             case maxResults = "MaxResults"
@@ -956,6 +1184,8 @@ extension ApplicationInsights {
     }
 
     public struct ListLogPatternSetsRequest: AWSEncodableShape {
+        /// The AWS account ID for the resource group owner.
+        public let accountId: String?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
         /// The token to request the next page of results.
@@ -963,13 +1193,17 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceGroupName: String) {
+        public init(accountId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceGroupName: String) {
+            self.accountId = accountId
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceGroupName = resourceGroupName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 40)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
@@ -981,6 +1215,7 @@ extension ApplicationInsights {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case resourceGroupName = "ResourceGroupName"
@@ -988,6 +1223,8 @@ extension ApplicationInsights {
     }
 
     public struct ListLogPatternSetsResponse: AWSDecodableShape {
+        /// The AWS account ID for the resource group owner.
+        public let accountId: String?
         /// The list of log pattern sets.
         public let logPatternSets: [String]?
         /// The token used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -995,13 +1232,15 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String?
 
-        public init(logPatternSets: [String]? = nil, nextToken: String? = nil, resourceGroupName: String? = nil) {
+        public init(accountId: String? = nil, logPatternSets: [String]? = nil, nextToken: String? = nil, resourceGroupName: String? = nil) {
+            self.accountId = accountId
             self.logPatternSets = logPatternSets
             self.nextToken = nextToken
             self.resourceGroupName = resourceGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case logPatternSets = "LogPatternSets"
             case nextToken = "NextToken"
             case resourceGroupName = "ResourceGroupName"
@@ -1009,6 +1248,8 @@ extension ApplicationInsights {
     }
 
     public struct ListLogPatternsRequest: AWSEncodableShape {
+        /// The AWS account ID for the resource group owner.
+        public let accountId: String?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
         /// The token to request the next page of results.
@@ -1018,7 +1259,8 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, patternSetName: String? = nil, resourceGroupName: String) {
+        public init(accountId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, patternSetName: String? = nil, resourceGroupName: String) {
+            self.accountId = accountId
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.patternSetName = patternSetName
@@ -1026,6 +1268,9 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 40)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
@@ -1040,6 +1285,7 @@ extension ApplicationInsights {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case patternSetName = "PatternSetName"
@@ -1048,6 +1294,8 @@ extension ApplicationInsights {
     }
 
     public struct ListLogPatternsResponse: AWSDecodableShape {
+        /// The AWS account ID for the resource group owner.
+        public let accountId: String?
         /// The list of log patterns.
         public let logPatterns: [LogPattern]?
         /// The token used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -1055,13 +1303,15 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String?
 
-        public init(logPatterns: [LogPattern]? = nil, nextToken: String? = nil, resourceGroupName: String? = nil) {
+        public init(accountId: String? = nil, logPatterns: [LogPattern]? = nil, nextToken: String? = nil, resourceGroupName: String? = nil) {
+            self.accountId = accountId
             self.logPatterns = logPatterns
             self.nextToken = nextToken
             self.resourceGroupName = resourceGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case logPatterns = "LogPatterns"
             case nextToken = "NextToken"
             case resourceGroupName = "ResourceGroupName"
@@ -1069,6 +1319,8 @@ extension ApplicationInsights {
     }
 
     public struct ListProblemsRequest: AWSEncodableShape {
+        /// The AWS account ID for the resource group owner.
+        public let accountId: String?
         ///  The name of the component.
         public let componentName: String?
         /// The time when the problem ended, in epoch seconds. If not specified, problems within the past seven days are returned.
@@ -1081,17 +1333,24 @@ extension ApplicationInsights {
         public let resourceGroupName: String?
         /// The time when the problem was detected, in epoch seconds. If you don't specify a time frame for the request, problems within the past seven days are returned.
         public let startTime: Date?
+        /// Specifies whether or not you can view the problem. If not specified, visible and ignored problems are returned.
+        public let visibility: Visibility?
 
-        public init(componentName: String? = nil, endTime: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceGroupName: String? = nil, startTime: Date? = nil) {
+        public init(accountId: String? = nil, componentName: String? = nil, endTime: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceGroupName: String? = nil, startTime: Date? = nil, visibility: Visibility? = nil) {
+            self.accountId = accountId
             self.componentName = componentName
             self.endTime = endTime
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceGroupName = resourceGroupName
             self.startTime = startTime
+            self.visibility = visibility
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.componentName, name: "componentName", parent: name, max: 1011)
             try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
             try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^(?:^[\\d\\w\\-_\\.+]*$)|(?:^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$)$")
@@ -1106,16 +1365,20 @@ extension ApplicationInsights {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case componentName = "ComponentName"
             case endTime = "EndTime"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case resourceGroupName = "ResourceGroupName"
             case startTime = "StartTime"
+            case visibility = "Visibility"
         }
     }
 
     public struct ListProblemsResponse: AWSDecodableShape {
+        /// The AWS account ID for the resource group owner.
+        public let accountId: String?
         /// The token used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The list of problems.
@@ -1123,13 +1386,15 @@ extension ApplicationInsights {
         ///  The name of the resource group.
         public let resourceGroupName: String?
 
-        public init(nextToken: String? = nil, problemList: [Problem]? = nil, resourceGroupName: String? = nil) {
+        public init(accountId: String? = nil, nextToken: String? = nil, problemList: [Problem]? = nil, resourceGroupName: String? = nil) {
+            self.accountId = accountId
             self.nextToken = nextToken
             self.problemList = problemList
             self.resourceGroupName = resourceGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case nextToken = "NextToken"
             case problemList = "ProblemList"
             case resourceGroupName = "ResourceGroupName"
@@ -1165,6 +1430,69 @@ extension ApplicationInsights {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct ListWorkloadsRequest: AWSEncodableShape {
+        /// The AWS account ID of the owner of the workload.
+        public let accountId: String?
+        /// The name of the component.
+        public let componentName: String
+        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
+        public let maxResults: Int?
+        /// The token to request the next page of results.
+        public let nextToken: String?
+        /// The name of the resource group.
+        public let resourceGroupName: String
+
+        public init(accountId: String? = nil, componentName: String, maxResults: Int? = nil, nextToken: String? = nil, resourceGroupName: String) {
+            self.accountId = accountId
+            self.componentName = componentName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceGroupName = resourceGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.componentName, name: "componentName", parent: name, max: 1011)
+            try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
+            try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^(?:^[\\d\\w\\-_\\.+]*$)|(?:^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$)$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 40)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+            try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
+            try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
+            try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "^[a-zA-Z0-9\\.\\-_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case componentName = "ComponentName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case resourceGroupName = "ResourceGroupName"
+        }
+    }
+
+    public struct ListWorkloadsResponse: AWSDecodableShape {
+        /// The token to request the next page of results.
+        public let nextToken: String?
+        /// The list of workloads.
+        public let workloadList: [Workload]?
+
+        public init(nextToken: String? = nil, workloadList: [Workload]? = nil) {
+            self.nextToken = nextToken
+            self.workloadList = workloadList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case workloadList = "WorkloadList"
         }
     }
 
@@ -1383,6 +1711,8 @@ extension ApplicationInsights {
     }
 
     public struct Problem: AWSDecodableShape {
+        /// The AWS account ID for the owner of the resource group affected by the problem.
+        public let accountId: String?
         /// The resource affected by the problem.
         public let affectedResource: String?
         /// The time when the problem ended, in epoch seconds.
@@ -1397,6 +1727,8 @@ extension ApplicationInsights {
         public let lastRecurrenceTime: Date?
         ///  The number of times that the same problem reoccurred after the first time it was resolved.
         public let recurringCount: Int64?
+        /// Specifies how the problem was resolved. If the value is AUTOMATIC, the system resolved the problem. If the value is MANUAL, the user resolved the problem. If the value is UNRESOLVED, then the problem is not resolved.
+        public let resolutionMethod: ResolutionMethod?
         /// The name of the resource group affected by the problem.
         public let resourceGroupName: String?
         /// A measure of the level of impact of the problem.
@@ -1407,8 +1739,11 @@ extension ApplicationInsights {
         public let status: Status?
         /// The name of the problem.
         public let title: String?
+        /// Specifies whether or not you can view the problem. Updates to ignored problems do not generate notifications.
+        public let visibility: Visibility?
 
-        public init(affectedResource: String? = nil, endTime: Date? = nil, feedback: [FeedbackKey: FeedbackValue]? = nil, id: String? = nil, insights: String? = nil, lastRecurrenceTime: Date? = nil, recurringCount: Int64? = nil, resourceGroupName: String? = nil, severityLevel: SeverityLevel? = nil, startTime: Date? = nil, status: Status? = nil, title: String? = nil) {
+        public init(accountId: String? = nil, affectedResource: String? = nil, endTime: Date? = nil, feedback: [FeedbackKey: FeedbackValue]? = nil, id: String? = nil, insights: String? = nil, lastRecurrenceTime: Date? = nil, recurringCount: Int64? = nil, resolutionMethod: ResolutionMethod? = nil, resourceGroupName: String? = nil, severityLevel: SeverityLevel? = nil, startTime: Date? = nil, status: Status? = nil, title: String? = nil, visibility: Visibility? = nil) {
+            self.accountId = accountId
             self.affectedResource = affectedResource
             self.endTime = endTime
             self.feedback = feedback
@@ -1416,14 +1751,17 @@ extension ApplicationInsights {
             self.insights = insights
             self.lastRecurrenceTime = lastRecurrenceTime
             self.recurringCount = recurringCount
+            self.resolutionMethod = resolutionMethod
             self.resourceGroupName = resourceGroupName
             self.severityLevel = severityLevel
             self.startTime = startTime
             self.status = status
             self.title = title
+            self.visibility = visibility
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case affectedResource = "AffectedResource"
             case endTime = "EndTime"
             case feedback = "Feedback"
@@ -1431,11 +1769,13 @@ extension ApplicationInsights {
             case insights = "Insights"
             case lastRecurrenceTime = "LastRecurrenceTime"
             case recurringCount = "RecurringCount"
+            case resolutionMethod = "ResolutionMethod"
             case resourceGroupName = "ResourceGroupName"
             case severityLevel = "SeverityLevel"
             case startTime = "StartTime"
             case status = "Status"
             case title = "Title"
+            case visibility = "Visibility"
         }
     }
 
@@ -1450,6 +1790,43 @@ extension ApplicationInsights {
         private enum CodingKeys: String, CodingKey {
             case observationList = "ObservationList"
         }
+    }
+
+    public struct RemoveWorkloadRequest: AWSEncodableShape {
+        /// The name of the component.
+        public let componentName: String
+        /// The name of the resource group.
+        public let resourceGroupName: String
+        /// The ID of the workload.
+        public let workloadId: String
+
+        public init(componentName: String, resourceGroupName: String, workloadId: String) {
+            self.componentName = componentName
+            self.resourceGroupName = resourceGroupName
+            self.workloadId = workloadId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.componentName, name: "componentName", parent: name, max: 1011)
+            try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
+            try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^(?:^[\\d\\w\\-_\\.+]*$)|(?:^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$)$")
+            try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
+            try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
+            try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "^[a-zA-Z0-9\\.\\-_]*$")
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 38)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 38)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^w-[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case componentName = "ComponentName"
+            case resourceGroupName = "ResourceGroupName"
+            case workloadId = "WorkloadId"
+        }
+    }
+
+    public struct RemoveWorkloadResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
@@ -1749,6 +2126,151 @@ extension ApplicationInsights {
         private enum CodingKeys: String, CodingKey {
             case logPattern = "LogPattern"
             case resourceGroupName = "ResourceGroupName"
+        }
+    }
+
+    public struct UpdateProblemRequest: AWSEncodableShape {
+        /// The ID of the problem.
+        public let problemId: String
+        /// The status of the problem. Arguments can be passed for only problems that show a status of RECOVERING.
+        public let updateStatus: UpdateStatus?
+        /// The visibility of a problem. When you pass a value of IGNORED, the problem is removed from the default view, and all notifications for the problem are suspended. When VISIBLE is passed, the IGNORED action is reversed.
+        public let visibility: Visibility?
+
+        public init(problemId: String, updateStatus: UpdateStatus? = nil, visibility: Visibility? = nil) {
+            self.problemId = problemId
+            self.updateStatus = updateStatus
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.problemId, name: "problemId", parent: name, max: 38)
+            try self.validate(self.problemId, name: "problemId", parent: name, min: 38)
+            try self.validate(self.problemId, name: "problemId", parent: name, pattern: "^p-[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case problemId = "ProblemId"
+            case updateStatus = "UpdateStatus"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct UpdateProblemResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateWorkloadRequest: AWSEncodableShape {
+        ///  The name of the component.
+        public let componentName: String
+        /// The name of the resource group.
+        public let resourceGroupName: String
+        /// The configuration settings of the workload. The value is the escaped JSON of the configuration.
+        public let workloadConfiguration: WorkloadConfiguration
+        /// The ID of the workload.
+        public let workloadId: String?
+
+        public init(componentName: String, resourceGroupName: String, workloadConfiguration: WorkloadConfiguration, workloadId: String? = nil) {
+            self.componentName = componentName
+            self.resourceGroupName = resourceGroupName
+            self.workloadConfiguration = workloadConfiguration
+            self.workloadId = workloadId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.componentName, name: "componentName", parent: name, max: 1011)
+            try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
+            try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^(?:^[\\d\\w\\-_\\.+]*$)|(?:^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$)$")
+            try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
+            try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
+            try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "^[a-zA-Z0-9\\.\\-_]*$")
+            try self.workloadConfiguration.validate(name: "\(name).workloadConfiguration")
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 38)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 38)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^w-[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case componentName = "ComponentName"
+            case resourceGroupName = "ResourceGroupName"
+            case workloadConfiguration = "WorkloadConfiguration"
+            case workloadId = "WorkloadId"
+        }
+    }
+
+    public struct UpdateWorkloadResponse: AWSDecodableShape {
+        /// The configuration settings of the workload. The value is the escaped JSON of the configuration.
+        public let workloadConfiguration: WorkloadConfiguration?
+        /// The ID of the workload.
+        public let workloadId: String?
+
+        public init(workloadConfiguration: WorkloadConfiguration? = nil, workloadId: String? = nil) {
+            self.workloadConfiguration = workloadConfiguration
+            self.workloadId = workloadId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workloadConfiguration = "WorkloadConfiguration"
+            case workloadId = "WorkloadId"
+        }
+    }
+
+    public struct Workload: AWSDecodableShape {
+        /// The name of the component.
+        public let componentName: String?
+        /// The tier of the workload.
+        public let tier: Tier?
+        /// The ID of the workload.
+        public let workloadId: String?
+        /// The name of the workload.
+        public let workloadName: String?
+        /// If logging is supported for the resource type, shows whether the component has configured logs to be monitored.
+        public let workloadRemarks: String?
+
+        public init(componentName: String? = nil, tier: Tier? = nil, workloadId: String? = nil, workloadName: String? = nil, workloadRemarks: String? = nil) {
+            self.componentName = componentName
+            self.tier = tier
+            self.workloadId = workloadId
+            self.workloadName = workloadName
+            self.workloadRemarks = workloadRemarks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case componentName = "ComponentName"
+            case tier = "Tier"
+            case workloadId = "WorkloadId"
+            case workloadName = "WorkloadName"
+            case workloadRemarks = "WorkloadRemarks"
+        }
+    }
+
+    public struct WorkloadConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration settings of the workload.
+        public let configuration: String?
+        /// The configuration of the workload tier.
+        public let tier: Tier?
+        /// The name of the workload.
+        public let workloadName: String?
+
+        public init(configuration: String? = nil, tier: Tier? = nil, workloadName: String? = nil) {
+            self.configuration = configuration
+            self.tier = tier
+            self.workloadName = workloadName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configuration, name: "configuration", parent: name, max: 10000)
+            try self.validate(self.configuration, name: "configuration", parent: name, min: 1)
+            try self.validate(self.configuration, name: "configuration", parent: name, pattern: "^[\\S\\s]+$")
+            try self.validate(self.workloadName, name: "workloadName", parent: name, max: 8)
+            try self.validate(self.workloadName, name: "workloadName", parent: name, min: 1)
+            try self.validate(self.workloadName, name: "workloadName", parent: name, pattern: "^[a-zA-Z0-9\\.\\-_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+            case tier = "Tier"
+            case workloadName = "WorkloadName"
         }
     }
 }

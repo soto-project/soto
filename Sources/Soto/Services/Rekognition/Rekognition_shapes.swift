@@ -854,13 +854,13 @@ extension Rekognition {
     }
 
     public struct ContentModerationDetection: AWSDecodableShape {
-        ///  The time duration of a segment in milliseconds,  I.e. time elapsed from StartTimestampMillis to EndTimestampMillis.
+        ///  The time duration of a segment in milliseconds, I.e. time elapsed from StartTimestampMillis to EndTimestampMillis.
         public let durationMillis: Int64?
-        ///  The time in milliseconds defining the end of the  timeline segment containing a continuously detected moderation label.
+        ///  The time in milliseconds defining the end of the timeline segment containing a continuously detected moderation label.
         public let endTimestampMillis: Int64?
         /// The content moderation label detected by in the stored video.
         public let moderationLabel: ModerationLabel?
-        /// The time in milliseconds defining the start of the timeline  segment containing a continuously detected moderation label.
+        /// The time in milliseconds defining the start of the timeline segment containing a continuously detected moderation label.
         public let startTimestampMillis: Int64?
         /// Time, in milliseconds from the beginning of the video, that the content moderation label was detected. Note that Timestamp is not guaranteed to be accurate to the individual frame where the moderated content first appears.
         public let timestamp: Int64?
@@ -1032,7 +1032,7 @@ extension Rekognition {
         /// The source files for the dataset. You can specify the ARN of an existing dataset or specify the Amazon S3 bucket location
         /// of an Amazon Sagemaker format manifest file. If you don't specify datasetSource, an empty dataset is created. To add labeled images to the dataset,  You can use the console or call UpdateDatasetEntries.
         public let datasetSource: DatasetSource?
-        /// The type of the dataset. Specify train to create a training dataset. Specify test  to create a test dataset.
+        /// The type of the dataset. Specify TRAIN to create a training dataset. Specify TEST  to create a test dataset.
         public let datasetType: DatasetType
         /// The ARN of the Amazon Rekognition Custom Labels project to which you want to asssign the dataset.
         public let projectArn: String
@@ -1073,7 +1073,7 @@ extension Rekognition {
     public struct CreateFaceLivenessSessionRequest: AWSEncodableShape {
         /// Idempotent token is used to recognize the Face Liveness request. If the same token is used with multiple CreateFaceLivenessSession requests, the same session is returned. This token is employed to avoid unintentionally creating the same session multiple times.
         public let clientRequestToken: String?
-        ///  The identifier for your AWS Key Management Service key (AWS KMS key).  Used to encrypt audit images and reference images.
+        ///  The identifier for your AWS Key Management Service key (AWS KMS key). Used to encrypt audit images and reference images.
         public let kmsKeyId: String?
         /// A session settings object. It contains settings for the operation to be performed. For Face Liveness, it accepts OutputConfig and AuditImagesLimit.
         public let settings: CreateFaceLivenessSessionRequestSettings?
@@ -1327,7 +1327,7 @@ extension Rekognition {
     }
 
     public struct CreateUserRequest: AWSEncodableShape {
-        /// Idempotent token used to identify the request to CreateUser. If you use the same token with multiple CreateUser requests, the same response is returned.  Use ClientRequestToken to prevent the same request from being processed more than once.
+        /// Idempotent token used to identify the request to CreateUser. If you use the same token with multiple CreateUser requests, the same response is returned. Use ClientRequestToken to prevent the same request from being processed more than once.
         public let clientRequestToken: String?
         /// The ID of an existing collection to which the new UserID needs to be created.
         public let collectionId: String
@@ -1775,7 +1775,7 @@ extension Rekognition {
     }
 
     public struct DeleteUserRequest: AWSEncodableShape {
-        /// Idempotent token used to identify the request to DeleteUser. If you use the same token with multiple DeleteUser requests, the same response is returned.  Use ClientRequestToken to prevent the same request from being processed more than once.
+        /// Idempotent token used to identify the request to DeleteUser. If you use the same token with multiple DeleteUser requests, the same response is returned. Use ClientRequestToken to prevent the same request from being processed more than once.
         public let clientRequestToken: String?
         /// The ID of an existing collection from which the UserID needs to be deleted.
         public let collectionId: String
@@ -2131,7 +2131,7 @@ extension Rekognition {
     }
 
     public struct DetectFacesRequest: AWSEncodableShape {
-        /// An array of facial attributes you want to be returned. A DEFAULT subset of facial attributes - BoundingBox, Confidence, Pose, Quality, and Landmarks - will always be returned. You can request for specific facial attributes (in addition to the default list) - by using ["DEFAULT", "FACE_OCCLUDED"] or just ["FACE_OCCLUDED"]. You can request for all facial attributes by using ["ALL"]. Requesting more attributes may increase response time. If you provide both, ["ALL", "DEFAULT"], the service uses a logical "AND" operator to determine which attributes to return (in this case, all attributes).
+        /// An array of facial attributes you want to be returned. A DEFAULT subset of facial attributes - BoundingBox, Confidence, Pose, Quality, and Landmarks - will always be returned. You can request for specific facial attributes (in addition to the default list) - by using ["DEFAULT", "FACE_OCCLUDED"] or just ["FACE_OCCLUDED"]. You can request for all facial attributes by using ["ALL"]. Requesting more attributes may increase response time. If you provide both, ["ALL", "DEFAULT"], the service uses a logical "AND" operator to determine which attributes to return (in this case, all attributes).  Note that while the FaceOccluded and EyeDirection attributes are supported when using DetectFaces, they aren't supported when analyzing videos with StartFaceDetection and GetFaceDetection.
         public let attributes: [Attribute]?
         /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
@@ -2169,7 +2169,7 @@ extension Rekognition {
     }
 
     public struct DetectLabelsImageBackground: AWSDecodableShape {
-        /// The dominant colors found in the background of an image, defined with RGB values,  CSS color name, simplified color name, and PixelPercentage (the percentage of  image pixels that have a particular color).
+        /// The dominant colors found in the background of an image, defined with RGB values, CSS color name, simplified color name, and PixelPercentage (the percentage of image pixels that have a particular color).
         public let dominantColors: [DominantColor]?
         /// The quality of the image background as defined by brightness and sharpness.
         public let quality: DetectLabelsImageQuality?
@@ -2186,7 +2186,7 @@ extension Rekognition {
     }
 
     public struct DetectLabelsImageForeground: AWSDecodableShape {
-        /// The dominant colors found in the foreground of an image, defined with RGB values,  CSS color name, simplified color name, and PixelPercentage (the percentage of image  pixels that have a particular color).
+        /// The dominant colors found in the foreground of an image, defined with RGB values, CSS color name, simplified color name, and PixelPercentage (the percentage of image pixels that have a particular color).
         public let dominantColors: [DominantColor]?
         /// The quality of the image foreground as defined by brightness and sharpness.
         public let quality: DetectLabelsImageQuality?
@@ -2203,13 +2203,13 @@ extension Rekognition {
     }
 
     public struct DetectLabelsImageProperties: AWSDecodableShape {
-        /// Information about the properties of an image’s background, including  the background’s quality and dominant colors, including the quality  and dominant colors of the image.
+        /// Information about the properties of an image’s background, including the background’s quality and dominant colors, including the quality and dominant colors of the image.
         public let background: DetectLabelsImageBackground?
-        /// Information about the dominant colors found in an image, described with RGB values,  CSS color name, simplified color name, and PixelPercentage (the percentage of image pixels  that have a particular color).
+        /// Information about the dominant colors found in an image, described with RGB values, CSS color name, simplified color name, and PixelPercentage (the percentage of image pixels that have a particular color).
         public let dominantColors: [DominantColor]?
-        /// Information about the properties of an image’s foreground, including the  foreground’s quality and dominant colors, including the quality and dominant colors of the image.
+        /// Information about the properties of an image’s foreground, including the foreground’s quality and dominant colors, including the quality and dominant colors of the image.
         public let foreground: DetectLabelsImageForeground?
-        /// Information about the quality of the image foreground as defined by brightness,  sharpness, and contrast. The higher the value the greater the brightness,  sharpness, and contrast respectively.
+        /// Information about the quality of the image foreground as defined by brightness, sharpness, and contrast. The higher the value the greater the brightness, sharpness, and contrast respectively.
         public let quality: DetectLabelsImageQuality?
 
         public init(background: DetectLabelsImageBackground? = nil, dominantColors: [DominantColor]? = nil, foreground: DetectLabelsImageForeground? = nil, quality: DetectLabelsImageQuality? = nil) {
@@ -2267,15 +2267,15 @@ extension Rekognition {
     }
 
     public struct DetectLabelsRequest: AWSEncodableShape {
-        /// A list of the types of analysis to perform. Specifying GENERAL_LABELS uses the label detection  feature, while specifying IMAGE_PROPERTIES returns information regarding image color and quality.  If no option is specified GENERAL_LABELS is used by default.
+        /// A list of the types of analysis to perform. Specifying GENERAL_LABELS uses the label detection feature, while specifying IMAGE_PROPERTIES returns information regarding image color and quality. If no option is specified GENERAL_LABELS is used by default.
         public let features: [DetectLabelsFeatureName]?
         /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. Images stored in an S3 Bucket do not need to be base64-encoded. If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
-        /// Maximum number of labels you want the service to return in the response. The service returns the specified number of highest confidence labels.
+        /// Maximum number of labels you want the service to return in the response. The service returns the specified number of highest confidence labels. Only valid when GENERAL_LABELS is specified as a feature type in the Feature input parameter.
         public let maxLabels: Int?
-        /// Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with confidence lower than this specified value. If MinConfidence is not specified, the operation returns labels with a confidence values greater than or equal to 55 percent.
+        /// Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with confidence lower than this specified value. If MinConfidence is not specified, the operation returns labels with a confidence values greater than or equal to 55 percent. Only valid when GENERAL_LABELS is specified as a feature type in the Feature input parameter.
         public let minConfidence: Float?
-        /// A list of the filters to be applied to returned detected labels and image properties. Specified  filters can be inclusive, exclusive, or a combination of both. Filters can be used for individual  labels or label categories. The exact label names or label categories must be supplied. For  a full list of labels and label categories, see Detecting labels.
+        /// A list of the filters to be applied to returned detected labels and image properties. Specified filters can be inclusive, exclusive, or a combination of both. Filters can be used for individual labels or label categories. The exact label names or label categories must be supplied. For a full list of labels and label categories, see Detecting labels.
         public let settings: DetectLabelsSettings?
 
         public init(features: [DetectLabelsFeatureName]? = nil, image: Image, maxLabels: Int? = nil, minConfidence: Float? = nil, settings: DetectLabelsSettings? = nil) {
@@ -3167,11 +3167,11 @@ extension Rekognition {
     public struct GetCelebrityRecognitionResponse: AWSDecodableShape {
         /// Array of celebrities recognized in the video.
         public let celebrities: [CelebrityRecognition]?
-        /// Job identifier for the celebrity recognition operation for which you  want to obtain results. The job identifer is returned by an initial call  to StartCelebrityRecognition.
+        /// Job identifier for the celebrity recognition operation for which you want to obtain results. The job identifer is returned by an initial call to StartCelebrityRecognition.
         public let jobId: String?
         /// The current status of the celebrity recognition job.
         public let jobStatus: VideoJobStatus?
-        /// A job identifier specified in the call to StartCelebrityRecognition and  returned in the job completion notification sent to your  Amazon Simple Notification Service topic.
+        /// A job identifier specified in the call to StartCelebrityRecognition and returned in the job completion notification sent to your Amazon Simple Notification Service topic.
         public let jobTag: String?
         /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of celebrities.
         public let nextToken: String?
@@ -3205,7 +3205,7 @@ extension Rekognition {
     }
 
     public struct GetContentModerationRequest: AWSEncodableShape {
-        /// Defines how to aggregate results of the StartContentModeration request.  Default aggregation option is TIMESTAMPS.  SEGMENTS mode aggregates moderation labels over time.
+        /// Defines how to aggregate results of the StartContentModeration request. Default aggregation option is TIMESTAMPS. SEGMENTS mode aggregates moderation labels over time.
         public let aggregateBy: ContentModerationAggregateBy?
         /// The identifier for the inappropriate, unwanted, or offensive content moderation job. Use JobId to identify the job in a subsequent call to GetContentModeration.
         public let jobId: String
@@ -3259,13 +3259,13 @@ extension Rekognition {
     }
 
     public struct GetContentModerationResponse: AWSDecodableShape {
-        /// Information about the paramters used when getting a response. Includes  information on aggregation and sorting methods.
+        /// Information about the paramters used when getting a response. Includes information on aggregation and sorting methods.
         public let getRequestMetadata: GetContentModerationRequestMetadata?
-        /// Job identifier for the content moderation operation for which you  want to obtain results. The job identifer is returned by an initial call  to StartContentModeration.
+        /// Job identifier for the content moderation operation for which you want to obtain results. The job identifer is returned by an initial call to StartContentModeration.
         public let jobId: String?
         /// The current status of the content moderation analysis job.
         public let jobStatus: VideoJobStatus?
-        /// A job identifier specified in the call to StartContentModeration and  returned in the job completion notification sent to your  Amazon Simple Notification Service topic.
+        /// A job identifier specified in the call to StartContentModeration and returned in the job completion notification sent to your Amazon Simple Notification Service topic.
         public let jobTag: String?
         /// The detected inappropriate, unwanted, or offensive content moderation labels and the time(s) they were detected.
         public let moderationLabels: [ContentModerationDetection]?
@@ -3338,11 +3338,11 @@ extension Rekognition {
     public struct GetFaceDetectionResponse: AWSDecodableShape {
         /// An array of faces detected in the video. Each element contains a detected face's details and the time, in milliseconds from the start of the video, the face was detected.
         public let faces: [FaceDetection]?
-        /// Job identifier for the face detection operation for which you  want to obtain results. The job identifer is returned by an initial call  to StartFaceDetection.
+        /// Job identifier for the face detection operation for which you want to obtain results. The job identifer is returned by an initial call to StartFaceDetection.
         public let jobId: String?
         /// The current status of the face detection job.
         public let jobStatus: VideoJobStatus?
-        /// A job identifier specified in the call to StartFaceDetection and  returned in the job completion notification sent to your  Amazon Simple Notification Service topic.
+        /// A job identifier specified in the call to StartFaceDetection and returned in the job completion notification sent to your Amazon Simple Notification Service topic.
         public let jobTag: String?
         /// If the response is truncated, Amazon Rekognition returns this token that you can use in the subsequent request to retrieve the next set of faces.
         public let nextToken: String?
@@ -3395,7 +3395,7 @@ extension Rekognition {
     }
 
     public struct GetFaceLivenessSessionResultsResponse: AWSDecodableShape {
-        /// A set of images from the Face Liveness video that can be used for audit purposes. It includes a bounding box of the face and the Base64-encoded bytes that return an image. If the CreateFaceLivenessSession request included an OutputConfig argument, the image will be uploaded to an S3Object specified in the output configuration.
+        /// A set of images from the Face Liveness video that can be used for audit purposes. It includes a bounding box of the face and the Base64-encoded bytes that return an image. If the CreateFaceLivenessSession request included an OutputConfig argument, the image will be uploaded to an S3Object specified in the output configuration. If no Amazon S3 bucket is defined, raw bytes are sent instead.
         public let auditImages: [AuditImage]?
         /// Probabalistic confidence score for if the person in the given video was live, represented as a float value between 0 to 100.
         public let confidence: Float?
@@ -3457,11 +3457,11 @@ extension Rekognition {
     }
 
     public struct GetFaceSearchResponse: AWSDecodableShape {
-        /// Job identifier for the face search operation for which you  want to obtain results. The job identifer is returned by an initial call  to StartFaceSearch.
+        /// Job identifier for the face search operation for which you want to obtain results. The job identifer is returned by an initial call to StartFaceSearch.
         public let jobId: String?
         /// The current status of the face search job.
         public let jobStatus: VideoJobStatus?
-        /// A job identifier specified in the call to StartFaceSearch and  returned in the job completion notification sent to your  Amazon Simple Notification Service topic.
+        /// A job identifier specified in the call to StartFaceSearch and returned in the job completion notification sent to your Amazon Simple Notification Service topic.
         public let jobTag: String?
         /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of search results.
         public let nextToken: String?
@@ -3551,13 +3551,13 @@ extension Rekognition {
     }
 
     public struct GetLabelDetectionResponse: AWSDecodableShape {
-        /// Information about the paramters used when getting a response. Includes  information on aggregation and sorting methods.
+        /// Information about the paramters used when getting a response. Includes information on aggregation and sorting methods.
         public let getRequestMetadata: GetLabelDetectionRequestMetadata?
-        /// Job identifier for the label detection operation for which you  want to obtain results. The job identifer is returned by an initial call  to StartLabelDetection.
+        /// Job identifier for the label detection operation for which you want to obtain results. The job identifer is returned by an initial call to StartLabelDetection.
         public let jobId: String?
         /// The current status of the label detection job.
         public let jobStatus: VideoJobStatus?
-        /// A job identifier specified in the call to StartLabelDetection and  returned in the job completion notification sent to your  Amazon Simple Notification Service topic.
+        /// A job identifier specified in the call to StartLabelDetection and returned in the job completion notification sent to your Amazon Simple Notification Service topic.
         public let jobTag: String?
         /// Version number of the label detection model that was used to detect labels.
         public let labelModelVersion: String?
@@ -3632,11 +3632,11 @@ extension Rekognition {
     }
 
     public struct GetPersonTrackingResponse: AWSDecodableShape {
-        /// Job identifier for the person tracking operation for which you  want to obtain results. The job identifer is returned by an initial call  to StartPersonTracking.
+        /// Job identifier for the person tracking operation for which you want to obtain results. The job identifer is returned by an initial call to StartPersonTracking.
         public let jobId: String?
         /// The current status of the person tracking job.
         public let jobStatus: VideoJobStatus?
-        /// A job identifier specified in the call to StartCelebrityRecognition and  returned in the job completion notification sent to your  Amazon Simple Notification Service topic.
+        /// A job identifier specified in the call to StartCelebrityRecognition and returned in the job completion notification sent to your Amazon Simple Notification Service topic.
         public let jobTag: String?
         /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of persons.
         public let nextToken: String?
@@ -3703,11 +3703,11 @@ extension Rekognition {
     public struct GetSegmentDetectionResponse: AWSDecodableShape {
         /// An array of  objects. There can be multiple audio streams.  Each AudioMetadata object contains metadata for a single audio stream. Audio information in an AudioMetadata objects includes  the audio codec, the number of audio channels, the duration of the audio stream, and the sample rate. Audio metadata is returned in each page of information returned by GetSegmentDetection.
         public let audioMetadata: [AudioMetadata]?
-        /// Job identifier for the segment detection operation for which you  want to obtain results. The job identifer is returned by an initial call  to StartSegmentDetection.
+        /// Job identifier for the segment detection operation for which you want to obtain results. The job identifer is returned by an initial call to StartSegmentDetection.
         public let jobId: String?
         /// Current status of the segment detection job.
         public let jobStatus: VideoJobStatus?
-        /// A job identifier specified in the call to StartSegmentDetection and  returned in the job completion notification sent to your  Amazon Simple Notification Service topic.
+        /// A job identifier specified in the call to StartSegmentDetection and returned in the job completion notification sent to your Amazon Simple Notification Service topic.
         public let jobTag: String?
         /// If the previous response was incomplete (because there are more labels to retrieve), Amazon Rekognition Video returns  a pagination token in the response. You can use this pagination token to retrieve the next set of text.
         public let nextToken: String?
@@ -3778,11 +3778,11 @@ extension Rekognition {
     }
 
     public struct GetTextDetectionResponse: AWSDecodableShape {
-        /// Job identifier for the text detection operation for which you  want to obtain results. The job identifer is returned by an initial call  to StartTextDetection.
+        /// Job identifier for the text detection operation for which you want to obtain results. The job identifer is returned by an initial call to StartTextDetection.
         public let jobId: String?
         /// Current status of the text detection job.
         public let jobStatus: VideoJobStatus?
-        /// A job identifier specified in the call to StartTextDetection and  returned in the job completion notification sent to your  Amazon Simple Notification Service topic.
+        /// A job identifier specified in the call to StartTextDetection and returned in the job completion notification sent to your Amazon Simple Notification Service topic.
         public let jobTag: String?
         /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent  request to retrieve the next set of text.
         public let nextToken: String?
@@ -3904,7 +3904,7 @@ extension Rekognition {
     }
 
     public struct Image: AWSEncodableShape {
-        /// Blob of image bytes up to 5 MBs. Note that the maximum image size you can pass to  DetectCustomLabels is 4MB.
+        /// Blob of image bytes up to 5 MBs. Note that the maximum image size you can pass to DetectCustomLabels is 4MB.
         public let bytes: AWSBase64Data?
         /// Identifies an S3 object as the image source.
         public let s3Object: S3Object?
@@ -4396,13 +4396,13 @@ extension Rekognition {
     public struct ListFacesRequest: AWSEncodableShape {
         /// ID of the collection from which to list the faces.
         public let collectionId: String
-        /// An array of face IDs to match when listing faces in a collection.
+        /// An array of face IDs to filter results with when listing faces in a collection.
         public let faceIds: [String]?
         /// Maximum number of faces to return.
         public let maxResults: Int?
         /// If the previous response was incomplete (because there is more data to retrieve), Amazon Rekognition returns a pagination token in the response. You can use this pagination token to retrieve the next set of faces.
         public let nextToken: String?
-        /// An array of user IDs to match when listing faces in a collection.
+        /// An array of user IDs to filter results with when listing faces in a collection.
         public let userId: String?
 
         public init(collectionId: String, faceIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, userId: String? = nil) {

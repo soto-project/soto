@@ -44,6 +44,8 @@ extension GuardDuty {
         case addonVersion = "ADDON_VERSION"
         case clusterName = "CLUSTER_NAME"
         case coverageStatus = "COVERAGE_STATUS"
+        case eksClusterName = "EKS_CLUSTER_NAME"
+        case managementType = "MANAGEMENT_TYPE"
         case resourceType = "RESOURCE_TYPE"
         public var description: String { return self.rawValue }
     }
@@ -53,6 +55,7 @@ extension GuardDuty {
         case addonVersion = "ADDON_VERSION"
         case clusterName = "CLUSTER_NAME"
         case coverageStatus = "COVERAGE_STATUS"
+        case eksClusterName = "EKS_CLUSTER_NAME"
         case issue = "ISSUE"
         case updatedAt = "UPDATED_AT"
         public var description: String { return self.rawValue }
@@ -206,6 +209,12 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
+    public enum ManagementType: String, CustomStringConvertible, Codable, Sendable {
+        case autoManaged = "AUTO_MANAGED"
+        case manual = "MANUAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OrderBy: String, CustomStringConvertible, Codable, Sendable {
         case asc = "ASC"
         case desc = "DESC"
@@ -228,6 +237,7 @@ extension GuardDuty {
     }
 
     public enum OrgFeatureStatus: String, CustomStringConvertible, Codable, Sendable {
+        case all = "ALL"
         case new = "NEW"
         case none = "NONE"
         public var description: String { return self.rawValue }
@@ -889,12 +899,15 @@ extension GuardDuty {
         public let compatibleNodes: Int64?
         /// Represents the nodes within the EKS cluster that have a HEALTHY coverage status.
         public let coveredNodes: Int64?
+        /// Indicates how the Amazon EKS add-on GuardDuty agent is managed for this EKS cluster.  AUTO_MANAGED indicates GuardDuty deploys and manages updates for this resource.  MANUAL indicates that you are responsible to deploy, update, and manage  the Amazon EKS add-on GuardDuty agent for this resource.
+        public let managementType: ManagementType?
 
-        public init(addonDetails: AddonDetails? = nil, clusterName: String? = nil, compatibleNodes: Int64? = nil, coveredNodes: Int64? = nil) {
+        public init(addonDetails: AddonDetails? = nil, clusterName: String? = nil, compatibleNodes: Int64? = nil, coveredNodes: Int64? = nil, managementType: ManagementType? = nil) {
             self.addonDetails = addonDetails
             self.clusterName = clusterName
             self.compatibleNodes = compatibleNodes
             self.coveredNodes = coveredNodes
+            self.managementType = managementType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -902,6 +915,7 @@ extension GuardDuty {
             case clusterName = "clusterName"
             case compatibleNodes = "compatibleNodes"
             case coveredNodes = "coveredNodes"
+            case managementType = "managementType"
         }
     }
 
@@ -940,7 +954,7 @@ extension GuardDuty {
     }
 
     public struct CoverageFilterCriterion: AWSEncodableShape {
-        /// An enum value representing possible filter fields.
+        /// An enum value representing possible filter fields.  Replace the enum value CLUSTER_NAME with EKS_CLUSTER_NAME. CLUSTER_NAME has been deprecated.
         public let criterionKey: CoverageFilterCriterionKey?
         /// Contains information about the condition.
         public let filterCondition: CoverageFilterCondition?
@@ -1011,7 +1025,7 @@ extension GuardDuty {
     }
 
     public struct CoverageSortCriteria: AWSEncodableShape {
-        /// Represents the field name used to sort the coverage details.
+        /// Represents the field name used to sort the coverage details.  Replace the enum value CLUSTER_NAME with EKS_CLUSTER_NAME. CLUSTER_NAME has been deprecated.
         public let attributeName: CoverageSortKey?
         /// The order in which the sorted findings are to be displayed.
         public let orderBy: OrderBy?
@@ -1129,7 +1143,7 @@ extension GuardDuty {
         public let description: String?
         /// The ID of the detector belonging to the GuardDuty account that you want to create a filter for.
         public let detectorId: String
-        /// Represents the criteria to be used in the filter for querying findings. You can only use the following attributes to query findings:   accountId   region   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.outpostArn   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.errorCode   service.action.awsApiCallAction.userAgent   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.localIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   resource.s3BucketDetails.publicAccess.effectivePermissions   resource.s3BucketDetails.name   resource.s3BucketDetails.tags.key   resource.s3BucketDetails.tags.value   resource.s3BucketDetails.type   service.resourceRole   severity   type   updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.
+        /// Represents the criteria to be used in the filter for querying findings. You can only use the following attributes to query findings:   accountId   id   region   severity To filter on the basis of severity, the API and CLI use the following input list for the FindingCriteria condition:    Low: ["1", "2", "3"]     Medium: ["4", "5", "6"]     High: ["7", "8", "9"]    For more information, see Severity levels for GuardDuty findings.   type   updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.outpostArn   resource.resourceType   resource.s3BucketDetails.publicAccess.effectivePermissions   resource.s3BucketDetails.name   resource.s3BucketDetails.tags.key   resource.s3BucketDetails.tags.value   resource.s3BucketDetails.type   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.errorCode   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.action.awsApiCallAction.remoteAccountDetails.affiliated   service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV4   service.action.kubernetesApiCallAction.requestUri   service.action.networkConnectionAction.localIpDetails.ipAddressV4   service.action.networkConnectionAction.protocol   service.action.awsApiCallAction.serviceName   service.action.awsApiCallAction.remoteAccountDetails.accountId   service.additionalInfo.threatListName   service.resourceRole   resource.eksClusterDetails.name   resource.kubernetesDetails.kubernetesWorkloadDetails.name   resource.kubernetesDetails.kubernetesWorkloadDetails.namespace   resource.kubernetesDetails.kubernetesUserDetails.username   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.image   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.imagePrefix   service.ebsVolumeScanDetails.scanId   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.name   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.severity   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.hash   resource.ecsClusterDetails.name   resource.ecsClusterDetails.taskDetails.containers.image   resource.ecsClusterDetails.taskDetails.definitionArn   resource.containerDetails.image   resource.rdsDbInstanceDetails.dbInstanceIdentifier   resource.rdsDbInstanceDetails.dbClusterIdentifier   resource.rdsDbInstanceDetails.engine   resource.rdsDbUserDetails.user   resource.rdsDbInstanceDetails.tags.key   resource.rdsDbInstanceDetails.tags.value   service.runtimeDetails.process.executableSha256   service.runtimeDetails.process.name   service.runtimeDetails.process.name   resource.lambdaDetails.functionName   resource.lambdaDetails.functionArn   resource.lambdaDetails.tags.key   resource.lambdaDetails.tags.value
         public let findingCriteria: FindingCriteria
         /// The name of the filter. Valid characters include period (.), underscore (_), dash (-), and alphanumeric characters. A whitespace is considered to be an invalid character.
         public let name: String
@@ -1928,7 +1942,7 @@ extension GuardDuty {
     public struct DescribeOrganizationConfigurationResponse: AWSDecodableShape {
         /// Indicates whether GuardDuty is automatically enabled for accounts added to the organization. Even though this is still supported, we recommend using AutoEnableOrganizationMembers to achieve the similar results.
         public let autoEnable: Bool?
-        /// Indicates the auto-enablement configuration of GuardDuty for the member accounts in the organization.    NEW: Indicates that when a new account joins the organization, they will have GuardDuty enabled automatically.     ALL: Indicates that all accounts in the Amazon Web Services Organization have GuardDuty enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty.    NONE: Indicates that GuardDuty will not be automatically enabled for any accounts in the organization. GuardDuty must be managed for each account individually by the administrator.
+        /// Indicates the auto-enablement configuration of GuardDuty for the member accounts in the organization.    NEW: Indicates that when a new account joins the organization, they will have GuardDuty enabled automatically.     ALL: Indicates that all accounts in the organization have GuardDuty enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty.    NONE: Indicates that GuardDuty will not be automatically enabled for any account in the organization. The administrator must manage GuardDuty for each account in  the organization individually.
         public let autoEnableOrganizationMembers: AutoEnableMembers?
         /// Describes which data sources are enabled automatically for member accounts.
         public let dataSources: OrganizationDataSourceConfigurationsResult?
@@ -2481,7 +2495,7 @@ extension GuardDuty {
     }
 
     public struct EnableOrganizationAdminAccountRequest: AWSEncodableShape {
-        /// The Amazon Web Services Account ID for the organization account to be enabled as a GuardDuty delegated administrator.
+        /// The Amazon Web Services account ID for the organization account to be enabled as a GuardDuty delegated administrator.
         public let adminAccountId: String
 
         public init(adminAccountId: String) {
@@ -2557,7 +2571,7 @@ extension GuardDuty {
     }
 
     public struct FilterCriterion: AWSEncodableShape {
-        /// An enum value representing possible scan properties to match with given scan entries.
+        /// An enum value representing possible scan properties to match with given scan entries.  Replace the enum value CLUSTER_NAME with EKS_CLUSTER_NAME. CLUSTER_NAME has been deprecated.
         public let criterionKey: CriterionKey?
         /// Contains information about the condition.
         public let filterCondition: FilterCondition?
@@ -3721,19 +3735,23 @@ extension GuardDuty {
     public struct KubernetesUserDetails: AWSDecodableShape {
         /// The groups that include the user who called the Kubernetes API.
         public let groups: [String]?
+        /// Entity that assumes the IAM role  when Kubernetes RBAC permissions are assigned to that role.
+        public let sessionName: [String]?
         /// The user ID of the user who called the Kubernetes API.
         public let uid: String?
         /// The username of the user who called the Kubernetes API.
         public let username: String?
 
-        public init(groups: [String]? = nil, uid: String? = nil, username: String? = nil) {
+        public init(groups: [String]? = nil, sessionName: [String]? = nil, uid: String? = nil, username: String? = nil) {
             self.groups = groups
+            self.sessionName = sessionName
             self.uid = uid
             self.username = username
         }
 
         private enum CodingKeys: String, CodingKey {
             case groups = "groups"
+            case sessionName = "sessionName"
             case uid = "uid"
             case username = "username"
         }
@@ -4761,7 +4779,7 @@ extension GuardDuty {
     }
 
     public struct OrganizationAdditionalConfiguration: AWSEncodableShape {
-        /// The status of the additional configuration that will be configured for the organization.
+        /// The status of the additional configuration that will be configured for the organization. Use one of the following  values to configure the feature status for the entire organization:    NEW: Indicates that when a new account joins the organization, they will have the additional configuration enabled automatically.     ALL: Indicates that all accounts in the organization have  the additional configuration enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty. It may take up to 24 hours to update the configuration for all the member accounts.    NONE: Indicates that the additional configuration will not be  automatically enabled for any account in the organization. The administrator must manage the additional configuration  for each account individually.
         public let autoEnable: OrgFeatureStatus?
         /// The name of the additional configuration that will be configured for the organization.
         public let name: OrgFeatureAdditionalConfiguration?
@@ -4778,7 +4796,7 @@ extension GuardDuty {
     }
 
     public struct OrganizationAdditionalConfigurationResult: AWSDecodableShape {
-        /// Describes how The status of the additional configuration that are configured for the member accounts within the organization. If you set AutoEnable to NEW, a feature will be configured for only the new accounts when they join the organization. If you set AutoEnable to NONE, no feature will be configured for the accounts when they join the organization.
+        /// Describes the status of the additional configuration that is configured for the member accounts within the organization. One of the following  values is the status for the entire organization:    NEW: Indicates that when a new account joins the organization, they will have the additional configuration enabled automatically.     ALL: Indicates that all accounts in the organization have  the additional configuration enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty. It may take up to 24 hours to update the configuration for all the member accounts.    NONE: Indicates that the additional configuration will not be  automatically enabled for any account in the organization. The administrator must manage the additional configuration  for each account individually.
         public let autoEnable: OrgFeatureStatus?
         /// The name of the additional configuration that is configured for the member accounts within the organization.
         public let name: OrgFeatureAdditionalConfiguration?
@@ -4865,7 +4883,7 @@ extension GuardDuty {
     public struct OrganizationFeatureConfiguration: AWSEncodableShape {
         /// The additional information that will be configured for the organization.
         public let additionalConfiguration: [OrganizationAdditionalConfiguration]?
-        /// The status of the feature that will be configured for the organization.
+        /// Describes the status of the feature that is configured for the member accounts within the organization. One of the following  values is the status for the entire organization:    NEW: Indicates that when a new account joins the organization, they will have the feature enabled automatically.     ALL: Indicates that all accounts in the organization have the feature enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty. It may take up to 24 hours to update the configuration for all the member accounts.    NONE: Indicates that the feature will not be  automatically enabled for any account in the organization. The administrator must manage the feature for each account individually.
         public let autoEnable: OrgFeatureStatus?
         /// The name of the feature that will be configured for the organization.
         public let name: OrgFeature?
@@ -4886,7 +4904,7 @@ extension GuardDuty {
     public struct OrganizationFeatureConfigurationResult: AWSDecodableShape {
         /// The additional configuration that is configured for the member accounts within the organization.
         public let additionalConfiguration: [OrganizationAdditionalConfigurationResult]?
-        /// Describes how The status of the feature that are configured for the member accounts within the organization. If you set AutoEnable to NEW, a feature will be configured for only the new accounts when they join the organization. If you set AutoEnable to NONE, no feature will be configured for the accounts when they join the organization.
+        /// Describes the status of the feature that is configured for the member accounts within the organization.    NEW: Indicates that when a new account joins the organization, they will have the feature enabled automatically.     ALL: Indicates that all accounts in the organization have the feature  enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty.    NONE: Indicates that the feature will not be automatically enabled for any account in the organization. In this case, each account will be managed individually  by the administrator.
         public let autoEnable: OrgFeatureStatus?
         /// The name of the feature that is configured for the member accounts within the organization.
         public let name: OrgFeature?
@@ -5686,9 +5704,9 @@ extension GuardDuty {
     }
 
     public struct ScanConditionPair: AWSEncodableShape & AWSDecodableShape {
-        /// Represents key in the map condition.
+        /// Represents the key in the map condition.
         public let key: String
-        /// Represents optional value in the map condition. If not specified, only key will be matched.
+        /// Represents optional value in the map condition. If not specified, only the key will be matched.
         public let value: String?
 
         public init(key: String, value: String? = nil) {
@@ -6649,9 +6667,9 @@ extension GuardDuty {
             AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
-        /// Indicates whether to automatically enable member accounts in the organization. Even though this is still supported, we recommend using AutoEnableOrganizationMembers to achieve the similar results.
+        /// Represents whether or not to automatically enable member accounts in the organization. Even though this is still supported, we recommend using AutoEnableOrganizationMembers to achieve the similar results. You must provide a  value for either autoEnableOrganizationMembers or autoEnable.
         public let autoEnable: Bool?
-        /// Indicates the auto-enablement configuration of GuardDuty for the member accounts in the organization.     NEW: Indicates that when a new account joins the organization, they will have GuardDuty enabled automatically.     ALL: Indicates that all accounts in the Amazon Web Services Organization have GuardDuty enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty.    NONE: Indicates that GuardDuty will not be automatically enabled for any accounts in the organization. GuardDuty must be managed for each account individually by the administrator.
+        /// Indicates the auto-enablement configuration of GuardDuty for the member accounts in the organization. You must provide a value for either autoEnableOrganizationMembers or autoEnable.  Use one of the  following configuration values for autoEnableOrganizationMembers:    NEW: Indicates that when a new account joins the organization, they will have GuardDuty enabled automatically.     ALL: Indicates that all accounts in the organization have GuardDuty enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty. It may take up to 24 hours to update the configuration for all the member accounts.    NONE: Indicates that GuardDuty will not be automatically enabled for any account in the organization. The administrator must manage GuardDuty for each account in the organization individually.
         public let autoEnableOrganizationMembers: AutoEnableMembers?
         /// Describes which data sources will be updated.
         public let dataSources: OrganizationDataSourceConfigurations?

@@ -461,7 +461,7 @@ extension CostExplorer {
     public struct AnomalySubscription: AWSEncodableShape & AWSDecodableShape {
         /// Your unique account identifier.
         public let accountId: String?
-        /// The frequency that anomaly reports are sent over email.
+        /// The frequency that anomaly notifications are sent. Notifications are sent either over email (for DAILY and WEEKLY frequencies) or SNS (for IMMEDIATE frequency). For more information, see Creating an Amazon SNS topic for anomaly notifications.
         public let frequency: AnomalySubscriptionFrequency
         /// A list of cost anomaly monitors.
         public let monitorArnList: [String]
@@ -471,9 +471,9 @@ extension CostExplorer {
         public let subscriptionArn: String?
         /// The name for the subscription.
         public let subscriptionName: String
-        /// (deprecated) The dollar value that triggers a notification if the threshold is exceeded.  This field has been deprecated. To specify a threshold, use ThresholdExpression. Continued use of Threshold will be treated as shorthand syntax for a ThresholdExpression. One of Threshold or ThresholdExpression is required for this resource.
+        /// (deprecated) An absolute dollar value that must be exceeded by the anomaly's total impact (see Impact for more details) for an anomaly notification to be generated. This field has been deprecated. To specify a threshold, use ThresholdExpression. Continued use of Threshold will be treated as shorthand syntax for a ThresholdExpression. One of Threshold or ThresholdExpression is required for this resource. You cannot specify both.
         public let threshold: Double?
-        /// An Expression object used to specify the anomalies that you want to generate alerts for. This supports dimensions and nested expressions. The supported dimensions are ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE. The supported nested expression types are AND and OR. The match option GREATER_THAN_OR_EQUAL is required. Values must be numbers between 0 and 10,000,000,000. One of Threshold or ThresholdExpression is required for this resource. The following are examples of valid ThresholdExpressions:   Absolute threshold: { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }    Percentage threshold: { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }     AND two thresholds together: { "And": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }     OR two thresholds together: { "Or": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }
+        /// An Expression object used to specify the anomalies that you want to generate alerts for. This supports dimensions and nested expressions. The supported dimensions are ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE, corresponding to an anomaly’s TotalImpact and TotalImpactPercentage, respectively (see Impact for more details). The supported nested expression types are AND and OR. The match option GREATER_THAN_OR_EQUAL is required. Values must be numbers between 0 and 10,000,000,000 in string format. One of Threshold or ThresholdExpression is required for this resource. You cannot specify both. The following are examples of valid ThresholdExpressions:   Absolute threshold: { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }    Percentage threshold: { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }     AND two thresholds together: { "And": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }     OR two thresholds together: { "Or": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }
         public let thresholdExpression: Expression?
 
         public init(accountId: String? = nil, frequency: AnomalySubscriptionFrequency, monitorArnList: [String], subscribers: [Subscriber], subscriptionArn: String? = nil, subscriptionName: String, thresholdExpression: Expression? = nil) {
@@ -531,6 +531,10 @@ extension CostExplorer {
     }
 
     public struct CostAllocationTag: AWSDecodableShape {
+        /// The last date that the tag was either activated or deactivated.
+        public let lastUpdatedDate: String?
+        /// The last month that the tag was used on an Amazon Web Services resource.
+        public let lastUsedDate: String?
         /// The status of a cost allocation tag.
         public let status: CostAllocationTagStatus
         /// The key for the cost allocation tag.
@@ -538,13 +542,17 @@ extension CostExplorer {
         /// The type of cost allocation tag. You can use AWSGenerated or UserDefined type tags. AWSGenerated type tags are tags that Amazon Web Services defines and applies to support Amazon Web Services resources for cost allocation purposes. UserDefined type tags are tags that you define, create, and apply to resources.
         public let type: CostAllocationTagType
 
-        public init(status: CostAllocationTagStatus, tagKey: String, type: CostAllocationTagType) {
+        public init(lastUpdatedDate: String? = nil, lastUsedDate: String? = nil, status: CostAllocationTagStatus, tagKey: String, type: CostAllocationTagType) {
+            self.lastUpdatedDate = lastUpdatedDate
+            self.lastUsedDate = lastUsedDate
             self.status = status
             self.tagKey = tagKey
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case lastUpdatedDate = "LastUpdatedDate"
+            case lastUsedDate = "LastUsedDate"
             case status = "Status"
             case tagKey = "TagKey"
             case type = "Type"
@@ -696,7 +704,8 @@ extension CostExplorer {
     public struct CostCategoryRule: AWSEncodableShape & AWSDecodableShape {
         /// The value the line item is categorized as if the line item contains the matched dimension.
         public let inheritedValue: CostCategoryInheritedValueDimension?
-        /// An Expression object used to categorize costs. This supports dimensions, tags, and nested expressions. Currently the only dimensions supported are LINKED_ACCOUNT, SERVICE_CODE, RECORD_TYPE, and LINKED_ACCOUNT_NAME. Root level OR isn't supported. We recommend that you create a separate rule instead.  RECORD_TYPE is a dimension used for Cost Explorer APIs, and is also supported for Cost Category expressions. This dimension uses different terms, depending on whether you're using the console or API/JSON editor. For a detailed comparison, see Term Comparisons in the Billing and Cost Management User Guide.
+        /// An Expression object used to categorize costs. This supports dimensions, tags, and nested expressions. Currently the only dimensions supported are LINKED_ACCOUNT,
+        ///  SERVICE_CODE, RECORD_TYPE, LINKED_ACCOUNT_NAME, REGION, and USAGE_TYPE.  RECORD_TYPE is a dimension used for Cost Explorer APIs, and is also supported for Cost Category expressions. This dimension uses different terms, depending on whether you're using the console or API/JSON editor. For a detailed comparison, see Term Comparisons in the Billing and Cost Management User Guide.
         public let rule: Expression?
         /// You can define the CostCategoryRule rule type as either REGULAR or INHERITED_VALUE. The INHERITED_VALUE rule type adds the flexibility to define a rule that dynamically inherits the cost category value. This value is from the dimension value that's defined by CostCategoryInheritedValueDimension. For example, suppose that you want to costs to be dynamically grouped based on the value of a specific tag key. First, choose an inherited value rule type, and then choose the tag dimension and specify the tag key to use.
         public let type: CostCategoryRuleType?
@@ -2470,6 +2479,42 @@ extension CostExplorer {
         }
     }
 
+    public struct GetSavingsPlanPurchaseRecommendationDetailsRequest: AWSEncodableShape {
+        /// The ID that is associated with the Savings Plan recommendation.
+        public let recommendationDetailId: String
+
+        public init(recommendationDetailId: String) {
+            self.recommendationDetailId = recommendationDetailId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.recommendationDetailId, name: "recommendationDetailId", parent: name, max: 36)
+            try self.validate(self.recommendationDetailId, name: "recommendationDetailId", parent: name, min: 36)
+            try self.validate(self.recommendationDetailId, name: "recommendationDetailId", parent: name, pattern: "^[\\S\\s]{8}-[\\S\\s]{4}-[\\S\\s]{4}-[\\S\\s]{4}-[\\S\\s]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recommendationDetailId = "RecommendationDetailId"
+        }
+    }
+
+    public struct GetSavingsPlanPurchaseRecommendationDetailsResponse: AWSDecodableShape {
+        /// Contains detailed information about a specific Savings Plan recommendation.
+        public let recommendationDetailData: RecommendationDetailData?
+        /// The ID that is associated with the Savings Plan recommendation.
+        public let recommendationDetailId: String?
+
+        public init(recommendationDetailData: RecommendationDetailData? = nil, recommendationDetailId: String? = nil) {
+            self.recommendationDetailData = recommendationDetailData
+            self.recommendationDetailId = recommendationDetailId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recommendationDetailData = "RecommendationDetailData"
+            case recommendationDetailId = "RecommendationDetailId"
+        }
+    }
+
     public struct GetSavingsPlansCoverageRequest: AWSEncodableShape {
         /// Filters Savings Plans coverage data by dimensions. You can filter data for Savings Plans usage with the following dimensions:    LINKED_ACCOUNT     REGION     SERVICE     INSTANCE_FAMILY     GetSavingsPlansCoverage uses the same Expression object as the other operations, but only AND is supported among each dimension. If there are multiple values for a dimension, they are OR'd together. Cost category is also supported.
         public let filter: Expression?
@@ -3280,6 +3325,157 @@ extension CostExplorer {
         }
     }
 
+    public struct RecommendationDetailData: AWSDecodableShape {
+        /// The AccountID that the recommendation is generated for.
+        public let accountId: String?
+        /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the management account and member accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual member accounts only.
+        public let accountScope: AccountScope?
+        /// The currency code that Amazon Web Services used to generate the recommendation and present potential savings.
+        public let currencyCode: String?
+        /// The average value of hourly coverage over the lookback period.
+        public let currentAverageCoverage: String?
+        /// The average value of hourly On-Demand spend over the lookback period of the applicable usage type.
+        public let currentAverageHourlyOnDemandSpend: String?
+        /// The highest value of hourly On-Demand spend over the lookback period of the applicable usage type.
+        public let currentMaximumHourlyOnDemandSpend: String?
+        /// The lowest value of hourly On-Demand spend over the lookback period of the applicable usage type.
+        public let currentMinimumHourlyOnDemandSpend: String?
+        /// The estimated coverage of the recommended Savings Plan.
+        public let estimatedAverageCoverage: String?
+        /// The estimated utilization of the recommended Savings Plan.
+        public let estimatedAverageUtilization: String?
+        /// The estimated monthly savings amount based on the recommended Savings Plan.
+        public let estimatedMonthlySavingsAmount: String?
+        /// The remaining On-Demand cost estimated to not be covered by the recommended Savings Plan, over the length of the lookback period.
+        public let estimatedOnDemandCost: String?
+        /// The estimated On-Demand costs you expect with no additional commitment, based on your usage of the selected time period and the Savings Plan you own.
+        public let estimatedOnDemandCostWithCurrentCommitment: String?
+        /// The estimated return on investment that's based on the recommended Savings Plan that you purchased. This is calculated as estimatedSavingsAmount/estimatedSPCost*100.
+        public let estimatedROI: String?
+        /// The estimated savings amount that's based on the recommended Savings Plan over the length of the lookback period.
+        public let estimatedSavingsAmount: String?
+        /// The estimated savings percentage relative to the total cost of applicable On-Demand usage over the lookback period.
+        public let estimatedSavingsPercentage: String?
+        /// The cost of the recommended Savings Plan over the length of the lookback period.
+        public let estimatedSPCost: String?
+        /// The existing hourly commitment for the Savings Plan type.
+        public let existingHourlyCommitment: String?
+        public let generationTimestamp: String?
+        /// The recommended hourly commitment level for the Savings Plan type and the configuration that's based on the usage during the lookback period.
+        public let hourlyCommitmentToPurchase: String?
+        /// The instance family of the recommended Savings Plan.
+        public let instanceFamily: String?
+        public let latestUsageTimestamp: String?
+        /// How many days of previous usage that Amazon Web Services considers when making this recommendation.
+        public let lookbackPeriodInDays: LookbackPeriodInDays?
+        /// The related hourly cost, coverage, and utilization metrics over the lookback period.
+        public let metricsOverLookbackPeriod: [RecommendationDetailHourlyMetrics]?
+        /// The unique ID that's used to distinguish Savings Plans from one another.
+        public let offeringId: String?
+        /// The payment option for the commitment (for example, All Upfront or No Upfront).
+        public let paymentOption: PaymentOption?
+        /// The region the recommendation is generated for.
+        public let region: String?
+        /// The requested Savings Plan recommendation type.
+        public let savingsPlansType: SupportedSavingsPlansType?
+        /// The term of the commitment in years.
+        public let termInYears: TermInYears?
+        /// The upfront cost of the recommended Savings Plan, based on the selected payment option.
+        public let upfrontCost: String?
+
+        public init(accountId: String? = nil, accountScope: AccountScope? = nil, currencyCode: String? = nil, currentAverageCoverage: String? = nil, currentAverageHourlyOnDemandSpend: String? = nil, currentMaximumHourlyOnDemandSpend: String? = nil, currentMinimumHourlyOnDemandSpend: String? = nil, estimatedAverageCoverage: String? = nil, estimatedAverageUtilization: String? = nil, estimatedMonthlySavingsAmount: String? = nil, estimatedOnDemandCost: String? = nil, estimatedOnDemandCostWithCurrentCommitment: String? = nil, estimatedROI: String? = nil, estimatedSavingsAmount: String? = nil, estimatedSavingsPercentage: String? = nil, estimatedSPCost: String? = nil, existingHourlyCommitment: String? = nil, generationTimestamp: String? = nil, hourlyCommitmentToPurchase: String? = nil, instanceFamily: String? = nil, latestUsageTimestamp: String? = nil, lookbackPeriodInDays: LookbackPeriodInDays? = nil, metricsOverLookbackPeriod: [RecommendationDetailHourlyMetrics]? = nil, offeringId: String? = nil, paymentOption: PaymentOption? = nil, region: String? = nil, savingsPlansType: SupportedSavingsPlansType? = nil, termInYears: TermInYears? = nil, upfrontCost: String? = nil) {
+            self.accountId = accountId
+            self.accountScope = accountScope
+            self.currencyCode = currencyCode
+            self.currentAverageCoverage = currentAverageCoverage
+            self.currentAverageHourlyOnDemandSpend = currentAverageHourlyOnDemandSpend
+            self.currentMaximumHourlyOnDemandSpend = currentMaximumHourlyOnDemandSpend
+            self.currentMinimumHourlyOnDemandSpend = currentMinimumHourlyOnDemandSpend
+            self.estimatedAverageCoverage = estimatedAverageCoverage
+            self.estimatedAverageUtilization = estimatedAverageUtilization
+            self.estimatedMonthlySavingsAmount = estimatedMonthlySavingsAmount
+            self.estimatedOnDemandCost = estimatedOnDemandCost
+            self.estimatedOnDemandCostWithCurrentCommitment = estimatedOnDemandCostWithCurrentCommitment
+            self.estimatedROI = estimatedROI
+            self.estimatedSavingsAmount = estimatedSavingsAmount
+            self.estimatedSavingsPercentage = estimatedSavingsPercentage
+            self.estimatedSPCost = estimatedSPCost
+            self.existingHourlyCommitment = existingHourlyCommitment
+            self.generationTimestamp = generationTimestamp
+            self.hourlyCommitmentToPurchase = hourlyCommitmentToPurchase
+            self.instanceFamily = instanceFamily
+            self.latestUsageTimestamp = latestUsageTimestamp
+            self.lookbackPeriodInDays = lookbackPeriodInDays
+            self.metricsOverLookbackPeriod = metricsOverLookbackPeriod
+            self.offeringId = offeringId
+            self.paymentOption = paymentOption
+            self.region = region
+            self.savingsPlansType = savingsPlansType
+            self.termInYears = termInYears
+            self.upfrontCost = upfrontCost
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case accountScope = "AccountScope"
+            case currencyCode = "CurrencyCode"
+            case currentAverageCoverage = "CurrentAverageCoverage"
+            case currentAverageHourlyOnDemandSpend = "CurrentAverageHourlyOnDemandSpend"
+            case currentMaximumHourlyOnDemandSpend = "CurrentMaximumHourlyOnDemandSpend"
+            case currentMinimumHourlyOnDemandSpend = "CurrentMinimumHourlyOnDemandSpend"
+            case estimatedAverageCoverage = "EstimatedAverageCoverage"
+            case estimatedAverageUtilization = "EstimatedAverageUtilization"
+            case estimatedMonthlySavingsAmount = "EstimatedMonthlySavingsAmount"
+            case estimatedOnDemandCost = "EstimatedOnDemandCost"
+            case estimatedOnDemandCostWithCurrentCommitment = "EstimatedOnDemandCostWithCurrentCommitment"
+            case estimatedROI = "EstimatedROI"
+            case estimatedSavingsAmount = "EstimatedSavingsAmount"
+            case estimatedSavingsPercentage = "EstimatedSavingsPercentage"
+            case estimatedSPCost = "EstimatedSPCost"
+            case existingHourlyCommitment = "ExistingHourlyCommitment"
+            case generationTimestamp = "GenerationTimestamp"
+            case hourlyCommitmentToPurchase = "HourlyCommitmentToPurchase"
+            case instanceFamily = "InstanceFamily"
+            case latestUsageTimestamp = "LatestUsageTimestamp"
+            case lookbackPeriodInDays = "LookbackPeriodInDays"
+            case metricsOverLookbackPeriod = "MetricsOverLookbackPeriod"
+            case offeringId = "OfferingId"
+            case paymentOption = "PaymentOption"
+            case region = "Region"
+            case savingsPlansType = "SavingsPlansType"
+            case termInYears = "TermInYears"
+            case upfrontCost = "UpfrontCost"
+        }
+    }
+
+    public struct RecommendationDetailHourlyMetrics: AWSDecodableShape {
+        /// The current amount of Savings Plans eligible usage that the Savings Plan covered.
+        public let currentCoverage: String?
+        /// The estimated coverage amount based on the recommended Savings Plan.
+        public let estimatedCoverage: String?
+        /// The estimated utilization for the recommended Savings Plan.
+        public let estimatedNewCommitmentUtilization: String?
+        /// The remaining On-Demand cost estimated to not be covered by the recommended Savings Plan, over the length of the lookback period.
+        public let estimatedOnDemandCost: String?
+        public let startTime: String?
+
+        public init(currentCoverage: String? = nil, estimatedCoverage: String? = nil, estimatedNewCommitmentUtilization: String? = nil, estimatedOnDemandCost: String? = nil, startTime: String? = nil) {
+            self.currentCoverage = currentCoverage
+            self.estimatedCoverage = estimatedCoverage
+            self.estimatedNewCommitmentUtilization = estimatedNewCommitmentUtilization
+            self.estimatedOnDemandCost = estimatedOnDemandCost
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentCoverage = "CurrentCoverage"
+            case estimatedCoverage = "EstimatedCoverage"
+            case estimatedNewCommitmentUtilization = "EstimatedNewCommitmentUtilization"
+            case estimatedOnDemandCost = "EstimatedOnDemandCost"
+            case startTime = "StartTime"
+        }
+    }
+
     public struct RedshiftInstanceDetails: AWSDecodableShape {
         /// Determines whether the recommendation is for a current-generation instance.
         public let currentGeneration: Bool?
@@ -3946,12 +4142,14 @@ extension CostExplorer {
         public let estimatedSPCost: String?
         /// The recommended hourly commitment level for the Savings Plans type and the configuration that's based on the usage during the lookback period.
         public let hourlyCommitmentToPurchase: String?
+        /// Contains detailed information about a specific Savings Plan recommendation.
+        public let recommendationDetailId: String?
         /// Details for your recommended Savings Plans.
         public let savingsPlansDetails: SavingsPlansDetails?
         /// The upfront cost of the recommended Savings Plans, based on the selected payment option.
         public let upfrontCost: String?
 
-        public init(accountId: String? = nil, currencyCode: String? = nil, currentAverageHourlyOnDemandSpend: String? = nil, currentMaximumHourlyOnDemandSpend: String? = nil, currentMinimumHourlyOnDemandSpend: String? = nil, estimatedAverageUtilization: String? = nil, estimatedMonthlySavingsAmount: String? = nil, estimatedOnDemandCost: String? = nil, estimatedOnDemandCostWithCurrentCommitment: String? = nil, estimatedROI: String? = nil, estimatedSavingsAmount: String? = nil, estimatedSavingsPercentage: String? = nil, estimatedSPCost: String? = nil, hourlyCommitmentToPurchase: String? = nil, savingsPlansDetails: SavingsPlansDetails? = nil, upfrontCost: String? = nil) {
+        public init(accountId: String? = nil, currencyCode: String? = nil, currentAverageHourlyOnDemandSpend: String? = nil, currentMaximumHourlyOnDemandSpend: String? = nil, currentMinimumHourlyOnDemandSpend: String? = nil, estimatedAverageUtilization: String? = nil, estimatedMonthlySavingsAmount: String? = nil, estimatedOnDemandCost: String? = nil, estimatedOnDemandCostWithCurrentCommitment: String? = nil, estimatedROI: String? = nil, estimatedSavingsAmount: String? = nil, estimatedSavingsPercentage: String? = nil, estimatedSPCost: String? = nil, hourlyCommitmentToPurchase: String? = nil, recommendationDetailId: String? = nil, savingsPlansDetails: SavingsPlansDetails? = nil, upfrontCost: String? = nil) {
             self.accountId = accountId
             self.currencyCode = currencyCode
             self.currentAverageHourlyOnDemandSpend = currentAverageHourlyOnDemandSpend
@@ -3966,6 +4164,7 @@ extension CostExplorer {
             self.estimatedSavingsPercentage = estimatedSavingsPercentage
             self.estimatedSPCost = estimatedSPCost
             self.hourlyCommitmentToPurchase = hourlyCommitmentToPurchase
+            self.recommendationDetailId = recommendationDetailId
             self.savingsPlansDetails = savingsPlansDetails
             self.upfrontCost = upfrontCost
         }
@@ -3985,6 +4184,7 @@ extension CostExplorer {
             case estimatedSavingsPercentage = "EstimatedSavingsPercentage"
             case estimatedSPCost = "EstimatedSPCost"
             case hourlyCommitmentToPurchase = "HourlyCommitmentToPurchase"
+            case recommendationDetailId = "RecommendationDetailId"
             case savingsPlansDetails = "SavingsPlansDetails"
             case upfrontCost = "UpfrontCost"
         }
@@ -4484,9 +4684,9 @@ extension CostExplorer {
         public let subscriptionArn: String
         /// The new name of the subscription.
         public let subscriptionName: String?
-        /// (deprecated) The update to the threshold value for receiving notifications.  This field has been deprecated. To update a threshold, use ThresholdExpression. Continued use of Threshold will be treated as shorthand syntax for a ThresholdExpression.
+        /// (deprecated) The update to the threshold value for receiving notifications.  This field has been deprecated. To update a threshold, use ThresholdExpression. Continued use of Threshold will be treated as shorthand syntax for a ThresholdExpression. You can specify either Threshold or ThresholdExpression, but not both.
         public let threshold: Double?
-        /// The update to the Expression object used to specify the anomalies that you want to generate alerts for. This supports dimensions and nested expressions. The supported dimensions are ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE. The supported nested expression types are AND and OR. The match option GREATER_THAN_OR_EQUAL is required. Values must be numbers between 0 and 10,000,000,000. The following are examples of valid ThresholdExpressions:   Absolute threshold: { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }    Percentage threshold: { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }     AND two thresholds together: { "And": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }     OR two thresholds together: { "Or": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }
+        /// The update to the Expression object used to specify the anomalies that you want to generate alerts for. This supports dimensions and nested expressions. The supported dimensions are ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE, corresponding to an anomaly’s TotalImpact and TotalImpactPercentage, respectively (see Impact for more details). The supported nested expression types are AND and OR. The match option GREATER_THAN_OR_EQUAL is required. Values must be numbers between 0 and 10,000,000,000 in string format. You can specify either Threshold or ThresholdExpression, but not both. The following are examples of valid ThresholdExpressions:   Absolute threshold: { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }    Percentage threshold: { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }     AND two thresholds together: { "And": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }     OR two thresholds together: { "Or": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }
         public let thresholdExpression: Expression?
 
         public init(frequency: AnomalySubscriptionFrequency? = nil, monitorArnList: [String]? = nil, subscribers: [Subscriber]? = nil, subscriptionArn: String, subscriptionName: String? = nil, thresholdExpression: Expression? = nil) {

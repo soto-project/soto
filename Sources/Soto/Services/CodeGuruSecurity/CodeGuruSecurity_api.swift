@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS CodeGuruSecurity service.
 ///
-/// This section provides documentation for the Amazon CodeGuru Security API operations. CodeGuru Security is a service that uses program analysis and machine learning to detect security policy violations and vulnerabilities, and recommends ways to address these security risks. By proactively detecting and providing recommendations for addressing security risks, CodeGuru Security improves the overall security of your application code. For more information about CodeGuru Security, see the  Amazon CodeGuru Security User Guide.
+///  Amazon CodeGuru Security is in preview release and is subject to change.  This section provides documentation for the Amazon CodeGuru Security API operations. CodeGuru Security is a service that uses program analysis and machine learning to detect security policy violations and vulnerabilities, and recommends ways to address these security risks. By proactively detecting and providing recommendations for addressing security risks, CodeGuru Security improves the overall security of your application code. For more information about CodeGuru Security, see the  Amazon CodeGuru Security User Guide.
 public struct CodeGuruSecurity: AWSService {
     // MARK: Member variables
 
@@ -103,7 +103,7 @@ public struct CodeGuruSecurity: AWSService {
         return self.client.execute(operation: "ListFindingsMetrics", path: "/metrics/findings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of all the scans in an account.
+    /// Returns a list of all the standard scans in an account. Does not return express scans.
     public func listScans(_ input: ListScansRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListScansResponse> {
         return self.client.execute(operation: "ListScans", path: "/scans", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -247,7 +247,7 @@ extension CodeGuruSecurity {
         )
     }
 
-    /// Returns a list of all the scans in an account.
+    /// Returns a list of all the standard scans in an account. Does not return express scans.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

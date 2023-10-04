@@ -28,6 +28,8 @@ extension InternetMonitor {
 
     public enum HealthEventImpactType: String, CustomStringConvertible, Codable, Sendable {
         case availability = "AVAILABILITY"
+        case localAvailability = "LOCAL_AVAILABILITY"
+        case localPerformance = "LOCAL_PERFORMANCE"
         case performance = "PERFORMANCE"
         public var description: String { return self.rawValue }
     }
@@ -35,6 +37,12 @@ extension InternetMonitor {
     public enum HealthEventStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case resolved = "RESOLVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LocalHealthEventsConfigStatus: String, CustomStringConvertible, Codable, Sendable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -80,7 +88,9 @@ extension InternetMonitor {
         /// The percentage of impact caused by a health event for client location traffic globally. For information about how Internet Monitor calculates impact, see Inside Internet Monitor in the Amazon CloudWatch Internet Monitor section of the Amazon CloudWatch User
         /// 			Guide.
         public let percentOfClientLocationImpacted: Double?
-        /// The percentage of impact caused by a health event for total traffic globally. For information about how Internet Monitor calculates impact, see Inside Internet Monitor in the Amazon CloudWatch Internet Monitor section of the Amazon CloudWatch User
+        /// The impact on total traffic that a health event has, in increased latency or reduced availability. This is the
+        /// 			percentage of how much latency has increased or availability has decreased during the event, compared to what is typical for traffic from this
+        /// 			client location to the Amazon Web Services location using this client network. For information about how Internet Monitor calculates impact, see How Internet Monitor works in the Amazon CloudWatch Internet Monitor section of the Amazon CloudWatch User
         /// 			Guide.
         public let percentOfTotalTrafficImpacted: Double?
 
@@ -101,24 +111,35 @@ extension InternetMonitor {
         /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for
         /// 			other API requests.
         public let clientToken: String?
+        /// Defines the threshold percentages and other configuration information for when Amazon CloudWatch Internet Monitor creates a health event. Internet Monitor creates a
+        /// 			health event when an internet issue that affects your application end users has a health score percentage that is at or below a
+        /// 			specific threshold, and, sometimes, when other criteria are met. If you don't set a health event threshold, the default value is 95%. For more information, see
+        /// 			Change health event thresholds in the Internet Monitor section of the CloudWatch User Guide.
+        public let healthEventsConfig: HealthEventsConfig?
         /// Publish internet measurements for Internet Monitor to an Amazon S3 bucket in addition to CloudWatch Logs.
         public let internetMeasurementsLogDelivery: InternetMeasurementsLogDelivery?
-        /// The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your application resources from and
-        /// 			the network or ASN, such as an internet service provider (ISP), that clients access the resources through. This limit helps control billing costs. To learn more, see Choosing a city-network maximum value
+        /// The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your
+        /// 			application resources from and the ASN or network provider, such as an internet service provider (ISP), that clients access the resources
+        /// 			through. Setting this limit can help control billing costs. To learn more, see Choosing a city-network maximum value
         /// 		 in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public let maxCityNetworksToMonitor: Int?
         /// The name of the monitor.
         public let monitorName: String
-        /// The resources to include in a monitor, which you provide as a set of Amazon Resource Names (ARNs). You can add a combination of Amazon Virtual Private Clouds (VPCs) and Amazon CloudFront distributions, or you can add Amazon WorkSpaces directories. You can't add all three types of
-        /// 			resources.  If you add only VPC resources, at least one VPC must have an Internet Gateway attached to it, to make sure that it has internet connectivity.
+        /// The resources to include in a monitor, which you provide as a set of Amazon Resource Names (ARNs). Resources can be VPCs, NLBs,
+        /// 			Amazon CloudFront distributions, or Amazon WorkSpaces directories. You can add a combination of VPCs and CloudFront distributions, or you can add WorkSpaces directories, or you can add NLBs. You can't add
+        /// 			NLBs or WorkSpaces directories together with any other resources.  If you add only Amazon VPC resources, at least one VPC must have an Internet Gateway attached to it, to make sure that it has
+        /// 			internet connectivity.
         public let resources: [String]?
         /// The tags for a monitor. You can add a maximum of 50 tags in Internet Monitor.
         public let tags: [String: String]?
-        /// The percentage of the internet-facing traffic for your application that you want to monitor with this monitor.
+        /// The percentage of the internet-facing traffic for your application that you want to monitor with this monitor. If you set a city-networks
+        /// 			maximum, that limit overrides the traffic percentage that you set. To learn more, see Choosing an application traffic percentage to monitor
+        /// 		 in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public let trafficPercentageToMonitor: Int?
 
-        public init(clientToken: String? = CreateMonitorInput.idempotencyToken(), internetMeasurementsLogDelivery: InternetMeasurementsLogDelivery? = nil, maxCityNetworksToMonitor: Int? = nil, monitorName: String, resources: [String]? = nil, tags: [String: String]? = nil, trafficPercentageToMonitor: Int? = nil) {
+        public init(clientToken: String? = CreateMonitorInput.idempotencyToken(), healthEventsConfig: HealthEventsConfig? = nil, internetMeasurementsLogDelivery: InternetMeasurementsLogDelivery? = nil, maxCityNetworksToMonitor: Int? = nil, monitorName: String, resources: [String]? = nil, tags: [String: String]? = nil, trafficPercentageToMonitor: Int? = nil) {
             self.clientToken = clientToken
+            self.healthEventsConfig = healthEventsConfig
             self.internetMeasurementsLogDelivery = internetMeasurementsLogDelivery
             self.maxCityNetworksToMonitor = maxCityNetworksToMonitor
             self.monitorName = monitorName
@@ -128,6 +149,7 @@ extension InternetMonitor {
         }
 
         public func validate(name: String) throws {
+            try self.healthEventsConfig?.validate(name: "\(name).healthEventsConfig")
             try self.validate(self.maxCityNetworksToMonitor, name: "maxCityNetworksToMonitor", parent: name, max: 500000)
             try self.validate(self.maxCityNetworksToMonitor, name: "maxCityNetworksToMonitor", parent: name, min: 1)
             try self.validate(self.monitorName, name: "monitorName", parent: name, max: 255)
@@ -150,6 +172,7 @@ extension InternetMonitor {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
+            case healthEventsConfig = "HealthEventsConfig"
             case internetMeasurementsLogDelivery = "InternetMeasurementsLogDelivery"
             case maxCityNetworksToMonitor = "MaxCityNetworksToMonitor"
             case monitorName = "MonitorName"
@@ -239,24 +262,30 @@ extension InternetMonitor {
         public let eventArn: String
         /// The internally generated identifier of a health event.
         public let eventId: String
+        /// The threshold percentage for a health score that determines, along with other configuration information,
+        /// 			when Internet Monitor creates a health event when there's an internet issue that affects your application end users.
+        public let healthScoreThreshold: Double?
         /// The locations affected by a health event.
         public let impactedLocations: [ImpactedLocation]
         /// The type of impairment of a specific health event.
         public let impactType: HealthEventImpactType
         /// The time when a health event was last updated or recalculated.
         public let lastUpdatedAt: Date
-        /// The impact on total traffic that a health event has.
+        /// The impact on total traffic that a health event has, in increased latency or reduced availability. This is the
+        /// 			percentage of how much latency has increased or availability has decreased during the event, compared to what is typical for traffic from this
+        /// 			client location to the Amazon Web Services location using this client network.
         public let percentOfTotalTrafficImpacted: Double?
         /// The time when a health event started.
         public let startedAt: Date
         /// The status of a health event.
         public let status: HealthEventStatus
 
-        public init(createdAt: Date? = nil, endedAt: Date? = nil, eventArn: String, eventId: String, impactedLocations: [ImpactedLocation], impactType: HealthEventImpactType, lastUpdatedAt: Date, percentOfTotalTrafficImpacted: Double? = nil, startedAt: Date, status: HealthEventStatus) {
+        public init(createdAt: Date? = nil, endedAt: Date? = nil, eventArn: String, eventId: String, healthScoreThreshold: Double? = nil, impactedLocations: [ImpactedLocation], impactType: HealthEventImpactType, lastUpdatedAt: Date, percentOfTotalTrafficImpacted: Double? = nil, startedAt: Date, status: HealthEventStatus) {
             self.createdAt = createdAt
             self.endedAt = endedAt
             self.eventArn = eventArn
             self.eventId = eventId
+            self.healthScoreThreshold = healthScoreThreshold
             self.impactedLocations = impactedLocations
             self.impactType = impactType
             self.lastUpdatedAt = lastUpdatedAt
@@ -270,6 +299,7 @@ extension InternetMonitor {
             case endedAt = "EndedAt"
             case eventArn = "EventArn"
             case eventId = "EventId"
+            case healthScoreThreshold = "HealthScoreThreshold"
             case impactedLocations = "ImpactedLocations"
             case impactType = "ImpactType"
             case lastUpdatedAt = "LastUpdatedAt"
@@ -303,10 +333,15 @@ extension InternetMonitor {
     public struct GetMonitorOutput: AWSDecodableShape {
         /// The time when the monitor was created.
         public let createdAt: Date
+        /// The list of health event threshold configurations. The threshold percentage for a health score determines, along with other configuration
+        /// 			information, when Internet Monitor creates a health event when there's an internet issue that affects your application end users. For more information, see
+        /// 			Change health event thresholds in the Internet Monitor section of the CloudWatch User Guide.
+        public let healthEventsConfig: HealthEventsConfig?
         /// Publish internet measurements for Internet Monitor to another location, such as an Amazon S3 bucket. The measurements are also published to Amazon CloudWatch Logs.
         public let internetMeasurementsLogDelivery: InternetMeasurementsLogDelivery?
-        /// The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your application resources from and
-        /// 			the network or ASN, such as an internet service provider (ISP), that clients access the resources through. This limit helps control billing costs. To learn more, see Choosing a city-network maximum value
+        /// The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your
+        /// 			application resources from and the ASN or network provider, such as an internet service provider (ISP), that clients access the resources
+        /// 			through. This limit can help control billing costs. To learn more, see Choosing a city-network maximum value
         /// 		 in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public let maxCityNetworksToMonitor: Int?
         /// The last time that the monitor was modified.
@@ -319,17 +354,20 @@ extension InternetMonitor {
         public let processingStatus: MonitorProcessingStatusCode?
         /// Additional information about the health of the data processing for the monitor.
         public let processingStatusInfo: String?
-        /// The resources that have been added for the monitor. Resources are listed by their Amazon Resource Names (ARNs).
+        /// The resources monitored by the monitor. Resources are listed by their Amazon Resource Names (ARNs).
         public let resources: [String]
         /// The status of the monitor.
         public let status: MonitorConfigState
         /// The tags that have been added to monitor.
         public let tags: [String: String]?
-        /// The percentage of the internet-facing traffic for your application that you want to monitor with this monitor.
+        /// The percentage of the internet-facing traffic for your application to monitor with this monitor. If you set a city-networks
+        /// 			maximum, that limit overrides the traffic percentage that you set. To learn more, see Choosing an application traffic percentage to monitor
+        /// 		 in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public let trafficPercentageToMonitor: Int?
 
-        public init(createdAt: Date, internetMeasurementsLogDelivery: InternetMeasurementsLogDelivery? = nil, maxCityNetworksToMonitor: Int? = nil, modifiedAt: Date, monitorArn: String, monitorName: String, processingStatus: MonitorProcessingStatusCode? = nil, processingStatusInfo: String? = nil, resources: [String], status: MonitorConfigState, tags: [String: String]? = nil, trafficPercentageToMonitor: Int? = nil) {
+        public init(createdAt: Date, healthEventsConfig: HealthEventsConfig? = nil, internetMeasurementsLogDelivery: InternetMeasurementsLogDelivery? = nil, maxCityNetworksToMonitor: Int? = nil, modifiedAt: Date, monitorArn: String, monitorName: String, processingStatus: MonitorProcessingStatusCode? = nil, processingStatusInfo: String? = nil, resources: [String], status: MonitorConfigState, tags: [String: String]? = nil, trafficPercentageToMonitor: Int? = nil) {
             self.createdAt = createdAt
+            self.healthEventsConfig = healthEventsConfig
             self.internetMeasurementsLogDelivery = internetMeasurementsLogDelivery
             self.maxCityNetworksToMonitor = maxCityNetworksToMonitor
             self.modifiedAt = modifiedAt
@@ -345,6 +383,7 @@ extension InternetMonitor {
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "CreatedAt"
+            case healthEventsConfig = "HealthEventsConfig"
             case internetMeasurementsLogDelivery = "InternetMeasurementsLogDelivery"
             case maxCityNetworksToMonitor = "MaxCityNetworksToMonitor"
             case modifiedAt = "ModifiedAt"
@@ -368,24 +407,29 @@ extension InternetMonitor {
         public let eventArn: String
         /// The internally generated identifier of a specific network traffic impairment health event.
         public let eventId: String
+        /// The value of the threshold percentage for performance or availability that was configured when Amazon CloudWatch Internet Monitor created the health event.
+        public let healthScoreThreshold: Double?
         /// The locations impacted by the health event.
         public let impactedLocations: [ImpactedLocation]
         /// The type of impairment for a health event.
         public let impactType: HealthEventImpactType
         /// When the health event was last updated.
         public let lastUpdatedAt: Date
-        /// The impact on global traffic monitored by this monitor for this health event.
+        /// The impact on total traffic that a health event has, in increased latency or reduced availability. This is the
+        /// 			percentage of how much latency has increased or availability has decreased during the event, compared to what is typical for traffic from this
+        /// 			client location to the Amazon Web Services location using this client network.
         public let percentOfTotalTrafficImpacted: Double?
         /// When a health event started.
         public let startedAt: Date
         /// Health event list member.
         public let status: HealthEventStatus
 
-        public init(createdAt: Date? = nil, endedAt: Date? = nil, eventArn: String, eventId: String, impactedLocations: [ImpactedLocation], impactType: HealthEventImpactType, lastUpdatedAt: Date, percentOfTotalTrafficImpacted: Double? = nil, startedAt: Date, status: HealthEventStatus) {
+        public init(createdAt: Date? = nil, endedAt: Date? = nil, eventArn: String, eventId: String, healthScoreThreshold: Double? = nil, impactedLocations: [ImpactedLocation], impactType: HealthEventImpactType, lastUpdatedAt: Date, percentOfTotalTrafficImpacted: Double? = nil, startedAt: Date, status: HealthEventStatus) {
             self.createdAt = createdAt
             self.endedAt = endedAt
             self.eventArn = eventArn
             self.eventId = eventId
+            self.healthScoreThreshold = healthScoreThreshold
             self.impactedLocations = impactedLocations
             self.impactType = impactType
             self.lastUpdatedAt = lastUpdatedAt
@@ -399,12 +443,47 @@ extension InternetMonitor {
             case endedAt = "EndedAt"
             case eventArn = "EventArn"
             case eventId = "EventId"
+            case healthScoreThreshold = "HealthScoreThreshold"
             case impactedLocations = "ImpactedLocations"
             case impactType = "ImpactType"
             case lastUpdatedAt = "LastUpdatedAt"
             case percentOfTotalTrafficImpacted = "PercentOfTotalTrafficImpacted"
             case startedAt = "StartedAt"
             case status = "Status"
+        }
+    }
+
+    public struct HealthEventsConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration that determines the threshold and other conditions for when Internet Monitor creates a health event for a local availability issue.
+        public let availabilityLocalHealthEventsConfig: LocalHealthEventsConfig?
+        /// The health event threshold percentage set for availability scores.
+        public let availabilityScoreThreshold: Double?
+        /// The configuration that determines the threshold and other conditions for when Internet Monitor creates a health event for a local performance issue.
+        public let performanceLocalHealthEventsConfig: LocalHealthEventsConfig?
+        /// The health event threshold percentage set for performance scores.
+        public let performanceScoreThreshold: Double?
+
+        public init(availabilityLocalHealthEventsConfig: LocalHealthEventsConfig? = nil, availabilityScoreThreshold: Double? = nil, performanceLocalHealthEventsConfig: LocalHealthEventsConfig? = nil, performanceScoreThreshold: Double? = nil) {
+            self.availabilityLocalHealthEventsConfig = availabilityLocalHealthEventsConfig
+            self.availabilityScoreThreshold = availabilityScoreThreshold
+            self.performanceLocalHealthEventsConfig = performanceLocalHealthEventsConfig
+            self.performanceScoreThreshold = performanceScoreThreshold
+        }
+
+        public func validate(name: String) throws {
+            try self.availabilityLocalHealthEventsConfig?.validate(name: "\(name).availabilityLocalHealthEventsConfig")
+            try self.validate(self.availabilityScoreThreshold, name: "availabilityScoreThreshold", parent: name, max: 100.0)
+            try self.validate(self.availabilityScoreThreshold, name: "availabilityScoreThreshold", parent: name, min: 0.0)
+            try self.performanceLocalHealthEventsConfig?.validate(name: "\(name).performanceLocalHealthEventsConfig")
+            try self.validate(self.performanceScoreThreshold, name: "performanceScoreThreshold", parent: name, max: 100.0)
+            try self.validate(self.performanceScoreThreshold, name: "performanceScoreThreshold", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityLocalHealthEventsConfig = "AvailabilityLocalHealthEventsConfig"
+            case availabilityScoreThreshold = "AvailabilityScoreThreshold"
+            case performanceLocalHealthEventsConfig = "PerformanceLocalHealthEventsConfig"
+            case performanceScoreThreshold = "PerformanceScoreThreshold"
         }
     }
 
@@ -652,6 +731,36 @@ extension InternetMonitor {
         }
     }
 
+    public struct LocalHealthEventsConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The health event threshold percentage set for a local health score.
+        public let healthScoreThreshold: Double?
+        /// The minimum percentage of overall traffic for an application that must be impacted by an issue before Internet Monitor creates an event when a
+        /// 			threshold is crossed for a local health score.
+        public let minTrafficImpact: Double?
+        /// The status of whether Internet Monitor creates a health event based on a threshold percentage set for a local health score. The status can be ENABLED
+        /// 		or DISABLED.
+        public let status: LocalHealthEventsConfigStatus?
+
+        public init(healthScoreThreshold: Double? = nil, minTrafficImpact: Double? = nil, status: LocalHealthEventsConfigStatus? = nil) {
+            self.healthScoreThreshold = healthScoreThreshold
+            self.minTrafficImpact = minTrafficImpact
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.healthScoreThreshold, name: "healthScoreThreshold", parent: name, max: 100.0)
+            try self.validate(self.healthScoreThreshold, name: "healthScoreThreshold", parent: name, min: 0.0)
+            try self.validate(self.minTrafficImpact, name: "minTrafficImpact", parent: name, max: 100.0)
+            try self.validate(self.minTrafficImpact, name: "minTrafficImpact", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case healthScoreThreshold = "HealthScoreThreshold"
+            case minTrafficImpact = "MinTrafficImpact"
+            case status = "Status"
+        }
+    }
+
     public struct Monitor: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the monitor.
         public let monitorArn: String
@@ -726,8 +835,9 @@ extension InternetMonitor {
         /// 			during the event compared to typical performance for traffic, from this client location to an Amazon Web Services location, using a specific client network.  For more information, see When Amazon Web Services creates and resolves health
         /// 			events in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public let percentOfClientLocationImpacted: Double?
-        /// How much performance impact was caused by a health event for total traffic globally. For performance, this is the percentage of how much latency
-        /// 			increased during the event compared to typical performance for your application traffic globally.  For more information, see When Amazon Web Services creates and resolves health
+        /// The impact on total traffic that a health event has, in increased latency or reduced availability. This is the
+        /// 			percentage of how much latency has increased or availability has decreased during the event, compared to what is typical for traffic from this
+        /// 			client location to the Amazon Web Services location using this client network. For more information, see When Amazon Web Services creates and resolves health
         /// 			events in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public let percentOfTotalTrafficImpacted: Double?
         /// This is the percentage of how much round-trip time increased during the event compared to typical round-trip time for your application for traffic.  For more information, see When Amazon Web Services creates and resolves health
@@ -869,16 +979,21 @@ extension InternetMonitor {
         /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. You should not reuse the same client
         /// 			token for other API requests.
         public let clientToken: String?
+        /// The list of health score thresholds. A threshold percentage for health scores, along with other configuration information,
+        /// 			determines when Internet Monitor creates a health event when there's an internet issue that affects your application end users. For more information, see
+        /// 			Change health event thresholds in the Internet Monitor section of the CloudWatch User Guide.
+        public let healthEventsConfig: HealthEventsConfig?
         /// Publish internet measurements for Internet Monitor to another location, such as an Amazon S3 bucket. The measurements are also published to Amazon CloudWatch Logs.
         public let internetMeasurementsLogDelivery: InternetMeasurementsLogDelivery?
-        /// The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your application resources from
-        /// 			and the network or ASN,
-        /// 			such as an internet service provider, that clients access the resources through.
+        /// The maximum number of city-networks to monitor for your application. A city-network is the location (city) where clients access your
+        /// 			application resources from and the ASN or network provider, such as an internet service provider (ISP), that clients access the resources
+        /// 			through. Setting this limit can help control billing costs.
         public let maxCityNetworksToMonitor: Int?
         /// The name of the monitor.
         public let monitorName: String
-        /// The resources to include in a monitor, which you provide as a set of Amazon Resource Names (ARNs). You can add a combination of Amazon Virtual Private Clouds (VPCs) and Amazon CloudFront distributions, or you can add Amazon WorkSpaces directories. You can't add all three types of
-        /// 			resources.  If you add only VPC resources, at least one VPC must have an Internet Gateway attached to it, to make sure that it has internet
+        /// The resources to include in a monitor, which you provide as a set of Amazon Resource Names (ARNs). Resources can be VPCs, NLBs,
+        /// 			Amazon CloudFront distributions, or Amazon WorkSpaces directories. You can add a combination of VPCs and CloudFront distributions, or you can add WorkSpaces directories, or you can add NLBs. You can't add
+        /// 			NLBs or WorkSpaces directories together with any other resources.  If you add only Amazon Virtual Private Clouds resources, at least one VPC must have an Internet Gateway attached to it, to make sure that it has internet
         /// 			connectivity.
         public let resourcesToAdd: [String]?
         /// The resources to remove from a monitor, which you provide as a set of Amazon Resource Names (ARNs).
@@ -886,11 +1001,14 @@ extension InternetMonitor {
         /// The status for a monitor. The accepted values for Status with the UpdateMonitor API call are the following: ACTIVE and
         /// 			INACTIVE. The following values are not accepted: PENDING, and ERROR.
         public let status: MonitorConfigState?
-        /// The percentage of the internet-facing traffic for your application that you want to monitor with this monitor.
+        /// The percentage of the internet-facing traffic for your application that you want to monitor with this monitor. If you set a city-networks
+        /// 			maximum, that limit overrides the traffic percentage that you set. To learn more, see Choosing an application traffic percentage to monitor
+        /// 		 in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public let trafficPercentageToMonitor: Int?
 
-        public init(clientToken: String? = UpdateMonitorInput.idempotencyToken(), internetMeasurementsLogDelivery: InternetMeasurementsLogDelivery? = nil, maxCityNetworksToMonitor: Int? = nil, monitorName: String, resourcesToAdd: [String]? = nil, resourcesToRemove: [String]? = nil, status: MonitorConfigState? = nil, trafficPercentageToMonitor: Int? = nil) {
+        public init(clientToken: String? = UpdateMonitorInput.idempotencyToken(), healthEventsConfig: HealthEventsConfig? = nil, internetMeasurementsLogDelivery: InternetMeasurementsLogDelivery? = nil, maxCityNetworksToMonitor: Int? = nil, monitorName: String, resourcesToAdd: [String]? = nil, resourcesToRemove: [String]? = nil, status: MonitorConfigState? = nil, trafficPercentageToMonitor: Int? = nil) {
             self.clientToken = clientToken
+            self.healthEventsConfig = healthEventsConfig
             self.internetMeasurementsLogDelivery = internetMeasurementsLogDelivery
             self.maxCityNetworksToMonitor = maxCityNetworksToMonitor
             self.monitorName = monitorName
@@ -901,6 +1019,7 @@ extension InternetMonitor {
         }
 
         public func validate(name: String) throws {
+            try self.healthEventsConfig?.validate(name: "\(name).healthEventsConfig")
             try self.validate(self.maxCityNetworksToMonitor, name: "maxCityNetworksToMonitor", parent: name, max: 500000)
             try self.validate(self.maxCityNetworksToMonitor, name: "maxCityNetworksToMonitor", parent: name, min: 1)
             try self.validate(self.monitorName, name: "monitorName", parent: name, max: 255)
@@ -922,6 +1041,7 @@ extension InternetMonitor {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
+            case healthEventsConfig = "HealthEventsConfig"
             case internetMeasurementsLogDelivery = "InternetMeasurementsLogDelivery"
             case maxCityNetworksToMonitor = "MaxCityNetworksToMonitor"
             case resourcesToAdd = "ResourcesToAdd"

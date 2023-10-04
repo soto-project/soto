@@ -2815,13 +2815,19 @@ extension Appflow {
         public let bytesWritten: Int64?
         ///  Provides any error message information related to the flow run.
         public let errorInfo: ErrorInfo?
+        /// The maximum number of records that Amazon AppFlow receives in each page of the response from your SAP application.
+        public let maxPageSize: Int64?
+        /// The number of processes that Amazon AppFlow ran at the same time when it retrieved your data.
+        public let numParallelProcesses: Int64?
         ///  The number of records processed in the flow run.
         public let recordsProcessed: Int64?
 
-        public init(bytesProcessed: Int64? = nil, bytesWritten: Int64? = nil, errorInfo: ErrorInfo? = nil, recordsProcessed: Int64? = nil) {
+        public init(bytesProcessed: Int64? = nil, bytesWritten: Int64? = nil, errorInfo: ErrorInfo? = nil, maxPageSize: Int64? = nil, numParallelProcesses: Int64? = nil, recordsProcessed: Int64? = nil) {
             self.bytesProcessed = bytesProcessed
             self.bytesWritten = bytesWritten
             self.errorInfo = errorInfo
+            self.maxPageSize = maxPageSize
+            self.numParallelProcesses = numParallelProcesses
             self.recordsProcessed = recordsProcessed
         }
 
@@ -2829,6 +2835,8 @@ extension Appflow {
             case bytesProcessed = "bytesProcessed"
             case bytesWritten = "bytesWritten"
             case errorInfo = "errorInfo"
+            case maxPageSize = "maxPageSize"
+            case numParallelProcesses = "numParallelProcesses"
             case recordsProcessed = "recordsProcessed"
         }
     }
@@ -4275,6 +4283,8 @@ extension Appflow {
         public let applicationServicePath: String
         ///  The client number for the client creating the connection.
         public let clientNumber: String
+        /// If you set this parameter to true, Amazon AppFlow bypasses the single sign-on (SSO) settings in your SAP account when it accesses your SAP OData instance. Whether you need this option depends on the types of credentials that you applied to your SAP OData connection profile. If your profile uses basic authentication credentials, SAP SSO can prevent Amazon AppFlow from connecting to your account with your username and password. In this case, bypassing SSO makes it possible for Amazon AppFlow to connect successfully. However, if your profile uses OAuth credentials, this parameter has no affect.
+        public let disableSSO: Bool?
         ///  The logon language of SAPOData instance.
         public let logonLanguage: String?
         ///  The SAPOData OAuth properties required for OAuth type authentication.
@@ -4284,10 +4294,11 @@ extension Appflow {
         ///  The SAPOData Private Link service name to be used for private data transfers.
         public let privateLinkServiceName: String?
 
-        public init(applicationHostUrl: String, applicationServicePath: String, clientNumber: String, logonLanguage: String? = nil, oAuthProperties: OAuthProperties? = nil, portNumber: Int, privateLinkServiceName: String? = nil) {
+        public init(applicationHostUrl: String, applicationServicePath: String, clientNumber: String, disableSSO: Bool? = nil, logonLanguage: String? = nil, oAuthProperties: OAuthProperties? = nil, portNumber: Int, privateLinkServiceName: String? = nil) {
             self.applicationHostUrl = applicationHostUrl
             self.applicationServicePath = applicationServicePath
             self.clientNumber = clientNumber
+            self.disableSSO = disableSSO
             self.logonLanguage = logonLanguage
             self.oAuthProperties = oAuthProperties
             self.portNumber = portNumber
@@ -4315,6 +4326,7 @@ extension Appflow {
             case applicationHostUrl = "applicationHostUrl"
             case applicationServicePath = "applicationServicePath"
             case clientNumber = "clientNumber"
+            case disableSSO = "disableSSO"
             case logonLanguage = "logonLanguage"
             case oAuthProperties = "oAuthProperties"
             case portNumber = "portNumber"
@@ -4363,21 +4375,67 @@ extension Appflow {
         public init() {}
     }
 
+    public struct SAPODataPaginationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of records that Amazon AppFlow receives in each page of the response from your SAP application. For transfers of OData records, the maximum page size is 3,000. For transfers of data that comes from an ODP provider, the maximum page size is 10,000.
+        public let maxPageSize: Int
+
+        public init(maxPageSize: Int) {
+            self.maxPageSize = maxPageSize
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxPageSize, name: "maxPageSize", parent: name, max: 10000)
+            try self.validate(self.maxPageSize, name: "maxPageSize", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxPageSize = "maxPageSize"
+        }
+    }
+
+    public struct SAPODataParallelismConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of processes that Amazon AppFlow runs at the same time when it retrieves your data from your SAP application.
+        public let maxParallelism: Int
+
+        public init(maxParallelism: Int) {
+            self.maxParallelism = maxParallelism
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxParallelism, name: "maxParallelism", parent: name, max: 10)
+            try self.validate(self.maxParallelism, name: "maxParallelism", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxParallelism = "maxParallelism"
+        }
+    }
+
     public struct SAPODataSourceProperties: AWSEncodableShape & AWSDecodableShape {
         ///  The object path specified in the SAPOData flow source.
         public let objectPath: String?
+        /// Sets the page size for each concurrent process that transfers OData records from your SAP instance.
+        public let paginationConfig: SAPODataPaginationConfig?
+        /// Sets the number of concurrent processes that transfers OData records from your SAP instance.
+        public let parallelismConfig: SAPODataParallelismConfig?
 
-        public init(objectPath: String? = nil) {
+        public init(objectPath: String? = nil, paginationConfig: SAPODataPaginationConfig? = nil, parallelismConfig: SAPODataParallelismConfig? = nil) {
             self.objectPath = objectPath
+            self.paginationConfig = paginationConfig
+            self.parallelismConfig = parallelismConfig
         }
 
         public func validate(name: String) throws {
             try self.validate(self.objectPath, name: "objectPath", parent: name, max: 512)
             try self.validate(self.objectPath, name: "objectPath", parent: name, pattern: "^\\S+$")
+            try self.paginationConfig?.validate(name: "\(name).paginationConfig")
+            try self.parallelismConfig?.validate(name: "\(name).parallelismConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case objectPath = "objectPath"
+            case paginationConfig = "paginationConfig"
+            case parallelismConfig = "parallelismConfig"
         }
     }
 
@@ -4596,17 +4654,21 @@ extension Appflow {
     }
 
     public struct ServiceNowConnectorProfileCredentials: AWSEncodableShape {
+        ///  The OAuth 2.0 credentials required to authenticate the user.
+        public let oAuth2Credentials: OAuth2Credentials?
         ///  The password that corresponds to the user name.
-        public let password: String
+        public let password: String?
         ///  The name of the user.
-        public let username: String
+        public let username: String?
 
-        public init(password: String, username: String) {
+        public init(oAuth2Credentials: OAuth2Credentials? = nil, password: String? = nil, username: String? = nil) {
+            self.oAuth2Credentials = oAuth2Credentials
             self.password = password
             self.username = username
         }
 
         public func validate(name: String) throws {
+            try self.oAuth2Credentials?.validate(name: "\(name).oAuth2Credentials")
             try self.validate(self.password, name: "password", parent: name, max: 512)
             try self.validate(self.password, name: "password", parent: name, pattern: ".*")
             try self.validate(self.username, name: "username", parent: name, max: 512)
@@ -4614,6 +4676,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case oAuth2Credentials = "oAuth2Credentials"
             case password = "password"
             case username = "username"
         }

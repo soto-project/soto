@@ -240,7 +240,7 @@ extension APIGateway {
     public struct ApiKey: AWSDecodableShape {
         /// The timestamp when the API Key was created.
         public let createdDate: Date?
-        /// An AWS Marketplace customer identifier , when integrating with the AWS SaaS Marketplace.
+        /// An Amazon Web Services Marketplace customer identifier, when integrating with the Amazon Web Services SaaS Marketplace.
         public let customerId: String?
         /// The description of the API Key.
         public let description: String?
@@ -541,7 +541,7 @@ extension APIGateway {
     }
 
     public struct CreateApiKeyRequest: AWSEncodableShape {
-        /// An AWS Marketplace customer identifier , when integrating with the AWS SaaS Marketplace.
+        /// An Amazon Web Services Marketplace customer identifier, when integrating with the Amazon Web Services SaaS Marketplace.
         public let customerId: String?
         /// The description of the ApiKey.
         public let description: String?
@@ -766,7 +766,7 @@ extension APIGateway {
     }
 
     public struct CreateDomainNameRequest: AWSEncodableShape {
-        /// The reference to an AWS-managed certificate that will be used by edge-optimized endpoint for this domain name. AWS Certificate Manager is the only supported source.
+        /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint for this domain name. Certificate Manager is the only supported source.
         public let certificateArn: String?
         /// [Deprecated] The body of the server certificate that will be used by edge-optimized endpoint for this domain name provided by your certificate authority.
         public let certificateBody: String?
@@ -783,7 +783,7 @@ extension APIGateway {
         public let mutualTlsAuthentication: MutualTlsAuthenticationInput?
         /// The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
         public let ownershipVerificationCertificateArn: String?
-        /// The reference to an AWS-managed certificate that will be used by regional endpoint for this domain name. AWS Certificate Manager is the only supported source.
+        /// The reference to an Amazon Web Services-managed certificate that will be used by regional endpoint for this domain name. Certificate Manager is the only supported source.
         public let regionalCertificateArn: String?
         /// The user-friendly name of the certificate that will be used by regional endpoint for this domain name.
         public let regionalCertificateName: String?
@@ -910,7 +910,7 @@ extension APIGateway {
     }
 
     public struct CreateRestApiRequest: AWSEncodableShape {
-        /// The source of the API key for metering requests according to a usage plan. Valid values are: >HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
+        /// The source of the API key for metering requests according to a usage plan. Valid values are: HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
         public let apiKeySource: ApiKeySourceType?
         /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
         public let binaryMediaTypes: [String]?
@@ -1082,7 +1082,7 @@ extension APIGateway {
         public let name: String
         /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
         public let tags: [String: String]?
-        /// The ARN of the network load balancer of the VPC targeted by the VPC link. The network load balancer must be owned by the same AWS account of the API owner.
+        /// The ARN of the network load balancer of the VPC targeted by the VPC link. The network load balancer must be owned by the same Amazon Web Services account of the API owner.
         public let targetArns: [String]
 
         public init(description: String? = nil, name: String, tags: [String: String]? = nil, targetArns: [String]) {
@@ -1709,7 +1709,7 @@ extension APIGateway {
     }
 
     public struct DomainName: AWSDecodableShape {
-        /// The reference to an AWS-managed certificate that will be used by edge-optimized endpoint for this domain name. AWS Certificate Manager is the only supported source.
+        /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint for this domain name. Certificate Manager is the only supported source.
         public let certificateArn: String?
         /// The name of the certificate that will be used by edge-optimized endpoint for this domain name.
         public let certificateName: String?
@@ -1731,7 +1731,7 @@ extension APIGateway {
         public let mutualTlsAuthentication: MutualTlsAuthentication?
         /// The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
         public let ownershipVerificationCertificateArn: String?
-        /// The reference to an AWS-managed certificate that will be used for validating the regional domain name. AWS Certificate Manager is the only supported source.
+        /// The reference to an Amazon Web Services-managed certificate that will be used for validating the regional domain name. Certificate Manager is the only supported source.
         public let regionalCertificateArn: String?
         /// The name of the certificate that will be used for validating the regional domain name.
         public let regionalCertificateName: String?
@@ -1989,7 +1989,7 @@ extension APIGateway {
             AWSMemberEncoding(label: "position", location: .querystring("position"))
         ]
 
-        /// The identifier of a customer in AWS Marketplace or an external system, such as a developer portal.
+        /// The identifier of a customer in Amazon Web Services Marketplace or an external system, such as a developer portal.
         public let customerId: String?
         /// A boolean flag to specify whether (true) or not (false) the result contains key values.
         public let includeValues: Bool?
@@ -2997,7 +2997,7 @@ extension APIGateway {
         public let body: AWSPayload
         /// A query parameter to specify whether to rollback the documentation importation (true) or not (false) when a warning is encountered. The default value is false.
         public let failOnWarnings: Bool?
-        /// A query parameter to indicate whether to overwrite (OVERWRITE) any existing DocumentationParts definition or to merge (MERGE) the new definition into the existing one. The default value is MERGE.
+        /// A query parameter to indicate whether to overwrite (overwrite) any existing DocumentationParts definition or to merge (merge) the new definition into the existing one. The default value is merge.
         public let mode: PutMode?
         /// The string identifier of the associated RestApi.
         public let restApiId: String
@@ -3024,7 +3024,7 @@ extension APIGateway {
         public let body: AWSPayload
         /// A query parameter to indicate whether to rollback the API creation (true) or not (false) when a warning is encountered. The default value is false.
         public let failOnWarnings: Bool?
-        /// A key-value map of context-specific query string parameters specifying the behavior of different API importing operations. The following shows operation-specific parameters and their supported values. To exclude DocumentationParts from the import, set parameters as ignore=documentation. To configure the endpoint type, set parameters as endpointConfigurationTypes=EDGE, endpointConfigurationTypes=REGIONAL, or endpointConfigurationTypes=PRIVATE. The default endpoint type is EDGE. To handle imported basepath, set parameters as basepath=ignore, basepath=prepend or basepath=split. For example, the AWS CLI command to exclude documentation from the imported API is: The AWS CLI command to set the regional endpoint on the imported API is:
+        /// A key-value map of context-specific query string parameters specifying the behavior of different API importing operations. The following shows operation-specific parameters and their supported values. To exclude DocumentationParts from the import, set parameters as ignore=documentation. To configure the endpoint type, set parameters as endpointConfigurationTypes=EDGE, endpointConfigurationTypes=REGIONAL, or endpointConfigurationTypes=PRIVATE. The default endpoint type is EDGE. To handle imported basepath, set parameters as basepath=ignore, basepath=prepend or basepath=split.
         public let parameters: [String: String]?
 
         public init(body: AWSPayload, failOnWarnings: Bool? = nil, parameters: [String: String]? = nil) {
@@ -3049,9 +3049,9 @@ extension APIGateway {
         public let connectionType: ConnectionType?
         /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors: If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehavior is configured to support payload pass-through.
         public let contentHandling: ContentHandlingStrategy?
-        /// Specifies the credentials required for the integration, if any. For AWS integrations, three options are available. To specify an IAM Role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, specify the string arn:aws:iam::\*:user/\*. To use resource-based permissions on supported AWS services, specify null.
+        /// Specifies the credentials required for the integration, if any. For AWS integrations, three options are available. To specify an IAM Role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, specify the string arn:aws:iam::\*:user/\*. To use resource-based permissions on supported Amazon Web Services services, specify null.
         public let credentials: String?
-        /// Specifies the integration's HTTP method type.
+        /// Specifies the integration's HTTP method type. For the Type property, if you specify MOCK, this property is optional. For Lambda integrations, you must set the integration method to POST. For all other types, you must specify this property.
         public let httpMethod: String?
         /// Specifies the integration's responses.
         public let integrationResponses: [String: IntegrationResponse]?
@@ -3067,7 +3067,8 @@ extension APIGateway {
         public let tlsConfig: TlsConfig?
         /// Specifies an API method integration type. The valid value is one of the following: For the HTTP and HTTP proxy integrations, each integration can specify a protocol (http/https), port and path. Standard 80 and 443 ports are supported as well as custom ports above 1024. An HTTP or HTTP proxy integration with a connectionType of VPC_LINK is referred to as a private integration and uses a VpcLink to connect API Gateway to a network load balancer of a VPC.
         public let type: IntegrationType?
-        /// Specifies Uniform Resource Identifier (URI) of the integration endpoint. For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification, for either standard integration, where connectionType is not VPC_LINK, or private integration, where connectionType is VPC_LINK. For a private HTTP integration, the URI is not used for routing. For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}. Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the integrated Amazon Web Services service (e.g., s3); and {subdomain} is a designated subdomain supported by certain Amazon Web Services  service for fast host-name lookup. action can be used for an Amazon Web Services  service action-based API, using an Action={name}&{p1}={v1}&p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an AWS service path-based API. The ensuing service_api refers to the path to an Amazon Web Services  service resource, including the region of the integrated Amazon Web Services  service, if applicable. For example, for integration with the S3 API of GetObject, the uri can be either arn:aws:apigateway:us-west-2:s3:action/GetObject&Bucket={bucket}&Key={key} or arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}
+        /// Specifies Uniform Resource Identifier (URI) of the integration endpoint. For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL
+        /// 	    according to the RFC-3986 specification for standard integrations. If connectionType is VPC_LINK specify the Network Load Balancer DNS name. For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}. Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the integrated Amazon Web Services service (e.g., s3); and {subdomain} is a designated subdomain supported by certain Amazon Web Services  service for fast host-name lookup. action can be used for an Amazon Web Services  service action-based API, using an Action={name}&{p1}={v1}&p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an Amazon Web Services service path-based API. The ensuing service_api refers to the path to an Amazon Web Services  service resource, including the region of the integrated Amazon Web Services  service, if applicable. For example, for integration with the S3 API of GetObject, the uri can be either arn:aws:apigateway:us-west-2:s3:action/GetObject&Bucket={bucket}&Key={key} or arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}
         public let uri: String?
 
         public init(cacheKeyParameters: [String]? = nil, cacheNamespace: String? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandling: ContentHandlingStrategy? = nil, credentials: String? = nil, httpMethod: String? = nil, integrationResponses: [String: IntegrationResponse]? = nil, passthroughBehavior: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil, type: IntegrationType? = nil, uri: String? = nil) {
@@ -3114,7 +3115,7 @@ extension APIGateway {
         public let responseParameters: [String: String]?
         /// Specifies the templates used to transform the integration response body. Response templates are represented as a key/value map, with a content-type as the key and a template as the value.
         public let responseTemplates: [String: String]?
-        /// Specifies the regular expression (regex) pattern used to choose an integration response based on the response from the back end. For example, if the success response returns nothing and the error response returns some string, you could use the .+ regex to match error response. However, make sure that the error response does not contain any newline (\n) character in such cases. If the back end is an AWS Lambda function, the AWS Lambda function error header is matched. For all other HTTP and AWS back ends, the HTTP status code is matched.
+        /// Specifies the regular expression (regex) pattern used to choose an integration response based on the response from the back end. For example, if the success response returns nothing and the error response returns some string, you could use the .+ regex to match error response. However, make sure that the error response does not contain any newline (\n) character in such cases. If the back end is an Lambda function, the Lambda function error header is matched. For all other HTTP and Amazon Web Services back ends, the HTTP status code is matched.
         public let selectionPattern: String?
         /// Specifies the status code that is used to map the integration response to an existing MethodResponse.
         public let statusCode: String?
@@ -3211,25 +3212,25 @@ extension APIGateway {
     }
 
     public struct MethodSetting: AWSDecodableShape {
-        /// Specifies whether the cached responses are encrypted. The PATCH path for this setting is /{method_setting_key}/caching/dataEncrypted, and the value is a Boolean.
+        /// Specifies whether the cached responses are encrypted.
         public let cacheDataEncrypted: Bool?
-        /// Specifies the time to live (TTL), in seconds, for cached responses. The higher the TTL, the longer the response will be cached. The PATCH path for this setting is /{method_setting_key}/caching/ttlInSeconds, and the value is an integer.
+        /// Specifies the time to live (TTL), in seconds, for cached responses. The higher the TTL, the longer the response will be cached.
         public let cacheTtlInSeconds: Int?
-        /// Specifies whether responses should be cached and returned for requests. A cache cluster must be enabled on the stage for responses to be cached. The PATCH path for this setting is /{method_setting_key}/caching/enabled, and the value is a Boolean.
+        /// Specifies whether responses should be cached and returned for requests. A cache cluster must be enabled on the stage for responses to be cached.
         public let cachingEnabled: Bool?
-        /// Specifies whether data trace logging is enabled for this method, which affects the log entries pushed to Amazon CloudWatch Logs. The PATCH path for this setting is /{method_setting_key}/logging/dataTrace, and the value is a Boolean.
+        /// Specifies whether data trace logging is enabled for this method, which affects the log entries pushed to Amazon CloudWatch Logs.
         public let dataTraceEnabled: Bool?
-        /// Specifies the logging level for this method, which affects the log entries pushed to Amazon CloudWatch Logs. The PATCH path for this setting is /{method_setting_key}/logging/loglevel, and the available levels are OFF, ERROR, and INFO. Choose ERROR to write only error-level entries to CloudWatch Logs, or choose INFO to include all ERROR events as well as extra informational events.
+        /// Specifies the logging level for this method, which affects the log entries pushed to Amazon CloudWatch Logs. Valid values are OFF, ERROR, and INFO. Choose ERROR to write only error-level entries to CloudWatch Logs, or choose INFO to include all ERROR events as well as extra informational events.
         public let loggingLevel: String?
-        /// Specifies whether Amazon CloudWatch metrics are enabled for this method. The PATCH path for this setting is /{method_setting_key}/metrics/enabled, and the value is a Boolean.
+        /// Specifies whether Amazon CloudWatch metrics are enabled for this method.
         public let metricsEnabled: Bool?
-        /// Specifies whether authorization is required for a cache invalidation request. The PATCH path for this setting is /{method_setting_key}/caching/requireAuthorizationForCacheControl, and the value is a Boolean.
+        /// Specifies whether authorization is required for a cache invalidation request.
         public let requireAuthorizationForCacheControl: Bool?
-        /// Specifies the throttling burst limit. The PATCH path for this setting is /{method_setting_key}/throttling/burstLimit, and the value is an integer.
+        /// Specifies the throttling burst limit.
         public let throttlingBurstLimit: Int?
-        /// Specifies the throttling rate limit. The PATCH path for this setting is /{method_setting_key}/throttling/rateLimit, and the value is a double.
+        /// Specifies the throttling rate limit.
         public let throttlingRateLimit: Double?
-        /// Specifies how to handle unauthorized requests for cache invalidation. The PATCH path for this setting is /{method_setting_key}/caching/unauthorizedCacheControlHeaderStrategy, and the available values are FAIL_WITH_403, SUCCEED_WITH_RESPONSE_HEADER, SUCCEED_WITHOUT_RESPONSE_HEADER.
+        /// Specifies how to handle unauthorized requests for cache invalidation.
         public let unauthorizedCacheControlHeaderStrategy: UnauthorizedCacheControlHeaderStrategy?
 
         public init(cacheDataEncrypted: Bool? = nil, cacheTtlInSeconds: Int? = nil, cachingEnabled: Bool? = nil, dataTraceEnabled: Bool? = nil, loggingLevel: String? = nil, metricsEnabled: Bool? = nil, requireAuthorizationForCacheControl: Bool? = nil, throttlingBurstLimit: Int? = nil, throttlingRateLimit: Double? = nil, unauthorizedCacheControlHeaderStrategy: UnauthorizedCacheControlHeaderStrategy? = nil) {
@@ -3820,6 +3821,8 @@ extension APIGateway {
         public let name: String?
         /// A stringified JSON policy document that applies to this RestApi regardless of the caller and Method configuration.
         public let policy: String?
+        /// The API's root resource ID.
+        public let rootResourceId: String?
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
         /// A version identifier for the API.
@@ -3827,7 +3830,7 @@ extension APIGateway {
         /// The warning messages reported when failonwarnings is turned on during API import.
         public let warnings: [String]?
 
-        public init(apiKeySource: ApiKeySourceType? = nil, binaryMediaTypes: [String]? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, endpointConfiguration: EndpointConfiguration? = nil, id: String? = nil, minimumCompressionSize: Int? = nil, name: String? = nil, policy: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiKeySource: ApiKeySourceType? = nil, binaryMediaTypes: [String]? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, endpointConfiguration: EndpointConfiguration? = nil, id: String? = nil, minimumCompressionSize: Int? = nil, name: String? = nil, policy: String? = nil, rootResourceId: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiKeySource = apiKeySource
             self.binaryMediaTypes = binaryMediaTypes
             self.createdDate = createdDate
@@ -3838,6 +3841,7 @@ extension APIGateway {
             self.minimumCompressionSize = minimumCompressionSize
             self.name = name
             self.policy = policy
+            self.rootResourceId = rootResourceId
             self.tags = tags
             self.version = version
             self.warnings = warnings
@@ -3854,6 +3858,7 @@ extension APIGateway {
             case minimumCompressionSize = "minimumCompressionSize"
             case name = "name"
             case policy = "policy"
+            case rootResourceId = "rootResourceId"
             case tags = "tags"
             case version = "version"
             case warnings = "warnings"
@@ -4181,7 +4186,7 @@ extension APIGateway {
         public let claims: [String: String]?
         /// The HTTP status code that the client would have received. Value is 0 if the authorizer succeeded.
         public let clientStatus: Int?
-        /// The execution latency of the test authorizer request.
+        /// The execution latency, in ms, of the test authorizer request.
         public let latency: Int64?
         /// The API Gateway execution log for the test authorizer request.
         public let log: String?
@@ -4264,7 +4269,7 @@ extension APIGateway {
         public let body: String?
         /// The headers of the HTTP response.
         public let headers: [String: String]?
-        /// The execution latency of the test invoke request.
+        /// The execution latency, in ms, of the test invoke request.
         public let latency: Int64?
         /// The API Gateway execution log for the test invoke request.
         public let log: String?
@@ -4500,7 +4505,7 @@ extension APIGateway {
         public let documentationVersion: String
         /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
-        /// The string identifier of the associated RestApi..
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(documentationVersion: String, patchOperations: [PatchOperation]? = nil, restApiId: String) {
@@ -4908,7 +4913,7 @@ extension APIGateway {
         public let id: String?
         /// The name of a usage plan.
         public let name: String?
-        /// The AWS Markeplace product identifier to associate with the usage plan as a SaaS product on AWS Marketplace.
+        /// The Amazon Web Services Marketplace product identifier to associate with the usage plan as a SaaS product on the Amazon Web Services Marketplace.
         public let productCode: String?
         /// The target maximum number of permitted requests per a given unit time interval.
         public let quota: QuotaSettings?
@@ -5020,7 +5025,7 @@ extension APIGateway {
         public let statusMessage: String?
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
-        /// The ARN of the network load balancer of the VPC targeted by the VPC link. The network load balancer must be owned by the same AWS account of the API owner.
+        /// The ARN of the network load balancer of the VPC targeted by the VPC link. The network load balancer must be owned by the same Amazon Web Services account of the API owner.
         public let targetArns: [String]?
 
         public init(description: String? = nil, id: String? = nil, name: String? = nil, status: VpcLinkStatus? = nil, statusMessage: String? = nil, tags: [String: String]? = nil, targetArns: [String]? = nil) {

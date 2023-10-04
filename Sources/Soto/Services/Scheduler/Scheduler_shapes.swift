@@ -26,6 +26,12 @@ import SotoCore
 extension Scheduler {
     // MARK: Enums
 
+    public enum ActionAfterCompletion: String, CustomStringConvertible, Codable, Sendable {
+        case delete = "DELETE"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AssignPublicIp: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -198,6 +204,8 @@ extension Scheduler {
             AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
+        /// Specifies the action that EventBridge Scheduler applies to the schedule after the schedule completes invoking the target.
+        public let actionAfterCompletion: ActionAfterCompletion?
         ///  Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you do not specify a client token, EventBridge Scheduler uses a randomly generated token for the request to ensure idempotency.
         public let clientToken: String?
         /// The description you specify for the schedule.
@@ -214,7 +222,7 @@ extension Scheduler {
         /// The name of the schedule that you are creating.
         public let name: String
         ///  The expression that defines when the schedule runs. The following formats are supported.
-        ///     at expression - at(yyyy-mm-ddThh:mm:ss)     rate expression - rate(unit value)     cron expression - cron(fields)     You can use at expressions to create one-time schedules that invoke a target once, at the time and in the time zone, that you specify. You can use rate and cron expressions to create recurring schedules. Rate-based schedules are useful when you want to invoke a target at regular intervals, such as every 15 minutes or every five days. Cron-based schedules are useful when you want to invoke a target periodically at a specific time, such as at 8:00 am (UTC+0) every 1st day of the month.
+        ///     at expression - at(yyyy-mm-ddThh:mm:ss)     rate expression - rate(value unit)     cron expression - cron(fields)     You can use at expressions to create one-time schedules that invoke a target once, at the time and in the time zone, that you specify. You can use rate and cron expressions to create recurring schedules. Rate-based schedules are useful when you want to invoke a target at regular intervals, such as every 15 minutes or every five days. Cron-based schedules are useful when you want to invoke a target periodically at a specific time, such as at 8:00 am (UTC+0) every 1st day of the month.
         ///   A cron expression consists of six fields separated by white spaces: (minutes hours day_of_month month day_of_week year).
         ///   A rate expression consists of a value as a positive integer, and a unit with the following options: minute | minutes | hour | hours | day | days   For more information and examples, see Schedule types on EventBridge Scheduler in the EventBridge Scheduler User Guide.
         public let scheduleExpression: String
@@ -228,7 +236,8 @@ extension Scheduler {
         /// The schedule's target.
         public let target: Target
 
-        public init(clientToken: String? = CreateScheduleInput.idempotencyToken(), description: String? = nil, endDate: Date? = nil, flexibleTimeWindow: FlexibleTimeWindow, groupName: String? = nil, kmsKeyArn: String? = nil, name: String, scheduleExpression: String, scheduleExpressionTimezone: String? = nil, startDate: Date? = nil, state: ScheduleState? = nil, target: Target) {
+        public init(actionAfterCompletion: ActionAfterCompletion? = nil, clientToken: String? = CreateScheduleInput.idempotencyToken(), description: String? = nil, endDate: Date? = nil, flexibleTimeWindow: FlexibleTimeWindow, groupName: String? = nil, kmsKeyArn: String? = nil, name: String, scheduleExpression: String, scheduleExpressionTimezone: String? = nil, startDate: Date? = nil, state: ScheduleState? = nil, target: Target) {
+            self.actionAfterCompletion = actionAfterCompletion
             self.clientToken = clientToken
             self.description = description
             self.endDate = endDate
@@ -266,6 +275,7 @@ extension Scheduler {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionAfterCompletion = "ActionAfterCompletion"
             case clientToken = "ClientToken"
             case description = "Description"
             case endDate = "EndDate"
@@ -599,6 +609,8 @@ extension Scheduler {
     }
 
     public struct GetScheduleOutput: AWSDecodableShape {
+        /// Indicates the action that EventBridge Scheduler applies to the schedule after the schedule completes invoking the target.
+        public let actionAfterCompletion: ActionAfterCompletion?
         /// The Amazon Resource Name (ARN) of the schedule.
         public let arn: String?
         /// The time at which the schedule was created.
@@ -619,7 +631,7 @@ extension Scheduler {
         /// The name of the schedule.
         public let name: String?
         ///  The expression that defines when the schedule runs. The following formats are supported.
-        ///     at expression - at(yyyy-mm-ddThh:mm:ss)     rate expression - rate(unit value)     cron expression - cron(fields)     You can use at expressions to create one-time schedules that invoke a target once, at the time and in the time zone, that you specify. You can use rate and cron expressions to create recurring schedules. Rate-based schedules are useful when you want to invoke a target at regular intervals, such as every 15 minutes or every five days. Cron-based schedules are useful when you want to invoke a target periodically at a specific time, such as at 8:00 am (UTC+0) every 1st day of the month.
+        ///     at expression - at(yyyy-mm-ddThh:mm:ss)     rate expression - rate(value unit)     cron expression - cron(fields)     You can use at expressions to create one-time schedules that invoke a target once, at the time and in the time zone, that you specify. You can use rate and cron expressions to create recurring schedules. Rate-based schedules are useful when you want to invoke a target at regular intervals, such as every 15 minutes or every five days. Cron-based schedules are useful when you want to invoke a target periodically at a specific time, such as at 8:00 am (UTC+0) every 1st day of the month.
         ///   A cron expression consists of six fields separated by white spaces: (minutes hours day_of_month month day_of_week year).
         ///   A rate expression consists of a value as a positive integer, and a unit with the following options: minute | minutes | hour | hours | day | days   For more information and examples, see Schedule types on EventBridge Scheduler in the EventBridge Scheduler User Guide.
         public let scheduleExpression: String?
@@ -633,7 +645,8 @@ extension Scheduler {
         /// The schedule target.
         public let target: Target?
 
-        public init(arn: String? = nil, creationDate: Date? = nil, description: String? = nil, endDate: Date? = nil, flexibleTimeWindow: FlexibleTimeWindow? = nil, groupName: String? = nil, kmsKeyArn: String? = nil, lastModificationDate: Date? = nil, name: String? = nil, scheduleExpression: String? = nil, scheduleExpressionTimezone: String? = nil, startDate: Date? = nil, state: ScheduleState? = nil, target: Target? = nil) {
+        public init(actionAfterCompletion: ActionAfterCompletion? = nil, arn: String? = nil, creationDate: Date? = nil, description: String? = nil, endDate: Date? = nil, flexibleTimeWindow: FlexibleTimeWindow? = nil, groupName: String? = nil, kmsKeyArn: String? = nil, lastModificationDate: Date? = nil, name: String? = nil, scheduleExpression: String? = nil, scheduleExpressionTimezone: String? = nil, startDate: Date? = nil, state: ScheduleState? = nil, target: Target? = nil) {
+            self.actionAfterCompletion = actionAfterCompletion
             self.arn = arn
             self.creationDate = creationDate
             self.description = description
@@ -651,6 +664,7 @@ extension Scheduler {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionAfterCompletion = "ActionAfterCompletion"
             case arn = "Arn"
             case creationDate = "CreationDate"
             case description = "Description"
@@ -1218,6 +1232,8 @@ extension Scheduler {
             AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
+        /// Specifies the action that EventBridge Scheduler applies to the schedule after the schedule completes invoking the target.
+        public let actionAfterCompletion: ActionAfterCompletion?
         ///  Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you do not specify a client token, EventBridge Scheduler uses a randomly generated token for the request to ensure idempotency.
         public let clientToken: String?
         /// The description you specify for the schedule.
@@ -1234,7 +1250,7 @@ extension Scheduler {
         /// The name of the schedule that you are updating.
         public let name: String
         ///  The expression that defines when the schedule runs. The following formats are supported.
-        ///     at expression - at(yyyy-mm-ddThh:mm:ss)     rate expression - rate(unit value)     cron expression - cron(fields)     You can use at expressions to create one-time schedules that invoke a target once, at the time and in the time zone, that you specify. You can use rate and cron expressions to create recurring schedules. Rate-based schedules are useful when you want to invoke a target at regular intervals, such as every 15 minutes or every five days. Cron-based schedules are useful when you want to invoke a target periodically at a specific time, such as at 8:00 am (UTC+0) every 1st day of the month.
+        ///     at expression - at(yyyy-mm-ddThh:mm:ss)     rate expression - rate(value unit)     cron expression - cron(fields)     You can use at expressions to create one-time schedules that invoke a target once, at the time and in the time zone, that you specify. You can use rate and cron expressions to create recurring schedules. Rate-based schedules are useful when you want to invoke a target at regular intervals, such as every 15 minutes or every five days. Cron-based schedules are useful when you want to invoke a target periodically at a specific time, such as at 8:00 am (UTC+0) every 1st day of the month.
         ///   A cron expression consists of six fields separated by white spaces: (minutes hours day_of_month month day_of_week year).
         ///   A rate expression consists of a value as a positive integer, and a unit with the following options: minute | minutes | hour | hours | day | days   For more information and examples, see Schedule types on EventBridge Scheduler in the EventBridge Scheduler User Guide.
         public let scheduleExpression: String
@@ -1248,7 +1264,8 @@ extension Scheduler {
         /// The schedule target. You can use this operation to change the target that your schedule invokes.
         public let target: Target
 
-        public init(clientToken: String? = UpdateScheduleInput.idempotencyToken(), description: String? = nil, endDate: Date? = nil, flexibleTimeWindow: FlexibleTimeWindow, groupName: String? = nil, kmsKeyArn: String? = nil, name: String, scheduleExpression: String, scheduleExpressionTimezone: String? = nil, startDate: Date? = nil, state: ScheduleState? = nil, target: Target) {
+        public init(actionAfterCompletion: ActionAfterCompletion? = nil, clientToken: String? = UpdateScheduleInput.idempotencyToken(), description: String? = nil, endDate: Date? = nil, flexibleTimeWindow: FlexibleTimeWindow, groupName: String? = nil, kmsKeyArn: String? = nil, name: String, scheduleExpression: String, scheduleExpressionTimezone: String? = nil, startDate: Date? = nil, state: ScheduleState? = nil, target: Target) {
+            self.actionAfterCompletion = actionAfterCompletion
             self.clientToken = clientToken
             self.description = description
             self.endDate = endDate
@@ -1286,6 +1303,7 @@ extension Scheduler {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionAfterCompletion = "ActionAfterCompletion"
             case clientToken = "ClientToken"
             case description = "Description"
             case endDate = "EndDate"

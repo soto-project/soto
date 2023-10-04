@@ -60,6 +60,12 @@ public struct NetworkManager: AWSService {
                 .aws: (endpoint: "aws-global", region: .uswest2),
                 .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)
             ],
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "aws-global": "networkmanager-fips.us-west-2.amazonaws.com",
+                    "aws-us-gov-global": "networkmanager.us-gov-west-1.amazonaws.com"
+                ])
+            ],
             errorType: NetworkManagerErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

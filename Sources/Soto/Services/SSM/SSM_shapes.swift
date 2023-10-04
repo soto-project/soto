@@ -222,8 +222,8 @@ extension SSM {
     }
 
     public enum ConnectionStatus: String, CustomStringConvertible, Codable, Sendable {
-        case connected = "Connected"
-        case notConnected = "NotConnected"
+        case connected = "connected"
+        case notConnected = "notconnected"
         public var description: String { return self.rawValue }
     }
 
@@ -681,7 +681,6 @@ extension SSM {
     }
 
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
-        case document = "Document"
         case ec2Instance = "EC2Instance"
         case managedInstance = "ManagedInstance"
         public var description: String { return self.rawValue }
@@ -835,7 +834,7 @@ extension SSM {
     }
 
     public struct AddTagsToResourceRequest: AWSEncodableShape {
-        /// The resource ID you want to tag. Use the ID of the resource. Here are some examples:  MaintenanceWindow: mw-012345abcde   PatchBaseline: pb-012345abcde   Automation: example-c160-4567-8519-012345abcde   OpsMetadata object: ResourceID for tagging is created from the Amazon Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the Document and Parameter values, use the name of the resource.  ManagedInstance: mi-012345abcde   The ManagedInstance type for this API operation is only for on-premises managed nodes. You must specify the name of the managed node in the following format: mi-ID_number . For example, mi-1a2b3c4d5e6f.
+        /// The resource ID you want to tag. Use the ID of the resource. Here are some examples:  MaintenanceWindow: mw-012345abcde   PatchBaseline: pb-012345abcde   Automation: example-c160-4567-8519-012345abcde   OpsMetadata object: ResourceID for tagging is created from the Amazon Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the Document and Parameter values, use the name of the resource. If you're tagging a shared document, you must use the full ARN of the document.  ManagedInstance: mi-012345abcde   The ManagedInstance type for this API operation is only for on-premises managed nodes. You must specify the name of the managed node in the following format: mi-ID_number . For example, mi-1a2b3c4d5e6f.
         public let resourceId: String
         /// Specifies the type of resource you are tagging.  The ManagedInstance type for this API operation is for on-premises managed nodes. You must specify the name of the managed node in the following format: mi-ID_number . For example, mi-1a2b3c4d5e6f.
         public let resourceType: ResourceTypeForTagging
@@ -2941,7 +2940,7 @@ extension SSM {
     }
 
     public struct CreateOpsItemRequest: AWSEncodableShape {
-        /// The target Amazon Web Services account where you want to create an OpsItem. To make this call, your account must be configured to work with OpsItems across accounts. For more information, see Setting up OpsCenter to work with OpsItems across accounts in the Amazon Web Services Systems Manager User Guide.
+        /// The target Amazon Web Services account where you want to create an OpsItem. To make this call, your account must be configured to work with OpsItems across accounts. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide.
         public let accountId: String?
         /// The time a runbook workflow ended. Currently reported only for the OpsItem type /aws/changerequest.
         public let actualEndTime: Date?
@@ -2949,13 +2948,13 @@ extension SSM {
         public let actualStartTime: Date?
         /// Specify a category to assign to an OpsItem.
         public let category: String?
-        /// Information about the OpsItem.
+        /// User-defined text that contains information about the OpsItem, in Markdown format.   Provide enough information so that users viewing this OpsItem for the first time  understand the issue.
         public let description: String
         /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed.
         public let notifications: [OpsItemNotification]?
         /// Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB.  Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon, /aws, /amzn, /ssm.  You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API operation) can view and search on the specified data. Operational data that isn't searchable is only viewable by users who have access to the OpsItem (as provided by the GetOpsItem API operation). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view Amazon Web Services CLI example commands that use these keys, see Creating OpsItems manually in the Amazon Web Services Systems Manager User Guide.
         public let operationalData: [String: OpsItemDataValue]?
-        /// The type of OpsItem to create. Systems Manager supports the following types of OpsItems:    /aws/issue  This type of OpsItem is used for default OpsItems created by OpsCenter.     /aws/changerequest  This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.     /aws/insights  This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
+        /// The type of OpsItem to create. Systems Manager supports the following types of OpsItems:    /aws/issue  This type of OpsItem is used for default OpsItems created by OpsCenter.     /aws/changerequest  This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.     /aws/insight  This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
         public let opsItemType: String?
         /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
         public let plannedEndTime: Date?
@@ -2969,7 +2968,7 @@ extension SSM {
         public let severity: String?
         /// The origin of the OpsItem, such as Amazon EC2 or Systems Manager.  The source name can't contain the following strings: aws, amazon, and amzn.
         public let source: String
-        /// Optional metadata that you assign to a resource. You can restrict access to OpsItems by using an inline IAM policy that specifies tags. For more information, see Getting started with OpsCenter in the Amazon Web Services Systems Manager User Guide. Tags use a key-value pair. For example:  Key=Department,Value=Finance   To add tags to a new OpsItem, a user must have IAM permissions for both the ssm:CreateOpsItems operation and the ssm:AddTagsToResource operation. To add tags to an existing OpsItem, use the AddTagsToResource operation.
+        /// Optional metadata that you assign to a resource. Tags use a key-value pair. For example:  Key=Department,Value=Finance   To add tags to a new OpsItem, a user must have IAM permissions for both the ssm:CreateOpsItems operation and the ssm:AddTagsToResource operation. To add tags to an existing OpsItem, use the AddTagsToResource operation.
         public let tags: [Tag]?
         /// A short heading that describes the nature of the OpsItem and the impacted resource.
         public let title: String
@@ -4351,11 +4350,11 @@ extension SSM {
     }
 
     public struct DescribeInstanceInformationRequest: AWSEncodableShape {
-        /// One or more filters. Use a filter to return a more specific list of managed nodes. You can filter based on tags applied to your managed nodes. Use this Filters data type instead of InstanceInformationFilterList, which is deprecated.
+        /// One or more filters. Use a filter to return a more specific list of managed nodes. You can filter based on tags applied to your managed nodes. Tag filters can't be combined with other filter types. Use this Filters data type instead of InstanceInformationFilterList, which is deprecated.
         public let filters: [InstanceInformationStringFilter]?
         /// This is a legacy method. We recommend that you don't use this method. Instead, use the Filters data type. Filters enables you to return node information by filtering based on tags applied to managed nodes.  Attempting to use InstanceInformationFilterList and Filters leads to an exception error.
         public let instanceInformationFilterList: [InstanceInformationFilter]?
-        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results. The default value is 10 items.
         public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -5044,7 +5043,7 @@ extension SSM {
         public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results.
         public let nextToken: String?
-        /// One or more filters to limit the response.   Key: CreatedTime Operations: GreaterThan, LessThan   Key: LastModifiedBy Operations: Contains, Equals   Key: LastModifiedTime Operations: GreaterThan, LessThan   Key: Priority Operations: Equals   Key: Source Operations: Contains, Equals   Key: Status Operations: Equals   Key: Title* Operations: Equals,Contains   Key: OperationalData** Operations: Equals   Key: OperationalDataKey Operations: Equals   Key: OperationalDataValue Operations: Equals, Contains   Key: OpsItemId Operations: Equals   Key: ResourceId Operations: Contains   Key: AutomationId Operations: Equals   *The Equals operator for Title matches the first 100 characters. If you specify more than 100 characters, they system returns an error that the filter value exceeds the length limit. **If you filter the response by using the OperationalData operator, specify a key-value pair by using the following JSON format: {"key":"key_name","value":"a_value"}
+        /// One or more filters to limit the response.   Key: CreatedTime Operations: GreaterThan, LessThan   Key: LastModifiedBy Operations: Contains, Equals   Key: LastModifiedTime Operations: GreaterThan, LessThan   Key: Priority Operations: Equals   Key: Source Operations: Contains, Equals   Key: Status Operations: Equals   Key: Title* Operations: Equals,Contains   Key: OperationalData** Operations: Equals   Key: OperationalDataKey Operations: Equals   Key: OperationalDataValue Operations: Equals, Contains   Key: OpsItemId Operations: Equals   Key: ResourceId Operations: Contains   Key: AutomationId Operations: Equals   Key: AccountId Operations: Equals   *The Equals operator for Title matches the first 100 characters. If you specify more than 100 characters, they system returns an error that the filter value exceeds the length limit. **If you filter the response by using the OperationalData operator, specify a key-value pair by using the following JSON format: {"key":"key_name","value":"a_value"}
         public let opsItemFilters: [OpsItemFilter]?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, opsItemFilters: [OpsItemFilter]? = nil) {
@@ -9863,7 +9862,7 @@ extension SSM {
         public let opsItemArn: String?
         /// The ID of the OpsItem.
         public let opsItemId: String?
-        /// The type of OpsItem. Systems Manager supports the following types of OpsItems:    /aws/issue  This type of OpsItem is used for default OpsItems created by OpsCenter.     /aws/changerequest  This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.     /aws/insights  This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
+        /// The type of OpsItem. Systems Manager supports the following types of OpsItems:    /aws/issue  This type of OpsItem is used for default OpsItems created by OpsCenter.     /aws/changerequest  This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.     /aws/insight  This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
         public let opsItemType: String?
         /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
         public let plannedEndTime: Date?
@@ -10152,7 +10151,7 @@ extension SSM {
         public let operationalData: [String: OpsItemDataValue]?
         /// The ID of the OpsItem.
         public let opsItemId: String?
-        /// The type of OpsItem. Systems Manager supports the following types of OpsItems:    /aws/issue  This type of OpsItem is used for default OpsItems created by OpsCenter.     /aws/changerequest  This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.     /aws/insights  This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
+        /// The type of OpsItem. Systems Manager supports the following types of OpsItems:    /aws/issue  This type of OpsItem is used for default OpsItems created by OpsCenter.     /aws/changerequest  This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.     /aws/insight  This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
         public let opsItemType: String?
         /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
         public let plannedEndTime: Date?
@@ -11040,7 +11039,7 @@ extension SSM {
     public struct PutParameterRequest: AWSEncodableShape {
         /// A regular expression used to validate the parameter value. For example, for String types with values restricted to numbers, you can specify the following: AllowedPattern=^\d+$
         public let allowedPattern: String?
-        /// The data type for a String parameter. Supported data types include plain text and Amazon Machine Image (AMI) IDs.  The following data type values are supported.     text     aws:ec2:image     aws:ssm:integration    When you create a String parameter and specify aws:ec2:image, Amazon Web Services Systems Manager validates the parameter value is in the required format, such as ami-12345abcdeEXAMPLE, and that the specified AMI is available in your Amazon Web Services account.  If the action is successful, the service sends back an HTTP 200 response which indicates a successful PutParameter call for all cases except for data type aws:ec2:image. If you call PutParameter with aws:ec2:image data type, a successful HTTP 200 response does not guarantee that your parameter was successfully created or updated. The aws:ec2:image value is validated asynchronously, and the PutParameter call returns before the validation is complete. If you submit an invalid AMI value, the PutParameter operation will return success, but the asynchronous validation will fail and the parameter will not be created or updated. To monitor whether your aws:ec2:image parameters are created successfully,  see Setting up notifications or trigger actions based on Parameter Store events.  For more information about  AMI format validation , see Native parameter support for Amazon Machine Image (AMI) IDs.
+        /// The data type for a String parameter. Supported data types include plain text and Amazon Machine Image (AMI) IDs.  The following data type values are supported.     text     aws:ec2:image     aws:ssm:integration    When you create a String parameter and specify aws:ec2:image, Amazon Web Services Systems Manager validates the parameter value is in the required format, such as ami-12345abcdeEXAMPLE, and that the specified AMI is available in your Amazon Web Services account.  If the action is successful, the service sends back an HTTP 200 response which indicates a successful PutParameter call for all cases except for data type aws:ec2:image. If you call PutParameter with aws:ec2:image data type, a successful HTTP 200 response does not guarantee that your parameter was successfully created or updated. The aws:ec2:image value is validated asynchronously, and the PutParameter call returns before the validation is complete. If you submit an invalid AMI value, the PutParameter operation will return success, but the asynchronous validation will fail and the parameter will not be created or updated. To monitor whether your aws:ec2:image parameters are created successfully, see Setting up notifications or trigger actions based on Parameter Store events. For more information about AMI format validation , see Native parameter support for Amazon Machine Image (AMI) IDs.
         public let dataType: String?
         /// Information about the parameter that you want to add to the system. Optional but recommended.  Don't enter personally identifiable information in this field.
         public let description: String?
@@ -13749,7 +13748,7 @@ extension SSM {
         public let actualStartTime: Date?
         /// Specify a new category for an OpsItem.
         public let category: String?
-        /// Update the information about the OpsItem. Provide enough information so that users reading this OpsItem for the first time understand the issue.
+        /// User-defined text that contains information about the OpsItem, in Markdown format.
         public let description: String?
         /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed.
         public let notifications: [OpsItemNotification]?
@@ -14435,7 +14434,7 @@ public struct SSMErrorType: AWSErrorType {
     public static var opsItemAlreadyExistsException: Self { .init(.opsItemAlreadyExistsException) }
     /// A specified parameter argument isn't valid. Verify the available arguments and try again.
     public static var opsItemInvalidParameterException: Self { .init(.opsItemInvalidParameterException) }
-    /// The request caused OpsItems to exceed one or more quotas. For information about OpsItem quotas, see What are the resource limits for OpsCenter?.
+    /// The request caused OpsItems to exceed one or more quotas.
     public static var opsItemLimitExceededException: Self { .init(.opsItemLimitExceededException) }
     /// The specified OpsItem ID doesn't exist. Verify the ID and try again.
     public static var opsItemNotFoundException: Self { .init(.opsItemNotFoundException) }

@@ -179,7 +179,7 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "DescribePublishingDestination", path: "/detector/{DetectorId}/publishingDestination/{DestinationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disables an Amazon Web Services account within the Organization as the GuardDuty delegated administrator.
+    /// Removes the existing GuardDuty delegated administrator of the organization. Only the organization's management account can run this  API operation.
     public func disableOrganizationAdminAccount(_ input: DisableOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableOrganizationAdminAccountResponse> {
         return self.client.execute(operation: "DisableOrganizationAdminAccount", path: "/admin/disable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -195,17 +195,17 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "DisassociateFromMasterAccount", path: "/detector/{DetectorId}/master/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disassociates GuardDuty member accounts (from the current administrator account) specified by the account IDs. When you  disassociate an invited member from a GuardDuty delegated administrator, the member account details  obtained from the CreateMembers API, including the associated email addresses, are retained. This is  done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To  remove the details associated with a member account, the delegated administrator must invoke the  DeleteMembers API.  With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disassociate a member account before removing them from your Amazon Web Services organization.
+    /// Disassociates GuardDuty member accounts (from the current administrator account) specified by the account IDs. When you  disassociate an invited member from a GuardDuty delegated administrator, the member account details  obtained from the CreateMembers API, including the associated email addresses, are retained. This is  done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To  remove the details associated with a member account, the delegated administrator must invoke the  DeleteMembers API.  With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disassociate a member account before removing them from your organization.
     public func disassociateMembers(_ input: DisassociateMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateMembersResponse> {
         return self.client.execute(operation: "DisassociateMembers", path: "/detector/{DetectorId}/member/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Enables an Amazon Web Services account within the organization as the GuardDuty delegated administrator.
+    /// Designates an Amazon Web Services account within the organization as your GuardDuty delegated administrator. Only the organization's management account can run this  API operation.
     public func enableOrganizationAdminAccount(_ input: EnableOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableOrganizationAdminAccountResponse> {
         return self.client.execute(operation: "EnableOrganizationAdminAccount", path: "/admin/enable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Provides the details for the GuardDuty administrator account associated with the current GuardDuty member account.
+    /// Provides the details of the GuardDuty administrator account associated with the current GuardDuty member account.  If the organization's management account or a delegated administrator runs this API,  it will return success (HTTP 200) but no content.
     public func getAdministratorAccount(_ input: GetAdministratorAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAdministratorAccountResponse> {
         return self.client.execute(operation: "GetAdministratorAccount", path: "/detector/{DetectorId}/administrator", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -281,7 +281,7 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "GetUsageStatistics", path: "/detector/{DetectorId}/usage/statistics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Invites Amazon Web Services accounts to become members of an organization administered by the Amazon Web Services account  that invokes this API. If you are using Amazon Web Services Organizations to manager your GuardDuty environment, this step is not  needed. For more information, see Managing accounts with Amazon Web Services Organizations. To invite Amazon Web Services accounts, the first step is  to ensure that GuardDuty has been enabled in the potential member accounts. You can now invoke this API to add accounts by invitation. The  invited accounts can either accept or decline the invitation from their GuardDuty accounts. Each invited Amazon Web Services account can  choose to accept the invitation from only one Amazon Web Services account. For more information, see  Managing GuardDuty accounts  by invitation. After the invite has been accepted and you choose to disassociate a member account  (by using DisassociateMembers) from your account,  the details of the member account obtained by invoking CreateMembers, including the  associated email addresses, will be retained.  This is done so that you can invoke InviteMembers without the need to invoke  CreateMembers again. To  remove the details associated with a member account, you must also invoke  DeleteMembers.
+    /// Invites Amazon Web Services accounts to become members of an organization administered by the Amazon Web Services account  that invokes this API. If you are using Amazon Web Services Organizations to manage your GuardDuty environment, this step is not needed. For more information, see Managing accounts with organizations. To invite Amazon Web Services accounts, the first step is  to ensure that GuardDuty has been enabled in the potential member accounts. You can now invoke this API to add accounts by invitation. The  invited accounts can either accept or decline the invitation from their GuardDuty accounts. Each invited Amazon Web Services account can  choose to accept the invitation from only one Amazon Web Services account. For more information, see  Managing GuardDuty accounts  by invitation. After the invite has been accepted and you choose to disassociate a member account  (by using DisassociateMembers) from your account,  the details of the member account obtained by invoking CreateMembers, including the  associated email addresses, will be retained.  This is done so that you can invoke InviteMembers without the need to invoke  CreateMembers again. To  remove the details associated with a member account, you must also invoke  DeleteMembers.
     public func inviteMembers(_ input: InviteMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<InviteMembersResponse> {
         return self.client.execute(operation: "InviteMembers", path: "/detector/{DetectorId}/member/invite", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -321,7 +321,7 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "ListMembers", path: "/detector/{DetectorId}/member", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the accounts configured as GuardDuty delegated administrators.
+    /// Lists the accounts designated as GuardDuty delegated administrators.  Only the organization's management account can run this  API operation.
     public func listOrganizationAdminAccounts(_ input: ListOrganizationAdminAccountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOrganizationAdminAccountsResponse> {
         return self.client.execute(operation: "ListOrganizationAdminAccounts", path: "/admin", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -331,7 +331,7 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "ListPublishingDestinations", path: "/detector/{DetectorId}/publishingDestination", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists tags for a resource. Tagging is currently supported for detectors, finding filters, IP sets, and threat intel sets, with a limit of 50 tags per resource. When invoked, this operation returns all assigned tags for a given resource.
+    /// Lists tags for a resource. Tagging is currently supported for detectors, finding filters, IP sets, threat intel sets, and publishing destination, with a limit of 50 tags per resource.  When invoked, this operation returns all assigned tags for a given resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -401,7 +401,7 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "UpdateMemberDetectors", path: "/detector/{DetectorId}/member/detector/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Configures the delegated administrator account with the provided values. You must provide the value for either autoEnableOrganizationMembers or autoEnable.  There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
+    /// Configures the delegated administrator account with the provided values. You must provide a value for either autoEnableOrganizationMembers or autoEnable, but not both.  There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     public func updateOrganizationConfiguration(_ input: UpdateOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateOrganizationConfigurationResponse> {
         return self.client.execute(operation: "UpdateOrganizationConfiguration", path: "/detector/{DetectorId}/admin", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -959,7 +959,7 @@ extension GuardDuty {
         )
     }
 
-    /// Lists the accounts configured as GuardDuty delegated administrators.
+    /// Lists the accounts designated as GuardDuty delegated administrators.  Only the organization's management account can run this  API operation.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

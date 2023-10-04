@@ -26,6 +26,14 @@ import SotoCore
 extension ChimeSDKMediaPipelines {
     // MARK: Enums
 
+    public enum ActiveSpeakerPosition: String, CustomStringConvertible, Codable, Sendable {
+        case bottomLeft = "BottomLeft"
+        case bottomRight = "BottomRight"
+        case topLeft = "TopLeft"
+        case topRight = "TopRight"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ArtifactsConcatenationState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
@@ -56,6 +64,16 @@ extension ChimeSDKMediaPipelines {
         public var description: String { return self.rawValue }
     }
 
+    public enum BorderColor: String, CustomStringConvertible, Codable, Sendable {
+        case black = "Black"
+        case blue = "Blue"
+        case green = "Green"
+        case red = "Red"
+        case white = "White"
+        case yellow = "Yellow"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CallAnalyticsLanguageCode: String, CustomStringConvertible, Codable, Sendable {
         case deDe = "de-DE"
         case enAu = "en-AU"
@@ -66,6 +84,12 @@ extension ChimeSDKMediaPipelines {
         case frFr = "fr-FR"
         case itIt = "it-IT"
         case ptBr = "pt-BR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CanvasOrientation: String, CustomStringConvertible, Codable, Sendable {
+        case landscape = "Landscape"
+        case portrait = "Portrait"
         public var description: String { return self.rawValue }
     }
 
@@ -91,6 +115,7 @@ extension ChimeSDKMediaPipelines {
     }
 
     public enum ContentShareLayoutOption: String, CustomStringConvertible, Codable, Sendable {
+        case activeSpeakerOnly = "ActiveSpeakerOnly"
         case horizontal = "Horizontal"
         case presenterOnly = "PresenterOnly"
         case vertical = "Vertical"
@@ -105,6 +130,31 @@ extension ChimeSDKMediaPipelines {
     public enum FragmentSelectorType: String, CustomStringConvertible, Codable, Sendable {
         case producerTimestamp = "ProducerTimestamp"
         case serverTimestamp = "ServerTimestamp"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HighlightColor: String, CustomStringConvertible, Codable, Sendable {
+        case black = "Black"
+        case blue = "Blue"
+        case green = "Green"
+        case red = "Red"
+        case white = "White"
+        case yellow = "Yellow"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HorizontalTilePosition: String, CustomStringConvertible, Codable, Sendable {
+        case bottom = "Bottom"
+        case top = "Top"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KinesisVideoStreamPoolStatus: String, CustomStringConvertible, Codable, Sendable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -143,6 +193,19 @@ extension ChimeSDKMediaPipelines {
         case snsTopicSink = "SnsTopicSink"
         case sqsQueueSink = "SqsQueueSink"
         case voiceAnalyticsProcessor = "VoiceAnalyticsProcessor"
+        case voiceEnhancementSink = "VoiceEnhancementSink"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MediaPipelineElementStatus: String, CustomStringConvertible, Codable, Sendable {
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        case initializing = "Initializing"
+        case notStarted = "NotStarted"
+        case notSupported = "NotSupported"
+        case paused = "Paused"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
         public var description: String { return self.rawValue }
     }
 
@@ -160,6 +223,7 @@ extension ChimeSDKMediaPipelines {
         case failed = "Failed"
         case inProgress = "InProgress"
         case initializing = "Initializing"
+        case notStarted = "NotStarted"
         case paused = "Paused"
         case stopped = "Stopped"
         case stopping = "Stopping"
@@ -169,6 +233,27 @@ extension ChimeSDKMediaPipelines {
     public enum MediaPipelineStatusUpdate: String, CustomStringConvertible, Codable, Sendable {
         case pause = "Pause"
         case resume = "Resume"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MediaPipelineTaskStatus: String, CustomStringConvertible, Codable, Sendable {
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        case initializing = "Initializing"
+        case notStarted = "NotStarted"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MediaStreamPipelineSinkType: String, CustomStringConvertible, Codable, Sendable {
+        case kinesisVideoStreamPool = "KinesisVideoStreamPool"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MediaStreamType: String, CustomStringConvertible, Codable, Sendable {
+        case individualAudio = "IndividualAudio"
+        case mixedAudio = "MixedAudio"
         public var description: String { return self.rawValue }
     }
 
@@ -217,6 +302,18 @@ extension ChimeSDKMediaPipelines {
         public var description: String { return self.rawValue }
     }
 
+    public enum TileOrder: String, CustomStringConvertible, Codable, Sendable {
+        case joinSequence = "JoinSequence"
+        case speakerSequence = "SpeakerSequence"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VerticalTilePosition: String, CustomStringConvertible, Codable, Sendable {
+        case left = "Left"
+        case right = "Right"
+        public var description: String { return self.rawValue }
+    }
+
     public enum VideoMuxType: String, CustomStringConvertible, Codable, Sendable {
         case videoOnly = "VideoOnly"
         public var description: String { return self.rawValue }
@@ -235,7 +332,25 @@ extension ChimeSDKMediaPipelines {
         public var description: String { return self.rawValue }
     }
 
+    public enum VoiceAnalyticsLanguageCode: String, CustomStringConvertible, Codable, Sendable {
+        case enUs = "en-US"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct ActiveSpeakerOnlyConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The position of the ActiveSpeakerOnly video tile.
+        public let activeSpeakerPosition: ActiveSpeakerPosition?
+
+        public init(activeSpeakerPosition: ActiveSpeakerPosition? = nil) {
+            self.activeSpeakerPosition = activeSpeakerPosition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeSpeakerPosition = "ActiveSpeakerPosition"
+        }
+    }
 
     public struct AmazonTranscribeCallAnalyticsProcessorConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// By default, all CategoryEvents are sent to the insights target. If this parameter is specified, only included categories are sent to the insights target.
@@ -330,51 +445,75 @@ extension ChimeSDKMediaPipelines {
         public let enablePartialResultsStabilization: Bool?
         /// If true, TranscriptEvents with IsPartial: true are filtered out of the insights target.
         public let filterPartialResults: Bool?
+        /// Turns language identification on or off.
+        public let identifyLanguage: Bool?
         /// The language code that represents the language spoken in your audio. If you're unsure of the language spoken in your audio, consider using IdentifyLanguage to enable automatic language identification. For a list of languages that real-time Call Analytics supports, see the Supported languages table  in the Amazon Transcribe Developer Guide.
-        public let languageCode: CallAnalyticsLanguageCode
+        public let languageCode: CallAnalyticsLanguageCode?
         /// The name of the custom language model that you want to use when processing your transcription. Note that language model names are case sensitive. The language of the specified language model must match the language code you specify in your transcription request. If the languages don't match, the custom language model isn't applied.  There are no errors or warnings associated with a language mismatch. For more information, see Custom language models in the Amazon Transcribe Developer Guide.
         public let languageModelName: String?
+        /// The language options for the transcription, such as automatic language detection.
+        public let languageOptions: String?
         /// The level of stability to use when you enable partial results stabilization (EnablePartialResultsStabilization). Low stability provides the highest accuracy. High stability transcribes faster, but with slightly lower accuracy. For more information, see Partial-result stabilization  in the Amazon Transcribe Developer Guide.
         public let partialResultsStability: PartialResultsStability?
         /// The types of personally identifiable information (PII) to redact from a transcript. You can include as many types as you'd like, or you can select ALL. To include PiiEntityTypes in your Call Analytics request, you must also include ContentIdentificationType or ContentRedactionType, but you can't include both. Values must be comma-separated and can include: ADDRESS, BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_CVV,  CREDIT_DEBIT_EXPIRY, CREDIT_DEBIT_NUMBER, EMAIL,  NAME, PHONE, PIN, SSN, or ALL. If you leave this parameter empty, the default behavior is equivalent to ALL.
         public let piiEntityTypes: String?
+        /// The preferred language for the transcription.
+        public let preferredLanguage: CallAnalyticsLanguageCode?
         /// Enables speaker partitioning (diarization) in your transcription output. Speaker partitioning labels the speech from individual speakers in your media file. For more information, see Partitioning speakers (diarization) in the Amazon Transcribe Developer Guide.
         public let showSpeakerLabel: Bool?
         /// The vocabulary filtering method used in your Call Analytics transcription.
         public let vocabularyFilterMethod: VocabularyFilterMethod?
         /// The name of the custom vocabulary filter that you specified in your Call Analytics request. Length Constraints: Minimum length of 1. Maximum length of 200.
         public let vocabularyFilterName: String?
+        /// The names of the custom vocabulary filter or filters using during transcription.
+        public let vocabularyFilterNames: String?
         /// The name of the custom vocabulary that you specified in your Call Analytics request. Length Constraints: Minimum length of 1. Maximum length of 200.
         public let vocabularyName: String?
+        /// The names of the custom vocabulary or vocabularies used during transcription.
+        public let vocabularyNames: String?
 
-        public init(contentIdentificationType: ContentType? = nil, contentRedactionType: ContentType? = nil, enablePartialResultsStabilization: Bool? = nil, filterPartialResults: Bool? = nil, languageCode: CallAnalyticsLanguageCode, languageModelName: String? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, showSpeakerLabel: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
+        public init(contentIdentificationType: ContentType? = nil, contentRedactionType: ContentType? = nil, enablePartialResultsStabilization: Bool? = nil, filterPartialResults: Bool? = nil, identifyLanguage: Bool? = nil, languageCode: CallAnalyticsLanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: CallAnalyticsLanguageCode? = nil, showSpeakerLabel: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
             self.enablePartialResultsStabilization = enablePartialResultsStabilization
             self.filterPartialResults = filterPartialResults
+            self.identifyLanguage = identifyLanguage
             self.languageCode = languageCode
             self.languageModelName = languageModelName
+            self.languageOptions = languageOptions
             self.partialResultsStability = partialResultsStability
             self.piiEntityTypes = piiEntityTypes
+            self.preferredLanguage = preferredLanguage
             self.showSpeakerLabel = showSpeakerLabel
             self.vocabularyFilterMethod = vocabularyFilterMethod
             self.vocabularyFilterName = vocabularyFilterName
+            self.vocabularyFilterNames = vocabularyFilterNames
             self.vocabularyName = vocabularyName
+            self.vocabularyNames = vocabularyNames
         }
 
         public func validate(name: String) throws {
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, max: 200)
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, min: 1)
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
+            try self.validate(self.languageOptions, name: "languageOptions", parent: name, max: 200)
+            try self.validate(self.languageOptions, name: "languageOptions", parent: name, min: 1)
+            try self.validate(self.languageOptions, name: "languageOptions", parent: name, pattern: "^[a-zA-Z-,]+$")
             try self.validate(self.piiEntityTypes, name: "piiEntityTypes", parent: name, max: 300)
             try self.validate(self.piiEntityTypes, name: "piiEntityTypes", parent: name, min: 1)
             try self.validate(self.piiEntityTypes, name: "piiEntityTypes", parent: name, pattern: "^[A-Z_, ]+$")
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, max: 200)
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, min: 1)
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
+            try self.validate(self.vocabularyFilterNames, name: "vocabularyFilterNames", parent: name, max: 3000)
+            try self.validate(self.vocabularyFilterNames, name: "vocabularyFilterNames", parent: name, min: 1)
+            try self.validate(self.vocabularyFilterNames, name: "vocabularyFilterNames", parent: name, pattern: "^[a-zA-Z0-9,-._]+$")
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, max: 200)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, min: 1)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
+            try self.validate(self.vocabularyNames, name: "vocabularyNames", parent: name, max: 3000)
+            try self.validate(self.vocabularyNames, name: "vocabularyNames", parent: name, min: 1)
+            try self.validate(self.vocabularyNames, name: "vocabularyNames", parent: name, pattern: "^[a-zA-Z0-9,-._]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -382,14 +521,19 @@ extension ChimeSDKMediaPipelines {
             case contentRedactionType = "ContentRedactionType"
             case enablePartialResultsStabilization = "EnablePartialResultsStabilization"
             case filterPartialResults = "FilterPartialResults"
+            case identifyLanguage = "IdentifyLanguage"
             case languageCode = "LanguageCode"
             case languageModelName = "LanguageModelName"
+            case languageOptions = "LanguageOptions"
             case partialResultsStability = "PartialResultsStability"
             case piiEntityTypes = "PiiEntityTypes"
+            case preferredLanguage = "PreferredLanguage"
             case showSpeakerLabel = "ShowSpeakerLabel"
             case vocabularyFilterMethod = "VocabularyFilterMethod"
             case vocabularyFilterName = "VocabularyFilterName"
+            case vocabularyFilterNames = "VocabularyFilterNames"
             case vocabularyName = "VocabularyName"
+            case vocabularyNames = "VocabularyNames"
         }
     }
 
@@ -445,6 +589,10 @@ extension ChimeSDKMediaPipelines {
             self.compositedVideo = compositedVideo
             self.content = content
             self.video = video
+        }
+
+        public func validate(name: String) throws {
+            try self.compositedVideo?.validate(name: "\(name).compositedVideo")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -528,6 +676,7 @@ extension ChimeSDKMediaPipelines {
         }
 
         public func validate(name: String) throws {
+            try self.artifactsConfiguration?.validate(name: "\(name).artifactsConfiguration")
             try self.sourceConfiguration?.validate(name: "\(name).sourceConfiguration")
         }
 
@@ -558,6 +707,7 @@ extension ChimeSDKMediaPipelines {
             try self.validate(self.arn, name: "arn", parent: name, max: 1024)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
+            try self.compositedVideo?.validate(name: "\(name).compositedVideo")
             try self.sourceConfiguration?.validate(name: "\(name).sourceConfiguration")
         }
 
@@ -581,6 +731,10 @@ extension ChimeSDKMediaPipelines {
             self.gridViewConfiguration = gridViewConfiguration
             self.layout = layout
             self.resolution = resolution
+        }
+
+        public func validate(name: String) throws {
+            try self.gridViewConfiguration.validate(name: "\(name).gridViewConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -880,7 +1034,7 @@ extension ChimeSDKMediaPipelines {
         public let mediaInsightsPipelineConfigurationArn: String
         /// The runtime metadata for the media insights pipeline. Consists of a key-value map of strings.
         public let mediaInsightsRuntimeMetadata: [String: String]?
-        /// The runtime configuration for the S3 recording sink.
+        /// The runtime configuration for the S3 recording sink. If specified, the settings in this structure override any settings in S3RecordingSinkConfiguration.
         public let s3RecordingSinkRuntimeConfiguration: S3RecordingSinkRuntimeConfiguration?
         /// The tags assigned to the media insights pipeline.
         public let tags: [Tag]?
@@ -1001,6 +1155,117 @@ extension ChimeSDKMediaPipelines {
         }
     }
 
+    public struct CreateMediaPipelineKinesisVideoStreamPoolRequest: AWSEncodableShape {
+        /// The token assigned to the client making the request.
+        public let clientRequestToken: String?
+        /// The name of the video stream pool.
+        public let poolName: String
+        /// The configuration settings for the video stream.
+        public let streamConfiguration: KinesisVideoStreamConfiguration
+        /// The tags assigned to the video stream pool.
+        public let tags: [Tag]?
+
+        public init(clientRequestToken: String? = CreateMediaPipelineKinesisVideoStreamPoolRequest.idempotencyToken(), poolName: String, streamConfiguration: KinesisVideoStreamConfiguration, tags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.poolName = poolName
+            self.streamConfiguration = streamConfiguration
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 2)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
+            try self.validate(self.poolName, name: "poolName", parent: name, max: 128)
+            try self.validate(self.poolName, name: "poolName", parent: name, min: 1)
+            try self.validate(self.poolName, name: "poolName", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
+            try self.streamConfiguration.validate(name: "\(name).streamConfiguration")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case poolName = "PoolName"
+            case streamConfiguration = "StreamConfiguration"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateMediaPipelineKinesisVideoStreamPoolResponse: AWSDecodableShape {
+        /// The configuration for the Kinesis video stream pool.
+        public let kinesisVideoStreamPoolConfiguration: KinesisVideoStreamPoolConfiguration?
+
+        public init(kinesisVideoStreamPoolConfiguration: KinesisVideoStreamPoolConfiguration? = nil) {
+            self.kinesisVideoStreamPoolConfiguration = kinesisVideoStreamPoolConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kinesisVideoStreamPoolConfiguration = "KinesisVideoStreamPoolConfiguration"
+        }
+    }
+
+    public struct CreateMediaStreamPipelineRequest: AWSEncodableShape {
+        /// The token assigned to the client making the request.
+        public let clientRequestToken: String?
+        /// The data sink for the media pipeline.
+        public let sinks: [MediaStreamSink]
+        /// The data sources for the media pipeline.
+        public let sources: [MediaStreamSource]
+        /// The tags assigned to the media pipeline.
+        public let tags: [Tag]?
+
+        public init(clientRequestToken: String? = CreateMediaStreamPipelineRequest.idempotencyToken(), sinks: [MediaStreamSink], sources: [MediaStreamSource], tags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.sinks = sinks
+            self.sources = sources
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 2)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
+            try self.sinks.forEach {
+                try $0.validate(name: "\(name).sinks[]")
+            }
+            try self.validate(self.sinks, name: "sinks", parent: name, max: 2)
+            try self.validate(self.sinks, name: "sinks", parent: name, min: 1)
+            try self.sources.forEach {
+                try $0.validate(name: "\(name).sources[]")
+            }
+            try self.validate(self.sources, name: "sources", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case sinks = "Sinks"
+            case sources = "Sources"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateMediaStreamPipelineResponse: AWSDecodableShape {
+        /// The requested media pipeline.
+        public let mediaStreamPipeline: MediaStreamPipeline?
+
+        public init(mediaStreamPipeline: MediaStreamPipeline? = nil) {
+            self.mediaStreamPipeline = mediaStreamPipeline
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediaStreamPipeline = "MediaStreamPipeline"
+        }
+    }
+
     public struct DataChannelConcatenationConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Enables or disables the configuration object.
         public let state: ArtifactsConcatenationState
@@ -1041,6 +1306,26 @@ extension ChimeSDKMediaPipelines {
         ]
 
         /// The unique identifier of the resource to be deleted. Valid values include the name and ARN of the media insights pipeline configuration.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 1024)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteMediaPipelineKinesisVideoStreamPoolRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
+        ]
+
+        /// The ID of the pool being deleted.
         public let identifier: String
 
         public init(identifier: String) {
@@ -1160,6 +1445,39 @@ extension ChimeSDKMediaPipelines {
         }
     }
 
+    public struct GetMediaPipelineKinesisVideoStreamPoolRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
+        ]
+
+        /// The ID of the video stream pool.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 1024)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetMediaPipelineKinesisVideoStreamPoolResponse: AWSDecodableShape {
+        /// The video stream pool configuration object.
+        public let kinesisVideoStreamPoolConfiguration: KinesisVideoStreamPoolConfiguration?
+
+        public init(kinesisVideoStreamPoolConfiguration: KinesisVideoStreamPoolConfiguration? = nil) {
+            self.kinesisVideoStreamPoolConfiguration = kinesisVideoStreamPoolConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kinesisVideoStreamPoolConfiguration = "KinesisVideoStreamPoolConfiguration"
+        }
+    }
+
     public struct GetMediaPipelineRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "mediaPipelineId", location: .uri("MediaPipelineId"))
@@ -1194,20 +1512,157 @@ extension ChimeSDKMediaPipelines {
         }
     }
 
-    public struct GridViewConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Defines the layout of the video tiles when content sharing is enabled.
-        public let contentShareLayout: ContentShareLayoutOption
-        /// Defines the configuration options for a presenter only video tile.
-        public let presenterOnlyConfiguration: PresenterOnlyConfiguration?
+    public struct GetSpeakerSearchTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "identifier", location: .uri("Identifier")),
+            AWSMemberEncoding(label: "speakerSearchTaskId", location: .uri("SpeakerSearchTaskId"))
+        ]
 
-        public init(contentShareLayout: ContentShareLayoutOption, presenterOnlyConfiguration: PresenterOnlyConfiguration? = nil) {
-            self.contentShareLayout = contentShareLayout
-            self.presenterOnlyConfiguration = presenterOnlyConfiguration
+        /// The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline.
+        public let identifier: String
+        /// The ID of the speaker search task.
+        public let speakerSearchTaskId: String
+
+        public init(identifier: String, speakerSearchTaskId: String) {
+            self.identifier = identifier
+            self.speakerSearchTaskId = speakerSearchTaskId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 1024)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
+            try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, max: 36)
+            try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, min: 36)
+            try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, pattern: "^[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetSpeakerSearchTaskResponse: AWSDecodableShape {
+        /// The details of the speaker search task.
+        public let speakerSearchTask: SpeakerSearchTask?
+
+        public init(speakerSearchTask: SpeakerSearchTask? = nil) {
+            self.speakerSearchTask = speakerSearchTask
         }
 
         private enum CodingKeys: String, CodingKey {
+            case speakerSearchTask = "SpeakerSearchTask"
+        }
+    }
+
+    public struct GetVoiceToneAnalysisTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "identifier", location: .uri("Identifier")),
+            AWSMemberEncoding(label: "voiceToneAnalysisTaskId", location: .uri("VoiceToneAnalysisTaskId"))
+        ]
+
+        /// The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline.
+        public let identifier: String
+        /// The ID of the voice tone analysis task.
+        public let voiceToneAnalysisTaskId: String
+
+        public init(identifier: String, voiceToneAnalysisTaskId: String) {
+            self.identifier = identifier
+            self.voiceToneAnalysisTaskId = voiceToneAnalysisTaskId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 1024)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
+            try self.validate(self.voiceToneAnalysisTaskId, name: "voiceToneAnalysisTaskId", parent: name, max: 36)
+            try self.validate(self.voiceToneAnalysisTaskId, name: "voiceToneAnalysisTaskId", parent: name, min: 36)
+            try self.validate(self.voiceToneAnalysisTaskId, name: "voiceToneAnalysisTaskId", parent: name, pattern: "^[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetVoiceToneAnalysisTaskResponse: AWSDecodableShape {
+        /// The details of the voice tone analysis task.
+        public let voiceToneAnalysisTask: VoiceToneAnalysisTask?
+
+        public init(voiceToneAnalysisTask: VoiceToneAnalysisTask? = nil) {
+            self.voiceToneAnalysisTask = voiceToneAnalysisTask
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case voiceToneAnalysisTask = "VoiceToneAnalysisTask"
+        }
+    }
+
+    public struct GridViewConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration settings for an ActiveSpeakerOnly video tile.
+        public let activeSpeakerOnlyConfiguration: ActiveSpeakerOnlyConfiguration?
+        /// The orientation setting, horizontal or vertical.
+        public let canvasOrientation: CanvasOrientation?
+        /// Defines the layout of the video tiles when content sharing is enabled.
+        public let contentShareLayout: ContentShareLayoutOption
+        /// The configuration settings for a horizontal layout.
+        public let horizontalLayoutConfiguration: HorizontalLayoutConfiguration?
+        /// Defines the configuration options for a presenter only video tile.
+        public let presenterOnlyConfiguration: PresenterOnlyConfiguration?
+        /// The configuration settings for a vertical layout.
+        public let verticalLayoutConfiguration: VerticalLayoutConfiguration?
+        /// The attribute settings for the video tiles.
+        public let videoAttribute: VideoAttribute?
+
+        public init(activeSpeakerOnlyConfiguration: ActiveSpeakerOnlyConfiguration? = nil, canvasOrientation: CanvasOrientation? = nil, contentShareLayout: ContentShareLayoutOption, horizontalLayoutConfiguration: HorizontalLayoutConfiguration? = nil, presenterOnlyConfiguration: PresenterOnlyConfiguration? = nil, verticalLayoutConfiguration: VerticalLayoutConfiguration? = nil, videoAttribute: VideoAttribute? = nil) {
+            self.activeSpeakerOnlyConfiguration = activeSpeakerOnlyConfiguration
+            self.canvasOrientation = canvasOrientation
+            self.contentShareLayout = contentShareLayout
+            self.horizontalLayoutConfiguration = horizontalLayoutConfiguration
+            self.presenterOnlyConfiguration = presenterOnlyConfiguration
+            self.verticalLayoutConfiguration = verticalLayoutConfiguration
+            self.videoAttribute = videoAttribute
+        }
+
+        public func validate(name: String) throws {
+            try self.horizontalLayoutConfiguration?.validate(name: "\(name).horizontalLayoutConfiguration")
+            try self.verticalLayoutConfiguration?.validate(name: "\(name).verticalLayoutConfiguration")
+            try self.videoAttribute?.validate(name: "\(name).videoAttribute")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeSpeakerOnlyConfiguration = "ActiveSpeakerOnlyConfiguration"
+            case canvasOrientation = "CanvasOrientation"
             case contentShareLayout = "ContentShareLayout"
+            case horizontalLayoutConfiguration = "HorizontalLayoutConfiguration"
             case presenterOnlyConfiguration = "PresenterOnlyConfiguration"
+            case verticalLayoutConfiguration = "VerticalLayoutConfiguration"
+            case videoAttribute = "VideoAttribute"
+        }
+    }
+
+    public struct HorizontalLayoutConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the aspect ratio of all video tiles.
+        public let tileAspectRatio: String?
+        /// The maximum number of video tiles to display.
+        public let tileCount: Int?
+        /// Sets the automatic ordering of the video tiles.
+        public let tileOrder: TileOrder?
+        /// Sets the position of horizontal tiles.
+        public let tilePosition: HorizontalTilePosition?
+
+        public init(tileAspectRatio: String? = nil, tileCount: Int? = nil, tileOrder: TileOrder? = nil, tilePosition: HorizontalTilePosition? = nil) {
+            self.tileAspectRatio = tileAspectRatio
+            self.tileCount = tileCount
+            self.tileOrder = tileOrder
+            self.tilePosition = tilePosition
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tileAspectRatio, name: "tileAspectRatio", parent: name, pattern: "^\\d{1,2}\\/\\d{1,2}$")
+            try self.validate(self.tileCount, name: "tileCount", parent: name, max: 10)
+            try self.validate(self.tileCount, name: "tileCount", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tileAspectRatio = "TileAspectRatio"
+            case tileCount = "TileCount"
+            case tileOrder = "TileOrder"
+            case tilePosition = "TilePosition"
         }
     }
 
@@ -1283,6 +1738,111 @@ extension ChimeSDKMediaPipelines {
         }
     }
 
+    public struct KinesisVideoStreamConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The amount of time that data is retained.
+        public let dataRetentionInHours: Int?
+        /// The Amazon Web Services Region of the video stream.
+        public let region: String
+
+        public init(dataRetentionInHours: Int? = nil, region: String) {
+            self.dataRetentionInHours = dataRetentionInHours
+            self.region = region
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataRetentionInHours, name: "dataRetentionInHours", parent: name, min: 0)
+            try self.validate(self.region, name: "region", parent: name, max: 32)
+            try self.validate(self.region, name: "region", parent: name, min: 1)
+            try self.validate(self.region, name: "region", parent: name, pattern: "^([a-z]+-){2,}\\d+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataRetentionInHours = "DataRetentionInHours"
+            case region = "Region"
+        }
+    }
+
+    public struct KinesisVideoStreamConfigurationUpdate: AWSEncodableShape {
+        /// The updated time that data is retained.
+        public let dataRetentionInHours: Int?
+
+        public init(dataRetentionInHours: Int? = nil) {
+            self.dataRetentionInHours = dataRetentionInHours
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataRetentionInHours, name: "dataRetentionInHours", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataRetentionInHours = "DataRetentionInHours"
+        }
+    }
+
+    public struct KinesisVideoStreamPoolConfiguration: AWSDecodableShape {
+        /// The time at which the configuration was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTimestamp: Date?
+        /// The ARN of the video stream pool configuration.
+        public let poolArn: String?
+        /// The ID of the video stream pool in the configuration.
+        public let poolId: String?
+        /// The name of the video stream pool configuration.
+        public let poolName: String?
+        /// The size of the video stream pool in the configuration.
+        public let poolSize: Int?
+        /// The status of the video stream pool in the configuration.
+        public let poolStatus: KinesisVideoStreamPoolStatus?
+        /// The Kinesis video stream pool configuration object.
+        public let streamConfiguration: KinesisVideoStreamConfiguration?
+        /// The time at which the configuration was updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedTimestamp: Date?
+
+        public init(createdTimestamp: Date? = nil, poolArn: String? = nil, poolId: String? = nil, poolName: String? = nil, poolSize: Int? = nil, poolStatus: KinesisVideoStreamPoolStatus? = nil, streamConfiguration: KinesisVideoStreamConfiguration? = nil, updatedTimestamp: Date? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.poolArn = poolArn
+            self.poolId = poolId
+            self.poolName = poolName
+            self.poolSize = poolSize
+            self.poolStatus = poolStatus
+            self.streamConfiguration = streamConfiguration
+            self.updatedTimestamp = updatedTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case poolArn = "PoolArn"
+            case poolId = "PoolId"
+            case poolName = "PoolName"
+            case poolSize = "PoolSize"
+            case poolStatus = "PoolStatus"
+            case streamConfiguration = "StreamConfiguration"
+            case updatedTimestamp = "UpdatedTimestamp"
+        }
+    }
+
+    public struct KinesisVideoStreamPoolSummary: AWSDecodableShape {
+        /// The ARN of the video stream pool.
+        public let poolArn: String?
+        /// The ID of the video stream pool.
+        public let poolId: String?
+        /// The name of the video stream pool.
+        public let poolName: String?
+
+        public init(poolArn: String? = nil, poolId: String? = nil, poolName: String? = nil) {
+            self.poolArn = poolArn
+            self.poolId = poolId
+            self.poolName = poolName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case poolArn = "PoolArn"
+            case poolId = "PoolId"
+            case poolName = "PoolName"
+        }
+    }
+
     public struct KinesisVideoStreamRecordingSourceRuntimeConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Describes the timestamp range and timestamp origin of a range of fragments in the Kinesis video stream.
         public let fragmentSelector: FragmentSelector
@@ -1336,6 +1896,38 @@ extension ChimeSDKMediaPipelines {
             case mediaEncoding = "MediaEncoding"
             case mediaSampleRate = "MediaSampleRate"
             case streams = "Streams"
+        }
+    }
+
+    public struct KinesisVideoStreamSourceTaskConfiguration: AWSEncodableShape {
+        /// The channel ID.
+        public let channelId: Int
+        /// The unique identifier of the fragment to begin processing.
+        public let fragmentNumber: String?
+        /// The ARN of the stream.
+        public let streamArn: String
+
+        public init(channelId: Int = 0, fragmentNumber: String? = nil, streamArn: String) {
+            self.channelId = channelId
+            self.fragmentNumber = fragmentNumber
+            self.streamArn = streamArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelId, name: "channelId", parent: name, max: 1)
+            try self.validate(self.channelId, name: "channelId", parent: name, min: 0)
+            try self.validate(self.fragmentNumber, name: "fragmentNumber", parent: name, max: 128)
+            try self.validate(self.fragmentNumber, name: "fragmentNumber", parent: name, min: 1)
+            try self.validate(self.fragmentNumber, name: "fragmentNumber", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.streamArn, name: "streamArn", parent: name, max: 1024)
+            try self.validate(self.streamArn, name: "streamArn", parent: name, min: 1)
+            try self.validate(self.streamArn, name: "streamArn", parent: name, pattern: "^arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelId = "ChannelId"
+            case fragmentNumber = "FragmentNumber"
+            case streamArn = "StreamArn"
         }
     }
 
@@ -1440,6 +2032,49 @@ extension ChimeSDKMediaPipelines {
 
         private enum CodingKeys: String, CodingKey {
             case mediaInsightsPipelineConfigurations = "MediaInsightsPipelineConfigurations"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListMediaPipelineKinesisVideoStreamPoolsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
+        ]
+
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The token used to return the next page of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListMediaPipelineKinesisVideoStreamPoolsResponse: AWSDecodableShape {
+        /// The list of video stream pools.
+        public let kinesisVideoStreamPools: [KinesisVideoStreamPoolSummary]?
+        /// The token used to return the next page of results.
+        public let nextToken: String?
+
+        public init(kinesisVideoStreamPools: [KinesisVideoStreamPoolSummary]? = nil, nextToken: String? = nil) {
+            self.kinesisVideoStreamPools = kinesisVideoStreamPools
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kinesisVideoStreamPools = "KinesisVideoStreamPools"
             case nextToken = "NextToken"
         }
     }
@@ -1724,6 +2359,8 @@ extension ChimeSDKMediaPipelines {
         /// The time at which the media insights pipeline was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdTimestamp: Date?
+        /// The statuses that the elements in a media insights pipeline can have during data processing.
+        public let elementStatuses: [MediaInsightsPipelineElementStatus]?
         /// The runtime configuration settings for a Kinesis recording video stream in a media insights pipeline.
         public let kinesisVideoStreamRecordingSourceRuntimeConfiguration: KinesisVideoStreamRecordingSourceRuntimeConfiguration?
         /// The configuration settings for a Kinesis runtime video stream in a media insights pipeline.
@@ -1741,8 +2378,9 @@ extension ChimeSDKMediaPipelines {
         /// The status of a media insights pipeline.
         public let status: MediaPipelineStatus?
 
-        public init(createdTimestamp: Date? = nil, kinesisVideoStreamRecordingSourceRuntimeConfiguration: KinesisVideoStreamRecordingSourceRuntimeConfiguration? = nil, kinesisVideoStreamSourceRuntimeConfiguration: KinesisVideoStreamSourceRuntimeConfiguration? = nil, mediaInsightsPipelineConfigurationArn: String? = nil, mediaInsightsRuntimeMetadata: [String: String]? = nil, mediaPipelineArn: String? = nil, mediaPipelineId: String? = nil, s3RecordingSinkRuntimeConfiguration: S3RecordingSinkRuntimeConfiguration? = nil, status: MediaPipelineStatus? = nil) {
+        public init(createdTimestamp: Date? = nil, elementStatuses: [MediaInsightsPipelineElementStatus]? = nil, kinesisVideoStreamRecordingSourceRuntimeConfiguration: KinesisVideoStreamRecordingSourceRuntimeConfiguration? = nil, kinesisVideoStreamSourceRuntimeConfiguration: KinesisVideoStreamSourceRuntimeConfiguration? = nil, mediaInsightsPipelineConfigurationArn: String? = nil, mediaInsightsRuntimeMetadata: [String: String]? = nil, mediaPipelineArn: String? = nil, mediaPipelineId: String? = nil, s3RecordingSinkRuntimeConfiguration: S3RecordingSinkRuntimeConfiguration? = nil, status: MediaPipelineStatus? = nil) {
             self.createdTimestamp = createdTimestamp
+            self.elementStatuses = elementStatuses
             self.kinesisVideoStreamRecordingSourceRuntimeConfiguration = kinesisVideoStreamRecordingSourceRuntimeConfiguration
             self.kinesisVideoStreamSourceRuntimeConfiguration = kinesisVideoStreamSourceRuntimeConfiguration
             self.mediaInsightsPipelineConfigurationArn = mediaInsightsPipelineConfigurationArn
@@ -1755,6 +2393,7 @@ extension ChimeSDKMediaPipelines {
 
         private enum CodingKeys: String, CodingKey {
             case createdTimestamp = "CreatedTimestamp"
+            case elementStatuses = "ElementStatuses"
             case kinesisVideoStreamRecordingSourceRuntimeConfiguration = "KinesisVideoStreamRecordingSourceRuntimeConfiguration"
             case kinesisVideoStreamSourceRuntimeConfiguration = "KinesisVideoStreamSourceRuntimeConfiguration"
             case mediaInsightsPipelineConfigurationArn = "MediaInsightsPipelineConfigurationArn"
@@ -1828,8 +2467,10 @@ extension ChimeSDKMediaPipelines {
         public let type: MediaInsightsPipelineConfigurationElementType
         /// The voice analytics configuration settings in a media insights pipeline configuration element.
         public let voiceAnalyticsProcessorConfiguration: VoiceAnalyticsProcessorConfiguration?
+        /// The configuration settings for voice enhancement sink in a media insights pipeline configuration element.
+        public let voiceEnhancementSinkConfiguration: VoiceEnhancementSinkConfiguration?
 
-        public init(amazonTranscribeCallAnalyticsProcessorConfiguration: AmazonTranscribeCallAnalyticsProcessorConfiguration? = nil, amazonTranscribeProcessorConfiguration: AmazonTranscribeProcessorConfiguration? = nil, kinesisDataStreamSinkConfiguration: KinesisDataStreamSinkConfiguration? = nil, lambdaFunctionSinkConfiguration: LambdaFunctionSinkConfiguration? = nil, s3RecordingSinkConfiguration: S3RecordingSinkConfiguration? = nil, snsTopicSinkConfiguration: SnsTopicSinkConfiguration? = nil, sqsQueueSinkConfiguration: SqsQueueSinkConfiguration? = nil, type: MediaInsightsPipelineConfigurationElementType, voiceAnalyticsProcessorConfiguration: VoiceAnalyticsProcessorConfiguration? = nil) {
+        public init(amazonTranscribeCallAnalyticsProcessorConfiguration: AmazonTranscribeCallAnalyticsProcessorConfiguration? = nil, amazonTranscribeProcessorConfiguration: AmazonTranscribeProcessorConfiguration? = nil, kinesisDataStreamSinkConfiguration: KinesisDataStreamSinkConfiguration? = nil, lambdaFunctionSinkConfiguration: LambdaFunctionSinkConfiguration? = nil, s3RecordingSinkConfiguration: S3RecordingSinkConfiguration? = nil, snsTopicSinkConfiguration: SnsTopicSinkConfiguration? = nil, sqsQueueSinkConfiguration: SqsQueueSinkConfiguration? = nil, type: MediaInsightsPipelineConfigurationElementType, voiceAnalyticsProcessorConfiguration: VoiceAnalyticsProcessorConfiguration? = nil, voiceEnhancementSinkConfiguration: VoiceEnhancementSinkConfiguration? = nil) {
             self.amazonTranscribeCallAnalyticsProcessorConfiguration = amazonTranscribeCallAnalyticsProcessorConfiguration
             self.amazonTranscribeProcessorConfiguration = amazonTranscribeProcessorConfiguration
             self.kinesisDataStreamSinkConfiguration = kinesisDataStreamSinkConfiguration
@@ -1839,6 +2480,7 @@ extension ChimeSDKMediaPipelines {
             self.sqsQueueSinkConfiguration = sqsQueueSinkConfiguration
             self.type = type
             self.voiceAnalyticsProcessorConfiguration = voiceAnalyticsProcessorConfiguration
+            self.voiceEnhancementSinkConfiguration = voiceEnhancementSinkConfiguration
         }
 
         public func validate(name: String) throws {
@@ -1861,6 +2503,7 @@ extension ChimeSDKMediaPipelines {
             case sqsQueueSinkConfiguration = "SqsQueueSinkConfiguration"
             case type = "Type"
             case voiceAnalyticsProcessorConfiguration = "VoiceAnalyticsProcessorConfiguration"
+            case voiceEnhancementSinkConfiguration = "VoiceEnhancementSinkConfiguration"
         }
     }
 
@@ -1882,6 +2525,23 @@ extension ChimeSDKMediaPipelines {
             case mediaInsightsPipelineConfigurationArn = "MediaInsightsPipelineConfigurationArn"
             case mediaInsightsPipelineConfigurationId = "MediaInsightsPipelineConfigurationId"
             case mediaInsightsPipelineConfigurationName = "MediaInsightsPipelineConfigurationName"
+        }
+    }
+
+    public struct MediaInsightsPipelineElementStatus: AWSDecodableShape {
+        /// The element's status.
+        public let status: MediaPipelineElementStatus?
+        /// The type of status.
+        public let type: MediaInsightsPipelineConfigurationElementType?
+
+        public init(status: MediaPipelineElementStatus? = nil, type: MediaInsightsPipelineConfigurationElementType? = nil) {
+            self.status = status
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case type = "Type"
         }
     }
 
@@ -1933,12 +2593,15 @@ extension ChimeSDKMediaPipelines {
         public let mediaInsightsPipeline: MediaInsightsPipeline?
         /// The connector pipeline of the media pipeline.
         public let mediaLiveConnectorPipeline: MediaLiveConnectorPipeline?
+        /// Designates a media pipeline as a media stream pipeline.
+        public let mediaStreamPipeline: MediaStreamPipeline?
 
-        public init(mediaCapturePipeline: MediaCapturePipeline? = nil, mediaConcatenationPipeline: MediaConcatenationPipeline? = nil, mediaInsightsPipeline: MediaInsightsPipeline? = nil, mediaLiveConnectorPipeline: MediaLiveConnectorPipeline? = nil) {
+        public init(mediaCapturePipeline: MediaCapturePipeline? = nil, mediaConcatenationPipeline: MediaConcatenationPipeline? = nil, mediaInsightsPipeline: MediaInsightsPipeline? = nil, mediaLiveConnectorPipeline: MediaLiveConnectorPipeline? = nil, mediaStreamPipeline: MediaStreamPipeline? = nil) {
             self.mediaCapturePipeline = mediaCapturePipeline
             self.mediaConcatenationPipeline = mediaConcatenationPipeline
             self.mediaInsightsPipeline = mediaInsightsPipeline
             self.mediaLiveConnectorPipeline = mediaLiveConnectorPipeline
+            self.mediaStreamPipeline = mediaStreamPipeline
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1946,6 +2609,7 @@ extension ChimeSDKMediaPipelines {
             case mediaConcatenationPipeline = "MediaConcatenationPipeline"
             case mediaInsightsPipeline = "MediaInsightsPipeline"
             case mediaLiveConnectorPipeline = "MediaLiveConnectorPipeline"
+            case mediaStreamPipeline = "MediaStreamPipeline"
         }
     }
 
@@ -1963,6 +2627,101 @@ extension ChimeSDKMediaPipelines {
         private enum CodingKeys: String, CodingKey {
             case mediaPipelineArn = "MediaPipelineArn"
             case mediaPipelineId = "MediaPipelineId"
+        }
+    }
+
+    public struct MediaStreamPipeline: AWSDecodableShape {
+        /// The time at which the media stream pipeline was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTimestamp: Date?
+        /// The ARN of the media stream pipeline.
+        public let mediaPipelineArn: String?
+        /// The ID of the media stream pipeline
+        public let mediaPipelineId: String?
+        /// The media stream pipeline's data sinks.
+        public let sinks: [MediaStreamSink]?
+        /// The media stream pipeline's data sources.
+        public let sources: [MediaStreamSource]?
+        /// The status of the media stream pipeline.
+        public let status: MediaPipelineStatus?
+        /// The time at which the media stream pipeline was updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedTimestamp: Date?
+
+        public init(createdTimestamp: Date? = nil, mediaPipelineArn: String? = nil, mediaPipelineId: String? = nil, sinks: [MediaStreamSink]? = nil, sources: [MediaStreamSource]? = nil, status: MediaPipelineStatus? = nil, updatedTimestamp: Date? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.mediaPipelineArn = mediaPipelineArn
+            self.mediaPipelineId = mediaPipelineId
+            self.sinks = sinks
+            self.sources = sources
+            self.status = status
+            self.updatedTimestamp = updatedTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case mediaPipelineArn = "MediaPipelineArn"
+            case mediaPipelineId = "MediaPipelineId"
+            case sinks = "Sinks"
+            case sources = "Sources"
+            case status = "Status"
+            case updatedTimestamp = "UpdatedTimestamp"
+        }
+    }
+
+    public struct MediaStreamSink: AWSEncodableShape & AWSDecodableShape {
+        /// The media stream sink's media stream type.
+        public let mediaStreamType: MediaStreamType
+        /// Specifies the number of streams that the sink can accept.
+        public let reservedStreamCapacity: Int
+        /// The ARN of the media stream sink.
+        public let sinkArn: String
+        /// The media stream sink's type.
+        public let sinkType: MediaStreamPipelineSinkType
+
+        public init(mediaStreamType: MediaStreamType, reservedStreamCapacity: Int, sinkArn: String, sinkType: MediaStreamPipelineSinkType) {
+            self.mediaStreamType = mediaStreamType
+            self.reservedStreamCapacity = reservedStreamCapacity
+            self.sinkArn = sinkArn
+            self.sinkType = sinkType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.reservedStreamCapacity, name: "reservedStreamCapacity", parent: name, max: 10)
+            try self.validate(self.reservedStreamCapacity, name: "reservedStreamCapacity", parent: name, min: 1)
+            try self.validate(self.sinkArn, name: "sinkArn", parent: name, max: 1024)
+            try self.validate(self.sinkArn, name: "sinkArn", parent: name, min: 1)
+            try self.validate(self.sinkArn, name: "sinkArn", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediaStreamType = "MediaStreamType"
+            case reservedStreamCapacity = "ReservedStreamCapacity"
+            case sinkArn = "SinkArn"
+            case sinkType = "SinkType"
+        }
+    }
+
+    public struct MediaStreamSource: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the media stream source.
+        public let sourceArn: String
+        /// The type of media stream source.
+        public let sourceType: MediaPipelineSourceType
+
+        public init(sourceArn: String, sourceType: MediaPipelineSourceType) {
+            self.sourceArn = sourceArn
+            self.sourceType = sourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, max: 1024)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, min: 1)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceArn = "SourceArn"
+            case sourceType = "SourceType"
         }
     }
 
@@ -2262,6 +3021,33 @@ extension ChimeSDKMediaPipelines {
         }
     }
 
+    public struct SpeakerSearchTask: AWSDecodableShape {
+        /// The time at which a speaker search task was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTimestamp: Date?
+        /// The speaker search task ID.
+        public let speakerSearchTaskId: String?
+        /// The status of the speaker search task.
+        public let speakerSearchTaskStatus: MediaPipelineTaskStatus?
+        /// The time at which a speaker search task was updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedTimestamp: Date?
+
+        public init(createdTimestamp: Date? = nil, speakerSearchTaskId: String? = nil, speakerSearchTaskStatus: MediaPipelineTaskStatus? = nil, updatedTimestamp: Date? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.speakerSearchTaskId = speakerSearchTaskId
+            self.speakerSearchTaskStatus = speakerSearchTaskStatus
+            self.updatedTimestamp = updatedTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case speakerSearchTaskId = "SpeakerSearchTaskId"
+            case speakerSearchTaskStatus = "SpeakerSearchTaskStatus"
+            case updatedTimestamp = "UpdatedTimestamp"
+        }
+    }
+
     public struct SqsQueueSinkConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the SQS sink.
         public let insightsTarget: String?
@@ -2279,6 +3065,163 @@ extension ChimeSDKMediaPipelines {
         private enum CodingKeys: String, CodingKey {
             case insightsTarget = "InsightsTarget"
         }
+    }
+
+    public struct StartSpeakerSearchTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
+        ]
+
+        /// The unique identifier for the client request. Use a different token for different speaker search tasks.
+        public let clientRequestToken: String?
+        /// The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline.
+        public let identifier: String
+        /// The task configuration for the Kinesis video stream source of the media insights pipeline.
+        public let kinesisVideoStreamSourceTaskConfiguration: KinesisVideoStreamSourceTaskConfiguration?
+        /// The ARN of the voice profile domain that will store the voice profile.
+        public let voiceProfileDomainArn: String
+
+        public init(clientRequestToken: String? = StartSpeakerSearchTaskRequest.idempotencyToken(), identifier: String, kinesisVideoStreamSourceTaskConfiguration: KinesisVideoStreamSourceTaskConfiguration? = nil, voiceProfileDomainArn: String) {
+            self.clientRequestToken = clientRequestToken
+            self.identifier = identifier
+            self.kinesisVideoStreamSourceTaskConfiguration = kinesisVideoStreamSourceTaskConfiguration
+            self.voiceProfileDomainArn = voiceProfileDomainArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 2)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 1024)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
+            try self.kinesisVideoStreamSourceTaskConfiguration?.validate(name: "\(name).kinesisVideoStreamSourceTaskConfiguration")
+            try self.validate(self.voiceProfileDomainArn, name: "voiceProfileDomainArn", parent: name, max: 1024)
+            try self.validate(self.voiceProfileDomainArn, name: "voiceProfileDomainArn", parent: name, min: 1)
+            try self.validate(self.voiceProfileDomainArn, name: "voiceProfileDomainArn", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case kinesisVideoStreamSourceTaskConfiguration = "KinesisVideoStreamSourceTaskConfiguration"
+            case voiceProfileDomainArn = "VoiceProfileDomainArn"
+        }
+    }
+
+    public struct StartSpeakerSearchTaskResponse: AWSDecodableShape {
+        /// The details of the speaker search task.
+        public let speakerSearchTask: SpeakerSearchTask?
+
+        public init(speakerSearchTask: SpeakerSearchTask? = nil) {
+            self.speakerSearchTask = speakerSearchTask
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case speakerSearchTask = "SpeakerSearchTask"
+        }
+    }
+
+    public struct StartVoiceToneAnalysisTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
+        ]
+
+        /// The unique identifier for the client request. Use a different token for different voice tone analysis tasks.
+        public let clientRequestToken: String?
+        /// The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline.
+        public let identifier: String
+        /// The task configuration for the Kinesis video stream source of the media insights pipeline.
+        public let kinesisVideoStreamSourceTaskConfiguration: KinesisVideoStreamSourceTaskConfiguration?
+        /// The language code.
+        public let languageCode: VoiceAnalyticsLanguageCode
+
+        public init(clientRequestToken: String? = StartVoiceToneAnalysisTaskRequest.idempotencyToken(), identifier: String, kinesisVideoStreamSourceTaskConfiguration: KinesisVideoStreamSourceTaskConfiguration? = nil, languageCode: VoiceAnalyticsLanguageCode) {
+            self.clientRequestToken = clientRequestToken
+            self.identifier = identifier
+            self.kinesisVideoStreamSourceTaskConfiguration = kinesisVideoStreamSourceTaskConfiguration
+            self.languageCode = languageCode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 2)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 1024)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
+            try self.kinesisVideoStreamSourceTaskConfiguration?.validate(name: "\(name).kinesisVideoStreamSourceTaskConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case kinesisVideoStreamSourceTaskConfiguration = "KinesisVideoStreamSourceTaskConfiguration"
+            case languageCode = "LanguageCode"
+        }
+    }
+
+    public struct StartVoiceToneAnalysisTaskResponse: AWSDecodableShape {
+        /// The details of the voice tone analysis task.
+        public let voiceToneAnalysisTask: VoiceToneAnalysisTask?
+
+        public init(voiceToneAnalysisTask: VoiceToneAnalysisTask? = nil) {
+            self.voiceToneAnalysisTask = voiceToneAnalysisTask
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case voiceToneAnalysisTask = "VoiceToneAnalysisTask"
+        }
+    }
+
+    public struct StopSpeakerSearchTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "identifier", location: .uri("Identifier")),
+            AWSMemberEncoding(label: "speakerSearchTaskId", location: .uri("SpeakerSearchTaskId"))
+        ]
+
+        /// The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline.
+        public let identifier: String
+        /// The speaker search task ID.
+        public let speakerSearchTaskId: String
+
+        public init(identifier: String, speakerSearchTaskId: String) {
+            self.identifier = identifier
+            self.speakerSearchTaskId = speakerSearchTaskId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 1024)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
+            try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, max: 36)
+            try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, min: 36)
+            try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, pattern: "^[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StopVoiceToneAnalysisTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "identifier", location: .uri("Identifier")),
+            AWSMemberEncoding(label: "voiceToneAnalysisTaskId", location: .uri("VoiceToneAnalysisTaskId"))
+        ]
+
+        /// The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline.
+        public let identifier: String
+        /// The ID of the voice tone analysis task.
+        public let voiceToneAnalysisTaskId: String
+
+        public init(identifier: String, voiceToneAnalysisTaskId: String) {
+            self.identifier = identifier
+            self.voiceToneAnalysisTaskId = voiceToneAnalysisTaskId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 1024)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
+            try self.validate(self.voiceToneAnalysisTaskId, name: "voiceToneAnalysisTaskId", parent: name, max: 36)
+            try self.validate(self.voiceToneAnalysisTaskId, name: "voiceToneAnalysisTaskId", parent: name, min: 36)
+            try self.validate(self.voiceToneAnalysisTaskId, name: "voiceToneAnalysisTaskId", parent: name, pattern: "^[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct StreamChannelDefinition: AWSEncodableShape & AWSDecodableShape {
@@ -2535,6 +3478,76 @@ extension ChimeSDKMediaPipelines {
         }
     }
 
+    public struct UpdateMediaPipelineKinesisVideoStreamPoolRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
+        ]
+
+        /// The ID of the video stream pool.
+        public let identifier: String
+        /// The configuration settings for the video stream.
+        public let streamConfiguration: KinesisVideoStreamConfigurationUpdate?
+
+        public init(identifier: String, streamConfiguration: KinesisVideoStreamConfigurationUpdate? = nil) {
+            self.identifier = identifier
+            self.streamConfiguration = streamConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 1024)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
+            try self.streamConfiguration?.validate(name: "\(name).streamConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamConfiguration = "StreamConfiguration"
+        }
+    }
+
+    public struct UpdateMediaPipelineKinesisVideoStreamPoolResponse: AWSDecodableShape {
+        /// The video stream pool configuration object.
+        public let kinesisVideoStreamPoolConfiguration: KinesisVideoStreamPoolConfiguration?
+
+        public init(kinesisVideoStreamPoolConfiguration: KinesisVideoStreamPoolConfiguration? = nil) {
+            self.kinesisVideoStreamPoolConfiguration = kinesisVideoStreamPoolConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kinesisVideoStreamPoolConfiguration = "KinesisVideoStreamPoolConfiguration"
+        }
+    }
+
+    public struct VerticalLayoutConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Sets the aspect ratio of the video tiles, such as 16:9.
+        public let tileAspectRatio: String?
+        /// The maximum number of tiles to display.
+        public let tileCount: Int?
+        /// Sets the automatic ordering of the video tiles.
+        public let tileOrder: TileOrder?
+        /// Sets the position of vertical tiles.
+        public let tilePosition: VerticalTilePosition?
+
+        public init(tileAspectRatio: String? = nil, tileCount: Int? = nil, tileOrder: TileOrder? = nil, tilePosition: VerticalTilePosition? = nil) {
+            self.tileAspectRatio = tileAspectRatio
+            self.tileCount = tileCount
+            self.tileOrder = tileOrder
+            self.tilePosition = tilePosition
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tileAspectRatio, name: "tileAspectRatio", parent: name, pattern: "^\\d{1,2}\\/\\d{1,2}$")
+            try self.validate(self.tileCount, name: "tileCount", parent: name, max: 10)
+            try self.validate(self.tileCount, name: "tileCount", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tileAspectRatio = "TileAspectRatio"
+            case tileCount = "TileCount"
+            case tileOrder = "TileOrder"
+            case tilePosition = "TilePosition"
+        }
+    }
+
     public struct VideoArtifactsConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The MUX type of the video artifact configuration object.
         public let muxType: VideoMuxType?
@@ -2549,6 +3562,38 @@ extension ChimeSDKMediaPipelines {
         private enum CodingKeys: String, CodingKey {
             case muxType = "MuxType"
             case state = "State"
+        }
+    }
+
+    public struct VideoAttribute: AWSEncodableShape & AWSDecodableShape {
+        /// Defines the border color of all video tiles.
+        public let borderColor: BorderColor?
+        /// Defines the border thickness for all video tiles.
+        public let borderThickness: Int?
+        /// Sets the corner radius of all video tiles.
+        public let cornerRadius: Int?
+        /// Defines the highlight color for the active video tile.
+        public let highlightColor: HighlightColor?
+
+        public init(borderColor: BorderColor? = nil, borderThickness: Int? = nil, cornerRadius: Int? = nil, highlightColor: HighlightColor? = nil) {
+            self.borderColor = borderColor
+            self.borderThickness = borderThickness
+            self.cornerRadius = cornerRadius
+            self.highlightColor = highlightColor
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.borderThickness, name: "borderThickness", parent: name, max: 20)
+            try self.validate(self.borderThickness, name: "borderThickness", parent: name, min: 1)
+            try self.validate(self.cornerRadius, name: "cornerRadius", parent: name, max: 20)
+            try self.validate(self.cornerRadius, name: "cornerRadius", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case borderColor = "BorderColor"
+            case borderThickness = "BorderThickness"
+            case cornerRadius = "CornerRadius"
+            case highlightColor = "HighlightColor"
         }
     }
 
@@ -2579,6 +3624,46 @@ extension ChimeSDKMediaPipelines {
         private enum CodingKeys: String, CodingKey {
             case speakerSearchStatus = "SpeakerSearchStatus"
             case voiceToneAnalysisStatus = "VoiceToneAnalysisStatus"
+        }
+    }
+
+    public struct VoiceEnhancementSinkConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Disables the VoiceEnhancementSinkConfiguration element.
+        public let disabled: Bool?
+
+        public init(disabled: Bool? = nil) {
+            self.disabled = disabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case disabled = "Disabled"
+        }
+    }
+
+    public struct VoiceToneAnalysisTask: AWSDecodableShape {
+        /// The time at which a voice tone analysis task was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTimestamp: Date?
+        /// The time at which a voice tone analysis task was updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedTimestamp: Date?
+        /// The ID of the voice tone analysis task.
+        public let voiceToneAnalysisTaskId: String?
+        /// The status of a voice tone analysis task.
+        public let voiceToneAnalysisTaskStatus: MediaPipelineTaskStatus?
+
+        public init(createdTimestamp: Date? = nil, updatedTimestamp: Date? = nil, voiceToneAnalysisTaskId: String? = nil, voiceToneAnalysisTaskStatus: MediaPipelineTaskStatus? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.updatedTimestamp = updatedTimestamp
+            self.voiceToneAnalysisTaskId = voiceToneAnalysisTaskId
+            self.voiceToneAnalysisTaskStatus = voiceToneAnalysisTaskStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case updatedTimestamp = "UpdatedTimestamp"
+            case voiceToneAnalysisTaskId = "VoiceToneAnalysisTaskId"
+            case voiceToneAnalysisTaskStatus = "VoiceToneAnalysisTaskStatus"
         }
     }
 }

@@ -113,6 +113,7 @@ extension ServiceCatalog {
     public enum ProductType: String, CustomStringConvertible, Codable, Sendable {
         case cloudFormationTemplate = "CLOUD_FORMATION_TEMPLATE"
         case marketplace = "MARKETPLACE"
+        case terraformCloud = "TERRAFORM_CLOUD"
         case terraformOpenSource = "TERRAFORM_OPEN_SOURCE"
         public var description: String { return self.rawValue }
     }
@@ -182,6 +183,7 @@ extension ServiceCatalog {
         case cloudFormationTemplate = "CLOUD_FORMATION_TEMPLATE"
         case marketplaceAmi = "MARKETPLACE_AMI"
         case marketplaceCar = "MARKETPLACE_CAR"
+        case terraformCloud = "TERRAFORM_CLOUD"
         case terraformOpenSource = "TERRAFORM_OPEN_SOURCE"
         public var description: String { return self.rawValue }
     }
@@ -320,7 +322,7 @@ extension ServiceCatalog {
     public struct AccessLevelFilter: AWSEncodableShape {
         /// The access level.    Account - Filter results based on the account.    Role - Filter results based on the federated role of the specified user.    User - Filter results based on the specified user.
         public let key: AccessLevelFilterKey?
-        /// The user to which the access level applies. The only supported value is Self.
+        /// The user to which the access level applies. The only supported value is self.
         public let value: String?
 
         public init(key: AccessLevelFilterKey? = nil, value: String? = nil) {
@@ -2889,7 +2891,7 @@ extension ServiceCatalog {
         public let physicalId: String
         /// The product identifier.
         public let productId: String
-        /// The user-friendly name of the provisioned product. The value must be unique for the Amazon Web Services account. The name cannot be updated after the product is provisioned.
+        /// The user-friendly name of the provisioned product. The value must be unique for the Amazon Web Services account.  The name cannot be updated after the product is provisioned.
         public let provisionedProductName: String
         /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String
@@ -4520,11 +4522,11 @@ extension ServiceCatalog {
         public let id: String?
         /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String?
-        /// The record identifier of the last request performed on this provisioned product of the following types:    ProvisionedProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct
+        /// The record identifier of the last request performed on this provisioned product of the following types:    ProvisionProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct
         public let lastProvisioningRecordId: String?
         /// The record identifier of the last request performed on this provisioned product.
         public let lastRecordId: String?
-        /// The record identifier of the last successful request performed on this provisioned product of the following types:    ProvisionedProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct
+        /// The record identifier of the last successful request performed on this provisioned product of the following types:    ProvisionProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct
         public let lastSuccessfulProvisioningRecordId: String?
         /// The user-friendly name of the provisioned product.
         public let name: String?
@@ -4605,11 +4607,11 @@ extension ServiceCatalog {
         public let id: String?
         /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String?
-        /// The record identifier of the last request performed on this provisioned product of the following types:    ProvisionedProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct
+        /// The record identifier of the last request performed on this provisioned product of the following types:    ProvisionProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct
         public let lastProvisioningRecordId: String?
         /// The record identifier of the last request performed on this provisioned product.
         public let lastRecordId: String?
-        /// The record identifier of the last successful request performed on this provisioned product of the following types:    ProvisionedProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct
+        /// The record identifier of the last successful request performed on this provisioned product of the following types:    ProvisionProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct
         public let lastSuccessfulProvisioningRecordId: String?
         /// The ARN of the launch role associated with the provisioned product.
         public let launchRoleArn: String?
@@ -4807,7 +4809,7 @@ extension ServiceCatalog {
         public let name: String?
         /// Specifies the revision of the external artifact that was used to automatically sync the Service Catalog product  and create the provisioning artifact. Service Catalog includes this response parameter as a high level  field to the existing ProvisioningArtifactDetail type, which is returned as part of the response for CreateProduct, UpdateProduct, DescribeProductAsAdmin,  DescribeProvisioningArtifact, ListProvisioningArtifact,  and UpdateProvisioningArticat APIs.  This field only exists for Repo-Synced products.
         public let sourceRevision: String?
-        /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - CloudFormation template    MARKETPLACE_AMI - Amazon Web Services Marketplace AMI    MARKETPLACE_CAR - Amazon Web Services Marketplace Clusters and Amazon Web Services Resources
+        /// The type of provisioning artifact.  CLOUD_FORMATION_TEMPLATE - CloudFormation template
         public let type: ProvisioningArtifactType?
 
         public init(active: Bool? = nil, createdTime: Date? = nil, description: String? = nil, guidance: ProvisioningArtifactGuidance? = nil, id: String? = nil, name: String? = nil, sourceRevision: String? = nil, type: ProvisioningArtifactType? = nil) {
@@ -4903,13 +4905,13 @@ extension ServiceCatalog {
     public struct ProvisioningArtifactProperties: AWSEncodableShape {
         /// The description of the provisioning artifact, including how it differs from the previous provisioning artifact.
         public let description: String?
-        /// If set to true, Service Catalog stops validating the specified provisioning artifact even if it is invalid.
+        /// If set to true, Service Catalog stops validating the specified provisioning artifact even if it is invalid.  Service Catalog does not support template validation for the TERRAFORM_OS product type.
         public let disableTemplateValidation: Bool?
         /// Specify the template source with one of the following options, but not both. Keys accepted: [ LoadTemplateFromURL, ImportFromPhysicalId ] The URL of the CloudFormation template in Amazon S3 or GitHub in JSON format. Specify the URL in JSON format as follows:  "LoadTemplateFromURL": "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/..."   ImportFromPhysicalId: The physical id of the resource that contains the template. Currently only supports CloudFormation stack arn. Specify the physical id in JSON format as follows: ImportFromPhysicalId: “arn:aws:cloudformation:[us-east-1]:[accountId]:stack/[StackName]/[resourceId]
         public let info: [String: String]?
         /// The name of the provisioning artifact (for example, v1 v2beta). No spaces are allowed.
         public let name: String?
-        /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - CloudFormation template    MARKETPLACE_AMI - Amazon Web Services Marketplace AMI    MARKETPLACE_CAR - Amazon Web Services Marketplace Clusters and Amazon Web Services Resources    TERRAFORM_OPEN_SOURCE - Terraform open source configuration file
+        /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - CloudFormation template    TERRAFORM_OPEN_SOURCE - Terraform open source configuration file
         public let type: ProvisioningArtifactType?
 
         public init(description: String? = nil, disableTemplateValidation: Bool? = nil, info: [String: String]? = nil, name: String? = nil, type: ProvisioningArtifactType? = nil) {
@@ -5063,7 +5065,7 @@ extension ServiceCatalog {
         public let provisionedProductId: String?
         /// The user-friendly name of the provisioned product.
         public let provisionedProductName: String?
-        /// The type of provisioned product. The supported values are CFN_STACK and CFN_STACKSET.
+        /// The type of provisioned product. The supported values are CFN_STACK, CFN_STACKSET,  TERRAFORM_OPEN_SOURCE, and TERRAFORM_CLOUD.
         public let provisionedProductType: String?
         /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String?
@@ -5496,7 +5498,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// The access level to use to obtain results. The default is User.
         public let accessLevelFilter: AccessLevelFilter?
-        /// The search filters. When the key is SearchQuery, the searchable fields are arn,  createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId,  provisioningArtifact, type, status, tags, userArn, userArnSession, lastProvisioningRecordId, lastSuccessfulProvisioningRecordId,  productName, and provisioningArtifactName. Example: "SearchQuery":["status:AVAILABLE"]
+        /// The search filters. When the key is SearchQuery, the searchable fields are arn,  createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId,  provisioningArtifactId, type, status, tags, userArn, userArnSession, lastProvisioningRecordId, lastSuccessfulProvisioningRecordId,  productName, and provisioningArtifactName. Example: "SearchQuery":["status:AVAILABLE"]
         public let filters: [ProvisionedProductViewFilterBy: [String]]?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
