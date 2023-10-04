@@ -123,7 +123,7 @@ extension S3 {
         filename: String,
         logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil,
-        threadPoolProvider: ThreadPoolProvider = .createNew,
+        threadPoolProvider: ThreadPoolProvider = .singleton,
         progress: @escaping (Double) throws -> Void = { _ in }
     ) async throws -> Int64 {
         let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
@@ -178,7 +178,7 @@ extension S3 {
         abortOnFail: Bool = true,
         logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil,
-        threadPoolProvider: ThreadPoolProvider = .createNew,
+        threadPoolProvider: ThreadPoolProvider = .singleton,
         progress: @escaping @Sendable (Double) throws -> Void = { _ in }
     ) async throws -> CompleteMultipartUploadOutput {
         let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
@@ -235,7 +235,7 @@ extension S3 {
         abortOnFail: Bool = true,
         logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil,
-        threadPoolProvider: ThreadPoolProvider = .createNew,
+        threadPoolProvider: ThreadPoolProvider = .singleton,
         progress: @escaping (Double) throws -> Void = { _ in }
     ) async throws -> CompleteMultipartUploadOutput {
         let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
@@ -352,7 +352,7 @@ extension S3 {
         filename: String,
         logger: Logger,
         on eventLoop: EventLoop,
-        threadPoolProvider: ThreadPoolProvider = .createNew,
+        threadPoolProvider: ThreadPoolProvider = .singleton,
         uploadCallback: @escaping (NIOFileHandle, FileRegion, NonBlockingFileIO) async throws -> CompleteMultipartUploadOutput
     ) async throws -> CompleteMultipartUploadOutput {
         let threadPool = threadPoolProvider.create()
@@ -404,7 +404,7 @@ extension S3 {
         abortOnFail: Bool = true,
         logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil,
-        threadPoolProvider: ThreadPoolProvider = .createNew,
+        threadPoolProvider: ThreadPoolProvider = .singleton,
         progress: (@Sendable (Int) throws -> Void)? = nil
     ) async throws -> CompleteMultipartUploadOutput where ByteBufferSequence.Element == ByteBuffer {
         // initialize multipart upload
