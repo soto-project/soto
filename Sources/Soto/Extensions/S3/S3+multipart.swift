@@ -359,6 +359,7 @@ extension S3 {
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
         let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
 
+        logger.debug("MultipartUpload of \(filename)")
         return openFileForMultipartUpload(
             filename: filename,
             logger: logger,
@@ -659,6 +660,7 @@ extension S3 {
         uploadCallback: @escaping (NIOFileHandle, FileRegion, NonBlockingFileIO) -> EventLoopFuture<CompleteMultipartUploadOutput>
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
         return threadPoolProvider.create(eventLoop: eventLoop).flatMap { threadPool in
+            logger.debug("Using ThreadPool \(threadPool)")
             let fileIO = NonBlockingFileIO(threadPool: threadPool)
 
             return fileIO.openFile(path: filename, eventLoop: eventLoop).flatMap {
