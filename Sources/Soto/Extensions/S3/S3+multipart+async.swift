@@ -13,6 +13,7 @@
 //===----------------------------------------------------------------------===//
 
 import Atomics
+import Dispatch
 import Logging
 import NIOCore
 import NIOPosix
@@ -128,7 +129,7 @@ extension S3 {
     ) async throws -> Int64 {
         let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
 
-        let threadPool = threadPoolProvider.create()
+        let threadPool = await threadPoolProvider.create()
         let fileIO = NonBlockingFileIO(threadPool: threadPool)
         let fileHandle = try await fileIO.openFile(path: filename, mode: .write, flags: .allowFileCreation(), eventLoop: eventLoop).get()
         let progressValue = ManagedAtomic(0)
@@ -355,7 +356,7 @@ extension S3 {
         threadPoolProvider: ThreadPoolProvider = .singleton,
         uploadCallback: @escaping (NIOFileHandle, FileRegion, NonBlockingFileIO) async throws -> CompleteMultipartUploadOutput
     ) async throws -> CompleteMultipartUploadOutput {
-        let threadPool = threadPoolProvider.create()
+        let threadPool = await threadPoolProvider.create()
         let fileIO = NonBlockingFileIO(threadPool: threadPool)
         let (fileHandle, fileRegion) = try await fileIO.openFile(path: filename, eventLoop: eventLoop).get()
 
@@ -682,6 +683,27 @@ extension S3 {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension S3.ThreadPoolProvider {
+    func create() async -> NIOThreadPool {
+        switch self {
+        case .createNew:
+            return await withUnsafeContinuation { (cont: UnsafeContinuation<NIOThreadPool, Never>) in
+                DispatchQueue.global(qos: .background).async {
+                    let threadPool = NIOThreadPool(numberOfThreads: NonBlockingFileIO.defaultThreadPoolSize)
+                    threadPool.start()
+                    cont.resume(returning: threadPool)
+                }
+            }
+        case .singleton:
+            return await withUnsafeContinuation { (cont: UnsafeContinuation<NIOThreadPool, Never>) in
+                DispatchQueue.global(qos: .background).async {
+                    cont.resume(returning: .singleton)
+                }
+            }
+        case .shared(let sharedPool):
+            return sharedPool
+        }
+    }
+
     /// async version of destroy
     func destroy(_ threadPool: NIOThreadPool) async throws {
         if case .createNew = self {
