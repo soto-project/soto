@@ -35,17 +35,17 @@ class S3AsyncTests: XCTestCase {
             print("Connecting to AWS")
         }
 
-        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
-        Self.s3 = S3(
-            client: Self.client,
+        self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        self.s3 = S3(
+            client: self.client,
             region: .useast1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
-        Self.randomBytes = Self.createRandomBuffer(size: 23 * 1024 * 1024)
+        self.randomBytes = self.createRandomBuffer(size: 23 * 1024 * 1024)
     }
 
     override class func tearDown() {
-        XCTAssertNoThrow(try Self.client.syncShutdown())
+        XCTAssertNoThrow(try self.client.syncShutdown())
     }
 
     static func createRandomBuffer(size: Int) -> Data {
@@ -408,7 +408,7 @@ class S3AsyncTests: XCTestCase {
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
         let name = TestEnvironment.generateResourceName()
-        let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
+        let httpClient = HTTPClient(eventLoopGroupProvider: .singleton)
         defer { XCTAssertNoThrow(try httpClient.syncShutdown()) }
         let s3Url = URL(string: "https://\(name).s3.us-east-1.amazonaws.com/\(name)!=%25+/*()_.txt")!
 

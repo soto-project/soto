@@ -681,7 +681,7 @@ class S3Tests: XCTestCase {
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
         let name = TestEnvironment.generateResourceName()
-        let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
+        let httpClient = HTTPClient(eventLoopGroupProvider: .singleton)
         defer { XCTAssertNoThrow(try httpClient.syncShutdown()) }
         let s3Url = URL(string: "https://\(name).s3.us-east-1.amazonaws.com/\(name)!=%25+/*()_.txt")!
 

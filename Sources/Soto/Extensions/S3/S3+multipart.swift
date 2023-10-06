@@ -12,6 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
+import Dispatch
 import NIO
 import SotoCore
 
@@ -32,18 +33,33 @@ extension S3ErrorType {
 
 extension S3 {
     public enum ThreadPoolProvider {
+        /// Create new thread pool
+        @available(*, deprecated, message: "Use .singleton instead")
         case createNew
+        /// Use thread pool supplied
         case shared(NIOThreadPool)
+        /// singleton
+        case singleton
 
-        func create() -> NIOThreadPool {
-            let threadPool: NIOThreadPool
+        func create(eventLoop: EventLoop) -> EventLoopFuture<NIOThreadPool> {
             switch self {
             case .createNew:
-                threadPool = NIOThreadPool(numberOfThreads: NonBlockingFileIO.defaultThreadPoolSize)
-                threadPool.start()
-                return threadPool
+                let promise = eventLoop.makePromise(of: NIOThreadPool.self)
+                DispatchQueue.global(qos: .background).async {
+                    let threadPool = NIOThreadPool(numberOfThreads: NonBlockingFileIO.defaultThreadPoolSize)
+                    threadPool.start()
+                    promise.completeWith(.success(threadPool))
+                }
+                return promise.futureResult
+            case .singleton:
+                let promise = eventLoop.makePromise(of: NIOThreadPool.self)
+                DispatchQueue.global(qos: .background).async {
+                    promise.completeWith(.success(.singleton))
+                }
+
+                return promise.futureResult
             case .shared(let sharedPool):
-                return sharedPool
+                return eventLoop.makeSucceededFuture(sharedPool)
             }
         }
 
@@ -160,39 +176,40 @@ extension S3 {
         filename: String,
         logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil,
-        threadPoolProvider: ThreadPoolProvider = .createNew,
+        threadPoolProvider: ThreadPoolProvider = .singleton,
         progress: @escaping (Double) throws -> Void = { _ in }
     ) -> EventLoopFuture<Int64> {
         let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
 
-        let threadPool = threadPoolProvider.create()
-        let fileIO = NonBlockingFileIO(threadPool: threadPool)
+        return threadPoolProvider.create(eventLoop: eventLoop).flatMap { threadPool in
+            let fileIO = NonBlockingFileIO(threadPool: threadPool)
 
-        return fileIO.openFile(path: filename, mode: .write, flags: .allowFileCreation(), eventLoop: eventLoop).flatMap {
-            fileHandle -> EventLoopFuture<Int64> in
-            var progressValue: Int64 = 0
+            return fileIO.openFile(path: filename, mode: .write, flags: .allowFileCreation(), eventLoop: eventLoop).flatMap {
+                fileHandle -> EventLoopFuture<Int64> in
+                var progressValue: Int64 = 0
 
-            let download = self.multipartDownload(input, partSize: partSize, logger: logger, on: eventLoop) { byteBuffer, fileSize, eventLoop in
-                let bufferSize = byteBuffer.readableBytes
-                return fileIO.write(fileHandle: fileHandle, buffer: byteBuffer, eventLoop: eventLoop).flatMapThrowing { _ in
-                    progressValue += Int64(bufferSize)
-                    try progress(Double(progressValue) / Double(fileSize))
+                let download = self.multipartDownload(input, partSize: partSize, logger: logger, on: eventLoop) { byteBuffer, fileSize, eventLoop in
+                    let bufferSize = byteBuffer.readableBytes
+                    return fileIO.write(fileHandle: fileHandle, buffer: byteBuffer, eventLoop: eventLoop).flatMapThrowing { _ in
+                        progressValue += Int64(bufferSize)
+                        try progress(Double(progressValue) / Double(fileSize))
+                    }
                 }
-            }
 
-            download.whenComplete { _ in
-                threadPoolProvider.destroy(threadPool)
+                download.whenComplete { _ in
+                    threadPoolProvider.destroy(threadPool)
+                }
+                return
+                    download
+                        .flatMapErrorThrowing { error in
+                            try fileHandle.close()
+                            throw error
+                        }
+                        .flatMapThrowing { rt in
+                            try fileHandle.close()
+                            return rt
+                        }
             }
-            return
-                download
-                    .flatMapErrorThrowing { error in
-                        try fileHandle.close()
-                        throw error
-                    }
-                    .flatMapThrowing { rt in
-                        try fileHandle.close()
-                        return rt
-                    }
         }
     }
 
@@ -294,8 +311,8 @@ extension S3 {
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
         let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
 
-        var progressAmount: Int = 0
-        var prevProgressAmount: Int = 0
+        var progressAmount = 0
+        var prevProgressAmount = 0
 
         return self.multipartUploadFromStream(input, abortOnFail: abortOnFail, logger: logger, on: eventLoop) { eventLoop in
             let size = min(partSize, uploadSize - progressAmount)
@@ -337,11 +354,12 @@ extension S3 {
         abortOnFail: Bool = true,
         logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil,
-        threadPoolProvider: ThreadPoolProvider = .createNew,
+        threadPoolProvider: ThreadPoolProvider = .singleton,
         progress: @escaping (Double) throws -> Void = { _ in }
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
         let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
 
+        logger.debug("MultipartUpload of \(filename)")
         return openFileForMultipartUpload(
             filename: filename,
             logger: logger,
@@ -457,8 +475,8 @@ extension S3 {
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
         let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
 
-        var progressAmount: Int = 0
-        var prevProgressAmount: Int = 0
+        var progressAmount = 0
+        var prevProgressAmount = 0
 
         return self.resumeMultipartUpload(
             input,
@@ -511,7 +529,7 @@ extension S3 {
         abortOnFail: Bool = true,
         logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil,
-        threadPoolProvider: ThreadPoolProvider = .createNew,
+        threadPoolProvider: ThreadPoolProvider = .singleton,
         progress: @escaping (Double) throws -> Void = { _ in }
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
         let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
@@ -552,7 +570,7 @@ extension S3 {
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
         let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
 
-        var uploadId: String = ""
+        var uploadId = ""
 
         // initialize multipart upload
         let request: CreateMultipartUploadRequest = .init(acl: input.acl, bucket: input.bucket, cacheControl: input.cacheControl, contentDisposition: input.contentDisposition, contentEncoding: input.contentEncoding, contentLanguage: input.contentLanguage, contentType: input.contentType, expectedBucketOwner: input.expectedBucketOwner, expires: input.expires, grantFullControl: input.grantFullControl, grantRead: input.grantRead, grantReadACP: input.grantReadACP, grantWriteACP: input.grantWriteACP, key: input.key, metadata: input.metadata, objectLockLegalHoldStatus: input.objectLockLegalHoldStatus, objectLockMode: input.objectLockMode, objectLockRetainUntilDate: input.objectLockRetainUntilDate, requestPayer: input.requestPayer, serverSideEncryption: input.serverSideEncryption, sseCustomerAlgorithm: input.sseCustomerAlgorithm, sseCustomerKey: input.sseCustomerKey, sseCustomerKeyMD5: input.sseCustomerKeyMD5, ssekmsEncryptionContext: input.ssekmsEncryptionContext, ssekmsKeyId: input.ssekmsKeyId, storageClass: input.storageClass, tagging: input.tagging, websiteRedirectLocation: input.websiteRedirectLocation)
@@ -638,30 +656,31 @@ extension S3 {
         filename: String,
         logger: Logger,
         on eventLoop: EventLoop,
-        threadPoolProvider: ThreadPoolProvider = .createNew,
+        threadPoolProvider: ThreadPoolProvider = .singleton,
         uploadCallback: @escaping (NIOFileHandle, FileRegion, NonBlockingFileIO) -> EventLoopFuture<CompleteMultipartUploadOutput>
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
-        let threadPool = threadPoolProvider.create()
-        let fileIO = NonBlockingFileIO(threadPool: threadPool)
+        return threadPoolProvider.create(eventLoop: eventLoop).flatMap { threadPool in
+            let fileIO = NonBlockingFileIO(threadPool: threadPool)
 
-        return fileIO.openFile(path: filename, eventLoop: eventLoop).flatMap {
-            fileHandle, fileRegion -> EventLoopFuture<CompleteMultipartUploadOutput> in
+            return fileIO.openFile(path: filename, eventLoop: eventLoop).flatMap {
+                fileHandle, fileRegion -> EventLoopFuture<CompleteMultipartUploadOutput> in
 
-            logger.debug("Open file \(filename)")
+                logger.debug("Open file \(filename)")
 
-            let uploadFuture = uploadCallback(fileHandle, fileRegion, fileIO)
+                let uploadFuture = uploadCallback(fileHandle, fileRegion, fileIO)
 
-            uploadFuture.whenComplete { _ in
-                threadPoolProvider.destroy(threadPool)
-            }
-            return
-                uploadFuture.flatMapErrorThrowing { error in
-                    try fileHandle.close()
-                    throw error
-                }.flatMapThrowing { rt in
-                    try fileHandle.close()
-                    return rt
+                uploadFuture.whenComplete { _ in
+                    threadPoolProvider.destroy(threadPool)
                 }
+                return
+                    uploadFuture.flatMapErrorThrowing { error in
+                        try fileHandle.close()
+                        throw error
+                    }.flatMapThrowing { rt in
+                        try fileHandle.close()
+                        return rt
+                    }
+            }
         }
     }
 
