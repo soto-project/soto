@@ -167,7 +167,7 @@ extension S3 {
         filename: String,
         threadPoolProvider: ThreadPoolProvider = .singleton,
         logger: Logger = AWSClient.loggingDisabled,
-        progress: @escaping (Double) throws -> Void = { _ in }
+        progress: @escaping (Double) async throws -> Void = { _ in }
     ) async throws -> Int64 {
         let eventLoop = self.client.eventLoopGroup.any()
 
@@ -186,7 +186,7 @@ extension S3 {
                 let bufferSize = byteBuffer.readableBytes
                 _ = try await fileIO.write(fileHandle: fileHandle, buffer: byteBuffer, eventLoop: eventLoop).get()
                 let progressIntValue = progressValue.wrappingIncrementThenLoad(by: bufferSize, ordering: .relaxed)
-                try progress(Double(progressIntValue) / Double(fileSize))
+                try await progress(Double(progressIntValue) / Double(fileSize))
             }
         } catch {
             try fileHandle.close()
@@ -221,7 +221,7 @@ extension S3 {
         concurrentUploads: Int = 4,
         abortOnFail: Bool = true,
         logger: Logger = AWSClient.loggingDisabled,
-        progress: (@Sendable (Int) throws -> Void)? = nil
+        progress: (@Sendable (Int) async throws -> Void)? = nil
     ) async throws -> CompleteMultipartUploadOutput {
         try await self.multipartUpload(
             input,
@@ -261,7 +261,7 @@ extension S3 {
         abortOnFail: Bool = true,
         threadPoolProvider: ThreadPoolProvider = .singleton,
         logger: Logger = AWSClient.loggingDisabled,
-        progress: @escaping @Sendable (Double) throws -> Void = { _ in }
+        progress: @escaping @Sendable (Double) async throws -> Void = { _ in }
     ) async throws -> CompleteMultipartUploadOutput {
         let eventLoop = self.client.eventLoopGroup.any()
 
@@ -272,8 +272,8 @@ extension S3 {
             threadPoolProvider: threadPoolProvider
         ) { fileHandle, fileRegion, fileIO in
             let length = Double(fileRegion.readableBytes)
-            @Sendable func percentProgress(_ value: Int) throws {
-                try progress(Double(value) / length)
+            @Sendable func percentProgress(_ value: Int) async throws {
+                try await progress(Double(value) / length)
             }
             return try await self.multipartUpload(
                 input,
@@ -313,7 +313,7 @@ extension S3 {
         concurrentUploads: Int = 4,
         abortOnFail: Bool = true,
         logger: Logger = AWSClient.loggingDisabled,
-        progress: (@Sendable (Int) throws -> Void)? = nil
+        progress: (@Sendable (Int) async throws -> Void)? = nil
     ) async throws -> CompleteMultipartUploadOutput {
         try await self.resumeMultipartUpload(
             input,
@@ -350,7 +350,7 @@ extension S3 {
         abortOnFail: Bool = true,
         logger: Logger = AWSClient.loggingDisabled,
         threadPoolProvider: ThreadPoolProvider = .singleton,
-        progress: @escaping (Double) throws -> Void = { _ in }
+        progress: @escaping (Double) async throws -> Void = { _ in }
     ) async throws -> CompleteMultipartUploadOutput {
         let eventLoop = self.client.eventLoopGroup.any()
 
@@ -361,8 +361,8 @@ extension S3 {
             threadPoolProvider: threadPoolProvider
         ) { fileHandle, fileRegion, fileIO in
             let length = Double(fileRegion.readableBytes)
-            @Sendable func percentProgress(_ value: Int) throws {
-                try progress(Double(value) / length)
+            @Sendable func percentProgress(_ value: Int) async throws {
+                try await progress(Double(value) / length)
             }
             return try await self.resumeMultipartUpload(
                 input,
@@ -481,7 +481,7 @@ extension S3 {
         concurrentUploads: Int = 4,
         abortOnFail: Bool = true,
         logger: Logger = AWSClient.loggingDisabled,
-        progress: (@Sendable (Int) throws -> Void)? = nil
+        progress: (@Sendable (Int) async throws -> Void)? = nil
     ) async throws -> CompleteMultipartUploadOutput where ByteBufferSequence.Element == ByteBuffer {
         // initialize multipart upload
         let upload = try await createMultipartUpload(input, logger: logger)
@@ -561,7 +561,7 @@ extension S3 {
         concurrentUploads: Int = 4,
         abortOnFail: Bool = true,
         logger: Logger = AWSClient.loggingDisabled,
-        progress: (@Sendable (Int) throws -> Void)? = nil
+        progress: (@Sendable (Int) async throws -> Void)? = nil
     ) async throws -> CompleteMultipartUploadOutput where ByteBufferSequence.Element == ByteBuffer {
         // upload all the parts
         let partsSet = Set<Int>(input.completedParts.map { $0.partNumber! - 1 })
@@ -601,7 +601,7 @@ extension S3 {
         concurrentUploads: Int = 4,
         abortOnFail: Bool = true,
         logger: Logger = AWSClient.loggingDisabled,
-        progress: (@Sendable (Int) throws -> Void)? = nil
+        progress: (@Sendable (Int) async throws -> Void)? = nil
     ) async throws -> CompleteMultipartUploadOutput where PartsSequence.Element == (Int, ByteBuffer) {
         let uploadRequest = input.uploadRequest
 
@@ -703,14 +703,14 @@ extension S3 {
         concurrentUploads: Int,
         initialProgress: Int,
         logger: Logger,
-        progress: (@Sendable (Int) throws -> Void)?
+        progress: (@Sendable (Int) async throws -> Void)?
     ) async throws -> [S3.CompletedPart] where PartSequence.Element == (Int, ByteBuffer) {
-        var newProgress: (@Sendable (Int) throws -> Void)?
+        var newProgress: (@Sendable (Int) async throws -> Void)?
         if let progress = progress {
             let size = ManagedAtomic(initialProgress)
-            @Sendable func accumulatingProgress(_ amount: Int) throws {
+            @Sendable func accumulatingProgress(_ amount: Int) async throws {
                 let totalSize = size.wrappingIncrementThenLoad(by: amount, ordering: .relaxed)
-                try progress(totalSize)
+                try await progress(totalSize)
             }
             newProgress = accumulatingProgress
         }
