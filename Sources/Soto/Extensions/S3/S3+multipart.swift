@@ -43,7 +43,7 @@ extension S3 {
             self.value = value
         }
 
-        var threadPool: NIOThreadPool {
+        public var threadPool: NIOThreadPool {
             get async {
                 switch self.value {
                 case .singleton:

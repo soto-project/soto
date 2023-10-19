@@ -17,8 +17,8 @@ import NIOPosix
 
 /// An AsyncSequence that returns the contents of a file in fixed size ByteBuffers
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-struct FileByteBufferAsyncSequence: AsyncSequence {
-    typealias Element = ByteBuffer
+public struct FileByteBufferAsyncSequence: AsyncSequence {
+    public typealias Element = ByteBuffer
 
     let fileHandle: NIOFileHandle
     let fileIO: NonBlockingFileIO
@@ -26,7 +26,7 @@ struct FileByteBufferAsyncSequence: AsyncSequence {
     let byteBufferAllocator: ByteBufferAllocator
     let eventLoop: EventLoop
 
-    init(
+    public init(
         _ fileHandle: NIOFileHandle,
         fileIO: NonBlockingFileIO,
         chunkSize: Int,
@@ -40,7 +40,7 @@ struct FileByteBufferAsyncSequence: AsyncSequence {
         self.eventLoop = eventLoop
     }
 
-    struct AsyncIterator: AsyncIteratorProtocol {
+    public struct AsyncIterator: AsyncIteratorProtocol {
         let fileHandle: NIOFileHandle
         var offset: Int = 0
         let chunkSize: Int
@@ -48,7 +48,7 @@ struct FileByteBufferAsyncSequence: AsyncSequence {
         let byteBufferAllocator: ByteBufferAllocator
         let eventLoop: EventLoop
 
-        mutating func next() async throws -> ByteBuffer? {
+        public mutating func next() async throws -> ByteBuffer? {
             let byteBuffer = try await self.fileIO.read(
                 fileHandle: self.fileHandle,
                 fromOffset: Int64(self.offset),
