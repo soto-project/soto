@@ -56,6 +56,16 @@ extension S3 {
             }
         }
 
+        @available(*, noasync)
+        public var syncThreadPool: NIOThreadPool {
+            switch self.value {
+            case .singleton:
+                return NIOThreadPool.singleton
+            case .shared(let sharedPool):
+                return sharedPool
+            }
+        }
+
         public static var singleton: Self { .init(.singleton) }
         public static func shared(_ threadPool: NIOThreadPool) -> Self { .init(.shared(threadPool)) }
     }
