@@ -20,16 +20,16 @@ struct ReportProgressByteBufferAsyncSequence<Base: AsyncSequence>: AsyncSequence
     typealias Element = ByteBuffer
 
     let base: Base
-    let reportFn: @Sendable (Int) throws -> Void
+    let reportFn: @Sendable (Int) async throws -> Void
 
     struct AsyncIterator: AsyncIteratorProtocol {
         @usableFromInline
         var iterator: Base.AsyncIterator
         @usableFromInline
-        let reportFn: @Sendable (Int) throws -> Void
+        let reportFn: @Sendable (Int) async throws -> Void
 
         @usableFromInline
-        init(iterator: Base.AsyncIterator, reportFn: @Sendable @escaping (Int) throws -> Void) {
+        init(iterator: Base.AsyncIterator, reportFn: @Sendable @escaping (Int) async throws -> Void) {
             self.iterator = iterator
             self.reportFn = reportFn
         }
@@ -37,7 +37,7 @@ struct ReportProgressByteBufferAsyncSequence<Base: AsyncSequence>: AsyncSequence
         @inlinable
         public mutating func next() async throws -> ByteBuffer? {
             if let buffer = try await self.iterator.next() {
-                try self.reportFn(buffer.readableBytes)
+                try await self.reportFn(buffer.readableBytes)
                 return buffer
             }
             return nil
@@ -57,7 +57,7 @@ extension ReportProgressByteBufferAsyncSequence: Sendable where Base: Sendable {
 extension AsyncSequence where Element == ByteBuffer {
     /// Return an AsyncSequence that returns ByteBuffers of a fixed size
     /// - Parameter chunkSize: Size of each chunk
-    func reportProgress(reportFn: @Sendable @escaping (Int) throws -> Void) -> ReportProgressByteBufferAsyncSequence<Self> {
+    func reportProgress(reportFn: @Sendable @escaping (Int) async throws -> Void) -> ReportProgressByteBufferAsyncSequence<Self> {
         return .init(base: self, reportFn: reportFn)
     }
 }
