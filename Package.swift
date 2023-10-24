@@ -373,7 +373,7 @@ let package = Package(
         .library(name: "SotoXRay", targets: ["SotoXRay"])
     ],
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto-core.git", from: "7.0.0-alpha.1")
+        .package(url: "https://github.com/soto-project/soto-core.git", branch: "7.x.x")
     ],
     targets: [
         .target(name: "SotoACM", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/ACM"),
